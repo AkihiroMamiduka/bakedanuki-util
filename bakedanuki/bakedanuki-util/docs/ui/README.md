@@ -1211,6 +1211,8 @@ Python整数を正本としてQtとMaya属性へ同期する場合は`MayaIntBin
 `IntStepSpinBox`と`IntValueStepSpinBox`は加算・10倍方式の整数Stepを編集し、
 `IntStepProfile`を`UiStateManager`へ接続して保存できます。
 操作規則とサンプルは[整数Stepの入力と保存](int_step.md)を参照してください。
+`IntSlider`は整数演算で値を位置へ対応付け、Mayaの連続編集を一回Undoにまとめます。
+公開API・範囲・中断・サンプルは[整数Sliderと連続編集](int_slider.md)を参照してください。
 
 ## 浮動小数点値のMVVMとQDoubleSpinBox
 

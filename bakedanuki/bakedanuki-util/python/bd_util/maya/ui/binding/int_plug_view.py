@@ -11,6 +11,7 @@ from maya.api import OpenMaya as om
 from ....ui import IntViewModel, qt
 from ....ui.binding.int._connection import connect_queued, disconnect
 from ..callback import MayaCallbackRegistry
+from ._float_edit import FloatEditUndo
 from ._int_plug_value import IntPlugValue
 from ._plugs_store import PlugsStore
 from .int_plug_resolver import MayaIntPlug, require_int_plug
@@ -135,6 +136,8 @@ class MayaIntPlugView(qt.QObject):
         self._last_sync_error: Exception | None = None
         self._connections: list[qt.QtCore.QMetaObject.Connection | None] = []
         self._registry = _IntViewRegistry(owner)
+        self._edit_undo = FloatEditUndo(view_model)
+        self._registry.disposed.connect(self._edit_undo.dispose)
         try:
             # 破棄と外部Registry解除の双方で、遅延入力と接続を終了する
             self._connections.extend(
@@ -237,6 +240,10 @@ class MayaIntPlugView(qt.QObject):
         self._is_disposed = True
         self._refresh_scheduled = False
         self._is_synchronized = False
+        view_model = self._valid_view_model()
+        if view_model is not None:
+            view_model.end_edit()
+        self._edit_undo.dispose()
         for connection in self._connections:
             disconnect(connection)
         self._connections.clear()
@@ -295,9 +302,12 @@ class MayaIntPlugView(qt.QObject):
                 # Mayaからのechoを抑止し、通知先が再編集したPython値も取り込む
                 self._is_applying_value = True
                 try:
-                    cast(Callable[[str, int], None], cmds.setAttr)(
-                        self._cmds_plug_name(), value
-                    )
+                    if not view_model.is_editing:
+                        FloatEditUndo.finish_active()
+                    with self._edit_undo.write():
+                        cast(Callable[[str, int], None], cmds.setAttr)(
+                            self._cmds_plug_name(), value
+                        )
                     wrote = True
                 finally:
                     self._is_applying_value = False
@@ -474,6 +484,12 @@ class MayaIntPlugView(qt.QObject):
         """変更時のUndo状態と同期方向を遅延処理まで保持する。"""
         if not self._matches_plug(plug) or self._is_applying_value:
             return
+        if message & (
+            om.MNodeMessage.kAttributeLocked | om.MNodeMessage.kConnectionMade
+        ):
+            view_model = self._valid_view_model()
+            if view_model is not None:
+                view_model.end_edit()
         if message & om.MNodeMessage.kAttributeRemoved:
             self.dispose()
             return
@@ -532,6 +548,9 @@ class MayaIntPlugView(qt.QObject):
 
     def _record_sync_failure(self, error: Exception) -> None:
         """非同期境界の失敗を保持し、生存中だけ通知する。"""
+        view_model = self._valid_view_model()
+        if view_model is not None:
+            view_model.end_edit()
         self._is_synchronized = False
         self._last_sync_error = error
         if not self.is_disposed:

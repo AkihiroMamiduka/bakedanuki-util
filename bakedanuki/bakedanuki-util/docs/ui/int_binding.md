@@ -3,7 +3,7 @@
 ## 現在の範囲
 
 `IntBinding`は単一の符号付き32-bit整数を`IntValueStore`へ接続します。
-`IntSpinBox`と`IntLabel`は同じ`IntViewModel`を共有します。
+`IntSpinBox`・`IntLabel`・`IntSlider`は同じ`IntViewModel`を共有します。
 正本には`PythonIntAttributeStore`、またはMayaのbyte・short・long属性を接続できます。
 bdChannelBoxへの組込みと初回範囲の利用者確認・pushは完了しています。
 Python正本をQtとMaya属性へ同期する場合は
@@ -111,11 +111,15 @@ bdChannelBoxはこの入力方針を使用し、上下・整列・値Pasteも同
 初回の基盤・サンプル・Maya属性連携・bdChannelBox組込みは利用者確認とpushが完了しています。
 接続属性編集と入力操作の統一も利用者によるMaya本体確認とpushが完了しました。
 Python正本とMaya属性の同期も利用者確認とpushが完了しました。
-整数Step欄の加算・10倍方式、設定保存とbdChannelBoxへの組込みを実装しました。
+整数Step欄の加算・10倍方式、設定保存とbdChannelBoxへの組込みも利用者確認とpushが完了しました。
 詳細と操作サンプルは[整数Stepの入力と保存](int_step.md)を参照してください。
-今回の追加範囲の利用者確認後、次を実装し、利用者が確認・commitします。
+整数Slider拡張は次の三段階に分け、各段階で利用者が確認・commitします。
 
-1. 整数Slider、Sliderと数値欄、範囲設定付きSlider、連続編集と一操作一回のUndo
+1. `IntSlider`単体・連続編集・Maya Undo・操作サンプル（実装済み、利用者確認待ち）
+2. Sliderと数値欄・範囲設定付きSlider、範囲・Stepの保存復元
+3. bdChannelBoxへのSlider組込みと複数選択・中断・配置の確認
+
+第一段階の仕様とサンプルは[整数Sliderと連続編集](int_slider.md)を参照してください。
 
 整数2／3成分を一体で扱うMVVMは今回の計画に含めません。
 

@@ -12,7 +12,7 @@ from maya import cmds
 from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
-from ....ui import FloatViewModel, qt
+from ....ui import FloatViewModel, IntViewModel, qt
 from ...node.operator.node._core import NodeOperator
 from ..callback import MayaCallbackRegistry
 from ._animated_plug_write import (
@@ -28,7 +28,11 @@ from ._connected_plug_write import (
 )
 from ._float_edit import FloatEditUndo
 from ._float_plug_endpoint import run_later
-from .plug_input_state import _inspect_plug_input
+
+# 型付き公開入口の下で、検証済みMPlug用の共通内部処理を共有する
+from .plug_input_state import (
+    _inspect_plug_input,  # pyright: ignore[reportPrivateUsage]
+)
 from .plugs_state import MayaPlugTargetState
 
 _ValueT = TypeVar("_ValueT", bool, float, int, str)
@@ -276,6 +280,19 @@ def execute_plug_writes(plan: Sequence[PlugWrite]) -> None:
         raise
 
 
+class _PlugsCallbackRegistry(MayaCallbackRegistry):
+    """外部からの監視解除もStoreの終了へ通知するRegistry。"""
+
+    disposed = qt.Signal()
+
+    def dispose(self, _object: qt.QObject | None = None) -> None:
+        """最初の解除時だけ、開いたUndoと入力の終了を通知する。"""
+        if self.is_disposed:
+            return
+        super().dispose(_object)
+        self.disposed.emit()
+
+
 class PlugsStore(qt.QObject, Generic[_ValueT]):
     """先頭を代表値として読み、入力時だけ編集可能な対象へ一括適用する。"""
 
@@ -288,7 +305,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         targets: Sequence[PlugTarget[_ValueT]],
         owner: qt.QObject,
         *,
-        float_view_model: FloatViewModel | None = None,
+        edit_view_model: FloatViewModel | IntViewModel | None = None,
     ) -> None:
         """対象を重複排除せず検証し、書込みなしで監視を開始する。"""
         if not targets:
@@ -313,15 +330,14 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self._input_lock_timer = qt.QTimer(self)
         self._input_lock_timer.setInterval(500)
         self._input_lock_timer.timeout.connect(self._check_input_node_locks)
-        self._float_view_model = float_view_model
+        self._edit_view_model = edit_view_model
         self._edit_undo = (
-            None
-            if float_view_model is None
-            else FloatEditUndo(float_view_model)
+            None if edit_view_model is None else FloatEditUndo(edit_view_model)
         )
-        self._registry = MayaCallbackRegistry(
+        self._registry = _PlugsCallbackRegistry(
             self, on_maya_exiting=self.dispose
         )
+        self._registry.disposed.connect(self.dispose)
         self.destroyed.connect(self._on_destroyed)
         try:
             self._register_callbacks()
@@ -468,7 +484,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
 
     def _execute_write(self, plan: Sequence[PlugWrite]) -> None:
         """途中失敗では変更済み対象を同じchunk内で元へ戻す。"""
-        view_model = self._float_view_model
+        view_model = self._edit_view_model
         if view_model is None or not view_model.is_editing:
             FloatEditUndo.finish_active()
         with self.write_guard():
@@ -788,6 +804,10 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             return
         self._disposed = True
         self._refresh_scheduled = False
+        view_model = self._edit_view_model
+        if view_model is not None and not view_model.is_disposed:
+            view_model.end_edit()
+            self._refresh_view_model()
         if qt.isValid(self._input_lock_timer):
             self._input_lock_timer.stop()
         if self._edit_undo is not None:

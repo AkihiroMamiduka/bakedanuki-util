@@ -7,30 +7,62 @@ from typing import Callable, ClassVar, cast
 from weakref import ref
 
 from maya import cmds
+from maya.api import OpenMaya as om
+from maya.api import OpenMayaAnim as oma
 
-from ....ui import FloatViewModel, qt
+from ....ui import FloatViewModel, IntViewModel, qt
 
 
 class FloatEditUndo:
-    """連続編集中のMaya書き込みを、遅延開始するUndo chunkへまとめる。"""
+    """float・整数のMaya連続編集を共通の遅延開始Undoで管理する。"""
 
     _active: ClassVar[FloatEditUndo | None] = None
 
-    def __init__(self, view_model: FloatViewModel) -> None:
+    def __init__(self, view_model: FloatViewModel | IntViewModel) -> None:
         """Qt objectの破棄中でも終了できるPython状態を保持する。"""
         self._view_model = ref(view_model)
+        self._chunk_name = (
+            "IntSlider"
+            if isinstance(view_model, IntViewModel)
+            else "FloatSlider"
+        )
         self._opened = False
         self._write_depth = 0
         self._finish_pending = False
+        self._time_callback: int | None = None
+        self._edit_time: om.MTime | None = None
         self._connections: list[qt.QtCore.QMetaObject.Connection | None] = [
+            view_model.edit_started.connect(self._begin_edit),
             view_model.edit_finished.connect(self.finish),
             view_model.destroyed.connect(self.dispose),
         ]
+
+    def _begin_edit(self) -> None:
+        """Maya連携の操作中だけ、開始時刻からの移動を監視する。"""
+        if self._time_callback is None:
+            self._edit_time = oma.MAnimControl.currentTime()
+            self._time_callback = int(
+                om.MEventMessage.addEventCallback(
+                    "timeChanged", self._on_time_changed
+                )
+            )
+
+    def _on_time_changed(self, *_args: object) -> None:
+        """時刻移動で旧操作を終了し、同時刻の再評価では継続する。"""
+        if self._edit_time == oma.MAnimControl.currentTime():
+            return
+        view_model = self._view_model()
+        if view_model is not None and not view_model.is_disposed:
+            view_model.end_edit()
+        else:
+            self.finish()
 
     @contextmanager
     def write(self) -> Generator[None, None, None]:
         """最初の実書き込みで開始し、書き込み途中の終了要求は遅延する。"""
         view_model = self._view_model()
+        if view_model is None or not view_model.is_editing:
+            FloatEditUndo.finish_active()
         if (
             view_model is not None
             and view_model.is_editing
@@ -46,7 +78,7 @@ class FloatEditUndo:
                     previous.end_edit()
             # Maya側でUndoが無効な場合は、設定を変更せず通常の書き込みを行う。
             if cmds.undoInfo(query=True, state=True):
-                cmds.undoInfo(openChunk=True, chunkName="FloatSlider")
+                cmds.undoInfo(openChunk=True, chunkName=self._chunk_name)
                 self._opened = True
                 FloatEditUndo._active = self
         self._write_depth += 1
@@ -68,6 +100,10 @@ class FloatEditUndo:
             self._finish_pending = True
             return
         self._finish_pending = False
+        if self._time_callback is not None:
+            om.MMessage.removeCallback(self._time_callback)
+            self._time_callback = None
+            self._edit_time = None
         if self._opened:
             cmds.undoInfo(closeChunk=True)
             self._opened = False

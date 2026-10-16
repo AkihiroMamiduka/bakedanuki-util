@@ -4,6 +4,7 @@ from . import qt
 from .binding import (
     IntBinding,
     IntLabel,
+    IntSlider,
     IntPresentation,
     IntSpinBox,
     IntStepMode,
@@ -91,6 +92,7 @@ from .window_state import (
 __all__ = [
     "IntBinding",
     "IntLabel",
+    "IntSlider",
     "IntPresentation",
     "IntSpinBox",
     "IntStepMode",

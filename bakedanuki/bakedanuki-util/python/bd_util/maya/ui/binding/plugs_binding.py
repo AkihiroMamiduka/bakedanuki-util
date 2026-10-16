@@ -407,7 +407,7 @@ class _FloatPlugsStore(PlugsStore[float]):
             )
             for plug, codec in zip(plugs, codecs)
         )
-        super().__init__(targets, owner, float_view_model=view_model)
+        super().__init__(targets, owner, edit_view_model=view_model)
 
     @property
     def presentation(self) -> FloatPresentation:
@@ -489,7 +489,7 @@ class _IntPlugsStore(PlugsStore[int]):
             )
             for plug, codec in zip(plugs, codecs)
         )
-        super().__init__(targets, owner)
+        super().__init__(targets, owner, edit_view_model=view_model)
 
     @property
     def presentation(self) -> IntPresentation:

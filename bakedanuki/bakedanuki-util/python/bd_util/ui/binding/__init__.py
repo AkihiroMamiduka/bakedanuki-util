@@ -25,6 +25,7 @@ from .string import (
 from .int import (
     IntBinding,
     IntLabel,
+    IntSlider,
     IntPresentation,
     IntSpinBox,
     IntStepMode,
@@ -88,6 +89,7 @@ from .float import (
 __all__ = [
     "IntBinding",
     "IntLabel",
+    "IntSlider",
     "IntPresentation",
     "IntSpinBox",
     "IntStepMode",

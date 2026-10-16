@@ -79,6 +79,11 @@
 
 ### Added
 
+- `IntSlider`と`IntViewModel`の連続編集APIを追加。整数演算で32-bit範囲を写像し、
+  Maya正本・Python正本とMaya同期のドラッグを一回Undoにまとめる。
+  floatと共通のUndo管理で操作切替・時刻移動・監視解除にも対応する。
+  `int_sample.slider.show_demo()`で操作確認できる。既存API・scene・設定の移行は不要。
+
 - `IntStepSpinBox`・`IntValueStepSpinBox`に、加算と10倍・整数除算による整数Step入力を追加。
   任意の正整数を入力でき、下限1、上限を超える増加は無効とする。
   `IntStepProfile`／`IntStepSetting`と`UiStateManager.register_int_step_profile()`で

@@ -6,6 +6,7 @@ from .store import IntValueStore, PythonIntAttributeStore
 from .value import IntValue
 from .view import (
     IntLabel,
+    IntSlider,
     IntSpinBox,
     IntStepMode,
     IntStepSpinBox,
@@ -16,6 +17,7 @@ from .view_model import IntViewModel
 __all__ = [
     "IntBinding",
     "IntLabel",
+    "IntSlider",
     "IntPresentation",
     "IntSpinBox",
     "IntStepMode",

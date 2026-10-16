@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from typing import cast
+from weakref import ReferenceType, ref
 
 from ... import qt
 from ._connection import connect_queued, disconnect
@@ -39,6 +40,8 @@ class IntViewModel(qt.QObject):
     store_refreshed = qt.Signal(object)
     presentation_changed = qt.Signal(object)
     disposed = qt.Signal()
+    edit_started = qt.Signal()
+    edit_finished = qt.Signal()
 
     def __init__(
         self,
@@ -50,6 +53,10 @@ class IntViewModel(qt.QObject):
         """Store未接続でも使用できる初期値で生成する。"""
         super().__init__(parent)
         self._is_disposed = False
+        self._edit_owner: ReferenceType[qt.QObject] | None = None
+        self._edit_owner_connection: (
+            qt.QtCore.QMetaObject.Connection | None
+        ) = None
         self._presentation = require_presentation(
             presentation if presentation is not None else IntPresentation()
         )
@@ -93,8 +100,53 @@ class IntViewModel(qt.QObject):
         if self.is_disposed:
             return
         self._is_disposed = True
+        self.end_edit()
         self._set_value_command.set_can_execute(False)
         self.disposed.emit()
+
+    @property
+    def is_editing(self) -> bool:
+        """一つのViewが所有する連続編集が進行中か返す。"""
+        return self._edit_owner is not None and not self.is_disposed
+
+    def begin_edit(self, owner: qt.QObject) -> bool:
+        """生存中の`owner`による連続編集を開始し、開始可否を返す。"""
+        candidate = cast(object, owner)
+        if not isinstance(candidate, qt.QObject) or not qt.isValid(candidate):
+            raise TypeError("ownerには生存中のQObjectを指定してください")
+        if self.is_disposed or not self._set_value_command.can_execute:
+            return False
+        if self._edit_owner is not None:
+            if self._edit_owner() is owner:
+                return True
+            raise RuntimeError("別のViewによる連続編集が進行中です")
+        self._edit_owner = ref(owner)
+        self._edit_owner_connection = owner.destroyed.connect(
+            self._on_edit_owner_destroyed
+        )
+        self.edit_started.emit()
+        return self._owns_edit(owner)
+
+    def _owns_edit(self, owner: qt.QObject) -> bool:
+        """開始通知中に終了・再開始された場合も現在の所有者を読み直す。"""
+        return self._edit_owner is not None and self._edit_owner() is owner
+
+    def end_edit(self, owner: qt.QObject | None = None) -> None:
+        """最後の確定値で終了し、`owner`指定時はその操作だけを終了する。"""
+        if self._edit_owner is None:
+            return
+        if owner is not None and self._edit_owner() is not owner:
+            return
+        self._edit_owner = None
+        disconnect(self._edit_owner_connection)
+        self._edit_owner_connection = None
+        if qt.isValid(self):
+            self.edit_finished.emit()
+
+    @qt.Slot()
+    def _on_edit_owner_destroyed(self) -> None:
+        """操作を所有するQt objectの破棄時にも編集を終了する。"""
+        self.end_edit()
 
     def attach_store(self, store: IntValueStore) -> None:
         """一つのStoreを接続して現在の実値を読む。"""
@@ -142,6 +194,7 @@ class IntViewModel(qt.QObject):
             if type(writable) is not bool:
                 raise TypeError("store.is_writableにはboolが必要です")
         except Exception:
+            self.end_edit()
             self._set_value_command.set_can_execute(False)
             raise
         if presentation != self._presentation:
@@ -157,6 +210,7 @@ class IntViewModel(qt.QObject):
     def store_became_unavailable(self, store: IntValueStore) -> None:
         """正本が利用不能になったら変更要求を止める。"""
         self._require_attached_store(store)
+        self.end_edit()
         self._set_value_command.set_can_execute(False)
 
     def _request_value(self, value: int) -> bool:
@@ -169,6 +223,7 @@ class IntViewModel(qt.QObject):
             return self._publish(value, True)
         try:
             if not store.is_available or not store.is_writable:
+                self.end_edit()
                 self._set_value_command.set_can_execute(False)
                 return False
             previous = require_int(store.read(), "store.read()")
@@ -179,6 +234,7 @@ class IntViewModel(qt.QObject):
             self.refresh_from_store(store)
             return self._value.value != previous
         except Exception:
+            self.end_edit()
             try:
                 self.refresh_from_store(store)
             except Exception:
@@ -189,6 +245,8 @@ class IntViewModel(qt.QObject):
         """再入通知でも最新の確定値を公開する。"""
         if self.is_disposed:
             return False
+        if not writable:
+            self.end_edit()
         changed = value != self._value.value
         self._value.replace_silently(value)
         self._set_value_command.set_can_execute(writable)
@@ -206,4 +264,5 @@ class IntViewModel(qt.QObject):
     def _on_store_destroyed(self) -> None:
         """StoreのQt破棄後はCommandを停止する。"""
         self._store_destroyed_connection = None
+        self.end_edit()
         self._set_value_command.set_can_execute(False)

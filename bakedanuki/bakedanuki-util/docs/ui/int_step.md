@@ -136,7 +136,8 @@ close後の復元を確認しました。別processへの再起動後も整数St
 `initial-window.png`・`restart-window.png`です。両JSONは`success: true`で、画像も確認しました。
 Maya 2026／2027本体の画面操作は実施していません。
 利用者のサンプル初回操作でStep欄が見えない報告を受け、下記の配置不具合を修正しました。
-修正後の利用者による操作確認はこれからです。
+修正後に利用者がStep欄の表示と操作を確認し、commit・pushが完了しました。
+確認したMaya versionは未申告です。
 
 ### 自動幅でのStep欄の表示修正（2026-10-15）
 
