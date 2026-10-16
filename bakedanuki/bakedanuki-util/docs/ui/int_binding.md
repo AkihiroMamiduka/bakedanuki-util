@@ -116,11 +116,24 @@ Python正本とMaya属性の同期も利用者確認とpushが完了しました
 整数Slider拡張は次の三段階に分け、各段階で利用者が確認・commitします。
 
 1. `IntSlider`単体・連続編集・Maya Undo・操作サンプル（利用者確認・push完了）
-2. Sliderと数値欄・範囲設定付きSlider、範囲・Stepの保存復元（実装済み、利用者確認待ち）
-3. bdChannelBoxへのSlider組込みと複数選択・中断・配置の確認
+2. Sliderと数値欄・範囲設定付きSlider、範囲・Stepの保存復元（利用者確認・push完了）
+3. bdChannelBoxへのSlider組込みと複数選択・中断・配置の確認（実装済み、利用者確認待ち）
 
 第一段階の仕様とサンプルは[整数Sliderと連続編集](int_slider.md)を参照してください。
 第二段階は[整数Slider複合Viewと設定保存](int_range_slider_spin_box.md)を参照してください。
+
+`MayaIntPlugBinding`／`MayaIntPlugsBinding.hard_limits`は代表属性に明示された
+`(下限, 上限)`を返し、未指定の側は`None`です。型固有範囲とsoft limitを含めません。
+Mayaがbyteへ自動設定する0／255と同じ境界は未指定扱いとします。
+同じ境界を明示指定した場合もMaya上で区別できないため同様です。
+複数対象でも代表の定義を返し、値の書込みでは全対象の制限を別途検証します。
+Binding終了後や代表属性が利用不能の場合は`RuntimeError`です。
+bdChannelBoxはこの情報で整数Sliderを選び、型範囲を常に持つ`IntPresentation`と区別します。
+
+第三段階のutil検証は`scripts/verify.cmd`が終了code 0で完了しました。
+Black・3 versionの型契約・Maya 2025 full pytestに加え、Maya 2025／2026／2027の
+Qt UI各1092件、Maya UI各816件が成功しています。
+明示hard limitの新規12件を含む整数Binding testは各versionで20件成功しました。
 
 整数2／3成分を一体で扱うMVVMは今回の計画に含めません。
 

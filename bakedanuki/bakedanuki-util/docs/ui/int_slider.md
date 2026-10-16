@@ -138,7 +138,7 @@ Python同期行は生成時にPython初期値42をMayaへ適用します。
 第一段階の`IntSlider`単体と連続編集、操作サンプルは利用者確認とpushが完了しました。
 第二段階の`IntSliderSpinBox`・`IntRangeSliderSpinBox`と設定保存も実装済みです。
 仕様と追加サンプルは[整数Slider複合Viewと設定保存](int_range_slider_spin_box.md)を参照してください。
-第三段階でbdChannelBoxへのSlider組込みを行います。整数2／3成分MVVMは計画対象外です。
+第三段階のbdChannelBoxへのSlider組込みも実装済みです。整数2／3成分MVVMは計画対象外です。
 
 ## Maya本体の確認（2026-10-15）
 

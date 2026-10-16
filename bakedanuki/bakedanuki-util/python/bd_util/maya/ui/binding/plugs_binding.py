@@ -492,6 +492,13 @@ class _IntPlugsStore(PlugsStore[int]):
         super().__init__(targets, owner, edit_view_model=view_model)
 
     @property
+    def hard_limits(self) -> tuple[int | None, int | None]:
+        """代表属性に明示された両側のhard limitを返す。"""
+        if not self.is_available:
+            raise RuntimeError("代表属性は利用できません")
+        return self._representative_codec.hard_limits
+
+    @property
     def presentation(self) -> IntPresentation:
         """代表属性の型固有範囲とhard limitを返す。"""
         if not self.is_available:
@@ -895,6 +902,21 @@ class MayaIntPlugsBinding(_PlugsBindingState[int], IntBinding[_IntPlugsStore]):
     def _create_view_model(self) -> IntViewModel:
         """同じ代表値への入力も一括編集へ渡すViewModelを作る。"""
         return _IntPlugsViewModel(parent=self)
+
+    @property
+    def hard_limits(self) -> tuple[int | None, int | None]:
+        """代表属性に明示されたhard limitを、下限・上限の順で返す。
+
+        未指定の側は`None`。型固有範囲とsoft limitは含めない。
+        Mayaがbyteへ自動設定する0／255も未指定として返す。
+        同じ境界を明示指定した場合も、Maya上で区別できないため同様に扱う。
+        複数対象でも代表の設定を返し、書込み時は全対象の制限を別途検証する。
+
+        Raises:
+            RuntimeError: Bindingが終了済みか代表属性が利用不能の場合。
+        """
+        self._require_active()
+        return self.store.hard_limits
 
     def apply_representative_value(self) -> bool:
         """代表の整数実値で編集可能な後続属性を揃える。"""

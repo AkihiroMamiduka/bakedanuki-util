@@ -204,3 +204,98 @@ def test_lock_connection_and_deletion_stop_input(integer_nodes):
     finally:
         binding.dispose()
         flush()
+
+
+@pytest.mark.parametrize(
+    "limits,expected",
+    [
+        ({}, (None, None)),
+        ({"minValue": -5}, (-5, None)),
+        ({"maxValue": 5}, (None, 5)),
+        ({"minValue": -5, "maxValue": 5}, (-5, 5)),
+        ({"minValue": 0, "maxValue": 0}, (0, 0)),
+        ({"softMinValue": -3, "softMaxValue": 3}, (None, None)),
+    ],
+)
+def test_explicit_hard_limits_are_distinct_from_type_and_soft_limits(
+    integer_nodes, limits, expected
+):
+    """型固有範囲やsoft limitを明示hard limitと混同せず、値とUndoを維持する。"""
+    first, second = integer_nodes
+    cmds.addAttr(first, longName="rangeValue", attributeType="long", **limits)
+    cmds.addAttr(
+        second,
+        longName="rangeValue",
+        attributeType="long",
+        minValue=-2,
+        maxValue=2,
+    )
+    binding = MayaIntPlugsBinding(
+        tuple(resolve_int_plug(node, "rangeValue") for node in integer_nodes)
+    )
+    try:
+        cmds.flushUndo()
+        assert binding.hard_limits == expected
+        assert binding.value == 0
+        assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+        presentation = binding.view_model.presentation
+        assert presentation.minimum == (
+            -(2**31) if expected[0] is None else expected[0]
+        )
+        assert presentation.maximum == (
+            2**31 - 1 if expected[1] is None else expected[1]
+        )
+        cmds.delete(first)
+        flush()
+        with pytest.raises(RuntimeError):
+            _ = binding.hard_limits
+    finally:
+        binding.dispose()
+    with pytest.raises(RuntimeError):
+        _ = binding.hard_limits
+
+
+def test_hard_limits_read_current_definition_and_compound_child(integer_nodes):
+    """compound子でも明示制限を取得し、定義の変更を再取得する。"""
+    node = integer_nodes[0]
+    path = node + ".childValue"
+    binding = MayaIntPlugBinding(resolve_int_plug(node, "intGroup.childValue"))
+    try:
+        assert binding.hard_limits == (None, None)
+        cmds.addAttr(path, edit=True, minValue=-10, maxValue=10)
+        assert binding.hard_limits == (-10, 10)
+        cmds.addAttr(path, edit=True, hasMaxValue=False)
+        assert binding.hard_limits == (-10, None)
+    finally:
+        binding.dispose()
+
+
+@pytest.mark.parametrize(
+    "limits,expected",
+    [
+        ({}, (None, None)),
+        ({"minValue": 10}, (10, None)),
+        ({"maxValue": 200}, (None, 200)),
+        ({"minValue": 10, "maxValue": 200}, (10, 200)),
+        ({"minValue": 0, "maxValue": 255}, (None, None)),
+    ],
+)
+def test_byte_default_limits_are_type_bounds(integer_nodes, limits, expected):
+    """byteの自動境界と編集後の独自境界を区別し、型範囲の検証も保つ。"""
+    node = integer_nodes[0]
+    path = node + ".byteValue"
+    if limits:
+        cmds.addAttr(path, edit=True, **limits)
+    binding = MayaIntPlugBinding(resolve_int_plug(node, "byteValue"))
+    try:
+        assert binding.hard_limits == expected
+        assert binding.view_model.presentation.minimum == (
+            0 if expected[0] is None else expected[0]
+        )
+        assert binding.view_model.presentation.maximum == (
+            255 if expected[1] is None else expected[1]
+        )
+        with pytest.raises(ValueError):
+            binding.set_value(256)
+    finally:
+        binding.dispose()

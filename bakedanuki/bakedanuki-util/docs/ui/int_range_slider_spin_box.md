@@ -3,7 +3,7 @@
 `IntSliderSpinBox`と`IntRangeSliderSpinBox`は同じ`IntBinding`または`IntViewModel`を
 複数の入力欄で共有します。Python正本、Maya正本、Python正本からMaya同期の三経路で使用します。
 整数Slider拡張の第二段階です。第一段階の利用者確認・pushは完了しています。
-bdChannelBoxへのSlider組込みは第三段階に予定しています。
+bdChannelBoxへのSlider組込みも第三段階で実装済みです。
 
 ## 基本のSliderと値欄
 
@@ -164,4 +164,5 @@ Maya 2025本体の専用一時設定で、自然幅・最小幅の全欄表示�
 `initial-window.png`・`minimum-window.png`・`reopened-window.png`を保存し、画像も確認しました。
 検証runnerは終了code 0でした。結果保存後は終了待ちが完了せず、runnerが専用processを
 終了したためMaya processの終了codeは1です。Mayaの正常終了と2026／2027本体の画面操作は未確認です。
-第二段階の利用者による操作確認はこれからです。
+第二段階の利用者による操作確認・pushは完了しました（2026-10-16時点）。
+利用者が確認したMaya versionは未申告です。

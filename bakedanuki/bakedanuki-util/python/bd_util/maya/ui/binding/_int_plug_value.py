@@ -58,16 +58,34 @@ class IntPlugValue:
         return value
 
     @property
+    def hard_limits(self) -> tuple[int | None, int | None]:
+        """明示されたhard limitだけを返し、型固有範囲とsoft limitを含めない。"""
+        attribute = om.MFnNumericAttribute(self.plug.attribute())
+        minimum, maximum = (
+            (
+                _maya_integer_bound(attribute.getMin(), "minimum")
+                if attribute.hasMin()
+                else None
+            ),
+            (
+                _maya_integer_bound(attribute.getMax(), "maximum")
+                if attribute.hasMax()
+                else None
+            ),
+        )
+        # byteはMayaが型範囲を自動設定するため、同じ境界を明示制限と扱わない
+        if self.kind == "byte":
+            minimum = None if minimum == 0 else minimum
+            maximum = None if maximum == 255 else maximum
+        return minimum, maximum
+
+    @property
     def presentation(self) -> IntPresentation:
         """型固有範囲とMaya属性のhard limitの共通部分を返す。"""
         lower, upper = _TYPE_LIMITS[self.kind]
-        attribute = om.MFnNumericAttribute(self.plug.attribute())
-        if attribute.hasMin():
-            lower = max(
-                lower, _maya_integer_bound(attribute.getMin(), "minimum")
-            )
-        if attribute.hasMax():
-            upper = min(
-                upper, _maya_integer_bound(attribute.getMax(), "maximum")
-            )
+        minimum, maximum = self.hard_limits
+        if minimum is not None:
+            lower = max(lower, minimum)
+        if maximum is not None:
+            upper = min(upper, maximum)
         return IntPresentation(minimum=lower, maximum=upper)
