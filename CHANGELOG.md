@@ -9,6 +9,9 @@
 
 ### Fixed
 
+- byteのhard limitで下限0／上限255を個別に未指定扱いにしていた判定を修正。
+  型既定の全範囲0～255だけを除外し、`overrideColor`の0～31などは両端を保持する。
+  bdChannelBoxの整数Slider選別を修正し、既存の入力制限・設定・sceneの移行は不要。
 - 整数・floatの`ValueStepSpinBox`で値欄を自動幅にしたとき、Step欄が表示領域の
   右外へ配置される不具合を修正。Step欄の固定幅をレイアウトでも確保する。
   API・scene・保存設定の移行は不要。
@@ -81,7 +84,7 @@
 
 - `MayaIntPlugBinding`／`MayaIntPlugsBinding.hard_limits`を追加。
   代表属性へ明示された下限・上限を取得し、型固有範囲とsoft limitを区別する。
-  byteへMayaが自動設定する0／255は未指定扱いとし、両側hard limitを使う整数Sliderの
+  byteの型既定の全範囲0～255だけは両側未指定扱いとし、両側hard limitを使う整数Sliderの
   選別に対応する。既存の値検証と設定形式は維持し、移行は不要。
 - 整数用の`IntSliderSpinBox`と`IntRangeSliderSpinBox`を追加。
   前者はSliderと値欄の並び順を選べ、後者は`[Min][Slider][Max][値][Step]`で

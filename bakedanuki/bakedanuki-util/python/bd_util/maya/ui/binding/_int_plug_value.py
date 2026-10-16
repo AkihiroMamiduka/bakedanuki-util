@@ -73,10 +73,9 @@ class IntPlugValue:
                 else None
             ),
         )
-        # byteはMayaが型範囲を自動設定するため、同じ境界を明示制限と扱わない
-        if self.kind == "byte":
-            minimum = None if minimum == 0 else minimum
-            maximum = None if maximum == 255 else maximum
+        # byteの型既定範囲だけを除外し、0～31などの狭い範囲は両端を保つ
+        if self.kind == "byte" and (minimum, maximum) == (0, 255):
+            return None, None
         return minimum, maximum
 
     @property

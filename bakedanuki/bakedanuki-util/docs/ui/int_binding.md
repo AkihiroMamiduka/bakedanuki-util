@@ -124,8 +124,9 @@ Python正本とMaya属性の同期も利用者確認とpushが完了しました
 
 `MayaIntPlugBinding`／`MayaIntPlugsBinding.hard_limits`は代表属性に明示された
 `(下限, 上限)`を返し、未指定の側は`None`です。型固有範囲とsoft limitを含めません。
-Mayaがbyteへ自動設定する0／255と同じ境界は未指定扱いとします。
-同じ境界を明示指定した場合もMaya上で区別できないため同様です。
+byteの下限・上限の組が型既定の0～255に一致する場合だけ、両側を未指定扱いとします。
+同じ全範囲を明示指定した場合も同様です。0～31や10～255など、狭い範囲の両端は保持します。
+Maya上で実際に片側のhard limitが未指定なら、その側だけ`None`です。
 複数対象でも代表の定義を返し、値の書込みでは全対象の制限を別途検証します。
 Binding終了後や代表属性が利用不能の場合は`RuntimeError`です。
 bdChannelBoxはこの情報で整数Sliderを選び、型範囲を常に持つ`IntPresentation`と区別します。
@@ -134,6 +135,14 @@ bdChannelBoxはこの情報で整数Sliderを選び、型範囲を常に持つ`I
 Black・3 versionの型契約・Maya 2025 full pytestに加え、Maya 2025／2026／2027の
 Qt UI各1092件、Maya UI各816件が成功しています。
 明示hard limitの新規12件を含む整数Binding testは各versionで20件成功しました。
+
+利用者確認で見つかったbyte判定の不備を修正しました。transform標準の
+`objectColor`（short、0～7）と`overrideColor`（byte、0～31）はSlider対象です。
+byteの各境界を個別に除外せず、全範囲0～255の組だけを除外します。
+修正後の`scripts/verify.cmd`も終了code 0で完了しました（2026-10-16）。
+Black・3 versionの型契約・Maya 2025 full pytestに加え、
+Maya 2025／2026／2027のQt UI各1092件・Maya UI各826件が成功しました。
+整数Binding testは各30件で、標準色属性、狭いbyte範囲、片側制限を追加確認しています。
 
 整数2／3成分を一体で扱うMVVMは今回の計画に含めません。
 

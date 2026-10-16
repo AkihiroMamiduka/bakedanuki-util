@@ -908,8 +908,8 @@ class MayaIntPlugsBinding(_PlugsBindingState[int], IntBinding[_IntPlugsStore]):
         """代表属性に明示されたhard limitを、下限・上限の順で返す。
 
         未指定の側は`None`。型固有範囲とsoft limitは含めない。
-        Mayaがbyteへ自動設定する0／255も未指定として返す。
-        同じ境界を明示指定した場合も、Maya上で区別できないため同様に扱う。
+        byteの両端が型既定範囲0～255に一致する場合だけ両側を未指定として返す。
+        同じ全範囲を明示指定した場合も同様。0～31など狭い範囲の両端は保持する。
         複数対象でも代表の設定を返し、書込み時は全対象の制限を別途検証する。
 
         Raises:

@@ -274,9 +274,15 @@ def test_hard_limits_read_current_definition_and_compound_child(integer_nodes):
     "limits,expected",
     [
         ({}, (None, None)),
-        ({"minValue": 10}, (10, None)),
-        ({"maxValue": 200}, (None, 200)),
+        ({"minValue": 10}, (10, 255)),
+        ({"maxValue": 200}, (0, 200)),
         ({"minValue": 10, "maxValue": 200}, (10, 200)),
+        ({"minValue": 0, "maxValue": 31}, (0, 31)),
+        ({"minValue": 10, "maxValue": 255}, (10, 255)),
+        ({"minValue": 0, "maxValue": 0}, (0, 0)),
+        ({"hasMinValue": False, "maxValue": 31}, (None, 31)),
+        ({"hasMaxValue": False, "minValue": 10}, (10, None)),
+        ({"hasMinValue": False, "hasMaxValue": False}, (None, None)),
         ({"minValue": 0, "maxValue": 255}, (None, None)),
     ],
 )
@@ -297,5 +303,32 @@ def test_byte_default_limits_are_type_bounds(integer_nodes, limits, expected):
         )
         with pytest.raises(ValueError):
             binding.set_value(256)
+    finally:
+        binding.dispose()
+
+
+@pytest.mark.parametrize(
+    "attribute,hard_limits,input_range",
+    [
+        ("objectColor", (0, 7), (0, 7)),
+        ("overrideColor", (0, 31), (0, 31)),
+        ("layerOverrideColor", (0, 31), (0, 31)),
+        ("isHistoricallyInteresting", (None, None), (0, 255)),
+    ],
+)
+def test_transform_standard_integer_hard_limits_keep_both_ends(
+    integer_nodes, attribute, hard_limits, input_range
+):
+    """transform標準属性の狭い範囲を両側のまま取得し、既定byte範囲と区別する。"""
+    node = integer_nodes[0]
+    binding = MayaIntPlugBinding(resolve_int_plug(node, attribute))
+    try:
+        before = cmds.getAttr(node + "." + attribute)
+        cmds.flushUndo()
+        assert binding.hard_limits == hard_limits
+        presentation = binding.view_model.presentation
+        assert (presentation.minimum, presentation.maximum) == input_range
+        assert binding.value == before
+        assert cmds.undoInfo(query=True, undoQueueEmpty=True)
     finally:
         binding.dispose()
