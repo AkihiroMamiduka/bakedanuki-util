@@ -9,6 +9,11 @@
 
 ### Changed
 
+- `bd_util.py.path.icon_path(module_file, file_name)`を
+  `resolve_relative_path(base_file, relative_path)`へ改名し、画像用途に限らないAPIとした。
+  旧名は削除したため、importと呼び出し名を変更し、キーワード指定は
+  `module_file`から`base_file`、`file_name`から`relative_path`へ置き換える。
+  パスの組み立て方と戻り値型は維持し、scene・保存設定の移行は不要。
 - `Nodes` の操作入口を保持する推奨変数名を `nodes` から `bd_nodes` へ変更。
   README、docs、サンプル、内部コードとテストを統一した。
   `Nodes` のクラス名と既存の公開 API は維持するため、利用者のスクリプトの修正は不要。
@@ -60,9 +65,9 @@
 
 ### Added
 
-- `bd_util.py.path.icon_path(module_file, file_name)`を追加。
-  呼び出し元の`__file__`と相対画像名から同梱アイコンの絶対pathを解決し、
-  tools・rigなど複数packageで共用できる。画像の検証・UI登録・状態の保存は行わない。
+- `bd_util.py.path.resolve_relative_path(base_file, relative_path)`を追加。
+  基準ファイルと相対pathから同梱リソースの絶対pathを解決し、
+  tools・rigなど複数packageで共用できる。対象の検証・UI登録・状態の保存は行わない。
 - 共有メニューの`register_menu_item()`に、省略可能な`icon_path: str | Path | None`を追加。
   画像の絶対pathをMayaへ渡し、再登録で画像の更新・解除も反映する。
   画像の欠落・破損では警告して画像なしで登録し、実表示はMayaの標準設定に従う。

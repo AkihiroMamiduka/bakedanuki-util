@@ -2,20 +2,21 @@
 
 from pathlib import Path
 
-__all__ = ["icon_path"]
+__all__ = ["resolve_relative_path"]
 
 
-def icon_path(module_file: str | Path, file_name: str) -> Path:
-    """基準ファイルと同じフォルダにあるアイコンの絶対パスを返す。
+def resolve_relative_path(base_file: str | Path, relative_path: str) -> Path:
+    """基準ファイルのあるフォルダから相対パスを絶対パスへ解決する。
 
-    画像の存在確認や読み込みは行わない。メニューでの画像検証は、
-    `register_menu_item()` が担当する。
+    対象の存在確認、読み込みやファイル作成は行わない。
 
     Args:
-        module_file: 呼び出し元の `__file__`、または基準ファイルのパス。
-        file_name: 基準ファイルと同じフォルダからの相対画像パス。
+        base_file: 呼び出し元の `__file__`、または基準ファイルのパス。
+            相対パスの場合は呼び出し時の作業フォルダから解決する。
+        relative_path: 基準ファイルのフォルダからの相対パス。
+            `sub/file.png` のようなサブフォルダを含む指定も受け付ける。
 
     Returns:
-        基準ファイルの配置から解決した画像の絶対パス。
+        基準ファイルの配置から組み立てた対象の絶対パス。
     """
-    return Path(module_file).resolve().parent / file_name
+    return Path(base_file).resolve().parent / relative_path
