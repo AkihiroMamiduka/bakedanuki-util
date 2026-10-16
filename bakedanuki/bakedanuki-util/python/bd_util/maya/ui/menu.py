@@ -8,6 +8,7 @@ import os
 import re
 import tempfile
 import tomllib
+import warnings
 from collections.abc import Callable
 from pathlib import Path
 from typing import cast
@@ -475,6 +476,41 @@ def _ensure_category(root: str, category: str) -> str:
     return path
 
 
+def _menu_icon_image(icon_path: str | Path | None) -> str:
+    """読める画像の絶対pathを返し、画像不備では警告して表示を省略する。"""
+    if icon_path is None:
+        return ""
+
+    from ...ui import qt
+
+    path = Path(icon_path).resolve()
+    if not path.is_file() or qt.QImage(str(path)).isNull():
+        warnings.warn(
+            f"メニューのアイコン画像を読み込めません: {path}",
+            RuntimeWarning,
+            stacklevel=3,
+        )
+        return ""
+    return path.as_posix()
+
+
+def _refresh_menu_icon(item_path: str, image: str) -> None:
+    """Mayaの画像pathキャッシュを避け、対象項目の画像だけを読み直す。"""
+    from maya import OpenMayaUI as omui
+
+    from ...ui import qt
+
+    pointer = omui.MQtUtil.findMenuItem(item_path)
+    if not pointer:
+        raise RuntimeError(f"メニュー項目のQt UIを取得できません: {item_path}")
+    action = cast(qt.QtGui.QAction, qt.wrapInstance(int(pointer), qt.QAction))
+    icon = qt.QIcon()
+    if image:
+        # file名からのQIcon生成を避け、再登録時点の画像を直接渡す
+        icon = qt.QIcon(qt.QPixmap.fromImage(qt.QImage(image)))
+    action.setIcon(icon)
+
+
 def register_menu_item(
     *,
     owner: str,
@@ -482,11 +518,14 @@ def register_menu_item(
     item_id: str,
     label: str,
     command: Callable[[], object],
+    icon_path: str | Path | None = None,
 ) -> bool:
     """設定先の`bakedanuki > category`へpackage所有の項目を登録する。
 
     同じownerとitem IDは再登録で更新し、別categoryへ移した場合は
     古い項目を削除する。batchまたはmain window未生成時は何もせずFalseを返す。
+    icon_pathは画像fileを指定し、省略時は画像を解除する。読めない画像は警告して
+    画像なしで登録する。実表示はMayaのShow icons in menus設定に従う。
     """
     _validate_identifier(owner, "owner")
     _validate_identifier(category, "category")
@@ -499,6 +538,8 @@ def register_menu_item(
     main_window = _main_window()
     if main_window is None:
         return False
+
+    image = _menu_icon_image(icon_path)
 
     # MayaのitemArrayに属する項目だけを現役とみなし、旧menu内の項目を探す
     root = _ensure_root(main_window)
@@ -532,7 +573,10 @@ def register_menu_item(
         return command()
 
     if current_item is not None:
-        cmds.menuItem(current_item, edit=True, label=label, command=invoke)
+        cmds.menuItem(
+            current_item, edit=True, label=label, command=invoke, image=image
+        )
+        _refresh_menu_icon(current_item, image)
         _ensure_auto_install_option(root)
         return True
 
@@ -551,11 +595,13 @@ def register_menu_item(
             parent=target_category,
             label=label,
             command=invoke,
+            image=image,
             docTag=_item_tag(owner, item_id),
         ),
     )
     if not created or item_path not in _children(target_category):
         raise RuntimeError(f"{item_path}をmenuへ登録できませんでした")
+    _refresh_menu_icon(item_path, image)
     _ensure_auto_install_option(root)
     return True
 

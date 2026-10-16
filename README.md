@@ -83,6 +83,11 @@ print(bd_util.__file__)
 
 `bakedanuki/bakedanuki-util/python/bd_util/__init__.py` が表示されれば導入できています。
 
+同梱アイコンの絶対パスは`bd_util.py.path.icon_path(__file__, "my_tool.png")`で
+解決できます。各packageの`icon`フォルダへ画像と定数をまとめる例は、
+[共有メニューの画像指定](bakedanuki/bakedanuki-util/docs/ui/README.md#共有mayaメインメニュー)
+を参照してください。
+
 ## Development
 
 手書きの公開 Python API には、IDE の hover で使い方を確認できる簡潔な日本語の

@@ -60,6 +60,13 @@
 
 ### Added
 
+- `bd_util.py.path.icon_path(module_file, file_name)`を追加。
+  呼び出し元の`__file__`と相対画像名から同梱アイコンの絶対pathを解決し、
+  tools・rigなど複数packageで共用できる。画像の検証・UI登録・状態の保存は行わない。
+- 共有メニューの`register_menu_item()`に、省略可能な`icon_path: str | Path | None`を追加。
+  画像の絶対pathをMayaへ渡し、再登録で画像の更新・解除も反映する。
+  画像の欠落・破損では警告して画像なしで登録し、実表示はMayaの標準設定に従う。
+  既存呼出しとscene・保存設定の移行は不要。
 - `bakedanuki`共有メニューの配置先を`prefs/bakedanuki/config.toml`の
   `[menu].parent_menu`で指定できるようにした。キーがなければ最上位メニューに表示し、
   既存メニューのUIパスを指定するとその直下に配置する。個人用ファイルはMayaの

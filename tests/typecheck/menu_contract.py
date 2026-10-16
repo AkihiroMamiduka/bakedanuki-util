@@ -22,7 +22,20 @@ assert_type(
         item_id="bdChannelBox",
         label="bdChannelBox",
         command=lambda: None,
+        icon_path=Path("icons/channel_box.png"),
     ),
     bool,
 )
 assert_type(unregister_menu_owner("bd_tools"), None)
+
+assert_type(
+    register_menu_item(
+        owner="bd_tools",
+        category="tools",
+        item_id="sample",
+        label="Sample",
+        command=lambda: None,
+        icon_path="icons/sample.png",
+    ),
+    bool,
+)

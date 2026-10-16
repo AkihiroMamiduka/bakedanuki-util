@@ -171,6 +171,35 @@ def uninstall_menu() -> None:
 場合は識別子を維持してください。Maya上部の表示名は`bakedanuki`ですが、rootの内部UI名
 `bdUtilMainMenu`は既存メニューの再利用とreloadのため維持します。
 
+`icon_path`には画像fileの`str`または`Path`を指定できます。利用側packageが自分の
+配置を基準に絶対pathを組み立て、画像と一緒に配布します。`icon/__init__.py`と同じ
+フォルダの画像は、共通の`bd_util.py.path.icon_path()`で解決できます。
+
+```python
+from pathlib import Path
+from typing import Final
+
+from bd_util.py.path import icon_path
+
+MENU: Final[Path] = icon_path(__file__, "my_tool.png")
+```
+
+`module_file`は`str`または`Path`、`file_name`はそのファイルのフォルダを基準にした
+相対画像名です。呼び出し元を自動調査せず、明示された配置から`Path`を返します。
+関数は`pathlib`だけで実装し、画像の存在確認・読み込みやUI登録は行いません。
+ただし`bd_util`自体はMaya向けpackageであり、このimportでも親packageを読み込みます。
+
+`register_menu_item()`へ相対pathを渡した場合は
+登録時の作業directoryを基準に解決します。`Maya.env`や`XBMLANGPATH`への追加は不要です。
+utilは画像を読み込めることを確認して`cmds.menuItem(image=...)`へ絶対pathを渡します。
+画像の欠落・フォルダ指定・破損では`RuntimeWarning`を出し、画像なしで項目を登録します。
+同じownerとitem IDの再登録でも画像を更新し、`icon_path=None`または省略で解除します。
+同名PNGの差し替えも反映するため、対象項目のQActionには画像を直接読み直して設定します。
+Mayaの画像path情報はシェルフ用にも保持し、全体の画像キャッシュは消去しません。
+実表示はMayaのPreferences > Interface > Show icons in menus設定に従い、
+このAPIは表示設定を変更しません。画像pathを調べるためにツール本体をimportする必要は
+ありません。シェルフボタンの登録・保存やツール画像の所有は利用側packageの責務です。
+
 `userSetup.py`などのMaya起動スクリプトからは、Maya UI初期化後に
 `maya.utils.executeDeferred()`で登録処理を呼びます。batchやmain window生成前は
 `register_menu_item()`が`False`を返し、UIを変更しません。menu項目の登録では利用者の
