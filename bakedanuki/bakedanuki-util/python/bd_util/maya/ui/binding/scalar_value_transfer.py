@@ -19,28 +19,17 @@ from ._enum_plug_value import EnumPlugValue
 from ._enum_validation import require_enum_validation
 from ._float_plug_value import FloatPlugValue
 from ._int_plug_value import IntPlugValue
+from ._plugs_value_transaction import apply_edit_requests
+from ._scalar_paste_store import (
+    ScalarPasteLifetime,
+    ScalarPasteStoreType,
+    create_scalar_paste_store,
+)
 from .bool_plug_resolver import resolve_bool_plug
-from .enum_definition import read_enum_definition
 from .enum_plug_resolver import resolve_enum_plug
 from .float_plug_resolver import resolve_float_plug
 from .int_plug_resolver import resolve_int_plug
 from .string_plug_resolver import resolve_string_plug
-from .plugs_binding import (
-    MayaBoolPlugsBinding,
-    MayaEnumPlugsBinding,
-    MayaFloatPlugsBinding,
-    MayaIntPlugsBinding,
-    MayaStringPlugsBinding,
-)
-from .plugs_value_edits import (
-    MayaBoolValueEdit,
-    MayaEnumValueEdit,
-    MayaFloatValueEdit,
-    MayaIntValueEdit,
-    MayaStringValueEdit,
-    MayaPlugsValueEdit,
-    apply_plugs_values,
-)
 
 __all__ = [
     "MayaScalarValue",
@@ -59,13 +48,6 @@ __all__ = [
 ]
 
 MayaScalarValue: TypeAlias = bool | float | int | str
-_ScalarBinding: TypeAlias = (
-    MayaBoolPlugsBinding
-    | MayaIntPlugsBinding
-    | MayaFloatPlugsBinding
-    | MayaEnumPlugsBinding
-    | MayaStringPlugsBinding
-)
 
 _FORMAT = "bd_util.maya.scalar_values"
 _VERSION = 3
@@ -567,72 +549,24 @@ def decode_scalar_value_transfer(document: object) -> MayaScalarValueTransfer:
     return MayaScalarValueTransfer(tuple(nodes))
 
 
-def _create_edit(
+def _create_paste_store(
     node_name: str,
     snapshot: MayaScalarValueSnapshot,
     *,
     key_animated: bool,
     edit_connected: bool,
-) -> tuple[MayaPlugsValueEdit, _ScalarBinding]:
-    """一つのtarget plugへ監視なしでキー入力方針付きの編集を作る。"""
-    if snapshot.kind == "bool":
-        bool_binding = MayaBoolPlugsBinding(
-            [resolve_bool_plug(node_name, snapshot.path)],
-            key_animated=key_animated,
-            edit_connected=edit_connected,
-            monitor=False,
-        )
-        return (
-            MayaBoolValueEdit(bool_binding, cast(bool, snapshot.value)),
-            bool_binding,
-        )
-    if snapshot.kind in _INTEGER_LIMITS:
-        int_binding = MayaIntPlugsBinding(
-            [resolve_int_plug(node_name, snapshot.path)],
-            key_animated=key_animated,
-            edit_connected=edit_connected,
-            monitor=False,
-        )
-        return (
-            MayaIntValueEdit(int_binding, cast(int, snapshot.value)),
-            int_binding,
-        )
-    if snapshot.kind == "enum":
-        enum_plug = resolve_enum_plug(node_name, snapshot.path)
-        definition = snapshot.enum_definition
-        if definition is None or not definition.matches(
-            read_enum_definition(enum_plug)
-        ):
-            raise ValueError("enum定義（整数値と項目名）が異なります")
-        if definition.item_for_value(cast(int, snapshot.value)) is None:
-            raise ValueError("コピー元のenum値が定義されていません")
-        enum_binding = MayaEnumPlugsBinding(
-            [enum_plug],
-            key_animated=key_animated,
-            edit_connected=edit_connected,
-            monitor=False,
-        )
-        return (
-            MayaEnumValueEdit(enum_binding, cast(int, snapshot.value)),
-            enum_binding,
-        )
-    if snapshot.kind == "string":
-        string_binding = MayaStringPlugsBinding(
-            [resolve_string_plug(node_name, snapshot.path)], monitor=False
-        )
-        return (
-            MayaStringValueEdit(string_binding, cast(str, snapshot.value)),
-            string_binding,
-        )
-    float_binding = MayaFloatPlugsBinding(
-        [resolve_float_plug(node_name, snapshot.path)],
+    lifetime: ScalarPasteLifetime,
+) -> ScalarPasteStoreType:
+    """表示用Bindingを作らず、一対象の値とキー入力方針を初期検証する。"""
+    return create_scalar_paste_store(
+        node_name,
+        snapshot.path,
+        snapshot.kind,
+        snapshot.value,
+        snapshot.enum_definition,
         key_animated=key_animated,
         edit_connected=edit_connected,
-        monitor=False,
-    )
-    return (
-        MayaFloatValueEdit(float_binding, cast(float, snapshot.value)),
-        float_binding,
+        lifetime=lifetime,
     )
 
 
@@ -702,9 +636,9 @@ def apply_scalar_value_transfer(
         }
         for node_name in targets
     }
-    edits: list[MayaPlugsValueEdit] = []
-    bindings: list[_ScalarBinding] = []
+    stores: list[ScalarPasteStoreType] = []
     excluded: list[str] = []
+    lifetime = ScalarPasteLifetime()
     try:
         for snapshot in transfer.nodes[0].values:
             for node_name in targets:
@@ -717,31 +651,30 @@ def apply_scalar_value_transfer(
                     excluded.append(f"{plug_name}: 型・単位が異なる")
                     continue
                 try:
-                    edit, binding = _create_edit(
+                    store = _create_paste_store(
                         node_name,
                         snapshot,
                         key_animated=key_animated,
                         edit_connected=edit_connected,
+                        lifetime=lifetime,
                     )
                 except (TypeError, ValueError) as error:
                     excluded.append(f"{plug_name}: {error}")
                     continue
-                state = binding.target_states[0]
+                state = store.state
                 if not state.is_writable:
                     excluded.append(
                         f"{plug_name}: {state.reason or '値を編集できません'}"
                     )
-                    binding.dispose()
-                    binding.deleteLater()
                     continue
-                edits.append(edit)
-                bindings.append(binding)
-        changed = apply_plugs_values(edits, enum_validation=enum_validation)
-        return MayaScalarPasteResult(changed, len(edits), tuple(excluded))
+                stores.append(store)
+        changed = apply_edit_requests(
+            tuple(store.request() for store in stores),
+            enum_validation=enum_validation,
+        )
+        return MayaScalarPasteResult(changed, len(stores), tuple(excluded))
     finally:
-        for binding in bindings:
-            binding.dispose()
-            binding.deleteLater()
+        lifetime.close()
 
 
 def _require_target_paths(target_paths: Sequence[str]) -> tuple[str, ...]:

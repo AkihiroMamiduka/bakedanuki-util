@@ -45,6 +45,43 @@ def enum_binding(nodes, owner, attribute="mode"):
     )
 
 
+def test_disposing_unchanged_enum_row_during_write_restores_other_rows(
+    scene, monkeypatch
+):
+    """同値enum行のBinding終了も終了検証で拒否し、先行する数値を復旧する。"""
+    nodes, owner = scene
+    for node in nodes:
+        cmds.addAttr(node, longName="amount", attributeType="double")
+    unchanged = enum_binding(nodes, owner)
+    numeric = MayaFloatPlugsBinding(
+        [resolve_float_plug(node, "amount") for node in nodes],
+        parent=owner,
+        monitor=False,
+    )
+    original = cmds.setAttr
+
+    def write(path, value):
+        """最初の数値書込み後に別行の表示用Bindingを終了する。"""
+        original(path, value)
+        if path == nodes[0] + ".amount" and value == 2:
+            unchanged.dispose()
+
+    monkeypatch.setattr(cmds, "setAttr", write)
+    try:
+        with pytest.raises(RuntimeError, match="削除"):
+            apply_plugs_values(
+                [
+                    MayaFloatValueEdit(numeric, 2.0),
+                    MayaEnumValueEdit(unchanged, 0),
+                ],
+                enum_validation="operation",
+            )
+        assert values(nodes, "amount") == [0, 0, 0]
+    finally:
+        numeric.dispose()
+        unchanged.dispose()
+
+
 def values(nodes, attribute="mode"):
     """要求対象の値をMayaから読み直す。"""
     return [cmds.getAttr(f"{node}.{attribute}") for node in nodes]

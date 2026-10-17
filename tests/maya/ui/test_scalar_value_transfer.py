@@ -336,6 +336,61 @@ def test_multiple_sources_are_reserved_but_not_silently_applied(scene):
         apply_scalar_value_transfer((first,), transfer)
 
 
+@pytest.mark.parametrize(
+    "policy, excluded",
+    [("per_write", False), ("operation", False), ("operation", True)],
+)
+def test_paste_enum_final_validation_keeps_noop_and_exclusion_boundary(
+    scene, monkeypatch, policy, excluded
+):
+    """同値enum行は終了検証へ残し、事前除外した対象は含めない。"""
+    source, first, second = scene
+    for node in (source, first, second):
+        cmds.addAttr(node, ln="amount", at="double")
+        cmds.addAttr(node, ln="mode", at="enum", enumName="A:B")
+        cmds.setAttr(node + ".mode", 1)
+    cmds.setAttr(source + ".amount", 7.0)
+    if excluded:
+        cmds.setAttr(second + ".mode", lock=True)
+    transfer = MayaScalarValueTransfer(
+        (
+            capture_scalar_node_values(
+                source, _attributes(source, "amount", "mode")
+            ),
+        )
+    )
+    original = cmds.setAttr
+    fired = []
+
+    def write(name, *args, **kwargs):
+        """最初の数値入力後、後続の同値enum定義だけを変更する。"""
+        original(name, *args, **kwargs)
+        if not fired and name.endswith(first + ".amount"):
+            fired.append(True)
+            cmds.addAttr(second + ".mode", edit=True, enumName="A:Changed")
+
+    monkeypatch.setattr(cmds, "setAttr", write)
+    if policy == "operation" and not excluded:
+        with pytest.raises(ValueError, match="enum定義"):
+            apply_scalar_value_transfer(
+                (first, second), transfer, enum_validation=policy
+            )
+        assert [
+            cmds.getAttr(node + ".amount") for node in (first, second)
+        ] == [0, 0]
+    else:
+        result = apply_scalar_value_transfer(
+            (first, second), transfer, enum_validation=policy
+        )
+        assert result.changed
+        assert result.eligible_count == (3 if excluded else 4)
+        assert len(result.excluded) == int(excluded)
+        assert [
+            cmds.getAttr(node + ".amount") for node in (first, second)
+        ] == [7, 7]
+    assert fired
+
+
 def test_single_value_pastes_to_multiple_paths_and_nodes_with_one_undo(scene):
     """一つの値を同じ型の複数pathと複数nodeへ展開してUndoする。"""
     source, first, second = scene

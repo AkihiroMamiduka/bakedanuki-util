@@ -12,6 +12,7 @@ from maya import cmds
 from maya.api import OpenMaya as om
 
 from ....ui import qt
+from ..._identity import ObjectIdentityIndex, PlugIdentitySet
 from ...node.operator.node._core import NodeOperator
 from ..callback import MayaCallbackRegistry
 from ._float_edit import FloatEditUndo
@@ -216,11 +217,18 @@ class MayaChannelStateBinding(qt.QObject):
         targets = tuple(_ChannelTarget(plug) for plug in plugs)
         if not targets:
             raise ValueError("plugsには一つ以上の属性を指定してください")
-        for index, target in enumerate(targets):
-            if any(target.plug == prior.plug for prior in targets[:index]):
+        seen = PlugIdentitySet()
+        for target in targets:
+            if not seen.add(target.plug):
                 raise ValueError("同じ属性を複数回指定できません")
         super().__init__(parent)
         self._targets = targets
+        # 通知先をnode実体で索引化し、hashの衝突は既存の実体比較で区別する
+        self._node_indices = ObjectIdentityIndex()
+        self._targets_by_node: dict[int, list[_ChannelTarget]] = {}
+        for target in targets:
+            identity = self._node_indices.index(target.plug.node())
+            self._targets_by_node.setdefault(identity, []).append(target)
         self._disposed = False
         self._writing = False
         self._refreshing = False
@@ -440,13 +448,8 @@ class MayaChannelStateBinding(qt.QObject):
 
     def _register_callbacks(self) -> None:
         """対象nodeだけを監視し、UndoとRedoの同期も登録する。"""
-        visited: set[int] = set()
-        for target in self._targets:
-            identity = target.node_handle.hashCode()
-            if identity in visited:
-                continue
-            visited.add(identity)
-            node = target.plug.node()
+        for targets in self._targets_by_node.values():
+            node = targets[0].plug.node()
             self._registry.register(
                 int(
                     om.MNodeMessage.addAttributeChangedCallback(
@@ -482,7 +485,8 @@ class MayaChannelStateBinding(qt.QObject):
     ) -> None:
         """channelBox単独変更も含め、対象と祖先の通知だけを処理する。"""
         matched = False
-        for target in self._targets:
+        identity = self._node_indices.index(plug.node())
+        for target in self._targets_by_node.get(identity, ()):
             if target.removed:
                 continue
             if any(plug == watched for watched in target.watched):
@@ -494,7 +498,8 @@ class MayaChannelStateBinding(qt.QObject):
 
     def _on_node_removed(self, node: om.MObject, *_args: object) -> None:
         """削除予定の対象を無効化し、同名の再作成へ接続しない。"""
-        for target in self._targets:
+        identity = self._node_indices.index(node)
+        for target in self._targets_by_node.get(identity, ()):
             if (
                 target.node_handle.isValid()
                 and target.node_handle.object() == node

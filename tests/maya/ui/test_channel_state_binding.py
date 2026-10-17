@@ -2,14 +2,16 @@
 """表示状態の生フラグ、標準Undo、独立した編集可否と失敗復旧を検証する。"""
 
 from collections.abc import Callable, Iterator
-from typing import cast
+from typing import Literal, cast
 
 import pytest
 from maya import cmds
 from maya.api import OpenMaya as om
 
+from bd_util.maya import _identity
 from bd_util.maya.ui import (
     ChannelDisplayState,
+    MayaCallbackRegistry,
     MayaChannelStateBinding,
     MayaEditSession,
     resolve_float_plug,
@@ -52,6 +54,15 @@ def _binding(nodes: list[str], owner: qt.QObject) -> MayaChannelStateBinding:
     """全ノードの同名属性を状態編集へ接続する。"""
     return MayaChannelStateBinding(
         [resolve_float_plug(node, "weight") for node in nodes], parent=owner
+    )
+
+
+def _callback_count(binding: MayaChannelStateBinding) -> int:
+    """Bindingが直接所有するregistryの登録callback数を返す。"""
+    return sum(
+        len(child.callback_ids)
+        for child in binding.children()
+        if isinstance(child, MayaCallbackRegistry)
     )
 
 
@@ -383,3 +394,143 @@ def test_simultaneous_default_flags_disable_only_display_editing(
     _events()
     assert _raw(node) == (True, True, False)
     assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+
+
+@pytest.mark.parametrize("operation", ["lock", "display"])
+def test_many_targets_visit_only_the_notifying_node(
+    scene: tuple[list[str], qt.QObject],
+    operation: Literal["lock", "display"],
+) -> None:
+    """千対象の通知照合が線形回数に収まり、全件適用とUndo/Redoを維持する。"""
+    _, owner = scene
+    count = 1000
+    nodes = [cmds.createNode("transform") for _ in range(count)]
+    visited = 0
+
+    class WatchedPlugs(tuple[om.MPlug, ...]):
+        """通知照合が調べた対象と祖先の数を記録する。"""
+
+        def __iter__(self) -> Iterator[om.MPlug]:
+            """通常の列挙を維持し、通知照合だけを数える。"""
+            nonlocal visited
+            visited += len(self)
+            return super().__iter__()
+
+    class CountedBinding(MayaChannelStateBinding):
+        """書込み処理を変えず、通知照合の列挙回数を記録する。"""
+
+        def record_target_visits(self) -> None:
+            """対象ごとの監視plug列挙に計数処理を付ける。"""
+            for target in self._targets:
+                target.watched = WatchedPlugs(target.watched)
+
+    binding = CountedBinding(
+        [resolve_float_plug(node, "tx") for node in nodes], parent=owner
+    )
+    binding.record_target_visits()
+    assert _callback_count(binding) == count * 3 + 2
+    cmds.flushUndo()
+    if operation == "lock":
+        assert binding.set_locked(True)
+        assert all(target.locked for target in binding.state.targets)
+    else:
+        assert binding.set_display_state("hidden")
+        assert all(
+            target.display_state == "hidden"
+            for target in binding.state.targets
+        )
+    assert 0 < visited <= count * 4
+
+    # 多数ノードの一時Bindingと同様に破棄し、Mayaの履歴を直接照合する
+    binding.dispose()
+    assert _callback_count(binding) == 0
+    cmds.undo()
+    flag = "lock" if operation == "lock" else "keyable"
+    expected = operation == "display"
+    assert all(
+        cmds.getAttr(node + ".tx", **{flag: True}) == expected
+        for node in nodes
+    )
+    cmds.redo()
+    assert all(
+        cmds.getAttr(node + ".tx", **{flag: True}) != expected
+        for node in nodes
+    )
+
+
+def test_hash_collisions_preserve_aliases_ancestors_and_node_identity(
+    scene: tuple[list[str], qt.QObject], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """hash衝突時も実体を区別し、改名・祖先通知・削除履歴を保持する。"""
+    nodes, owner = scene
+
+    def colliding_hash(_node: om.MObject) -> int:
+        """異なるnodeと属性を同じhash候補へ集める。"""
+        return 1
+
+    monkeypatch.setattr(_identity, "_object_hash", colliding_hash)
+    binding = MayaChannelStateBinding(
+        [resolve_float_plug(node, "tx") for node in nodes], parent=owner
+    )
+    assert _callback_count(binding) == len(nodes) * 3 + 2
+    with pytest.raises(ValueError, match="同じ属性"):
+        MayaChannelStateBinding(
+            [
+                resolve_float_plug(nodes[0], "tx"),
+                resolve_float_plug(nodes[0], "translateX"),
+            ],
+            parent=owner,
+        )
+
+    nodes[1] = cmds.rename(nodes[1], "renamedChannelStateTarget")
+    cmds.setAttr(nodes[1] + ".translate", lock=True)
+    assert binding.state.targets[1].parent_locked
+    assert not binding.state.targets[0].parent_locked
+    assert not binding.state.targets[2].parent_locked
+    assert "renamedChannelStateTarget" in binding.state.targets[1].plug_name
+    cmds.setAttr(nodes[1] + ".translate", lock=False)
+    assert not binding.state.targets[1].parent_locked
+    cmds.delete(nodes[2])
+    assert not binding.state.targets[2].is_available
+    cmds.undo()
+    assert not binding.state.targets[2].is_available
+    _events()
+    assert binding.state.targets[0].is_available
+    assert binding.state.targets[1].is_available
+    assert not binding.state.targets[2].is_available
+
+
+@pytest.mark.parametrize("remove_node", [False, True])
+def test_deletion_during_write_stays_removed_after_recreation(
+    scene: tuple[list[str], qt.QObject],
+    monkeypatch: pytest.MonkeyPatch,
+    remove_node: bool,
+) -> None:
+    """書込み中の削除通知も記録し、同名再作成への適用を拒否して復旧する。"""
+    nodes, owner = scene
+    binding = _binding(nodes, owner)
+    original = cast(Callable[..., None], cmds.setAttr)
+    interrupted = False
+
+    def remove_during_write(name: str, **flags: object) -> None:
+        """先頭への適用後に末尾の実体を削除して同名属性を作る。"""
+        nonlocal interrupted
+        original(name, **flags)
+        if interrupted or name.rsplit("|", 1)[-1] != nodes[0] + ".weight":
+            return
+        interrupted = True
+        if remove_node:
+            cmds.delete(nodes[-1])
+            cmds.createNode("transform", name=nodes[-1])
+        else:
+            cmds.deleteAttr(nodes[-1] + ".weight")
+        cmds.addAttr(
+            nodes[-1], longName="weight", attributeType="double", keyable=True
+        )
+
+    monkeypatch.setattr(cmds, "setAttr", remove_during_write)
+    with pytest.raises(RuntimeError, match="状態が変わりました"):
+        binding.set_locked(True)
+    assert interrupted
+    assert not binding.state.targets[-1].is_available
+    assert all(not _raw(node)[2] for node in nodes)

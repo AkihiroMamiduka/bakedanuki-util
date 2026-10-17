@@ -18,6 +18,18 @@
 
 ### Changed
 
+- scalar値Pasteは対象ごとに独立した一時Storeを使い、表示用Binding・ViewModel・
+  Signal・連続編集用Undo管理を生成せずに既存の値変換と書込み準備を利用する。
+  `apply_plugs_values()`と検証・書込み・Undo・失敗復旧の処理を共有し、
+  候補件数、除外理由、`enum_validation`を含む公開APIと適用規則を維持する。
+  操作中の対象削除を記録し、同名で再作成された別実体へ追従しない。
+  外部処理による削除・再作成自体は復旧対象外とする。
+  UI・scene・保存設定・clipboard形式の変更や移行は不要。
+- `MayaChannelStateBinding`の重複判定と通知対象の探索を実体索引へ変更し、
+  多数属性のlock・表示状態編集に伴う全対象の繰り返し走査を削減。
+  hashが同じ別nodeを混同せず、削除履歴、親lock判定、Undo、失敗復旧、callback本数を維持する。
+  `MayaCallbackRegistry`も登録IDの所属判定を索引化し、登録順・逆順解除と再入時の扱いを維持する。
+  公開API・UI・scene・保存設定の変更や移行は不要。
 - `apply_plugs_values(..., enum_validation="operation")`を追加。
   `apply_scalar_value_transfer()`、`apply_scalar_value_transfer_to_paths()`、
   `apply_scalar_value_to_paths()`も同じ指定を受け付ける。

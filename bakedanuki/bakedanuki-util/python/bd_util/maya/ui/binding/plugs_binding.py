@@ -6,6 +6,7 @@ from __future__ import annotations
 from collections.abc import Generator, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass, replace
+from functools import partial
 from typing import Generic, Protocol, TypeVar, cast
 
 from maya import cmds
@@ -39,7 +40,8 @@ from ...rounding import round_decimal_half_up
 from ._float_plug_value import FloatPlugValue
 from ._int_plug_value import IntPlugValue
 from ._enum_plug_value import EnumPlugValue
-from ._plugs_store import PlugsStore, PlugTarget, PlugWrite
+from ._enum_validation import EnumOperationSnapshot, enum_operation_validation
+from ._plugs_store import PlugsStore, PlugTarget, PlugWrite, PlugWriteValidator
 from .float_plug_resolver import MayaFloatPlug, require_float_plug
 from .int_plug_resolver import MayaIntPlug
 from .enum_plug_resolver import MayaEnumPlug, require_enum_plug
@@ -93,7 +95,7 @@ class _StringCodec:
 class _PreparedStringWrite:
     """string属性一件の値と復旧値を型付き書込みへ渡す。"""
 
-    store: _StringPlugsStore
+    store: PlugWriteValidator[str]
     target: PlugTarget[str]
     before: str
     value: str
@@ -116,6 +118,26 @@ class _PreparedStringWrite:
             cast(_SetStringAttr, cmds.setAttr)(
                 self.target.name(), before, type="string"
             )
+
+
+def prepare_string_values(
+    store: PlugWriteValidator[str],
+    targets: Sequence[PlugTarget[str]],
+    value: str,
+) -> list[PlugWrite]:
+    """stringの差分と型付き書込みを表示用と一時Storeで共有する。"""
+    value = require_string(value)
+    if "\x00" in value:
+        raise ValueError("Maya string属性へNUL文字は書き込めません")
+    plan: list[PlugWrite] = []
+    for target in targets:
+        if not target.state().is_writable:
+            continue
+        target.codec.validate(value)
+        before = target.codec.read()
+        if before != value:
+            plan.append(_PreparedStringWrite(store, target, before, value))
+    return plan
 
 
 class _BoolCodec:
@@ -349,52 +371,32 @@ class _EnumPlugsStore(PlugsStore[int]):
     @contextmanager
     def operation_validation(self) -> Generator[None, None, None]:
         """操作開始時の定義を固定し、操作の終了時に通常検証へ戻す。"""
-        if self._operation_definition is not None:
-            raise RuntimeError("enumの一括検証中に別の操作は開始できません")
         if not self.is_available:
             raise RuntimeError("代表のMaya属性は利用できません")
-        definitions = self._current_group_definitions(refresh=True)
-        representative = definitions[0]
-        if representative is None or any(
-            definition is not None and not representative.matches(definition)
-            for definition in definitions[1:]
-        ):
-            raise ValueError(
-                "全対象のenum定義（整数値と項目名）を揃えてください"
-            )
-
-        # 定義を固定するのはこの一括操作だけで、次の入力へ持ち越さない
-        self._operation_definition = representative
-        self._operation_available = tuple(
-            target.is_available for target in self._targets
-        )
-        for codec in self._codecs:
-            codec.operation_definition = representative
-        try:
-            yield
-        finally:
-            for codec in self._codecs:
-                codec.operation_definition = None
-            self._operation_available = ()
-            self._operation_definition = None
+        with enum_operation_validation(
+            self._targets,
+            self._codecs,
+            partial(self._current_group_definitions, refresh=True),
+        ) as snapshot:
+            self._operation_definition = snapshot.definition
+            self._operation_available = snapshot.available
+            try:
+                yield
+            finally:
+                self._operation_available = ()
+                self._operation_definition = None
 
     def validate_operation_definition(self) -> None:
         """未書込み対象も含め、開始時の実体と定義が維持されたか確認する。"""
         expected = self._operation_definition
         if expected is None:
             raise RuntimeError("enumの操作単位の検証は開始されていません")
-        if not self.is_available or any(
-            available and not target.is_available
-            for target, available in zip(
-                self._targets, self._operation_available
-            )
-        ):
+        if not self.is_available:
             raise RuntimeError("入力中に対象属性が削除されました")
-        if any(
-            definition is not None and not expected.matches(definition)
-            for definition in self._current_group_definitions(refresh=True)
-        ):
-            raise ValueError("入力中に対象のenum定義が変わりました")
+        EnumOperationSnapshot(expected, self._operation_available).validate(
+            self._targets,
+            partial(self._current_group_definitions, refresh=True),
+        )
 
     def _read_state(self) -> bool:
         """現在の定義・入力状態・値を対象順に同期する。"""
@@ -691,15 +693,7 @@ class _StringPlugsStore(PlugsStore[str]):
             raise RuntimeError("一括書き込み中に別の入力は開始できません")
         if not self.is_writable:
             raise RuntimeError("代表のMaya属性は編集できません")
-        plan: list[PlugWrite] = []
-        for target in self._targets:
-            if not target.state().is_writable:
-                continue
-            target.codec.validate(value)
-            before = target.codec.read()
-            if before != value:
-                plan.append(_PreparedStringWrite(self, target, before, value))
-        return plan
+        return prepare_string_values(self, self._targets, value)
 
     def _refresh_view_model(self) -> bool:
         """代表値と入力可否を共有ViewModelへ反映する。"""

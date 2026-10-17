@@ -56,6 +56,7 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         super().__init__(owner)
         self._owner: qt.QtCore.QObject | None = owner
         self._callback_ids: list[int] = []
+        self._callback_id_set: set[int] = set()
         self._on_maya_exiting_callback = on_maya_exiting
         self._is_disposed = False
         self._maya_exiting_callback_id: int | None = None
@@ -100,12 +101,13 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         callback_id = _validate_callback_id(callback_id)
         if self._is_disposed:
             raise RuntimeError("破棄済みMayaCallbackRegistryへ登録できません")
-        if callback_id in self._callback_ids:
+        if callback_id in self._callback_id_set:
             raise ValueError(
                 f"callback IDは既に登録されています: {callback_id}"
             )
 
         self._callback_ids.append(callback_id)
+        self._callback_id_set.add(callback_id)
         return callback_id
 
     def remove(self, callback_id: int) -> bool:
@@ -122,9 +124,10 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         """
         # 未登録IDをMayaへ渡さず、他の所有者のcallbackを触らない。
         callback_id = _validate_callback_id(callback_id)
-        if callback_id not in self._callback_ids:
+        if callback_id not in self._callback_id_set:
             return False
         self._callback_ids.remove(callback_id)
+        self._callback_id_set.remove(callback_id)
         self._remove_safely(callback_id)
         return True
 
@@ -143,6 +146,7 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         owner_destroyed_connection = self._owner_destroyed_connection
         self._owner = None
         self._callback_ids.clear()
+        self._callback_id_set.clear()
         self._maya_exiting_callback_id = None
         self._owner_destroyed_connection = None
         self._on_maya_exiting_callback = None

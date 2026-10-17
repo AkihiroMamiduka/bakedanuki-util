@@ -190,11 +190,21 @@ class PlugWrite(Protocol):
         raise NotImplementedError
 
 
+class PlugWriteValidator(Protocol[_ValueT]):
+    """UIの有無によらず、入力直前の対象検証を提供する。"""
+
+    def validate_write_target(
+        self, target: PlugTarget[_ValueT], requested: _ValueT
+    ) -> None:
+        """代表と書込み先が入力条件を保っているか確認する。"""
+        raise NotImplementedError
+
+
 @dataclass(frozen=True)
 class _PreparedPlugWrite(Generic[_ValueT]):
     """事前検証した入力と公開単位の復旧値を保持する。"""
 
-    store: PlugsStore[_ValueT]
+    store: PlugWriteValidator[_ValueT]
     target: PlugTarget[_ValueT]
     before: _ValueT
     value: _ValueT
@@ -245,6 +255,61 @@ class _PreparedPlugWrite(Generic[_ValueT]):
         if self.target.codec.to_ui(self.target.codec.read()) != before:
             set_attr = cast(Callable[[str, _ValueT], None], cmds.setAttr)
             set_attr(self.target.name(), before)
+
+
+def prepare_plug_values(
+    store: PlugWriteValidator[_ValueT],
+    targets: Sequence[PlugTarget[_ValueT]],
+    values: Sequence[_ValueT],
+) -> list[PlugWrite]:
+    """値型の検証・接続入力・復旧値の準備を表示用と一時入力で共有する。"""
+    if len(values) != len(targets):
+        raise ValueError("対象と入力値の数を揃えてください")
+    plan: list[PlugWrite] = []
+    for target, value in zip(targets, values, strict=True):
+        if not target.state().is_writable:
+            continue
+        try:
+            requested = target.codec.validate(value)
+        except ValueError as error:
+            raise ValueError(f"{target.name()}: {error}") from error
+        before = target.codec.read()
+        if target.codec.to_ui(before) != requested:
+            animated = None
+            connected = None
+            if any(plug.isDestination for plug in target.watched):
+                if isinstance(value, str):
+                    raise TypeError("string属性の接続入力は編集できません")
+                if target.edit_connected:
+                    connected = prepare_connected_plug_write(
+                        target.plug, cast(float | int | bool, requested)
+                    )
+                else:
+                    animated = prepare_animated_plug_write(target.plug, value)
+            plan.append(
+                _PreparedPlugWrite(
+                    store,
+                    target,
+                    before,
+                    value,
+                    requested,
+                    animated,
+                    connected,
+                )
+            )
+    return plan
+
+
+def validate_plug_write_target(
+    representative: PlugTarget[_ValueT], target: PlugTarget[_ValueT]
+) -> None:
+    """代表と書込み先の実体・ロック・接続による入力可否を再確認する。"""
+    if (
+        not representative.is_available
+        or not representative.state().is_writable
+        or not target.state().is_writable
+    ):
+        raise RuntimeError("入力中に対象属性の状態が変わりました")
 
 
 @contextmanager
@@ -445,43 +510,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             raise RuntimeError("一括書き込み中に別の入力は開始できません")
         if not self.is_writable:
             raise RuntimeError("代表のMaya属性は編集できません")
-        if len(values) != len(self._targets):
-            raise ValueError("対象と入力値の数を揃えてください")
-        plan: list[PlugWrite] = []
-        for target, value in zip(self._targets, values, strict=True):
-            if not target.state().is_writable:
-                continue
-            try:
-                requested = target.codec.validate(value)
-            except ValueError as error:
-                raise ValueError(f"{target.name()}: {error}") from error
-            before = target.codec.read()
-            if target.codec.to_ui(before) != requested:
-                animated = None
-                connected = None
-                if any(plug.isDestination for plug in target.watched):
-                    if isinstance(value, str):
-                        raise TypeError("string属性の接続入力は編集できません")
-                    if target.edit_connected:
-                        connected = prepare_connected_plug_write(
-                            target.plug, cast(float | int | bool, requested)
-                        )
-                    else:
-                        animated = prepare_animated_plug_write(
-                            target.plug, value
-                        )
-                plan.append(
-                    _PreparedPlugWrite(
-                        self,
-                        target,
-                        before,
-                        value,
-                        requested,
-                        animated,
-                        connected,
-                    )
-                )
-        return plan
+        return prepare_plug_values(self, self._targets, values)
 
     @contextmanager
     def write_guard(self) -> Generator[None, None, None]:
@@ -513,12 +542,9 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self, target: PlugTarget[_ValueT], requested: _ValueT
     ) -> None:
         """書込み直前に対象の利用可否を再確認する。"""
-        if (
-            not self.is_available
-            or not self._targets[0].state().is_writable
-            or not target.state().is_writable
-        ):
+        if not self.is_available:
             raise RuntimeError("入力中に対象属性の状態が変わりました")
+        validate_plug_write_target(self._targets[0], target)
 
     def _read_state(self) -> bool:
         """接続状態と実値を読み、監視する時間カーブも更新する。"""

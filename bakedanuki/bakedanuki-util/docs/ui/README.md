@@ -395,6 +395,12 @@ node lockなどMayaが属性変更を通知しない状態は、`refresh()`ま�
 Qt owner破棄とMaya終了時にも解除され、終了状態は`is_disposed`で確認できます。
 型付き入力契約`MayaChannelStatePlug`も同じ公開入口から利用できます。
 
+多数対象では実体索引で重複と通知nodeを判定し、そのnodeに属するplugと祖先だけを
+照合します。hashが同じ別nodeを混同せず、入力中も削除履歴を保持します。
+操作前の検証、Undo、復旧とcallback本数を維持します。
+`tests/maya/ui/test_channel_state_binding.py`でhash衝突、改名、同名削除再作成と
+多数対象の通知時の照合回数を確認します。
+
 ## ボタンのなぞり操作と共有Undo
 
 `bd_util.ui.RadioButtonSweep(scope)`へ`add_button(radio)`で標準の`QRadioButton`を
@@ -1498,6 +1504,10 @@ class MyWindow(qt.QDialog):
 登録済みIDは`callback_ids`で確認でき、`remove()`では1件、`dispose()`では全件を解除します。
 全件解除は登録と逆順に行い、二重disposeとMaya側で解除済みのIDを許容します。破棄済みregistry
 への追加と、同じIDの重複登録はerrorにします。
+
+登録順を保持する一覧とは別にIDの所属を索引化し、大量登録時の重複確認を軽くします。
+個別解除と全件破棄ではMaya APIを呼ぶ前に両方から対象を外し、解除中の再入でも
+二重解除しません。`tests/maya/ui/test_callback.py`で解除失敗後の再登録も確認します。
 
 Qt ownerの`destroyed`と`MSceneMessage.kMayaExiting`でも自動解除します。さらに
 `MayaWindowController.dispose()`と`MayaDockableWindowController.dispose()`は、Qtの遅延破棄や

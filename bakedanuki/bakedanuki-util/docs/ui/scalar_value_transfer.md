@@ -91,8 +91,9 @@ byte・short・longも同じ入力方針を受け付け、整数値のまま事�
 既存APIをこの動作へ移す場合は`key_animated=True`を`edit_connected=True`へ置き換えます。
 clipboard schema、scene、保存設定の移行は不要です。
 
-三つの貼り付けAPIは`enum_validation="operation"`も受け付け、値の適用に使う
-`apply_plugs_values()`へ渡します。既定の`"per_write"`と、上記の事前除外規則は維持します。
+三つの貼り付けAPIは`enum_validation="operation"`も受け付け、
+`apply_plugs_values()`と共通の検証・書込み処理へ渡します。
+既定の`"per_write"`と、上記の事前除外規則は維持します。
 `"operation"`では一括入力へ渡したenum対象の定義を開始時へ固定し、書込み直前の基準と
 当該対象、終了時の全対象を新しく確認します。変更の発見が遅れる場合があり、終了確認の
 失敗も同じUndo／復旧処理内で扱います。外部callbackの副作用と定義自体は戻しません。
@@ -107,11 +108,27 @@ clipboard schema、scene、保存設定の移行は不要です。
 
 - 属性なし、型・単位違い、enum定義違い、lock・入力接続などのreadonly属性は
   `MayaScalarPasteResult.excluded`へ理由を返します。
-- 候補は既存の`apply_plugs_values()`へまとめ、hard limitを含む全件検証後に一回のUndoで
-  書き込みます。途中で失敗した場合は変更済みの値とAuto Keyのキー変更を復旧します。
+- 候補は`apply_plugs_values()`と共通の処理へまとめ、hard limitを含む全件検証後に
+  一回のUndoで書き込みます。途中で失敗した場合は変更済みの値とAuto Keyのキー変更を復旧します。
 - 全候補が同値なら`changed`は`False`となり、Undo項目を作りません。
 - 適用APIは一つのコピー元nodeを受け付け、複数sourceを拒否します。transfer形式の`nodes`は
   tupleですが、複数sourceを順番や表示位置で暗黙に対応させません。
+
+Pasteの内部では対象ごとに独立した一時Storeを使い、既存の値変換・対象検証・書込み準備を
+再利用します。対象ごとの表示用Binding、ViewModel、Signal、連続編集用のUndo管理を生成しないため、
+多数対象の準備を軽くできます。候補件数と除外理由、適用前後の検証、一回Undoと失敗復旧は
+共通の処理で維持します。公開API、clipboard形式、scene、保存設定の移行は不要です。
+
+操作中の対象削除は履歴として記録し、同じ名前で再作成された別のnodeや属性へ
+自動で接続し直しません。外部callbackなどによる削除・再作成そのものは復旧対象外です。
+既に変更した対象も含めて値の復旧を試み、復旧できない場合はエラーとして通知します。
+削除監視は操作中だけnode単位でまとめて登録し、成功・失敗を問わず終了時に解除します。
+値が同じため書込みを省略した候補も終了時に消失を確認します。最初から除外した対象は
+書込み要求に含めず、終了検証の対象にも加えません。
+
+`tests/maya/ui/test_scalar_paste_lifetime.py`では、属性・nodeの削除と同名再作成、
+未適用・適用済み・同値対象の扱い、復旧不能時のエラー、Undo chunk終了と監視解除を確認します。
+`test_scalar_value_transfer.py`では、同値enum行の終了検証と事前除外対象の境界も確認します。
 
 `tests/maya/ui/test_connected_value_transfer.py`では、三つのAPIから通常値・時間キー・
 SDK・Animation Layerへ同時に貼り付け、Auto Key ON／OFFでのキー内容と一回Undoを

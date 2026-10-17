@@ -4,15 +4,13 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
-from contextlib import ExitStack
 from dataclasses import dataclass
+from functools import partial
 from typing import Literal, TypeAlias
 
-from ..._identity import PlugIdentitySet
-
 from ._enum_validation import require_enum_validation
-from ._float_edit import FloatEditUndo
-from ._plugs_store import PlugWrite, execute_plug_writes, plugs_undo_chunk
+from ._plugs_store import PlugWrite
+from ._plugs_value_transaction import PlugEditRequest, apply_edit_requests
 from .edit_session import MayaEditSession
 from .plugs_binding import (
     MayaBoolPlugsBinding,
@@ -213,6 +211,36 @@ def _prepare_edit(edit: MayaPlugsValueEdit) -> list[PlugWrite]:
     return edit.binding.store.prepare_write(edit.value)
 
 
+def _edit_request(edit: MayaPlugsValueEdit) -> PlugEditRequest:
+    """型付きのBinding入力を、共通の一括処理契約へ接続する。"""
+    store = edit.binding.store
+    enum_store = (
+        edit.binding.store if isinstance(edit, MayaEnumValueEdit) else None
+    )
+
+    def notify_failure(message: str) -> None:
+        """終了していない表示用Storeだけへ編集失敗を通知する。"""
+        if not store.is_disposed:
+            store.edit_failed.emit(message)
+
+    return PlugEditRequest(
+        store_identity=store,
+        target_plugs=store.target_plugs,
+        prepare=partial(_prepare_edit, edit),
+        write_guard=store.write_guard,
+        refresh=store.refresh,
+        notify_failure=notify_failure,
+        enum_context=(
+            enum_store.operation_validation if enum_store is not None else None
+        ),
+        validate_enum=(
+            enum_store.validate_operation_definition
+            if enum_store is not None
+            else None
+        ),
+    )
+
+
 def apply_plugs_values(
     edits: Sequence[MayaPlugsValueEdit],
     *,
@@ -243,82 +271,8 @@ def apply_plugs_values(
     """
     enum_validation = require_enum_validation(enum_validation)
     requests = tuple(_require_edit(edit) for edit in edits)
-    if not requests:
-        return False
-
-    # 無変更の対象も含めて重複を拒否し、適用順で結果が変わらないようにする。
-    stores = tuple(edit.binding.store for edit in requests)
-    seen_plugs = PlugIdentitySet()
-    seen_stores: set[int] = set()
-    for store in stores:
-        if id(store) in seen_stores:
-            raise ValueError("同じBindingを複数回指定できません")
-        seen_stores.add(id(store))
-        for plug in store.target_plugs:
-            if not seen_plugs.add(plug):
-                raise ValueError("同じ属性を複数の入力へ指定できません")
-
-    enum_stores = tuple(
-        edit.binding.store
-        for edit in requests
-        if isinstance(edit, MayaEnumValueEdit)
+    return apply_edit_requests(
+        tuple(_edit_request(edit) for edit in requests),
+        edit_session=edit_session,
+        enum_validation=enum_validation,
     )
-
-    def validate_definitions() -> None:
-        """差分のない行も含め、操作開始時のenum定義と照合する。"""
-        for enum_store in enum_stores:
-            enum_store.validate_operation_definition()
-
-    try:
-        with ExitStack() as validation_stack:
-            if enum_validation == "operation":
-                for enum_store in enum_stores:
-                    validation_stack.enter_context(
-                        enum_store.operation_validation()
-                    )
-
-            # 全要求を準備できてから単一のUndo chunk内で書き込む
-            plan = [
-                write for edit in requests for write in _prepare_edit(edit)
-            ]
-            if plan:
-                FloatEditUndo.finish_active()
-                with ExitStack() as stack:
-                    if edit_session is not None:
-                        stack.enter_context(edit_session.write())
-                    for store in stores:
-                        stack.enter_context(store.write_guard())
-                    stack.enter_context(plugs_undo_chunk())
-                    execute_plug_writes(
-                        plan,
-                        validate_after=(
-                            validate_definitions
-                            if enum_validation == "operation"
-                            else None
-                        ),
-                    )
-            elif enum_validation == "operation":
-                validate_definitions()
-    except Exception as error:
-        failures: list[Exception] = [error]
-        for store in stores:
-            try:
-                store.refresh()
-            except Exception as refresh_error:
-                failures.append(refresh_error)
-        reported = (
-            error
-            if len(failures) == 1
-            else ExceptionGroup("属性の入力と状態同期に失敗しました", failures)
-        )
-        for store in stores:
-            if not store.is_disposed:
-                store.edit_failed.emit(str(reported))
-        if reported is not error:
-            raise reported from error
-        raise
-
-    # 書き込み完了後にまとめて同期し、途中状態を別の行へ通知しない。
-    for store in stores:
-        store.refresh()
-    return bool(plan)
