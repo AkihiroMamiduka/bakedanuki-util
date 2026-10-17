@@ -2,8 +2,9 @@
 
 `IntSliderSpinBox`と`IntRangeSliderSpinBox`は同じ`IntBinding`または`IntViewModel`を
 複数の入力欄で共有します。Python正本、Maya正本、Python正本からMaya同期の三経路で使用します。
-整数Slider拡張の第二段階です。第一段階の利用者確認・pushは完了しています。
-bdChannelBoxへのSlider組込みも第三段階で実装済みです。
+整数Slider拡張の第二段階です。第三段階のbdChannelBox組込みとbyte範囲判定の修正まで、
+利用者確認・pushが完了しています（2026-10-16）。完了範囲と拡張時の確認は
+[整数bindingの開発引き継ぎ](int_binding.md#開発完了と拡張時の確認)を参照してください。
 
 ## 基本のSliderと値欄
 

@@ -1215,6 +1215,10 @@ Python整数を正本としてQtとMaya属性へ同期する場合は`MayaIntBin
 公開API・範囲・中断・サンプルは[整数Sliderと連続編集](int_slider.md)を参照してください。
 `IntSliderSpinBox`・`IntRangeSliderSpinBox`は数値欄と範囲・Step編集を組み合わせます。
 操作設定の保存とサンプルは[整数Slider複合Viewと設定保存](int_range_slider_spin_box.md)を参照してください。
+整数SliderのbdChannelBox組込みとbyte範囲判定の修正まで、利用者確認・pushが完了しました
+（2026-10-16）。今回の合意範囲に未完了の実装予定はありません。
+完了範囲・対象外・維持する仕様と回帰テストは
+[整数bindingの開発引き継ぎ](int_binding.md#開発完了と拡張時の確認)を参照してください。
 
 ## 浮動小数点値のMVVMとQDoubleSpinBox
 

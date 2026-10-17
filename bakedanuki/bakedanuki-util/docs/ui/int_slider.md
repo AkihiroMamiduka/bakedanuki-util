@@ -133,12 +133,15 @@ Python同期行は生成時にPython初期値42をMayaへ適用します。
 `tests/ui/test_int_slider_maya.py`はMaya同期・Undo・接続属性・サンプルを検証します。
 公開型は`tests/typecheck/int_slider_contract.py`、最終検証は`scripts/verify.cmd`を使用します。
 
-## 後続段階
+## 段階ごとの完了状況
 
 第一段階の`IntSlider`単体と連続編集、操作サンプルは利用者確認とpushが完了しました。
-第二段階の`IntSliderSpinBox`・`IntRangeSliderSpinBox`と設定保存も実装済みです。
+第二段階の`IntSliderSpinBox`・`IntRangeSliderSpinBox`と設定保存も利用者確認とpushが完了しました。
 仕様と追加サンプルは[整数Slider複合Viewと設定保存](int_range_slider_spin_box.md)を参照してください。
-第三段階のbdChannelBoxへのSlider組込みも実装済みです。整数2／3成分MVVMは計画対象外です。
+第三段階のbdChannelBoxへのSlider組込みとbyte範囲判定の修正も、
+利用者確認とpushが完了しました（2026-10-16、確認したMaya versionは未申告）。
+三段階の合意範囲は開発完了です。整数2／3成分MVVMは計画対象外です。
+今後の拡張時は[整数bindingの開発引き継ぎ](int_binding.md#開発完了と拡張時の確認)を参照してください。
 
 ## Maya本体の確認（2026-10-15）
 

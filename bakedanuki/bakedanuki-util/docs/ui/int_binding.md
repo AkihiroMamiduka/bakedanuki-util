@@ -5,7 +5,8 @@
 `IntBinding`は単一の符号付き32-bit整数を`IntValueStore`へ接続します。
 `IntSpinBox`・`IntLabel`・`IntSlider`は同じ`IntViewModel`を共有します。
 正本には`PythonIntAttributeStore`、またはMayaのbyte・short・long属性を接続できます。
-bdChannelBoxへの組込みと初回範囲の利用者確認・pushは完了しています。
+整数Step・Sliderの拡張とbdChannelBoxへの組込みまで、合意した開発範囲の
+利用者確認・pushが完了しています（2026-10-16）。
 Python正本をQtとMaya属性へ同期する場合は
 [`MayaIntBinding`／`MayaIntPlugView`](python_int_maya_binding.md)を使用します。
 
@@ -106,18 +107,34 @@ bdChannelBoxはこの入力方針を使用し、上下・整列・値Pasteも同
 入力接続表示のKey Altered判定はDGの整数変換後の値で比較し、
 小数補間や32-bit端の1だけの変更を誤判定しません。
 
-## 後続の実装計画
+## 開発完了と拡張時の確認
+
+今回の合意範囲に未完了の実装予定はありません。整数Sliderの第三段階とbyte判定の修正も、
+利用者による操作確認・pushが完了しました（2026-10-16、確認したMaya versionは未申告）。
+完了時点のcommitはutilが`233f2b47`、利用側toolsが`3aee7c3`です。
+
+| 完了した範囲 | 主なAPI・仕様 |
+| --- | --- |
+| Python整数の正本と共有View | `IntBinding.from_attribute()`、`IntSpinBox`、`IntLabel` |
+| Maya整数属性の正本 | `resolve_int_plug()`、`MayaIntPlugBinding`、`MayaIntPlugsBinding` |
+| Python正本とMayaの同期 | `MayaIntBinding`、`MayaIntPlugView` |
+| 接続属性の入力 | 時間カーブ・SDK、short／longのAnimation Layer、Auto Keyと整数評価 |
+| Step編集と保存 | `IntStepSpinBox`、`IntValueStepSpinBox`、`IntStepProfile` |
+| Sliderと複合View | `IntSlider`、`IntSliderSpinBox`、`IntRangeSliderSpinBox`、範囲・Stepの保存復元 |
+| bdChannelBoxへの組込み | 複数選択、一括入力、整列、状態操作、Copy／Paste、連続Undo、入力中断 |
+
+### 段階ごとの完了記録
 
 初回の基盤・サンプル・Maya属性連携・bdChannelBox組込みは利用者確認とpushが完了しています。
 接続属性編集と入力操作の統一も利用者によるMaya本体確認とpushが完了しました。
 Python正本とMaya属性の同期も利用者確認とpushが完了しました。
 整数Step欄の加算・10倍方式、設定保存とbdChannelBoxへの組込みも利用者確認とpushが完了しました。
 詳細と操作サンプルは[整数Stepの入力と保存](int_step.md)を参照してください。
-整数Slider拡張は次の三段階に分け、各段階で利用者が確認・commitします。
+整数Slider拡張は次の三段階に分け、各段階で利用者が確認・commitしました。
 
 1. `IntSlider`単体・連続編集・Maya Undo・操作サンプル（利用者確認・push完了）
 2. Sliderと数値欄・範囲設定付きSlider、範囲・Stepの保存復元（利用者確認・push完了）
-3. bdChannelBoxへのSlider組込みと複数選択・中断・配置の確認（実装済み、利用者確認待ち）
+3. bdChannelBoxへのSlider組込みと複数選択・中断・配置の確認（利用者確認・push完了）
 
 第一段階の仕様とサンプルは[整数Sliderと連続編集](int_slider.md)を参照してください。
 第二段階は[整数Slider複合Viewと設定保存](int_range_slider_spin_box.md)を参照してください。
@@ -131,7 +148,7 @@ Maya上で実際に片側のhard limitが未指定なら、その側だけ`None`
 Binding終了後や代表属性が利用不能の場合は`RuntimeError`です。
 bdChannelBoxはこの情報で整数Sliderを選び、型範囲を常に持つ`IntPresentation`と区別します。
 
-第三段階のutil検証は`scripts/verify.cmd`が終了code 0で完了しました。
+第三段階の初回util検証は`scripts/verify.cmd`が終了code 0で完了しました。
 Black・3 versionの型契約・Maya 2025 full pytestに加え、Maya 2025／2026／2027の
 Qt UI各1092件、Maya UI各816件が成功しています。
 明示hard limitの新規12件を含む整数Binding testは各versionで20件成功しました。
@@ -144,12 +161,58 @@ Black・3 versionの型契約・Maya 2025 full pytestに加え、
 Maya 2025／2026／2027のQt UI各1092件・Maya UI各826件が成功しました。
 整数Binding testは各30件で、標準色属性、狭いbyte範囲、片側制限を追加確認しています。
 
-整数2／3成分を一体で扱うMVVMは今回の計画に含めません。
-
 接続編集は`tests/maya/ui/test_connected_int_binding.py`の105件で、時間カーブ・SDK・Layer、
 小数キー復旧・範囲検証・整数評価・三つの値Paste APIを検証します。
 Enterとマウス選択は`tests/ui/test_int_spin_box_interaction.py`の7件と既存floatの回帰テストで
 確認します。`verify.cmd`を通じてMaya 2025／2026／2027ですべて通過しました。
+
+### 拡張時に維持する仕様
+
+- 公開値は符号付き32-bitの`int`を保ち、`bool`・小数・文字列・範囲外のPython整数を暗黙変換しません。
+  Sliderの写像とStepの演算にもfloatを使わず、数値欄では32-bit両端と隣り合う整数を正確に扱います。
+- Maya属性を正本にするBindingは生成時に書き込みません。Python正本の`MayaIntBinding`は
+  Python初期値をMayaへ適用します。正本の選択に応じて入口を使い分けます。
+- 入力制約の`IntPresentation`とSlider選別用の`hard_limits`を区別します。
+  byteの0～255だけを組として除外し、0～31の下限0や10～255の上限255を失わないようにします。
+- Step欄の10倍操作と、値欄へStepを加減する操作を区別します。
+  Stepは1以上で、下方向は整数除算、上限超過では現在値を維持します。
+  Sliderの分割数はStepから独立し、大きな範囲では全整数をSlider位置へ一対一に割り当てません。
+- 範囲・StepはView設定です。変更・保存・復元で正本・scene・hard limit・Undoを変更しません。
+  Slider範囲外の現在値も保持し、bdChannelBoxでSlider表示へ切り替えても保存済みStepを残します。
+- 連続編集は一操作一回のUndoへまとめます。時刻・選択・範囲変更やcloseで操作を確定終了し、
+  一括入力は全対象の制限を先に検証します。不正な更新で既に成功した更新まで取り消しません。
+- 接続編集はMayaのAuto Keyと編集先に従います。属性の整数評価とカーブの小数キーを区別し、
+  Undoや失敗復旧では元のキー値と接線を保持します。
+- Viewだけの破棄では共有Bindingを終了しません。Bindingの終了では入力を止め、
+  callbackを解放します。util更新時は`bd_tools.reload_package(reload_util=True)`で反映します。
+
+### 対象外と今後の再開判断
+
+整数2／3成分を一つの正本として扱うMVVMは、利用者の方針により今回の対象外です。
+対応するcompound子を単独の整数属性として編集する機能は実装済みです。
+32-bitを超えるPython整数とMayaの`int64`、time、配列・compound親も対象外です。
+一般接続・constraintなどの未対応経路を一律に編集可能にはしません。
+
+これらとbdChannelBox側のSlider範囲カスタマイズは、実装予定として確定していません。
+必要な用途ができた時点で正本・入力範囲・Maya標準挙動・保存形式を確認して検討します。
+Maya標準でbyteをAnimation Layerへ登録できない制約も、未完了の実装として扱いません。
+
+### 回帰検証の入口
+
+| 変更対象 | 主なtest |
+| --- | --- |
+| 整数正本・共有View・入力操作 | `tests/ui/test_int_binding.py`、`test_int_spin_box_interaction.py` |
+| Maya属性とhard limit | `tests/maya/ui/test_int_plugs_binding.py`、`test_int_plug_view.py` |
+| Python正本とMaya同期 | `tests/ui/test_python_int_maya_view.py` |
+| 時間カーブ・SDK・Layer・値転送 | `tests/maya/ui/test_connected_int_binding.py`、`test_int_scalar_value_transfer.py` |
+| Step・保存・復元・サンプル | `tests/ui/test_int_step.py` |
+| Slider・複合View・連続Undo | `tests/ui/test_int_slider.py`、`test_int_slider_maya.py`、`test_int_range_slider_spin_box.py`、`test_int_range_slider_spin_box_maya.py` |
+| bdChannelBoxでの一括入力・中断・Step保持 | toolsの`tests/maya/test_bd_channel_box_int.py`、`test_bd_channel_box_int_slider.py` |
+
+公開APIを変更するときは`tests/typecheck`の整数・Python整数同期contractも更新します。
+utilの実装変更後は最終入口の`scripts/verify.cmd`を使い、利用側はtoolsの
+`scripts/check.cmd`と関連Maya testを確認します。Maya本体の表示・操作確認と利用者報告は、
+自動テストや全対応versionでの確認とは分けて記録します。
 
 ## Python属性のサンプル
 

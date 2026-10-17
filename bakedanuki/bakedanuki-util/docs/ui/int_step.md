@@ -83,7 +83,10 @@ Profileの保存形式は`int_step_profile`、内部JSONのversionは1で、整�
 
 ## bdChannelBox
 
-整数行はhard limitの有無にかかわらず`[値][Step]`を表示し、既定1・10倍方式を使用します。
+明示された両側hard limitが`Min < Max`を満たす整数行は`[値][Slider]`、
+それ以外は`[値][Step]`を表示します。Step欄の既定は1・10倍方式です。
+byteの型既定の全範囲0～255だけではSliderへ切り替えません。0～31などの狭い範囲は対象です。
+範囲の選別は[整数binding](int_binding.md#開発完了と拡張時の確認)を参照してください。
 選択中のStep欄を持つ行へ同じ数値を設定し、各行の方式は維持します。
 未選択行からの操作はその行だけが対象です。Step欄がない行は対象外理由を表示します。
 
@@ -97,7 +100,9 @@ Step変更はsceneとMaya Undoを変更しません。値欄の上下は現在�
 node名・node型・namespace・sceneを含めず、同じpathでもbyte・short・longで設定を分けます。
 既定値1と同じ設定は保存せず、既存floatの`attribute_steps`の形式を維持します。
 close・再表示・reload・Maya再起動後に復元し、配置リセットでは保持します。
-既存の「Step設定」の選択属性／全属性リセットは整数も対象にし、全属性には画面外の保存値も含めます。
+Slider表示中も保存済みStepを保持し、Step表示へ戻ると復元します。
+既存の「Step設定」の選択属性リセットはStep欄のある整数行も対象にします。
+全属性リセットには、画面外やSlider表示中の保存値も含めます。
 
 ## 操作サンプル
 
