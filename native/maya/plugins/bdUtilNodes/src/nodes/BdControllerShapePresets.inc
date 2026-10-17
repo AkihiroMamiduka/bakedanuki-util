@@ -1,26 +1,38 @@
 // Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 114> kPresetNames = {
+constexpr std::array<const char*, 128> kPresetNames = {
     "Gear",
     "GearFilled",
     "Line1st",
     "Line1stEndArrow",
     "Line1stEndArrowFilled",
+    "Line1stWideEndArrow",
+    "Line1stWideEndArrowFilled",
     "Line2nd",
     "Line2ndEndArrow",
     "Line2ndEndArrowFilled",
+    "Line2ndWideEndArrow",
+    "Line2ndWideEndArrowFilled",
     "Line3rd",
     "Line3rdEndArrow",
     "Line3rdEndArrowFilled",
+    "Line3rdWideEndArrow",
+    "Line3rdWideEndArrowFilled",
     "CrossLine1st2nd",
     "CrossLine1st2ndEndArrow",
     "CrossLine1st2ndEndArrowFilled",
+    "CrossLine1st2ndWideEndArrow",
+    "CrossLine1st2ndWideEndArrowFilled",
     "CrossLine1st3rd",
     "CrossLine1st3rdEndArrow",
     "CrossLine1st3rdEndArrowFilled",
+    "CrossLine1st3rdWideEndArrow",
+    "CrossLine1st3rdWideEndArrowFilled",
     "CrossLine2nd3rd",
     "CrossLine2nd3rdEndArrow",
     "CrossLine2nd3rdEndArrowFilled",
+    "CrossLine2nd3rdWideEndArrow",
+    "CrossLine2nd3rdWideEndArrowFilled",
     "CrossLine3Axis",
     "Triangle",
     "TriangleFilled",
@@ -74,6 +86,8 @@ constexpr std::array<const char*, 114> kPresetNames = {
     "SemicircleFilled",
     "SemicircleEndArrow",
     "SemicircleEndArrowFilled",
+    "SemicircleWideEndArrow",
+    "SemicircleWideEndArrowFilled",
     "SemicircleArrow2D",
     "SemicircleArrow2DFilled",
     "SemicircleArrow3D",
@@ -122,27 +136,39 @@ struct PresetInfo {
     bool filled;
 };
 
-constexpr std::array<PresetInfo, 114> kPresetInfo = {{
+constexpr std::array<PresetInfo, 128> kPresetInfo = {{
     {0, false},  // Gear
     {0, true},  // GearFilled
     {1, false},  // Line1st
     {54, false},  // Line1stEndArrow
     {54, true},  // Line1stEndArrowFilled
+    {62, false},  // Line1stWideEndArrow
+    {62, true},  // Line1stWideEndArrowFilled
     {2, false},  // Line2nd
     {55, false},  // Line2ndEndArrow
     {55, true},  // Line2ndEndArrowFilled
+    {63, false},  // Line2ndWideEndArrow
+    {63, true},  // Line2ndWideEndArrowFilled
     {3, false},  // Line3rd
     {56, false},  // Line3rdEndArrow
     {56, true},  // Line3rdEndArrowFilled
+    {64, false},  // Line3rdWideEndArrow
+    {64, true},  // Line3rdWideEndArrowFilled
     {52, false},  // CrossLine1st2nd
     {57, false},  // CrossLine1st2ndEndArrow
     {57, true},  // CrossLine1st2ndEndArrowFilled
+    {65, false},  // CrossLine1st2ndWideEndArrow
+    {65, true},  // CrossLine1st2ndWideEndArrowFilled
     {53, false},  // CrossLine1st3rd
     {58, false},  // CrossLine1st3rdEndArrow
     {58, true},  // CrossLine1st3rdEndArrowFilled
+    {66, false},  // CrossLine1st3rdWideEndArrow
+    {66, true},  // CrossLine1st3rdWideEndArrowFilled
     {4, false},  // CrossLine2nd3rd
     {59, false},  // CrossLine2nd3rdEndArrow
     {59, true},  // CrossLine2nd3rdEndArrowFilled
+    {67, false},  // CrossLine2nd3rdWideEndArrow
+    {67, true},  // CrossLine2nd3rdWideEndArrowFilled
     {5, false},  // CrossLine3Axis
     {6, false},  // Triangle
     {6, true},  // TriangleFilled
@@ -196,6 +222,8 @@ constexpr std::array<PresetInfo, 114> kPresetInfo = {{
     {30, true},  // SemicircleFilled
     {61, false},  // SemicircleEndArrow
     {61, true},  // SemicircleEndArrowFilled
+    {68, false},  // SemicircleWideEndArrow
+    {68, true},  // SemicircleWideEndArrowFilled
     {31, false},  // SemicircleArrow2D
     {31, true},  // SemicircleArrow2DFilled
     {32, false},  // SemicircleArrow3D
@@ -888,8 +916,150 @@ void appendStraightLines(
     }
 }
 
+struct WideEndArrowGeometry {
+    std::vector<MPoint> outline;
+    std::vector<ArrowHead> triangles;
+};
+
+WideEndArrowGeometry wideEndArrowGeometry(short outline) {
+    WideEndArrowGeometry geometry;
+    constexpr double shaftHalfWidth = 0.025;
+    constexpr double headHalfWidth = 0.05;
+    const double depth = 0.1 * std::cos(kPi / 6.0);
+    const double shoulder = 0.5 - depth;
+    const auto triangle = [&](MPoint first, MPoint second, MPoint third) {
+        if (((second - first) ^ (third - first)).z < 0.0) {
+            std::swap(second, third);
+        }
+        geometry.triangles.push_back({first, second, third});
+    };
+    const auto quad = [&](MPoint first, MPoint second, MPoint third, MPoint fourth) {
+        triangle(first, second, third);
+        triangle(first, third, fourth);
+    };
+    // Split each head base at the shaft joins to keep triangle edges aligned.
+    const auto head = [&](MPoint tip, const std::array<MPoint, 4>& base) {
+        for (std::size_t index = 0; index + 1 < base.size(); ++index) {
+            triangle(tip, base[index], base[index + 1]);
+        }
+    };
+
+    if (outline == 68) {
+        constexpr double outerRadius = 0.5 + shaftHalfWidth;
+        constexpr double innerRadius = 0.5 - shaftHalfWidth;
+        const double outerJoin = std::sqrt(outerRadius * outerRadius - depth * depth);
+        const double innerJoin = std::sqrt(innerRadius * innerRadius - depth * depth);
+        std::vector<MPoint> outer = {MPoint(outerJoin, depth, 0.0)};
+        std::vector<MPoint> inner = {MPoint(innerJoin, depth, 0.0)};
+        // Clip both arc edges at the head bases and sample their remaining angles together.
+        for (unsigned int index = 1; index < kCircleSegments / 2; ++index) {
+            const double angle = 2.0 * kPi * index / kCircleSegments;
+            if (innerRadius * std::sin(angle) <= depth) continue;
+            outer.emplace_back(outerRadius * std::cos(angle), outerRadius * std::sin(angle), 0.0);
+            inner.emplace_back(innerRadius * std::cos(angle), innerRadius * std::sin(angle), 0.0);
+        }
+        outer.emplace_back(-outerJoin, depth, 0.0);
+        inner.emplace_back(-innerJoin, depth, 0.0);
+        geometry.outline = {MPoint(0.5, 0.0, 0.0), MPoint(0.55, depth, 0.0)};
+        geometry.outline.insert(geometry.outline.end(), outer.begin(), outer.end());
+        geometry.outline.insert(geometry.outline.end(), {
+            MPoint(-0.55, depth, 0.0), MPoint(-0.5, 0.0, 0.0), MPoint(-0.45, depth, 0.0),
+        });
+        geometry.outline.insert(geometry.outline.end(), inner.rbegin(), inner.rend());
+        geometry.outline.emplace_back(0.45, depth, 0.0);
+        for (std::size_t index = 0; index + 1 < outer.size(); ++index) {
+            quad(outer[index], outer[index + 1], inner[index + 1], inner[index]);
+        }
+        head(MPoint(0.5, 0.0, 0.0), {{
+            MPoint(0.55, depth, 0.0), outer.front(), inner.front(), MPoint(0.45, depth, 0.0),
+        }});
+        head(MPoint(-0.5, 0.0, 0.0), {{
+            MPoint(-0.45, depth, 0.0), inner.back(), outer.back(), MPoint(-0.55, depth, 0.0),
+        }});
+    } else {
+        const bool cross = outline >= 65;
+        const auto point = [](double along, double side, unsigned int axis) {
+            return axis == 0 ? MPoint(along, side, 0.0) : MPoint(side, along, 0.0);
+        };
+        if (cross) {
+            quad(MPoint(-shaftHalfWidth, -shaftHalfWidth, 0.0),
+                MPoint(shaftHalfWidth, -shaftHalfWidth, 0.0),
+                MPoint(shaftHalfWidth, shaftHalfWidth, 0.0),
+                MPoint(-shaftHalfWidth, shaftHalfWidth, 0.0));
+        } else {
+            quad(MPoint(-shoulder, -shaftHalfWidth, 0.0),
+                MPoint(shoulder, -shaftHalfWidth, 0.0),
+                MPoint(shoulder, shaftHalfWidth, 0.0),
+                MPoint(-shoulder, shaftHalfWidth, 0.0));
+        }
+        for (unsigned int axis = 0; axis < (cross ? 2u : 1u); ++axis) {
+            for (double sign : {-1.0, 1.0}) {
+                if (cross) {
+                    const double start = sign * shaftHalfWidth;
+                    quad(point(start, -shaftHalfWidth, axis),
+                        point(sign * shoulder, -shaftHalfWidth, axis),
+                        point(sign * shoulder, shaftHalfWidth, axis),
+                        point(start, shaftHalfWidth, axis));
+                }
+                head(point(sign * 0.5, 0.0, axis), {{
+                    point(sign * shoulder, -headHalfWidth, axis),
+                    point(sign * shoulder, -shaftHalfWidth, axis),
+                    point(sign * shoulder, shaftHalfWidth, axis),
+                    point(sign * shoulder, headHalfWidth, axis),
+                }});
+            }
+        }
+        if (cross) {
+            geometry.outline = {
+                MPoint(0.5, 0.0, 0.0),
+                MPoint(shoulder, headHalfWidth, 0.0), MPoint(shoulder, shaftHalfWidth, 0.0),
+                MPoint(shaftHalfWidth, shaftHalfWidth, 0.0),
+                MPoint(shaftHalfWidth, shoulder, 0.0), MPoint(headHalfWidth, shoulder, 0.0),
+                MPoint(0.0, 0.5, 0.0),
+                MPoint(-headHalfWidth, shoulder, 0.0), MPoint(-shaftHalfWidth, shoulder, 0.0),
+                MPoint(-shaftHalfWidth, shaftHalfWidth, 0.0),
+                MPoint(-shoulder, shaftHalfWidth, 0.0), MPoint(-shoulder, headHalfWidth, 0.0),
+                MPoint(-0.5, 0.0, 0.0),
+                MPoint(-shoulder, -headHalfWidth, 0.0), MPoint(-shoulder, -shaftHalfWidth, 0.0),
+                MPoint(-shaftHalfWidth, -shaftHalfWidth, 0.0),
+                MPoint(-shaftHalfWidth, -shoulder, 0.0), MPoint(-headHalfWidth, -shoulder, 0.0),
+                MPoint(0.0, -0.5, 0.0),
+                MPoint(headHalfWidth, -shoulder, 0.0), MPoint(shaftHalfWidth, -shoulder, 0.0),
+                MPoint(shaftHalfWidth, -shaftHalfWidth, 0.0),
+                MPoint(shoulder, -shaftHalfWidth, 0.0), MPoint(shoulder, -headHalfWidth, 0.0),
+            };
+        } else {
+            geometry.outline = {
+                MPoint(-0.5, 0.0, 0.0),
+                MPoint(-shoulder, -headHalfWidth, 0.0), MPoint(-shoulder, -shaftHalfWidth, 0.0),
+                MPoint(shoulder, -shaftHalfWidth, 0.0), MPoint(shoulder, -headHalfWidth, 0.0),
+                MPoint(0.5, 0.0, 0.0),
+                MPoint(shoulder, headHalfWidth, 0.0), MPoint(shoulder, shaftHalfWidth, 0.0),
+                MPoint(-shoulder, shaftHalfWidth, 0.0), MPoint(-shoulder, headHalfWidth, 0.0),
+            };
+        }
+    }
+    geometry.outline.push_back(geometry.outline.front());
+    constexpr std::array<std::array<unsigned int, 2>, 7> planes = {{{0, 1}, {1, 0}, {2, 0},
+        {0, 1}, {0, 2}, {1, 2}, {2, 1}}};
+    const auto& plane = planes[outline - 62];
+    const auto nativePoint = [&](const MPoint& point) {
+        return MPoint::origin + nativeAxis(plane[0]) * point.x + nativeAxis(plane[1]) * point.y;
+    };
+    for (auto& point : geometry.outline) point = nativePoint(point);
+    for (auto& face : geometry.triangles) {
+        for (auto& point : face) point = nativePoint(point);
+    }
+    return geometry;
+}
+
 void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes& strokes, std::vector<StrokeStyle>& styles) {
     const short outline = outlinePresetIndex(shape);
+    if (outline >= 62 && outline <= 68) {
+        appendNativeStroke(wideEndArrowGeometry(outline).outline,
+            StrokeStyle::Normal, transform, strokes, styles);
+        return;
+    }
     if ((outline >= 54 && outline <= 59) || outline == 61) {
         for (const auto& head : endArrowHeads(outline)) {
             appendNativeStroke({head[0], head[1], head[2]},

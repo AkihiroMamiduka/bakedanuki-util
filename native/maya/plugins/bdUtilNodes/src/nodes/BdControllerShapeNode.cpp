@@ -911,6 +911,17 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
     MPointArray triangles;
     MPointArray templateTriangles;
     switch (outline) {
+        case 62:  // Line1stWideEndArrow
+        case 63:  // Line2ndWideEndArrow
+        case 64:  // Line3rdWideEndArrow
+        case 65:  // CrossLine1st2ndWideEndArrow
+        case 66:  // CrossLine1st3rdWideEndArrow
+        case 67:  // CrossLine2nd3rdWideEndArrow
+        case 68:  // SemicircleWideEndArrow
+            for (const auto& face : wideEndArrowGeometry(outline).triangles) {
+                appendFillTriangle(triangles, transform, face[0], face[1], face[2]);
+            }
+            break;
         case 54:  // Line1stEndArrow
         case 55:  // Line2ndEndArrow
         case 56:  // Line3rdEndArrow

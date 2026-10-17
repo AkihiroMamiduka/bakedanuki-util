@@ -75,7 +75,7 @@ mod.do_it_dg()
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `shape` | enum | `Cube` (47) | 下表の114種類。`Gear` を一覧の先頭とし、初期値は `Cube` |
+| `shape` | enum | `Cube` (59) | 下表の128種類。`Gear` を一覧の先頭とし、初期値は `Cube` |
 | `shape1stAxis` | enum | `+X` (0) | 基準形状の主軸 `+X` を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準形状の補助軸 `+Y` を向ける方向。選択肢は `shape1stAxis` と同じ |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
@@ -103,18 +103,19 @@ mod.do_it_dg()
 
 | 値 | 形状 |
 | --- | --- |
-| 0–9 | `Gear`、`GearFilled`、`Line1st`、`Line1stEndArrow`、`Line1stEndArrowFilled`、`Line2nd`、`Line2ndEndArrow`、`Line2ndEndArrowFilled`、`Line3rd`、`Line3rdEndArrow` |
-| 10–19 | `Line3rdEndArrowFilled`、`CrossLine1st2nd`、`CrossLine1st2ndEndArrow`、`CrossLine1st2ndEndArrowFilled`、`CrossLine1st3rd`、`CrossLine1st3rdEndArrow`、`CrossLine1st3rdEndArrowFilled`、`CrossLine2nd3rd`、`CrossLine2nd3rdEndArrow`、`CrossLine2nd3rdEndArrowFilled` |
-| 20–29 | `CrossLine3Axis`、`Triangle`、`TriangleFilled`、`TriangleArrow3D`、`TriangleArrow3DFilled`、`Square`、`SquareFilled`、`SquareArrow2D`、`SquareArrow2DFilled`、`SquareArrow3D` |
-| 30–39 | `SquareArrow3DFilled`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine2DFilled`、`SquareArrowCrossLine3D`、`SquareArrowCrossLine3DFilled`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate2DFilled`、`SquareArrowCrossLineTemplate3D`、`SquareArrowCrossLineTemplate3DFilled`、`SquareArrow4Way2D` |
-| 40–49 | `SquareArrow4Way2DFilled`、`SquareArrow4Way3D`、`SquareArrow4Way3DFilled`、`SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way2DFilled`、`SquareTemplateArrow4Way3D`、`SquareTemplateArrow4Way3DFilled`、`Cube`、`CubeFilled`、`CubeArrow2D` |
-| 50–59 | `CubeArrow2DFilled`、`CubeArrow3D`、`CubeArrow3DFilled`、`CubeFin`、`CubeFinFilled`、`CubeFinArrow`、`CubeFinArrowFilled`、`Octahedron`、`OctahedronFilled`、`OctahedronArrow` |
-| 60–69 | `OctahedronArrowFilled`、`OctahedronArrowFin`、`OctahedronArrowFinFilled`、`Circle`、`CircleFilled`、`CircleArrow2D`、`CircleArrow2DFilled`、`CircleArrow3D`、`CircleArrow3DFilled`、`Semicircle` |
-| 70–79 | `SemicircleFilled`、`SemicircleEndArrow`、`SemicircleEndArrowFilled`、`SemicircleArrow2D`、`SemicircleArrow2DFilled`、`SemicircleArrow3D`、`SemicircleArrow3DFilled`、`Sphere`、`SphereFilled`、`SphereArrow2D` |
-| 80–89 | `SphereArrow2DFilled`、`SphereArrow3D`、`SphereArrow3DFilled`、`Cylinder`、`CylinderFilled`、`CylinderFin`、`CylinderFinFilled`、`CylinderFinArrow`、`CylinderFinArrowFilled`、`Arrow` |
-| 90–99 | `ArrowFilled`、`ArrowFin`、`ArrowFinFilled`、`Pyramid`、`PyramidFilled`、`PyramidFin`、`PyramidFinFilled`、`Cone`、`ConeFilled`、`ConeFin` |
-| 100–109 | `ConeFinFilled`、`ColorCrossLine3Axis`、`ColorCube`、`ColorCubeFilled`、`ColorCornerCube`、`ColorCornerCubeFilled`、`ColorSphere`、`ColorSphereFilled`、`ColorSphereArrow2D`、`ColorSphereArrow2DFilled` |
-| 110–113 | `ColorSphereArrow3D`、`ColorSphereArrow3DFilled`、`ColorSphereCrossLine`、`ColorSphereCrossLineFilled` |
+| 0–9 | `Gear`、`GearFilled`、`Line1st`、`Line1stEndArrow`、`Line1stEndArrowFilled`、`Line1stWideEndArrow`、`Line1stWideEndArrowFilled`、`Line2nd`、`Line2ndEndArrow`、`Line2ndEndArrowFilled` |
+| 10–19 | `Line2ndWideEndArrow`、`Line2ndWideEndArrowFilled`、`Line3rd`、`Line3rdEndArrow`、`Line3rdEndArrowFilled`、`Line3rdWideEndArrow`、`Line3rdWideEndArrowFilled`、`CrossLine1st2nd`、`CrossLine1st2ndEndArrow`、`CrossLine1st2ndEndArrowFilled` |
+| 20–29 | `CrossLine1st2ndWideEndArrow`、`CrossLine1st2ndWideEndArrowFilled`、`CrossLine1st3rd`、`CrossLine1st3rdEndArrow`、`CrossLine1st3rdEndArrowFilled`、`CrossLine1st3rdWideEndArrow`、`CrossLine1st3rdWideEndArrowFilled`、`CrossLine2nd3rd`、`CrossLine2nd3rdEndArrow`、`CrossLine2nd3rdEndArrowFilled` |
+| 30–39 | `CrossLine2nd3rdWideEndArrow`、`CrossLine2nd3rdWideEndArrowFilled`、`CrossLine3Axis`、`Triangle`、`TriangleFilled`、`TriangleArrow3D`、`TriangleArrow3DFilled`、`Square`、`SquareFilled`、`SquareArrow2D` |
+| 40–49 | `SquareArrow2DFilled`、`SquareArrow3D`、`SquareArrow3DFilled`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine2DFilled`、`SquareArrowCrossLine3D`、`SquareArrowCrossLine3DFilled`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate2DFilled`、`SquareArrowCrossLineTemplate3D` |
+| 50–59 | `SquareArrowCrossLineTemplate3DFilled`、`SquareArrow4Way2D`、`SquareArrow4Way2DFilled`、`SquareArrow4Way3D`、`SquareArrow4Way3DFilled`、`SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way2DFilled`、`SquareTemplateArrow4Way3D`、`SquareTemplateArrow4Way3DFilled`、`Cube` |
+| 60–69 | `CubeFilled`、`CubeArrow2D`、`CubeArrow2DFilled`、`CubeArrow3D`、`CubeArrow3DFilled`、`CubeFin`、`CubeFinFilled`、`CubeFinArrow`、`CubeFinArrowFilled`、`Octahedron` |
+| 70–79 | `OctahedronFilled`、`OctahedronArrow`、`OctahedronArrowFilled`、`OctahedronArrowFin`、`OctahedronArrowFinFilled`、`Circle`、`CircleFilled`、`CircleArrow2D`、`CircleArrow2DFilled`、`CircleArrow3D` |
+| 80–89 | `CircleArrow3DFilled`、`Semicircle`、`SemicircleFilled`、`SemicircleEndArrow`、`SemicircleEndArrowFilled`、`SemicircleWideEndArrow`、`SemicircleWideEndArrowFilled`、`SemicircleArrow2D`、`SemicircleArrow2DFilled`、`SemicircleArrow3D` |
+| 90–99 | `SemicircleArrow3DFilled`、`Sphere`、`SphereFilled`、`SphereArrow2D`、`SphereArrow2DFilled`、`SphereArrow3D`、`SphereArrow3DFilled`、`Cylinder`、`CylinderFilled`、`CylinderFin` |
+| 100–109 | `CylinderFinFilled`、`CylinderFinArrow`、`CylinderFinArrowFilled`、`Arrow`、`ArrowFilled`、`ArrowFin`、`ArrowFinFilled`、`Pyramid`、`PyramidFilled`、`PyramidFin` |
+| 110–119 | `PyramidFinFilled`、`Cone`、`ConeFilled`、`ConeFin`、`ConeFinFilled`、`ColorCrossLine3Axis`、`ColorCube`、`ColorCubeFilled`、`ColorCornerCube`、`ColorCornerCubeFilled` |
+| 120–127 | `ColorSphere`、`ColorSphereFilled`、`ColorSphereArrow2D`、`ColorSphereArrow2DFilled`、`ColorSphereArrow3D`、`ColorSphereArrow3DFilled`、`ColorSphereCrossLine`、`ColorSphereCrossLineFilled` |
 
 基準となる部分はローカル座標の各軸でおおむね `-0.5` から `+0.5` を使います。
 矢印やフィンはその範囲から張り出す設計です。形状全体を長さ1に正規化しません。
@@ -142,12 +143,28 @@ mod.do_it_dg()
 曲線の接線に沿って外向きにします。既定軸では半円はYZ平面の上半分で、
 両端の矢印はともに `-Y` を向き、2nd–3rd平面に配置します。
 
-`*EndArrowFilled` は端点矢印の三角形だけを通常色で塗り、
+通常の `EndArrowFilled` は端点矢印の三角形だけを通常色で塗り、
 半円の内側は塗りません。
 輪郭線に底辺は追加せず、線・曲線の本体を維持します。
 面には `shapeFillTransparency` を適用し、Wireframeでは通常のFilled形状と同様に
 輪郭線だけを表示します。寸法と角度は基準形状での値であり、
 軸指定、非等方スケール、回転、animation matrixなど既存の形状変形に追従します。
+
+同じ7系列に `WideEndArrow` と `WideEndArrowFilled` を用意します。
+先端位置、斜辺 `0.1`、開き角60°、底辺幅 `0.1` は通常のEndArrowと共通です。
+軸は中心線の両側へ `0.025` ずつ離した幅 `0.05` の帯とし、
+矢印の付け根へ接続した閉じた輪郭を描きます。中心線や付け根の内側の線は描きません。
+3種類のCrossLineは2本の帯を一つの十字にまとめ、中央の内部線や面の重複を作りません。
+配置平面は対応する通常のEndArrowと同じです。
+
+`SemicircleWideEndArrow*` は半径 `0.5` の半円を中心に、
+内側半径 `0.475`、外側半径 `0.525` の帯を配置します。
+帯の両端は矢印の付け根の高さ `0.1 × cos(30°)` で切り、
+元の端点にある矢印へつなぎます。半円の頂点は高さ `0.525` になります。
+`WideEndArrowFilled` は帯と矢印の内側全体を通常色で塗り、
+半円の中央の空間は残します。面には `shapeFillTransparency` を適用し、
+Wireframeでは閉じた輪郭だけを表示します。
+各系列の一覧では、通常のEndArrowとFilledの次にWide版とそのFilledを並べます。
 
 `*Filled` は既存形状の輪郭を保ち、面を加えた形状です。純粋な線形状
 （`Line1st/2nd/3rd`、`CrossLine1st2nd/1st3rd/2nd3rd/3Axis`、`ColorCrossLine3Axis`）以外の
@@ -570,7 +587,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 34. 複数ビューポートで Selection Highlighting のオン・オフを別々に設定し、それぞれの表示色が独立する。template 色・選択不可の線と、通常線への色オーバーライドも確認する。
 35. `Line1st`、`Line2nd`、`Line3rd` が既定軸で X、Y、Z の各方向へ長さ1の線として表示され、`shape1stAxis` と `shape2ndAxis` を変更すると対応する方向へ回る。
 36. `CubeFinArrow` と `CylinderFinArrow` の斜線が `-1stAxis` 側の高い位置から `+1stAxis` 側の本体上端へ伸び、軸指定・拡縮後も本体とフィンの接点が離れない。
-37. 53種の `*Filled` を切り替え、Shaded で面と輪郭線、Wireframe で輪郭線、Wireframe on Shaded で両方が表示される。`ColorCornerCubeFilled` の小四角はWireframeでも残る。Shaded では面内をクリックして親 `transform` を選択できる。
+37. 60種の `*Filled` を切り替え、Shaded で面と輪郭線、Wireframe で輪郭線、Wireframe on Shaded で両方が表示される。`ColorCornerCubeFilled` の小四角はWireframeでも残る。Shaded では面内をクリックして親 `transform` を選択できる。
 38. `TriangleFilled`、`SquareFilled`、`CircleFilled` を表裏から見て、面の表示と選択を確認する。立体形状では Backface Culling のオン・オフ、円柱・円錐の側面と底面、ピラミッドの底面も確認する。
 39. `shapeFillTransparency` を `0`、`0.5`、`1` に変え、輪郭線の `shapeTransparency` と独立して面の透明度が変わる。半透明の Cube・Sphere で前後の面の重なりと描画順を確認する。
 40. `*Filled` で `shapeDrawOnTop` を切り替え、面と輪郭線が前面表示される。`shapeFillTransparency` を組み合わせても選択色とクリック選択が期待どおりか確認する。
@@ -581,8 +598,10 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 45. `ColorCornerCubeFilled` の `shapeTransparency` と `shapeFillTransparency` を別々に変え、小四角と本体面の透明度が独立して変わる。Selection Highlighting、Draw On Top、軸指定、負スケール、animation matrix、Undo/Redo、シーン再読込でも維持される。
 46. 4種類のCrossLineが名前どおりの平面・軸を使い、軸指定の変更に追従する。各EndArrowの先端は元の端点に一致し、斜辺0.1・開き角60°で底辺の輪郭線がない。
 47. `SemicircleEndArrow*` の両端で、矢印が接線に沿って外向きになる。
-48. 7種類の `*EndArrowFilled` は矢印部分だけを塗り、半円の内側を塗らない。Shadedで三角面内を選択でき、WireframeではV字の輪郭だけが残る。Selection Highlighting、透明度、Draw On Top、軸指定、負スケール、animation matrix、Undo/Redo、シーン再読込も確認する。
+48. 通常の7種類の `EndArrowFilled` は矢印部分だけを塗り、半円の内側を塗らない。Shadedで三角面内を選択でき、WireframeではV字の輪郭だけが残る。Selection Highlighting、透明度、Draw On Top、軸指定、負スケール、animation matrix、Undo/Redo、シーン再読込も確認する。
 49. shape自身・親transform・上位DAG・Display LayerそれぞれでNormal/Template/Referenceを指定し、Selection Highlightingがオフなら選択前後の線色・面表示・軸色が一致する。ColorCornerCubeの小四角、ColorCrossLine3AxisとColorSphereの軸色線も確認する。
+50. 7系列の `WideEndArrow` とFilled版は、斜辺0.1・開き角60°・先端位置を維持し、幅0.05の帯が矢印の付け根につながる。Wireframeでは閉じた外周のみを表示し、Filledでは帯と矢印の内側全体を塗る。
+51. 3種類の `CrossLine*WideEndArrowFilled` の中央に内部線がなく、半透明でも面の二重描画による色の濃い部分がない。`SemicircleWideEndArrowFilled` は半径0.475–0.525の帯と矢印だけを塗り、中央の空間を残す。透明度、Template/Reference、選択、負スケール、軸指定、animation matrixも確認する。
 
 実際のViewport 2.0を必要とする画像比較テストは
 `tests/maya/ui/test_controller_shape_viewport.py` にあります。既存作業とは別の

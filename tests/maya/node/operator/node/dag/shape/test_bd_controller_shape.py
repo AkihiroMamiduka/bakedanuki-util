@@ -20,21 +20,33 @@ SHAPE_NAMES = (
     "Line1st",
     "Line1stEndArrow",
     "Line1stEndArrowFilled",
+    "Line1stWideEndArrow",
+    "Line1stWideEndArrowFilled",
     "Line2nd",
     "Line2ndEndArrow",
     "Line2ndEndArrowFilled",
+    "Line2ndWideEndArrow",
+    "Line2ndWideEndArrowFilled",
     "Line3rd",
     "Line3rdEndArrow",
     "Line3rdEndArrowFilled",
+    "Line3rdWideEndArrow",
+    "Line3rdWideEndArrowFilled",
     "CrossLine1st2nd",
     "CrossLine1st2ndEndArrow",
     "CrossLine1st2ndEndArrowFilled",
+    "CrossLine1st2ndWideEndArrow",
+    "CrossLine1st2ndWideEndArrowFilled",
     "CrossLine1st3rd",
     "CrossLine1st3rdEndArrow",
     "CrossLine1st3rdEndArrowFilled",
+    "CrossLine1st3rdWideEndArrow",
+    "CrossLine1st3rdWideEndArrowFilled",
     "CrossLine2nd3rd",
     "CrossLine2nd3rdEndArrow",
     "CrossLine2nd3rdEndArrowFilled",
+    "CrossLine2nd3rdWideEndArrow",
+    "CrossLine2nd3rdWideEndArrowFilled",
     "CrossLine3Axis",
     "Triangle",
     "TriangleFilled",
@@ -88,6 +100,8 @@ SHAPE_NAMES = (
     "SemicircleFilled",
     "SemicircleEndArrow",
     "SemicircleEndArrowFilled",
+    "SemicircleWideEndArrow",
+    "SemicircleWideEndArrowFilled",
     "SemicircleArrow2D",
     "SemicircleArrow2DFilled",
     "SemicircleArrow3D",
@@ -762,11 +776,25 @@ def test_crossline_uses_named_axis_plane(
 )
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize("remap_axes", (False, True))
+@pytest.mark.parametrize("wide", (False, True))
 def test_end_arrow_extent_and_axis_transform(
-    maya_cmds, maya_om, new_scene, base_name, expected, filled, remap_axes
+    maya_cmds,
+    maya_om,
+    new_scene,
+    base_name,
+    expected,
+    filled,
+    remap_axes,
+    wide,
 ):
     _load_bd_util_nodes(maya_cmds)
-    shape_name = base_name + "EndArrow" + ("Filled" if filled else "")
+    shape_name = (
+        base_name
+        + ("WideEndArrow" if wide else "EndArrow")
+        + ("Filled" if filled else "")
+    )
+    if wide and base_name == "Semicircle":
+        expected = (0.0, 0.0, -0.55, 0.0, 0.525, 0.55)
     _, shape = _create_controller(
         maya_cmds, shape_value=SHAPE_NAMES.index(shape_name)
     )
@@ -1703,16 +1731,19 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
 
 
 @pytest.mark.parametrize(
-    "shape_name",
+    ("shape_name", "expected"),
     (
-        "ColorCube",
-        "ColorCubeFilled",
-        "ColorCornerCube",
-        "ColorCornerCubeFilled",
+        ("ColorCube", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
+        ("ColorCubeFilled", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
+        ("ColorCornerCube", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
+        ("ColorCornerCubeFilled", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
+        ("Line1stWideEndArrowFilled", (2.0, 3.6, 5.0, 2.0, 4.4, 7.0)),
+        ("CrossLine1st2ndWideEndArrowFilled", (2.0, 0.0, 5.0, 2.0, 8.0, 7.0)),
+        ("SemicircleWideEndArrowFilled", (-11.2, 4.0, 6.0, 15.2, 8.2, 6.0)),
     ),
 )
-def test_color_cube_transform_history_and_scene_reload(
-    maya_cmds, maya_om, new_scene, tmp_path, shape_name
+def test_preset_transform_history_and_scene_reload(
+    maya_cmds, maya_om, new_scene, tmp_path, shape_name, expected
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape_name_in_scene = _create_controller(maya_cmds)
@@ -1730,7 +1761,6 @@ def test_color_cube_transform_history_and_scene_reload(
     shape.shapeFillTransparency.set(0.6)
     mod.do_it_dg()
 
-    expected = (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)
     assert _bounds(maya_om, shape_name_in_scene) == pytest.approx(expected)
     mod.undo_it()
     assert _bounds(maya_om, shape_name_in_scene) == pytest.approx(
