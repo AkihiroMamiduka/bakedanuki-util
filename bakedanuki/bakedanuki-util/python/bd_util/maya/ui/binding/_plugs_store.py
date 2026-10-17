@@ -13,6 +13,7 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ....ui import FloatViewModel, IntViewModel, qt
+from ..._identity import ObjectIdentityIndex, PlugIdentitySet
 from ...node.operator.node._core import NodeOperator
 from ..callback import MayaCallbackRegistry
 from ._animated_plug_write import (
@@ -306,12 +307,16 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         owner: qt.QObject,
         *,
         edit_view_model: FloatViewModel | IntViewModel | None = None,
+        monitor: bool = True,
     ) -> None:
         """対象を重複排除せず検証し、書込みなしで監視を開始する。"""
         if not targets:
             raise ValueError("plugsには一つ以上の属性を指定してください")
-        for index, target in enumerate(targets):
-            if any(target.plug == prior.plug for prior in targets[:index]):
+        if type(monitor) is not bool:
+            raise TypeError("monitorにはboolを指定してください")
+        seen = PlugIdentitySet()
+        for target in targets:
+            if not seen.add(target.plug):
                 raise ValueError("同じ属性を複数回指定できません")
         super().__init__(owner)
         self._targets = tuple(targets)
@@ -334,10 +339,13 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self._edit_undo = (
             None if edit_view_model is None else FloatEditUndo(edit_view_model)
         )
-        self._registry = _PlugsCallbackRegistry(
-            self, on_maya_exiting=self.dispose
+        self._registry = (
+            _PlugsCallbackRegistry(self, on_maya_exiting=self.dispose)
+            if monitor
+            else None
         )
-        self._registry.disposed.connect(self.dispose)
+        if self._registry is not None:
+            self._registry.disposed.connect(self.dispose)
         self.destroyed.connect(self._on_destroyed)
         try:
             self._register_callbacks()
@@ -521,6 +529,8 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
 
     def _sync_input_callbacks(self) -> None:
         """入力元の曲線・レイヤ設定と時刻に必要な監視だけを保持する。"""
+        if self._registry is None:
+            return
         self._input_curves = tuple(
             curve
             for target in self._targets
@@ -560,6 +570,8 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
 
     def _sync_input_node_callbacks(self) -> None:
         """接続元のロック解除やレイヤ設定変更にも動的に追従する。"""
+        if self._registry is None:
+            return
         nodes: list[om.MObjectHandle] = []
         for target in self._targets:
             for node in target.source_nodes:
@@ -691,15 +703,17 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
 
     def _register_callbacks(self) -> None:
         """監視nodeごとの対象をcallbackへ渡し、別nodeの走査を省く。"""
+        if self._registry is None:
+            return
         groups: list[tuple[om.MObject, list[PlugTarget[_ValueT]]]] = []
+        identities = ObjectIdentityIndex()
         for target in self._targets:
             node = target.plug.node()
-            for registered_node, targets in groups:
-                if node == registered_node:
-                    targets.append(target)
-                    break
-            else:
+            index = identities.index(node)
+            if index == len(groups):
                 groups.append((node, [target]))
+            else:
+                groups[index][1].append(target)
 
         # 実体でまとめた対象だけを保持し、改名やhash値の衝突に依存しない
         for node, targets in groups:
@@ -812,7 +826,8 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             self._input_lock_timer.stop()
         if self._edit_undo is not None:
             self._edit_undo.dispose()
-        self._registry.dispose()
+        if self._registry is not None:
+            self._registry.dispose()
 
     def _on_destroyed(self, *_args: object) -> None:
         """`QObject` 破棄中は兄弟 View へ通知せず外部状態だけを解放する。"""

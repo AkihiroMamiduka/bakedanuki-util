@@ -573,12 +573,13 @@ def _create_edit(
     key_animated: bool,
     edit_connected: bool,
 ) -> tuple[MayaPlugsValueEdit, _ScalarBinding]:
-    """一つのtarget plugを監視し、キー入力方針付きの編集を作る。"""
+    """一つのtarget plugへ監視なしでキー入力方針付きの編集を作る。"""
     if snapshot.kind == "bool":
         bool_binding = MayaBoolPlugsBinding(
             [resolve_bool_plug(node_name, snapshot.path)],
             key_animated=key_animated,
             edit_connected=edit_connected,
+            monitor=False,
         )
         return (
             MayaBoolValueEdit(bool_binding, cast(bool, snapshot.value)),
@@ -589,6 +590,7 @@ def _create_edit(
             [resolve_int_plug(node_name, snapshot.path)],
             key_animated=key_animated,
             edit_connected=edit_connected,
+            monitor=False,
         )
         return (
             MayaIntValueEdit(int_binding, cast(int, snapshot.value)),
@@ -607,6 +609,7 @@ def _create_edit(
             [enum_plug],
             key_animated=key_animated,
             edit_connected=edit_connected,
+            monitor=False,
         )
         return (
             MayaEnumValueEdit(enum_binding, cast(int, snapshot.value)),
@@ -614,7 +617,7 @@ def _create_edit(
         )
     if snapshot.kind == "string":
         string_binding = MayaStringPlugsBinding(
-            [resolve_string_plug(node_name, snapshot.path)]
+            [resolve_string_plug(node_name, snapshot.path)], monitor=False
         )
         return (
             MayaStringValueEdit(string_binding, cast(str, snapshot.value)),
@@ -624,6 +627,7 @@ def _create_edit(
         [resolve_float_plug(node_name, snapshot.path)],
         key_animated=key_animated,
         edit_connected=edit_connected,
+        monitor=False,
     )
     return (
         MayaFloatValueEdit(float_binding, cast(float, snapshot.value)),
@@ -682,10 +686,13 @@ def apply_scalar_value_transfer(
         raise ValueError("同じtarget nodeを複数回指定できません")
 
     # 貼り付け先の構成を先に固定し、行位置ではなく属性pathと型で照合する。
+    source_paths = tuple(value.path for value in transfer.nodes[0].values)
     target_attributes = {
         node_name: {
             attribute.path: attribute
-            for attribute in inspect_scalar_attributes(node_name)
+            for attribute in inspect_scalar_attributes(
+                node_name, paths=source_paths
+            )
         }
         for node_name in targets
     }

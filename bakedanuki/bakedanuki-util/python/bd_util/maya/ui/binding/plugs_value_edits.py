@@ -8,7 +8,7 @@ from contextlib import ExitStack
 from dataclasses import dataclass
 from typing import TypeAlias
 
-from maya.api import OpenMaya as om
+from ..._identity import PlugIdentitySet
 
 from ._float_edit import FloatEditUndo
 from ._plugs_store import PlugWrite, execute_plug_writes, plugs_undo_chunk
@@ -240,14 +240,15 @@ def apply_plugs_values(
 
     # 無変更の対象も含めて重複を拒否し、適用順で結果が変わらないようにする。
     stores = tuple(edit.binding.store for edit in requests)
-    seen_plugs: list[om.MPlug] = []
-    for index, store in enumerate(stores):
-        if any(store is previous for previous in stores[:index]):
+    seen_plugs = PlugIdentitySet()
+    seen_stores: set[int] = set()
+    for store in stores:
+        if id(store) in seen_stores:
             raise ValueError("同じBindingを複数回指定できません")
+        seen_stores.add(id(store))
         for plug in store.target_plugs:
-            if any(plug == previous for previous in seen_plugs):
+            if not seen_plugs.add(plug):
                 raise ValueError("同じ属性を複数の入力へ指定できません")
-            seen_plugs.append(plug)
 
     try:
         # 全要求を準備できてから単一のUndo chunk内で書き込む。

@@ -19,6 +19,35 @@ DEFINITION = EnumDefinition.from_mapping(
 )
 
 
+def test_explicit_same_item_calls_handler_once(qt_application):
+    """同じ項目の再選択を転送し、変更時の二つのsignalは一回にまとめる。"""
+    del qt_application
+    data = Data(5)
+    binding = EnumBinding.from_attribute(data, "mode", definition=DEFINITION)
+    combo = EnumComboBox(binding)
+    requests: list[int] = []
+
+    def request(value: int) -> bool:
+        """入力要求を記録し、通常のCommandにも値を設定させる。"""
+        requests.append(value)
+        return False
+
+    combo.setValueRequestHandler(request)
+    try:
+        combo.setCurrentIndex(3)
+        combo.activated.emit(3)
+        assert requests == [10]
+        flush()
+        combo.activated.emit(3)
+        assert requests == [10, 10]
+        binding.refresh()
+        assert requests == [10, 10]
+    finally:
+        combo.deleteLater()
+        binding.dispose()
+        flush()
+
+
 @dataclass
 class Data:
     mode: int = 0

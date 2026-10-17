@@ -10,7 +10,8 @@ from typing import Literal, TypeAlias, cast
 from maya import cmds
 from maya.api import OpenMaya as om
 
-from ._attribute_lookup import attribute_path
+from .._identity import ObjectIdentityIndex, PlugIdentitySet
+from ._attribute_lookup import attribute_path, find_attribute_plug
 
 ScalarAttributeKind: TypeAlias = Literal[
     "bool",
@@ -134,7 +135,7 @@ def selected_node_names(*, limit: int | None = None) -> tuple[str, ...]:
     selection = om.MGlobal.getActiveSelectionList()
     iterator = om.MItSelectionList(selection)
     names: list[str] = []
-    nodes: list[om.MObject] = []
+    nodes = ObjectIdentityIndex()
 
     # DAG インスタンスは同じノードとして扱い、最初の選択パスを残す。
     while not iterator.isDone():
@@ -152,8 +153,7 @@ def selected_node_names(*, limit: int | None = None) -> tuple[str, ...]:
         else:
             iterator.next()
             continue
-        if not any(node == previous for previous in nodes):
-            nodes.append(node)
+        if nodes.index(node) == len(names):
             names.append(name)
             if limit is not None and len(names) == limit:
                 break
@@ -248,27 +248,63 @@ def _scalar_kind(plug: om.MPlug) -> ScalarAttributeKind | None:
     return None
 
 
+def _require_attribute_paths(value: object) -> tuple[str, ...]:
+    """単一文字列を除いた、属性pathの列を検証する。"""
+    if isinstance(value, (str, bytes)) or not isinstance(value, Sequence):
+        raise TypeError("pathsには文字列のSequenceを指定してください")
+    result: list[str] = []
+    for path in cast(Sequence[object], value):
+        if not isinstance(path, str):
+            raise TypeError("pathsには文字列のSequenceを指定してください")
+        result.append(path)
+    return tuple(result)
+
+
 def inspect_scalar_attributes(
     node_name: str,
+    *,
+    paths: Sequence[str] | None = None,
 ) -> tuple[ScalarAttributeInfo, ...]:
     """既存ノードの対応する scalar 型属性を属性順に返す。
 
     Args:
         node_name: 一意に解決できる既存ノード名。
+        paths: 調べる属性名または相対path。指定時は入力順で重複を除き、
+            存在しない属性・非対応型を除外する。別名は受け付けない。
+            `None`なら全属性を属性順で調べる。
 
     Returns:
         表示フラグでは絞り込まない属性情報のタプル。
 
     Raises:
-        ValueError: `node_name` を一意に解決できない場合。
+        TypeError: `paths`が文字列のSequenceでない場合。
+        ValueError: nodeまたは属性を一意に解決できないか、不正なpathの場合。
     """
+    if paths is not None:
+        paths = _require_attribute_paths(paths)
     node = _node_function(node_name)
     result: list[ScalarAttributeInfo] = []
 
-    # 親が非表示でも子の keyable 状態は独立しているため、全属性を検査する。
-    for index in range(node.attributeCount()):
-        attribute = node.attribute(index)
-        plug = node.findPlug(attribute, False)
+    # 指定pathがある場合は他の属性の表示名や型を調べない
+    if paths is None:
+        plugs = [
+            node.findPlug(node.attribute(index), False)
+            for index in range(node.attributeCount())
+        ]
+    else:
+        plugs: list[om.MPlug] = []
+        seen = PlugIdentitySet()
+        for path in paths:
+            try:
+                plug = find_attribute_plug(node, path)
+            except AttributeError:
+                continue
+            if seen.add(plug):
+                plugs.append(plug)
+
+    # 親が非表示でも子のkeyable状態は独立しているため、leaf単位で分類する
+    for plug in plugs:
+        attribute = plug.attribute()
         kind = _scalar_kind(plug)
         if kind is None:
             continue

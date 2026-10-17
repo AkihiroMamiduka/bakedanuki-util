@@ -8,6 +8,18 @@ UI utilityは、利用場所ではなく依存関係で分けます。
 
 ## 新しいtoolへの導入
 
+多数の属性を同期的に一括編集する場合、`MayaBoolPlugsBinding`、
+`MayaFloatPlugsBinding`、`MayaIntPlugsBinding`、`MayaEnumPlugsBinding`、
+`MayaStringPlugsBinding`へ`monitor=False`を指定できます。外部変更の自動同期と
+Maya callbackの登録を省きますが、初期読取り、入力時の全対象検証、Undo、失敗復旧は
+維持します。必要な同期は`refresh()`で行い、操作終了時は`finally`で`dispose()`を
+呼んでください。通常の表示Bindingでは既定の`monitor=True`を使用します。
+`inspect_scalar_attributes(node_name, paths=(...))`は指定した属性だけを入力順に調べ、
+同じ実体の重複・存在しない属性・対応しない型を除きます。省略時は従来の全属性列挙です。
+
+`EnumComboBox`は現在と同じ項目の明示選択も入力handlerへ渡します。
+多数ノードへの「代表と同じ値に揃える」に利用でき、表示同期からは呼び出されません。
+
 一行の文字列属性には[string binding](string_binding.md)を使用できます。
 属性ではなく既存ノードの名前を正本にする場合は、
 [node name binding](node_name_binding.md)を同じ`StringLineEdit`と`StringLabel`へ接続できます。
@@ -27,6 +39,12 @@ enum属性の編集には[enum binding](enum_binding.md)を使用できます。
 親Widgetへ渡します。生成後も`wheel_requires_focus()`と`set_wheel_requires_focus()`で
 切り替えられ、クリック・Tabでフォーカスを得た後のホイール選択は維持します。
 `MayaEnumPlugsBinding`は同じ定義の複数属性を一括編集し、混在状態とUndoに対応します。
+定義検証では`MPlug.attribute()`の`MObject`実体を共有する対象をまとめ、検証のたびに
+各共有定義を新しく取得して比較します。`drawStyle`などの標準属性を多数ノードで扱う際の
+重複取得を削減し、標準／動的の区分だけで定義を不変とは扱いません。同名・同内容でも
+別実体の定義は共有しないため、全対象が別実体のカスタムenumなら取得数は減りません。
+定義を操作間で使い回したり、変更通知だけで鮮度を判断したりせず、定義変更の検出と
+Undo・途中失敗の復旧を維持します。Viewとメニュー、公開APIの使い方は変わりません。
 enum基盤は今回の合意範囲まで実装・動作確認を完了しています。
 設計判断と次回開発への引き継ぎは[enum MVVMの到達点と今後の拡張](enum_roadmap.md)を参照してください。
 

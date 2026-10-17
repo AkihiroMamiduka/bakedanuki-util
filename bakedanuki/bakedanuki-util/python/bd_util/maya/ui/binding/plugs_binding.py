@@ -30,6 +30,7 @@ from ....ui.binding.enum._connection import connect_queued_qt_signal
 from ....ui.binding.enum.definition import require_enum_value
 from ....ui.binding.float._validation import require_float
 from ....ui.binding.string._validation import require_string
+from ..._identity import ObjectIdentityIndex
 from ...node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolPlugOperator,
 )
@@ -205,6 +206,20 @@ class _EnumCodec:
         return value
 
 
+def _group_enum_attributes(
+    plugs: Sequence[MayaEnumPlug],
+) -> tuple[tuple[int, ...], ...]:
+    """同じ属性実体を共有する対象を初出順にまとめる。"""
+    identities = ObjectIdentityIndex()
+    groups: list[list[int]] = []
+    for index, plug in enumerate(plugs):
+        group_index = identities.index(plug.plug.attribute())
+        if group_index == len(groups):
+            groups.append([])
+        groups[group_index].append(index)
+    return tuple(tuple(group) for group in groups)
+
+
 class _EnumPlugsStore(PlugsStore[int]):
     """定義が揃ったenum属性群の代表値と一括入力を提供する。"""
 
@@ -217,16 +232,19 @@ class _EnumPlugsStore(PlugsStore[int]):
         key_animated: bool = False,
         edit_connected: bool = False,
         track_input_state: bool = False,
+        monitor: bool = True,
     ) -> None:
         """同じ定義のenum属性群を検証して監視する。"""
         self._view_model = view_model
         self._codecs = tuple(_EnumCodec(plug) for plug in plugs)
         if not self._codecs:
             raise ValueError("plugsには一つ以上の属性を指定してください")
+        # 内容やdynamicフラグではなく、定義を共有する属性実体でまとめる
+        self._definition_groups = _group_enum_attributes(plugs)
         definition = self._codecs[0].value.definition
         if any(
-            not definition.matches(codec.value.definition)
-            for codec in self._codecs[1:]
+            not definition.matches(self._codecs[group[0]].value.definition)
+            for group in self._definition_groups[1:]
         ):
             raise ValueError(
                 "全対象のenum定義（整数値と項目名）を揃えてください"
@@ -243,7 +261,7 @@ class _EnumPlugsStore(PlugsStore[int]):
             )
             for plug, codec in zip(plugs, self._codecs)
         )
-        super().__init__(targets, owner)
+        super().__init__(targets, owner, monitor=monitor)
         view_model.disposed.connect(self.dispose)
         connect_queued_qt_signal(view_model.destroyed, self.dispose)
 
@@ -254,14 +272,37 @@ class _EnumPlugsStore(PlugsStore[int]):
             raise RuntimeError("代表属性は利用できません")
         return self._codecs[0].value.definition
 
+    def _current_group_definitions(
+        self,
+    ) -> tuple[EnumDefinition | None, ...]:
+        """共有実体ごとに、利用可能な対象から現在の定義を読み直す。"""
+        definitions: list[EnumDefinition | None] = []
+        for group in self._definition_groups:
+            definition = None
+            for index in group:
+                if self._targets[index].is_available:
+                    definition = self._codecs[index].value.definition
+                    break
+            definitions.append(definition)
+        return tuple(definitions)
+
     def _current_definitions(self) -> tuple[EnumDefinition | None, ...]:
-        return tuple(
-            codec.value.definition if target.is_available else None
-            for target, codec in zip(self._targets, self._codecs)
-        )
+        """共有定義を状態同期用の対象順へ展開し、削除済み対象を除外する。"""
+        definitions: list[EnumDefinition | None] = [None] * len(self._targets)
+        for group, definition in zip(
+            self._definition_groups, self._current_group_definitions()
+        ):
+            for index in group:
+                if self._targets[index].is_available:
+                    definitions[index] = definition
+        return tuple(definitions)
 
     def _definitions_match(self) -> bool:
-        definitions = self._current_definitions()
+        """基準の生存を保ち、利用可能な共有実体同士の最新定義を比較する。"""
+        if not self._targets[0].is_available:
+            return False
+        # 書込みごとの検証では対象順へ展開せず、共有実体だけを比較する
+        definitions = self._current_group_definitions()
         representative = definitions[0]
         return representative is not None and all(
             definition is None or representative.matches(definition)
@@ -283,6 +324,7 @@ class _EnumPlugsStore(PlugsStore[int]):
         target.codec.validate(requested)
 
     def _read_state(self) -> bool:
+        """現在の定義・入力状態・値を対象順に同期する。"""
         definitions = self._current_definitions()
         representative = definitions[0]
         states: list[MayaPlugTargetState] = []
@@ -347,6 +389,7 @@ class _BoolPlugsStore(PlugsStore[bool]):
         key_animated: bool = False,
         edit_connected: bool = False,
         track_input_state: bool = False,
+        monitor: bool = True,
     ) -> None:
         """全属性を検証してから監視を開始する。"""
         self._view_model = view_model
@@ -361,7 +404,7 @@ class _BoolPlugsStore(PlugsStore[bool]):
             )
             for plug in plugs
         )
-        super().__init__(targets, owner)
+        super().__init__(targets, owner, monitor=monitor)
 
     def _refresh_view_model(self) -> bool:
         """代表と編集可否を同期し、削除時は入力を停止する。"""
@@ -386,6 +429,7 @@ class _FloatPlugsStore(PlugsStore[float]):
         key_animated: bool = False,
         edit_connected: bool = False,
         track_input_state: bool = False,
+        monitor: bool = True,
     ) -> None:
         """単位種別を揃え、代表の表示情報を維持する。"""
         self._view_model = view_model
@@ -407,7 +451,9 @@ class _FloatPlugsStore(PlugsStore[float]):
             )
             for plug, codec in zip(plugs, codecs)
         )
-        super().__init__(targets, owner, edit_view_model=view_model)
+        super().__init__(
+            targets, owner, edit_view_model=view_model, monitor=monitor
+        )
 
     @property
     def presentation(self) -> FloatPresentation:
@@ -471,6 +517,7 @@ class _IntPlugsStore(PlugsStore[int]):
         key_animated: bool = False,
         edit_connected: bool = False,
         track_input_state: bool = False,
+        monitor: bool = True,
     ) -> None:
         """各属性の型と実体を検証し、代表値の監視を開始する。"""
         self._view_model = view_model
@@ -489,7 +536,9 @@ class _IntPlugsStore(PlugsStore[int]):
             )
             for plug, codec in zip(plugs, codecs)
         )
-        super().__init__(targets, owner, edit_view_model=view_model)
+        super().__init__(
+            targets, owner, edit_view_model=view_model, monitor=monitor
+        )
 
     @property
     def hard_limits(self) -> tuple[int | None, int | None]:
@@ -541,6 +590,7 @@ class _StringPlugsStore(PlugsStore[str]):
         owner: qt.QObject,
         *,
         track_input_state: bool = False,
+        monitor: bool = True,
     ) -> None:
         """型付きstring属性を検証し、書込みなしで監視を始める。"""
         self._view_model = view_model
@@ -553,7 +603,7 @@ class _StringPlugsStore(PlugsStore[str]):
             )
             for plug in plugs
         )
-        super().__init__(targets, owner)
+        super().__init__(targets, owner, monitor=monitor)
         self.values_changed.connect(view_model.source_values_changed.emit)
         self.state_changed.connect(view_model.source_changed.emit)
         view_model.disposed.connect(self.dispose)
@@ -713,6 +763,7 @@ class MayaBoolPlugsBinding(
         key_animated: bool = False,
         edit_connected: bool = False,
         track_input_state: bool = False,
+        monitor: bool = True,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を登録し、先頭の実値を書き込まずに初期表示する。
@@ -726,6 +777,8 @@ class MayaBoolPlugsBinding(
                 一時値のみ変更する。constraintや未対応接続は編集しない。
                 既定値は `False` で、`key_animated` とは併用できない。
             track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
+            monitor: `False` なら外部変更を自動同期しない。一時利用では
+                `finally` で `dispose()` を呼び、必要時は `refresh()` する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
@@ -744,6 +797,7 @@ class MayaBoolPlugsBinding(
                 key_animated=key_animated,
                 edit_connected=edit_connected,
                 track_input_state=track_input_state,
+                monitor=monitor,
             )
             self._owned_group = store
             return store
@@ -792,6 +846,7 @@ class MayaFloatPlugsBinding(
         key_animated: bool = False,
         edit_connected: bool = False,
         track_input_state: bool = False,
+        monitor: bool = True,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を検証し、先頭の実値を書き込まずに初期表示する。
@@ -805,6 +860,8 @@ class MayaFloatPlugsBinding(
                 一時値のみ変更する。constraintや未対応接続は編集しない。
                 既定値は `False` で、`key_animated` とは併用できない。
             track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
+            monitor: `False` なら外部変更を自動同期しない。一時利用では
+                `finally` で `dispose()` を呼び、必要時は `refresh()` する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
@@ -824,6 +881,7 @@ class MayaFloatPlugsBinding(
                 key_animated=key_animated,
                 edit_connected=edit_connected,
                 track_input_state=track_input_state,
+                monitor=monitor,
             )
             self._owned_group = store
             return store
@@ -870,6 +928,7 @@ class MayaIntPlugsBinding(_PlugsBindingState[int], IntBinding[_IntPlugsStore]):
         key_animated: bool = False,
         edit_connected: bool = False,
         track_input_state: bool = False,
+        monitor: bool = True,
         parent: qt.QObject | None = None,
     ) -> None:
         """byte・short・long属性を初期書込みなしで監視する。
@@ -880,6 +939,8 @@ class MayaIntPlugsBinding(_PlugsBindingState[int], IntBinding[_IntPlugsStore]):
             edit_connected: Maya標準のAuto Key・SDK・Layer入力を行う場合はTrue。
                 `key_animated`との同時指定はできない。
             track_input_state: 入力接続と現在キーの状態を追跡する場合はTrue。
+            monitor: `False`なら外部変更を自動同期しない。必要時は`refresh()`し、
+                一時利用の終了時には`finally`で`dispose()`を呼ぶ。
             parent: このBindingを所有するQObject。
         """
         self._owned_group = None
@@ -893,6 +954,7 @@ class MayaIntPlugsBinding(_PlugsBindingState[int], IntBinding[_IntPlugsStore]):
                 key_animated=key_animated,
                 edit_connected=edit_connected,
                 track_input_state=track_input_state,
+                monitor=monitor,
             )
             self._owned_group = store
             return store
@@ -946,6 +1008,7 @@ class MayaIntPlugBinding(MayaIntPlugsBinding):
         key_animated: bool = False,
         edit_connected: bool = False,
         track_input_state: bool = False,
+        monitor: bool = True,
         parent: qt.QObject | None = None,
     ) -> None:
         """整数plug一つを監視するBindingを作る。"""
@@ -954,6 +1017,7 @@ class MayaIntPlugBinding(MayaIntPlugsBinding):
             key_animated=key_animated,
             edit_connected=edit_connected,
             track_input_state=track_input_state,
+            monitor=monitor,
             parent=parent,
         )
 
@@ -970,6 +1034,7 @@ class MayaEnumPlugsBinding(
         key_animated: bool = False,
         edit_connected: bool = False,
         track_input_state: bool = False,
+        monitor: bool = True,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を登録し、先頭の実値を書き込まずに初期表示する。
@@ -983,6 +1048,8 @@ class MayaEnumPlugsBinding(
                 一時値のみ変更する。constraintや未対応接続は編集しない。
                 既定値は `False` で、`key_animated` とは併用できない。
             track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
+            monitor: `False` なら外部変更を自動同期しない。一時利用では
+                `finally` で `dispose()` を呼び、必要時は `refresh()` する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
@@ -1002,6 +1069,7 @@ class MayaEnumPlugsBinding(
                 key_animated=key_animated,
                 edit_connected=edit_connected,
                 track_input_state=track_input_state,
+                monitor=monitor,
             )
             self._owned_group = store
             return store
@@ -1047,6 +1115,7 @@ class MayaStringPlugsBinding(
         plugs: Sequence[MayaStringPlug],
         *,
         track_input_state: bool = False,
+        monitor: bool = True,
         parent: qt.QObject | None = None,
     ) -> None:
         """先頭の実値を代表とし、必要なら入力接続状態も追跡する。
@@ -1054,6 +1123,8 @@ class MayaStringPlugsBinding(
         Args:
             plugs: 代表を先頭にした一つ以上の文字列属性。
             track_input_state: `True` なら入力接続状態を追跡する。
+            monitor: `False` なら外部変更を自動同期しない。一時利用では
+                `finally` で `dispose()` を呼び、必要時は `refresh()` する。
             parent: この Binding を所有する `QObject`。
         """
         self._owned_group = None
@@ -1061,7 +1132,11 @@ class MayaStringPlugsBinding(
         def create_store(view_model: StringViewModel) -> _StringPlugsStore:
             """専用ViewModelと同じ寿命の一括Storeを作る。"""
             store = _StringPlugsStore(
-                view_model, plugs, self, track_input_state=track_input_state
+                view_model,
+                plugs,
+                self,
+                track_input_state=track_input_state,
+                monitor=monitor,
             )
             self._owned_group = store
             return store

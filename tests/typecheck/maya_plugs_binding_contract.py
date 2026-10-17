@@ -7,6 +7,8 @@ from bd_util.maya.ui.binding.plugs_binding import (
     MayaBoolPlugsBinding,
     MayaEnumPlugsBinding,
     MayaFloatPlugsBinding,
+    MayaIntPlugsBinding,
+    MayaStringPlugsBinding,
 )
 from bd_util.maya.ui.binding.plugs_state import MayaPlugTargetState
 from bd_util.maya.ui import (
@@ -16,6 +18,8 @@ from bd_util.maya.ui import (
     resolve_bool_plug,
     resolve_enum_plug,
     resolve_float_plug,
+    resolve_int_plug,
+    resolve_string_plug,
 )
 from bd_util.ui import (
     BoolComboBox,
@@ -27,6 +31,30 @@ from bd_util.ui import (
 )
 
 bool_binding = MayaBoolPlugsBinding([resolve_bool_plug("node", "visibility")])
+assert_type(
+    MayaBoolPlugsBinding(
+        [resolve_bool_plug("node", "visibility")], monitor=False
+    ),
+    MayaBoolPlugsBinding,
+)
+assert_type(
+    MayaFloatPlugsBinding([resolve_float_plug("node", "tx")], monitor=False),
+    MayaFloatPlugsBinding,
+)
+assert_type(
+    MayaIntPlugsBinding([resolve_int_plug("node", "count")], monitor=False),
+    MayaIntPlugsBinding,
+)
+assert_type(
+    MayaEnumPlugsBinding([resolve_enum_plug("node", "mode")], monitor=False),
+    MayaEnumPlugsBinding,
+)
+assert_type(
+    MayaStringPlugsBinding(
+        [resolve_string_plug("node", "label")], monitor=False
+    ),
+    MayaStringPlugsBinding,
+)
 float_binding = MayaFloatPlugsBinding(
     [resolve_float_plug("node", "translateX")]
 )

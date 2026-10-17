@@ -44,8 +44,10 @@ class EnumComboBox(qt.QComboBox):
         self._input_enabled = True
         self.set_wheel_requires_focus(wheel_requires_focus)
         self._value_request_handler: Callable[[int], bool] | None = None
+        self._index_change_pending = False
         self._render()
-        self.currentIndexChanged.connect(self._request_index)
+        self.currentIndexChanged.connect(self._index_changed)
+        self.activated.connect(self._activate_index)
         view_model.value.changed.connect(self._render)
         view_model.definition_changed.connect(self._render)
         view_model.set_value_command.can_execute_changed.connect(
@@ -137,7 +139,25 @@ class EnumComboBox(qt.QComboBox):
         finally:
             del blocker
 
+    def _index_changed(self, index: int) -> None:
+        """値の変化を即時反映し、同じ操作のactivatedとの重複を防ぐ。"""
+        self._index_change_pending = True
+        qt.QTimer.singleShot(0, self._clear_index_change)
+        self._request_index(index)
+
+    def _clear_index_change(self) -> None:
+        """次のイベントでは同じ項目の明示選択も入力として受け付ける。"""
+        self._index_change_pending = False
+
+    def _activate_index(self, index: int) -> None:
+        """同じ項目の再選択を入力handlerへ一回だけ伝える。"""
+        if self._index_change_pending:
+            self._index_change_pending = False
+            return
+        self._request_index(index)
+
     def _request_index(self, index: int) -> None:
+        """選択した項目の整数値を明示入力として処理する。"""
         vm = self._view_model
         if vm.is_disposed:
             self._disable_binding()

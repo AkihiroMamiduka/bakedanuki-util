@@ -18,6 +18,10 @@ assert_type(selected_node_names(limit=50), tuple[str, ...])
 assert_type(node_display_name("|parent|node"), str)
 attributes = inspect_scalar_attributes("transform1")
 assert_type(attributes, tuple[ScalarAttributeInfo, ...])
+assert_type(
+    inspect_scalar_attributes("transform1", paths=("tx",)),
+    tuple[ScalarAttributeInfo, ...],
+)
 display_filter: ScalarAttributeDisplayFilter = "visible"
 assert_type(
     filter_scalar_attribute_paths(attributes, display_filter), tuple[str, ...]

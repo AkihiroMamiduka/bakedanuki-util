@@ -18,6 +18,20 @@
 
 ### Changed
 
+- `MayaEnumPlugsBinding`の定義検証で、`MPlug.attribute()`の`MObject`実体を
+  共有する対象の定義取得をまとめる。検証のたびに定義を新しく取得し、標準属性や
+  動的属性という区分だけで不変とは扱わない。同名・同内容でも別実体は個別に検証する。
+  定義変更の検出、Undo、途中失敗の復旧は維持する。別実体のカスタムenumだけを
+  集めた場合の取得数は減らない。公開API・UI・scene・設定形式の移行は不要。
+- 複数scalar Bindingへ`monitor=False`を追加。同期的な一括操作で監視を登録せず、
+  既存の型・範囲検証、Undo、失敗復旧を利用できる。既定は従来どおり監視する。
+  `inspect_scalar_attributes(..., paths=...)`で指定属性だけを取得できる。
+  選択・Binding・一括編集の重複判定を実体索引で行い、多数対象の二重走査を削減。
+  値Pasteも必要な属性だけを取得し、一時Bindingの監視を作らない。
+  APIは追加のみで、scene・保存設定・clipboard schemaの移行は不要。
+- `EnumComboBox`で同じ項目を明示的に選び直した場合も入力handlerへ通知する。
+  値が変わる一回の操作は一回だけ通知し、外部同期は入力として扱わない。
+
 - `MayaIntPlugBinding`／`MayaIntPlugsBinding`と整数値Pasteに`edit_connected`と
   `key_animated`を追加。既定の読み取り専用は維持し、明示指定で時間カーブ・SDK・
   short／longのAnimation Layerを既存型と同じ規則で編集する。
