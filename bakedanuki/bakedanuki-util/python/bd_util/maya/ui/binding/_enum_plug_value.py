@@ -34,7 +34,11 @@ class EnumPlugValue:
     @property
     def definition(self) -> EnumDefinition:
         """現在のMaya enum定義を取得し、変更時にキャッシュを更新する。"""
-        # enumNameは値が飛ぶ箇所だけ=整数を含む。毎回queryして外部編集も検出する。
+        return self.read_definition()
+
+    def read_definition(self, *, refresh: bool = False) -> EnumDefinition:
+        """`refresh=True`では同じraw文字列でも値と項目名を解析し直す。"""
+        # enumNameが同じでも、名前内の=と値の割当変更はAPIで区別する
         fn = om.MFnEnumAttribute(self._plug.attribute())
         if fn.dynamic:
             query = cast(Callable[..., str], cmds.addAttr)
@@ -48,7 +52,7 @@ class EnumPlugValue:
                 else om.MFnDependencyNode(node).name()
             )
             raw = query_static(fn.name, node=node_name, listEnum=True)[0]
-        if raw == self._raw_definition:
+        if not refresh and raw == self._raw_definition:
             return self._definition
         items: list[EnumItem] = []
         next_value = 0

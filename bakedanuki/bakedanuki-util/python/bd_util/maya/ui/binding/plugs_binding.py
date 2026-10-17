@@ -3,7 +3,8 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Generator, Sequence
+from contextlib import contextmanager
 from dataclasses import dataclass, replace
 from typing import Generic, Protocol, TypeVar, cast
 
@@ -190,6 +191,7 @@ class _EnumCodec:
     def __init__(self, plug: MayaEnumPlug) -> None:
         """単一 enum `plug` の値と定義を読み取る codec を作る。"""
         self.value = EnumPlugValue(require_enum_plug(plug).plug)
+        self.operation_definition: EnumDefinition | None = None
 
     def read(self) -> int:
         """未定義値も保持してMayaの実値を返す。"""
@@ -200,9 +202,17 @@ class _EnumCodec:
         return require_enum_value(value)
 
     def validate(self, value: int) -> int:
-        """新規入力値が現在のenum定義に含まれるか検証する。"""
+        """操作中の定義変更と、新規入力値が定義内にあるかを検証する。"""
         value = self.to_ui(value)
-        self.value.definition.require_value(value)
+        expected = self.operation_definition
+        definition = (
+            self.value.definition
+            if expected is None
+            else self.value.read_definition(refresh=True)
+        )
+        if expected is not None and not expected.matches(definition):
+            raise ValueError("入力中に対象のenum定義が変わりました")
+        definition.require_value(value)
         return value
 
 
@@ -250,6 +260,8 @@ class _EnumPlugsStore(PlugsStore[int]):
                 "全対象のenum定義（整数値と項目名）を揃えてください"
             )
         self._definitions: tuple[EnumDefinition | None, ...] = ()
+        self._operation_definition: EnumDefinition | None = None
+        self._operation_available: tuple[bool, ...] = ()
         targets = tuple(
             PlugTarget(
                 plug.node,
@@ -273,7 +285,7 @@ class _EnumPlugsStore(PlugsStore[int]):
         return self._codecs[0].value.definition
 
     def _current_group_definitions(
-        self,
+        self, *, refresh: bool = False
     ) -> tuple[EnumDefinition | None, ...]:
         """共有実体ごとに、利用可能な対象から現在の定義を読み直す。"""
         definitions: list[EnumDefinition | None] = []
@@ -281,7 +293,12 @@ class _EnumPlugsStore(PlugsStore[int]):
             definition = None
             for index in group:
                 if self._targets[index].is_available:
-                    definition = self._codecs[index].value.definition
+                    value = self._codecs[index].value
+                    definition = (
+                        value.read_definition(refresh=True)
+                        if refresh or self._operation_definition is not None
+                        else value.definition
+                    )
                     break
             definitions.append(definition)
         return tuple(definitions)
@@ -319,9 +336,65 @@ class _EnumPlugsStore(PlugsStore[int]):
     ) -> None:
         """代表と対象の可用性、現在のenum定義を再検証する。"""
         super().validate_write_target(target, requested)
-        if not self._definitions_match():
-            raise ValueError("入力中に対象のenum定義が変わりました")
+        expected = self._operation_definition
+        if expected is None:
+            if not self._definitions_match():
+                raise ValueError("入力中に対象のenum定義が変わりました")
+        elif not expected.matches(
+            self._codecs[0].value.read_definition(refresh=True)
+        ):
+            raise ValueError("入力中に代表のenum定義が変わりました")
         target.codec.validate(requested)
+
+    @contextmanager
+    def operation_validation(self) -> Generator[None, None, None]:
+        """操作開始時の定義を固定し、操作の終了時に通常検証へ戻す。"""
+        if self._operation_definition is not None:
+            raise RuntimeError("enumの一括検証中に別の操作は開始できません")
+        if not self.is_available:
+            raise RuntimeError("代表のMaya属性は利用できません")
+        definitions = self._current_group_definitions(refresh=True)
+        representative = definitions[0]
+        if representative is None or any(
+            definition is not None and not representative.matches(definition)
+            for definition in definitions[1:]
+        ):
+            raise ValueError(
+                "全対象のenum定義（整数値と項目名）を揃えてください"
+            )
+
+        # 定義を固定するのはこの一括操作だけで、次の入力へ持ち越さない
+        self._operation_definition = representative
+        self._operation_available = tuple(
+            target.is_available for target in self._targets
+        )
+        for codec in self._codecs:
+            codec.operation_definition = representative
+        try:
+            yield
+        finally:
+            for codec in self._codecs:
+                codec.operation_definition = None
+            self._operation_available = ()
+            self._operation_definition = None
+
+    def validate_operation_definition(self) -> None:
+        """未書込み対象も含め、開始時の実体と定義が維持されたか確認する。"""
+        expected = self._operation_definition
+        if expected is None:
+            raise RuntimeError("enumの操作単位の検証は開始されていません")
+        if not self.is_available or any(
+            available and not target.is_available
+            for target, available in zip(
+                self._targets, self._operation_available
+            )
+        ):
+            raise RuntimeError("入力中に対象属性が削除されました")
+        if any(
+            definition is not None and not expected.matches(definition)
+            for definition in self._current_group_definitions(refresh=True)
+        ):
+            raise ValueError("入力中に対象のenum定義が変わりました")
 
     def _read_state(self) -> bool:
         """現在の定義・入力状態・値を対象順に同期する。"""

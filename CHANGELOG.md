@@ -18,6 +18,15 @@
 
 ### Changed
 
+- `apply_plugs_values(..., enum_validation="operation")`を追加。
+  `apply_scalar_value_transfer()`、`apply_scalar_value_transfer_to_paths()`、
+  `apply_scalar_value_to_paths()`も同じ指定を受け付ける。
+  enum定義を開始時の整数値・項目名の対応へ固定し、書込み直前の基準と当該対象、
+  終了時の全対象を新しく読み直して比較する。別実体のカスタムenumも全件再取得の
+  繰り返しを減らせる。既定の`"per_write"`は従来どおり維持する。
+  後続・既適用・readonly・同値対象や別行の変更検出が終了時まで遅れる場合がある。
+  不一致では同じUndo／復旧処理内で値の復旧を試みるが、外部callbackの副作用と
+  定義そのものは戻さず、復旧不能時はエラーにする。scene・設定の移行は不要。
 - `MayaEnumPlugsBinding`の定義検証で、`MPlug.attribute()`の`MObject`実体を
   共有する対象の定義取得をまとめる。検証のたびに定義を新しく取得し、標準属性や
   動的属性という区分だけで不変とは扱わない。同名・同内容でも別実体は個別に検証する。

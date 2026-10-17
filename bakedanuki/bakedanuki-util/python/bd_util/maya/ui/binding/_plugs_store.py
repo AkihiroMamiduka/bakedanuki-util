@@ -260,8 +260,12 @@ def plugs_undo_chunk() -> Generator[None, None, None]:
             cmds.undoInfo(closeChunk=True)
 
 
-def execute_plug_writes(plan: Sequence[PlugWrite]) -> None:
-    """入力元や値型をまたぐ全差分を適用し、途中失敗では逆順に復旧する。"""
+def execute_plug_writes(
+    plan: Sequence[PlugWrite],
+    *,
+    validate_after: Callable[[], None] | None = None,
+) -> None:
+    """全差分と終了検証を実行し、途中失敗では逆順に復旧する。"""
     applied: list[PlugWrite] = []
     try:
         for write in plan:
@@ -269,6 +273,8 @@ def execute_plug_writes(plan: Sequence[PlugWrite]) -> None:
         for write in plan:
             applied.append(write)
             write.apply()
+        if validate_after is not None:
+            validate_after()
     except Exception as error:
         failures: list[Exception] = [error]
         for write in reversed(applied):

@@ -12,7 +12,14 @@ from bd_util.maya.ui.binding.plugs_binding import (
 )
 from bd_util.maya.ui.binding.plugs_state import MayaPlugTargetState
 from bd_util.maya.ui import (
+    MayaEnumValueEdit,
     MayaPlugInputState,
+    MayaScalarPasteResult,
+    MayaScalarValueTransfer,
+    apply_plugs_values,
+    apply_scalar_value_to_paths,
+    apply_scalar_value_transfer,
+    apply_scalar_value_transfer_to_paths,
     connected_plug_edit_reason,
     inspect_plug_input_state,
     resolve_bool_plug,
@@ -29,6 +36,35 @@ from bd_util.ui import (
     FloatViewModel,
     qt,
 )
+
+
+def operation_enum_validation_contract(
+    binding: MayaEnumPlugsBinding, transfer: MayaScalarValueTransfer
+) -> None:
+    """一括enum検証の選択肢と、値転送APIからの型付き指定を固定する。"""
+    edits = [MayaEnumValueEdit(binding, 1)]
+    assert_type(apply_plugs_values(edits), bool)
+    assert_type(apply_plugs_values(edits, enum_validation="per_write"), bool)
+    assert_type(apply_plugs_values(edits, enum_validation="operation"), bool)
+    assert_type(
+        apply_scalar_value_transfer(
+            ["target"], transfer, enum_validation="operation"
+        ),
+        MayaScalarPasteResult,
+    )
+    assert_type(
+        apply_scalar_value_transfer_to_paths(
+            ["target"], ["mode"], transfer, enum_validation="operation"
+        ),
+        MayaScalarPasteResult,
+    )
+    assert_type(
+        apply_scalar_value_to_paths(
+            ["target"], ["mode"], transfer, enum_validation="operation"
+        ),
+        MayaScalarPasteResult,
+    )
+
 
 bool_binding = MayaBoolPlugsBinding([resolve_bool_plug("node", "visibility")])
 assert_type(

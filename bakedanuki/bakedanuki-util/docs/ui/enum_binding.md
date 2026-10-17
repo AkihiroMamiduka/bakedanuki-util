@@ -90,6 +90,13 @@ lock、親compoundのlock、入力接続は編集を無効化しますが、読�
 `apply_representative_value()`は代表と同値の入力を明示的に全対象へ適用します。
 詳細とサンプルは[複数プラグ基盤](plugs_binding.md#enum属性群)を参照してください。
 
+複数行を`apply_plugs_values()`へまとめる場合、`enum_validation="operation"`で
+開始時の全定義、各書込み直前の基準と当該対象、終了時の全定義を確認する方式を選べます。
+整数値と項目名の対応を開始時へ固定し、全員が同じ新定義へ変わった場合も拒否します。
+readonly・同値・別行の対象も終了確認に含みます。既定は従来の`"per_write"`です。
+変更の発見時期と外部副作用の復旧範囲が異なるため、
+[一括入力の検証規則](plugs_binding.md#異なる属性群を一操作で編集する)を確認してください。
+
 ## Python正本とMayaを双方向同期する
 
 ```python
@@ -241,6 +248,8 @@ Python正本のサンプルでは`maya_view.show(..., definition=definition)`で
 - `tests/maya/ui/test_enum_plugs_definition_groups.py`: 1000jointの共有定義取得回数の線形上限と
   Undo／Redo、独立した動的enum・hash衝突・lock時の最新定義検証。
   共有groupの先頭member削除と基準の同名再作成を、監視あり／なしの両方で確認する。
+- `tests/maya/ui/test_enum_operation_validation.py`: 操作開始時の定義固定、書込み直前と終了時の
+  再検証、全員同時変更・同値・readonly・別行・raw同一割当変更の検出と失敗復旧。
 - `tests/ui/test_enum_plugs_binding_views.py`: 一括編集用Viewとサンプル。
 - `tests/typecheck/enum_binding_contract.py`: 公開APIと正本objectの型・補完。
 

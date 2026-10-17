@@ -6,7 +6,7 @@ from __future__ import annotations
 import math
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import TypeAlias, cast
+from typing import Literal, TypeAlias, cast
 
 from ....ui import EnumDefinition, EnumItem, JsonClipboard
 from ....ui.binding.int._validation import require_int
@@ -16,6 +16,7 @@ from ...node.inspection import (
     inspect_scalar_attributes,
 )
 from ._enum_plug_value import EnumPlugValue
+from ._enum_validation import require_enum_validation
 from ._float_plug_value import FloatPlugValue
 from ._int_plug_value import IntPlugValue
 from .bool_plug_resolver import resolve_bool_plug
@@ -641,6 +642,7 @@ def apply_scalar_value_transfer(
     *,
     key_animated: bool = False,
     edit_connected: bool = False,
+    enum_validation: Literal["per_write", "operation"] = "per_write",
 ) -> MayaScalarPasteResult:
     """一つのコピー元を、全対象nodeの同じ属性pathへ適用する。
 
@@ -656,6 +658,9 @@ def apply_scalar_value_transfer(
             Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
             一時値のみ変更する。constraintや未対応接続は編集しない。
             既定値は `False` で、stringには適用しない。
+        enum_validation: `per_write`は従来の書込みごとの検証を使う。
+            `operation`は`apply_plugs_values()`の操作単位の定義検証を使い、
+            途中の定義変更を拒否する。外部処理の副作用や定義自体は復旧しない。
 
     Returns:
         変更有無、書き込み候補数、除外した属性と理由。
@@ -663,10 +668,11 @@ def apply_scalar_value_transfer(
     Raises:
         TypeError: `transfer` の型が不正な場合。
         ValueError: コピー元・貼り付け先nodeの件数や名前が不正な場合。
-            または `key_animated` と `edit_connected` が両方
-            `True` の場合。
+            または `key_animated` と `edit_connected` が両方 `True` の場合、
+            `enum_validation`が不正な場合。
 
     """
+    enum_validation = require_enum_validation(enum_validation)
     if key_animated and edit_connected:
         raise ValueError("key_animatedとedit_connectedは併用できません")
     if not isinstance(transfer, MayaScalarValueTransfer):
@@ -730,7 +736,7 @@ def apply_scalar_value_transfer(
                     continue
                 edits.append(edit)
                 bindings.append(binding)
-        changed = apply_plugs_values(edits)
+        changed = apply_plugs_values(edits, enum_validation=enum_validation)
         return MayaScalarPasteResult(changed, len(edits), tuple(excluded))
     finally:
         for binding in bindings:
@@ -759,6 +765,7 @@ def apply_scalar_value_transfer_to_paths(
     *,
     key_animated: bool = False,
     edit_connected: bool = False,
+    enum_validation: Literal["per_write", "operation"] = "per_write",
 ) -> MayaScalarPasteResult:
     """搬送値から指定した同一pathだけを各nodeへ適用する。
 
@@ -772,6 +779,8 @@ def apply_scalar_value_transfer_to_paths(
             Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
             一時値のみ変更する。constraintや未対応接続は編集しない。
             既定値は `False` で、stringには適用しない。
+        enum_validation: `apply_scalar_value_transfer()`へ渡すenum検証方針。
+            既定は`per_write`で、`operation`は操作開始時の定義を固定する。
 
     Returns:
         変更有無、書き込み候補数、除外した属性と理由。
@@ -779,9 +788,10 @@ def apply_scalar_value_transfer_to_paths(
     Raises:
         TypeError: `transfer` または `target_paths` の型が不正な場合。
         ValueError: コピー元、貼り付け先、pathの指定が不正な場合。
-            または `key_animated` と `edit_connected` が両方
-            `True` の場合。
+            または `key_animated` と `edit_connected` が両方 `True` の場合、
+            `enum_validation`が不正な場合。
     """
+    enum_validation = require_enum_validation(enum_validation)
     if key_animated and edit_connected:
         raise ValueError("key_animatedとedit_connectedは併用できません")
     if not isinstance(transfer, MayaScalarValueTransfer):
@@ -821,6 +831,7 @@ def apply_scalar_value_transfer_to_paths(
         MayaScalarValueTransfer((MayaNodeValueSnapshot(selected_values),)),
         key_animated=key_animated,
         edit_connected=edit_connected,
+        enum_validation=enum_validation,
     )
     return MayaScalarPasteResult(
         result.changed,
@@ -836,6 +847,7 @@ def apply_scalar_value_to_paths(
     *,
     key_animated: bool = False,
     edit_connected: bool = False,
+    enum_validation: Literal["per_write", "operation"] = "per_write",
 ) -> MayaScalarPasteResult:
     """一つのコピー元値を各nodeの指定pathへ適用する。
 
@@ -852,6 +864,8 @@ def apply_scalar_value_to_paths(
             Layerへの標準値入力を許可し、Auto Keyに連動する。SDKは
             一時値のみ変更する。constraintや未対応接続は編集しない。
             既定値は `False` で、stringには適用しない。
+        enum_validation: `apply_scalar_value_transfer()`へ渡すenum検証方針。
+            既定は`per_write`で、`operation`は操作開始時の定義を固定する。
 
     Returns:
         変更有無、書き込み候補数、除外した属性と理由。
@@ -859,10 +873,11 @@ def apply_scalar_value_to_paths(
     Raises:
         TypeError: `transfer` または `target_paths` の型が不正な場合。
         ValueError: コピー元、貼り付け先、pathの指定が不正な場合。
-            または `key_animated` と `edit_connected` が両方
-            `True` の場合。
+            または `key_animated` と `edit_connected` が両方 `True` の場合、
+            `enum_validation`が不正な場合。
 
     """
+    enum_validation = require_enum_validation(enum_validation)
     if key_animated and edit_connected:
         raise ValueError("key_animatedとedit_connectedは併用できません")
     if not isinstance(transfer, MayaScalarValueTransfer):
@@ -893,4 +908,5 @@ def apply_scalar_value_to_paths(
         MayaScalarValueTransfer((expanded,)),
         key_animated=key_animated,
         edit_connected=edit_connected,
+        enum_validation=enum_validation,
     )

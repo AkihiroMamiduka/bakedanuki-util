@@ -298,6 +298,26 @@ enum定義不一致などで編集不可の場合は、他行も含めて例外�
 各書込み直前にも状態・範囲・単位・enum定義を確認し、途中失敗では先に成功した
 別行も含めて今回の入力を復旧します。対象の外部lockやenum定義を自動で元に戻しません。
 復旧にも失敗した場合は`ExceptionGroup`を送出し、各Bindingの`edit_failed`へ通知します。
+
+`enum_validation`の既定は`"per_write"`で、各書込み前にそのenum属性群の全定義を
+再確認します。多数対象の同期的な一括入力では、
+`apply_plugs_values(edits, enum_validation="operation")`を明示できます。
+この場合の定義検証は次の順です。
+
+1. 開始時に全enum対象の整数値と項目名の対応を新しく取得し、比較元として固定する。
+2. 各書込み直前に、その行の基準と書込み対象の定義を再取得して開始時と比較する。
+3. 終了時に全行の全enum対象を再取得して開始時と比較する。
+   lockなどでreadonlyの対象と、同値のため書き込まなかった対象も含める。
+
+全対象が同じ新しい定義へ変わった場合も、開始時と違えば失敗にします。
+各確認では実定義を新しく解析し、`enumName`文字列が同じでも値と項目名の割当変更を
+確認します。`getAddAttrCmd()`の文字列署名やmin/maxだけで確認を省略しません。
+後続・既適用・readonly・別行の定義変更は、既定方式より発見が遅れる場合があります。
+終了確認も書込みと同じUndo／例外復旧処理内で行い、不一致なら今回の値とキーの復旧を
+試みます。外部callbackの副作用や外部が変更した定義は復旧対象外です。
+外部変更で復旧できない場合は成功扱いせず、復旧失敗も通知します。
+この指定はそのAPI呼出しだけに適用し、Binding単独の入力と後続操作の既定を変更しません。
+
 複数行にまたがる連続ドラッグでは、開始済みの`MayaEditSession`を
 `apply_plugs_values(..., edit_session=session)`へ渡し、操作終了時に`finish()`すると、
 各位置の一括入力を1回のUndoへまとめられます。
@@ -354,6 +374,9 @@ ComboBox・RadioButtonGroup・Labelに加え、混在、編集可能件数、対
 - `tests/typecheck/maya_plugs_binding_contract.py`: 状態APIと既存Viewへの受け渡し型。
 - `tests/maya/ui/test_plugs_value_edits.py`: 異単位・異種・複数行の一括入力、全件事前検証、
   readonly、重複拒否、一回Undo、全行の失敗復旧。
+- `tests/maya/ui/test_enum_operation_validation.py`: 1000カスタムenumの定義取得回数とUndo／Redo、
+  途中・終了時の定義変更、readonly・同値・別行の対象、全員が同じ新定義への変更、
+  raw文字列が同じ割当変更、値の復旧と復旧失敗、呼出し終了後の既定検証への復帰。
 - `tests/typecheck/maya_plugs_value_edits_contract.py`: 型付き入力とunionの補完契約。
 - `tests/maya/ui/test_enum_plugs_binding.py`: enum定義の一致・変更、未定義値、混在、Undo、途中失敗、寿命。
 - `tests/maya/ui/test_plugs_binding_notifications.py`: 無関係なdirtyによる再読取りの抑止、

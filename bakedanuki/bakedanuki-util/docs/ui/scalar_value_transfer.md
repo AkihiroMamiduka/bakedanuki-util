@@ -91,6 +91,15 @@ byte・short・longも同じ入力方針を受け付け、整数値のまま事�
 既存APIをこの動作へ移す場合は`key_animated=True`を`edit_connected=True`へ置き換えます。
 clipboard schema、scene、保存設定の移行は不要です。
 
+三つの貼り付けAPIは`enum_validation="operation"`も受け付け、値の適用に使う
+`apply_plugs_values()`へ渡します。既定の`"per_write"`と、上記の事前除外規則は維持します。
+`"operation"`では一括入力へ渡したenum対象の定義を開始時へ固定し、書込み直前の基準と
+当該対象、終了時の全対象を新しく確認します。変更の発見が遅れる場合があり、終了確認の
+失敗も同じUndo／復旧処理内で扱います。外部callbackの副作用と定義自体は戻しません。
+詳細は[一括入力の検証規則](plugs_binding.md#異なる属性群を一操作で編集する)を参照してください。
+`bdChannelBox`は多数ノードモードの値Pasteでこの指定を使います。
+アニメーションカーブのPasteは、このscalar値搬送APIの対象ではありません。
+
 表示状態で正式pathを絞り込む場合は、`bd_util.maya.node`の
 `filter_scalar_attribute_paths()`を使用します。`all`、`visible`、`keyable`、
 `channel_box`、`hidden`を受け取り、Keyableを優先する共通分類で入力順のpathを返します。
