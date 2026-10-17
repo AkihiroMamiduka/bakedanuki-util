@@ -139,8 +139,10 @@ constexpr unsigned int kCircleSegments = 64;
 using Stroke = MPointArray;
 using Strokes = std::vector<Stroke>;
 
+constexpr short cubePresetIndex();
+
 struct ShapeSettings {
-    short shape = 33;
+    short shape = cubePresetIndex();
     short firstAxis = 0;
     short secondAxis = 2;
     double rootSize = 1.0;
@@ -335,7 +337,7 @@ bool readSettings(
 ) {
     MStatus status;
     if (attributes.shape.isNull()) {
-        settings.shape = 33;
+        settings.shape = cubePresetIndex();
     } else {
         settings.shape = MPlug(node, attributes.shape).asShort(&status);
         if (!status) {
@@ -909,6 +911,17 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
     MPointArray triangles;
     MPointArray templateTriangles;
     switch (outline) {
+        case 54:  // Line1stEndArrow
+        case 55:  // Line2ndEndArrow
+        case 56:  // Line3rdEndArrow
+        case 57:  // CrossLine1st2ndEndArrow
+        case 58:  // CrossLine1st3rdEndArrow
+        case 59:  // CrossLine2nd3rdEndArrow
+        case 61:  // SemicircleEndArrow
+            for (const auto& head : endArrowHeads(outline)) {
+                appendFillTriangle(triangles, transform, head[0], head[1], head[2]);
+            }
+            break;
         case 0:  // Gear
             appendGearRing(triangles, transform);
             break;
@@ -2072,7 +2085,7 @@ MStatus BdControllerShapeNode::initialize() {
     MFnTypedAttribute typedAttributeFn;
     MFnEnumAttribute enumAttributeFn;
 
-    shape = enumAttributeFn.create("shape", "sh", 33, &status);
+    shape = enumAttributeFn.create("shape", "sh", cubePresetIndex(), &status);
     if (!status) {
         return status;
     }

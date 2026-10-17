@@ -18,10 +18,24 @@ SHAPE_NAMES = (
     "Gear",
     "GearFilled",
     "Line1st",
+    "Line1stEndArrow",
+    "Line1stEndArrowFilled",
     "Line2nd",
+    "Line2ndEndArrow",
+    "Line2ndEndArrowFilled",
     "Line3rd",
-    "CrossLineXY",
-    "CrossLineXYZ",
+    "Line3rdEndArrow",
+    "Line3rdEndArrowFilled",
+    "CrossLine1st2nd",
+    "CrossLine1st2ndEndArrow",
+    "CrossLine1st2ndEndArrowFilled",
+    "CrossLine1st3rd",
+    "CrossLine1st3rdEndArrow",
+    "CrossLine1st3rdEndArrowFilled",
+    "CrossLine2nd3rd",
+    "CrossLine2nd3rdEndArrow",
+    "CrossLine2nd3rdEndArrowFilled",
+    "CrossLine3Axis",
     "Triangle",
     "TriangleFilled",
     "TriangleArrow3D",
@@ -72,6 +86,8 @@ SHAPE_NAMES = (
     "CircleArrow3DFilled",
     "Semicircle",
     "SemicircleFilled",
+    "SemicircleEndArrow",
+    "SemicircleEndArrowFilled",
     "SemicircleArrow2D",
     "SemicircleArrow2DFilled",
     "SemicircleArrow3D",
@@ -100,7 +116,7 @@ SHAPE_NAMES = (
     "ConeFilled",
     "ConeFin",
     "ConeFinFilled",
-    "ColorCrossLine",
+    "ColorCrossLine3Axis",
     "ColorCube",
     "ColorCubeFilled",
     "ColorCornerCube",
@@ -135,7 +151,11 @@ def _load_bd_util_nodes(maya_cmds) -> None:
 
 
 def _create_controller(
-    maya_cmds, *, name="controller", shape_value=11, bounds_mode=0
+    maya_cmds,
+    *,
+    name="controller",
+    shape_value=SHAPE_NAMES.index("Square"),
+    bounds_mode=0,
 ) -> tuple[str, str]:
     transform = maya_cmds.createNode("transform", name=name)
     shape = maya_cmds.createNode(
@@ -646,9 +666,9 @@ def test_filled_preset_preserves_outline_bounds(
             (-0.5, -0.5, -0.5, 0.5, 1.0, 0.5),
         ),  # CylinderFinArrow
         (
-            SHAPE_NAMES.index("ColorCrossLine"),
+            SHAPE_NAMES.index("ColorCrossLine3Axis"),
             (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
-        ),  # ColorCrossLine
+        ),  # ColorCrossLine3Axis
         (
             SHAPE_NAMES.index("ColorSphere"),
             (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
@@ -707,6 +727,64 @@ def test_line_follows_selected_axis_basis(
     assert _bounds(maya_om, shape) == pytest.approx(
         expected_bounds, abs=1.0e-9
     )
+
+
+@pytest.mark.parametrize(
+    ("shape_name", "expected"),
+    (
+        ("CrossLine1st2nd", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        ("CrossLine1st3rd", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
+        ("CrossLine2nd3rd", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        ("CrossLine3Axis", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+    ),
+)
+def test_crossline_uses_named_axis_plane(
+    maya_cmds, maya_om, new_scene, shape_name, expected
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(shape_name)
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
+
+
+@pytest.mark.parametrize(
+    ("base_name", "expected"),
+    (
+        ("Line1st", (-0.5, -0.05, 0.0, 0.5, 0.05, 0.0)),
+        ("Line2nd", (-0.05, -0.5, 0.0, 0.05, 0.5, 0.0)),
+        ("Line3rd", (-0.05, 0.0, -0.5, 0.05, 0.0, 0.5)),
+        ("CrossLine1st2nd", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        ("CrossLine1st3rd", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
+        ("CrossLine2nd3rd", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        ("Semicircle", (0.0, 0.0, -0.55, 0.0, 0.5, 0.55)),
+    ),
+)
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("remap_axes", (False, True))
+def test_end_arrow_extent_and_axis_transform(
+    maya_cmds, maya_om, new_scene, base_name, expected, filled, remap_axes
+):
+    _load_bd_util_nodes(maya_cmds)
+    shape_name = base_name + "EndArrow" + ("Filled" if filled else "")
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(shape_name)
+    )
+    if remap_axes:
+        maya_cmds.setAttr(f"{shape}.shape1stAxis", 4)  # +Z
+        maya_cmds.setAttr(f"{shape}.shapeScale", 2.0, 3.0, 4.0)
+        maya_cmds.setAttr(f"{shape}.shapeTranslate", 1.0, 2.0, 3.0)
+        maya_cmds.setAttr(f"{shape}.shapeRootSize", 1.5)
+        xmin, ymin, zmin, xmax, ymax, zmax = expected
+        expected = (
+            1.5 * (1.0 - 2.0 * zmax),
+            1.5 * (2.0 + 3.0 * ymin),
+            1.5 * (3.0 + 4.0 * xmin),
+            1.5 * (1.0 - 2.0 * zmin),
+            1.5 * (2.0 + 3.0 * ymax),
+            1.5 * (3.0 + 4.0 * xmax),
+        )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
 
 
 @pytest.mark.parametrize(
