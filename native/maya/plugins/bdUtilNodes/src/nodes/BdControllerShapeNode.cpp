@@ -908,6 +908,23 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
         return makeColorCubeFillParts(transform, outline == 51);
     }
     if (!isFilledPreset(transform.settings.shape)) return {};
+    if (hasCrossLineEndSolids(outline)) {
+        ShapeSettings componentSettings;
+        componentSettings.shape = crossLineEndSolidPreset(outline, true);
+        const auto componentParts = makeFillParts(ShapeTransform(componentSettings));
+        MPointArray triangles;
+        for (unsigned int axis = 0; axis < 3; ++axis) {
+            for (double sign : {-1.0, 1.0}) {
+                for (const auto& part : componentParts) {
+                    for (unsigned int index = 0; index < part.triangles.length(); ++index) {
+                        triangles.append(transformPoint(
+                            crossLineEndSolidPoint(part.triangles[index], outline, axis, sign), transform));
+                    }
+                }
+            }
+        }
+        return {{std::move(triangles), StrokeStyle::Normal}};
+    }
     MPointArray triangles;
     MPointArray templateTriangles;
     switch (outline) {

@@ -48,6 +48,16 @@ SHAPE_NAMES = (
     "CrossLine2nd3rdWideEndArrow",
     "CrossLine2nd3rdWideEndArrowFilled",
     "CrossLine3Axis",
+    "CrossLine3AxisEndCube",
+    "CrossLine3AxisEndCubeFilled",
+    "CrossLine3AxisEndOctahedron",
+    "CrossLine3AxisEndOctahedronFilled",
+    "CrossLine3AxisEndSphere",
+    "CrossLine3AxisEndSphereFilled",
+    "CrossLine3AxisEndPyramid",
+    "CrossLine3AxisEndPyramidFilled",
+    "CrossLine3AxisEndCone",
+    "CrossLine3AxisEndConeFilled",
     "Triangle",
     "TriangleFilled",
     "TriangleArrow3D",
@@ -131,6 +141,16 @@ SHAPE_NAMES = (
     "ConeFin",
     "ConeFinFilled",
     "ColorCrossLine3Axis",
+    "ColorCrossLine3AxisEndCube",
+    "ColorCrossLine3AxisEndCubeFilled",
+    "ColorCrossLine3AxisEndOctahedron",
+    "ColorCrossLine3AxisEndOctahedronFilled",
+    "ColorCrossLine3AxisEndSphere",
+    "ColorCrossLine3AxisEndSphereFilled",
+    "ColorCrossLine3AxisEndPyramid",
+    "ColorCrossLine3AxisEndPyramidFilled",
+    "ColorCrossLine3AxisEndCone",
+    "ColorCrossLine3AxisEndConeFilled",
     "ColorCube",
     "ColorCubeFilled",
     "ColorCornerCube",
@@ -811,6 +831,56 @@ def test_end_arrow_extent_and_axis_transform(
             1.5 * (1.0 - 2.0 * zmin),
             1.5 * (2.0 + 3.0 * ymax),
             1.5 * (3.0 + 4.0 * xmax),
+        )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
+
+
+@pytest.mark.parametrize(
+    ("end_shape", "extent"),
+    (
+        ("Cube", 0.55),
+        ("Octahedron", 0.55),
+        ("Sphere", 0.55),
+        ("Pyramid", 0.5),
+        ("Cone", 0.5),
+    ),
+)
+@pytest.mark.parametrize("colored", (False, True))
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("remap_axes", (False, True))
+def test_crossline_end_solids_extent_and_axis_transform(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    end_shape,
+    extent,
+    colored,
+    filled,
+    remap_axes,
+):
+    _load_bd_util_nodes(maya_cmds)
+    shape_name = (
+        ("Color" if colored else "")
+        + "CrossLine3AxisEnd"
+        + end_shape
+        + ("Filled" if filled else "")
+    )
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(shape_name)
+    )
+    expected = (-extent, -extent, -extent, extent, extent, extent)
+    if remap_axes:
+        maya_cmds.setAttr(f"{shape}.shape1stAxis", 4)
+        maya_cmds.setAttr(f"{shape}.shapeScale", -2.0, 3.0, 4.0)
+        maya_cmds.setAttr(f"{shape}.shapeTranslate", 1.0, 2.0, 3.0)
+        maya_cmds.setAttr(f"{shape}.shapeRootSize", 1.5)
+        expected = (
+            1.5 * (1.0 - 2.0 * extent),
+            1.5 * (2.0 - 3.0 * extent),
+            1.5 * (3.0 - 4.0 * extent),
+            1.5 * (1.0 + 2.0 * extent),
+            1.5 * (2.0 + 3.0 * extent),
+            1.5 * (3.0 + 4.0 * extent),
         )
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
 
@@ -1740,6 +1810,16 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
         ("Line1stWideEndArrowFilled", (2.0, 3.6, 5.0, 2.0, 4.4, 7.0)),
         ("CrossLine1st2ndWideEndArrowFilled", (2.0, 0.0, 5.0, 2.0, 8.0, 7.0)),
         ("SemicircleWideEndArrowFilled", (-11.2, 4.0, 6.0, 15.2, 8.2, 6.0)),
+        ("CrossLine3AxisEndCubeFilled", (-11.2, -0.4, 4.9, 15.2, 8.4, 7.1)),
+        (
+            "ColorCrossLine3AxisEndSphereFilled",
+            (-11.2, -0.4, 4.9, 15.2, 8.4, 7.1),
+        ),
+        ("CrossLine3AxisEndPyramidFilled", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
+        (
+            "ColorCrossLine3AxisEndConeFilled",
+            (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0),
+        ),
     ),
 )
 def test_preset_transform_history_and_scene_reload(

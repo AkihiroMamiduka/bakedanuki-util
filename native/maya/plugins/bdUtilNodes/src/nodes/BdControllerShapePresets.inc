@@ -1,6 +1,6 @@
 // Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 128> kPresetNames = {
+constexpr std::array<const char*, 148> kPresetNames = {
     "Gear",
     "GearFilled",
     "Line1st",
@@ -34,6 +34,16 @@ constexpr std::array<const char*, 128> kPresetNames = {
     "CrossLine2nd3rdWideEndArrow",
     "CrossLine2nd3rdWideEndArrowFilled",
     "CrossLine3Axis",
+    "CrossLine3AxisEndCube",
+    "CrossLine3AxisEndCubeFilled",
+    "CrossLine3AxisEndOctahedron",
+    "CrossLine3AxisEndOctahedronFilled",
+    "CrossLine3AxisEndSphere",
+    "CrossLine3AxisEndSphereFilled",
+    "CrossLine3AxisEndPyramid",
+    "CrossLine3AxisEndPyramidFilled",
+    "CrossLine3AxisEndCone",
+    "CrossLine3AxisEndConeFilled",
     "Triangle",
     "TriangleFilled",
     "TriangleArrow3D",
@@ -117,6 +127,16 @@ constexpr std::array<const char*, 128> kPresetNames = {
     "ConeFin",
     "ConeFinFilled",
     "ColorCrossLine3Axis",
+    "ColorCrossLine3AxisEndCube",
+    "ColorCrossLine3AxisEndCubeFilled",
+    "ColorCrossLine3AxisEndOctahedron",
+    "ColorCrossLine3AxisEndOctahedronFilled",
+    "ColorCrossLine3AxisEndSphere",
+    "ColorCrossLine3AxisEndSphereFilled",
+    "ColorCrossLine3AxisEndPyramid",
+    "ColorCrossLine3AxisEndPyramidFilled",
+    "ColorCrossLine3AxisEndCone",
+    "ColorCrossLine3AxisEndConeFilled",
     "ColorCube",
     "ColorCubeFilled",
     "ColorCornerCube",
@@ -136,7 +156,7 @@ struct PresetInfo {
     bool filled;
 };
 
-constexpr std::array<PresetInfo, 128> kPresetInfo = {{
+constexpr std::array<PresetInfo, 148> kPresetInfo = {{
     {0, false},  // Gear
     {0, true},  // GearFilled
     {1, false},  // Line1st
@@ -170,6 +190,16 @@ constexpr std::array<PresetInfo, 128> kPresetInfo = {{
     {67, false},  // CrossLine2nd3rdWideEndArrow
     {67, true},  // CrossLine2nd3rdWideEndArrowFilled
     {5, false},  // CrossLine3Axis
+    {69, false},  // CrossLine3AxisEndCube
+    {69, true},  // CrossLine3AxisEndCubeFilled
+    {70, false},  // CrossLine3AxisEndOctahedron
+    {70, true},  // CrossLine3AxisEndOctahedronFilled
+    {71, false},  // CrossLine3AxisEndSphere
+    {71, true},  // CrossLine3AxisEndSphereFilled
+    {72, false},  // CrossLine3AxisEndPyramid
+    {72, true},  // CrossLine3AxisEndPyramidFilled
+    {73, false},  // CrossLine3AxisEndCone
+    {73, true},  // CrossLine3AxisEndConeFilled
     {6, false},  // Triangle
     {6, true},  // TriangleFilled
     {7, false},  // TriangleArrow3D
@@ -253,6 +283,16 @@ constexpr std::array<PresetInfo, 128> kPresetInfo = {{
     {44, false},  // ConeFin
     {44, true},  // ConeFinFilled
     {45, false},  // ColorCrossLine3Axis
+    {74, false},  // ColorCrossLine3AxisEndCube
+    {74, true},  // ColorCrossLine3AxisEndCubeFilled
+    {75, false},  // ColorCrossLine3AxisEndOctahedron
+    {75, true},  // ColorCrossLine3AxisEndOctahedronFilled
+    {76, false},  // ColorCrossLine3AxisEndSphere
+    {76, true},  // ColorCrossLine3AxisEndSphereFilled
+    {77, false},  // ColorCrossLine3AxisEndPyramid
+    {77, true},  // ColorCrossLine3AxisEndPyramidFilled
+    {78, false},  // ColorCrossLine3AxisEndCone
+    {78, true},  // ColorCrossLine3AxisEndConeFilled
     {50, false},  // ColorCube
     {50, true},  // ColorCubeFilled
     {51, false},  // ColorCornerCube
@@ -1053,8 +1093,44 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline) {
     return geometry;
 }
 
+bool hasCrossLineEndSolids(short outline) {
+    return outline >= 69 && outline <= 78;
+}
+
+short crossLineEndSolidPreset(short outline, bool filled) {
+    constexpr std::array<short, 5> bases = {19, 24, 33, 41, 43};
+    const short base = bases[(outline - 69) % bases.size()];
+    for (short index = 0; index < static_cast<short>(kPresetInfo.size()); ++index) {
+        if (kPresetInfo[index].outlineIndex == base && kPresetInfo[index].filled == filled) {
+            return index;
+        }
+    }
+    return 0;
+}
+
+double crossLineEndSolidOffset(short outline) {
+    return (outline - 69) % 5 >= 3 ? 0.45 : 0.5;
+}
+
+MPoint crossLineEndSolidPoint(const MPoint& point, short outline, unsigned int axis, double sign) {
+    const MVector direction = nativeAxis(axis) * sign;
+    const MVector side = nativeAxis((axis + 1) % 3);
+    const MVector up = direction ^ side;
+    return MPoint::origin + direction * (crossLineEndSolidOffset(outline) + 0.1 * point.x)
+        + side * (0.1 * point.y) + up * (0.1 * point.z);
+}
+
+void appendCrossLineEndSolids(
+    short outline, const ShapeTransform& transform, Strokes& strokes,
+    std::vector<StrokeStyle>& styles
+);
+
 void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes& strokes, std::vector<StrokeStyle>& styles) {
     const short outline = outlinePresetIndex(shape);
+    if (hasCrossLineEndSolids(outline)) {
+        appendCrossLineEndSolids(outline, transform, strokes, styles);
+        return;
+    }
     if (outline >= 62 && outline <= 68) {
         appendNativeStroke(wideEndArrowGeometry(outline).outline,
             StrokeStyle::Normal, transform, strokes, styles);
@@ -1291,6 +1367,35 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             break;
         default:
             break;
+    }
+}
+
+void appendCrossLineEndSolids(
+    short outline, const ShapeTransform& transform, Strokes& strokes,
+    std::vector<StrokeStyle>& styles
+) {
+    ShapeSettings componentSettings;
+    componentSettings.shape = crossLineEndSolidPreset(outline, false);
+    Strokes componentStrokes;
+    std::vector<StrokeStyle> componentStyles;
+    appendPresetGeometry(componentSettings.shape, ShapeTransform(componentSettings),
+        componentStrokes, componentStyles);
+    const double lineEnd = crossLineEndSolidOffset(outline) - 0.05;
+    for (unsigned int axis = 0; axis < 3; ++axis) {
+        for (double sign : {-1.0, 1.0}) {
+            const StrokeStyle lineStyle = outline >= 74 && sign > 0.0
+                ? kAxisStyles[axis] : StrokeStyle::Normal;
+            appendNativeStroke({MPoint::origin, MPoint::origin + nativeAxis(axis) * (sign * lineEnd)},
+                lineStyle, transform, strokes, styles);
+            for (const auto& component : componentStrokes) {
+                std::vector<MPoint> points;
+                points.reserve(component.length());
+                for (unsigned int index = 0; index < component.length(); ++index) {
+                    points.push_back(crossLineEndSolidPoint(component[index], outline, axis, sign));
+                }
+                appendNativeStroke(points, StrokeStyle::Normal, transform, strokes, styles);
+            }
+        }
     }
 }
 
