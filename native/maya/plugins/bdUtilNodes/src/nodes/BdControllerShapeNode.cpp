@@ -1572,16 +1572,54 @@ MPointArray lineSegments(const Strokes& strokes) {
     return segments;
 }
 
-MColor axisStyledColor(StrokeStyle style, const MColor& color, bool selected) {
+using DrawDisplayType = MDAGDrawOverrideInfo::DrawOverrideDisplayType;
+
+DrawDisplayType drawDisplayType(const MDagPath& path) {
+    const auto overrides = path.getDrawOverrideInfo();
+    if (path.isTemplated()) return MDAGDrawOverrideInfo::kDisplayTypeTemplate;
+    return overrides.fOverrideEnabled
+        ? overrides.fDisplayType : MDAGDrawOverrideInfo::kDisplayTypeNormal;
+}
+
+MColor dormantWireframeColor(
+    const MDagPath& path, const MColor& fallback, bool selected,
+    DrawDisplayType displayType
+) {
+    MStatus status;
+    if (displayType == MDAGDrawOverrideInfo::kDisplayTypeTemplate) {
+        const MColor color = M3dView::templateColor(&status);
+        return status ? color : fallback;
+    }
+    if (displayType == MDAGDrawOverrideInfo::kDisplayTypeReference) {
+        const MColor color = M3dView::referenceLayerColor(&status);
+        return status ? color : fallback;
+    }
+    if (!selected) return fallback;
+    MFnDagNode dagNode(path, &status);
+    if (!status) return fallback;
+    MColor color = dagNode.dormantColor(&status);
+    if (!status) return fallback;
+    MColor overrideColor;
+    if (dagNode.drawOverrideColor(overrideColor, &status) && status) {
+        color = overrideColor;
+    }
+    return color;
+}
+
+MColor axisStyledColor(
+    StrokeStyle style, const MColor& color, bool selected,
+    DrawDisplayType displayType = MDAGDrawOverrideInfo::kDisplayTypeNormal
+) {
     if (selected || style == StrokeStyle::Normal ||
         style == StrokeStyle::Template) {
         return color;
     }
-    MColor result = style == StrokeStyle::AxisX
-        ? MColor(1.0f, 0.0f, 0.0f)
-        : style == StrokeStyle::AxisY
-        ? MColor(0.0f, 1.0f, 0.0f)
-        : MColor(0.0f, 0.0f, 1.0f);
+    const bool normal = displayType == MDAGDrawOverrideInfo::kDisplayTypeNormal;
+    const float value = normal ? 1.0f
+        : displayType == MDAGDrawOverrideInfo::kDisplayTypeTemplate ? 0.5f : 0.25f;
+    const float minimum = normal ? 0.0f : value * 0.75f;
+    MColor result(minimum, minimum, minimum);
+    result[style == StrokeStyle::AxisX ? 0 : style == StrokeStyle::AxisY ? 1 : 2] = value;
     result.a = color.a;
     return result;
 }
@@ -1595,10 +1633,39 @@ struct ShapeDrawData final : public MUserData {
     MColor dormantFillColor;
     MColor templateStrokeColor;
     MColor boundsPreviewColor;
+    DrawDisplayType displayType = MDAGDrawOverrideInfo::kDisplayTypeNormal;
     float lineWidth = 1.0f;
     bool drawOnTop = false;
     bool selected = false;
+    bool activeTemplate = false;
 };
+
+struct ShapeDrawAppearance {
+    MColor color;
+    MColor fillColor;
+    DrawDisplayType axisDisplayType;
+    bool selected;
+    bool shaded;
+};
+
+ShapeDrawAppearance drawAppearance(
+    const ShapeDrawData& data, unsigned int displayStyle
+) {
+    const bool highlighting =
+        (displayStyle & MHWRender::MFrameContext::kSelectionHighlighting) != 0;
+    const bool active = highlighting && (data.selected || data.activeTemplate);
+    const bool shaded = (displayStyle & (
+        MHWRender::MFrameContext::kGouraudShaded |
+        MHWRender::MFrameContext::kFlatShaded
+    )) != 0;
+    return {
+        highlighting ? data.color : data.dormantColor,
+        highlighting ? data.fillColor : data.dormantFillColor,
+        active ? MDAGDrawOverrideInfo::kDisplayTypeNormal : data.displayType,
+        highlighting && data.selected,
+        shaded && (active || data.displayType == MDAGDrawOverrideInfo::kDisplayTypeNormal),
+    };
+}
 
 class ControllerShapeDrawOverride final : public MHWRender::MPxDrawOverride {
 public:
@@ -1674,28 +1741,16 @@ public:
             }
         }
         data->color = MHWRender::MGeometryUtilities::wireframeColor(objectPath);
-        data->dormantColor = data->color;
+        data->displayType = drawDisplayType(objectPath);
         const auto displayStatus = MHWRender::MGeometryUtilities::displayStatus(objectPath);
         data->selected = displayStatus == MHWRender::kActive ||
             displayStatus == MHWRender::kLead ||
             displayStatus == MHWRender::kActiveComponent ||
             displayStatus == MHWRender::kHilite;
-        if (data->selected) {
-            MStatus colorStatus;
-            MFnDagNode dagNode(objectPath, &colorStatus);
-            if (colorStatus) {
-                MColor dormantColor = dagNode.dormantColor(&colorStatus);
-                if (colorStatus) {
-                    MColor overrideColor;
-                    MStatus overrideStatus;
-                    if (dagNode.drawOverrideColor(overrideColor, &overrideStatus) &&
-                        overrideStatus) {
-                        dormantColor = overrideColor;
-                    }
-                    data->dormantColor = dormantColor;
-                }
-            }
-        }
+        data->activeTemplate = displayStatus == MHWRender::kActiveTemplate;
+        data->dormantColor = dormantWireframeColor(
+            objectPath, data->color, data->selected, data->displayType
+        );
         MStatus templateStatus;
         data->templateStrokeColor = M3dView::templateColor(&templateStatus);
         if (!templateStatus) {
@@ -1732,30 +1787,22 @@ public:
         if (!data || !data->geometry) {
             return;
         }
-        const bool selectionHighlighting =
-            (frameContext.getDisplayStyle() &
-             MHWRender::MFrameContext::kSelectionHighlighting) != 0;
-        const bool selected = data->selected && selectionHighlighting;
-        const MColor& color = selected ? data->color : data->dormantColor;
-        const unsigned int displayStyle = frameContext.getDisplayStyle();
-        const bool shaded = (displayStyle & (
-            MHWRender::MFrameContext::kGouraudShaded |
-            MHWRender::MFrameContext::kFlatShaded
-        )) != 0;
+        const auto appearance = drawAppearance(*data, frameContext.getDisplayStyle());
+        const MColor& color = appearance.color;
         for (const auto& part : data->geometry->fillParts) {
-            if (!shaded && !part.marker) continue;
+            if (!appearance.shaded && !part.marker) continue;
             drawManager.beginDrawable(
                 part.style == StrokeStyle::Template
                     ? MHWRender::MUIDrawManager::kNonSelectable
                     : MHWRender::MUIDrawManager::kSelectable
             );
-            MColor fillColor = part.marker ? color
-                : selected ? data->fillColor : data->dormantFillColor;
+            MColor fillColor = part.marker ? color : appearance.fillColor;
             if (part.style == StrokeStyle::Template) {
                 fillColor = data->templateStrokeColor;
                 fillColor.a = data->fillColor.a;
             } else {
-                fillColor = axisStyledColor(part.style, fillColor, selected);
+                fillColor = axisStyledColor(part.style, fillColor,
+                    appearance.selected, appearance.axisDisplayType);
             }
             drawManager.setColor(fillColor);
             drawManager.setPaintStyle(MHWRender::MUIDrawManager::kFlat);
@@ -1773,7 +1820,8 @@ public:
                     ? MHWRender::MUIDrawManager::kNonSelectable
                     : MHWRender::MUIDrawManager::kSelectable
             );
-            MColor strokeColor = axisStyledColor(style, color, selected);
+            MColor strokeColor = axisStyledColor(style, color,
+                appearance.selected, appearance.axisDisplayType);
             if (style == StrokeStyle::Template) {
                 strokeColor = data->templateStrokeColor;
             }

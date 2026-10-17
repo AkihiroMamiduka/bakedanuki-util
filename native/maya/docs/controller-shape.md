@@ -508,9 +508,28 @@ shape 自身の `visibility` をオフにすると非表示になります。
 に基づきます。
 
 **Show > Selection Highlighting** はビューポートごとに反映します。
-オンでは選択中の通常線・面と軸色の線を Maya の選択色にし、オフでは通常線・面を
-非選択時の色、軸色の線を赤・緑・青で表示します。選択そのものと、
-template 色・選択不可の線には影響しません。
+オンでの選択表示は Maya の選択色に従います。オフでは、選択中も
+実効displayTypeの非選択時と同じ線色・面表示にします。
+`Normal` では通常色とRGBの軸色、`Template` ではMayaのtemplate色、
+`Reference` ではMayaのreference色で通常線を描きます。
+`Template` と `Reference` の非選択表示では通常のFilled面を省き、
+`ColorCornerCube*` の小四角は塗り面として残します。
+親transform、上位のDAG、Display Layer経由のdrawOverrideにも同じルールを適用します。
+
+Color系の軸色の線と小四角は、非選択表示で次のHSV値を使います。
+HueはX=`360°`（`0°`）、Y=`120°`、Z=`240°`です。
+
+| 実効displayType | Saturation | Value |
+| --- | --- | --- |
+| `Normal` | `1` | `1` |
+| `Template` | `0.25` | `0.5` |
+| `Reference` | `0.25` | `0.25` |
+
+Selection Highlightingがオフの選択中も同じ軸色を使います。
+透明度は線・小四角に `shapeTransparency`、通常のFilled面に
+`shapeFillTransparency` を適用します。形状内のtemplate部分と
+`shapeOffsetLineTemplate` は、DAG全体のdisplayTypeとは独立した指定です。
+選択そのものと、template色・選択不可の部分には影響しません。
 
 ビューポートの描画とクリック選択は `mayapy` のヘッドレステストだけでは
 確認できません。Maya 2025 / 2026 / 2027 の GUI で次を確認してください。
@@ -547,7 +566,7 @@ template 色・選択不可の線には影響しません。
 30. 調整属性とその X/Y/Z 子属性を Channel Box から編集でき、通常の一括キー操作ではキーが付かない。属性を明示すればキーや入力接続を設定できる。区切りは編集できない。
 31. Maya ASCII で保存して再読込した後も、区切りの表示とロック、調整属性の順序と非 keyable 状態が保たれる。
 32. `ColorSphere` は赤・緑・青の直交円だけ、`ColorSphereArrow2D/3D` はその円と通常色の矢印、`ColorSphereCrossLine` は同じ円と十字線として表示され、円と十字線の間に橋渡しの線がない。矢印付きの Filled では球殻と矢印面が塗られ、軸色の円が維持される。
-33. `bdControllerShape` を選択したまま **Show > Selection Highlighting** をオフにすると通常線・面と OffsetLine が非選択時の色に戻り、軸色の線は赤・緑・青に戻る。オンに戻すと選択色になる。オフでもクリック選択できる。
+33. `bdControllerShape` を選択したまま **Show > Selection Highlighting** をオフにすると通常線・面と OffsetLine が実効displayTypeの非選択時と同じ表示になる。Normalの軸色はRGB、Template/Referenceの軸色は上表のHSV値を使う。オンに戻すと従来の選択表示になる。Normalではオフでもクリック選択できる。
 34. 複数ビューポートで Selection Highlighting のオン・オフを別々に設定し、それぞれの表示色が独立する。template 色・選択不可の線と、通常線への色オーバーライドも確認する。
 35. `Line1st`、`Line2nd`、`Line3rd` が既定軸で X、Y、Z の各方向へ長さ1の線として表示され、`shape1stAxis` と `shape2ndAxis` を変更すると対応する方向へ回る。
 36. `CubeFinArrow` と `CylinderFinArrow` の斜線が `-1stAxis` 側の高い位置から `+1stAxis` 側の本体上端へ伸び、軸指定・拡縮後も本体とフィンの接点が離れない。
@@ -563,3 +582,8 @@ template 色・選択不可の線には影響しません。
 46. 4種類のCrossLineが名前どおりの平面・軸を使い、軸指定の変更に追従する。各EndArrowの先端は元の端点に一致し、斜辺0.1・開き角60°で底辺の輪郭線がない。
 47. `SemicircleEndArrow*` の両端で、矢印が接線に沿って外向きになる。
 48. 7種類の `*EndArrowFilled` は矢印部分だけを塗り、半円の内側を塗らない。Shadedで三角面内を選択でき、WireframeではV字の輪郭だけが残る。Selection Highlighting、透明度、Draw On Top、軸指定、負スケール、animation matrix、Undo/Redo、シーン再読込も確認する。
+49. shape自身・親transform・上位DAG・Display LayerそれぞれでNormal/Template/Referenceを指定し、Selection Highlightingがオフなら選択前後の線色・面表示・軸色が一致する。ColorCornerCubeの小四角、ColorCrossLine3AxisとColorSphereの軸色線も確認する。
+
+実際のViewport 2.0を必要とする画像比較テストは
+`tests/maya/ui/test_controller_shape_viewport.py` にあります。既存作業とは別の
+Maya GUIプロセスでpytestから実行します。mayapyのbatch環境では明示的にskipします。
