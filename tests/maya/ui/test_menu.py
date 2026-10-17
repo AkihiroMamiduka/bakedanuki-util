@@ -18,6 +18,7 @@ from bd_util.maya.ui import (
     unregister_menu_owner,
 )
 from bd_util.maya.ui import menu as menu_module
+from bd_util.ui import qt
 
 
 class FakeMenus:
@@ -29,7 +30,13 @@ class FakeMenus:
         self.items: dict[str, dict[str, object]] = {}
         self.detached: set[str] = set()
         self.option_vars: dict[str, int] = {}
+        self.refreshed_icons: dict[str, str] = {}
         self.prefs_dir = prefs_dir
+
+    def refresh_icon(self, item_path: str, image: str) -> None:
+        """作成済み項目だけに画像の再読込みが適用されるか記録する。"""
+        assert item_path in self.items
+        self.refreshed_icons[item_path] = image
 
     def internalVar(self, **kwargs: object) -> str:
         """一時ディレクトリをMayaのユーザー設定先として返す。"""
@@ -131,6 +138,7 @@ def fake_menus(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> FakeMenus:
     monkeypatch.delenv("BAKEDANUKI_CONFIG_FILE", raising=False)
     monkeypatch.setattr(menu_module, "cmds", fake)
     monkeypatch.setattr(menu_module, "_main_window", lambda: "MayaWindow")
+    monkeypatch.setattr(menu_module, "_refresh_menu_icon", fake.refresh_icon)
     return fake
 
 
@@ -209,6 +217,67 @@ def test_existing_owned_root_uses_new_display_label(
     assert fake_menus.menus[root]["label"] == "bakedanuki"
     assert len(fake_menus.menus) == 2
     assert len(fake_menus.items) == item_count
+
+
+def test_menu_icon_can_be_added_replaced_and_removed(
+    fake_menus: FakeMenus, tmp_path: Path
+) -> None:
+    """同じ項目で画像を追加・交換・解除し、日本語を含むpathも渡せる。"""
+    icon_dir = tmp_path / "日本語 icons"
+    icon_dir.mkdir()
+    image = qt.QImage(64, 64, qt.QImage.Format.Format_RGB32)
+    image.fill(qt.QColor("white"))
+    first = icon_dir / "first.png"
+    second = icon_dir / "second.png"
+    assert image.save(str(first))
+    assert image.save(str(second))
+    item = (
+        "MayaWindow|bdUtilMainMenu|bdUtilCategory_tools|"
+        "bdUtilItem_8_bd_tools_sample"
+    )
+
+    for icon_path in (None, first, str(second), None):
+        assert register_menu_item(
+            owner="bd_tools",
+            category="tools",
+            item_id="sample",
+            label="Sample",
+            command=lambda: None,
+            icon_path=icon_path,
+        )
+        expected = Path(icon_path).as_posix() if icon_path else ""
+        assert fake_menus.items[item]["image"] == expected
+        assert fake_menus.refreshed_icons[item] == expected
+        assert len(fake_menus.items) == 3
+
+
+@pytest.mark.parametrize("invalid_kind", ["missing", "directory", "broken"])
+def test_invalid_icon_warns_and_keeps_menu_command(
+    fake_menus: FakeMenus, tmp_path: Path, invalid_kind: str
+) -> None:
+    """画像の欠落・フォルダ・破損では警告し、項目の起動処理を維持する。"""
+    icon_path = tmp_path / "invalid.png"
+    if invalid_kind == "directory":
+        icon_path.mkdir()
+    elif invalid_kind == "broken":
+        icon_path.write_text("not an image", encoding="utf-8")
+    called: list[bool] = []
+    with pytest.warns(RuntimeWarning, match="アイコン画像を読み込めません"):
+        assert register_menu_item(
+            owner="bd_tools",
+            category="tools",
+            item_id="sample",
+            label="Sample",
+            command=lambda: called.append(True),
+            icon_path=icon_path,
+        )
+    item = (
+        "MayaWindow|bdUtilMainMenu|bdUtilCategory_tools|"
+        "bdUtilItem_8_bd_tools_sample"
+    )
+    assert fake_menus.items[item]["image"] == ""
+    cast(Callable[..., object], fake_menus.items[item]["command"])()
+    assert called == [True]
 
 
 def test_reregister_can_move_item_to_other_category(
