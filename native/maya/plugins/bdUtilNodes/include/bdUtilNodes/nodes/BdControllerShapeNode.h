@@ -46,6 +46,8 @@ public:
         struct FillPart {
             MPointArray triangles;
             StrokeStyle style = StrokeStyle::Normal;
+            // Markers remain filled in Wireframe and use the line transparency.
+            bool marker = false;
         };
         std::vector<MPointArray> strokes;
         std::vector<StrokeStyle> strokeStyles;

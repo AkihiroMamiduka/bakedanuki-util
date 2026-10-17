@@ -101,6 +101,10 @@ SHAPE_NAMES = (
     "ConeFin",
     "ConeFinFilled",
     "ColorCrossLine",
+    "ColorCube",
+    "ColorCubeFilled",
+    "ColorCornerCube",
+    "ColorCornerCubeFilled",
     "ColorSphere",
     "ColorSphereFilled",
     "ColorSphereArrow2D",
@@ -1618,6 +1622,61 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
     assert _bounds(maya_om, shape) == pytest.approx(
         (4.0, -1.0, -1.0, 4.0, 1.0, 1.0), abs=1.0e-9
     )
+
+
+@pytest.mark.parametrize(
+    "shape_name",
+    (
+        "ColorCube",
+        "ColorCubeFilled",
+        "ColorCornerCube",
+        "ColorCornerCubeFilled",
+    ),
+)
+def test_color_cube_transform_history_and_scene_reload(
+    maya_cmds, maya_om, new_scene, tmp_path, shape_name
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape_name_in_scene = _create_controller(maya_cmds)
+    mod = bdu.ModifierManager()
+    shape = bdu.Nodes(modifier_manager=mod).existing(shape_name_in_scene)
+    shape.shape.set(SHAPE_NAMES.index(shape_name))
+    shape.shape1stAxis.set(4)
+    shape.shape2ndAxis.set(2)
+    shape.shapeSize.set(2.0)
+    shape.shapeAxisScale.set(1.0, 2.0, 3.0)
+    shape.shapeScale.set(2.0, 1.0, 0.5)
+    shape.shapeTranslate.set(1.0, 2.0, 3.0)
+    shape.shapeRootSize.set(2.0)
+    shape.shapeTransparency.set(0.25)
+    shape.shapeFillTransparency.set(0.6)
+    mod.do_it_dg()
+
+    expected = (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)
+    assert _bounds(maya_om, shape_name_in_scene) == pytest.approx(expected)
+    mod.undo_it()
+    assert _bounds(maya_om, shape_name_in_scene) == pytest.approx(
+        (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)
+    )
+    mod.redo_it()
+    assert _bounds(maya_om, shape_name_in_scene) == pytest.approx(expected)
+
+    scene_path = tmp_path / f"{shape_name}.ma"
+    maya_cmds.file(rename=str(scene_path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(scene_path), open=True, force=True)
+
+    assert maya_cmds.getAttr(
+        f"{shape_name_in_scene}.shape"
+    ) == SHAPE_NAMES.index(shape_name)
+    assert _bounds(maya_om, shape_name_in_scene) == pytest.approx(expected)
+    assert maya_cmds.getAttr(
+        f"{shape_name_in_scene}.shapeTransparency"
+    ) == pytest.approx(0.25)
+    assert maya_cmds.getAttr(
+        f"{shape_name_in_scene}.shapeFillTransparency"
+    ) == pytest.approx(0.6)
 
 
 def test_scene_round_trip_preserves_circle_arrow(

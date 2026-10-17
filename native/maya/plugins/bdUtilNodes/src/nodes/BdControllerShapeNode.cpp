@@ -836,13 +836,78 @@ MPoint circlePointAtX(double x, unsigned int segment) {
     return MPoint(x, 0.5 * std::cos(angle), 0.5 * std::sin(angle));
 }
 
+void appendCubeFaceRect(
+    MPointArray& triangles, const ShapeTransform& transform,
+    unsigned int axis, double position,
+    double minU, double minV, double maxU, double maxV
+) {
+    const MPoint first = cubeFacePoint(axis, position, minU, minV);
+    const MPoint second = cubeFacePoint(axis, position, maxU, minV);
+    const MPoint third = cubeFacePoint(axis, position, maxU, maxV);
+    const MPoint fourth = cubeFacePoint(axis, position, minU, maxV);
+    if (position > 0.0) {
+        appendFillQuad(triangles, transform, first, second, third, fourth);
+    } else {
+        appendFillQuad(triangles, transform, fourth, third, second, first);
+    }
+}
+
+std::vector<BdControllerShapeNode::Geometry::FillPart> makeColorCubeFillParts(
+    const ShapeTransform& transform, bool corner
+) {
+    std::vector<BdControllerShapeNode::Geometry::FillPart> parts;
+    if (isFilledPreset(transform.settings.shape)) {
+        MPointArray triangles;
+        for (unsigned int axis = 0; axis < 3; ++axis) {
+            appendCubeFaceRect(triangles, transform, axis, -0.5,
+                -0.5, -0.5, 0.5, 0.5);
+            if (corner) {
+                // Share every boundary vertex with the marker, without T-junctions.
+                const std::array<MPoint, 6> boundary = {
+                    cubeFacePoint(axis, 0.5, -0.5, -0.5),
+                    cubeFacePoint(axis, 0.5, 0.5, -0.5),
+                    cubeFacePoint(axis, 0.5, 0.5, kCornerSquareMin),
+                    cubeFacePoint(axis, 0.5, kCornerSquareMin, kCornerSquareMin),
+                    cubeFacePoint(axis, 0.5, kCornerSquareMin, 0.5),
+                    cubeFacePoint(axis, 0.5, -0.5, 0.5),
+                };
+                for (const auto& face : {
+                         std::array<unsigned int, 3>{0, 1, 3},
+                         std::array<unsigned int, 3>{1, 2, 3},
+                         std::array<unsigned int, 3>{0, 3, 5},
+                         std::array<unsigned int, 3>{3, 4, 5},
+                     }) {
+                    appendFillTriangle(triangles, transform,
+                        boundary[face[0]], boundary[face[1]], boundary[face[2]]);
+                }
+            } else {
+                appendCubeFaceRect(triangles, transform, axis, 0.5,
+                    -0.5, -0.5, 0.5, 0.5);
+            }
+        }
+        parts.push_back({std::move(triangles), StrokeStyle::Normal});
+    }
+    if (corner) {
+        for (unsigned int axis = 0; axis < 3; ++axis) {
+            MPointArray triangles;
+            appendCubeFaceRect(triangles, transform, axis, 0.5,
+                kCornerSquareMin, kCornerSquareMin, 0.5, 0.5);
+            parts.push_back({std::move(triangles), kAxisStyles[axis], true});
+        }
+    }
+    return parts;
+}
+
 std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
     const ShapeTransform& transform
 ) {
+    const short outline = outlinePresetIndex(transform.settings.shape);
+    if (outline == 50 || outline == 51) {
+        return makeColorCubeFillParts(transform, outline == 51);
+    }
     if (!isFilledPreset(transform.settings.shape)) return {};
     MPointArray triangles;
     MPointArray templateTriangles;
-    const short outline = outlinePresetIndex(transform.settings.shape);
     switch (outline) {
         case 0:  // Gear
             appendGearRing(triangles, transform);
@@ -1230,6 +1295,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> transformGeometry(
     for (const auto& basePart : base.fillParts) {
         BdControllerShapeNode::Geometry::FillPart part;
         part.style = basePart.style;
+        part.marker = basePart.marker;
         for (unsigned int index = 0;
              index < basePart.triangles.length(); ++index) {
             part.triangles.append(basePart.triangles[index] * matrix);
@@ -1493,6 +1559,20 @@ MPointArray lineSegments(const Strokes& strokes) {
     return segments;
 }
 
+MColor axisStyledColor(StrokeStyle style, const MColor& color, bool selected) {
+    if (selected || style == StrokeStyle::Normal ||
+        style == StrokeStyle::Template) {
+        return color;
+    }
+    MColor result = style == StrokeStyle::AxisX
+        ? MColor(1.0f, 0.0f, 0.0f)
+        : style == StrokeStyle::AxisY
+        ? MColor(0.0f, 1.0f, 0.0f)
+        : MColor(0.0f, 0.0f, 1.0f);
+    result.a = color.a;
+    return result;
+}
+
 struct ShapeDrawData final : public MUserData {
     std::shared_ptr<const BdControllerShapeNode::Geometry> geometry;
     Strokes onTopSegments;
@@ -1649,28 +1729,29 @@ public:
             MHWRender::MFrameContext::kGouraudShaded |
             MHWRender::MFrameContext::kFlatShaded
         )) != 0;
-        if (shaded) {
-            for (const auto& part : data->geometry->fillParts) {
-                drawManager.beginDrawable(
-                    part.style == StrokeStyle::Template
-                        ? MHWRender::MUIDrawManager::kNonSelectable
-                        : MHWRender::MUIDrawManager::kSelectable
-                );
-                MColor fillColor = selected
-                    ? data->fillColor : data->dormantFillColor;
-                if (part.style == StrokeStyle::Template) {
-                    fillColor = data->templateStrokeColor;
-                    fillColor.a = data->fillColor.a;
-                }
-                drawManager.setColor(fillColor);
-                drawManager.setPaintStyle(MHWRender::MUIDrawManager::kFlat);
-                if (data->drawOnTop) drawManager.beginDrawInXray();
-                drawManager.mesh(
-                    MHWRender::MUIDrawManager::kTriangles, part.triangles
-                );
-                if (data->drawOnTop) drawManager.endDrawInXray();
-                drawManager.endDrawable();
+        for (const auto& part : data->geometry->fillParts) {
+            if (!shaded && !part.marker) continue;
+            drawManager.beginDrawable(
+                part.style == StrokeStyle::Template
+                    ? MHWRender::MUIDrawManager::kNonSelectable
+                    : MHWRender::MUIDrawManager::kSelectable
+            );
+            MColor fillColor = part.marker ? color
+                : selected ? data->fillColor : data->dormantFillColor;
+            if (part.style == StrokeStyle::Template) {
+                fillColor = data->templateStrokeColor;
+                fillColor.a = data->fillColor.a;
+            } else {
+                fillColor = axisStyledColor(part.style, fillColor, selected);
             }
+            drawManager.setColor(fillColor);
+            drawManager.setPaintStyle(MHWRender::MUIDrawManager::kFlat);
+            if (data->drawOnTop) drawManager.beginDrawInXray();
+            drawManager.mesh(
+                MHWRender::MUIDrawManager::kTriangles, part.triangles
+            );
+            if (data->drawOnTop) drawManager.endDrawInXray();
+            drawManager.endDrawable();
         }
         for (std::size_t index = 0; index < data->geometry->strokes.size(); ++index) {
             const StrokeStyle style = data->geometry->strokeStyles[index];
@@ -1679,16 +1760,9 @@ public:
                     ? MHWRender::MUIDrawManager::kNonSelectable
                     : MHWRender::MUIDrawManager::kSelectable
             );
-            MColor strokeColor = color;
+            MColor strokeColor = axisStyledColor(style, color, selected);
             if (style == StrokeStyle::Template) {
                 strokeColor = data->templateStrokeColor;
-            } else if (!selected && style != StrokeStyle::Normal) {
-                strokeColor = style == StrokeStyle::AxisX
-                    ? MColor(1.0f, 0.0f, 0.0f)
-                    : style == StrokeStyle::AxisY
-                    ? MColor(0.0f, 1.0f, 0.0f)
-                    : MColor(0.0f, 0.0f, 1.0f);
-                strokeColor.a = color.a;
             }
             drawManager.setColor(strokeColor);
             if (data->lineWidth > 1.0f) {

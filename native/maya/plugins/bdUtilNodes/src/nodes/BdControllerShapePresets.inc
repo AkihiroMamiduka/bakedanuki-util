@@ -1,6 +1,6 @@
 // Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 94> kPresetNames = {
+constexpr std::array<const char*, 98> kPresetNames = {
     "Gear",
     "GearFilled",
     "Line1st",
@@ -87,6 +87,10 @@ constexpr std::array<const char*, 94> kPresetNames = {
     "ConeFin",
     "ConeFinFilled",
     "ColorCrossLine",
+    "ColorCube",
+    "ColorCubeFilled",
+    "ColorCornerCube",
+    "ColorCornerCubeFilled",
     "ColorSphere",
     "ColorSphereFilled",
     "ColorSphereArrow2D",
@@ -102,7 +106,7 @@ struct PresetInfo {
     bool filled;
 };
 
-constexpr std::array<PresetInfo, 94> kPresetInfo = {{
+constexpr std::array<PresetInfo, 98> kPresetInfo = {{
     {0, false},  // Gear
     {0, true},  // GearFilled
     {1, false},  // Line1st
@@ -189,6 +193,10 @@ constexpr std::array<PresetInfo, 94> kPresetInfo = {{
     {44, false},  // ConeFin
     {44, true},  // ConeFinFilled
     {45, false},  // ColorCrossLine
+    {50, false},  // ColorCube
+    {50, true},  // ColorCubeFilled
+    {51, false},  // ColorCornerCube
+    {51, true},  // ColorCornerCubeFilled
     {46, false},  // ColorSphere
     {46, true},  // ColorSphereFilled
     {48, false},  // ColorSphereArrow2D
@@ -701,6 +709,68 @@ constexpr std::array<RawPoint, 3> kPrimitive47 = {{
     {0, 0.5, 0.5},
 }};
 
+constexpr double kColorCubeInset = 0.005;
+constexpr double kCornerSquareMin = 0.3;
+constexpr std::array<StrokeStyle, 3> kAxisStyles = {
+    StrokeStyle::AxisX, StrokeStyle::AxisY, StrokeStyle::AxisZ,
+};
+
+MPoint cubeFacePoint(unsigned int axis, double position, double u, double v) {
+    switch (axis) {
+        case 0: return MPoint(position, u, v);
+        case 1: return MPoint(v, position, u);
+        default: return MPoint(u, v, position);
+    }
+}
+
+void appendCubeStroke(
+    const std::vector<MPoint>& points, StrokeStyle style,
+    const ShapeTransform& transform, Strokes& strokes,
+    std::vector<StrokeStyle>& styles
+) {
+    Stroke stroke;
+    for (const MPoint& point : points) {
+        stroke.append(transformPoint(point, transform));
+    }
+    strokes.push_back(std::move(stroke));
+    styles.push_back(style);
+}
+
+void appendColorCubeGeometry(
+    bool corner, const ShapeTransform& transform, Strokes& strokes,
+    std::vector<StrokeStyle>& styles
+) {
+    for (unsigned int axis = 0; axis < 3; ++axis) {
+        if (corner) {
+            for (double u : {-0.5, 0.5}) {
+                for (double v : {-0.5, 0.5}) {
+                    // Stop the three corner edges at the marker boundary.
+                    const double end = u == 0.5 && v == 0.5
+                        ? kCornerSquareMin : 0.5;
+                    appendCubeStroke({
+                        cubeFacePoint(axis, -0.5, u, v),
+                        cubeFacePoint(axis, end, u, v),
+                    }, StrokeStyle::Normal, transform, strokes, styles);
+                }
+            }
+        } else {
+            const double low = -0.5 + kColorCubeInset;
+            const double high = 0.5 - kColorCubeInset;
+            appendCubeStroke({
+                cubeFacePoint(axis, 0.5, low, low),
+                cubeFacePoint(axis, 0.5, high, low),
+                cubeFacePoint(axis, 0.5, high, high),
+                cubeFacePoint(axis, 0.5, low, high),
+                cubeFacePoint(axis, 0.5, low, low),
+            }, kAxisStyles[axis], transform, strokes, styles);
+            appendCubeStroke({
+                MPoint(-0.5, -0.5, -0.5),
+                cubeFacePoint(axis, 0.5, -0.5, -0.5),
+            }, StrokeStyle::Normal, transform, strokes, styles);
+        }
+    }
+}
+
 void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes& strokes, std::vector<StrokeStyle>& styles) {
     const short outline = outlinePresetIndex(shape);
     switch (outline) {
@@ -917,6 +987,10 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             appendPresetComponent(42, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(43, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(44, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            break;
+        case 50:  // ColorCube
+        case 51:  // ColorCornerCube
+            appendColorCubeGeometry(outline == 51, transform, strokes, styles);
             break;
         default:
             break;

@@ -75,7 +75,7 @@ mod.do_it_dg()
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `shape` | enum | `Cube` (33) | 下表の94種類。`Gear` を一覧の先頭とし、初期値は `Cube` |
+| `shape` | enum | `Cube` (33) | 下表の98種類。`Gear` を一覧の先頭とし、初期値は `Cube` |
 | `shape1stAxis` | enum | `+X` (0) | 基準形状の主軸 `+X` を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準形状の補助軸 `+Y` を向ける方向。選択肢は `shape1stAxis` と同じ |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
@@ -93,8 +93,8 @@ mod.do_it_dg()
 | `showShapeOffsetLine` | `bool` | `false` | 親 `transform` のローカル原点から、軸オフセットを除いた形状基準位置まで補助線を描く |
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
 | `shapeLineWidth` | `float` | `1` | 本体と OffsetLine の画面上の線幅。単位は pixel、最小値 `1` |
-| `shapeTransparency` | `float` | `0` | 本体の輪郭線と OffsetLine の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
-| `shapeFillTransparency` | `float` | `0.85` | `*Filled` の面の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
+| `shapeTransparency` | `float` | `0` | 本体の輪郭線、OffsetLine、`ColorCornerCube*` の小四角の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
+| `shapeFillTransparency` | `float` | `0.85` | `*Filled` の本体面の透明度。`ColorCornerCube*` の小四角には適用しない。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
 | `shapeDrawOnTop` | `bool` | `false` | 本体の輪郭線・面と OffsetLine を他のシーン形状に隠れないように描画する |
 | `boundsMode` | enum | `ShapeCentered` (1) | フォーカス範囲。`Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
 | `showBoundsPreview` | `bool` | `false` | 選択中の `boundsMode` の最終的な軸平行範囲を template 色で表示する。選択不可 |
@@ -111,8 +111,8 @@ mod.do_it_dg()
 | 50–59 | `CircleFilled`、`CircleArrow2D`、`CircleArrow2DFilled`、`CircleArrow3D`、`CircleArrow3DFilled`、`Semicircle`、`SemicircleFilled`、`SemicircleArrow2D`、`SemicircleArrow2DFilled`、`SemicircleArrow3D` |
 | 60–69 | `SemicircleArrow3DFilled`、`Sphere`、`SphereFilled`、`SphereArrow2D`、`SphereArrow2DFilled`、`SphereArrow3D`、`SphereArrow3DFilled`、`Cylinder`、`CylinderFilled`、`CylinderFin` |
 | 70–79 | `CylinderFinFilled`、`CylinderFinArrow`、`CylinderFinArrowFilled`、`Arrow`、`ArrowFilled`、`ArrowFin`、`ArrowFinFilled`、`Pyramid`、`PyramidFilled`、`PyramidFin` |
-| 80–89 | `PyramidFinFilled`、`Cone`、`ConeFilled`、`ConeFin`、`ConeFinFilled`、`ColorCrossLine`、`ColorSphere`、`ColorSphereFilled`、`ColorSphereArrow2D`、`ColorSphereArrow2DFilled` |
-| 90–93 | `ColorSphereArrow3D`、`ColorSphereArrow3DFilled`、`ColorSphereCrossLine`、`ColorSphereCrossLineFilled` |
+| 80–89 | `PyramidFinFilled`、`Cone`、`ConeFilled`、`ConeFin`、`ConeFinFilled`、`ColorCrossLine`、`ColorCube`、`ColorCubeFilled`、`ColorCornerCube`、`ColorCornerCubeFilled` |
+| 90–97 | `ColorSphere`、`ColorSphereFilled`、`ColorSphereArrow2D`、`ColorSphereArrow2DFilled`、`ColorSphereArrow3D`、`ColorSphereArrow3DFilled`、`ColorSphereCrossLine`、`ColorSphereCrossLineFilled` |
 
 基準となる部分はローカル座標の各軸でおおむね `-0.5` から `+0.5` を使います。
 矢印やフィンはその範囲から張り出す設計です。形状全体を長さ1に正規化しません。
@@ -150,6 +150,24 @@ template 色・選択不可にします。`ColorSphere` は X=赤、Y=緑、Z=�
 `ColorSphereFilled`、`ColorSphereArrow2D/3DFilled`、
 `ColorSphereCrossLineFilled` は球殻を通常色で塗り、軸色の円を維持します。
 矢印付きでは矢印面も通常色で塗り、`ColorSphereCrossLineFilled` は十字線を維持します。
+
+`ColorCube` は正側の3面に、面の法線に対応する軸色の四角い枠を置きます。
+基準の `+X` 面は赤、`+Y` 面は緑、`+Z` 面は青です。枠は面の位置 `+0.5` を
+保ち、面内の2軸を `-0.495` から `+0.495` に縮めます。各辺を内側へ `0.005` 入れることで、
+異なる色が同じ線分を共有することを避けます。負側の角に集まる残り3辺は通常色です。
+角には小さな隙間があり、画面上の分離量は視線・ズーム・線幅に依存します。
+`ColorCubeFilled` は同じ輪郭を保ち、Cube の6面を通常色で塗ります。
+
+`ColorCornerCube` は通常色のCube輪郭と、正側の角 `(+0.5, +0.5, +0.5)` に
+接する軸色の小四角3枚から構成します。小四角は各正側面の面内座標 `0.3` から
+`0.5` にあり、一辺は基準Cubeの一辺1に対して `0.2` です。小四角はWireframeでも
+塗り面として表示し、面内のクリックで選択できます。小四角に接する輪郭線3本は
+その境界で止め、色面上に通常色の線を重ねません。小四角もすべての形状変形に追従し、
+軸色と選択色の扱いは他のColor系と共通です。
+`ColorCornerCubeFilled` は正側3面の小四角部分を除いたL字形の領域と、負側3面を
+通常色で塗ります。小四角と本体面は境界を共有し、面積は重なりません。
+本体面には `shapeFillTransparency`、小四角には `shapeTransparency` を適用します。
+既定値では本体面が85%透明、小四角が不透明です。これら4種類にArrow・Finはありません。
 
 `Custom` 用の調整属性は `shapeAnimationTransformMatrix` を除き、形状本体から独立しています。
 基準形状は固定の `Cube` で、`shape` と OffsetLine に対応する属性はありません。
@@ -228,10 +246,12 @@ p_local = p_out * shapeAnimationTransformMatrix
 `shapeDrawOnTop` は Viewport 2.0 の描画だけを調整します。線幅は画面上の
 pixel 指定で、シーン単位や `shapeSize` とは独立しています。
 `shapeTransparency` は輪郭線と OffsetLine、`shapeFillTransparency` は
-`*Filled` の面に適用します。面と輪郭線は選択状態に応じた色を使います。
+`*Filled` の本体面に適用します。`ColorCornerCube*` の小四角だけは
+`shapeTransparency` に従います。面と輪郭線は選択状態に応じた色を使います。
 `shapeDrawOnTop` は輪郭線・面・OffsetLine を他のシーン形状より前に描きます。
 面を含む形状では、Shaded は面と輪郭線、Wireframe は輪郭線、
 Wireframe on Shaded は面と輪郭線を表示します。面内のクリックも選択対象です。
+`ColorCornerCube*` の小四角はWireframeでも表示・選択できます。
 `showBoundsPreview` の確認用の箱は従来の template 色・線幅・選択不可を維持し、
 これらの属性の影響を受けません。描画属性の変更はフォーカス範囲を変えず、
 本体と OffsetLine のクリック選択の可否も変更しません。
@@ -502,9 +522,12 @@ template 色・選択不可の線には影響しません。
 34. 複数ビューポートで Selection Highlighting のオン・オフを別々に設定し、それぞれの表示色が独立する。template 色・選択不可の線と、通常線への色オーバーライドも確認する。
 35. `Line1st`、`Line2nd`、`Line3rd` が既定軸で X、Y、Z の各方向へ長さ1の線として表示され、`shape1stAxis` と `shape2ndAxis` を変更すると対応する方向へ回る。
 36. `CubeFinArrow` と `CylinderFinArrow` の斜線が `-1stAxis` 側の高い位置から `+1stAxis` 側の本体上端へ伸び、軸指定・拡縮後も本体とフィンの接点が離れない。
-37. 44種の `*Filled` を切り替え、Shaded で面と輪郭線、Wireframe で輪郭線、Wireframe on Shaded で両方が表示される。Shaded では面内をクリックして親 `transform` を選択できる。
+37. 46種の `*Filled` を切り替え、Shaded で面と輪郭線、Wireframe で輪郭線、Wireframe on Shaded で両方が表示される。`ColorCornerCubeFilled` の小四角はWireframeでも残る。Shaded では面内をクリックして親 `transform` を選択できる。
 38. `TriangleFilled`、`SquareFilled`、`CircleFilled` を表裏から見て、面の表示と選択を確認する。立体形状では Backface Culling のオン・オフ、円柱・円錐の側面と底面、ピラミッドの底面も確認する。
 39. `shapeFillTransparency` を `0`、`0.5`、`1` に変え、輪郭線の `shapeTransparency` と独立して面の透明度が変わる。半透明の Cube・Sphere で前後の面の重なりと描画順を確認する。
 40. `*Filled` で `shapeDrawOnTop` を切り替え、面と輪郭線が前面表示される。`shapeFillTransparency` を組み合わせても選択色とクリック選択が期待どおりか確認する。
 41. 新しい33種の `*Filled` で輪郭線と面の外縁が一致する。Gear の穴、半円の直径側、矢印・Fin の付属面、template 本体面の非選択、ColorSphere 系の軸色の線を確認する。軸指定と非等方スケールを変えても一致し、負スケール時は表裏の表示を確認する。
 42. `3D` 系の Filled 矢印を斜めから見て、矢印部分が直交する２枚の薄い面として表示される。`SquareArrow4Way3DFilled` と `SquareTemplateArrow4Way3DFilled` は４方向とも確認する。`OctahedronArrowFinFilled` は Fin 外周の上側で、八面体と重ならない左右２枚の三角面だけが塗られる。
+43. `ColorCube*` の正側3面にRGBの四角い枠、負側の角に通常色の3辺が表示される。共有辺の色の競合がなく、軸指定・回転・非等方スケールでも色が部位に追従する。Filled版は通常色のCube面と、内側へ縮めたRGB枠が表示される。
+44. `ColorCornerCube*` の正側の角に一辺0.2の小四角3枚が表示され、Wireframeでも残る。通常色の線が小四角の境界に重ならず、小四角の面内をクリックして選択できる。Filled版では本体面と小四角の間に隙間や同一面の二重描画がない。
+45. `ColorCornerCubeFilled` の `shapeTransparency` と `shapeFillTransparency` を別々に変え、小四角と本体面の透明度が独立して変わる。Selection Highlighting、Draw On Top、軸指定、負スケール、animation matrix、Undo/Redo、シーン再読込でも維持される。
