@@ -212,6 +212,12 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.shape2ndAxis, Shape2ndAxisEnumPlugOperator)
     assert_type(shape.shapeAnimationTransformMatrix, DataMatrixPlugOperator)
     assert_type(shape.shapeAxisOffsetLength, DoubleLinearPlugOperator)
+    assert_type(shape.shapePartOffset, DoubleLinearPlugOperator)
+    assert_type(shape.shapePartLengthScale, DoublePlugOperator)
+    assert_type(shape.shapePartWidthScale, DoublePlugOperator)
+    shape.shapePartOffset.set(0.1)
+    shape.shapePartLengthScale.set(2.0)
+    shape.shapePartWidthScale.set(3.0)
     assert_type(shape.shapeAxisOffset, BoolPlugOperator)
     assert_type(
         shape.shapeAxisOffsetDirection,

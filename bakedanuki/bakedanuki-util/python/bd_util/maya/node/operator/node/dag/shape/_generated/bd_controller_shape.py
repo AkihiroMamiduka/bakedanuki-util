@@ -1044,6 +1044,15 @@ class GeneratedBdControllerShape(Shape):
     shapeSize = DoubleField(default_value=1.0)
     ss = shapeSize
 
+    shapePartOffset = DoubleLinearField(default_value=0.0)
+    spo = shapePartOffset
+
+    shapePartLengthScale = DoubleField(default_value=1.0)
+    spls = shapePartLengthScale
+
+    shapePartWidthScale = DoubleField(default_value=1.0)
+    spws = shapePartWidthScale
+
     boundsMode = BoundsModeEnumField(default_value=1)
     bdm = boundsMode
 

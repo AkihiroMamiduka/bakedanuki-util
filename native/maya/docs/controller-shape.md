@@ -90,6 +90,9 @@ mod.do_it_dg()
 | `shapeAxisRotate` | `doubleAngle3` | `(0, 0, 0)` | 指定した軸を基準に XYZ 固定順に回転 |
 | `shapeAxisScale` | `double3` | `(1, 1, 1)` | 指定した軸を基準に、`shapeAxisRotate` の内側で拡縮 |
 | `shapeSize` | `double` | `1` | 本体の頂点を末端で一律スケール |
+| `shapePartOffset` | `doubleLinear` | `0 cm` | `CrossLine3AxisEnd*` とそのColor版の小形状を各端の外向きへ移動。負値は内向き |
+| `shapePartLengthScale` | `double` | `1` | 各端の基準位置 `±0.5` をピボットに、小形状を長手方向へ伸縮 |
+| `shapePartWidthScale` | `double` | `1` | 小形状の長手方向と直交する2軸を同じ倍率で伸縮 |
 | `showShapeOffsetLine` | `bool` | `false` | 親 `transform` のローカル原点から、軸オフセットを除いた形状基準位置まで補助線を描く |
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
 | `shapeLineWidth` | `float` | `1` | 本体と OffsetLine の画面上の線幅。単位は pixel、最小値 `1` |
@@ -132,7 +135,7 @@ mod.do_it_dg()
 既定軸ではそれぞれ XY、XZ、YZ、XYZ です。
 
 `CrossLine3AxisEndCube/EndOctahedron/EndSphere/EndPyramid/EndCone` は、
-3軸の正負6端に既存の基本形状を `0.1` 倍して配置した形状です。
+既定値では3軸の正負6端に既存の基本形状を `0.1` 倍して配置した形状です。
 同じ5系列に `Color` 接頭辞と、各通常版・Color版の `Filled` を用意します。
 各系列は `CrossLine3Axis` または `ColorCrossLine3Axis` の直後へ、
 Cube、Octahedron、Sphere、Pyramid、Coneの順で通常版・Filled版を並べます。
@@ -155,6 +158,32 @@ Filledは端の立体の面全体（PyramidとConeは底面を含む）だけを
 面には `shapeFillTransparency`、輪郭と軸線には `shapeTransparency` を適用します。
 Wireframeでは端形状も輪郭線だけを表示し、選択、Template/Reference、
 Selection Highlighting、Draw On Topは既存の通常色・軸色の表示規則に従います。
+
+`shapePartOffset`、`shapePartLengthScale`、`shapePartWidthScale` は6端に共通で作用し、
+通常版・Color版、輪郭・Filled面で同じ変形を使います。現段階の対象はこの20種類で、
+既存のArrow、EndArrow、WideEndArrow、Finなどには適用しません。
+既定値 `0 / 1 / 1` は元の形状を再現します。
+
+小形状の長手方向の基準座標を `a`、横2軸の座標を `b`、`c` とすると、
+部品の変形後の座標は次のとおりです。長手方向は各端の外向きを正とします。
+
+```text
+a' = 0.5 + (a - 0.5) * shapePartLengthScale + shapePartOffset
+b' = b * shapePartWidthScale
+c' = c * shapePartWidthScale
+```
+
+Cube、Octahedron、Sphereは中心を、Pyramid、Coneは先端を固定して伸縮します。
+例えば長さを2倍にすると、前者の長手方向は `0.4–0.6`、後者は底面 `0.3`・先端 `0.5` です。
+オフセットは伸縮後に加えるため、長さスケールを変えても加算距離は変わりません。
+部品の変形は `shapeSize` など既存の全体変形より前に適用し、
+ピボットと追加オフセットも全体の変形へ追従します。
+
+接続線は変形後の小形状の手前の表面まで伸縮します。表面が原点に達する・越えるときは
+線の長さを0とし、反対側へ延長しません。スケールに下限・上限は設けず、負値はピボットでの
+反転として扱います。どちらかのスケールが0なら輪郭線は潰れた形で残し、Filled面は省略します。
+BoundsのShapeとShapeCenteredは部品の変形へ追従し、Customは既存の独立した箱を使います。
+各属性は既存と同じ非keyable・Channel Box表示で、接続、明示的なキー設定、Undo/Redo、保存に対応します。
 
 `Line1st/2nd/3rd` と3種類の2軸 `CrossLine` に `EndArrow`、
 `EndArrowFilled` を用意します。矢印の先端は元の線の両端 `±0.5` にあり、
@@ -267,16 +296,17 @@ enum 値は形状本体と Custom で共通です。
 `shapeAnimationTransformMatrix` は Channel Box に表示せず、接続と
 `ModifierManager` 経由の設定に対応します。
 
-Channel Box の表示順は次の６区画です。区切りは `_`、`__`、`___`、`____`、
+Channel Box の表示順は次の７区画です。区切りは表示順に `_`、`__`、`___`、`______`、`____`、
 `_____` という表示専用の１値 enum 属性で、値は
 `-----------------------------------`、非 keyable・ロック済みです。
 
 1. `shape`、`shapeDrawOnTop`、`shapeLineWidth`、`shapeTransparency`、`shapeFillTransparency`、`showShapeOffsetLine`、`shapeOffsetLineTemplate`
 2. `shape1stAxis`、`shape2ndAxis`、`shapeAxisOffset`、`shapeAxisOffsetDirection`、`shapeAxisOffsetLength`
 3. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
-4. `boundsMode`、`showBoundsPreview`
-5. `customBounds1stAxis`、`customBounds2ndAxis`、`customBoundsAxisOffset`、`customBoundsAxisOffsetDirection`、`customBoundsAxisOffsetLength`
-6. `customBoundsRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`customBoundsSize`
+4. `shapePartOffset`、`shapePartLengthScale`、`shapePartWidthScale`
+5. `boundsMode`、`showBoundsPreview`
+6. `customBounds1stAxis`、`customBounds2ndAxis`、`customBoundsAxisOffset`、`customBoundsAxisOffsetDirection`、`customBoundsAxisOffsetLength`
+7. `customBoundsRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`customBoundsSize`
 
 区切りは Python の生成 NodeOperator API から除外します。
 `MPxLocatorNode` から継承する `localPositionX/Y/Z` と `localScaleX/Y/Z` は
@@ -286,6 +316,7 @@ Channel Box の表示順は次の６区画です。区切りは `_`、`__`、`__
 点 `p` に適用する階層は `shapeAnimationTransformMatrix > shapeRootSize > shapeTranslate > shapeRotate >
 shapeScale > 軸指定 > shapeAxisOffsetLength > shapeAxisOffset > shapeAxisTranslate >
 shapeAxisRotate > shapeAxisScale > shapeSize > p` です。
+ここで `p` は部品の変形と接続線の追従を反映した基準形状の頂点です。
 外側・内側の XYZ 回転をそれぞれ `R`・`R_axis`、軸指定から作る回転を `A`、
 軸オフセットを `O_axis`、選択軸だけを伸縮する変換を `S_axis` とすると、
 計算結果は次のとおりです。
@@ -631,6 +662,8 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 51. 3種類の `CrossLine*WideEndArrowFilled` の中央に内部線がなく、半透明でも面の二重描画による色の濃い部分がない。`SemicircleWideEndArrowFilled` は半径0.475–0.525の帯と矢印だけを塗り、中央の空間を残す。透明度、Template/Reference、選択、負スケール、軸指定、animation matrixも確認する。
 52. `CrossLine3AxisEnd*` と `ColorCrossLine3AxisEnd*` の各5系列・通常版/Filled版で、6端の形状がサイズ0.1で配置され、軸線が手前の表面で止まる。Pyramid/Coneの先端は6方向とも外向きで原点から0.5、底面は0.4となる。
 53. `ColorCrossLine3AxisEnd*` は正方向の軸線だけRGB、負方向の軸線と端形状は通常色となる。Filled面に軸色が付かず、Wireframeでは面が省略される。面内の選択、透明度、Template/Reference、Selection Highlighting、Draw On Top、軸指定、負スケール、animation matrix、Undo/Redo、シーン再読込も確認する。
+54. `shapeSize` の次に区切り・`shapePartOffset`・`shapePartLengthScale`・`shapePartWidthScale`・区切り・`boundsMode` が並ぶ。20種類の端形状でピボット±0.5、長手方向・横2軸の伸縮、接続線の追従、原点越えでの線の省略を確認する。
+55. 部品の変形でも輪郭とFilled面が一致し、0スケールではFilled面を省略、負スケールでも面と選択が正しく表示される。形状全体の変形、3種類のBounds、単位変更、接続・アニメーション、Undo/Redo、シーン再読込、Color版の色分けも確認する。
 
 実際のViewport 2.0を必要とする画像比較テストは
 `tests/maya/ui/test_controller_shape_viewport.py` にあります。既存作業とは別の

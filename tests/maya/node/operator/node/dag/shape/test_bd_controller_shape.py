@@ -315,6 +315,25 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         (1.0, 1.0, 1.0)
     )
     assert maya_cmds.getAttr(f"{shape}.shapeSize") == pytest.approx(1.0)
+    for attribute, short_name, kind, default in (
+        ("shapePartOffset", "spo", "doubleLinear", 0.0),
+        ("shapePartLengthScale", "spls", "double", 1.0),
+        ("shapePartWidthScale", "spws", "double", 1.0),
+    ):
+        assert maya_cmds.getAttr(f"{shape}.{attribute}") == pytest.approx(
+            default
+        )
+        assert maya_cmds.getAttr(f"{shape}.{attribute}", type=True) == kind
+        assert (
+            maya_cmds.attributeQuery(attribute, node=shape, shortName=True)
+            == short_name
+        )
+        assert not maya_cmds.attributeQuery(
+            attribute, node=shape, minExists=True
+        )
+        assert not maya_cmds.attributeQuery(
+            attribute, node=shape, maxExists=True
+        )
     assert not maya_cmds.getAttr(f"{shape}.showShapeOffsetLine")
     assert not maya_cmds.getAttr(f"{shape}.shapeOffsetLineTemplate")
     assert (
@@ -428,6 +447,9 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeAxisScaleY",
         "shapeAxisScaleZ",
         "shapeSize",
+        "shapePartOffset",
+        "shapePartLengthScale",
+        "shapePartWidthScale",
         "showShapeOffsetLine",
         "shapeOffsetLineTemplate",
         "shapeLineWidth",
@@ -438,7 +460,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
         assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
 
-    for index in range(1, 6):
+    for index in range(1, 7):
         separator = "_" * index
         assert (
             maya_cmds.attributeQuery(separator, node=shape, shortName=True)
@@ -478,6 +500,10 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeAxisScaleX",
         "shapeSize",
         "___",
+        "shapePartOffset",
+        "shapePartLengthScale",
+        "shapePartWidthScale",
+        "______",
         "boundsMode",
         "showBoundsPreview",
         "____",
@@ -1313,6 +1339,230 @@ def test_animation_matrix_moves_offset_line_endpoint_from_origin(
     assert _bounds(maya_om, shape) == pytest.approx(
         (0.0, 0.0, 0.0, 0.5, 0.0, 3.0), abs=1.0e-9
     )
+
+
+@pytest.mark.parametrize(
+    "end_shape", ("Cube", "Octahedron", "Sphere", "Pyramid", "Cone")
+)
+@pytest.mark.parametrize("colored", (False, True))
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize(
+    ("offset", "length", "width", "round_extent", "pointed_extent"),
+    (
+        (0.1, 2.0, 3.0, 0.7, 0.6),
+        (-0.2, 0.5, 4.0, 0.325, 0.3),
+        (0.0, 2.0, 12.0, 0.6, 0.6),
+        (0.1, -2.0, -3.0, 0.7, 0.8),
+        (-0.6, 1.0, 1.0, 0.15, 0.2),
+        (0.1, 0.0, 1.0, 0.6, 0.6),
+        (0.1, 1.0, 0.0, 0.65, 0.6),
+    ),
+)
+def test_part_transform_bounds(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    end_shape,
+    colored,
+    filled,
+    offset,
+    length,
+    width,
+    round_extent,
+    pointed_extent,
+):
+    _load_bd_util_nodes(maya_cmds)
+    name = (
+        ("Color" if colored else "")
+        + "CrossLine3AxisEnd"
+        + end_shape
+        + ("Filled" if filled else "")
+    )
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(name)
+    )
+    maya_cmds.setAttr(f"{shape}.shapePartOffset", offset)
+    maya_cmds.setAttr(f"{shape}.shapePartLengthScale", length)
+    maya_cmds.setAttr(f"{shape}.shapePartWidthScale", width)
+    extent = (
+        pointed_extent if end_shape in ("Pyramid", "Cone") else round_extent
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-extent, -extent, -extent, extent, extent, extent), abs=1e-9
+    )
+
+
+@pytest.mark.parametrize(
+    ("attribute", "value", "extent"),
+    (
+        ("shapePartOffset", 0.2, 0.75),
+        ("shapePartLengthScale", 3.0, 0.65),
+        ("shapePartWidthScale", 14.0, 0.7),
+    ),
+)
+@pytest.mark.parametrize("connected", (False, True))
+def test_part_attribute_invalidates_cached_geometry(
+    maya_cmds, maya_om, new_scene, attribute, value, extent, connected
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds,
+        shape_value=SHAPE_NAMES.index("ColorCrossLine3AxisEndCubeFilled"),
+    )
+    target = f"{shape}.{attribute}"
+    if connected:
+        if attribute == "shapePartOffset":
+            source = maya_cmds.createNode("addDoubleLinear")
+            target = f"{source}.input1"
+            maya_cmds.connectAttr(f"{source}.output", f"{shape}.{attribute}")
+        else:
+            source = maya_cmds.createNode("multiplyDivide")
+            target = f"{source}.input1X"
+            maya_cmds.setAttr(target, 1.0)
+            maya_cmds.setAttr(f"{source}.input2X", 1.0)
+            maya_cmds.connectAttr(f"{source}.outputX", f"{shape}.{attribute}")
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.55, -0.55, -0.55, 0.55, 0.55, 0.55)
+    )
+    maya_cmds.setAttr(target, value)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-extent, -extent, -extent, extent, extent, extent)
+    )
+    maya_cmds.setAttr(target, 0.0 if attribute == "shapePartOffset" else 1.0)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.55, -0.55, -0.55, 0.55, 0.55, 0.55)
+    )
+
+
+@pytest.mark.parametrize(
+    ("end_shape", "extent"), (("Cube", 0.7), ("Cone", 0.6))
+)
+def test_part_animation_updates_bounds(
+    maya_cmds, maya_om, new_scene, end_shape, extent
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds,
+        shape_value=SHAPE_NAMES.index(
+            "ColorCrossLine3AxisEnd" + end_shape + "Filled"
+        ),
+    )
+    for attribute, first, last in (
+        ("shapePartOffset", 0, 0.1),
+        ("shapePartLengthScale", 1, 2),
+        ("shapePartWidthScale", 1, 3),
+    ):
+        maya_cmds.setKeyframe(shape, attribute=attribute, time=1, value=first)
+        maya_cmds.setKeyframe(shape, attribute=attribute, time=10, value=last)
+    maya_cmds.currentTime(10)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-extent, -extent, -extent, extent, extent, extent)
+    )
+    maya_cmds.currentTime(1)
+    initial = 0.55 if end_shape == "Cube" else 0.5
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-initial, -initial, -initial, initial, initial, initial)
+    )
+
+
+def test_part_offset_uses_scene_distance_units(maya_cmds, maya_om, new_scene):
+    _load_bd_util_nodes(maya_cmds)
+    previous_unit = maya_cmds.currentUnit(query=True, linear=True)
+    try:
+        maya_cmds.currentUnit(linear="mm")
+        _, shape = _create_controller(
+            maya_cmds, shape_value=SHAPE_NAMES.index("CrossLine3AxisEndCube")
+        )
+        maya_cmds.setAttr(f"{shape}.shapePartOffset", 1.0)
+        assert _bounds(maya_om, shape) == pytest.approx(
+            (-0.65, -0.65, -0.65, 0.65, 0.65, 0.65)
+        )
+        maya_cmds.currentUnit(linear="cm")
+        assert maya_cmds.getAttr(f"{shape}.shapePartOffset") == pytest.approx(
+            0.1
+        )
+    finally:
+        maya_cmds.currentUnit(linear=previous_unit)
+
+
+@pytest.mark.parametrize("mode", (0, 1, 2))
+def test_part_transform_bounds_modes(maya_cmds, maya_om, new_scene, mode):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds,
+        shape_value=SHAPE_NAMES.index("CrossLine3AxisEndCubeFilled"),
+        bounds_mode=mode,
+    )
+    maya_cmds.setAttr(f"{shape}.shapeTranslateX", 2.0)
+    maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.1)
+    maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 2.0)
+    maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 3.0)
+    center = 2.0 if mode == 0 else 0.0
+    extent = 0.5 if mode == 2 else 0.7
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (center - extent, -extent, -extent, center + extent, extent, extent)
+    )
+
+
+def test_part_transform_history_and_scene_reload(
+    maya_cmds, maya_om, new_scene, tmp_path
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, name = _create_controller(maya_cmds)
+    mod = bdu.ModifierManager()
+    shape = bdu.Nodes(modifier_manager=mod).existing(name)
+    shape.shape.set(SHAPE_NAMES.index("ColorCrossLine3AxisEndConeFilled"))
+    shape.shapePartOffset.set(0.1)
+    shape.shapePartLengthScale.set(2.0)
+    shape.shapePartWidthScale.set(3.0)
+    shape.shapeSize.set(2.0)
+    shape.shapeRootSize.set(2.0)
+    shape.shapeTranslate.set(1.0, 2.0, 3.0)
+    mod.do_it_dg()
+    expected = (-0.4, 1.6, 3.6, 4.4, 6.4, 8.4)
+    assert _bounds(maya_om, name) == pytest.approx(expected)
+    mod.undo_it()
+    assert _bounds(maya_om, name) == pytest.approx(
+        (0, -0.5, -0.5, 0, 0.5, 0.5)
+    )
+    mod.redo_it()
+    assert _bounds(maya_om, name) == pytest.approx(expected)
+    path = tmp_path / "part_transform.ma"
+    maya_cmds.file(rename=str(path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(path), open=True, force=True)
+    assert _bounds(maya_om, name) == pytest.approx(expected)
+    for attribute, value in (
+        ("shapePartOffset", 0.1),
+        ("shapePartLengthScale", 2),
+        ("shapePartWidthScale", 3),
+    ):
+        assert maya_cmds.getAttr(f"{name}.{attribute}") == pytest.approx(value)
+
+
+@pytest.mark.parametrize(
+    "shape_name",
+    (
+        "Cube",
+        "Line1stEndArrowFilled",
+        "SemicircleWideEndArrowFilled",
+        "CubeFinFilled",
+        "ColorCornerCubeFilled",
+    ),
+)
+def test_part_attributes_only_affect_end_solids(
+    maya_cmds, maya_om, new_scene, shape_name
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(shape_name)
+    )
+    before = _bounds(maya_om, shape)
+    maya_cmds.setAttr(f"{shape}.shapePartOffset", 2.0)
+    maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 3.0)
+    maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 4.0)
+    assert _bounds(maya_om, shape) == pytest.approx(before)
 
 
 def test_animation_matrix_set_uses_modifier_history(

@@ -1112,12 +1112,24 @@ double crossLineEndSolidOffset(short outline) {
     return (outline - 69) % 5 >= 3 ? 0.45 : 0.5;
 }
 
-MPoint crossLineEndSolidPoint(const MPoint& point, short outline, unsigned int axis, double sign) {
+double crossLineEndSolidAlong(double coordinate, short outline, const ShapeSettings& settings) {
+    double along = crossLineEndSolidOffset(outline) + 0.1 * coordinate;
+    if (settings.partLengthScale != 1.0) {
+        along = 0.5 + (along - 0.5) * settings.partLengthScale;
+    }
+    return along + settings.partOffset;
+}
+
+MPoint crossLineEndSolidPoint(
+    const MPoint& point, short outline, unsigned int axis, double sign,
+    const ShapeSettings& settings
+) {
     const MVector direction = nativeAxis(axis) * sign;
     const MVector side = nativeAxis((axis + 1) % 3);
     const MVector up = direction ^ side;
-    return MPoint::origin + direction * (crossLineEndSolidOffset(outline) + 0.1 * point.x)
-        + side * (0.1 * point.y) + up * (0.1 * point.z);
+    return MPoint::origin + direction * crossLineEndSolidAlong(point.x, outline, settings)
+        + side * (0.1 * point.y * settings.partWidthScale)
+        + up * (0.1 * point.z * settings.partWidthScale);
 }
 
 void appendCrossLineEndSolids(
@@ -1380,18 +1392,22 @@ void appendCrossLineEndSolids(
     std::vector<StrokeStyle> componentStyles;
     appendPresetGeometry(componentSettings.shape, ShapeTransform(componentSettings),
         componentStrokes, componentStyles);
-    const double lineEnd = crossLineEndSolidOffset(outline) - 0.05;
+    const double lineEnd = std::max(0.0, std::min(
+        crossLineEndSolidAlong(-0.5, outline, transform.settings),
+        crossLineEndSolidAlong(0.5, outline, transform.settings)));
     for (unsigned int axis = 0; axis < 3; ++axis) {
         for (double sign : {-1.0, 1.0}) {
             const StrokeStyle lineStyle = outline >= 74 && sign > 0.0
                 ? kAxisStyles[axis] : StrokeStyle::Normal;
-            appendNativeStroke({MPoint::origin, MPoint::origin + nativeAxis(axis) * (sign * lineEnd)},
-                lineStyle, transform, strokes, styles);
+            if (lineEnd > 0.0) {
+                appendNativeStroke({MPoint::origin, MPoint::origin + nativeAxis(axis) * (sign * lineEnd)},
+                    lineStyle, transform, strokes, styles);
+            }
             for (const auto& component : componentStrokes) {
                 std::vector<MPoint> points;
                 points.reserve(component.length());
                 for (unsigned int index = 0; index < component.length(); ++index) {
-                    points.push_back(crossLineEndSolidPoint(component[index], outline, axis, sign));
+                    points.push_back(crossLineEndSolidPoint(component[index], outline, axis, sign, transform.settings));
                 }
                 appendNativeStroke(points, StrokeStyle::Normal, transform, strokes, styles);
             }
