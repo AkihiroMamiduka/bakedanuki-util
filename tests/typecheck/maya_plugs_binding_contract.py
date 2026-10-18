@@ -8,8 +8,11 @@ from bd_util.maya.ui.binding.plugs_binding import (
     MayaEnumPlugsBinding,
     MayaFloatPlugsBinding,
     MayaIntPlugsBinding,
+    MayaIntPlugBinding,
     MayaStringPlugsBinding,
 )
+
+
 from bd_util.maya.ui.binding.plugs_state import MayaPlugTargetState
 from bd_util.maya.ui import (
     MayaEnumValueEdit,
@@ -36,6 +39,58 @@ from bd_util.ui import (
     FloatViewModel,
     qt,
 )
+
+
+def lifetime_monitor_contract(enabled: bool) -> None:
+    """削除監視のbool指定を全scalarと単一整数の公開入口で受け付ける。"""
+    assert_type(
+        MayaBoolPlugsBinding(
+            [resolve_bool_plug("node", "visibility")],
+            monitor=False,
+            monitor_lifetime=enabled,
+        ),
+        MayaBoolPlugsBinding,
+    )
+    assert_type(
+        MayaFloatPlugsBinding(
+            [resolve_float_plug("node", "tx")],
+            monitor=False,
+            monitor_lifetime=enabled,
+        ),
+        MayaFloatPlugsBinding,
+    )
+    assert_type(
+        MayaIntPlugsBinding(
+            [resolve_int_plug("node", "count")],
+            monitor=False,
+            monitor_lifetime=enabled,
+        ),
+        MayaIntPlugsBinding,
+    )
+    assert_type(
+        MayaIntPlugBinding(
+            resolve_int_plug("node", "count"),
+            monitor=False,
+            monitor_lifetime=enabled,
+        ),
+        MayaIntPlugBinding,
+    )
+    assert_type(
+        MayaEnumPlugsBinding(
+            [resolve_enum_plug("node", "mode")],
+            monitor=False,
+            monitor_lifetime=enabled,
+        ),
+        MayaEnumPlugsBinding,
+    )
+    assert_type(
+        MayaStringPlugsBinding(
+            [resolve_string_plug("node", "label")],
+            monitor=False,
+            monitor_lifetime=enabled,
+        ),
+        MayaStringPlugsBinding,
+    )
 
 
 def operation_enum_validation_contract(

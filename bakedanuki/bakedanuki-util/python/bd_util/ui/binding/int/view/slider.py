@@ -87,6 +87,7 @@ class IntSlider(qt.QSlider):
         self._effective_range: tuple[int, int] | None = None
         self._positions = 1
         self._editing = False
+        self._wheel_editing = False
         self._interrupted = False
         self._value_request_handler: Callable[[int], bool] | None = None
         self.setSingleStep(1)
@@ -114,6 +115,11 @@ class IntSlider(qt.QSlider):
         if self._view_model.is_disposed:
             raise RuntimeError("編集対象のIntViewModelは終了しています")
         return self._view_model
+
+    @property
+    def is_wheel_editing(self) -> bool:
+        """wheel処理中だけTrueとなり、編集開始・終了通知内でも参照できる。"""
+        return self._wheel_editing
 
     def intRange(self) -> tuple[int, int]:
         """生成時または`setIntRange()`で指定した操作範囲を返す。"""
@@ -309,11 +315,16 @@ class IntSlider(qt.QSlider):
         if not self.hasFocus():
             e.ignore()
             return
-        self._begin_edit()
+        previous = self._wheel_editing
+        self._wheel_editing = True
         try:
-            super().wheelEvent(e)
+            self._begin_edit()
+            try:
+                super().wheelEvent(e)
+            finally:
+                self._finish_edit()
         finally:
-            self._finish_edit()
+            self._wheel_editing = previous
 
     def event(self, event: qt.QEvent) -> bool:
         """非表示・フォーカス喪失・無効化でも連続編集を終了する。"""

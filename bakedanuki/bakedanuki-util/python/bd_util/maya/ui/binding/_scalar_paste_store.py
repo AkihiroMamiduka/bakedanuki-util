@@ -3,19 +3,15 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Generator
+from collections.abc import Generator
 from contextlib import contextmanager
-from dataclasses import dataclass
-from typing import Generic, Protocol, TypeAlias, TypeVar, cast
+from typing import Generic, TypeAlias, TypeVar, cast
 
-from maya.api import OpenMaya as om
-
-from ....ui import EnumDefinition, qt
-from ..._identity import ObjectIdentityIndex
+from ....ui import EnumDefinition
 from ...node.inspection import ScalarAttributeKind
-from ..callback import MayaCallbackRegistry
 from ._enum_validation import EnumOperationSnapshot, enum_operation_validation
 from ._int_plug_value import IntPlugValue
+from ._plug_lifetime import LifetimeWrite, PlugLifetime as ScalarPasteLifetime
 from ._plugs_store import (
     PlugTarget,
     PlugWrite,
@@ -40,100 +36,6 @@ from .plugs_state import MayaPlugTargetState
 from .string_plug_resolver import resolve_string_plug
 
 _ValueT = TypeVar("_ValueT", bool, float, int, str)
-
-
-class _LifetimeTarget(Protocol):
-    """値型に依存せず、操作中の削除履歴だけを保持する対象。"""
-
-    plug: om.MPlug
-    watched: list[om.MPlug]
-    removed: bool
-
-
-class ScalarPasteLifetime:
-    """一回のPasteだけnode単位で削除を監視し、同名再作成へ追従しない。"""
-
-    def __init__(self) -> None:
-        """対象数と独立したQt ownerと、衝突を実体で区別する索引を作る。"""
-        self._owner = qt.QObject()
-        self._registry = MayaCallbackRegistry(self._owner)
-        self._indices = ObjectIdentityIndex()
-        self._targets: dict[int, list[_LifetimeTarget]] = {}
-
-    def add(self, target: _LifetimeTarget) -> None:
-        """初期読取り前に対象を記録し、同じnodeの監視を重複登録しない。"""
-        identity = self._indices.index(target.plug.node())
-        targets = self._targets.setdefault(identity, [])
-        first = not targets
-        targets.append(target)
-        if first:
-            self._registry.register(
-                int(
-                    om.MNodeMessage.addAttributeChangedCallback(
-                        target.plug.node(), self._on_attribute_changed
-                    )
-                )
-            )
-            self._registry.register(
-                int(
-                    om.MNodeMessage.addNodePreRemovalCallback(
-                        target.plug.node(), self._on_node_removed
-                    )
-                )
-            )
-
-    def _on_attribute_changed(
-        self, message: int, plug: om.MPlug, _other: om.MPlug, _data: object
-    ) -> None:
-        """通常の値通知は処理せず、対象または祖先の削除だけを記録する。"""
-        if not message & om.MNodeMessage.kAttributeRemoved:
-            return
-        identity = self._indices.index(plug.node())
-        for target in self._targets.get(identity, ()):
-            if not target.removed and any(
-                plug == watched for watched in target.watched
-            ):
-                target.removed = True
-
-    def _on_node_removed(self, node: om.MObject, *_args: object) -> None:
-        """削除前の同じnodeに属する全対象を恒久的に無効化する。"""
-        identity = self._indices.index(node)
-        for target in self._targets.get(identity, ()):
-            target.removed = True
-
-    def close(self) -> None:
-        """成功・失敗を問わず全監視を解除し、Qt ownerの破棄を予約する。"""
-        try:
-            self._registry.dispose()
-        finally:
-            self._owner.deleteLater()
-
-
-@dataclass
-class _LifetimeWrite:
-    """削除済みMPlugへ触れず、共通の差分適用・復旧処理を呼ぶ。"""
-
-    original: PlugWrite
-    require_available: Callable[[], None]
-    attempted: bool = False
-
-    def validate(self) -> None:
-        """生存確認後に従来の事前検証を実行する。"""
-        self.require_available()
-        self.original.validate()
-
-    def apply(self) -> None:
-        """各書込みの直前にも削除履歴を確認する。"""
-        self.require_available()
-        self.attempted = True
-        self.original.apply()
-
-    def restore(self) -> None:
-        """復旧不能な削除対象を明示的に拒否し、別実体へ書き戻さない。"""
-        if not self.attempted:
-            return
-        self.require_available()
-        self.original.restore()
 
 
 class ScalarPasteStore(Generic[_ValueT]):
@@ -193,9 +95,7 @@ class ScalarPasteStore(Generic[_ValueT]):
             )
         else:
             plan = prepare_plug_values(self, (self.target,), (self.value,))
-        return [
-            _LifetimeWrite(write, self.require_available) for write in plan
-        ]
+        return [LifetimeWrite(write, self.require_available) for write in plan]
 
     @contextmanager
     def write_guard(self) -> Generator[None, None, None]:

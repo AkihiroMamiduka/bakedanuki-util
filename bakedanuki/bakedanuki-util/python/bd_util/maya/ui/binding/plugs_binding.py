@@ -265,6 +265,7 @@ class _EnumPlugsStore(PlugsStore[int]):
         edit_connected: bool = False,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
     ) -> None:
         """同じ定義のenum属性群を検証して監視する。"""
         self._view_model = view_model
@@ -295,7 +296,9 @@ class _EnumPlugsStore(PlugsStore[int]):
             )
             for plug, codec in zip(plugs, self._codecs)
         )
-        super().__init__(targets, owner, monitor=monitor)
+        super().__init__(
+            targets, owner, monitor=monitor, monitor_lifetime=monitor_lifetime
+        )
         view_model.disposed.connect(self.dispose)
         connect_queued_qt_signal(view_model.destroyed, self.dispose)
 
@@ -465,6 +468,7 @@ class _BoolPlugsStore(PlugsStore[bool]):
         edit_connected: bool = False,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
     ) -> None:
         """全属性を検証してから監視を開始する。"""
         self._view_model = view_model
@@ -479,7 +483,9 @@ class _BoolPlugsStore(PlugsStore[bool]):
             )
             for plug in plugs
         )
-        super().__init__(targets, owner, monitor=monitor)
+        super().__init__(
+            targets, owner, monitor=monitor, monitor_lifetime=monitor_lifetime
+        )
 
     def _refresh_view_model(self) -> bool:
         """代表と編集可否を同期し、削除時は入力を停止する。"""
@@ -505,6 +511,7 @@ class _FloatPlugsStore(PlugsStore[float]):
         edit_connected: bool = False,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
     ) -> None:
         """単位種別を揃え、代表の表示情報を維持する。"""
         self._view_model = view_model
@@ -527,7 +534,11 @@ class _FloatPlugsStore(PlugsStore[float]):
             for plug, codec in zip(plugs, codecs)
         )
         super().__init__(
-            targets, owner, edit_view_model=view_model, monitor=monitor
+            targets,
+            owner,
+            edit_view_model=view_model,
+            monitor=monitor,
+            monitor_lifetime=monitor_lifetime,
         )
 
     @property
@@ -593,6 +604,7 @@ class _IntPlugsStore(PlugsStore[int]):
         edit_connected: bool = False,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
     ) -> None:
         """各属性の型と実体を検証し、代表値の監視を開始する。"""
         self._view_model = view_model
@@ -612,7 +624,11 @@ class _IntPlugsStore(PlugsStore[int]):
             for plug, codec in zip(plugs, codecs)
         )
         super().__init__(
-            targets, owner, edit_view_model=view_model, monitor=monitor
+            targets,
+            owner,
+            edit_view_model=view_model,
+            monitor=monitor,
+            monitor_lifetime=monitor_lifetime,
         )
 
     @property
@@ -666,6 +682,7 @@ class _StringPlugsStore(PlugsStore[str]):
         *,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
     ) -> None:
         """型付きstring属性を検証し、書込みなしで監視を始める。"""
         self._view_model = view_model
@@ -678,7 +695,9 @@ class _StringPlugsStore(PlugsStore[str]):
             )
             for plug in plugs
         )
-        super().__init__(targets, owner, monitor=monitor)
+        super().__init__(
+            targets, owner, monitor=monitor, monitor_lifetime=monitor_lifetime
+        )
         self.values_changed.connect(view_model.source_values_changed.emit)
         self.state_changed.connect(view_model.source_changed.emit)
         view_model.disposed.connect(self.dispose)
@@ -693,7 +712,9 @@ class _StringPlugsStore(PlugsStore[str]):
             raise RuntimeError("一括書き込み中に別の入力は開始できません")
         if not self.is_writable:
             raise RuntimeError("代表のMaya属性は編集できません")
-        return prepare_string_values(self, self._targets, value)
+        return self._protect_lifetime_writes(
+            prepare_string_values(self, self._targets, value)
+        )
 
     def _refresh_view_model(self) -> bool:
         """代表値と入力可否を共有ViewModelへ反映する。"""
@@ -831,6 +852,7 @@ class MayaBoolPlugsBinding(
         edit_connected: bool = False,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を登録し、先頭の実値を書き込まずに初期表示する。
@@ -846,6 +868,9 @@ class MayaBoolPlugsBinding(
             track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
             monitor: `False` なら外部変更を自動同期しない。一時利用では
                 `finally` で `dispose()` を呼び、必要時は `refresh()` する。
+            monitor_lifetime: `True` なら削除履歴を監視し、書込みと復旧時に
+                同名再作成された別実体へ追従しない。既定は `False`。
+                表示用の監視が解除されても、復旧までは削除監視を保持する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
@@ -865,6 +890,7 @@ class MayaBoolPlugsBinding(
                 edit_connected=edit_connected,
                 track_input_state=track_input_state,
                 monitor=monitor,
+                monitor_lifetime=monitor_lifetime,
             )
             self._owned_group = store
             return store
@@ -914,6 +940,7 @@ class MayaFloatPlugsBinding(
         edit_connected: bool = False,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を検証し、先頭の実値を書き込まずに初期表示する。
@@ -929,6 +956,9 @@ class MayaFloatPlugsBinding(
             track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
             monitor: `False` なら外部変更を自動同期しない。一時利用では
                 `finally` で `dispose()` を呼び、必要時は `refresh()` する。
+            monitor_lifetime: `True` なら削除履歴を監視し、書込みと復旧時に
+                同名再作成された別実体へ追従しない。既定は `False`。
+                表示用の監視が解除されても、復旧までは削除監視を保持する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
@@ -949,6 +979,7 @@ class MayaFloatPlugsBinding(
                 edit_connected=edit_connected,
                 track_input_state=track_input_state,
                 monitor=monitor,
+                monitor_lifetime=monitor_lifetime,
             )
             self._owned_group = store
             return store
@@ -996,6 +1027,7 @@ class MayaIntPlugsBinding(_PlugsBindingState[int], IntBinding[_IntPlugsStore]):
         edit_connected: bool = False,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """byte・short・long属性を初期書込みなしで監視する。
@@ -1022,6 +1054,7 @@ class MayaIntPlugsBinding(_PlugsBindingState[int], IntBinding[_IntPlugsStore]):
                 edit_connected=edit_connected,
                 track_input_state=track_input_state,
                 monitor=monitor,
+                monitor_lifetime=monitor_lifetime,
             )
             self._owned_group = store
             return store
@@ -1076,6 +1109,7 @@ class MayaIntPlugBinding(MayaIntPlugsBinding):
         edit_connected: bool = False,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """整数plug一つを監視するBindingを作る。"""
@@ -1085,6 +1119,7 @@ class MayaIntPlugBinding(MayaIntPlugsBinding):
             edit_connected=edit_connected,
             track_input_state=track_input_state,
             monitor=monitor,
+            monitor_lifetime=monitor_lifetime,
             parent=parent,
         )
 
@@ -1102,6 +1137,7 @@ class MayaEnumPlugsBinding(
         edit_connected: bool = False,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """対象を登録し、先頭の実値を書き込まずに初期表示する。
@@ -1117,6 +1153,9 @@ class MayaEnumPlugsBinding(
             track_input_state: `True` なら入力接続と現在キーの状態を追跡する。
             monitor: `False` なら外部変更を自動同期しない。一時利用では
                 `finally` で `dispose()` を呼び、必要時は `refresh()` する。
+            monitor_lifetime: `True` なら削除履歴を監視し、書込みと復旧時に
+                同名再作成された別実体へ追従しない。既定は `False`。
+                表示用の監視が解除されても、復旧までは削除監視を保持する。
             parent: この Binding を所有する `QObject`。
 
         Raises:
@@ -1137,6 +1176,7 @@ class MayaEnumPlugsBinding(
                 edit_connected=edit_connected,
                 track_input_state=track_input_state,
                 monitor=monitor,
+                monitor_lifetime=monitor_lifetime,
             )
             self._owned_group = store
             return store
@@ -1183,6 +1223,7 @@ class MayaStringPlugsBinding(
         *,
         track_input_state: bool = False,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
         parent: qt.QObject | None = None,
     ) -> None:
         """先頭の実値を代表とし、必要なら入力接続状態も追跡する。
@@ -1192,6 +1233,9 @@ class MayaStringPlugsBinding(
             track_input_state: `True` なら入力接続状態を追跡する。
             monitor: `False` なら外部変更を自動同期しない。一時利用では
                 `finally` で `dispose()` を呼び、必要時は `refresh()` する。
+            monitor_lifetime: `True` なら削除履歴を監視し、書込みと復旧時に
+                同名再作成された別実体へ追従しない。既定は `False`。
+                表示用の監視が解除されても、復旧までは削除監視を保持する。
             parent: この Binding を所有する `QObject`。
         """
         self._owned_group = None
@@ -1204,6 +1248,7 @@ class MayaStringPlugsBinding(
                 self,
                 track_input_state=track_input_state,
                 monitor=monitor,
+                monitor_lifetime=monitor_lifetime,
             )
             self._owned_group = store
             return store

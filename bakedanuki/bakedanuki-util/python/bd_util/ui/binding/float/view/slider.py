@@ -80,6 +80,7 @@ class FloatSlider(qt.QSlider):
         self._steps = steps
         self._effective_range: tuple[float, float] | None = None
         self._editing = False
+        self._wheel_editing = False
         self._interrupted = False
         self._value_request_handler: Callable[[float], bool] | None = None
         self.setRange(0, steps)
@@ -109,6 +110,11 @@ class FloatSlider(qt.QSlider):
         if self._view_model.is_disposed:
             raise RuntimeError("編集対象のFloatViewModelは終了しています")
         return self._view_model
+
+    @property
+    def is_wheel_editing(self) -> bool:
+        """wheel処理中だけTrueとなり、編集開始・終了通知内でも参照できる。"""
+        return self._wheel_editing
 
     def floatRange(self) -> tuple[float, float]:
         """生成時またはsetFloatRangeで指定した公開単位の操作範囲を返す。"""
@@ -339,11 +345,16 @@ class FloatSlider(qt.QSlider):
         if not self.hasFocus():
             e.ignore()
             return
-        self._begin_edit()
+        previous = self._wheel_editing
+        self._wheel_editing = True
         try:
-            super().wheelEvent(e)
+            self._begin_edit()
+            try:
+                super().wheelEvent(e)
+            finally:
+                self._finish_edit()
         finally:
-            self._finish_edit()
+            self._wheel_editing = previous
 
     def event(self, event: qt.QEvent) -> bool:
         """非表示・フォーカス喪失・無効化時も、Undoを開いたまま残さない。"""

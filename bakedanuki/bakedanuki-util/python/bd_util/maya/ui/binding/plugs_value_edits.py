@@ -238,6 +238,7 @@ def _edit_request(edit: MayaPlugsValueEdit) -> PlugEditRequest:
             if enum_store is not None
             else None
         ),
+        validate_after=store.lifetime_validation,
     )
 
 

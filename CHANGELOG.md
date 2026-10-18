@@ -18,6 +18,16 @@
 
 ### Changed
 
+- `FloatSlider`・`IntSlider`へ読取り専用の`is_wheel_editing`を追加。
+  wheelの開始・値要求・終了通知中だけTrueとなり、終了・例外後はFalseへ戻る。
+  利用側で対象の準備寿命を分けるための情報で、既存の入力・Undo・focus仕様は維持する。
+  scene・保存設定の移行は不要。
+- 複数scalar Bindingと単一整数Bindingへ`monitor_lifetime=False`を追加。
+  `monitor=False, monitor_lifetime=True`では値通知を同期せず、node単位の軽い監視で
+  削除履歴だけを保持する。監視は表示用Registryから独立し、外部からの監視解除中も保つ。
+  書込み・復旧前と同値対象を含む終了時に消失を確認し、同名再作成へ追従しない。
+  書込み中のdisposeは入力を即停止し、復旧が終わるまで削除監視だけを保持する。
+  既定の監視仕様とPasteの公開APIは維持し、scene・設定の移行は不要。
 - scalar値Pasteは対象ごとに独立した一時Storeを使い、表示用Binding・ViewModel・
   Signal・連続編集用Undo管理を生成せずに既存の値変換と書込み準備を利用する。
   `apply_plugs_values()`と検証・書込み・Undo・失敗復旧の処理を共有し、

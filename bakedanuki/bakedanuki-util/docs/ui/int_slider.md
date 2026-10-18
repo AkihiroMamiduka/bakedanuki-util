@@ -22,6 +22,7 @@ slider = IntSlider(binding, minimum=-100, maximum=100)
 | `slider.value()` / `setValue(position)` | Qt内部の整数位置を取得・変更 |
 | `slider.finish_edit()` | 最後の確定値で操作を終了し、残りの古い入力を停止 |
 | `slider.editStarted` / `editFinished` | Viewの操作開始・終了通知 |
+| `slider.is_wheel_editing` | wheelの開始・値要求・終了通知中だけ`True`となる読取り専用の入力種別 |
 | `slider.setValueRequestHandler(handler)` | 公開整数を外側で処理したら`True`を返す入力先を指定 |
 
 `bd_util.ui`、`bd_util.ui.binding`、`bd_util.ui.binding.int`、
@@ -32,6 +33,8 @@ Qtの`setRange()`・`setMinimum()`・`setMaximum()`は内部位置用です。
 独自handlerが`None`または`False`を返した場合はViewModelのCommandへ委譲します。
 `True`を返して外側で処理する場合、連続Undoも外側が管理します。
 `editStarted`／`editFinished`を`MayaEditSession`などの操作境界へ接続してください。
+`is_wheel_editing`は終了・例外後、ドラッグ・キー操作・未focusで拒否したwheelでは`False`です。
+入力種別を参照しても、既存のfocus判定とイベントごとのUndo単位は変わりません。
 
 ## 整数の精度と範囲
 
@@ -158,6 +161,8 @@ Mayaの正常終了は未確認です。Maya 2026／2027本体の画面操作も
 利用者が確認したMaya versionは未申告です。
 
 ## 自動検証
+
+`tests/ui/test_slider_wheel_context.py`と型契約で、Float／Intの両方を確認します。
 
 `scripts/verify.cmd`が終了code 0で完了しました。
 

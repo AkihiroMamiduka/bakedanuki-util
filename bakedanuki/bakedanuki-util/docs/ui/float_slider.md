@@ -91,6 +91,10 @@ Pythonの編集は継続しますが、Mayaへ書き込まれなかった変更�
 
 ## 中断と寿命
 
+`slider.is_wheel_editing`は読取り専用で、wheelの`editStarted`・値要求・`editFinished`の
+処理中だけ`True`です。終了・例外後、ドラッグ・キー操作・未focusで拒否したwheelでは
+`False`です。利用側は対象準備の寿命を区別できますが、Undoの開始・終了通知は従来どおりです。
+
 Esc、フォーカス喪失、Window非アクティブ化、非表示、無効化、操作範囲や表示単位の変更では、
 最後に確定した値を維持して連続編集を終了します。Escは開始値へのロールバックではありません。
 ViewModelの明示終了、View・ownerの破棄、Maya node削除、callback解除、書き込み失敗でもchunkを閉じます。

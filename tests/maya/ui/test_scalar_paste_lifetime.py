@@ -13,16 +13,229 @@ from maya import cmds
 from maya.api import OpenMaya as om
 
 from bd_util.maya.ui import (
+    MayaFloatPlugsBinding,
+    MayaFloatValueEdit,
     MayaNodeValueSnapshot,
     MayaScalarValueSnapshot,
     MayaScalarValueTransfer,
     apply_scalar_value_transfer,
+    apply_plugs_values,
+    resolve_float_plug,
 )
 from bd_util.ui import EnumDefinition
+from bd_util.maya.ui.callback import dispose_owned_callbacks
 
 _Kind = Literal["number", "enum"]
 _Phase = Literal["pending", "applied", "noop"]
 _ENUM = EnumDefinition.from_mapping({0: "First", 1: "Second", 2: "Third"})
+
+
+@pytest.mark.parametrize("batch", [False, True])
+@pytest.mark.parametrize("phase", ["pending", "applied", "noop"])
+@pytest.mark.parametrize("remove_node", [False, True])
+def test_binding_lifetime_never_retargets_removed_identity(
+    scene: tuple[str, str, str],
+    callback_log: _CallbackLog,
+    monkeypatch: pytest.MonkeyPatch,
+    batch: bool,
+    phase: _Phase,
+    remove_node: bool,
+) -> None:
+    """直接入力と一括入力で削除済み対象を拒否し、同名の新実体へ復旧しない。"""
+    driver, victim, marker = scene
+    _add_value(driver, "number", 1.0)
+    _add_value(victim, "number", 7.0 if phase == "noop" else 1.0)
+    nodes = (victim, driver) if phase == "applied" else (driver, victim)
+    binding = MayaFloatPlugsBinding(
+        [resolve_float_plug(node, "value") for node in nodes],
+        monitor=False,
+        monitor_lifetime=True,
+    )
+    fired = _replace_during_write(
+        monkeypatch,
+        driver + ".value",
+        victim + ".value",
+        remove_node=remove_node,
+    )
+    cmds.flushUndo()
+    try:
+        expected = ExceptionGroup if phase == "applied" else RuntimeError
+        with pytest.raises(expected):
+            if batch:
+                apply_plugs_values([MayaFloatValueEdit(binding, 7.0)])
+            else:
+                binding.set_value(7.0)
+        assert fired
+        assert cmds.getAttr(driver + ".value") == 1.0
+        assert cmds.getAttr(victim + ".value") == 99.0
+    finally:
+        binding.dispose()
+        binding.deleteLater()
+    callback_log.assert_closed()
+    _assert_undo_chunk_closed(marker)
+    assert cmds.getAttr(victim + ".value") == 99.0
+
+
+@pytest.mark.parametrize("batch", [False, True])
+@pytest.mark.parametrize("monitor", [False, True])
+@pytest.mark.parametrize("external", [False, True])
+def test_binding_dispose_keeps_removal_monitor_until_restore_finishes(
+    scene: tuple[str, str, str],
+    callback_log: _CallbackLog,
+    monkeypatch: pytest.MonkeyPatch,
+    batch: bool,
+    monitor: bool,
+    external: bool,
+) -> None:
+    """書込み中のdispose後も削除を記録し、復旧終了まで監視を解除しない。"""
+    driver, victim, marker = scene
+    for node in (driver, victim):
+        _add_value(node, "number", 1.0)
+    binding = MayaFloatPlugsBinding(
+        [resolve_float_plug(node, "value") for node in (victim, driver)],
+        monitor=monitor,
+        monitor_lifetime=True,
+    )
+    original = cast(Callable[..., None], cmds.setAttr)
+    fired: list[bool] = []
+
+    def write(name: str, *args: object, **kwargs: object) -> None:
+        """最後の入力でBindingを終了し、適用済み属性を新実体へ置き換える。"""
+        original(name, *args, **kwargs)
+        if fired or name != driver + ".value":
+            return
+        fired.append(True)
+        if external and monitor:
+            dispose_owned_callbacks(binding.store)
+        else:
+            binding.dispose()
+        assert (
+            len(set(callback_log.registered) - set(callback_log.removed)) >= 4
+        )
+        cmds.deleteAttr(victim + ".value")
+        _add_value(victim, "number", 99.0)
+
+    monkeypatch.setattr(cmds, "setAttr", write)
+    cmds.flushUndo()
+    try:
+        with pytest.raises(ExceptionGroup):
+            if batch:
+                apply_plugs_values([MayaFloatValueEdit(binding, 7.0)])
+            else:
+                binding.set_value(7.0)
+        assert fired
+        assert cmds.getAttr(driver + ".value") == 1.0
+        assert cmds.getAttr(victim + ".value") == 99.0
+        callback_log.assert_closed()
+    finally:
+        binding.dispose()
+        binding.deleteLater()
+    callback_log.assert_closed()
+    _assert_undo_chunk_closed(marker)
+
+
+def test_lifetime_final_check_includes_an_entirely_unchanged_binding(
+    scene: tuple[str, str, str],
+    callback_log: _CallbackLog,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """全対象同値の別Bindingも終了検証に含め、変更した行を復旧する。"""
+    driver, victim, marker = scene
+    for node in (driver, victim):
+        _add_value(node, "number", 7.0)
+    _add_value(driver, "number", 1.0, "trigger")
+    unchanged = MayaFloatPlugsBinding(
+        [resolve_float_plug(node, "value") for node in (driver, victim)],
+        monitor=False,
+        monitor_lifetime=True,
+    )
+    changed = MayaFloatPlugsBinding(
+        [resolve_float_plug(driver, "trigger")],
+        monitor=False,
+        monitor_lifetime=True,
+    )
+    fired = _replace_during_write(
+        monkeypatch, driver + ".trigger", victim + ".value"
+    )
+    cmds.flushUndo()
+    try:
+        with pytest.raises(RuntimeError):
+            apply_plugs_values(
+                [
+                    MayaFloatValueEdit(unchanged, 7.0),
+                    MayaFloatValueEdit(changed, 9.0),
+                ]
+            )
+        assert fired
+        assert cmds.getAttr(driver + ".trigger") == 1.0
+        assert cmds.getAttr(victim + ".value") == 99.0
+    finally:
+        for binding in (unchanged, changed):
+            binding.dispose()
+            binding.deleteLater()
+    callback_log.assert_closed()
+    _assert_undo_chunk_closed(marker)
+
+
+@pytest.mark.parametrize(
+    "monitor, lifetime, count",
+    [
+        (False, False, 0),
+        (False, True, 4),
+        (True, False, 4),
+        (True, True, 8),
+    ],
+)
+def test_lifetime_flag_reuses_full_monitor_and_default_stays_unwatched(
+    scene: tuple[str, str, str],
+    callback_log: _CallbackLog,
+    monitor: bool,
+    lifetime: bool,
+    count: int,
+) -> None:
+    """既定の監視なしを保ち、削除履歴の監視は表示監視から独立して保持する。"""
+    driver, victim, _marker = scene
+    for node in (driver, victim):
+        _add_value(node, "number", 1.0)
+    plugs = [resolve_float_plug(node, "value") for node in (driver, victim)]
+    binding = (
+        MayaFloatPlugsBinding(plugs, monitor=False)
+        if not monitor and not lifetime
+        else MayaFloatPlugsBinding(
+            plugs, monitor=monitor, monitor_lifetime=lifetime
+        )
+    )
+    try:
+        assert len(callback_log.registered) == count
+        assert apply_plugs_values([MayaFloatValueEdit(binding, 7.0)])
+        assert [
+            cmds.getAttr(node + ".value") for node in (driver, victim)
+        ] == [7.0, 7.0]
+    finally:
+        binding.dispose()
+        binding.deleteLater()
+    if count:
+        callback_log.assert_closed()
+    else:
+        assert not callback_log.registered
+
+
+@pytest.mark.parametrize("invalid", [0, 1, None, "true"])
+def test_lifetime_monitor_requires_actual_bool_before_registration(
+    scene: tuple[str, str, str],
+    callback_log: _CallbackLog,
+    invalid: object,
+) -> None:
+    """動的呼出しの非bool値を拒否し、削除監視を残さない。"""
+    driver, _victim, _marker = scene
+    _add_value(driver, "number", 1.0)
+    with pytest.raises(TypeError, match="monitor_lifetime"):
+        MayaFloatPlugsBinding(
+            [resolve_float_plug(driver, "value")],
+            monitor=False,
+            monitor_lifetime=cast(bool, invalid),
+        )
+    assert not callback_log.registered
 
 
 @dataclass

@@ -6,6 +6,7 @@ from __future__ import annotations
 from collections.abc import Callable, Generator, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass
+from functools import partial
 from typing import Generic, Protocol, TypeVar, cast
 
 from maya import cmds
@@ -29,6 +30,7 @@ from ._connected_plug_write import (
 )
 from ._float_edit import FloatEditUndo
 from ._float_plug_endpoint import run_later
+from ._plug_lifetime import LifetimeWrite, PlugLifetime
 
 # 型付き公開入口の下で、検証済みMPlug用の共通内部処理を共有する
 from .plug_input_state import (
@@ -197,6 +199,15 @@ class PlugWriteValidator(Protocol[_ValueT]):
         self, target: PlugTarget[_ValueT], requested: _ValueT
     ) -> None:
         """代表と書込み先が入力条件を保っているか確認する。"""
+        raise NotImplementedError
+
+
+class _TargetWrite(PlugWrite, Protocol[_ValueT]):
+    """通常値と文字列の差分が保持する、値型付きの入力対象。"""
+
+    @property
+    def target(self) -> PlugTarget[_ValueT]:
+        """差分の生存確認に使う対象を返す。"""
         raise NotImplementedError
 
 
@@ -379,12 +390,15 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         *,
         edit_view_model: FloatViewModel | IntViewModel | None = None,
         monitor: bool = True,
+        monitor_lifetime: bool = False,
     ) -> None:
         """対象を重複排除せず検証し、書込みなしで監視を開始する。"""
         if not targets:
             raise ValueError("plugsには一つ以上の属性を指定してください")
         if type(monitor) is not bool:
             raise TypeError("monitorにはboolを指定してください")
+        if type(monitor_lifetime) is not bool:
+            raise TypeError("monitor_lifetimeにはboolを指定してください")
         seen = PlugIdentitySet()
         for target in targets:
             if not seen.add(target.plug):
@@ -393,6 +407,8 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self._targets = tuple(targets)
         self._disposed = False
         self._write_depth = 0
+        self._monitor_lifetime = monitor_lifetime
+        self._lifetime: PlugLifetime | None = None
         self._refreshing = False
         self._refresh_pending = False
         self._refresh_scheduled = False
@@ -419,6 +435,10 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             self._registry.disposed.connect(self.dispose)
         self.destroyed.connect(self._on_destroyed)
         try:
+            if monitor_lifetime:
+                self._lifetime = PlugLifetime()
+                for target in self._targets:
+                    self._lifetime.add(target)
             self._register_callbacks()
             self._read_state()
         except Exception:
@@ -489,6 +509,8 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         try:
             plan = self.prepare_write(value)
             if not plan:
+                if self.lifetime_validation is not None:
+                    self.lifetime_validation()
                 self.refresh()
                 return False
             self._execute_write(plan)
@@ -510,7 +532,42 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             raise RuntimeError("一括書き込み中に別の入力は開始できません")
         if not self.is_writable:
             raise RuntimeError("代表のMaya属性は編集できません")
-        return prepare_plug_values(self, self._targets, values)
+        return self._protect_lifetime_writes(
+            prepare_plug_values(self, self._targets, values)
+        )
+
+    @staticmethod
+    def _require_target_available(target: PlugTarget[_ValueT]) -> None:
+        """削除された対象へ値の読取りや復旧で触れないよう拒否する。"""
+        if not target.is_available:
+            raise RuntimeError("入力中に対象属性の状態が変わりました")
+
+    def _protect_lifetime_writes(
+        self, plan: list[PlugWrite]
+    ) -> list[PlugWrite]:
+        """削除監視時だけ、差分ごとの生存確認と未試行の復旧除外を加える。"""
+        if not self._monitor_lifetime:
+            return plan
+        # 通常値と文字列の差分が保持する入力対象を生存確認へ渡す
+        return [
+            LifetimeWrite(
+                write,
+                partial(self._require_target_available, write.target),
+            )
+            for write in cast(Sequence[_TargetWrite[_ValueT]], plan)
+        ]
+
+    @property
+    def lifetime_validation(self) -> Callable[[], None] | None:
+        """削除監視時だけ、同値・readonlyを含む要求全体の終了検証を返す。"""
+        return self._validate_lifetime if self._monitor_lifetime else None
+
+    def _validate_lifetime(self) -> None:
+        """書込みを省略した対象も、同じUndo・復旧範囲で消失を拒否する。"""
+        if self.is_disposed:
+            raise RuntimeError("入力中に対象属性の状態が変わりました")
+        for target in self._targets:
+            self._require_target_available(target)
 
     @contextmanager
     def write_guard(self) -> Generator[None, None, None]:
@@ -524,6 +581,8 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             yield
         finally:
             self._write_depth -= 1
+            if not self._write_depth and self._disposed:
+                self._close_lifetime_monitor()
 
     def _execute_write(self, plan: Sequence[PlugWrite]) -> None:
         """途中失敗では変更済み対象を同じchunk内で元へ戻す。"""
@@ -533,10 +592,14 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         with self.write_guard():
             if self._edit_undo is None:
                 with plugs_undo_chunk():
-                    execute_plug_writes(plan)
+                    execute_plug_writes(
+                        plan, validate_after=self.lifetime_validation
+                    )
             else:
                 with self._edit_undo.write(), plugs_undo_chunk():
-                    execute_plug_writes(plan)
+                    execute_plug_writes(
+                        plan, validate_after=self.lifetime_validation
+                    )
 
     def validate_write_target(
         self, target: PlugTarget[_ValueT], requested: _ValueT
@@ -809,7 +872,9 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         client_data: object,
     ) -> None:
         """変更nodeの対象と祖先だけを照合し、値・状態・削除を同期する。"""
-        if self.is_disposed:
+        if self.is_disposed and not (
+            self._monitor_lifetime and self._write_depth
+        ):
             return
         matched = False
         for target in cast(tuple[PlugTarget[_ValueT], ...], client_data):
@@ -819,7 +884,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
                 matched = True
                 if message & om.MNodeMessage.kAttributeRemoved:
                     target.removed = True
-        if matched and not self._write_depth:
+        if matched and not self.is_disposed and not self._write_depth:
             self.refresh()
 
     def _on_plug_dirty(
@@ -837,11 +902,13 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
 
     def _on_node_removed(self, _node: om.MObject, client_data: object) -> None:
         """削除予定nodeの属性を恒久的に無効化する。"""
-        if self.is_disposed:
+        if self.is_disposed and not (
+            self._monitor_lifetime and self._write_depth
+        ):
             return
         for target in cast(tuple[PlugTarget[_ValueT], ...], client_data):
             target.removed = True
-        if not self._write_depth:
+        if not self.is_disposed and not self._write_depth:
             self.refresh()
 
     def dispose(self) -> None:
@@ -858,7 +925,19 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
             self._input_lock_timer.stop()
         if self._edit_undo is not None:
             self._edit_undo.dispose()
-        if self._registry is not None:
+        if self._registry is not None and not (
+            self._monitor_lifetime and self._write_depth
+        ):
+            self._registry.dispose()
+        if not self._write_depth:
+            self._close_lifetime_monitor()
+
+    def _close_lifetime_monitor(self) -> None:
+        """復旧が終わってから削除監視を解除し、遅延破棄中も二重解除しない。"""
+        lifetime, self._lifetime = self._lifetime, None
+        if lifetime is not None:
+            lifetime.close()
+        if self._disposed and self._registry is not None:
             self._registry.dispose()
 
     def _on_destroyed(self, *_args: object) -> None:
