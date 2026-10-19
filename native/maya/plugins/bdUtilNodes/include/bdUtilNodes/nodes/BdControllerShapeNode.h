@@ -110,8 +110,11 @@ public:
 
     static MObject shapeSize;
     static MObject shapePartOffset;
+    static MObject shapePartOffsetAngle;
+    static MObject shapePartFinHeight;
     static MObject shapePartLengthScale;
     static MObject shapePartWidthScale;
+    static MObject shapePartSize;
     static MObject showShapeOffsetLine;
     static MObject shapeOffsetLineTemplate;
     static MObject shapeLineWidth;

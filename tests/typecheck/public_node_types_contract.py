@@ -13,6 +13,9 @@ from bd_util.maya.node.operator.attr.define.std.at.scalar.numeric.range.float im
 from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearPlugOperator,
 )
+from bd_util.maya.node.operator.attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAnglePlugOperator,
+)
 from bd_util.maya.node.operator.attr.define.std.dt.matrix import (
     DataMatrixPlugOperator,
 )
@@ -213,9 +216,18 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.shapeAnimationTransformMatrix, DataMatrixPlugOperator)
     assert_type(shape.shapeAxisOffsetLength, DoubleLinearPlugOperator)
     assert_type(shape.shapePartOffset, DoubleLinearPlugOperator)
+    assert_type(shape.shapePartOffsetAngle, DoubleAnglePlugOperator)
+    assert_type(shape.spoa, DoubleAnglePlugOperator)
+    assert_type(shape.shapePartFinHeight, DoubleLinearPlugOperator)
+    assert_type(shape.spfh, DoubleLinearPlugOperator)
+    assert_type(shape.shapePartSize, DoublePlugOperator)
     assert_type(shape.shapePartLengthScale, DoublePlugOperator)
     assert_type(shape.shapePartWidthScale, DoublePlugOperator)
+    assert_type(shape.sps, DoublePlugOperator)
     shape.shapePartOffset.set(0.1)
+    shape.shapePartOffsetAngle.set(30)
+    shape.shapePartFinHeight.set(0.75)
+    shape.shapePartSize.set(2.0)
     shape.shapePartLengthScale.set(2.0)
     shape.shapePartWidthScale.set(3.0)
     assert_type(shape.shapeAxisOffset, BoolPlugOperator)

@@ -909,14 +909,15 @@ MVector nativeAxis(unsigned int axis) {
 
 using ArrowHead = std::array<MPoint, 3>;
 
-std::vector<ArrowHead> endArrowHeads(short outline) {
+std::vector<ArrowHead> endArrowHeads(short outline, const ShapeSettings& settings) {
     std::vector<ArrowHead> heads;
-    const double depth = 0.1 * std::cos(kPi / 6.0);
-    constexpr double halfWidth = 0.05;
+    const double depth = 0.1 * std::cos(kPi / 6.0) * settings.partLengthScale * settings.partSize;
+    const double halfWidth = 0.05 * settings.partWidthScale * settings.partSize;
     const auto append = [&](const MPoint& tip, const MVector& direction,
                             const MVector& side) {
-        const MPoint base = tip - direction * depth;
-        heads.push_back({base + side * halfWidth, tip, base - side * halfWidth});
+        const MPoint movedTip = tip + direction * settings.partOffset;
+        const MPoint base = movedTip - direction * depth;
+        heads.push_back({base + side * halfWidth, movedTip, base - side * halfWidth});
     };
     const short base = endArrowBaseOutline(outline);
     const auto axes = straightLineAxes(base);
@@ -961,14 +962,17 @@ struct WideEndArrowGeometry {
     std::vector<ArrowHead> triangles;
 };
 
-WideEndArrowGeometry wideEndArrowGeometry(short outline) {
+WideEndArrowGeometry wideEndArrowGeometry(short outline, const ShapeSettings& settings) {
     WideEndArrowGeometry geometry;
-    constexpr double shaftHalfWidth = 0.025;
-    constexpr double headHalfWidth = 0.05;
-    const double depth = 0.1 * std::cos(kPi / 6.0);
-    const double shoulder = 0.5 - depth;
+    const double shaftHalfWidth = 0.025 * std::abs(settings.partWidthScale * settings.partSize);
+    const double headHalfWidth = 0.05 * std::abs(settings.partWidthScale * settings.partSize);
+    const double depth = 0.1 * std::cos(kPi / 6.0) * settings.partLengthScale * settings.partSize;
+    const double tip = 0.5 + settings.partOffset;
+    const double shoulder = tip - depth;
     const auto triangle = [&](MPoint first, MPoint second, MPoint third) {
-        if (((second - first) ^ (third - first)).z < 0.0) {
+        const MVector normal = (second - first) ^ (third - first);
+        if (normal.length() < 1.0e-12) return;
+        if (normal.z < 0.0) {
             std::swap(second, third);
         }
         geometry.triangles.push_back({first, second, third});
@@ -985,36 +989,46 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline) {
     };
 
     if (outline == 68) {
-        constexpr double outerRadius = 0.5 + shaftHalfWidth;
-        constexpr double innerRadius = 0.5 - shaftHalfWidth;
-        const double outerJoin = std::sqrt(outerRadius * outerRadius - depth * depth);
-        const double innerJoin = std::sqrt(innerRadius * innerRadius - depth * depth);
-        std::vector<MPoint> outer = {MPoint(outerJoin, depth, 0.0)};
-        std::vector<MPoint> inner = {MPoint(innerJoin, depth, 0.0)};
+        const double outerRadius = 0.5 + shaftHalfWidth;
+        const double innerRadius = std::max(0.0, 0.5 - shaftHalfWidth);
+        const double baseY = depth - settings.partOffset;
+        const double joinY = std::clamp(baseY, 0.0, innerRadius);
+        const double outerJoin = std::sqrt(std::max(0.0, outerRadius * outerRadius - joinY * joinY));
+        const double innerJoin = std::sqrt(std::max(0.0, innerRadius * innerRadius - joinY * joinY));
+        std::vector<MPoint> outer = {MPoint(outerJoin, joinY, 0.0)};
+        std::vector<MPoint> inner = {MPoint(innerJoin, joinY, 0.0)};
         // Clip both arc edges at the head bases and sample their remaining angles together.
         for (unsigned int index = 1; index < kCircleSegments / 2; ++index) {
             const double angle = 2.0 * kPi * index / kCircleSegments;
-            if (innerRadius * std::sin(angle) <= depth) continue;
+            const bool collapsedInner = joinY >= innerRadius;
+            if ((collapsedInner ? outerRadius : innerRadius) * std::sin(angle) <= joinY) continue;
             outer.emplace_back(outerRadius * std::cos(angle), outerRadius * std::sin(angle), 0.0);
-            inner.emplace_back(innerRadius * std::cos(angle), innerRadius * std::sin(angle), 0.0);
+            if (collapsedInner) inner.emplace_back(0.0, joinY, 0.0);
+            else inner.emplace_back(innerRadius * std::cos(angle), innerRadius * std::sin(angle), 0.0);
         }
-        outer.emplace_back(-outerJoin, depth, 0.0);
-        inner.emplace_back(-innerJoin, depth, 0.0);
-        geometry.outline = {MPoint(0.5, 0.0, 0.0), MPoint(0.55, depth, 0.0)};
+        outer.emplace_back(-outerJoin, joinY, 0.0);
+        inner.emplace_back(-innerJoin, joinY, 0.0);
+        const MPoint rightTip(0.5, -settings.partOffset, 0.0);
+        const MPoint leftTip(-0.5, -settings.partOffset, 0.0);
+        const MPoint rightOuter(0.5 + headHalfWidth, baseY, 0.0);
+        const MPoint rightInner(0.5 - headHalfWidth, baseY, 0.0);
+        const MPoint leftOuter(-0.5 - headHalfWidth, baseY, 0.0);
+        const MPoint leftInner(-0.5 + headHalfWidth, baseY, 0.0);
+        geometry.outline = {rightTip, rightOuter};
         geometry.outline.insert(geometry.outline.end(), outer.begin(), outer.end());
         geometry.outline.insert(geometry.outline.end(), {
-            MPoint(-0.55, depth, 0.0), MPoint(-0.5, 0.0, 0.0), MPoint(-0.45, depth, 0.0),
+            leftOuter, leftTip, leftInner,
         });
         geometry.outline.insert(geometry.outline.end(), inner.rbegin(), inner.rend());
-        geometry.outline.emplace_back(0.45, depth, 0.0);
+        geometry.outline.push_back(rightInner);
         for (std::size_t index = 0; index + 1 < outer.size(); ++index) {
             quad(outer[index], outer[index + 1], inner[index + 1], inner[index]);
         }
-        head(MPoint(0.5, 0.0, 0.0), {{
-            MPoint(0.55, depth, 0.0), outer.front(), inner.front(), MPoint(0.45, depth, 0.0),
+        head(rightTip, {{
+            rightOuter, outer.front(), inner.front(), rightInner,
         }});
-        head(MPoint(-0.5, 0.0, 0.0), {{
-            MPoint(-0.45, depth, 0.0), inner.back(), outer.back(), MPoint(-0.55, depth, 0.0),
+        head(leftTip, {{
+            leftInner, inner.back(), outer.back(), leftOuter,
         }});
     } else {
         const bool cross = outline >= 65;
@@ -1041,7 +1055,7 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline) {
                         point(sign * shoulder, shaftHalfWidth, axis),
                         point(start, shaftHalfWidth, axis));
                 }
-                head(point(sign * 0.5, 0.0, axis), {{
+                head(point(sign * tip, 0.0, axis), {{
                     point(sign * shoulder, -headHalfWidth, axis),
                     point(sign * shoulder, -shaftHalfWidth, axis),
                     point(sign * shoulder, shaftHalfWidth, axis),
@@ -1051,29 +1065,29 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline) {
         }
         if (cross) {
             geometry.outline = {
-                MPoint(0.5, 0.0, 0.0),
+                MPoint(tip, 0.0, 0.0),
                 MPoint(shoulder, headHalfWidth, 0.0), MPoint(shoulder, shaftHalfWidth, 0.0),
                 MPoint(shaftHalfWidth, shaftHalfWidth, 0.0),
                 MPoint(shaftHalfWidth, shoulder, 0.0), MPoint(headHalfWidth, shoulder, 0.0),
-                MPoint(0.0, 0.5, 0.0),
+                MPoint(0.0, tip, 0.0),
                 MPoint(-headHalfWidth, shoulder, 0.0), MPoint(-shaftHalfWidth, shoulder, 0.0),
                 MPoint(-shaftHalfWidth, shaftHalfWidth, 0.0),
                 MPoint(-shoulder, shaftHalfWidth, 0.0), MPoint(-shoulder, headHalfWidth, 0.0),
-                MPoint(-0.5, 0.0, 0.0),
+                MPoint(-tip, 0.0, 0.0),
                 MPoint(-shoulder, -headHalfWidth, 0.0), MPoint(-shoulder, -shaftHalfWidth, 0.0),
                 MPoint(-shaftHalfWidth, -shaftHalfWidth, 0.0),
                 MPoint(-shaftHalfWidth, -shoulder, 0.0), MPoint(-headHalfWidth, -shoulder, 0.0),
-                MPoint(0.0, -0.5, 0.0),
+                MPoint(0.0, -tip, 0.0),
                 MPoint(headHalfWidth, -shoulder, 0.0), MPoint(shaftHalfWidth, -shoulder, 0.0),
                 MPoint(shaftHalfWidth, -shaftHalfWidth, 0.0),
                 MPoint(shoulder, -shaftHalfWidth, 0.0), MPoint(shoulder, -headHalfWidth, 0.0),
             };
         } else {
             geometry.outline = {
-                MPoint(-0.5, 0.0, 0.0),
+                MPoint(-tip, 0.0, 0.0),
                 MPoint(-shoulder, -headHalfWidth, 0.0), MPoint(-shoulder, -shaftHalfWidth, 0.0),
                 MPoint(shoulder, -shaftHalfWidth, 0.0), MPoint(shoulder, -headHalfWidth, 0.0),
-                MPoint(0.5, 0.0, 0.0),
+                MPoint(tip, 0.0, 0.0),
                 MPoint(shoulder, headHalfWidth, 0.0), MPoint(shoulder, shaftHalfWidth, 0.0),
                 MPoint(-shoulder, shaftHalfWidth, 0.0), MPoint(-shoulder, headHalfWidth, 0.0),
             };
@@ -1114,8 +1128,9 @@ double crossLineEndSolidOffset(short outline) {
 
 double crossLineEndSolidAlong(double coordinate, short outline, const ShapeSettings& settings) {
     double along = crossLineEndSolidOffset(outline) + 0.1 * coordinate;
-    if (settings.partLengthScale != 1.0) {
-        along = 0.5 + (along - 0.5) * settings.partLengthScale;
+    const double length = settings.partLengthScale * settings.partSize;
+    if (length != 1.0) {
+        along = 0.5 + (along - 0.5) * length;
     }
     return along + settings.partOffset;
 }
@@ -1128,8 +1143,8 @@ MPoint crossLineEndSolidPoint(
     const MVector side = nativeAxis((axis + 1) % 3);
     const MVector up = direction ^ side;
     return MPoint::origin + direction * crossLineEndSolidAlong(point.x, outline, settings)
-        + side * (0.1 * point.y * settings.partWidthScale)
-        + up * (0.1 * point.z * settings.partWidthScale);
+        + side * (0.1 * point.y * settings.partWidthScale * settings.partSize)
+        + up * (0.1 * point.z * settings.partWidthScale * settings.partSize);
 }
 
 void appendCrossLineEndSolids(
@@ -1144,14 +1159,29 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
         return;
     }
     if (outline >= 62 && outline <= 68) {
-        appendNativeStroke(wideEndArrowGeometry(outline).outline,
+        appendNativeStroke(wideEndArrowGeometry(outline, transform.settings).outline,
             StrokeStyle::Normal, transform, strokes, styles);
         return;
     }
     if ((outline >= 54 && outline <= 59) || outline == 61) {
-        for (const auto& head : endArrowHeads(outline)) {
+        for (const auto& head : endArrowHeads(outline, transform.settings)) {
             appendNativeStroke({head[0], head[1], head[2]},
                 StrokeStyle::Normal, transform, strokes, styles);
+        }
+        if (transform.settings.partOffset != 0.0) {
+            const auto axes = straightLineAxes(endArrowBaseOutline(outline));
+            for (auto axis : axes) {
+                const MVector end = nativeAxis(axis) * std::max(0.0, 0.5 + transform.settings.partOffset);
+                appendNativeStroke({MPoint::origin - end, MPoint::origin + end},
+                    StrokeStyle::Normal, transform, strokes, styles);
+            }
+            if (!axes.empty()) return;
+            appendPresetComponent(29, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            for (double z : {-0.5, 0.5}) {
+                appendNativeStroke({MPoint(0, 0, z), MPoint(0, -transform.settings.partOffset, z)},
+                    StrokeStyle::Normal, transform, strokes, styles);
+            }
+            return;
         }
     }
     switch (endArrowBaseOutline(outline)) {

@@ -30,6 +30,9 @@ from .....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from .....attr.define.std.at.scalar.numeric.range.float import FloatField
 from .....attr.define.std.at.scalar.numeric.range.long import LongField
 from .....attr.define.std.at.scalar.numeric.range.short import ShortField
+from .....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from .....attr.define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearField,
 )
@@ -1046,6 +1049,17 @@ class GeneratedBdControllerShape(Shape):
 
     shapePartOffset = DoubleLinearField(default_value=0.0)
     spo = shapePartOffset
+
+    shapePartOffsetAngle = DoubleAngleField(
+        default_value=0.0, min_value=-90.0, max_value=90.0
+    )
+    spoa = shapePartOffsetAngle
+
+    shapePartFinHeight = DoubleLinearField(default_value=0.5)
+    spfh = shapePartFinHeight
+
+    shapePartSize = DoubleField(default_value=1.0)
+    sps = shapePartSize
 
     shapePartLengthScale = DoubleField(default_value=1.0)
     spls = shapePartLengthScale

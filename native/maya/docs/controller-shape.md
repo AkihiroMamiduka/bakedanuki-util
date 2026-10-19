@@ -90,9 +90,12 @@ mod.do_it_dg()
 | `shapeAxisRotate` | `doubleAngle3` | `(0, 0, 0)` | 指定した軸を基準に XYZ 固定順に回転 |
 | `shapeAxisScale` | `double3` | `(1, 1, 1)` | 指定した軸を基準に、`shapeAxisRotate` の内側で拡縮 |
 | `shapeSize` | `double` | `1` | 本体の頂点を末端で一律スケール |
-| `shapePartOffset` | `doubleLinear` | `0 cm` | `CrossLine3AxisEnd*` とそのColor版の小形状を各端の外向きへ移動。負値は内向き |
-| `shapePartLengthScale` | `double` | `1` | 各端の基準位置 `±0.5` をピボットに、小形状を長手方向へ伸縮 |
-| `shapePartWidthScale` | `double` | `1` | 小形状の長手方向と直交する2軸を同じ倍率で伸縮 |
+| `shapePartOffset` | `doubleLinear` | `0 cm` | 端の小形状・Arrow・EndArrowをそれぞれの向きへ移動。Finの高さには適用しない |
+| `shapePartOffsetAngle` | `doubleAngle` | `0°` | Semicircle系列の両端を同じ角度ずつ開く。範囲は `-90°`–`90°`、short nameは `spoa` |
+| `shapePartFinHeight` | `doubleLinear` | `0.5 cm` | Finの張り出す高さ。`shapePartSize`を掛け、0ならFinのみ省略。short nameは `spfh` |
+| `shapePartSize` | `double` | `1` | 部品の長さ・太さに掛け合わせる共通倍率。short nameは `sps` |
+| `shapePartLengthScale` | `double` | `1` | 部品を長手方向へ伸縮。Finの高さには適用しない |
+| `shapePartWidthScale` | `double` | `1` | 部品の長手方向と直交する2軸を同じ倍率で伸縮。Finは付け根に沿う広がり |
 | `showShapeOffsetLine` | `bool` | `false` | 親 `transform` のローカル原点から、軸オフセットを除いた形状基準位置まで補助線を描く |
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
 | `shapeLineWidth` | `float` | `1` | 本体と OffsetLine の画面上の線幅。単位は pixel、最小値 `1` |
@@ -159,18 +162,20 @@ Filledは端の立体の面全体（PyramidとConeは底面を含む）だけを
 Wireframeでは端形状も輪郭線だけを表示し、選択、Template/Reference、
 Selection Highlighting、Draw On Topは既存の通常色・軸色の表示規則に従います。
 
-`shapePartOffset`、`shapePartLengthScale`、`shapePartWidthScale` は6端に共通で作用し、
-通常版・Color版、輪郭・Filled面で同じ変形を使います。現段階の対象はこの20種類で、
-既存のArrow、EndArrow、WideEndArrow、Finなどには適用しません。
-既定値 `0 / 1 / 1` は元の形状を再現します。
+`shapePartOffset`、`shapePartLengthScale`、`shapePartWidthScale`、`shapePartSize` は6端に共通で作用し、
+通常版・Color版、輪郭・Filled面で同じ変形を使います。
+端の小形状20種類に加え、全Arrow・EndArrow・WideEndArrow・Fin系列を対象とします。
+既定値 `0 / 1 / 1 / 1` は元の148種類の形状を再現します。
 
 小形状の長手方向の基準座標を `a`、横2軸の座標を `b`、`c` とすると、
 部品の変形後の座標は次のとおりです。長手方向は各端の外向きを正とします。
 
 ```text
-a' = 0.5 + (a - 0.5) * shapePartLengthScale + shapePartOffset
-b' = b * shapePartWidthScale
-c' = c * shapePartWidthScale
+length = shapePartSize * shapePartLengthScale
+width = shapePartSize * shapePartWidthScale
+a' = 0.5 + (a - 0.5) * length + shapePartOffset
+b' = b * width
+c' = c * width
 ```
 
 Cube、Octahedron、Sphereは中心を、Pyramid、Coneは先端を固定して伸縮します。
@@ -185,6 +190,57 @@ Cube、Octahedron、Sphereは中心を、Pyramid、Coneは先端を固定して�
 BoundsのShapeとShapeCenteredは部品の変形へ追従し、Customは既存の独立した箱を使います。
 各属性は既存と同じ非keyable・Channel Box表示で、接続、明示的なキー設定、Undo/Redo、保存に対応します。
 
+Arrow・Finへの部品変形の範囲は次のとおりです。部品のSizeはオフセット距離に掛けず、
+部品変形後に `shapeSize`、軸指定、回転、animation matrixなどの全体変形を適用します。
+通常版・Filled版・Color版で同じ輪郭を使い、軸色・template色の役割も維持します。
+
+| 系列 | 部品変形の範囲と基準 |
+| --- | --- |
+| Square / Cube / Circle / Semicircle / Sphereの付属Arrow、ColorSphereArrow | 元の付け根 `+0.5` を基準に矢印を調整。本体との間の輪郭・面を接続する |
+| 4Way Arrow | 各向きの付け根を基準に共通倍率を適用。元の大小の比率を保つ |
+| EndArrow | 元の線・半円の端点にある先端をピボットに頭部を調整。線の端は移動した先端へ追従 |
+| SemicircleEndArrow | 角度調整後の両端の接線方向を使う。角度0の既定軸では正のOffsetは両端とも `-Y` |
+| WideEndArrow | Lengthは頭部の深さ、WidthとSizeは頭部と帯の幅へ適用。先端・付け根の接続を再計算 |
+| CubeFin / CylinderFin / CubeFinArrow / CylinderFinArrow / PyramidFin / ConeFin | Heightは張り出す高さ、Widthは付け根に沿う広がり。Offset・Lengthは適用せず、付け根を本体へ残す |
+| Arrow / ArrowFin | 矢印全体を一部品とし、元の先端 `+1stAxis=0.5` をピボットに調整。Finの付け根はOffset・Lengthへ追従し、高さは専用Heightで調整 |
+| TriangleArrow3D | 元の三角形を保ち、共通先端 `+2ndAxis=0.5` を基準に直交する追加三角面を調整 |
+| OctahedronArrow | OffsetとLengthは先端だけに適用し、中央断面から先端までの辺を直線に保つ。WidthとSizeは中央断面の幅へも適用し、断面を共有する反対側の面も追従。後端の1stAxis座標 `-0.5` は固定 |
+| OctahedronArrowFin | 尖った部分の変形とFinの高さを個別に調整。Finの付け根は変形後の本体へ追従 |
+
+`shapePartFinHeight` は上記8種類のFin系列と各Filled版に適用し、
+実効高さは `shapePartFinHeight * shapePartSize` とします。Offset・Length・Widthは高さに掛けません。
+傾斜や頂点間の高さ比率を保ち、ArrowFinの中間頂点の高さは最大高さの半分です。
+0ではFinの線・面のみを省略し、本体やArrowを残します。負値は張り出す方向の反転として扱います。
+既定値は元の148種類の形状を維持します。Finのない形状には作用しません。
+接続、明示的なキー設定、Undo/Redo、保存に対応し、距離単位と全体変形に追従します。
+
+付属ArrowとFinのFilledは、本体の断面に重なる領域を差し引きます。
+付属Arrow3Dでは、Offsetで動いた矢印の付け根から元の付け根までの中央線を描きません。
+直交する面は移動後の付け根・張り出し・先端からなる三角形とし、元の付け根までは延長しません。
+付属Arrowの実効LengthまたはWidthが0なら、その部品の面を省略し、本体の面と潰れた輪郭を残します。
+Finは専用Heightを使うため、Lengthが0でも高さを維持します。
+ArrowFinでは本体のLengthに沿って付け根も潰れますが、Widthが0でも独立したFin面を残します。
+通常のEndArrowは従来どおり頭部だけ、WideEndArrowは帯を含めて塗ります。
+SemicircleWideEndArrowの中心半径は `0.5` のまま、帯の半幅を `0.025 * abs(width)` とします。
+帯が中心へ達したときは内半径を0とし、半円の外側にある頭部へも接続します。
+WideEndArrowの頭部同士や帯が交差する条件では、面を重複させず和集合を塗り、外周だけを描きます。
+
+`shapePartOffsetAngle` は `Semicircle`、`SemicircleArrow2D/3D`、
+`SemicircleEndArrow`、`SemicircleWideEndArrow` と各Filled版に作用します。
+円弧は上側の中心を保ち、全体の開き角を `180° + 2 * shapePartOffsetAngle` とします。
+例えば `30°` は両端が30°ずつ開いて240°、`-30°` は120°の円弧です。
+`-90°` は上端の一点、`90°` は360°の円になります。接続入力もこの範囲へ制限します。
+円弧の分割密度は既定の円周64分割と同じで、両端と各軸方向の頂点を含めます。
+
+EndArrowとWideEndArrowは、角度調整後の端点に頭部を置き、接線に沿って外向きに回転します。
+その後に `shapePartOffset` の距離だけ同じ接線方向へ移動し、角度・移動では頭部の寸法を変えません。
+長さと太さの調整は従来どおりSize・Length・Widthで行います。
+Wide版は円弧の帯と移動後の頭部の間を一定幅の直線で接続し、頭部の底辺を一直線に保ちます。
+頭部を大きく伸ばす場合も、円弧との接続が途切れない位置で帯の端を計算します。
+円弧と頭部・頭部同士の面が重なるときは、和集合で二重描画と内部線を除きます。
+上側に付属するArrow2D/3Dは元の位置に残し、Angleは円弧本体だけに適用します。
+矢印のないSemicircleでは、Offset・Size・Length・Widthは形状を変えません。
+
 `Line1st/2nd/3rd` と3種類の2軸 `CrossLine` に `EndArrow`、
 `EndArrowFilled` を用意します。矢印の先端は元の線の両端 `±0.5` にあり、
 中心線から30°ずつ開いた長さ `0.1` の2本の斜辺で構成します。
@@ -194,8 +250,8 @@ BoundsのShapeとShapeCenteredは部品の変形へ追従し、Customは既存�
 `Line3rdEndArrow*` は1st–3rd平面に配置します。
 2軸のCrossLineでは同じ平面に配置します。
 
-`SemicircleEndArrow*` は元の半円を保ち、
-半円の両端に同じ寸法の端点矢印を追加します。先端は元の端点から動かさず、
+`SemicircleEndArrow*` の基準形状は元の半円を保ち、
+半円の両端に同じ寸法の端点矢印を追加します。既定値では先端は元の端点から動かさず、
 曲線の接線に沿って外向きにします。既定軸では半円はYZ平面の上半分で、
 両端の矢印はともに `-Y` を向き、2nd–3rd平面に配置します。
 
@@ -233,8 +289,13 @@ Wireframeでは閉じた輪郭だけを表示します。
 NURBS の CV・UV・材質・レンダリング用サーフェスではありません。
 `GearFilled` は外周と内円の間を塗り、内円の内側を穴として残します。
 `Semicircle` は底辺のない半円です。`SemicircleFilled` と
-`SemicircleArrow2D/3DFilled` は半円板を描きますが、
-直径の輪郭線は追加しません。矢印の突起と Fin も面を持ち、Fin は厚みのない面です。
+`SemicircleArrow2D/3DFilled` は、円弧の中心と両端を結ぶ扇形を塗ります。
+Angleが30°では240°の扇形、0では半円板、90°では円板、-90°では面積0となります。
+中心へ向かう2本の境界線は輪郭として追加しません。付属矢印のFilled面も同じ扇形断面を差し引き、
+本体との二重描画を避けます。開き角が0°より大きく180°未満のFilledでは、
+中心もShape / ShapeCenteredの範囲に含みます。
+`SemicircleEndArrowFilled` は矢印だけ、`SemicircleWideEndArrowFilled` は帯と矢印を塗ります。
+矢印の突起と Fin も面を持ち、Fin は厚みのない面です。
 `3D` 系の Filled 矢印は、主平面と直交する薄い三角面で表し、閉じた立体には
 しません。`OctahedronArrowFinFilled` の Fin は、八面体の上半分と重ならない左右の
 三角面だけを塗ります。
@@ -303,7 +364,7 @@ Channel Box の表示順は次の７区画です。区切りは表示順に `_`�
 1. `shape`、`shapeDrawOnTop`、`shapeLineWidth`、`shapeTransparency`、`shapeFillTransparency`、`showShapeOffsetLine`、`shapeOffsetLineTemplate`
 2. `shape1stAxis`、`shape2ndAxis`、`shapeAxisOffset`、`shapeAxisOffsetDirection`、`shapeAxisOffsetLength`
 3. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
-4. `shapePartOffset`、`shapePartLengthScale`、`shapePartWidthScale`
+4. `shapePartOffset`、`shapePartOffsetAngle`、`shapePartFinHeight`、`shapePartSize`、`shapePartLengthScale`、`shapePartWidthScale`
 5. `boundsMode`、`showBoundsPreview`
 6. `customBounds1stAxis`、`customBounds2ndAxis`、`customBoundsAxisOffset`、`customBoundsAxisOffsetDirection`、`customBoundsAxisOffsetLength`
 7. `customBoundsRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`customBoundsSize`
@@ -662,8 +723,11 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 51. 3種類の `CrossLine*WideEndArrowFilled` の中央に内部線がなく、半透明でも面の二重描画による色の濃い部分がない。`SemicircleWideEndArrowFilled` は半径0.475–0.525の帯と矢印だけを塗り、中央の空間を残す。透明度、Template/Reference、選択、負スケール、軸指定、animation matrixも確認する。
 52. `CrossLine3AxisEnd*` と `ColorCrossLine3AxisEnd*` の各5系列・通常版/Filled版で、6端の形状がサイズ0.1で配置され、軸線が手前の表面で止まる。Pyramid/Coneの先端は6方向とも外向きで原点から0.5、底面は0.4となる。
 53. `ColorCrossLine3AxisEnd*` は正方向の軸線だけRGB、負方向の軸線と端形状は通常色となる。Filled面に軸色が付かず、Wireframeでは面が省略される。面内の選択、透明度、Template/Reference、Selection Highlighting、Draw On Top、軸指定、負スケール、animation matrix、Undo/Redo、シーン再読込も確認する。
-54. `shapeSize` の次に区切り・`shapePartOffset`・`shapePartLengthScale`・`shapePartWidthScale`・区切り・`boundsMode` が並ぶ。20種類の端形状でピボット±0.5、長手方向・横2軸の伸縮、接続線の追従、原点越えでの線の省略を確認する。
+54. `shapeSize` の次に区切り・`shapePartOffset`・`shapePartOffsetAngle`・`shapePartFinHeight`・`shapePartSize`・`shapePartLengthScale`・`shapePartWidthScale`・区切り・`boundsMode` が並ぶ。20種類の端形状でピボット±0.5、長手方向・横2軸の伸縮、接続線の追従、原点越えでの線の省略を確認する。8種類のFinとFilled版は専用Heightで高さを調整し、Offset・Lengthから独立する。Height 0でFinのみ消え、ArrowFinの高さ比率と本体に追従する付け根を保つ。
 55. 部品の変形でも輪郭とFilled面が一致し、0スケールではFilled面を省略、負スケールでも面と選択が正しく表示される。形状全体の変形、3種類のBounds、単位変更、接続・アニメーション、Undo/Redo、シーン再読込、Color版の色分けも確認する。
+56. 付属Arrow3DをOffsetで移動しても、元の付け根へ伸びる中央線がない。直交する三角面の底辺は移動後の付け根にあり、面や輪郭が本体へ不要に延長されない。
+57. `OctahedronArrow*` はOffset・Lengthで先端だけが動き、中央断面から先端までの辺が直線になる。Width・Sizeでは中央断面とそれを共有する反対側の面も変わり、後端は固定される。Finの付け根も追従する。
+58. Semicircle系列のAngleを-90°・-30°・0°・30°・90°に変え、円弧が0°・120°・180°・240°・360°になる。Semicircleと付属Arrow2D/3Dの本体Filledは中心から端点までの扇形を塗り、中心への輪郭線は増えない。EndArrowの向きとOffsetは移動後の接線に沿い、Wide版の頭部は斜辺と底辺の形を保ったまま一定幅の直線部で帯へ接続する。Lengthを3–5へ伸ばしても頭部が離れない。Size・Length・Widthとの併用、0°・360°での頭部の重なり、Filled面の範囲、負スケール、Bounds、キー設定、接続、Undo/Redo、保存・再読込も確認する。
 
 実際のViewport 2.0を必要とする画像比較テストは
 `tests/maya/ui/test_controller_shape_viewport.py` にあります。既存作業とは別の
