@@ -90,8 +90,8 @@ class FloatPlugValue:
         return require_float(actual) == require_float(expected)
 
     @property
-    def presentation(self) -> FloatPresentation:
-        """現在の表示単位と公開単位でのMaya属性範囲を返す。"""
+    def hard_limits(self) -> tuple[float | None, float | None]:
+        """表示情報を作らず、現在の属性範囲を公開単位で検証して返す。"""
         if self.kind == "number":
             attribute = om.MFnNumericAttribute(self.plug.attribute())
             minimum = (
@@ -104,18 +104,28 @@ class FloatPlugValue:
                 if attribute.hasMax()
                 else None
             )
+        else:
+            unit_attribute = om.MFnUnitAttribute(self.plug.attribute())
+            minimum = (
+                require_float(self._unit_bound(unit_attribute.getMin()))
+                if unit_attribute.hasMin()
+                else None
+            )
+            maximum = (
+                require_float(self._unit_bound(unit_attribute.getMax()))
+                if unit_attribute.hasMax()
+                else None
+            )
+        if minimum is not None and maximum is not None and minimum > maximum:
+            raise ValueError("minimumはmaximum以下にしてください")
+        return minimum, maximum
+
+    @property
+    def presentation(self) -> FloatPresentation:
+        """現在の表示単位と公開単位でのMaya属性範囲を返す。"""
+        minimum, maximum = self.hard_limits
+        if self.kind == "number":
             return FloatPresentation(minimum=minimum, maximum=maximum)
-        unit_attribute = om.MFnUnitAttribute(self.plug.attribute())
-        minimum = (
-            self._unit_bound(unit_attribute.getMin())
-            if unit_attribute.hasMin()
-            else None
-        )
-        maximum = (
-            self._unit_bound(unit_attribute.getMax())
-            if unit_attribute.hasMax()
-            else None
-        )
         suffix = (
             _DISTANCE_SUFFIXES[om.MDistance.uiUnit()]
             if self.kind == "distance"

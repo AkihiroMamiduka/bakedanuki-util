@@ -199,10 +199,10 @@ class _FloatCodec:
     def validate(self, value: float) -> float:
         """hard limitと格納精度を変更前に検証する。"""
         result = self.to_ui(value)
-        presentation = self.value.presentation
-        if presentation.minimum is not None and value < presentation.minimum:
+        minimum, maximum = self.value.hard_limits
+        if minimum is not None and value < minimum:
             raise ValueError("入力値は対象属性の下限未満です")
-        if presentation.maximum is not None and value > presentation.maximum:
+        if maximum is not None and value > maximum:
             raise ValueError("入力値は対象属性の上限を超えています")
         return result
 

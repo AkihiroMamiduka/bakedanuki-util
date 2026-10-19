@@ -50,10 +50,10 @@ class IntPlugValue:
     def validate(self, value: int) -> int:
         """型固有範囲と現在のhard limitを変更前に検証する。"""
         value = self.to_ui(value)
-        presentation = self.presentation
-        if presentation.minimum is not None and value < presentation.minimum:
+        minimum, maximum = self._effective_limits()
+        if value < minimum:
             raise ValueError("valueはMaya属性の下限未満です")
-        if presentation.maximum is not None and value > presentation.maximum:
+        if value > maximum:
             raise ValueError("valueはMaya属性の上限を超えています")
         return value
 
@@ -78,13 +78,20 @@ class IntPlugValue:
             return None, None
         return minimum, maximum
 
-    @property
-    def presentation(self) -> IntPresentation:
-        """型固有範囲とMaya属性のhard limitの共通部分を返す。"""
+    def _effective_limits(self) -> tuple[int, int]:
+        """表示情報を作らず、型固有範囲と現在の属性範囲を照合する。"""
         lower, upper = _TYPE_LIMITS[self.kind]
         minimum, maximum = self.hard_limits
         if minimum is not None:
             lower = max(lower, minimum)
         if maximum is not None:
             upper = min(upper, maximum)
+        if lower > upper:
+            raise ValueError("minimumはmaximum以下にしてください")
+        return lower, upper
+
+    @property
+    def presentation(self) -> IntPresentation:
+        """型固有範囲とMaya属性のhard limitの共通部分を返す。"""
+        lower, upper = self._effective_limits()
         return IntPresentation(minimum=lower, maximum=upper)
