@@ -173,6 +173,8 @@ struct ShapeSettings {
     bool offsetLineTemplate = false;
 };
 
+void normalizeColorSettings(ShapeSettings& settings);
+
 struct ShapeAttributes {
     MObject shape;
     MObject firstAxis;
@@ -534,7 +536,9 @@ bool readSettings(
         settings.offsetLineTemplate =
             MPlug(node, attributes.offsetLineTemplate).asBool(&status);
     }
-    return status == MS::kSuccess;
+    if (!status) return false;
+    normalizeColorSettings(settings);
+    return true;
 }
 
 bool readAnimationMatrix(const MObject& node, MMatrix& matrix) {
@@ -609,6 +613,24 @@ void appendPresetComponent(
 );
 
 #include "BdControllerShapePresets.inc"
+
+void normalizeColorSettings(ShapeSettings& settings) {
+    const short outline = outlinePresetIndex(settings.shape);
+    if (!((outline >= 45 && outline <= 51) || (outline >= 74 && outline <= 78))) return;
+
+    settings.firstAxis = 0;
+    settings.secondAxis = 2;
+    settings.rotateAngles = MVector::zero;
+    settings.axisRotateAngles = MVector::zero;
+    settings.rootSize = std::abs(settings.rootSize);
+    settings.size = std::abs(settings.size);
+    settings.scale = MVector(
+        std::abs(settings.scale.x), std::abs(settings.scale.y), std::abs(settings.scale.z)
+    );
+    settings.axisScale = MVector(
+        std::abs(settings.axisScale.x), std::abs(settings.axisScale.y), std::abs(settings.axisScale.z)
+    );
+}
 
 void appendPresetComponent(
     int primitive,

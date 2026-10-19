@@ -152,8 +152,8 @@ Cubeは一辺 `0.1`、Octahedronは向かい合う頂点間 `0.1`、Sphereは直
 Pyramidは底面の一辺と高さが `0.1`、Coneは底面の直径と高さが `0.1` です。
 PyramidとConeの先端は各軸の外側へ向け、底面は原点から `0.4` に置きます。
 軸線は6端の形状の手前の表面で止め、形状の内部へ描きません。
-端形状の輪郭とFilled面は既存の基本形状を共用し、軸指定、拡縮、回転、
-animation matrixなど既存の形状変形を全体へ適用します。
+端形状の輪郭とFilled面は既存の基本形状を共用し、既存の形状変形を全体へ適用します。
+Color版の軸指定・回転・負スケールは、後述のColor系の描画規則に従います。
 
 通常版はすべて通常色です。Color版は正方向の3本の軸線だけをRGBにし、
 負方向の軸線と6端の形状の輪郭・面は通常色にします。
@@ -306,7 +306,7 @@ template 色・選択不可にします。`ColorSphere` は X=赤、Y=緑、Z=�
 `2D` の矢印は主平面上、`3D` の矢印はそれと直交する面にもあります。
 `ColorSphereCrossLine` はその円に
 `ColorCrossLine3Axis` の十字線を加えます。十字線の正方向は各軸色、負方向は通常色です。
-軸の向きを変えても色は元の軸に付随します。
+Color系は後述の描画規則により、シェイプ編集で軸色の向きを変えません。
 `SquareTemplateArrow4Way*Filled` では四角い本体面が template 色・選択不可、
 矢印面は通常色・選択可能です。`SquareArrowCrossLineTemplate*Filled` の
 十字線は template 線のままで、本体面からは選択できます。
@@ -325,12 +325,31 @@ template 色・選択不可にします。`ColorSphere` は X=赤、Y=緑、Z=�
 接する軸色の小四角3枚から構成します。小四角は各正側面の面内座標 `0.3` から
 `0.5` にあり、一辺は基準Cubeの一辺1に対して `0.2` です。小四角はWireframeでも
 塗り面として表示し、面内のクリックで選択できます。小四角に接する輪郭線3本は
-その境界で止め、色面上に通常色の線を重ねません。小四角もすべての形状変形に追従し、
+その境界で止め、色面上に通常色の線を重ねません。小四角もColor系の描画規則に従い、
 軸色と選択色の扱いは他のColor系と共通です。
 `ColorCornerCubeFilled` は正側3面の小四角部分を除いたL字形の領域と、負側3面を
 通常色で塗ります。小四角と本体面は境界を共有し、面積は重なりません。
 本体面には `shapeFillTransparency`、小四角には `shapeTransparency` を適用します。
 既定値では本体面が85%透明、小四角が不透明です。これら4種類にArrow・Finはありません。
+
+Color系23種類は、シェイプ編集を適用する段階で軸色と親transformのローカルXYZの対応を保ちます。
+属性値や接続は変更せず、描画用に読み取った設定だけを次のように扱います。
+
+| 属性 | Color系の描画用設定 |
+| --- | --- |
+| `shape1stAxis` / `shape2ndAxis` | `+X` / `+Y` に固定 |
+| `shapeRotate` / `shapeAxisRotate` | 各XYZ成分を0として扱う |
+| `shapeScale` / `shapeAxisScale` | 各XYZ成分の絶対値を適用 |
+| `shapeSize` / `shapeRootSize` | 絶対値を適用 |
+
+移動、正のスケール、軸オフセット、部品の変形は引き続き適用します。0スケールも0のままです。
+通常の形状へ切り替えると、保持していた軸指定・回転・符号付きスケールが再び作用します。
+輪郭・Filled面・小四角・OffsetLine・Shape / ShapeCentered Boundsは同じ描画用設定を使います。
+Custom Boundsの独立した軸指定・回転・スケールには、この制約を適用しません。
+
+`shapeAnimationTransformMatrix` はColor系でも分解・加工せず、そのまま適用します。
+行列や親transformに回転・シアー・反転が含まれる場合、色付き部位もその変換に追従します。
+これらは利用者が与える変換として扱い、シェイプ編集の制約とは分けます。
 
 `Custom` 用の調整属性は `shapeAnimationTransformMatrix` を除き、形状本体から独立しています。
 基準形状は固定の `Cube` で、`shape` と OffsetLine に対応する属性はありません。
@@ -404,6 +423,7 @@ p_local = p_out * shapeAnimationTransformMatrix
 `p_out * W` の位置になります。`W` をそのまま接続すると親の変換が重複します。
 行列の平行移動は `shapeRootSize` の影響を受けません。
 非等方スケールやシアーも、行列を分解せず頂点へ適用します。
+Color系は上記の描画用設定で `p_out` を計算し、入力行列と親DAG変換はそのまま適用します。
 
 ### 描画属性
 
@@ -728,6 +748,10 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 56. 付属Arrow3DをOffsetで移動しても、元の付け根へ伸びる中央線がない。直交する三角面の底辺は移動後の付け根にあり、面や輪郭が本体へ不要に延長されない。
 57. `OctahedronArrow*` はOffset・Lengthで先端だけが動き、中央断面から先端までの辺が直線になる。Width・Sizeでは中央断面とそれを共有する反対側の面も変わり、後端は固定される。Finの付け根も追従する。
 58. Semicircle系列のAngleを-90°・-30°・0°・30°・90°に変え、円弧が0°・120°・180°・240°・360°になる。Semicircleと付属Arrow2D/3Dの本体Filledは中心から端点までの扇形を塗り、中心への輪郭線は増えない。EndArrowの向きとOffsetは移動後の接線に沿い、Wide版の頭部は斜辺と底辺の形を保ったまま一定幅の直線部で帯へ接続する。Lengthを3–5へ伸ばしても頭部が離れない。Size・Length・Widthとの併用、0°・360°での頭部の重なり、Filled面の範囲、負スケール、Bounds、キー設定、接続、Undo/Redo、保存・再読込も確認する。
+
+59. Color系23種類では、shape1stAxis/2ndAxis・shapeRotate・shapeAxisRotateを変えても向きが変わらず、shapeScale・shapeAxisScale・shapeSize・shapeRootSizeの負値が絶対値として適用される。移動・正スケール・部品変形、Shape / ShapeCentered BoundsとOffsetLineが追従する。値・接続・キーを保持したまま通常形状へ切り替えると元の変形が作用し、Undo/Redo・保存・再読込でも維持される。Custom Boundsは独立した変形を保ち、入力行列と親transformの回転・シアー・反転はそのまま反映される。
+
+59. Color系23種類では、shape1stAxis/2ndAxis・shapeRotate・shapeAxisRotateを変えても向きが変わらず、shapeScale・shapeAxisScale・shapeSize・shapeRootSizeの負値が絶対値として適用される。移動・正スケール・部品変形、Shape / ShapeCentered BoundsとOffsetLineが追従する。値・接続・キーを保持したまま通常形状へ切り替えると元の変形が作用し、Undo/Redo・保存・再読込でも維持される。Custom Boundsは独立した変形を保ち、入力行列と親transformの回転・シアー・反転はそのまま反映される。
 
 実際のViewport 2.0を必要とする画像比較テストは
 `tests/maya/ui/test_controller_shape_viewport.py` にあります。既存作業とは別の

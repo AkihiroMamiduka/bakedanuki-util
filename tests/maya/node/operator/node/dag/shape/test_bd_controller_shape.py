@@ -2593,22 +2593,22 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
 @pytest.mark.parametrize(
     ("shape_name", "expected"),
     (
-        ("ColorCube", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
-        ("ColorCubeFilled", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
-        ("ColorCornerCube", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
-        ("ColorCornerCubeFilled", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
+        ("ColorCube", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
+        ("ColorCubeFilled", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
+        ("ColorCornerCube", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
+        ("ColorCornerCubeFilled", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
         ("Line1stWideEndArrowFilled", (2.0, 3.6, 5.0, 2.0, 4.4, 7.0)),
         ("CrossLine1st2ndWideEndArrowFilled", (2.0, 0.0, 5.0, 2.0, 8.0, 7.0)),
         ("SemicircleWideEndArrowFilled", (-11.2, 4.0, 6.0, 15.2, 8.2, 6.0)),
         ("CrossLine3AxisEndCubeFilled", (-11.2, -0.4, 4.9, 15.2, 8.4, 7.1)),
         (
             "ColorCrossLine3AxisEndSphereFilled",
-            (-11.2, -0.4, 4.9, 15.2, 8.4, 7.1),
+            (-2.4, -0.4, 2.7, 6.4, 8.4, 9.3),
         ),
         ("CrossLine3AxisEndPyramidFilled", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
         (
             "ColorCrossLine3AxisEndConeFilled",
-            (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0),
+            (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0),
         ),
     ),
 )
@@ -2655,6 +2655,207 @@ def test_preset_transform_history_and_scene_reload(
     assert maya_cmds.getAttr(
         f"{shape_name_in_scene}.shapeFillTransparency"
     ) == pytest.approx(0.6)
+    assert maya_cmds.getAttr(f"{shape_name_in_scene}.shape1stAxis") == 4
+
+
+@pytest.mark.parametrize(
+    "shape_name", [name for name in SHAPE_NAMES if name.startswith("Color")]
+)
+@pytest.mark.parametrize("bounds_mode", (0, 1))
+def test_color_shapes_ignore_orientation_attributes(
+    maya_cmds, maya_om, new_scene, shape_name, bounds_mode
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds,
+        shape_value=SHAPE_NAMES.index(shape_name),
+        bounds_mode=bounds_mode,
+    )
+    for attribute, value in (
+        ("shapeAxisScale", (0.75, 1.25, 2.0)),
+        ("shapeScale", (1.5, 0.8, 2.5)),
+        ("shapeTranslate", (0.25, -0.5, 0.75)),
+        ("shapeAxisTranslate", (0.1, -0.2, 0.3)),
+    ):
+        maya_cmds.setAttr(f"{shape}.{attribute}", *value)
+    maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
+    maya_cmds.setAttr(f"{shape}.shapeAxisOffsetDirection", 4)
+    maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 1.6)
+    expected = _bounds(maya_om, shape)
+    for first, second in ((5, 1), (4, 4)):
+        maya_cmds.setAttr(f"{shape}.shape1stAxis", first)
+        maya_cmds.setAttr(f"{shape}.shape2ndAxis", second)
+        assert _bounds(maya_om, shape) == pytest.approx(expected)
+        assert maya_cmds.getAttr(f"{shape}.shape1stAxis") == first
+        assert maya_cmds.getAttr(f"{shape}.shape2ndAxis") == second
+    for attribute in ("shapeRotate", "shapeAxisRotate"):
+        maya_cmds.setAttr(f"{shape}.{attribute}", 23.0, 41.0, -17.0)
+        assert _bounds(maya_om, shape) == pytest.approx(expected)
+        assert maya_cmds.getAttr(f"{shape}.{attribute}")[0] == (
+            23.0,
+            41.0,
+            -17.0,
+        )
+
+
+@pytest.mark.parametrize(
+    "shape_name", [name for name in SHAPE_NAMES if name.startswith("Color")]
+)
+@pytest.mark.parametrize(
+    "attribute", ("shapeScale", "shapeAxisScale", "shapeSize", "shapeRootSize")
+)
+def test_color_shapes_use_scale_magnitudes(
+    maya_cmds, maya_om, new_scene, shape_name, attribute
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(shape_name)
+    )
+    maya_cmds.setAttr(f"{shape}.shapeTranslate", 0.25, -0.5, 0.75)
+    maya_cmds.setAttr(f"{shape}.shapeAxisTranslate", 0.1, -0.2, 0.3)
+    maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
+    maya_cmds.setAttr(f"{shape}.showShapeOffsetLine", True)
+    vector = attribute in ("shapeScale", "shapeAxisScale")
+    positive = (2.0, 3.0, 4.0) if vector else (2.0,)
+    negative = (-2.0, 3.0, -4.0) if vector else (-2.0,)
+    maya_cmds.setAttr(f"{shape}.{attribute}", *positive)
+    expected = _bounds(maya_om, shape)
+    maya_cmds.setAttr(f"{shape}.{attribute}", *negative)
+    assert _bounds(maya_om, shape) == pytest.approx(expected)
+    stored = maya_cmds.getAttr(f"{shape}.{attribute}")
+    assert (stored[0] if vector else (stored,)) == negative
+
+
+@pytest.mark.parametrize(
+    "shape_name", [name for name in SHAPE_NAMES if name.startswith("Color")]
+)
+def test_color_shapes_apply_animation_matrix_unchanged(
+    maya_cmds, maya_om, new_scene, shape_name
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(shape_name)
+    )
+    before = _bounds(maya_om, shape)
+    matrix = (0, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0.5, 0, 4, -5, 6, 1)
+    maya_cmds.setAttr(
+        f"{shape}.shapeAnimationTransformMatrix", *matrix, type="matrix"
+    )
+    xmin, ymin, zmin, xmax, ymax, zmax = before
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (
+            3 * ymin + 4,
+            2 * xmin - 5,
+            0.5 * zmin + 6,
+            3 * ymax + 4,
+            2 * xmax - 5,
+            0.5 * zmax + 6,
+        )
+    )
+    assert (
+        tuple(maya_cmds.getAttr(f"{shape}.shapeAnimationTransformMatrix"))
+        == matrix
+    )
+
+
+def test_color_matrix_connection_keeps_rotation_shear_and_reflection(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    transform, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index("ColorCornerCubeFilled")
+    )
+    source = maya_cmds.createNode("composeMatrix")
+    maya_cmds.connectAttr(
+        f"{source}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
+    )
+    maya_cmds.setAttr(f"{source}.inputScale", -2.0, 3.0, 0.5)
+    maya_cmds.setAttr(f"{source}.inputShear", 0.25, -0.4, 0.15)
+    maya_cmds.setAttr(f"{source}.inputTranslate", 1.0, 2.0, -3.0)
+    maya_cmds.setAttr(f"{shape}.shapeRotate", 17.0, 29.0, 43.0)
+    for angle in (31.0, -57.0):
+        maya_cmds.setAttr(f"{source}.inputRotate", 13.0, 27.0, angle)
+        values = maya_cmds.getAttr(f"{source}.outputMatrix")
+        matrix = maya_om.MMatrix(values)
+        points = [
+            maya_om.MPoint(x, y, z) * matrix
+            for x in (-0.5, 0.5)
+            for y in (-0.5, 0.5)
+            for z in (-0.5, 0.5)
+        ]
+        expected = tuple(min(p[i] for p in points) for i in range(3)) + tuple(
+            max(p[i] for p in points) for i in range(3)
+        )
+        assert _bounds(maya_om, shape) == pytest.approx(expected)
+        assert (
+            maya_cmds.getAttr(f"{shape}.shapeAnimationTransformMatrix")
+            == values
+        )
+    maya_cmds.setAttr(f"{transform}.rotate", 23.0, 37.0, 51.0)
+    assert _bounds(maya_om, shape) == pytest.approx(expected)
+    assert maya_cmds.getAttr(f"{transform}.rotate")[0] == (23.0, 37.0, 51.0)
+
+
+def test_color_orientation_connections_survive_shape_switch_and_reload(
+    maya_cmds, maya_om, new_scene, tmp_path
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index("ColorSphereArrow3DFilled")
+    )
+    driver = maya_cmds.createNode("transform", name="orientationDriver")
+    maya_cmds.connectAttr(f"{driver}.rotate", f"{shape}.shapeRotate")
+    maya_cmds.connectAttr(f"{driver}.scale", f"{shape}.shapeAxisScale")
+    maya_cmds.setAttr(f"{driver}.scale", 2.0, 3.0, 4.0)
+    expected = _bounds(maya_om, shape)
+    maya_cmds.setAttr(f"{driver}.scale", -2.0, 3.0, -4.0)
+    maya_cmds.setKeyframe(driver, attribute="rotateZ", time=1, value=0)
+    maya_cmds.setKeyframe(driver, attribute="rotateZ", time=10, value=37)
+    for time in (1, 10):
+        maya_cmds.currentTime(time)
+        assert _bounds(maya_om, shape) == pytest.approx(expected)
+    maya_cmds.setAttr(
+        f"{shape}.shape", SHAPE_NAMES.index("SphereArrow3DFilled")
+    )
+    normal = _bounds(maya_om, shape)
+    assert normal != pytest.approx(expected)
+    maya_cmds.setAttr(
+        f"{shape}.shape", SHAPE_NAMES.index("ColorSphereArrow3DFilled")
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(expected)
+    scene_path = tmp_path / "color_orientation.ma"
+    maya_cmds.file(rename=str(scene_path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(scene_path), open=True, force=True)
+    maya_cmds.currentTime(10)
+    assert _bounds(maya_om, shape) == pytest.approx(expected)
+    assert maya_cmds.isConnected(f"{driver}.rotate", f"{shape}.shapeRotate")
+    assert maya_cmds.isConnected(f"{driver}.scale", f"{shape}.shapeAxisScale")
+    assert maya_cmds.getAttr(f"{shape}.shapeRotateZ") == pytest.approx(37)
+    assert maya_cmds.getAttr(f"{shape}.shapeAxisScale")[0] == (-2.0, 3.0, -4.0)
+    maya_cmds.setAttr(
+        f"{shape}.shape", SHAPE_NAMES.index("SphereArrow3DFilled")
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(normal)
+
+
+def test_color_shape_keeps_custom_bounds_transform_independent(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds,
+        shape_value=SHAPE_NAMES.index("ColorCornerCubeFilled"),
+        bounds_mode=2,
+    )
+    maya_cmds.setAttr(f"{shape}.customBoundsAxisScale", 2.0, 3.0, 4.0)
+    maya_cmds.setAttr(f"{shape}.customBoundsRotateZ", 90.0)
+    maya_cmds.setAttr(f"{shape}.customBoundsTranslate", 1.0, 2.0, 3.0)
+    maya_cmds.setAttr(f"{shape}.customBoundsRootSize", -1.0)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-2.5, -3, -5, 0.5, -1, -1)
+    )
 
 
 def test_scene_round_trip_preserves_circle_arrow(
