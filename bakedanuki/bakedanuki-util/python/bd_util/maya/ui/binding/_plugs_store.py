@@ -109,6 +109,32 @@ class PlugTarget(Generic[_ValueT]):
         )
         return f"{self.node.cmd_access_name}.{path}"
 
+    def _unconnected_write_reason(self, *, is_locked: bool) -> str | None:
+        """未接続属性の現在の制約を、表示状態を組み立てずに確認する。"""
+        if is_locked:
+            return "ロックされています"
+        if not om.MFnAttribute(self.plug.attribute()).writable:
+            return "書き込み不可の属性です"
+        if self.plug.isFreeToChange(True, False) != om.MPlug.kFreeToChange:
+            return "Mayaが値の変更を許可していません"
+        return None
+
+    def can_write(self) -> bool:
+        """検証のたびに実体と制約を調べ、必要な場合だけ詳細状態を取得する。"""
+        if not self.is_available:
+            return False
+        # 接続編集と入力状態の追跡は、従来の経路照合・監視情報更新を保つ
+        if self.track_input_state or any(
+            plug.isDestination for plug in self.watched
+        ):
+            return self.state().is_writable
+        return (
+            self._unconnected_write_reason(
+                is_locked=any(plug.isLocked for plug in self.watched)
+            )
+            is None
+        )
+
     def state(self) -> MayaPlugTargetState:
         """自身と祖先の入力可否、接続種類と実効ロックを取得する。"""
         self.source_curve = None
@@ -139,8 +165,8 @@ class PlugTarget(Generic[_ValueT]):
                 for node in connected_plug_watch_nodes(self.plug)
             )
         reason: str | None = None
-        if is_locked:
-            reason = "ロックされています"
+        if is_locked or not has_input:
+            reason = self._unconnected_write_reason(is_locked=is_locked)
         elif self.edit_connected and has_input:
             try:
                 info = inspect_connected_plug(self.plug)
@@ -315,10 +341,8 @@ def validate_plug_write_target(
     representative: PlugTarget[_ValueT], target: PlugTarget[_ValueT]
 ) -> None:
     """代表と書込み先の実体・ロック・接続による入力可否を再確認する。"""
-    if (
-        not representative.is_available
-        or not representative.state().is_writable
-        or not target.state().is_writable
+    if not representative.can_write() or (
+        target is not representative and not target.can_write()
     ):
         raise RuntimeError("入力中に対象属性の状態が変わりました")
 
