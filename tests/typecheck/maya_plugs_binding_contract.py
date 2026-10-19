@@ -30,6 +30,7 @@ from bd_util.maya.ui import (
     resolve_float_plug,
     resolve_int_plug,
     resolve_string_plug,
+    shared_plugs_lifetime,
 )
 from bd_util.ui import (
     BoolComboBox,
@@ -43,6 +44,8 @@ from bd_util.ui import (
 
 def lifetime_monitor_contract(enabled: bool) -> None:
     """削除監視のbool指定を全scalarと単一整数の公開入口で受け付ける。"""
+    with shared_plugs_lifetime() as scope:
+        assert_type(scope, None)
     assert_type(
         MayaBoolPlugsBinding(
             [resolve_bool_plug("node", "visibility")],

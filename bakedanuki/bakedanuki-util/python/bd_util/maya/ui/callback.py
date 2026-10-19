@@ -1,5 +1,5 @@
 # coding: utf-8
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from typing import cast
 
 from maya.api import OpenMaya as om
@@ -130,6 +130,30 @@ class MayaCallbackRegistry(qt.QtCore.QObject):
         self._callback_id_set.remove(callback_id)
         self._remove_safely(callback_id)
         return True
+
+    def remove_many(self, callback_ids: Sequence[int]) -> int:
+        """指定IDを一括解除し、残るcallbackの登録順を維持する。
+
+        重複と未登録IDは無視する。不正なIDがある場合は、解除前に拒否する。
+
+        Args:
+            callback_ids: このRegistryから解除するIDの列。
+
+        Returns:
+            今回解除したcallbackの数。
+        """
+        requested = set(_validate_callback_id(i) for i in callback_ids)
+        removed = requested & self._callback_id_set
+        if not removed:
+            return 0
+        ordered = [i for i in self._callback_ids if i in removed]
+        self._callback_ids = [
+            i for i in self._callback_ids if i not in removed
+        ]
+        self._callback_id_set.difference_update(removed)
+        for callback_id in reversed(ordered):
+            self._remove_safely(callback_id)
+        return len(ordered)
 
     def dispose(
         self,

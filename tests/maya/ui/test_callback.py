@@ -92,6 +92,26 @@ def test_registry_can_remove_one_callback(monkeypatch) -> None:
     assert calls["removed"] == [10, 20, 99]
 
 
+def test_registry_removes_many_once_and_preserves_other_order(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """一括解除で重複・未登録IDを無視し、残る監視を逆順に終了する。"""
+    calls = _replace_callback_api(monkeypatch)
+    owner = qt.QObject()
+    registry = MayaCallbackRegistry(owner)
+    for identifier in (10, 20, 30, 40):
+        registry.register(identifier)
+    assert registry.remove_many((10, 30, 10, 90)) == 2
+    assert registry.callback_ids == (20, 40)
+    assert calls["removed"] == [30, 10]
+    with pytest.raises(TypeError):
+        registry.remove_many((20, True))
+    assert registry.callback_ids == (20, 40)
+    registry.dispose()
+    assert registry.remove_many((20,)) == 0
+    assert calls["removed"] == [30, 10, 40, 20, 99]
+
+
 def test_registry_rejects_invalid_or_duplicate_callback_id(
     monkeypatch,
 ) -> None:

@@ -13,11 +13,47 @@ from bd_util.maya.node.inspection import (
     ScalarAttributeDisplayFilter,
     filter_scalar_attribute_paths,
     inspect_scalar_attributes,
+    inspect_scalar_attribute_types,
     matches_scalar_attribute_display_filter,
     node_display_name,
     selected_node_names,
 )
 from bd_util.maya.ui import resolve_bool_plug, resolve_float_plug
+
+
+@pytest.mark.parametrize("paths", [None, ("tx", "tx", "missing", "v")])
+def test_type_inspection_matches_full_without_reading_display_metadata(
+    new_scene: None,
+    monkeypatch: pytest.MonkeyPatch,
+    paths: tuple[str, ...] | None,
+) -> None:
+    """表示情報を取得しなくても、同じ順序と正式path・型を返す。"""
+    del new_scene
+    node = cmds.createNode("transform")
+    expected = inspect_scalar_attributes(node, paths=paths)
+
+    def reject(*_args: object, **_kwargs: object) -> str:
+        """操作対象の調査が表示名を問い合わせた場合に失敗させる。"""
+        raise AssertionError("表示名を取得しました")
+
+    monkeypatch.setattr(cmds, "attributeName", reject)
+    actual = inspect_scalar_attribute_types(node, paths=paths)
+    assert [(a.path, a.kind) for a in actual] == [
+        (a.path, a.kind) for a in expected
+    ]
+
+
+@pytest.mark.parametrize("paths", ["tx", ("translate*",), ("tx.",)])
+def test_type_inspection_preserves_invalid_path_errors(
+    new_scene: None, paths: object
+) -> None:
+    """軽量な調査でも文字列の列以外や不正なpathを読み替えない。"""
+    del new_scene
+    node = cmds.createNode("transform")
+    with pytest.raises(TypeError if isinstance(paths, str) else ValueError):
+        inspect_scalar_attribute_types(
+            node, paths=cast(tuple[str, ...], paths)
+        )
 
 
 def test_inspection_reports_leaf_flags_types_names_and_limits_scope(
@@ -361,6 +397,13 @@ def test_non_unique_leaf_requires_canonical_path(new_scene) -> None:
         "kitA.envelope",
         "kitB.envelope",
     ]
+    assert [
+        info.path
+        for info in inspect_scalar_attribute_types(node)
+        if info.path in {item.path for item in envelopes}
+    ] == [info.path for info in envelopes]
+    with pytest.raises(ValueError, match="曖昧"):
+        inspect_scalar_attribute_types(node, paths=("envelope",))
     with pytest.raises(ValueError, match="曖昧"):
         resolve_float_plug(node, "envelope")
     plugs = [resolve_float_plug(node, info.path).plug for info in envelopes]

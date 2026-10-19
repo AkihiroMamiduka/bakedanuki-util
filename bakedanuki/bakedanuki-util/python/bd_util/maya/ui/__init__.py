@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from .binding import (
+    shared_plugs_lifetime,
     MayaNodeNameStore,
     MayaNodeNameBinding,
     MayaStringBinding,
@@ -114,6 +115,7 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "shared_plugs_lifetime",
     "MayaNodeNameStore",
     "MayaNodeNameBinding",
     "MayaStringBinding",

@@ -184,6 +184,7 @@ assert_type(ui_state_tracker.dispose(), None)
 
 callback_owner = SampleWindow()
 callback_registry = MayaCallbackRegistry(callback_owner)
+assert_type(callback_registry.remove_many((1, 2)), int)
 assert_type(callback_registry.callback_ids, tuple[int, ...])
 assert_type(callback_registry.is_disposed, bool)
 assert_type(callback_registry.register(42), int)

@@ -1,5 +1,6 @@
 # coding: utf-8
 from .edit_session import MayaEditSession
+from ._plug_lifetime import shared_plugs_lifetime
 from .node_name import MayaNodeNameStore
 from .node_name_binding import MayaNodeNameBinding
 from .channel_state_binding import (
@@ -76,6 +77,7 @@ from .scalar_value_transfer import (
 )
 
 __all__ = [
+    "shared_plugs_lifetime",
     "MayaNodeNameStore",
     "MayaNodeNameBinding",
     "MayaStringBinding",

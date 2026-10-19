@@ -6,8 +6,10 @@ from bd_util.maya.node.inspection import (
     ScalarAttributeDisplayFilter,
     ScalarAttributeInfo,
     ScalarAttributeKind,
+    ScalarAttributeTypeInfo,
     filter_scalar_attribute_paths,
     inspect_scalar_attributes,
+    inspect_scalar_attribute_types,
     matches_scalar_attribute_display_filter,
     node_display_name,
     selected_node_names,
@@ -17,6 +19,11 @@ assert_type(selected_node_names(), tuple[str, ...])
 assert_type(selected_node_names(limit=50), tuple[str, ...])
 assert_type(node_display_name("|parent|node"), str)
 attributes = inspect_scalar_attributes("transform1")
+types = inspect_scalar_attribute_types("transform1", paths=("tx",))
+assert_type(types, tuple[ScalarAttributeTypeInfo, ...])
+for info in types:
+    assert_type(info.path, str)
+    assert_type(info.kind, ScalarAttributeKind)
 assert_type(attributes, tuple[ScalarAttributeInfo, ...])
 assert_type(
     inspect_scalar_attributes("transform1", paths=("tx",)),

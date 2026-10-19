@@ -46,6 +46,15 @@ floatの公開単位での上下限、整数の型固有範囲との共通部分
 利用側は`finally`で`dispose()`を呼んでください。
 属性追加・改名・候補の増減は自動で取り込まず、利用側で候補を解決し直します。
 
+同じ操作で使用するBindingをまとめて生成するときは、`bd_util.maya.ui`の
+`shared_plugs_lifetime()`を利用できます。この範囲内で生成した
+`monitor_lifetime=True`のBindingは、同じnodeの削除通知だけを共有します。
+範囲を抜けても既存の購読を維持し、各Bindingの`dispose()`と書込み・復旧の終了後に
+自分の対象だけを解除します。最後の購読が去ったnodeのcallbackを解除し、
+全Bindingの終了後には共有ownerも解放します。入れ子の生成範囲は独立します。
+旧対象の削除履歴をUndoで戻さず、削除後の新Bindingは新しい監視世代として扱います。
+値・表示同期・検証・Undo・失敗復旧の範囲は各Bindingのままです。
+
 表示用の`input_state`が不要なら`track_input_state=False`のまま使えます。
 `edit_connected=True`による接続の編集可否検証やAuto Keyの扱いは変わりません。
 

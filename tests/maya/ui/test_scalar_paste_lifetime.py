@@ -21,13 +21,208 @@ from bd_util.maya.ui import (
     apply_scalar_value_transfer,
     apply_plugs_values,
     resolve_float_plug,
+    shared_plugs_lifetime,
 )
 from bd_util.ui import EnumDefinition
+from bd_util.maya import _identity
 from bd_util.maya.ui.callback import dispose_owned_callbacks
 
 _Kind = Literal["number", "enum"]
 _Phase = Literal["pending", "applied", "noop"]
 _ENUM = EnumDefinition.from_mapping({0: "First", 1: "Second", 2: "Third"})
+
+
+@pytest.fixture(params=[False, True], autouse=True)
+def sharing(request: pytest.FixtureRequest) -> Iterator[None]:
+    """既存の削除・復旧契約を、独立監視と共有監視の両方で実行する。"""
+    if request.param:
+        with shared_plugs_lifetime():
+            yield
+    else:
+        yield
+
+
+@pytest.mark.parametrize("collision", [False, True])
+def test_shared_lifetime_releases_only_its_own_subscription(
+    scene: tuple[str, str, str],
+    callback_log: _CallbackLog,
+    monkeypatch: pytest.MonkeyPatch,
+    collision: bool,
+) -> None:
+    """一方を破棄しても残る行を監視し、最後の購読で全IDを解除する。"""
+    driver, victim, _marker = scene
+    for node in (driver, victim):
+        _add_value(node, "number", 1.0)
+    if collision:
+        monkeypatch.setattr(_identity, "_object_hash", lambda _node: 0)
+    with shared_plugs_lifetime():
+        first = MayaFloatPlugsBinding(
+            [resolve_float_plug(driver, "value")],
+            monitor=False,
+            monitor_lifetime=True,
+        )
+        second = MayaFloatPlugsBinding(
+            [resolve_float_plug(node, "value") for node in (driver, victim)],
+            monitor=False,
+            monitor_lifetime=True,
+        )
+    assert len(callback_log.registered) == 4
+    first.dispose()
+    first.dispose()
+    assert not callback_log.removed
+    assert second.set_value(7.0)
+    assert cmds.getAttr(driver + ".value") == 7.0
+    second.dispose()
+    callback_log.assert_closed()
+    first.deleteLater()
+    second.deleteLater()
+
+
+def test_shared_lifetime_removes_unsubscribed_nodes_and_accepts_new_bindings(
+    scene: tuple[str, str, str], callback_log: _CallbackLog
+) -> None:
+    """空になったnodeだけを解除し、生成範囲内では購読を再開できる。"""
+    driver, victim, _marker = scene
+    for node in (driver, victim):
+        _add_value(node, "number", 1.0)
+    with shared_plugs_lifetime():
+        first = MayaFloatPlugsBinding(
+            [resolve_float_plug(driver, "value")],
+            monitor=False,
+            monitor_lifetime=True,
+        )
+        second = MayaFloatPlugsBinding(
+            [resolve_float_plug(victim, "value")],
+            monitor=False,
+            monitor_lifetime=True,
+        )
+        first.dispose()
+        assert len(callback_log.removed) == 2
+        assert second.set_value(2.0)
+        second.dispose()
+        callback_log.assert_closed()
+        third = MayaFloatPlugsBinding(
+            [resolve_float_plug(driver, "value")],
+            monitor=False,
+            monitor_lifetime=True,
+        )
+    assert third.set_value(3.0)
+    third.dispose()
+    callback_log.assert_closed()
+    for binding in (first, second, third):
+        binding.deleteLater()
+
+
+def test_nested_lifetime_scopes_remain_independent(
+    scene: tuple[str, str, str], callback_log: _CallbackLog
+) -> None:
+    """入れ子の生成範囲を分離し、内側の終了後は外側の共有へ戻る。"""
+    driver, _victim, _marker = scene
+    _add_value(driver, "number", 1.0)
+    plugs = [resolve_float_plug(driver, "value")]
+    with shared_plugs_lifetime():
+        first = MayaFloatPlugsBinding(
+            plugs, monitor=False, monitor_lifetime=True
+        )
+        with shared_plugs_lifetime():
+            inner = MayaFloatPlugsBinding(
+                plugs, monitor=False, monitor_lifetime=True
+            )
+        last = MayaFloatPlugsBinding(
+            plugs, monitor=False, monitor_lifetime=True
+        )
+    assert len(callback_log.registered) == 4
+    first.dispose()
+    inner.dispose()
+    assert [
+        identifier
+        for identifier in callback_log.removed
+        if identifier in callback_log.registered
+    ] == list(reversed(callback_log.registered[2:]))
+    assert last.set_value(9.0)
+    last.dispose()
+    callback_log.assert_closed()
+    for binding in (first, inner, last):
+        binding.deleteLater()
+
+
+def test_partial_lifetime_registration_failure_keeps_other_subscribers(
+    scene: tuple[str, str, str],
+    callback_log: _CallbackLog,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """追加nodeの監視登録に失敗しても、先行Bindingの購読を解除しない。"""
+    driver, victim, _marker = scene
+    for node in (driver, victim):
+        _add_value(node, "number", 1.0)
+    source = om.MNodeMessage
+
+    class FailureApi:
+        """node削除前の監視登録だけを失敗させるAPI境界。"""
+
+        def __getattr__(self, name: str) -> object:
+            """他の登録と定数は記録付きの元APIへ渡す。"""
+            if name == "addNodePreRemovalCallback":
+                return self.fail
+            return getattr(source, name)
+
+        def fail(self, *_args: object, **_kwargs: object) -> int:
+            """一つ目のcallbackを登録した後で例外を送出する。"""
+            raise RuntimeError("監視登録の失敗")
+
+    with shared_plugs_lifetime():
+        first = MayaFloatPlugsBinding(
+            [resolve_float_plug(driver, "value")],
+            monitor=False,
+            monitor_lifetime=True,
+        )
+        with monkeypatch.context() as patch:
+            patch.setattr(om, "MNodeMessage", FailureApi())
+            with pytest.raises(RuntimeError, match="監視登録の失敗"):
+                MayaFloatPlugsBinding(
+                    [resolve_float_plug(victim, "value")],
+                    monitor=False,
+                    monitor_lifetime=True,
+                )
+        assert len(callback_log.registered) == 3
+        assert len(callback_log.removed) == 1
+    assert first.set_value(9.0)
+    first.dispose()
+    first.deleteLater()
+    callback_log.assert_closed()
+
+
+def test_shared_lifetime_uses_new_generation_after_node_undo(
+    scene: tuple[str, str, str], callback_log: _CallbackLog
+) -> None:
+    """nodeをUndoで戻しても旧対象を復活させず、新Bindingだけを使える。"""
+    driver, _victim, _marker = scene
+    _add_value(driver, "number", 1.0)
+    with shared_plugs_lifetime():
+        old = MayaFloatPlugsBinding(
+            [resolve_float_plug(driver, "value")],
+            monitor=False,
+            monitor_lifetime=True,
+        )
+        cmds.delete(driver)
+        cmds.undo()
+        fresh = MayaFloatPlugsBinding(
+            [resolve_float_plug(driver, "value")],
+            monitor=False,
+            monitor_lifetime=True,
+        )
+    try:
+        assert not old.store.is_available
+        assert fresh.set_value(5.0)
+        old.dispose()
+        assert fresh.set_value(6.0)
+        assert cmds.getAttr(driver + ".value") == 6.0
+    finally:
+        old.dispose()
+        fresh.dispose()
+        old.deleteLater()
+        fresh.deleteLater()
+    callback_log.assert_closed()
 
 
 @pytest.mark.parametrize("batch", [False, True])
@@ -246,10 +441,13 @@ class _CallbackLog:
     removed: list[int] = field(default_factory=list[int])
 
     def assert_closed(self) -> None:
-        """登録した監視がすべて一度ずつ解除されたことを確認する。"""
+        """MayaがIDを再利用しても、登録回数と解除回数が一致するか確認する。"""
         assert self.registered
         counts = Counter(self.removed)
-        assert all(counts[identifier] == 1 for identifier in self.registered)
+        assert all(
+            counts[identifier] == number
+            for identifier, number in Counter(self.registered).items()
+        )
 
 
 class _MessageApi:

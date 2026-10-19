@@ -3,9 +3,11 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
-from dataclasses import dataclass
-from typing import Protocol
+from collections.abc import Callable, Generator
+from contextlib import contextmanager
+from contextvars import ContextVar
+from dataclasses import dataclass, field
+from typing import Protocol, cast
 
 from maya.api import OpenMaya as om
 
@@ -38,63 +40,187 @@ class _Write(Protocol):
         raise NotImplementedError
 
 
-class PlugLifetime:
-    """一時入力の間だけnode単位で削除を監視し、別実体へ追従しない。"""
+@dataclass
+class _NodeLifetime:
+    """同じnode世代の購読対象と、解除するcallbackを保持する。"""
+
+    identity: int
+    targets: dict[int, list[LifetimeTarget]] = field(
+        default_factory=dict[int, list[LifetimeTarget]]
+    )
+    callback_ids: list[int] = field(default_factory=list[int])
+    retired: bool = False
+
+
+class _LifetimePool:
+    """一緒に作成したBindingの間だけ、nodeの削除通知を共有する。"""
 
     def __init__(self) -> None:
-        """書込み中のBinding破棄から独立した監視ownerを用意する。"""
+        """書込み中のBinding破棄から独立した共有ownerを用意する。"""
         self._owner = qt.QObject()
         self._registry = MayaCallbackRegistry(self._owner)
         self._indices = ObjectIdentityIndex()
-        self._targets: dict[int, list[LifetimeTarget]] = {}
+        self._nodes: dict[int, _NodeLifetime] = {}
+        self._leases = 0
+        self._accepting = True
 
-    def add(self, target: LifetimeTarget) -> None:
-        """初期読取り前に対象を記録し、同じnodeの監視を共有する。"""
+    def acquire(self) -> None:
+        """生成範囲が開いている間だけ、新しい購読を受け付ける。"""
+        if not self._accepting or self._registry.is_disposed:
+            raise RuntimeError("終了した削除監視へ登録できません")
+        self._leases += 1
+
+    def add(self, lease: int, target: LifetimeTarget) -> _NodeLifetime:
+        """初期読取り前に登録し、削除済みnodeの旧世代を再利用しない。"""
         identity = self._indices.index(target.plug.node())
-        targets = self._targets.setdefault(identity, [])
-        first = not targets
-        targets.append(target)
-        if first:
-            self._registry.register(
-                int(
-                    om.MNodeMessage.addAttributeChangedCallback(
-                        target.plug.node(), self._on_attribute_changed
+        observer = self._nodes.get(identity)
+        if observer is None or observer.retired:
+            observer = _NodeLifetime(identity)
+            self._nodes[identity] = observer
+            try:
+                observer.callback_ids.append(
+                    self._registry.register(
+                        int(
+                            om.MNodeMessage.addAttributeChangedCallback(
+                                target.plug.node(),
+                                self._on_attribute_changed,
+                                observer,
+                            )
+                        )
                     )
                 )
-            )
-            self._registry.register(
-                int(
-                    om.MNodeMessage.addNodePreRemovalCallback(
-                        target.plug.node(), self._on_node_removed
+                observer.callback_ids.append(
+                    self._registry.register(
+                        int(
+                            om.MNodeMessage.addNodePreRemovalCallback(
+                                target.plug.node(),
+                                self._on_node_removed,
+                                observer,
+                            )
+                        )
                     )
                 )
-            )
+            except Exception:
+                self._nodes.pop(identity, None)
+                self._registry.remove_many(observer.callback_ids)
+                raise
+        observer.targets.setdefault(lease, []).append(target)
+        return observer
 
+    @staticmethod
     def _on_attribute_changed(
-        self, message: int, plug: om.MPlug, _other: om.MPlug, _data: object
+        message: int, plug: om.MPlug, _other: om.MPlug, data: object
     ) -> None:
         """通常の値通知は処理せず、対象または祖先の削除だけを記録する。"""
         if not message & om.MNodeMessage.kAttributeRemoved:
             return
-        identity = self._indices.index(plug.node())
-        for target in self._targets.get(identity, ()):
-            if not target.removed and any(
-                plug == watched for watched in target.watched
-            ):
+        observer = cast(_NodeLifetime, data)
+        for targets in observer.targets.values():
+            for target in targets:
+                if not target.removed and any(
+                    plug == watched for watched in target.watched
+                ):
+                    target.removed = True
+
+    @staticmethod
+    def _on_node_removed(_node: om.MObject, data: object) -> None:
+        """削除前の同じnodeに属する全対象を恒久的に無効化する。"""
+        observer = cast(_NodeLifetime, data)
+        observer.retired = True
+        for targets in observer.targets.values():
+            for target in targets:
                 target.removed = True
 
-    def _on_node_removed(self, node: om.MObject, *_args: object) -> None:
-        """削除前の同じnodeに属する全対象を恒久的に無効化する。"""
-        identity = self._indices.index(node)
-        for target in self._targets.get(identity, ()):
-            target.removed = True
+    def release(
+        self, lease: int, observers: tuple[_NodeLifetime, ...]
+    ) -> None:
+        """購読者自身の対象を外し、最後の購読が去った監視だけを解除する。"""
+        self._leases -= 1
+        if not self._leases:
+            if self._accepting:
+                self._registry.remove_many(self._registry.callback_ids)
+                self._nodes.clear()
+                self._indices = ObjectIdentityIndex()
+            else:
+                self._close()
+            return
+        callback_ids: list[int] = []
+        for observer in observers:
+            observer.targets.pop(lease, None)
+            if not observer.targets:
+                if self._nodes.get(observer.identity) is observer:
+                    self._nodes.pop(observer.identity)
+                callback_ids.extend(observer.callback_ids)
+        self._registry.remove_many(callback_ids)
 
-    def close(self) -> None:
-        """削除履歴を保持したまま監視を解除し、ownerの破棄を予約する。"""
+    def seal(self) -> None:
+        """新規購読を終了し、生成されなかった範囲も即座に解放する。"""
+        self._accepting = False
+        if not self._leases:
+            self._close()
+
+    def _close(self) -> None:
+        """全IDを一括解除し、対象の削除履歴は各Bindingへ残す。"""
+        self._accepting = False
         try:
             self._registry.dispose()
         finally:
-            self._owner.deleteLater()
+            self._nodes.clear()
+            self._indices = ObjectIdentityIndex()
+            if qt.isValid(self._owner):
+                self._owner.deleteLater()
+
+
+_CURRENT_POOL: ContextVar[_LifetimePool | None] = ContextVar(
+    "plugs_lifetime_pool", default=None
+)
+
+
+@contextmanager
+def shared_plugs_lifetime() -> Generator[None, None, None]:
+    """範囲内で生成する複数Bindingの削除監視をnodeごとに共有する。
+
+    `monitor_lifetime=True`のBindingだけが参加する。範囲を抜けても既存の
+    購読は維持し、各Bindingの`dispose()`と書込み・復旧の終了後に解除する。
+    入れ子の範囲は独立し、通常の値通知・検証・Undoは共有しない。
+    """
+    pool = _LifetimePool()
+    token = _CURRENT_POOL.set(pool)
+    try:
+        yield
+    finally:
+        _CURRENT_POOL.reset(token)
+        pool.seal()
+
+
+class PlugLifetime:
+    """Binding自身の購読を保持し、共有中も削除履歴を独立させる。"""
+
+    def __init__(self) -> None:
+        """明示された生成範囲内でだけpoolを共有する。"""
+        current = _CURRENT_POOL.get()
+        self._pool = current or _LifetimePool()
+        self._pool.acquire()
+        if current is None:
+            self._pool.seal()
+        self._observers: dict[int, _NodeLifetime] = {}
+        self._closed = False
+
+    def add(self, target: LifetimeTarget) -> None:
+        """初期読取り前の対象を記録し、閉じた購読への追加を拒否する。"""
+        if self._closed:
+            raise RuntimeError("終了した削除監視へ登録できません")
+        observer = self._pool.add(id(self), target)
+        self._observers[id(observer)] = observer
+
+    def close(self) -> None:
+        """自分の購読だけを一度解除し、他のBindingの監視を維持する。"""
+        if self._closed:
+            return
+        self._closed = True
+        observers = tuple(self._observers.values())
+        self._observers.clear()
+        self._pool.release(id(self), observers)
 
 
 @dataclass

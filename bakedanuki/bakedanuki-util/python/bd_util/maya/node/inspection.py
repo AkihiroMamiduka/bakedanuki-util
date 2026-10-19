@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
 from typing import Literal, TypeAlias, cast
 
@@ -33,11 +33,13 @@ __all__ = [
     "ScalarAttributeKind",
     "ScalarAttributeDisplayFilter",
     "ScalarAttributeInfo",
+    "ScalarAttributeTypeInfo",
     "matches_scalar_attribute_display_filter",
     "filter_scalar_attribute_paths",
     "selected_node_names",
     "node_display_name",
     "inspect_scalar_attributes",
+    "inspect_scalar_attribute_types",
 ]
 
 
@@ -62,6 +64,14 @@ class ScalarAttributeInfo:
     channel_box: bool
 
 
+@dataclass(frozen=True)
+class ScalarAttributeTypeInfo:
+    """操作対象の照合に使う正式な属性パスとscalar型。"""
+
+    path: str
+    kind: ScalarAttributeKind
+
+
 def matches_scalar_attribute_display_filter(
     attribute: ScalarAttributeInfo,
     display_filter: ScalarAttributeDisplayFilter,
@@ -76,7 +86,7 @@ def matches_scalar_attribute_display_filter(
     Returns:
         条件に合う場合は True。keyable を Channel Box より優先する。
     """
-    if not isinstance(attribute, ScalarAttributeInfo):
+    if not isinstance(cast(object, attribute), ScalarAttributeInfo):
         raise TypeError("attributeにはScalarAttributeInfoを指定してください")
     if display_filter not in _DISPLAY_FILTERS:
         raise ValueError("未対応の属性表示フィルターです")
@@ -104,7 +114,7 @@ def filter_scalar_attribute_paths(
     Returns:
         条件に合う属性の正式パス。
     """
-    if not isinstance(attributes, Sequence) or isinstance(
+    if not isinstance(cast(object, attributes), Sequence) or isinstance(
         attributes, (str, bytes)
     ):
         raise TypeError(
@@ -260,6 +270,63 @@ def _require_attribute_paths(value: object) -> tuple[str, ...]:
     return tuple(result)
 
 
+def _scalar_plugs(
+    node_name: str, paths: Sequence[str] | None
+) -> Iterator[tuple[om.MPlug, ScalarAttributeKind]]:
+    """表示情報を読まず、正式pathの解決と対応型の分類を共有する。"""
+    if paths is not None:
+        paths = _require_attribute_paths(paths)
+    node = _node_function(node_name)
+    if paths is None:
+        plugs = [
+            node.findPlug(node.attribute(index), False)
+            for index in range(node.attributeCount())
+        ]
+    else:
+        plugs: list[om.MPlug] = []
+        seen = PlugIdentitySet()
+        for path in paths:
+            try:
+                plug = find_attribute_plug(node, path)
+            except AttributeError:
+                continue
+            if seen.add(plug):
+                plugs.append(plug)
+
+    # 親が非表示でも子のkeyable状態は独立しているため、leaf単位で分類する
+    for plug in plugs:
+        kind = _scalar_kind(plug)
+        if kind is not None:
+            yield plug, kind
+
+
+def inspect_scalar_attribute_types(
+    node_name: str,
+    *,
+    paths: Sequence[str] | None = None,
+) -> tuple[ScalarAttributeTypeInfo, ...]:
+    """表示名・表示フラグを読まず、対応scalarの正式パスと型を返す。
+
+    `paths`の解決・順序・重複排除と例外は`inspect_scalar_attributes`と同じ。
+    値、enum定義、書込み可否の検証は行わず、操作側のBindingへ委譲する。
+
+    Args:
+        node_name: 一意に解決できる既存ノード名。
+        paths: 属性名または相対path。`None`なら全属性を属性順で調べる。
+
+    Returns:
+        存在しない属性・非対応型を除いた、正式パスと型の情報。
+
+    Raises:
+        TypeError: `paths`が文字列のSequenceでない場合。
+        ValueError: nodeまたは属性が曖昧か、不正なpathの場合。
+    """
+    return tuple(
+        ScalarAttributeTypeInfo(attribute_path(plug), kind)
+        for plug, kind in _scalar_plugs(node_name, paths)
+    )
+
+
 def inspect_scalar_attributes(
     node_name: str,
     *,
@@ -280,34 +347,9 @@ def inspect_scalar_attributes(
         TypeError: `paths`が文字列のSequenceでない場合。
         ValueError: nodeまたは属性を一意に解決できないか、不正なpathの場合。
     """
-    if paths is not None:
-        paths = _require_attribute_paths(paths)
-    node = _node_function(node_name)
     result: list[ScalarAttributeInfo] = []
-
-    # 指定pathがある場合は他の属性の表示名や型を調べない
-    if paths is None:
-        plugs = [
-            node.findPlug(node.attribute(index), False)
-            for index in range(node.attributeCount())
-        ]
-    else:
-        plugs: list[om.MPlug] = []
-        seen = PlugIdentitySet()
-        for path in paths:
-            try:
-                plug = find_attribute_plug(node, path)
-            except AttributeError:
-                continue
-            if seen.add(plug):
-                plugs.append(plug)
-
-    # 親が非表示でも子のkeyable状態は独立しているため、leaf単位で分類する
-    for plug in plugs:
+    for plug, kind in _scalar_plugs(node_name, paths):
         attribute = plug.attribute()
-        kind = _scalar_kind(plug)
-        if kind is None:
-            continue
         path = attribute_path(plug)
         nice_name = cmds.attributeName(
             f"{node_name}.{path.removeprefix('.')}", nice=True

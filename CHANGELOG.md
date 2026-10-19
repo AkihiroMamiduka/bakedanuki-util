@@ -18,6 +18,15 @@
 
 ### Changed
 
+- `inspect_scalar_attribute_types()`と`ScalarAttributeTypeInfo`を追加。
+  正式path・scalar型だけを取得し、表示名・表示フラグ・値を読まずに操作対象を照合できる。
+  属性解決・型分類・入力順・重複排除は`inspect_scalar_attributes()`と共有する。
+  `bd_util.maya.ui.shared_plugs_lifetime()`の範囲内で生成した
+  `monitor_lifetime=True`の複数Bindingは、nodeごとの削除callbackを共有する。
+  各対象の削除履歴・全件検証・Undo・失敗復旧と、書込み中の監視保持を維持する。
+  購読の終了は各Bindingの`dispose()`に従い、他の購読者やUndo後の新しいBindingを無効化しない。
+  `MayaCallbackRegistry.remove_many()`で複数IDの解除をまとめ、残る登録順を維持する。
+  既存APIの指定・scene・設定の移行は不要。
 - scalar入力の書込み可否検証で、未接続かつ入力状態の追跡が不要な対象は
   表示用の属性名・状態データを生成せず、実体・自身と祖先のlock・writable・
   Mayaの変更許可を毎回確認する。接続または入力状態の追跡がある対象は
