@@ -1011,24 +1011,24 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
     MPointArray triangles;
     MPointArray templateTriangles;
     switch (outline) {
-        case 62:  // Line1stWideEndArrow
-        case 63:  // Line2ndWideEndArrow
-        case 64:  // Line3rdWideEndArrow
-        case 65:  // CrossLine1st2ndWideEndArrow
-        case 66:  // CrossLine1st3rdWideEndArrow
-        case 67:  // CrossLine2nd3rdWideEndArrow
-        case 68:  // SemicircleWideEndArrow
+        case 62:  // Line1stWideArrowAtEnds
+        case 63:  // Line2ndWideArrowAtEnds
+        case 64:  // Line3rdWideArrowAtEnds
+        case 65:  // CrossLine1st2ndWideArrowAtEnds
+        case 66:  // CrossLine1st3rdWideArrowAtEnds
+        case 67:  // CrossLine2nd3rdWideArrowAtEnds
+        case 68:  // SemicircleWideArrowAtEnds
             for (const auto& face : wideEndArrowGeometry(outline, transform.settings).triangles) {
                 appendFillTriangle(triangles, transform, face[0], face[1], face[2]);
             }
             break;
-        case 54:  // Line1stEndArrow
-        case 55:  // Line2ndEndArrow
-        case 56:  // Line3rdEndArrow
-        case 57:  // CrossLine1st2ndEndArrow
-        case 58:  // CrossLine1st3rdEndArrow
-        case 59:  // CrossLine2nd3rdEndArrow
-        case 61:  // SemicircleEndArrow
+        case 54:  // Line1stArrowAtEnds
+        case 55:  // Line2ndArrowAtEnds
+        case 56:  // Line3rdArrowAtEnds
+        case 57:  // CrossLine1st2ndArrowAtEnds
+        case 58:  // CrossLine1st3rdArrowAtEnds
+        case 59:  // CrossLine2nd3rdArrowAtEnds
+        case 61:  // SemicircleArrowAtEnds
             if (transform.settings.partSize != 0.0 && transform.settings.partLengthScale != 0.0 &&
                 transform.settings.partWidthScale != 0.0) {
                 for (const auto& head : endArrowHeads(outline, transform.settings)) {

@@ -1,38 +1,62 @@
-// Static outline definitions extracted from the legacy ctrlshape.py.
+﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 148> kPresetNames = {
+constexpr std::array<const char*, 180> kPresetNames = {
     "Gear",
     "GearFilled",
     "Line1st",
-    "Line1stEndArrow",
-    "Line1stEndArrowFilled",
-    "Line1stWideEndArrow",
-    "Line1stWideEndArrowFilled",
+    "Line1stArrowAtStart",
+    "Line1stArrowAtStartFilled",
+    "Line1stArrowAtEnd",
+    "Line1stArrowAtEndFilled",
+    "Line1stArrowAtEnds",
+    "Line1stArrowAtEndsFilled",
+    "Line1stWideArrowAtStart",
+    "Line1stWideArrowAtStartFilled",
+    "Line1stWideArrowAtEnd",
+    "Line1stWideArrowAtEndFilled",
+    "Line1stWideArrowAtEnds",
+    "Line1stWideArrowAtEndsFilled",
     "Line2nd",
-    "Line2ndEndArrow",
-    "Line2ndEndArrowFilled",
-    "Line2ndWideEndArrow",
-    "Line2ndWideEndArrowFilled",
+    "Line2ndArrowAtStart",
+    "Line2ndArrowAtStartFilled",
+    "Line2ndArrowAtEnd",
+    "Line2ndArrowAtEndFilled",
+    "Line2ndArrowAtEnds",
+    "Line2ndArrowAtEndsFilled",
+    "Line2ndWideArrowAtStart",
+    "Line2ndWideArrowAtStartFilled",
+    "Line2ndWideArrowAtEnd",
+    "Line2ndWideArrowAtEndFilled",
+    "Line2ndWideArrowAtEnds",
+    "Line2ndWideArrowAtEndsFilled",
     "Line3rd",
-    "Line3rdEndArrow",
-    "Line3rdEndArrowFilled",
-    "Line3rdWideEndArrow",
-    "Line3rdWideEndArrowFilled",
+    "Line3rdArrowAtStart",
+    "Line3rdArrowAtStartFilled",
+    "Line3rdArrowAtEnd",
+    "Line3rdArrowAtEndFilled",
+    "Line3rdArrowAtEnds",
+    "Line3rdArrowAtEndsFilled",
+    "Line3rdWideArrowAtStart",
+    "Line3rdWideArrowAtStartFilled",
+    "Line3rdWideArrowAtEnd",
+    "Line3rdWideArrowAtEndFilled",
+    "Line3rdWideArrowAtEnds",
+    "Line3rdWideArrowAtEndsFilled",
     "CrossLine1st2nd",
-    "CrossLine1st2ndEndArrow",
-    "CrossLine1st2ndEndArrowFilled",
-    "CrossLine1st2ndWideEndArrow",
-    "CrossLine1st2ndWideEndArrowFilled",
+    "CrossLine1st2ndArrowAtEnds",
+    "CrossLine1st2ndArrowAtEndsFilled",
+    "CrossLine1st2ndWideArrowAtEnds",
+    "CrossLine1st2ndWideArrowAtEndsFilled",
     "CrossLine1st3rd",
-    "CrossLine1st3rdEndArrow",
-    "CrossLine1st3rdEndArrowFilled",
-    "CrossLine1st3rdWideEndArrow",
-    "CrossLine1st3rdWideEndArrowFilled",
+    "CrossLine1st3rdArrowAtEnds",
+    "CrossLine1st3rdArrowAtEndsFilled",
+    "CrossLine1st3rdWideArrowAtEnds",
+    "CrossLine1st3rdWideArrowAtEndsFilled",
     "CrossLine2nd3rd",
-    "CrossLine2nd3rdEndArrow",
-    "CrossLine2nd3rdEndArrowFilled",
-    "CrossLine2nd3rdWideEndArrow",
-    "CrossLine2nd3rdWideEndArrowFilled",
+    "CrossLine2nd3rdArrowAtEnds",
+    "CrossLine2nd3rdArrowAtEndsFilled",
+    "CrossLine2nd3rdWideArrowAtEnds",
+    "CrossLine2nd3rdWideArrowAtEndsFilled",
     "CrossLine3Axis",
     "CrossLine3AxisEndCube",
     "CrossLine3AxisEndCubeFilled",
@@ -94,10 +118,18 @@ constexpr std::array<const char*, 148> kPresetNames = {
     "CircleArrow3DFilled",
     "Semicircle",
     "SemicircleFilled",
-    "SemicircleEndArrow",
-    "SemicircleEndArrowFilled",
-    "SemicircleWideEndArrow",
-    "SemicircleWideEndArrowFilled",
+    "SemicircleArrowAtStart",
+    "SemicircleArrowAtStartFilled",
+    "SemicircleArrowAtEnd",
+    "SemicircleArrowAtEndFilled",
+    "SemicircleArrowAtEnds",
+    "SemicircleArrowAtEndsFilled",
+    "SemicircleWideArrowAtStart",
+    "SemicircleWideArrowAtStartFilled",
+    "SemicircleWideArrowAtEnd",
+    "SemicircleWideArrowAtEndFilled",
+    "SemicircleWideArrowAtEnds",
+    "SemicircleWideArrowAtEndsFilled",
     "SemicircleArrow2D",
     "SemicircleArrow2DFilled",
     "SemicircleArrow3D",
@@ -151,44 +183,71 @@ constexpr std::array<const char*, 148> kPresetNames = {
     "ColorSphereCrossLineFilled",
 };
 
+enum class ArrowEnds { Both, Start, End };
+
 struct PresetInfo {
     short outlineIndex;
     bool filled;
+    ArrowEnds arrowEnds = ArrowEnds::Both;
 };
 
-constexpr std::array<PresetInfo, 148> kPresetInfo = {{
+constexpr std::array<PresetInfo, 180> kPresetInfo = {{
     {0, false},  // Gear
     {0, true},  // GearFilled
     {1, false},  // Line1st
-    {54, false},  // Line1stEndArrow
-    {54, true},  // Line1stEndArrowFilled
-    {62, false},  // Line1stWideEndArrow
-    {62, true},  // Line1stWideEndArrowFilled
+    {54, false, ArrowEnds::Start},  // Line1stArrowAtStart
+    {54, true, ArrowEnds::Start},  // Line1stArrowAtStartFilled
+    {54, false, ArrowEnds::End},  // Line1stArrowAtEnd
+    {54, true, ArrowEnds::End},  // Line1stArrowAtEndFilled
+    {54, false},  // Line1stArrowAtEnds
+    {54, true},  // Line1stArrowAtEndsFilled
+    {62, false, ArrowEnds::Start},  // Line1stWideArrowAtStart
+    {62, true, ArrowEnds::Start},  // Line1stWideArrowAtStartFilled
+    {62, false, ArrowEnds::End},  // Line1stWideArrowAtEnd
+    {62, true, ArrowEnds::End},  // Line1stWideArrowAtEndFilled
+    {62, false},  // Line1stWideArrowAtEnds
+    {62, true},  // Line1stWideArrowAtEndsFilled
     {2, false},  // Line2nd
-    {55, false},  // Line2ndEndArrow
-    {55, true},  // Line2ndEndArrowFilled
-    {63, false},  // Line2ndWideEndArrow
-    {63, true},  // Line2ndWideEndArrowFilled
+    {55, false, ArrowEnds::Start},  // Line2ndArrowAtStart
+    {55, true, ArrowEnds::Start},  // Line2ndArrowAtStartFilled
+    {55, false, ArrowEnds::End},  // Line2ndArrowAtEnd
+    {55, true, ArrowEnds::End},  // Line2ndArrowAtEndFilled
+    {55, false},  // Line2ndArrowAtEnds
+    {55, true},  // Line2ndArrowAtEndsFilled
+    {63, false, ArrowEnds::Start},  // Line2ndWideArrowAtStart
+    {63, true, ArrowEnds::Start},  // Line2ndWideArrowAtStartFilled
+    {63, false, ArrowEnds::End},  // Line2ndWideArrowAtEnd
+    {63, true, ArrowEnds::End},  // Line2ndWideArrowAtEndFilled
+    {63, false},  // Line2ndWideArrowAtEnds
+    {63, true},  // Line2ndWideArrowAtEndsFilled
     {3, false},  // Line3rd
-    {56, false},  // Line3rdEndArrow
-    {56, true},  // Line3rdEndArrowFilled
-    {64, false},  // Line3rdWideEndArrow
-    {64, true},  // Line3rdWideEndArrowFilled
+    {56, false, ArrowEnds::Start},  // Line3rdArrowAtStart
+    {56, true, ArrowEnds::Start},  // Line3rdArrowAtStartFilled
+    {56, false, ArrowEnds::End},  // Line3rdArrowAtEnd
+    {56, true, ArrowEnds::End},  // Line3rdArrowAtEndFilled
+    {56, false},  // Line3rdArrowAtEnds
+    {56, true},  // Line3rdArrowAtEndsFilled
+    {64, false, ArrowEnds::Start},  // Line3rdWideArrowAtStart
+    {64, true, ArrowEnds::Start},  // Line3rdWideArrowAtStartFilled
+    {64, false, ArrowEnds::End},  // Line3rdWideArrowAtEnd
+    {64, true, ArrowEnds::End},  // Line3rdWideArrowAtEndFilled
+    {64, false},  // Line3rdWideArrowAtEnds
+    {64, true},  // Line3rdWideArrowAtEndsFilled
     {52, false},  // CrossLine1st2nd
-    {57, false},  // CrossLine1st2ndEndArrow
-    {57, true},  // CrossLine1st2ndEndArrowFilled
-    {65, false},  // CrossLine1st2ndWideEndArrow
-    {65, true},  // CrossLine1st2ndWideEndArrowFilled
+    {57, false},  // CrossLine1st2ndArrowAtEnds
+    {57, true},  // CrossLine1st2ndArrowAtEndsFilled
+    {65, false},  // CrossLine1st2ndWideArrowAtEnds
+    {65, true},  // CrossLine1st2ndWideArrowAtEndsFilled
     {53, false},  // CrossLine1st3rd
-    {58, false},  // CrossLine1st3rdEndArrow
-    {58, true},  // CrossLine1st3rdEndArrowFilled
-    {66, false},  // CrossLine1st3rdWideEndArrow
-    {66, true},  // CrossLine1st3rdWideEndArrowFilled
+    {58, false},  // CrossLine1st3rdArrowAtEnds
+    {58, true},  // CrossLine1st3rdArrowAtEndsFilled
+    {66, false},  // CrossLine1st3rdWideArrowAtEnds
+    {66, true},  // CrossLine1st3rdWideArrowAtEndsFilled
     {4, false},  // CrossLine2nd3rd
-    {59, false},  // CrossLine2nd3rdEndArrow
-    {59, true},  // CrossLine2nd3rdEndArrowFilled
-    {67, false},  // CrossLine2nd3rdWideEndArrow
-    {67, true},  // CrossLine2nd3rdWideEndArrowFilled
+    {59, false},  // CrossLine2nd3rdArrowAtEnds
+    {59, true},  // CrossLine2nd3rdArrowAtEndsFilled
+    {67, false},  // CrossLine2nd3rdWideArrowAtEnds
+    {67, true},  // CrossLine2nd3rdWideArrowAtEndsFilled
     {5, false},  // CrossLine3Axis
     {69, false},  // CrossLine3AxisEndCube
     {69, true},  // CrossLine3AxisEndCubeFilled
@@ -250,10 +309,18 @@ constexpr std::array<PresetInfo, 148> kPresetInfo = {{
     {29, true},  // CircleArrow3DFilled
     {30, false},  // Semicircle
     {30, true},  // SemicircleFilled
-    {61, false},  // SemicircleEndArrow
-    {61, true},  // SemicircleEndArrowFilled
-    {68, false},  // SemicircleWideEndArrow
-    {68, true},  // SemicircleWideEndArrowFilled
+    {61, false, ArrowEnds::Start},  // SemicircleArrowAtStart
+    {61, true, ArrowEnds::Start},  // SemicircleArrowAtStartFilled
+    {61, false, ArrowEnds::End},  // SemicircleArrowAtEnd
+    {61, true, ArrowEnds::End},  // SemicircleArrowAtEndFilled
+    {61, false},  // SemicircleArrowAtEnds
+    {61, true},  // SemicircleArrowAtEndsFilled
+    {68, false, ArrowEnds::Start},  // SemicircleWideArrowAtStart
+    {68, true, ArrowEnds::Start},  // SemicircleWideArrowAtStartFilled
+    {68, false, ArrowEnds::End},  // SemicircleWideArrowAtEnd
+    {68, true, ArrowEnds::End},  // SemicircleWideArrowAtEndFilled
+    {68, false},  // SemicircleWideArrowAtEnds
+    {68, true},  // SemicircleWideArrowAtEndsFilled
     {31, false},  // SemicircleArrow2D
     {31, true},  // SemicircleArrow2DFilled
     {32, false},  // SemicircleArrow3D
@@ -324,6 +391,12 @@ short outlinePresetIndex(short shape) {
 bool isFilledPreset(short shape) {
     return shape >= 0 && shape < static_cast<short>(kPresetInfo.size())
         && kPresetInfo[shape].filled;
+}
+
+bool hasArrowAtEnd(short shape, bool start) {
+    const auto ends = shape >= 0 && shape < static_cast<short>(kPresetInfo.size())
+        ? kPresetInfo[shape].arrowEnds : ArrowEnds::Both;
+    return ends == ArrowEnds::Both || (ends == ArrowEnds::Start) == start;
 }
 
 constexpr std::array<RawPoint, 2> kPrimitive2 = {{
@@ -923,6 +996,7 @@ std::vector<ArrowHead> endArrowHeads(short outline, const ShapeSettings& setting
     const auto axes = straightLineAxes(base);
     for (unsigned int axis : axes) {
         for (double sign : {-1.0, 1.0}) {
+            if (!hasArrowAtEnd(settings.shape, sign < 0.0)) continue;
             const MVector direction = nativeAxis(axis) * sign;
             const MPoint tip = MPoint::origin + direction * 0.5;
             if (axes.size() == 1) {
@@ -936,6 +1010,7 @@ std::vector<ArrowHead> endArrowHeads(short outline, const ShapeSettings& setting
     }
     if (base == 30) {
         for (double z : {-0.5, 0.5}) {
+            if (!hasArrowAtEnd(settings.shape, z > 0.0)) continue;
             const MPoint tip(0.0, 0.0, z);
             const MVector direction(0.0, -1.0, 0.0);
             append(tip, direction, nativeAxis(2));
@@ -1032,6 +1107,10 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline, const ShapeSettings& se
         }});
     } else {
         const bool cross = outline >= 65;
+        const bool startArrow = hasArrowAtEnd(settings.shape, true);
+        const bool endArrow = hasArrowAtEnd(settings.shape, false);
+        const double startJoin = startArrow ? -shoulder : -0.5;
+        const double endJoin = endArrow ? shoulder : 0.5;
         const auto point = [](double along, double side, unsigned int axis) {
             return axis == 0 ? MPoint(along, side, 0.0) : MPoint(side, along, 0.0);
         };
@@ -1041,13 +1120,14 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline, const ShapeSettings& se
                 MPoint(shaftHalfWidth, shaftHalfWidth, 0.0),
                 MPoint(-shaftHalfWidth, shaftHalfWidth, 0.0));
         } else {
-            quad(MPoint(-shoulder, -shaftHalfWidth, 0.0),
-                MPoint(shoulder, -shaftHalfWidth, 0.0),
-                MPoint(shoulder, shaftHalfWidth, 0.0),
-                MPoint(-shoulder, shaftHalfWidth, 0.0));
+            quad(MPoint(startJoin, -shaftHalfWidth, 0.0),
+                MPoint(endJoin, -shaftHalfWidth, 0.0),
+                MPoint(endJoin, shaftHalfWidth, 0.0),
+                MPoint(startJoin, shaftHalfWidth, 0.0));
         }
         for (unsigned int axis = 0; axis < (cross ? 2u : 1u); ++axis) {
             for (double sign : {-1.0, 1.0}) {
+                if (!hasArrowAtEnd(settings.shape, sign < 0.0)) continue;
                 if (cross) {
                     const double start = sign * shaftHalfWidth;
                     quad(point(start, -shaftHalfWidth, axis),
@@ -1082,7 +1162,7 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline, const ShapeSettings& se
                 MPoint(shaftHalfWidth, -shaftHalfWidth, 0.0),
                 MPoint(shoulder, -shaftHalfWidth, 0.0), MPoint(shoulder, -headHalfWidth, 0.0),
             };
-        } else {
+        } else if (startArrow && endArrow) {
             geometry.outline = {
                 MPoint(-tip, 0.0, 0.0),
                 MPoint(-shoulder, -headHalfWidth, 0.0), MPoint(-shoulder, -shaftHalfWidth, 0.0),
@@ -1091,6 +1171,22 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline, const ShapeSettings& se
                 MPoint(shoulder, headHalfWidth, 0.0), MPoint(shoulder, shaftHalfWidth, 0.0),
                 MPoint(-shoulder, shaftHalfWidth, 0.0), MPoint(-shoulder, headHalfWidth, 0.0),
             };
+        } else {
+            if (startArrow) {
+                geometry.outline = {MPoint(-tip, 0, 0), MPoint(-shoulder, -headHalfWidth, 0),
+                    MPoint(-shoulder, -shaftHalfWidth, 0)};
+            } else {
+                geometry.outline = {MPoint(-0.5, -shaftHalfWidth, 0)};
+            }
+            if (endArrow) {
+                geometry.outline.insert(geometry.outline.end(), {
+                    MPoint(shoulder, -shaftHalfWidth, 0), MPoint(shoulder, -headHalfWidth, 0),
+                    MPoint(tip, 0, 0), MPoint(shoulder, headHalfWidth, 0), MPoint(shoulder, shaftHalfWidth, 0)});
+            } else {
+                geometry.outline.insert(geometry.outline.end(), {MPoint(0.5, -shaftHalfWidth, 0), MPoint(0.5, shaftHalfWidth, 0)});
+            }
+            geometry.outline.push_back(MPoint(startJoin, shaftHalfWidth, 0));
+            if (startArrow) geometry.outline.push_back(MPoint(-shoulder, headHalfWidth, 0));
         }
     }
     geometry.outline.push_back(geometry.outline.front());
@@ -1171,13 +1267,19 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
         if (transform.settings.partOffset != 0.0) {
             const auto axes = straightLineAxes(endArrowBaseOutline(outline));
             for (auto axis : axes) {
-                const MVector end = nativeAxis(axis) * std::max(0.0, 0.5 + transform.settings.partOffset);
-                appendNativeStroke({MPoint::origin - end, MPoint::origin + end},
+                const bool startArrow = hasArrowAtEnd(shape, true);
+                const bool endArrow = hasArrowAtEnd(shape, false);
+                const double moved = startArrow && endArrow
+                    ? std::max(0.0, 0.5 + transform.settings.partOffset) : 0.5 + transform.settings.partOffset;
+                const MVector direction = nativeAxis(axis);
+                appendNativeStroke({MPoint::origin - direction * (startArrow ? moved : 0.5),
+                    MPoint::origin + direction * (endArrow ? moved : 0.5)},
                     StrokeStyle::Normal, transform, strokes, styles);
             }
             if (!axes.empty()) return;
             appendPresetComponent(29, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             for (double z : {-0.5, 0.5}) {
+                if (!hasArrowAtEnd(shape, z > 0.0)) continue;
                 appendNativeStroke({MPoint(0, 0, z), MPoint(0, -transform.settings.partOffset, z)},
                     StrokeStyle::Normal, transform, strokes, styles);
             }

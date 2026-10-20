@@ -481,9 +481,10 @@ void appendWidePartUnion(PartBuilder& builder, short outline, const ShapeSetting
 bool makeAdjustedPartGeometry(const ShapeSettings& settings, PartGeometry& geometry) {
     const short outline = outlinePresetIndex(settings.shape);
     const bool semicircle = outline == 30 || outline == 31 || outline == 32 || outline == 61 || outline == 68;
+    const bool singleEnd = !hasArrowAtEnd(settings.shape, true) || !hasArrowAtEnd(settings.shape, false);
     const bool fin = outline == 22 || outline == 23 || outline == 26 || outline == 37 ||
         outline == 38 || outline == 40 || outline == 42 || outline == 44;
-    if (!hasPartAdjustment(settings) && (!semicircle || settings.partOffsetAngle == 0.0) &&
+    if (!hasPartAdjustment(settings) && (!semicircle || (settings.partOffsetAngle == 0.0 && !singleEnd)) &&
         (!fin || partFinHeight(settings) == 0.5)) return false;
     PartBuilder builder(isFilledPreset(settings.shape));
     if (semicircle) {

@@ -40,6 +40,8 @@ WideEndArrowGeometry semicircleWidePartGeometry(const ShapeSettings& settings) {
     WideEndArrowGeometry geometry;
     const double start = -settings.partOffsetAngle;
     const double end = kPi + settings.partOffsetAngle;
+    const bool startArrow = hasArrowAtEnd(settings.shape, true);
+    const bool endArrow = hasArrowAtEnd(settings.shape, false);
     const double halfSweep = std::max(0.0, (end - start) * 0.5);
     const double depth = 0.1 * std::cos(kPi / 6.0) * partLength(settings);
     const double shaftWidth = 0.025 * std::abs(partWidth(settings));
@@ -55,7 +57,8 @@ WideEndArrowGeometry semicircleWidePartGeometry(const ShapeSettings& settings) {
     const double outerTrim = trim(outerRadius);
     const double innerTrim = trim(innerRadius);
     std::vector<double> angles = semicircleSampleAngles(start, end);
-    for (double angle : {start + outerTrim, end - outerTrim, start + innerTrim, end - innerTrim}) angles.push_back(angle);
+    if (startArrow) for (double angle : {start + outerTrim, start + innerTrim}) angles.push_back(angle);
+    if (endArrow) for (double angle : {end - outerTrim, end - innerTrim}) angles.push_back(angle);
     std::sort(angles.begin(), angles.end());
     angles.erase(std::unique(angles.begin(), angles.end(), [](double a, double b) {
         return std::abs(a - b) < 1.0e-12;
@@ -64,7 +67,8 @@ WideEndArrowGeometry semicircleWidePartGeometry(const ShapeSettings& settings) {
     std::vector<MPoint> inner;
     const auto trimmedAngle = [&](double angle, double trimAngle) {
         const double half = halfSweep - trimAngle;
-        return std::clamp(angle, kPi / 2.0 - half, kPi / 2.0 + half);
+        return std::clamp(angle, startArrow ? kPi / 2.0 - half : start,
+            endArrow ? kPi / 2.0 + half : end);
     };
     for (double angle : angles) {
         outer.push_back(MPoint::origin + semicircleRadial(trimmedAngle(angle, outerTrim)) * outerRadius);
@@ -83,6 +87,7 @@ WideEndArrowGeometry semicircleWidePartGeometry(const ShapeSettings& settings) {
     for (std::size_t i = 0; i + 1 < outer.size(); ++i) quad(outer[i], outer[i + 1], inner[i + 1], inner[i]);
     std::array<std::array<MPoint, 5>, 2> heads;
     for (unsigned int i = 0; i < 2; ++i) {
+        if (!hasArrowAtEnd(settings.shape, i == 0)) continue;
         const double angle = i == 0 ? start : end;
         const MVector radial = semicircleRadial(angle);
         const MVector direction = semicircleOutward(angle, i == 0);
@@ -96,11 +101,13 @@ WideEndArrowGeometry semicircleWidePartGeometry(const ShapeSettings& settings) {
         // 頭部の底辺を同一直線に保ち、帯の接続点と共用する。
         for (unsigned int edge = 1; edge < 4; ++edge) triangle(tip, heads[i][edge], heads[i][edge + 1]);
     }
-    std::vector<MPoint> boundary = {heads[0][0], heads[0][1], heads[0][2]};
+    std::vector<MPoint> boundary;
+    if (startArrow) boundary = {heads[0][0], heads[0][1], heads[0][2]};
     boundary.insert(boundary.end(), outer.begin(), outer.end());
-    boundary.insert(boundary.end(), {heads[1][2], heads[1][1], heads[1][0], heads[1][4], heads[1][3]});
+    if (endArrow) boundary.insert(boundary.end(), {heads[1][2], heads[1][1], heads[1][0], heads[1][4], heads[1][3]});
     boundary.insert(boundary.end(), inner.rbegin(), inner.rend());
-    boundary.insert(boundary.end(), {heads[0][3], heads[0][4], heads[0][0]});
+    if (startArrow) boundary.insert(boundary.end(), {heads[0][3], heads[0][4], heads[0][0]});
+    else boundary.push_back(outer.front());
     geometry.outline = kSemicirclePlane.points(boundary);
     return geometry;
 }
@@ -117,6 +124,7 @@ void appendSemicircleParts(PartBuilder& builder, short outline, const ShapeSetti
         const double halfWidth = 0.05 * partWidth(settings);
         WideEndArrowGeometry heads;
         for (unsigned int i = 0; i < 2; ++i) {
+            if (!hasArrowAtEnd(settings.shape, i == 0)) continue;
             const double angle = i == 0 ? -settings.partOffsetAngle : kPi + settings.partOffsetAngle;
             const MVector radial = semicircleRadial(angle);
             const MVector direction = semicircleOutward(angle, i == 0);

@@ -19,35 +19,59 @@ SHAPE_NAMES = (
     "Gear",
     "GearFilled",
     "Line1st",
-    "Line1stEndArrow",
-    "Line1stEndArrowFilled",
-    "Line1stWideEndArrow",
-    "Line1stWideEndArrowFilled",
+    "Line1stArrowAtStart",
+    "Line1stArrowAtStartFilled",
+    "Line1stArrowAtEnd",
+    "Line1stArrowAtEndFilled",
+    "Line1stArrowAtEnds",
+    "Line1stArrowAtEndsFilled",
+    "Line1stWideArrowAtStart",
+    "Line1stWideArrowAtStartFilled",
+    "Line1stWideArrowAtEnd",
+    "Line1stWideArrowAtEndFilled",
+    "Line1stWideArrowAtEnds",
+    "Line1stWideArrowAtEndsFilled",
     "Line2nd",
-    "Line2ndEndArrow",
-    "Line2ndEndArrowFilled",
-    "Line2ndWideEndArrow",
-    "Line2ndWideEndArrowFilled",
+    "Line2ndArrowAtStart",
+    "Line2ndArrowAtStartFilled",
+    "Line2ndArrowAtEnd",
+    "Line2ndArrowAtEndFilled",
+    "Line2ndArrowAtEnds",
+    "Line2ndArrowAtEndsFilled",
+    "Line2ndWideArrowAtStart",
+    "Line2ndWideArrowAtStartFilled",
+    "Line2ndWideArrowAtEnd",
+    "Line2ndWideArrowAtEndFilled",
+    "Line2ndWideArrowAtEnds",
+    "Line2ndWideArrowAtEndsFilled",
     "Line3rd",
-    "Line3rdEndArrow",
-    "Line3rdEndArrowFilled",
-    "Line3rdWideEndArrow",
-    "Line3rdWideEndArrowFilled",
+    "Line3rdArrowAtStart",
+    "Line3rdArrowAtStartFilled",
+    "Line3rdArrowAtEnd",
+    "Line3rdArrowAtEndFilled",
+    "Line3rdArrowAtEnds",
+    "Line3rdArrowAtEndsFilled",
+    "Line3rdWideArrowAtStart",
+    "Line3rdWideArrowAtStartFilled",
+    "Line3rdWideArrowAtEnd",
+    "Line3rdWideArrowAtEndFilled",
+    "Line3rdWideArrowAtEnds",
+    "Line3rdWideArrowAtEndsFilled",
     "CrossLine1st2nd",
-    "CrossLine1st2ndEndArrow",
-    "CrossLine1st2ndEndArrowFilled",
-    "CrossLine1st2ndWideEndArrow",
-    "CrossLine1st2ndWideEndArrowFilled",
+    "CrossLine1st2ndArrowAtEnds",
+    "CrossLine1st2ndArrowAtEndsFilled",
+    "CrossLine1st2ndWideArrowAtEnds",
+    "CrossLine1st2ndWideArrowAtEndsFilled",
     "CrossLine1st3rd",
-    "CrossLine1st3rdEndArrow",
-    "CrossLine1st3rdEndArrowFilled",
-    "CrossLine1st3rdWideEndArrow",
-    "CrossLine1st3rdWideEndArrowFilled",
+    "CrossLine1st3rdArrowAtEnds",
+    "CrossLine1st3rdArrowAtEndsFilled",
+    "CrossLine1st3rdWideArrowAtEnds",
+    "CrossLine1st3rdWideArrowAtEndsFilled",
     "CrossLine2nd3rd",
-    "CrossLine2nd3rdEndArrow",
-    "CrossLine2nd3rdEndArrowFilled",
-    "CrossLine2nd3rdWideEndArrow",
-    "CrossLine2nd3rdWideEndArrowFilled",
+    "CrossLine2nd3rdArrowAtEnds",
+    "CrossLine2nd3rdArrowAtEndsFilled",
+    "CrossLine2nd3rdWideArrowAtEnds",
+    "CrossLine2nd3rdWideArrowAtEndsFilled",
     "CrossLine3Axis",
     "CrossLine3AxisEndCube",
     "CrossLine3AxisEndCubeFilled",
@@ -109,10 +133,18 @@ SHAPE_NAMES = (
     "CircleArrow3DFilled",
     "Semicircle",
     "SemicircleFilled",
-    "SemicircleEndArrow",
-    "SemicircleEndArrowFilled",
-    "SemicircleWideEndArrow",
-    "SemicircleWideEndArrowFilled",
+    "SemicircleArrowAtStart",
+    "SemicircleArrowAtStartFilled",
+    "SemicircleArrowAtEnd",
+    "SemicircleArrowAtEndFilled",
+    "SemicircleArrowAtEnds",
+    "SemicircleArrowAtEndsFilled",
+    "SemicircleWideArrowAtStart",
+    "SemicircleWideArrowAtStartFilled",
+    "SemicircleWideArrowAtEnd",
+    "SemicircleWideArrowAtEndFilled",
+    "SemicircleWideArrowAtEnds",
+    "SemicircleWideArrowAtEndsFilled",
     "SemicircleArrow2D",
     "SemicircleArrow2DFilled",
     "SemicircleArrow3D",
@@ -862,7 +894,7 @@ def test_end_arrow_extent_and_axis_transform(
     _load_bd_util_nodes(maya_cmds)
     shape_name = (
         base_name
-        + ("WideEndArrow" if wide else "EndArrow")
+        + ("WideArrowAtEnds" if wide else "ArrowAtEnds")
         + ("Filled" if filled else "")
     )
     if wide and base_name == "Semicircle":
@@ -1637,20 +1669,20 @@ def test_part_attributes_leave_plain_shapes_unchanged(
         ("ArrowFin", (-2.4, 0, -0.75, 0.6, 1.0, 0.75)),
         ("OctahedronArrow", (-0.5, -0.75, -0.75, 3.6, 0.75, 0.75)),
         ("OctahedronArrowFin", (-1.525, -0.75, -0.75, 4.625, 1.0, 0.75)),
-        ("Line1stEndArrow", (-0.6, -0.075, 0, 0.6, 0.075, 0)),
-        ("Line2ndEndArrow", (-0.075, -0.6, 0, 0.075, 0.6, 0)),
-        ("Line3rdEndArrow", (-0.075, 0, -0.6, 0.075, 0, 0.6)),
-        ("CrossLine1st2ndEndArrow", (-0.6, -0.6, 0, 0.6, 0.6, 0)),
-        ("CrossLine1st3rdEndArrow", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
-        ("CrossLine2nd3rdEndArrow", (0, -0.6, -0.6, 0, 0.6, 0.6)),
-        ("SemicircleEndArrow", (0, -0.1, -0.575, 0, 0.5, 0.575)),
-        ("Line1stWideEndArrow", (-0.6, -0.075, 0, 0.6, 0.075, 0)),
-        ("Line2ndWideEndArrow", (-0.075, -0.6, 0, 0.075, 0.6, 0)),
-        ("Line3rdWideEndArrow", (-0.075, 0, -0.6, 0.075, 0, 0.6)),
-        ("CrossLine1st2ndWideEndArrow", (-0.6, -0.6, 0, 0.6, 0.6, 0)),
-        ("CrossLine1st3rdWideEndArrow", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
-        ("CrossLine2nd3rdWideEndArrow", (0, -0.6, -0.6, 0, 0.6, 0.6)),
-        ("SemicircleWideEndArrow", (0, -0.1, -0.575, 0, 0.5375, 0.575)),
+        ("Line1stArrowAtEnds", (-0.6, -0.075, 0, 0.6, 0.075, 0)),
+        ("Line2ndArrowAtEnds", (-0.075, -0.6, 0, 0.075, 0.6, 0)),
+        ("Line3rdArrowAtEnds", (-0.075, 0, -0.6, 0.075, 0, 0.6)),
+        ("CrossLine1st2ndArrowAtEnds", (-0.6, -0.6, 0, 0.6, 0.6, 0)),
+        ("CrossLine1st3rdArrowAtEnds", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
+        ("CrossLine2nd3rdArrowAtEnds", (0, -0.6, -0.6, 0, 0.6, 0.6)),
+        ("SemicircleArrowAtEnds", (0, -0.1, -0.575, 0, 0.5, 0.575)),
+        ("Line1stWideArrowAtEnds", (-0.6, -0.075, 0, 0.6, 0.075, 0)),
+        ("Line2ndWideArrowAtEnds", (-0.075, -0.6, 0, 0.075, 0.6, 0)),
+        ("Line3rdWideArrowAtEnds", (-0.075, 0, -0.6, 0.075, 0, 0.6)),
+        ("CrossLine1st2ndWideArrowAtEnds", (-0.6, -0.6, 0, 0.6, 0.6, 0)),
+        ("CrossLine1st3rdWideArrowAtEnds", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
+        ("CrossLine2nd3rdWideArrowAtEnds", (0, -0.6, -0.6, 0, 0.6, 0.6)),
+        ("SemicircleWideArrowAtEnds", (0, -0.1, -0.575, 0, 0.5375, 0.575)),
     ),
 )
 def test_arrow_and_fin_part_size_bounds(
@@ -1830,7 +1862,7 @@ def test_semicircle_wide_part_retains_outer_arc_when_inner_radius_collapses(
     maya_cmds, maya_om, new_scene, filled
 ):
     _load_bd_util_nodes(maya_cmds)
-    name = "SemicircleWideEndArrow" + ("Filled" if filled else "")
+    name = "SemicircleWideArrowAtEnds" + ("Filled" if filled else "")
     _, shape = _create_controller(
         maya_cmds, shape_value=SHAPE_NAMES.index(name)
     )
@@ -1848,7 +1880,7 @@ def test_wide_end_arrow_negative_offset_moves_heads_past_origin(
     import math
 
     _load_bd_util_nodes(maya_cmds)
-    name = "Line1stWideEndArrow" + ("Filled" if filled else "")
+    name = "Line1stWideArrowAtEnds" + ("Filled" if filled else "")
     _, shape = _create_controller(
         maya_cmds, shape_value=SHAPE_NAMES.index(name)
     )
@@ -1894,8 +1926,8 @@ def test_semicircle_angle_bounds(maya_cmds, maya_om, new_scene, filled, angle):
     (
         "SemicircleArrow2D",
         "SemicircleArrow3D",
-        "SemicircleEndArrow",
-        "SemicircleWideEndArrow",
+        "SemicircleArrowAtEnds",
+        "SemicircleWideArrowAtEnds",
     ),
 )
 @pytest.mark.parametrize("angle", (-90, -30, 30, 90))
@@ -1942,7 +1974,7 @@ def test_semicircle_angle_rotates_endpoint_offset_direction(
     name = (
         "Semicircle"
         + ("Wide" if wide else "")
-        + "EndArrow"
+        + "ArrowAtEnds"
         + ("Filled" if filled else "")
     )
     _, shape = _create_controller(
@@ -2597,9 +2629,12 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
         ("ColorCubeFilled", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
         ("ColorCornerCube", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
         ("ColorCornerCubeFilled", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
-        ("Line1stWideEndArrowFilled", (2.0, 3.6, 5.0, 2.0, 4.4, 7.0)),
-        ("CrossLine1st2ndWideEndArrowFilled", (2.0, 0.0, 5.0, 2.0, 8.0, 7.0)),
-        ("SemicircleWideEndArrowFilled", (-11.2, 4.0, 6.0, 15.2, 8.2, 6.0)),
+        ("Line1stWideArrowAtEndsFilled", (2.0, 3.6, 5.0, 2.0, 4.4, 7.0)),
+        (
+            "CrossLine1st2ndWideArrowAtEndsFilled",
+            (2.0, 0.0, 5.0, 2.0, 8.0, 7.0),
+        ),
+        ("SemicircleWideArrowAtEndsFilled", (-11.2, 4.0, 6.0, 15.2, 8.2, 6.0)),
         ("CrossLine3AxisEndCubeFilled", (-11.2, -0.4, 4.9, 15.2, 8.4, 7.1)),
         (
             "ColorCrossLine3AxisEndSphereFilled",
@@ -2952,6 +2987,163 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     ) == pytest.approx(2.0)
     assert maya_cmds.getAttr(f"{shape.full_path}.showShapeOffsetLine")
     assert maya_cmds.getAttr(f"{shape.full_path}.shapeOffsetLineTemplate")
+
+
+@pytest.mark.parametrize(
+    "base,axis,side", (("Line1st", 0, 1), ("Line2nd", 1, 0), ("Line3rd", 2, 0))
+)
+@pytest.mark.parametrize("end,sign", (("Start", -1), ("End", 1)))
+@pytest.mark.parametrize("wide", (False, True))
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize(
+    "offset,length,width,size",
+    (
+        (0, 1, 1, 1),
+        (0.2, 1.5, 2, 1),
+        (-0.2, 0.5, 1, 2),
+        (0.1, -2, -3, 1),
+        (-1.2, 1, 1, 1),
+        (0.1, 0, 0, 1),
+        (0.1, 1, 1, 0),
+    ),
+)
+def test_single_end_line_arrow_keeps_opposite_endpoint(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    base,
+    axis,
+    side,
+    end,
+    sign,
+    wide,
+    filled,
+    offset,
+    length,
+    width,
+    size,
+):
+    _load_bd_util_nodes(maya_cmds)
+    name = (
+        base
+        + ("Wide" if wide else "")
+        + "ArrowAt"
+        + end
+        + ("Filled" if filled else "")
+    )
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(name)
+    )
+    for attribute, value in (
+        ("shapePartOffset", offset),
+        ("shapePartLengthScale", length),
+        ("shapePartWidthScale", width),
+        ("shapePartSize", size),
+    ):
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
+    tip = sign * (0.5 + offset)
+    shoulder = sign * (
+        0.5 + offset - 0.1 * math.cos(math.pi / 6) * length * size
+    )
+    low, high = [0.0] * 3, [0.0] * 3
+    low[axis], high[axis] = min(-sign * 0.5, tip, shoulder), max(
+        -sign * 0.5, tip, shoulder
+    )
+    low[side], high[side] = -0.05 * abs(width * size), 0.05 * abs(width * size)
+    assert _bounds(maya_om, shape) == pytest.approx((*low, *high), abs=1e-9)
+
+
+@pytest.mark.parametrize("end", ("Start", "End"))
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("angle", (-90, -30, 0, 30, 90))
+@pytest.mark.parametrize("offset", (0, 0.2))
+def test_single_end_semicircle_arrow_follows_endpoint_and_tangent(
+    maya_cmds, maya_om, new_scene, end, filled, angle, offset
+):
+    _load_bd_util_nodes(maya_cmds)
+    name = "SemicircleArrowAt" + end + ("Filled" if filled else "")
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(name)
+    )
+    maya_cmds.setAttr(f"{shape}.shapePartOffsetAngle", angle)
+    maya_cmds.setAttr(f"{shape}.shapePartOffset", offset)
+    start, finish = -math.radians(angle), math.pi + math.radians(angle)
+    arc_angles = [start, finish] + [
+        a
+        for a in (0, math.pi / 2, math.pi, 3 * math.pi / 2)
+        if start <= a <= finish
+    ]
+    points = [(0, 0.5 * math.sin(a), 0.5 * math.cos(a)) for a in arc_angles]
+    a = start if end == "Start" else finish
+    radial_y, radial_z = math.sin(a), math.cos(a)
+    direction_y, direction_z = (
+        (-radial_z, radial_y) if end == "Start" else (radial_z, -radial_y)
+    )
+    tip_y, tip_z = (
+        0.5 * radial_y + offset * direction_y,
+        0.5 * radial_z + offset * direction_z,
+    )
+    points.append((0, tip_y, tip_z))
+    depth = 0.1 * math.cos(math.pi / 6)
+    for sign in (-1, 1):
+        points.append(
+            (
+                0,
+                tip_y - depth * direction_y + sign * 0.05 * radial_y,
+                tip_z - depth * direction_z + sign * 0.05 * radial_z,
+            )
+        )
+    expected = tuple(min(p[i] for p in points) for i in range(3)) + tuple(
+        max(p[i] for p in points) for i in range(3)
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+
+
+@pytest.mark.parametrize("end", ("Start", "End"))
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("offset", (0, 0.2))
+def test_single_end_wide_semicircle_keeps_flat_cap(
+    maya_cmds, maya_om, new_scene, end, filled, offset
+):
+    _load_bd_util_nodes(maya_cmds)
+    name = "SemicircleWideArrowAt" + end + ("Filled" if filled else "")
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(name)
+    )
+    maya_cmds.setAttr(f"{shape}.shapePartOffset", offset)
+    low_z, high_z = (-0.525, 0.55) if end == "Start" else (-0.55, 0.525)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (0, -offset, low_z, 0, 0.525, high_z), abs=1e-9
+    )
+
+
+def test_single_end_shape_history_and_scene_reload(
+    maya_cmds, maya_om, new_scene, tmp_path
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, name = _create_controller(maya_cmds)
+    mod = bdu.ModifierManager()
+    shape = bdu.Nodes(modifier_manager=mod).existing(name)
+    shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLEWIDEARROWATENDFILLED)
+    shape.shapePartOffset.set(0.2)
+    shape.shapePartOffsetAngle.set(30)
+    shape.shapePartLengthScale.set(2)
+    shape.shapePartWidthScale.set(1.5)
+    mod.do_it_dg()
+    expected = _bounds(maya_om, name)
+    mod.undo_it()
+    assert _bounds(maya_om, name) != pytest.approx(expected)
+    mod.redo_it()
+    assert _bounds(maya_om, name) == pytest.approx(expected)
+    path = tmp_path / "single_end_arrow.ma"
+    maya_cmds.file(rename=str(path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(path), open=True, force=True)
+    assert _bounds(maya_om, name) == pytest.approx(expected)
+    assert maya_cmds.getAttr(f"{name}.shape") == SHAPE_NAMES.index(
+        "SemicircleWideArrowAtEndFilled"
+    )
 
 
 def test_custom_bounds_node_operator_history_and_scene_reload(
