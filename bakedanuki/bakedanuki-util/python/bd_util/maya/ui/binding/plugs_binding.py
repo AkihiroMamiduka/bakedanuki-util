@@ -359,7 +359,7 @@ class _EnumPlugsStore(PlugsStore[int]):
     def validate_write_target(
         self, target: PlugTarget[int], requested: int
     ) -> None:
-        """代表と対象の可用性、現在のenum定義を再検証する。"""
+        """可用性と定義比較の方針を検証し、対象値の検証は共通計画へ委ねる。"""
         super().validate_write_target(target, requested)
         expected = self._operation_definition
         if expected is None:
@@ -369,7 +369,6 @@ class _EnumPlugsStore(PlugsStore[int]):
             self._codecs[0].value.read_definition(refresh=True)
         ):
             raise ValueError("入力中に代表のenum定義が変わりました")
-        target.codec.validate(requested)
 
     @contextmanager
     def operation_validation(self) -> Generator[None, None, None]:

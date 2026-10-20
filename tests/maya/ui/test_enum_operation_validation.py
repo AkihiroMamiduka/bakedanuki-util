@@ -184,6 +184,54 @@ def test_changed_definition_restores_all_writes_including_final_check(
     )
 
 
+@pytest.mark.parametrize("policy", ["per_write", "operation"])
+def test_definition_and_connection_changes_reject_and_restore_prior_writes(
+    scene, monkeypatch, policy
+):
+    """同じ未適用対象の定義と接続が変わっても拒否し、先行する値を復旧する。"""
+    nodes, owner = scene
+    source = cmds.createNode("network")
+    cmds.addAttr(source, longName="mode", at="enum", enumName="A:B:C")
+    binding = enum_binding(nodes, owner)
+    original = cmds.setAttr
+    forward = []
+
+    def changing_set_attr(path, value):
+        """初回適用後に対象の定義と入力接続を変更し、外部変更を保持する。"""
+        original(path, value)
+        if value == 1:
+            forward.append(path)
+        if path == nodes[0] + ".mode" and value == 1:
+            cmds.addAttr(
+                nodes[-1] + ".mode", edit=True, enumName="A:Changed:C"
+            )
+            cmds.connectAttr(source + ".mode", nodes[-1] + ".mode")
+
+    try:
+        with monkeypatch.context() as changing:
+            changing.setattr(cmds, "setAttr", changing_set_attr)
+            with pytest.raises(
+                (ValueError, RuntimeError), match="enum定義|接続|状態"
+            ):
+                apply_plugs_values(
+                    [MayaEnumValueEdit(binding, 1)], enum_validation=policy
+                )
+        assert forward and nodes[-1] + ".mode" not in forward
+        assert values(nodes) == [0, 0, 0]
+        assert cmds.isConnected(source + ".mode", nodes[-1] + ".mode")
+        assert (
+            cmds.addAttr(nodes[-1] + ".mode", query=True, enumName=True)
+            == "A:Changed:C"
+        )
+        # 例外後もchunkを閉じ、次の別操作だけを通常のUndoで戻せる
+        cmds.setAttr(nodes[0] + ".tx", 7)
+        cmds.undo()
+        assert cmds.getAttr(nodes[0] + ".tx") == 0
+        assert values(nodes) == [0, 0, 0]
+    finally:
+        binding.dispose()
+
+
 def test_final_check_includes_another_entirely_unchanged_row(
     scene, monkeypatch
 ):
