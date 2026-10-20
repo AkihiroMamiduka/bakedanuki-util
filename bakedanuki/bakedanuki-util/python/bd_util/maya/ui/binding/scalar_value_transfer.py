@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import math
 from collections.abc import Sequence
+from contextlib import nullcontext
 from dataclasses import dataclass
 from typing import Literal, TypeAlias, cast
 
@@ -25,6 +26,7 @@ from ._scalar_paste_store import (
     ScalarPasteStoreType,
     create_scalar_paste_store,
 )
+from ._scalar_plug_nodes import shared_scalar_plug_nodes
 from .bool_plug_resolver import resolve_bool_plug
 from .enum_plug_resolver import resolve_enum_plug
 from .float_plug_resolver import resolve_float_plug
@@ -582,6 +584,7 @@ def apply_scalar_value_transfer(
 
     属性pathと型・単位が一致する書き込みを一つのUndoで適用する。
     一致しない属性や編集不可の属性は結果の`excluded`へ記録する。
+    複数属性の候補構築中だけnodeを共有し、書込み計画の準備前に共有索引を解放する。
 
     Args:
         node_names: 重複のない一つ以上の貼り付け先node名。
@@ -640,34 +643,40 @@ def apply_scalar_value_transfer(
     excluded: list[str] = []
     lifetime = ScalarPasteLifetime()
     try:
-        for snapshot in transfer.nodes[0].values:
-            for node_name in targets:
-                attribute = target_attributes[node_name].get(snapshot.path)
-                plug_name = f"{node_name}.{snapshot.path}"
-                if attribute is None:
-                    excluded.append(f"{plug_name}: 対応する属性なし")
-                    continue
-                if attribute.kind != snapshot.kind:
-                    excluded.append(f"{plug_name}: 型・単位が異なる")
-                    continue
-                try:
-                    store = _create_paste_store(
-                        node_name,
-                        snapshot,
-                        key_animated=key_animated,
-                        edit_connected=edit_connected,
-                        lifetime=lifetime,
-                    )
-                except (TypeError, ValueError) as error:
-                    excluded.append(f"{plug_name}: {error}")
-                    continue
-                state = store.state
-                if not state.is_writable:
-                    excluded.append(
-                        f"{plug_name}: {state.reason or '値を編集できません'}"
-                    )
-                    continue
-                stores.append(store)
+        # 複数属性の構築だけでnodeを共有し、共通の検証・書込みへ索引を持ち越さない
+        with (
+            shared_scalar_plug_nodes()
+            if len(source_paths) > 1
+            else nullcontext()
+        ):
+            for snapshot in transfer.nodes[0].values:
+                for node_name in targets:
+                    attribute = target_attributes[node_name].get(snapshot.path)
+                    plug_name = f"{node_name}.{snapshot.path}"
+                    if attribute is None:
+                        excluded.append(f"{plug_name}: 対応する属性なし")
+                        continue
+                    if attribute.kind != snapshot.kind:
+                        excluded.append(f"{plug_name}: 型・単位が異なる")
+                        continue
+                    try:
+                        store = _create_paste_store(
+                            node_name,
+                            snapshot,
+                            key_animated=key_animated,
+                            edit_connected=edit_connected,
+                            lifetime=lifetime,
+                        )
+                    except (TypeError, ValueError) as error:
+                        excluded.append(f"{plug_name}: {error}")
+                        continue
+                    state = store.state
+                    if not state.is_writable:
+                        excluded.append(
+                            f"{plug_name}: {state.reason or '値を編集できません'}"
+                        )
+                        continue
+                    stores.append(store)
         changed = apply_edit_requests(
             tuple(store.request() for store in stores),
             enum_validation=enum_validation,

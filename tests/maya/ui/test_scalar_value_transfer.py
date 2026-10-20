@@ -394,17 +394,30 @@ def test_paste_enum_final_validation_keeps_noop_and_exclusion_boundary(
 @pytest.mark.parametrize("policy", ["per_write", "operation"])
 @pytest.mark.parametrize("connection", [False, True])
 @pytest.mark.parametrize("route", ["all", "paths", "single"])
+@pytest.mark.parametrize("multiple", [False, True])
 def test_paste_enum_write_rechecks_definition_and_connection_changes(
-    scene, monkeypatch, policy, connection, route
+    scene, monkeypatch, policy, connection, route, multiple
 ):
     """後続の定義・接続変更に対する拒否単位と、先行入力の復旧を維持する。"""
     source, first, second = scene
     for node in scene:
         cmds.addAttr(node, ln="mode", at="enum", enumName="A:B:C")
+        if multiple:
+            cmds.addAttr(node, ln="otherMode", at="enum", enumName="A:B:C")
     cmds.addAttr(source, ln="driver", at="enum", enumName="A:B:C")
     cmds.setAttr(source + ".mode", 1)
+    paths = ("mode", "otherMode") if multiple else ("mode",)
+    if multiple:
+        cmds.setAttr(source + ".otherMode", 1)
     transfer = MayaScalarValueTransfer(
-        (capture_scalar_node_values(source, _attributes(source, "mode")),)
+        (
+            capture_scalar_node_values(
+                source,
+                _attributes(
+                    source, *(paths if route != "single" else ("mode",))
+                ),
+            ),
+        )
     )
     original = cmds.setAttr
     fired = []
@@ -427,10 +440,10 @@ def test_paste_enum_write_rechecks_definition_and_connection_changes(
             )
         if route == "paths":
             return apply_scalar_value_transfer_to_paths(
-                (first, second), ("mode",), transfer, **options
+                (first, second), paths, transfer, **options
             )
         return apply_scalar_value_to_paths(
-            (first, second), ("mode",), transfer, **options
+            (first, second), paths, transfer, **options
         )
 
     monkeypatch.setattr(cmds, "setAttr", write)
@@ -440,12 +453,13 @@ def test_paste_enum_write_rechecks_definition_and_connection_changes(
             apply()
     else:
         result = apply()
-        assert result.changed and result.eligible_count == 2
+        assert result.changed and result.eligible_count == 2 * len(paths)
         assert result.excluded == ()
     assert fired
-    assert [cmds.getAttr(node + ".mode") for node in (first, second)] == (
-        [0, 0] if rejected else [1, 1]
-    )
+    for path in paths:
+        assert [
+            cmds.getAttr(node + "." + path) for node in (first, second)
+        ] == ([0, 0] if rejected else [1, 1])
     assert cmds.attributeQuery("mode", node=second, listEnum=True) == [
         "A:Changed:C"
     ]

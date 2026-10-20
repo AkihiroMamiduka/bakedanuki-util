@@ -18,6 +18,10 @@
 
 ### Changed
 
+- 複数属性のscalar値Pasteで、候補Storeの構築中だけnode操作オブジェクトを共有。
+  指定pathへの絞込み・一値の複数path展開後の属性数で判断し、単一属性は従来の経路を使う。
+  共通の書込み計画へ渡す前に共有索引を解放し、初期除外・書込み順・定義変更の検出・
+  削除監視・Undo・失敗復旧を維持する。公開API・scene・設定・clipboardの移行は不要。
 - `bd_util.maya.ui.shared_scalar_plug_nodes()`を追加。明示した同期的な構築範囲内で、
   scalar resolverが同一実体の`NodeOperator`と`ModifierManager`を共有する。
   名前とDAG経路は毎回解決し、経路変更時は以後のwrapperを作り直す。
