@@ -220,6 +220,24 @@ def controller_shape_offset_line_contract() -> None:
     shape.shape.set(ShapeEnumPlugOperator.LINE3RDWIDEARROWATSTARTFILLED)
     shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLEARROWATSTART)
     shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLEWIDEARROWATENDFILLED)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDARROWAT1STSTART)
+    shape.shape.set(
+        ShapeEnumPlugOperator.CROSSLINE1ST2NDWIDEARROWAT1STENDFILLED
+    )
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDWIDEARROWAT2NDSTART)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDARROWAT2NDENDFILLED)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDARROWAT1STSTARTFILLED)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDWIDEARROWAT1STEND)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDARROWAT3RDSTART)
+    shape.shape.set(
+        ShapeEnumPlugOperator.CROSSLINE1ST3RDWIDEARROWAT3RDENDFILLED
+    )
+    shape.shape.set(
+        ShapeEnumPlugOperator.CROSSLINE2ND3RDWIDEARROWAT2NDSTARTFILLED
+    )
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDARROWAT2NDEND)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDARROWAT3RDSTARTFILLED)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDWIDEARROWAT3RDEND)
     assert_type(shape.shape2ndAxis, Shape2ndAxisEnumPlugOperator)
     assert_type(shape.shapeAnimationTransformMatrix, DataMatrixPlugOperator)
     assert_type(shape.shapeAxisOffsetLength, DoubleLinearPlugOperator)

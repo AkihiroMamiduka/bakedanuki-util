@@ -58,18 +58,66 @@ SHAPE_NAMES = (
     "Line3rdWideArrowAtEnds",
     "Line3rdWideArrowAtEndsFilled",
     "CrossLine1st2nd",
+    "CrossLine1st2ndArrowAt1stStart",
+    "CrossLine1st2ndArrowAt1stStartFilled",
+    "CrossLine1st2ndArrowAt1stEnd",
+    "CrossLine1st2ndArrowAt1stEndFilled",
+    "CrossLine1st2ndArrowAt2ndStart",
+    "CrossLine1st2ndArrowAt2ndStartFilled",
+    "CrossLine1st2ndArrowAt2ndEnd",
+    "CrossLine1st2ndArrowAt2ndEndFilled",
     "CrossLine1st2ndArrowAtEnds",
     "CrossLine1st2ndArrowAtEndsFilled",
+    "CrossLine1st2ndWideArrowAt1stStart",
+    "CrossLine1st2ndWideArrowAt1stStartFilled",
+    "CrossLine1st2ndWideArrowAt1stEnd",
+    "CrossLine1st2ndWideArrowAt1stEndFilled",
+    "CrossLine1st2ndWideArrowAt2ndStart",
+    "CrossLine1st2ndWideArrowAt2ndStartFilled",
+    "CrossLine1st2ndWideArrowAt2ndEnd",
+    "CrossLine1st2ndWideArrowAt2ndEndFilled",
     "CrossLine1st2ndWideArrowAtEnds",
     "CrossLine1st2ndWideArrowAtEndsFilled",
     "CrossLine1st3rd",
+    "CrossLine1st3rdArrowAt1stStart",
+    "CrossLine1st3rdArrowAt1stStartFilled",
+    "CrossLine1st3rdArrowAt1stEnd",
+    "CrossLine1st3rdArrowAt1stEndFilled",
+    "CrossLine1st3rdArrowAt3rdStart",
+    "CrossLine1st3rdArrowAt3rdStartFilled",
+    "CrossLine1st3rdArrowAt3rdEnd",
+    "CrossLine1st3rdArrowAt3rdEndFilled",
     "CrossLine1st3rdArrowAtEnds",
     "CrossLine1st3rdArrowAtEndsFilled",
+    "CrossLine1st3rdWideArrowAt1stStart",
+    "CrossLine1st3rdWideArrowAt1stStartFilled",
+    "CrossLine1st3rdWideArrowAt1stEnd",
+    "CrossLine1st3rdWideArrowAt1stEndFilled",
+    "CrossLine1st3rdWideArrowAt3rdStart",
+    "CrossLine1st3rdWideArrowAt3rdStartFilled",
+    "CrossLine1st3rdWideArrowAt3rdEnd",
+    "CrossLine1st3rdWideArrowAt3rdEndFilled",
     "CrossLine1st3rdWideArrowAtEnds",
     "CrossLine1st3rdWideArrowAtEndsFilled",
     "CrossLine2nd3rd",
+    "CrossLine2nd3rdArrowAt2ndStart",
+    "CrossLine2nd3rdArrowAt2ndStartFilled",
+    "CrossLine2nd3rdArrowAt2ndEnd",
+    "CrossLine2nd3rdArrowAt2ndEndFilled",
+    "CrossLine2nd3rdArrowAt3rdStart",
+    "CrossLine2nd3rdArrowAt3rdStartFilled",
+    "CrossLine2nd3rdArrowAt3rdEnd",
+    "CrossLine2nd3rdArrowAt3rdEndFilled",
     "CrossLine2nd3rdArrowAtEnds",
     "CrossLine2nd3rdArrowAtEndsFilled",
+    "CrossLine2nd3rdWideArrowAt2ndStart",
+    "CrossLine2nd3rdWideArrowAt2ndStartFilled",
+    "CrossLine2nd3rdWideArrowAt2ndEnd",
+    "CrossLine2nd3rdWideArrowAt2ndEndFilled",
+    "CrossLine2nd3rdWideArrowAt3rdStart",
+    "CrossLine2nd3rdWideArrowAt3rdStartFilled",
+    "CrossLine2nd3rdWideArrowAt3rdEnd",
+    "CrossLine2nd3rdWideArrowAt3rdEndFilled",
     "CrossLine2nd3rdWideArrowAtEnds",
     "CrossLine2nd3rdWideArrowAtEndsFilled",
     "CrossLine3Axis",
@@ -3115,6 +3163,138 @@ def test_single_end_wide_semicircle_keeps_flat_cap(
     assert _bounds(maya_om, shape) == pytest.approx(
         (0, -offset, low_z, 0, 0.525, high_z), abs=1e-9
     )
+
+
+@pytest.mark.parametrize(
+    "base,axes",
+    (
+        ("CrossLine1st2nd", (0, 1)),
+        ("CrossLine1st3rd", (0, 2)),
+        ("CrossLine2nd3rd", (1, 2)),
+    ),
+)
+@pytest.mark.parametrize("endpoint", range(4))
+@pytest.mark.parametrize("wide", (False, True))
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize(
+    "offset,length,width,size",
+    (
+        (0, 1, 1, 1),
+        (0.2, 1.5, 2, 1),
+        (-0.2, 0.5, 1, 2),
+        (0.1, -2, -3, 1),
+        (-1.2, 1, 1, 1),
+        (0.1, 3, 22, 1),
+        (0.1, 0, 1, 1),
+        (0.1, 1, 0, 1),
+        (0.1, 1, 1, 0),
+    ),
+)
+def test_single_cross_arrow_bounds_follow_only_selected_endpoint(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    base,
+    axes,
+    endpoint,
+    wide,
+    filled,
+    offset,
+    length,
+    width,
+    size,
+):
+    _load_bd_util_nodes(maya_cmds)
+    axis = axes[endpoint // 2]
+    side = next(value for value in axes if value != axis)
+    start = endpoint % 2 == 0
+    sign = -1 if start else 1
+    label = ("1st", "2nd", "3rd")[axis]
+    name = (
+        base
+        + ("Wide" if wide else "")
+        + "ArrowAt"
+        + label
+        + ("Start" if start else "End")
+        + ("Filled" if filled else "")
+    )
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(name)
+    )
+    for attribute, value in (
+        ("shapePartOffset", offset),
+        ("shapePartLengthScale", length),
+        ("shapePartWidthScale", width),
+        ("shapePartSize", size),
+    ):
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
+    tip = sign * (0.5 + offset)
+    shoulder = tip - sign * 0.1 * math.cos(math.pi / 6) * length * size
+    points = []
+    for body_axis in axes:
+        body_side = next(value for value in axes if value != body_axis)
+        for body_sign in (-1, 1):
+            along = body_sign * 0.5
+            if body_axis == axis and body_sign == sign:
+                along = shoulder if wide else tip
+            for transverse_sign in (-1, 1):
+                point = [0.0, 0.0, 0.0]
+                point[body_axis] = along
+                point[body_side] = (
+                    transverse_sign * 0.025 * abs(width * size) if wide else 0
+                )
+                points.append(point)
+    points.append([tip if i == axis else 0 for i in range(3)])
+    for transverse_sign in (-1, 1):
+        point = [0.0, 0.0, 0.0]
+        point[axis] = shoulder
+        point[side] = transverse_sign * 0.05 * abs(width * size)
+        points.append(point)
+    expected = tuple(min(p[i] for p in points) for i in range(3)) + tuple(
+        max(p[i] for p in points) for i in range(3)
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+    maya_cmds.setAttr(f"{shape}.boundsMode", 1)
+    extent = [(expected[i + 3] - expected[i]) * 0.5 for i in range(3)]
+    assert _bounds(maya_om, shape) == pytest.approx(
+        tuple(-value for value in extent) + tuple(extent), abs=1e-9
+    )
+
+
+@pytest.mark.parametrize(
+    "shape_name",
+    (
+        "CrossLine1st2ndArrowAt1stEndFilled",
+        "CrossLine1st3rdWideArrowAt3rdStartFilled",
+        "CrossLine2nd3rdWideArrowAt2ndEndFilled",
+    ),
+)
+def test_single_cross_arrow_history_and_scene_reload(
+    maya_cmds, maya_om, new_scene, tmp_path, shape_name
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, name = _create_controller(maya_cmds)
+    mod = bdu.ModifierManager()
+    shape = bdu.Nodes(modifier_manager=mod).existing(name)
+    shape.shape.set(getattr(ShapeEnumPlugOperator, shape_name.upper()))
+    shape.shapePartOffset.set(0.2)
+    shape.shapePartLengthScale.set(2)
+    shape.shapePartWidthScale.set(1.5)
+    shape.shape1stAxis.set(4)
+    shape.shape2ndAxis.set(0)
+    mod.do_it_dg()
+    expected = _bounds(maya_om, name)
+    mod.undo_it()
+    assert _bounds(maya_om, name) != pytest.approx(expected)
+    mod.redo_it()
+    assert _bounds(maya_om, name) == pytest.approx(expected)
+    path = tmp_path / "single_cross_arrow.ma"
+    maya_cmds.file(rename=str(path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(path), open=True, force=True)
+    assert _bounds(maya_om, name) == pytest.approx(expected)
+    assert maya_cmds.getAttr(f"{name}.shape") == SHAPE_NAMES.index(shape_name)
 
 
 def test_single_end_shape_history_and_scene_reload(

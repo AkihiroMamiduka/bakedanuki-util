@@ -75,7 +75,7 @@ mod.do_it_dg()
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `shape` | enum | `Cube` (93) | 下表の180種類。`Gear` を一覧の先頭とし、初期値は `Cube` |
+| `shape` | enum | `Cube` (141) | 下表の228種類。`Gear` を一覧の先頭とし、初期値は `Cube` |
 | `shape1stAxis` | enum | `+X` (0) | 基準形状の主軸 `+X` を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準形状の補助軸 `+Y` を向ける方向。選択肢は `shape1stAxis` と同じ |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
@@ -113,20 +113,25 @@ mod.do_it_dg()
 | 10–19 | `Line1stWideArrowAtStartFilled`、`Line1stWideArrowAtEnd`、`Line1stWideArrowAtEndFilled`、`Line1stWideArrowAtEnds`、`Line1stWideArrowAtEndsFilled`、`Line2nd`、`Line2ndArrowAtStart`、`Line2ndArrowAtStartFilled`、`Line2ndArrowAtEnd`、`Line2ndArrowAtEndFilled` |
 | 20–29 | `Line2ndArrowAtEnds`、`Line2ndArrowAtEndsFilled`、`Line2ndWideArrowAtStart`、`Line2ndWideArrowAtStartFilled`、`Line2ndWideArrowAtEnd`、`Line2ndWideArrowAtEndFilled`、`Line2ndWideArrowAtEnds`、`Line2ndWideArrowAtEndsFilled`、`Line3rd`、`Line3rdArrowAtStart` |
 | 30–39 | `Line3rdArrowAtStartFilled`、`Line3rdArrowAtEnd`、`Line3rdArrowAtEndFilled`、`Line3rdArrowAtEnds`、`Line3rdArrowAtEndsFilled`、`Line3rdWideArrowAtStart`、`Line3rdWideArrowAtStartFilled`、`Line3rdWideArrowAtEnd`、`Line3rdWideArrowAtEndFilled`、`Line3rdWideArrowAtEnds` |
-| 40–49 | `Line3rdWideArrowAtEndsFilled`、`CrossLine1st2nd`、`CrossLine1st2ndArrowAtEnds`、`CrossLine1st2ndArrowAtEndsFilled`、`CrossLine1st2ndWideArrowAtEnds`、`CrossLine1st2ndWideArrowAtEndsFilled`、`CrossLine1st3rd`、`CrossLine1st3rdArrowAtEnds`、`CrossLine1st3rdArrowAtEndsFilled`、`CrossLine1st3rdWideArrowAtEnds` |
-| 50–59 | `CrossLine1st3rdWideArrowAtEndsFilled`、`CrossLine2nd3rd`、`CrossLine2nd3rdArrowAtEnds`、`CrossLine2nd3rdArrowAtEndsFilled`、`CrossLine2nd3rdWideArrowAtEnds`、`CrossLine2nd3rdWideArrowAtEndsFilled`、`CrossLine3Axis`、`CrossLine3AxisEndCube`、`CrossLine3AxisEndCubeFilled`、`CrossLine3AxisEndOctahedron` |
-| 60–69 | `CrossLine3AxisEndOctahedronFilled`、`CrossLine3AxisEndSphere`、`CrossLine3AxisEndSphereFilled`、`CrossLine3AxisEndPyramid`、`CrossLine3AxisEndPyramidFilled`、`CrossLine3AxisEndCone`、`CrossLine3AxisEndConeFilled`、`Triangle`、`TriangleFilled`、`TriangleArrow3D` |
-| 70–79 | `TriangleArrow3DFilled`、`Square`、`SquareFilled`、`SquareArrow2D`、`SquareArrow2DFilled`、`SquareArrow3D`、`SquareArrow3DFilled`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine2DFilled`、`SquareArrowCrossLine3D` |
-| 80–89 | `SquareArrowCrossLine3DFilled`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate2DFilled`、`SquareArrowCrossLineTemplate3D`、`SquareArrowCrossLineTemplate3DFilled`、`SquareArrow4Way2D`、`SquareArrow4Way2DFilled`、`SquareArrow4Way3D`、`SquareArrow4Way3DFilled`、`SquareTemplateArrow4Way2D` |
-| 90–99 | `SquareTemplateArrow4Way2DFilled`、`SquareTemplateArrow4Way3D`、`SquareTemplateArrow4Way3DFilled`、`Cube`、`CubeFilled`、`CubeArrow2D`、`CubeArrow2DFilled`、`CubeArrow3D`、`CubeArrow3DFilled`、`CubeFin` |
-| 100–109 | `CubeFinFilled`、`CubeFinArrow`、`CubeFinArrowFilled`、`Octahedron`、`OctahedronFilled`、`OctahedronArrow`、`OctahedronArrowFilled`、`OctahedronArrowFin`、`OctahedronArrowFinFilled`、`Circle` |
-| 110–119 | `CircleFilled`、`CircleArrow2D`、`CircleArrow2DFilled`、`CircleArrow3D`、`CircleArrow3DFilled`、`Semicircle`、`SemicircleFilled`、`SemicircleArrowAtStart`、`SemicircleArrowAtStartFilled`、`SemicircleArrowAtEnd` |
-| 120–129 | `SemicircleArrowAtEndFilled`、`SemicircleArrowAtEnds`、`SemicircleArrowAtEndsFilled`、`SemicircleWideArrowAtStart`、`SemicircleWideArrowAtStartFilled`、`SemicircleWideArrowAtEnd`、`SemicircleWideArrowAtEndFilled`、`SemicircleWideArrowAtEnds`、`SemicircleWideArrowAtEndsFilled`、`SemicircleArrow2D` |
-| 130–139 | `SemicircleArrow2DFilled`、`SemicircleArrow3D`、`SemicircleArrow3DFilled`、`Sphere`、`SphereFilled`、`SphereArrow2D`、`SphereArrow2DFilled`、`SphereArrow3D`、`SphereArrow3DFilled`、`Cylinder` |
-| 140–149 | `CylinderFilled`、`CylinderFin`、`CylinderFinFilled`、`CylinderFinArrow`、`CylinderFinArrowFilled`、`Arrow`、`ArrowFilled`、`ArrowFin`、`ArrowFinFilled`、`Pyramid` |
-| 150–159 | `PyramidFilled`、`PyramidFin`、`PyramidFinFilled`、`Cone`、`ConeFilled`、`ConeFin`、`ConeFinFilled`、`ColorCrossLine3Axis`、`ColorCrossLine3AxisEndCube`、`ColorCrossLine3AxisEndCubeFilled` |
-| 160–169 | `ColorCrossLine3AxisEndOctahedron`、`ColorCrossLine3AxisEndOctahedronFilled`、`ColorCrossLine3AxisEndSphere`、`ColorCrossLine3AxisEndSphereFilled`、`ColorCrossLine3AxisEndPyramid`、`ColorCrossLine3AxisEndPyramidFilled`、`ColorCrossLine3AxisEndCone`、`ColorCrossLine3AxisEndConeFilled`、`ColorCube`、`ColorCubeFilled` |
-| 170–179 | `ColorCornerCube`、`ColorCornerCubeFilled`、`ColorSphere`、`ColorSphereFilled`、`ColorSphereArrow2D`、`ColorSphereArrow2DFilled`、`ColorSphereArrow3D`、`ColorSphereArrow3DFilled`、`ColorSphereCrossLine`、`ColorSphereCrossLineFilled` |
+| 40–49 | `Line3rdWideArrowAtEndsFilled`、`CrossLine1st2nd`、`CrossLine1st2ndArrowAt1stStart`、`CrossLine1st2ndArrowAt1stStartFilled`、`CrossLine1st2ndArrowAt1stEnd`、`CrossLine1st2ndArrowAt1stEndFilled`、`CrossLine1st2ndArrowAt2ndStart`、`CrossLine1st2ndArrowAt2ndStartFilled`、`CrossLine1st2ndArrowAt2ndEnd`、`CrossLine1st2ndArrowAt2ndEndFilled` |
+| 50–59 | `CrossLine1st2ndArrowAtEnds`、`CrossLine1st2ndArrowAtEndsFilled`、`CrossLine1st2ndWideArrowAt1stStart`、`CrossLine1st2ndWideArrowAt1stStartFilled`、`CrossLine1st2ndWideArrowAt1stEnd`、`CrossLine1st2ndWideArrowAt1stEndFilled`、`CrossLine1st2ndWideArrowAt2ndStart`、`CrossLine1st2ndWideArrowAt2ndStartFilled`、`CrossLine1st2ndWideArrowAt2ndEnd`、`CrossLine1st2ndWideArrowAt2ndEndFilled` |
+| 60–69 | `CrossLine1st2ndWideArrowAtEnds`、`CrossLine1st2ndWideArrowAtEndsFilled`、`CrossLine1st3rd`、`CrossLine1st3rdArrowAt1stStart`、`CrossLine1st3rdArrowAt1stStartFilled`、`CrossLine1st3rdArrowAt1stEnd`、`CrossLine1st3rdArrowAt1stEndFilled`、`CrossLine1st3rdArrowAt3rdStart`、`CrossLine1st3rdArrowAt3rdStartFilled`、`CrossLine1st3rdArrowAt3rdEnd` |
+| 70–79 | `CrossLine1st3rdArrowAt3rdEndFilled`、`CrossLine1st3rdArrowAtEnds`、`CrossLine1st3rdArrowAtEndsFilled`、`CrossLine1st3rdWideArrowAt1stStart`、`CrossLine1st3rdWideArrowAt1stStartFilled`、`CrossLine1st3rdWideArrowAt1stEnd`、`CrossLine1st3rdWideArrowAt1stEndFilled`、`CrossLine1st3rdWideArrowAt3rdStart`、`CrossLine1st3rdWideArrowAt3rdStartFilled`、`CrossLine1st3rdWideArrowAt3rdEnd` |
+| 80–89 | `CrossLine1st3rdWideArrowAt3rdEndFilled`、`CrossLine1st3rdWideArrowAtEnds`、`CrossLine1st3rdWideArrowAtEndsFilled`、`CrossLine2nd3rd`、`CrossLine2nd3rdArrowAt2ndStart`、`CrossLine2nd3rdArrowAt2ndStartFilled`、`CrossLine2nd3rdArrowAt2ndEnd`、`CrossLine2nd3rdArrowAt2ndEndFilled`、`CrossLine2nd3rdArrowAt3rdStart`、`CrossLine2nd3rdArrowAt3rdStartFilled` |
+| 90–99 | `CrossLine2nd3rdArrowAt3rdEnd`、`CrossLine2nd3rdArrowAt3rdEndFilled`、`CrossLine2nd3rdArrowAtEnds`、`CrossLine2nd3rdArrowAtEndsFilled`、`CrossLine2nd3rdWideArrowAt2ndStart`、`CrossLine2nd3rdWideArrowAt2ndStartFilled`、`CrossLine2nd3rdWideArrowAt2ndEnd`、`CrossLine2nd3rdWideArrowAt2ndEndFilled`、`CrossLine2nd3rdWideArrowAt3rdStart`、`CrossLine2nd3rdWideArrowAt3rdStartFilled` |
+| 100–109 | `CrossLine2nd3rdWideArrowAt3rdEnd`、`CrossLine2nd3rdWideArrowAt3rdEndFilled`、`CrossLine2nd3rdWideArrowAtEnds`、`CrossLine2nd3rdWideArrowAtEndsFilled`、`CrossLine3Axis`、`CrossLine3AxisEndCube`、`CrossLine3AxisEndCubeFilled`、`CrossLine3AxisEndOctahedron`、`CrossLine3AxisEndOctahedronFilled`、`CrossLine3AxisEndSphere` |
+| 110–119 | `CrossLine3AxisEndSphereFilled`、`CrossLine3AxisEndPyramid`、`CrossLine3AxisEndPyramidFilled`、`CrossLine3AxisEndCone`、`CrossLine3AxisEndConeFilled`、`Triangle`、`TriangleFilled`、`TriangleArrow3D`、`TriangleArrow3DFilled`、`Square` |
+| 120–129 | `SquareFilled`、`SquareArrow2D`、`SquareArrow2DFilled`、`SquareArrow3D`、`SquareArrow3DFilled`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine2DFilled`、`SquareArrowCrossLine3D`、`SquareArrowCrossLine3DFilled`、`SquareArrowCrossLineTemplate2D` |
+| 130–139 | `SquareArrowCrossLineTemplate2DFilled`、`SquareArrowCrossLineTemplate3D`、`SquareArrowCrossLineTemplate3DFilled`、`SquareArrow4Way2D`、`SquareArrow4Way2DFilled`、`SquareArrow4Way3D`、`SquareArrow4Way3DFilled`、`SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way2DFilled`、`SquareTemplateArrow4Way3D` |
+| 140–149 | `SquareTemplateArrow4Way3DFilled`、`Cube`、`CubeFilled`、`CubeArrow2D`、`CubeArrow2DFilled`、`CubeArrow3D`、`CubeArrow3DFilled`、`CubeFin`、`CubeFinFilled`、`CubeFinArrow` |
+| 150–159 | `CubeFinArrowFilled`、`Octahedron`、`OctahedronFilled`、`OctahedronArrow`、`OctahedronArrowFilled`、`OctahedronArrowFin`、`OctahedronArrowFinFilled`、`Circle`、`CircleFilled`、`CircleArrow2D` |
+| 160–169 | `CircleArrow2DFilled`、`CircleArrow3D`、`CircleArrow3DFilled`、`Semicircle`、`SemicircleFilled`、`SemicircleArrowAtStart`、`SemicircleArrowAtStartFilled`、`SemicircleArrowAtEnd`、`SemicircleArrowAtEndFilled`、`SemicircleArrowAtEnds` |
+| 170–179 | `SemicircleArrowAtEndsFilled`、`SemicircleWideArrowAtStart`、`SemicircleWideArrowAtStartFilled`、`SemicircleWideArrowAtEnd`、`SemicircleWideArrowAtEndFilled`、`SemicircleWideArrowAtEnds`、`SemicircleWideArrowAtEndsFilled`、`SemicircleArrow2D`、`SemicircleArrow2DFilled`、`SemicircleArrow3D` |
+| 180–189 | `SemicircleArrow3DFilled`、`Sphere`、`SphereFilled`、`SphereArrow2D`、`SphereArrow2DFilled`、`SphereArrow3D`、`SphereArrow3DFilled`、`Cylinder`、`CylinderFilled`、`CylinderFin` |
+| 190–199 | `CylinderFinFilled`、`CylinderFinArrow`、`CylinderFinArrowFilled`、`Arrow`、`ArrowFilled`、`ArrowFin`、`ArrowFinFilled`、`Pyramid`、`PyramidFilled`、`PyramidFin` |
+| 200–209 | `PyramidFinFilled`、`Cone`、`ConeFilled`、`ConeFin`、`ConeFinFilled`、`ColorCrossLine3Axis`、`ColorCrossLine3AxisEndCube`、`ColorCrossLine3AxisEndCubeFilled`、`ColorCrossLine3AxisEndOctahedron`、`ColorCrossLine3AxisEndOctahedronFilled` |
+| 210–219 | `ColorCrossLine3AxisEndSphere`、`ColorCrossLine3AxisEndSphereFilled`、`ColorCrossLine3AxisEndPyramid`、`ColorCrossLine3AxisEndPyramidFilled`、`ColorCrossLine3AxisEndCone`、`ColorCrossLine3AxisEndConeFilled`、`ColorCube`、`ColorCubeFilled`、`ColorCornerCube`、`ColorCornerCubeFilled` |
+| 220–227 | `ColorSphere`、`ColorSphereFilled`、`ColorSphereArrow2D`、`ColorSphereArrow2DFilled`、`ColorSphereArrow3D`、`ColorSphereArrow3DFilled`、`ColorSphereCrossLine`、`ColorSphereCrossLineFilled` |
 
 基準となる部分はローカル座標の各軸でおおむね `-0.5` から `+0.5` を使います。
 矢印やフィンはその範囲から張り出す設計です。形状全体を長さ1に正規化しません。
@@ -284,7 +289,7 @@ Wireframeでは閉じた輪郭だけを表示します。
 
 片側だけに矢印を付ける形状は、`Line1st`、`Line2nd`、`Line3rd`、`Semicircle` の4系列に用意します。
 各系列に `ArrowAtStart`、`ArrowAtEnd`、`WideArrowAtStart`、`WideArrowAtEnd` と
-それぞれのFilled版を追加し、計32種類です。CrossLineの片側版は用意しません。
+それぞれのFilled版を用意し、計32種類です。
 既存の両端版は `EndArrow` から `ArrowAtEnds`、`WideEndArrow` から
 `WideArrowAtEnds` へ改名し、CrossLineを含む28種類で形状を維持します。
 Pythonのenum定数も同じ名前へ変更し、旧名の別名は設けません。
@@ -301,6 +306,28 @@ Semicircleの `shapePartOffsetAngle` は片側版でも円弧の両端を開き�
 矢印のある端では移動後の接線方向に頭部を合わせます。
 Wide版の矢印のない端は、直線なら軸に直交、Semicircleなら半径方向の平らな線で閉じます。
 通常のFilledは片側の頭部だけ、WideのFilledは帯と片側の頭部の内側全体を塗ります。
+
+2軸のCrossLineにも、4端のうち1か所だけに矢印を付ける形状を用意します。
+軸名は基準形状の1st・2nd・3rdを使い、Startは各軸の負側、Endは正側です。
+
+| 系列 | `ArrowAt` に続く指定 |
+| --- | --- |
+| CrossLine1st2nd | `1stStart`、`1stEnd`、`2ndStart`、`2ndEnd` |
+| CrossLine1st3rd | `1stStart`、`1stEnd`、`3rdStart`、`3rdEnd` |
+| CrossLine2nd3rd | `2ndStart`、`2ndEnd`、`3rdStart`、`3rdEnd` |
+
+例えば `CrossLine1st3rdArrowAt3rdStart` は第3軸の負側だけに矢印を付けます。
+各方向に通常版・Wide版とそれぞれのFilled版を用意し、計48種類です。
+WideとFilledは既存と同じ位置に付け、例えば `CrossLine1st3rdWideArrowAt3rdStartFilled` とします。
+一覧は通常版・Wide版のそれぞれで、若い軸のStart・End、もう一方の軸のStart・End、
+既存のArrowAtEndsの順とし、各輪郭版の直後にFilled版を置きます。
+
+頭部の寸法と部品調整はLineの片側版と共通です。
+Offsetは指定した矢印とその端へ作用し、残り3端は元の `±0.5` に残します。
+Wide版のWidthとSizeは頭部と十字全体の帯幅へ適用し、矢印のない3端は平らに閉じます。
+中央や頭部が交差する部分は和集合とし、内部線と半透明Filled面の重複を作りません。
+通常のFilledは1枚の頭部だけ、WideのFilledは帯と頭部の内側全体を塗ります。
+軸指定・全体変形・Bounds・選択と表示の規則は既存形状に従います。
 
 `*Filled` は既存形状の輪郭を保ち、面を加えた形状です。純粋な線形状
 （`Line1st/2nd/3rd`、`CrossLine1st2nd/1st3rd/2nd3rd/3Axis`、`ColorCrossLine3Axis`）以外の
@@ -776,6 +803,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 59. Color系23種類では、shape1stAxis/2ndAxis・shapeRotate・shapeAxisRotateを変えても向きが変わらず、shapeScale・shapeAxisScale・shapeSize・shapeRootSizeの負値が絶対値として適用される。移動・正スケール・部品変形、Shape / ShapeCentered BoundsとOffsetLineが追従する。値・接続・キーを保持したまま通常形状へ切り替えると元の変形が作用し、Undo/Redo・保存・再読込でも維持される。Custom Boundsは独立した変形を保ち、入力行列と親transformの回転・シアー・反転はそのまま反映される。
 
 60. Line1st/2nd/3rdとSemicircleの片側端点矢印32種類で、Start/Endの位置、反対端の固定、Wide版の平らな端を確認する。Offset・Angle・Size・Length・Widthを併用しても、通常版は頭部だけ、Wide版は帯を含めて塗る。両端版のArrowAtEndsへの改名、軸指定・回転・負スケール・Bounds・接続・Undo/Redo・シーン再読込も確認する。
+61. CrossLine1st2nd/1st3rd/2nd3rdの片側端点矢印48種類で、指定した1端だけに矢印が付き、Offsetでも残り3端が固定される。Wide版の3端は平らに閉じ、中央に内部線や面の重複がない。Size・Length・Widthの負値・ゼロ値、軸指定・全体変形・Bounds・接続・Undo/Redo・シーン再読込も確認する。
 
 実際のViewport 2.0を必要とする画像比較テストは
 `tests/maya/ui/test_controller_shape_viewport.py` にあります。既存作業とは別の

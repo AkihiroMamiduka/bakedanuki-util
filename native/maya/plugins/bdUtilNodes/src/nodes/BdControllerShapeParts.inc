@@ -482,9 +482,10 @@ bool makeAdjustedPartGeometry(const ShapeSettings& settings, PartGeometry& geome
     const short outline = outlinePresetIndex(settings.shape);
     const bool semicircle = outline == 30 || outline == 31 || outline == 32 || outline == 61 || outline == 68;
     const bool singleEnd = !hasArrowAtEnd(settings.shape, true) || !hasArrowAtEnd(settings.shape, false);
+    const bool singleCross = outline >= 65 && outline <= 67 && presetArrowAxis(settings.shape) >= 0;
     const bool fin = outline == 22 || outline == 23 || outline == 26 || outline == 37 ||
         outline == 38 || outline == 40 || outline == 42 || outline == 44;
-    if (!hasPartAdjustment(settings) && (!semicircle || (settings.partOffsetAngle == 0.0 && !singleEnd)) &&
+    if (!hasPartAdjustment(settings) && !singleCross && (!semicircle || (settings.partOffsetAngle == 0.0 && !singleEnd)) &&
         (!fin || partFinHeight(settings) == 0.5)) return false;
     PartBuilder builder(isFilledPreset(settings.shape));
     if (semicircle) {
@@ -494,7 +495,7 @@ bool makeAdjustedPartGeometry(const ShapeSettings& settings, PartGeometry& geome
         const double depth = 0.1 * std::cos(kPi / 6.0) * partLength(settings);
         const double shoulder = 0.5 + settings.partOffset - depth;
         const double headWidth = 0.05 * std::abs(partWidth(settings));
-        const bool overlap = depth < 0.0 || shoulder < 0.0 ||
+        const bool overlap = singleCross || depth < 0.0 || shoulder < 0.0 ||
             (outline >= 65 && headWidth >= shoulder);
         if (!overlap) return false;
         appendWidePartUnion(builder, outline, settings);
