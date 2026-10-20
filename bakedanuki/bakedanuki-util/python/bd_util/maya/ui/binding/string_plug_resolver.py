@@ -5,12 +5,12 @@ from typing import cast
 
 from maya.api import OpenMaya as om
 
-from ...node import Nodes
 from ...node._attribute_lookup import attribute_path, find_attribute_plug
 from ...node.operator.attr.define.std.dt.string import (
     DataStringAttrOperator,
     DataStringPlugOperator,
 )
+from ._scalar_plug_nodes import resolve_scalar_node
 
 MayaStringPlug = DataStringPlugOperator
 
@@ -56,7 +56,7 @@ def resolve_string_plug(node_name: str, attribute_name: str) -> MayaStringPlug:
     attribute_name = _require_name(attribute_name, "attribute_name")
     if any(character in attribute_name for character in "[]"):
         raise ValueError("配列要素のpathには対応していません")
-    node = Nodes().existing(node_name)
+    node = resolve_scalar_node(node_name)
     try:
         plug = find_attribute_plug(node.fn_node, attribute_name)
     except AttributeError as error:

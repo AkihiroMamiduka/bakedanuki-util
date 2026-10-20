@@ -26,6 +26,17 @@ Maya callbackの登録を省きますが、初期読取り、入力時の全対�
 自分の購読だけを解除します。入れ子の生成範囲は独立します。
 削除済み対象はUndo・同名再作成で復活させず、Undo後の新Bindingは新しい監視世代で扱います。
 表示監視・値・検証・Undoの単位は共有しません。
+
+複数のscalar行を同時に構築する場合は、`with shared_scalar_plug_nodes():`内で
+`resolve_bool_plug()`、`resolve_float_plug()`、`resolve_int_plug()`、
+`resolve_enum_plug()`、`resolve_string_plug()`を呼び出せます。
+node実体ごとに`NodeOperator`をその構築中だけ共有し、範囲内の`modifier_manager`も共通にします。
+名前と実体・DAG経路は毎回解決し、経路が変われば以後のwrapperだけを作り直します。
+属性の正式path・型も毎回照合し、属性や値・検証結果をcacheしません。
+入れ子の範囲は独立し、例外時も索引を解放します。返却済みのplugはそのまま使用できます。
+値の書込みやmodifierへの予約をまとめる用途ではなく、同期的な対象構築に限定してください。
+`shared_plugs_lifetime()`とは独立し、値通知・削除監視・検証・Undoの境界は変更しません。
+
 書込み直前の可否検証では、未接続かつ入力状態の追跡が不要な対象に対して
 表示用の完全名・状態データを生成しません。実体、自身と祖先のlock、attributeの
 writable、Mayaの変更許可は毎回確認します。接続または入力状態の追跡がある対象は

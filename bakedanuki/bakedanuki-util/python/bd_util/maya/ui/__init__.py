@@ -2,6 +2,7 @@
 
 from .binding import (
     shared_plugs_lifetime,
+    shared_scalar_plug_nodes,
     MayaNodeNameStore,
     MayaNodeNameBinding,
     MayaStringBinding,
@@ -116,6 +117,7 @@ from .window import MayaWindowController
 
 __all__ = [
     "shared_plugs_lifetime",
+    "shared_scalar_plug_nodes",
     "MayaNodeNameStore",
     "MayaNodeNameBinding",
     "MayaStringBinding",

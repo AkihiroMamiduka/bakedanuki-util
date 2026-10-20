@@ -113,15 +113,8 @@ class ScalarPasteStore(Generic[_ValueT]):
     def validate_write_target(
         self, target: PlugTarget[_ValueT], requested: _ValueT
     ) -> None:
-        """後続も独立した代表として扱い、途中のlock変更は全体を拒否する。"""
+        """状態を再確認し、同じ対象のenum定義と値は直後の共通検証へ委ねる。"""
         validate_plug_write_target(self.target, target)
-        if self._enum_codec is not None:
-            expected = self._enum_codec.operation_definition
-            if expected is not None and not expected.matches(
-                self._enum_codec.value.read_definition(refresh=True)
-            ):
-                raise ValueError("入力中に代表のenum定義が変わりました")
-            self._enum_codec.validate(cast(int, requested))
 
     def _enum_definitions(self) -> tuple[EnumDefinition, ...]:
         """文字列が同じ場合も含め、現在のenum定義を新しく解析する。"""

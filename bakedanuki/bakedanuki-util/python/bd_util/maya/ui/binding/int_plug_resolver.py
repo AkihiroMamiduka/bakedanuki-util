@@ -7,7 +7,6 @@ from typing import Literal, TypeAlias, cast
 
 from maya.api import OpenMaya as om
 
-from ...node import Nodes
 from ...node._attribute_lookup import attribute_path, find_attribute_plug
 from ...node.operator.attr.define.std.at.scalar.numeric.range.byte import (
     ByteAttrOperator,
@@ -21,6 +20,7 @@ from ...node.operator.attr.define.std.at.scalar.numeric.range.long import (
     LongAttrOperator,
     LongPlugOperator,
 )
+from ._scalar_plug_nodes import resolve_scalar_node
 
 MayaIntPlug: TypeAlias = (
     BytePlugOperator | ShortPlugOperator | LongPlugOperator
@@ -86,7 +86,7 @@ def resolve_int_plug(node_name: str, attribute_name: str) -> MayaIntPlug:
         raise ValueError(
             "attribute_nameには単一の属性名か相対pathを指定してください"
         )
-    node = Nodes().existing(node_name)
+    node = resolve_scalar_node(node_name)
     try:
         plug = find_attribute_plug(node.fn_node, attribute_name)
     except AttributeError as error:

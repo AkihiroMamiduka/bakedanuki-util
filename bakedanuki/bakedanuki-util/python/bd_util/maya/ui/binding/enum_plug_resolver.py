@@ -5,12 +5,12 @@ from typing import Any, TypeAlias, cast
 
 from maya.api import OpenMaya as om
 
-from ...node import Nodes
 from ...node._attribute_lookup import attribute_path, find_attribute_plug
 from ...node.operator.attr.define.std.at.scalar.enum import (
     EnumAttrOperator,
     EnumPlugOperator,
 )
+from ._scalar_plug_nodes import resolve_scalar_node
 
 # 具象enumごとのAttrOperator型引数は、このadapter境界でのみ消去する。
 MayaEnumPlug: TypeAlias = EnumPlugOperator[Any]
@@ -61,7 +61,7 @@ def resolve_enum_plug(node_name: str, attribute_name: str) -> MayaEnumPlug:
     attribute_name = _require_name(attribute_name)
     if any(character in attribute_name for character in "[]"):
         raise ValueError("配列要素のpathには対応していません")
-    node = Nodes().existing(node_name)
+    node = resolve_scalar_node(node_name)
     plug = find_attribute_plug(node.fn_node, attribute_name)
     _require_scalar_enum(plug)
     attribute = om.MFnAttribute(plug.attribute())

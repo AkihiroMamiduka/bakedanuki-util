@@ -5,7 +5,6 @@ from typing import Literal, TypeAlias, cast
 
 from maya.api import OpenMaya as om
 
-from ...node import Nodes
 from ...node._attribute_lookup import attribute_path, find_attribute_plug
 from ...node.operator.attr.define.std.at.scalar.numeric.range.double import (
     DoubleAttrOperator,
@@ -29,6 +28,7 @@ from ...node.operator.attr.define.std.at.scalar.unit.range.float_angle import (
 from ...node.operator.attr.define.std.at.scalar.unit.range.float_linear import (
     FloatLinearPlugOperator,
 )
+from ._scalar_plug_nodes import resolve_scalar_node
 
 MayaFloatPlug: TypeAlias = (
     DoublePlugOperator
@@ -104,7 +104,7 @@ def resolve_float_plug(node_name: str, attribute_name: str) -> MayaFloatPlug:
         raise ValueError(
             "attribute_nameには単一の属性名か相対pathを指定してください"
         )
-    node = Nodes().existing(node_name)
+    node = resolve_scalar_node(node_name)
     try:
         plug = find_attribute_plug(node.fn_node, attribute_name)
     except AttributeError as error:

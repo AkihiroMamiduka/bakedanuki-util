@@ -7,13 +7,13 @@ from typing import cast
 
 from maya.api import OpenMaya as om
 
-from ...node import Nodes
 from ...node._attribute_lookup import attribute_path, find_attribute_plug
 from ...node.operator.attr.define.std.at.scalar.numeric.bool import (
     BoolAttrOperator,
     BoolPlugOperator,
 )
 from ...node.operator.node._core import NodeOperator
+from ._scalar_plug_nodes import resolve_scalar_node
 
 
 def _require_name(value: object, argument_name: str) -> str:
@@ -105,6 +105,6 @@ def resolve_bool_plug(
             "attribute_nameには単一の属性名か相対pathを指定してください"
         )
     # scene 上の既存 node を汎用 `NodeOperator` として取得する。
-    node = Nodes().existing(node_name)
+    node = resolve_scalar_node(node_name)
 
     return _dynamic_bool_plug(node, attribute_name)

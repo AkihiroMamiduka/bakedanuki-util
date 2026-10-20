@@ -391,6 +391,67 @@ def test_paste_enum_final_validation_keeps_noop_and_exclusion_boundary(
     assert fired
 
 
+@pytest.mark.parametrize("policy", ["per_write", "operation"])
+@pytest.mark.parametrize("connection", [False, True])
+@pytest.mark.parametrize("route", ["all", "paths", "single"])
+def test_paste_enum_write_rechecks_definition_and_connection_changes(
+    scene, monkeypatch, policy, connection, route
+):
+    """後続の定義・接続変更に対する拒否単位と、先行入力の復旧を維持する。"""
+    source, first, second = scene
+    for node in scene:
+        cmds.addAttr(node, ln="mode", at="enum", enumName="A:B:C")
+    cmds.addAttr(source, ln="driver", at="enum", enumName="A:B:C")
+    cmds.setAttr(source + ".mode", 1)
+    transfer = MayaScalarValueTransfer(
+        (capture_scalar_node_values(source, _attributes(source, "mode")),)
+    )
+    original = cmds.setAttr
+    fired = []
+
+    def write(name, *args, **kwargs):
+        """先頭の入力直後に、まだ書いていない対象を外部から変更する。"""
+        original(name, *args, **kwargs)
+        if not fired and name.endswith(first + ".mode") and args == (1,):
+            fired.append(True)
+            cmds.addAttr(second + ".mode", edit=True, enumName="A:Changed:C")
+            if connection:
+                cmds.connectAttr(source + ".driver", second + ".mode")
+
+    def apply():
+        """三つの公開Paste入口で同じ要求を作る。"""
+        options = dict(edit_connected=True, enum_validation=policy)
+        if route == "all":
+            return apply_scalar_value_transfer(
+                (first, second), transfer, **options
+            )
+        if route == "paths":
+            return apply_scalar_value_transfer_to_paths(
+                (first, second), ("mode",), transfer, **options
+            )
+        return apply_scalar_value_to_paths(
+            (first, second), ("mode",), transfer, **options
+        )
+
+    monkeypatch.setattr(cmds, "setAttr", write)
+    rejected = policy == "operation" or connection
+    if rejected:
+        with pytest.raises((RuntimeError, ValueError)):
+            apply()
+    else:
+        result = apply()
+        assert result.changed and result.eligible_count == 2
+        assert result.excluded == ()
+    assert fired
+    assert [cmds.getAttr(node + ".mode") for node in (first, second)] == (
+        [0, 0] if rejected else [1, 1]
+    )
+    assert cmds.attributeQuery("mode", node=second, listEnum=True) == [
+        "A:Changed:C"
+    ]
+    assert cmds.isConnected(source + ".driver", second + ".mode") == connection
+
+
 def test_single_value_pastes_to_multiple_paths_and_nodes_with_one_undo(scene):
     """一つの値を同じ型の複数pathと複数nodeへ展開してUndoする。"""
     source, first, second = scene
