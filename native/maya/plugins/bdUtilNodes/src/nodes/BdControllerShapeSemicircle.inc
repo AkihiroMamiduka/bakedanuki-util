@@ -40,8 +40,8 @@ WideEndArrowGeometry semicircleWidePartGeometry(const ShapeSettings& settings) {
     WideEndArrowGeometry geometry;
     const double start = -settings.partOffsetAngle;
     const double end = kPi + settings.partOffsetAngle;
-    const bool startArrow = hasArrowAtEnd(settings.shape, true);
-    const bool endArrow = hasArrowAtEnd(settings.shape, false);
+    const bool startArrow = hasPartAtEnd(settings.shape, true);
+    const bool endArrow = hasPartAtEnd(settings.shape, false);
     const double halfSweep = std::max(0.0, (end - start) * 0.5);
     const double depth = 0.1 * std::cos(kPi / 6.0) * partLength(settings);
     const double shaftWidth = 0.025 * std::abs(partWidth(settings));
@@ -87,7 +87,7 @@ WideEndArrowGeometry semicircleWidePartGeometry(const ShapeSettings& settings) {
     for (std::size_t i = 0; i + 1 < outer.size(); ++i) quad(outer[i], outer[i + 1], inner[i + 1], inner[i]);
     std::array<std::array<MPoint, 5>, 2> heads;
     for (unsigned int i = 0; i < 2; ++i) {
-        if (!hasArrowAtEnd(settings.shape, i == 0)) continue;
+        if (!hasPartAtEnd(settings.shape, i == 0)) continue;
         const double angle = i == 0 ? start : end;
         const MVector radial = semicircleRadial(angle);
         const MVector direction = semicircleOutward(angle, i == 0);
@@ -124,7 +124,7 @@ void appendSemicircleParts(PartBuilder& builder, short outline, const ShapeSetti
         const double halfWidth = 0.05 * partWidth(settings);
         WideEndArrowGeometry heads;
         for (unsigned int i = 0; i < 2; ++i) {
-            if (!hasArrowAtEnd(settings.shape, i == 0)) continue;
+            if (!hasPartAtEnd(settings.shape, i == 0)) continue;
             const double angle = i == 0 ? -settings.partOffsetAngle : kPi + settings.partOffsetAngle;
             const MVector radial = semicircleRadial(angle);
             const MVector direction = semicircleOutward(angle, i == 0);

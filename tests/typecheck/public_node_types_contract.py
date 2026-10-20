@@ -238,6 +238,28 @@ def controller_shape_offset_line_contract() -> None:
     shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDARROWAT2NDEND)
     shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDARROWAT3RDSTARTFILLED)
     shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDWIDEARROWAT3RDEND)
+    shape.shape.set(ShapeEnumPlugOperator.DIAMOND)
+    shape.shape.set(ShapeEnumPlugOperator.DIAMONDFILLED)
+    shape.shape.set(ShapeEnumPlugOperator.LINE1STSQUAREATSTART)
+    shape.shape.set(ShapeEnumPlugOperator.LINE1STSQUAREATENDFILLED)
+    shape.shape.set(ShapeEnumPlugOperator.LINE1STSQUAREATENDS)
+    shape.shape.set(ShapeEnumPlugOperator.LINE1STDIAMONDATENDSFILLED)
+    shape.shape.set(ShapeEnumPlugOperator.LINE2NDCIRCLEATEND)
+    shape.shape.set(ShapeEnumPlugOperator.LINE2NDTRIANGLEATSTARTFILLED)
+    shape.shape.set(ShapeEnumPlugOperator.LINE3RDDIAMONDATSTART)
+    shape.shape.set(ShapeEnumPlugOperator.LINE3RDCIRCLEATENDSFILLED)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDTRIANGLEAT1STSTART)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDSQUAREAT2NDENDFILLED)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDSQUAREAT1STEND)
+    shape.shape.set(
+        ShapeEnumPlugOperator.CROSSLINE1ST3RDDIAMONDAT3RDSTARTFILLED
+    )
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDCIRCLEAT3RDEND)
+    shape.shape.set(
+        ShapeEnumPlugOperator.CROSSLINE2ND3RDTRIANGLEAT2NDSTARTFILLED
+    )
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDCIRCLEATENDS)
+    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDTRIANGLEATENDSFILLED)
     assert_type(shape.shape2ndAxis, Shape2ndAxisEnumPlugOperator)
     assert_type(shape.shapeAnimationTransformMatrix, DataMatrixPlugOperator)
     assert_type(shape.shapeAxisOffsetLength, DoubleLinearPlugOperator)

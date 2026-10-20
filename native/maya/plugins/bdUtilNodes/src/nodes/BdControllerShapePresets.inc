@@ -1,6 +1,6 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 228> kPresetNames = {
+constexpr std::array<const char*, 422> kPresetNames = {
     "Gear",
     "GearFilled",
     "Line1st",
@@ -16,6 +16,30 @@ constexpr std::array<const char*, 228> kPresetNames = {
     "Line1stWideArrowAtEndFilled",
     "Line1stWideArrowAtEnds",
     "Line1stWideArrowAtEndsFilled",
+    "Line1stSquareAtStart",
+    "Line1stSquareAtStartFilled",
+    "Line1stSquareAtEnd",
+    "Line1stSquareAtEndFilled",
+    "Line1stSquareAtEnds",
+    "Line1stSquareAtEndsFilled",
+    "Line1stDiamondAtStart",
+    "Line1stDiamondAtStartFilled",
+    "Line1stDiamondAtEnd",
+    "Line1stDiamondAtEndFilled",
+    "Line1stDiamondAtEnds",
+    "Line1stDiamondAtEndsFilled",
+    "Line1stCircleAtStart",
+    "Line1stCircleAtStartFilled",
+    "Line1stCircleAtEnd",
+    "Line1stCircleAtEndFilled",
+    "Line1stCircleAtEnds",
+    "Line1stCircleAtEndsFilled",
+    "Line1stTriangleAtStart",
+    "Line1stTriangleAtStartFilled",
+    "Line1stTriangleAtEnd",
+    "Line1stTriangleAtEndFilled",
+    "Line1stTriangleAtEnds",
+    "Line1stTriangleAtEndsFilled",
     "Line2nd",
     "Line2ndArrowAtStart",
     "Line2ndArrowAtStartFilled",
@@ -29,6 +53,30 @@ constexpr std::array<const char*, 228> kPresetNames = {
     "Line2ndWideArrowAtEndFilled",
     "Line2ndWideArrowAtEnds",
     "Line2ndWideArrowAtEndsFilled",
+    "Line2ndSquareAtStart",
+    "Line2ndSquareAtStartFilled",
+    "Line2ndSquareAtEnd",
+    "Line2ndSquareAtEndFilled",
+    "Line2ndSquareAtEnds",
+    "Line2ndSquareAtEndsFilled",
+    "Line2ndDiamondAtStart",
+    "Line2ndDiamondAtStartFilled",
+    "Line2ndDiamondAtEnd",
+    "Line2ndDiamondAtEndFilled",
+    "Line2ndDiamondAtEnds",
+    "Line2ndDiamondAtEndsFilled",
+    "Line2ndCircleAtStart",
+    "Line2ndCircleAtStartFilled",
+    "Line2ndCircleAtEnd",
+    "Line2ndCircleAtEndFilled",
+    "Line2ndCircleAtEnds",
+    "Line2ndCircleAtEndsFilled",
+    "Line2ndTriangleAtStart",
+    "Line2ndTriangleAtStartFilled",
+    "Line2ndTriangleAtEnd",
+    "Line2ndTriangleAtEndFilled",
+    "Line2ndTriangleAtEnds",
+    "Line2ndTriangleAtEndsFilled",
     "Line3rd",
     "Line3rdArrowAtStart",
     "Line3rdArrowAtStartFilled",
@@ -42,6 +90,30 @@ constexpr std::array<const char*, 228> kPresetNames = {
     "Line3rdWideArrowAtEndFilled",
     "Line3rdWideArrowAtEnds",
     "Line3rdWideArrowAtEndsFilled",
+    "Line3rdSquareAtStart",
+    "Line3rdSquareAtStartFilled",
+    "Line3rdSquareAtEnd",
+    "Line3rdSquareAtEndFilled",
+    "Line3rdSquareAtEnds",
+    "Line3rdSquareAtEndsFilled",
+    "Line3rdDiamondAtStart",
+    "Line3rdDiamondAtStartFilled",
+    "Line3rdDiamondAtEnd",
+    "Line3rdDiamondAtEndFilled",
+    "Line3rdDiamondAtEnds",
+    "Line3rdDiamondAtEndsFilled",
+    "Line3rdCircleAtStart",
+    "Line3rdCircleAtStartFilled",
+    "Line3rdCircleAtEnd",
+    "Line3rdCircleAtEndFilled",
+    "Line3rdCircleAtEnds",
+    "Line3rdCircleAtEndsFilled",
+    "Line3rdTriangleAtStart",
+    "Line3rdTriangleAtStartFilled",
+    "Line3rdTriangleAtEnd",
+    "Line3rdTriangleAtEndFilled",
+    "Line3rdTriangleAtEnds",
+    "Line3rdTriangleAtEndsFilled",
     "CrossLine1st2nd",
     "CrossLine1st2ndArrowAt1stStart",
     "CrossLine1st2ndArrowAt1stStartFilled",
@@ -63,6 +135,46 @@ constexpr std::array<const char*, 228> kPresetNames = {
     "CrossLine1st2ndWideArrowAt2ndEndFilled",
     "CrossLine1st2ndWideArrowAtEnds",
     "CrossLine1st2ndWideArrowAtEndsFilled",
+    "CrossLine1st2ndSquareAt1stStart",
+    "CrossLine1st2ndSquareAt1stStartFilled",
+    "CrossLine1st2ndSquareAt1stEnd",
+    "CrossLine1st2ndSquareAt1stEndFilled",
+    "CrossLine1st2ndSquareAt2ndStart",
+    "CrossLine1st2ndSquareAt2ndStartFilled",
+    "CrossLine1st2ndSquareAt2ndEnd",
+    "CrossLine1st2ndSquareAt2ndEndFilled",
+    "CrossLine1st2ndSquareAtEnds",
+    "CrossLine1st2ndSquareAtEndsFilled",
+    "CrossLine1st2ndDiamondAt1stStart",
+    "CrossLine1st2ndDiamondAt1stStartFilled",
+    "CrossLine1st2ndDiamondAt1stEnd",
+    "CrossLine1st2ndDiamondAt1stEndFilled",
+    "CrossLine1st2ndDiamondAt2ndStart",
+    "CrossLine1st2ndDiamondAt2ndStartFilled",
+    "CrossLine1st2ndDiamondAt2ndEnd",
+    "CrossLine1st2ndDiamondAt2ndEndFilled",
+    "CrossLine1st2ndDiamondAtEnds",
+    "CrossLine1st2ndDiamondAtEndsFilled",
+    "CrossLine1st2ndCircleAt1stStart",
+    "CrossLine1st2ndCircleAt1stStartFilled",
+    "CrossLine1st2ndCircleAt1stEnd",
+    "CrossLine1st2ndCircleAt1stEndFilled",
+    "CrossLine1st2ndCircleAt2ndStart",
+    "CrossLine1st2ndCircleAt2ndStartFilled",
+    "CrossLine1st2ndCircleAt2ndEnd",
+    "CrossLine1st2ndCircleAt2ndEndFilled",
+    "CrossLine1st2ndCircleAtEnds",
+    "CrossLine1st2ndCircleAtEndsFilled",
+    "CrossLine1st2ndTriangleAt1stStart",
+    "CrossLine1st2ndTriangleAt1stStartFilled",
+    "CrossLine1st2ndTriangleAt1stEnd",
+    "CrossLine1st2ndTriangleAt1stEndFilled",
+    "CrossLine1st2ndTriangleAt2ndStart",
+    "CrossLine1st2ndTriangleAt2ndStartFilled",
+    "CrossLine1st2ndTriangleAt2ndEnd",
+    "CrossLine1st2ndTriangleAt2ndEndFilled",
+    "CrossLine1st2ndTriangleAtEnds",
+    "CrossLine1st2ndTriangleAtEndsFilled",
     "CrossLine1st3rd",
     "CrossLine1st3rdArrowAt1stStart",
     "CrossLine1st3rdArrowAt1stStartFilled",
@@ -84,6 +196,46 @@ constexpr std::array<const char*, 228> kPresetNames = {
     "CrossLine1st3rdWideArrowAt3rdEndFilled",
     "CrossLine1st3rdWideArrowAtEnds",
     "CrossLine1st3rdWideArrowAtEndsFilled",
+    "CrossLine1st3rdSquareAt1stStart",
+    "CrossLine1st3rdSquareAt1stStartFilled",
+    "CrossLine1st3rdSquareAt1stEnd",
+    "CrossLine1st3rdSquareAt1stEndFilled",
+    "CrossLine1st3rdSquareAt3rdStart",
+    "CrossLine1st3rdSquareAt3rdStartFilled",
+    "CrossLine1st3rdSquareAt3rdEnd",
+    "CrossLine1st3rdSquareAt3rdEndFilled",
+    "CrossLine1st3rdSquareAtEnds",
+    "CrossLine1st3rdSquareAtEndsFilled",
+    "CrossLine1st3rdDiamondAt1stStart",
+    "CrossLine1st3rdDiamondAt1stStartFilled",
+    "CrossLine1st3rdDiamondAt1stEnd",
+    "CrossLine1st3rdDiamondAt1stEndFilled",
+    "CrossLine1st3rdDiamondAt3rdStart",
+    "CrossLine1st3rdDiamondAt3rdStartFilled",
+    "CrossLine1st3rdDiamondAt3rdEnd",
+    "CrossLine1st3rdDiamondAt3rdEndFilled",
+    "CrossLine1st3rdDiamondAtEnds",
+    "CrossLine1st3rdDiamondAtEndsFilled",
+    "CrossLine1st3rdCircleAt1stStart",
+    "CrossLine1st3rdCircleAt1stStartFilled",
+    "CrossLine1st3rdCircleAt1stEnd",
+    "CrossLine1st3rdCircleAt1stEndFilled",
+    "CrossLine1st3rdCircleAt3rdStart",
+    "CrossLine1st3rdCircleAt3rdStartFilled",
+    "CrossLine1st3rdCircleAt3rdEnd",
+    "CrossLine1st3rdCircleAt3rdEndFilled",
+    "CrossLine1st3rdCircleAtEnds",
+    "CrossLine1st3rdCircleAtEndsFilled",
+    "CrossLine1st3rdTriangleAt1stStart",
+    "CrossLine1st3rdTriangleAt1stStartFilled",
+    "CrossLine1st3rdTriangleAt1stEnd",
+    "CrossLine1st3rdTriangleAt1stEndFilled",
+    "CrossLine1st3rdTriangleAt3rdStart",
+    "CrossLine1st3rdTriangleAt3rdStartFilled",
+    "CrossLine1st3rdTriangleAt3rdEnd",
+    "CrossLine1st3rdTriangleAt3rdEndFilled",
+    "CrossLine1st3rdTriangleAtEnds",
+    "CrossLine1st3rdTriangleAtEndsFilled",
     "CrossLine2nd3rd",
     "CrossLine2nd3rdArrowAt2ndStart",
     "CrossLine2nd3rdArrowAt2ndStartFilled",
@@ -105,6 +257,46 @@ constexpr std::array<const char*, 228> kPresetNames = {
     "CrossLine2nd3rdWideArrowAt3rdEndFilled",
     "CrossLine2nd3rdWideArrowAtEnds",
     "CrossLine2nd3rdWideArrowAtEndsFilled",
+    "CrossLine2nd3rdSquareAt2ndStart",
+    "CrossLine2nd3rdSquareAt2ndStartFilled",
+    "CrossLine2nd3rdSquareAt2ndEnd",
+    "CrossLine2nd3rdSquareAt2ndEndFilled",
+    "CrossLine2nd3rdSquareAt3rdStart",
+    "CrossLine2nd3rdSquareAt3rdStartFilled",
+    "CrossLine2nd3rdSquareAt3rdEnd",
+    "CrossLine2nd3rdSquareAt3rdEndFilled",
+    "CrossLine2nd3rdSquareAtEnds",
+    "CrossLine2nd3rdSquareAtEndsFilled",
+    "CrossLine2nd3rdDiamondAt2ndStart",
+    "CrossLine2nd3rdDiamondAt2ndStartFilled",
+    "CrossLine2nd3rdDiamondAt2ndEnd",
+    "CrossLine2nd3rdDiamondAt2ndEndFilled",
+    "CrossLine2nd3rdDiamondAt3rdStart",
+    "CrossLine2nd3rdDiamondAt3rdStartFilled",
+    "CrossLine2nd3rdDiamondAt3rdEnd",
+    "CrossLine2nd3rdDiamondAt3rdEndFilled",
+    "CrossLine2nd3rdDiamondAtEnds",
+    "CrossLine2nd3rdDiamondAtEndsFilled",
+    "CrossLine2nd3rdCircleAt2ndStart",
+    "CrossLine2nd3rdCircleAt2ndStartFilled",
+    "CrossLine2nd3rdCircleAt2ndEnd",
+    "CrossLine2nd3rdCircleAt2ndEndFilled",
+    "CrossLine2nd3rdCircleAt3rdStart",
+    "CrossLine2nd3rdCircleAt3rdStartFilled",
+    "CrossLine2nd3rdCircleAt3rdEnd",
+    "CrossLine2nd3rdCircleAt3rdEndFilled",
+    "CrossLine2nd3rdCircleAtEnds",
+    "CrossLine2nd3rdCircleAtEndsFilled",
+    "CrossLine2nd3rdTriangleAt2ndStart",
+    "CrossLine2nd3rdTriangleAt2ndStartFilled",
+    "CrossLine2nd3rdTriangleAt2ndEnd",
+    "CrossLine2nd3rdTriangleAt2ndEndFilled",
+    "CrossLine2nd3rdTriangleAt3rdStart",
+    "CrossLine2nd3rdTriangleAt3rdStartFilled",
+    "CrossLine2nd3rdTriangleAt3rdEnd",
+    "CrossLine2nd3rdTriangleAt3rdEndFilled",
+    "CrossLine2nd3rdTriangleAtEnds",
+    "CrossLine2nd3rdTriangleAtEndsFilled",
     "CrossLine3Axis",
     "CrossLine3AxisEndCube",
     "CrossLine3AxisEndCubeFilled",
@@ -142,6 +334,8 @@ constexpr std::array<const char*, 228> kPresetNames = {
     "SquareTemplateArrow4Way2DFilled",
     "SquareTemplateArrow4Way3D",
     "SquareTemplateArrow4Way3DFilled",
+    "Diamond",
+    "DiamondFilled",
     "Cube",
     "CubeFilled",
     "CubeArrow2D",
@@ -231,120 +425,312 @@ constexpr std::array<const char*, 228> kPresetNames = {
     "ColorSphereCrossLineFilled",
 };
 
-enum class ArrowEnds { Both, Start, End };
+enum class PartEnds { Both, Start, End };
 
 struct PresetInfo {
     short outlineIndex;
     bool filled;
-    ArrowEnds arrowEnds = ArrowEnds::Both;
-    short arrowAxis = -1;
+    PartEnds partEnds = PartEnds::Both;
+    short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 228> kPresetInfo = {{
+constexpr std::array<PresetInfo, 422> kPresetInfo = {{
     {0, false},  // Gear
     {0, true},  // GearFilled
     {1, false},  // Line1st
-    {54, false, ArrowEnds::Start},  // Line1stArrowAtStart
-    {54, true, ArrowEnds::Start},  // Line1stArrowAtStartFilled
-    {54, false, ArrowEnds::End},  // Line1stArrowAtEnd
-    {54, true, ArrowEnds::End},  // Line1stArrowAtEndFilled
+    {54, false, PartEnds::Start},  // Line1stArrowAtStart
+    {54, true, PartEnds::Start},  // Line1stArrowAtStartFilled
+    {54, false, PartEnds::End},  // Line1stArrowAtEnd
+    {54, true, PartEnds::End},  // Line1stArrowAtEndFilled
     {54, false},  // Line1stArrowAtEnds
     {54, true},  // Line1stArrowAtEndsFilled
-    {62, false, ArrowEnds::Start},  // Line1stWideArrowAtStart
-    {62, true, ArrowEnds::Start},  // Line1stWideArrowAtStartFilled
-    {62, false, ArrowEnds::End},  // Line1stWideArrowAtEnd
-    {62, true, ArrowEnds::End},  // Line1stWideArrowAtEndFilled
+    {62, false, PartEnds::Start},  // Line1stWideArrowAtStart
+    {62, true, PartEnds::Start},  // Line1stWideArrowAtStartFilled
+    {62, false, PartEnds::End},  // Line1stWideArrowAtEnd
+    {62, true, PartEnds::End},  // Line1stWideArrowAtEndFilled
     {62, false},  // Line1stWideArrowAtEnds
     {62, true},  // Line1stWideArrowAtEndsFilled
+    {80, false, PartEnds::Start},  // Line1stSquareAtStart
+    {80, true, PartEnds::Start},  // Line1stSquareAtStartFilled
+    {80, false, PartEnds::End},  // Line1stSquareAtEnd
+    {80, true, PartEnds::End},  // Line1stSquareAtEndFilled
+    {80, false},  // Line1stSquareAtEnds
+    {80, true},  // Line1stSquareAtEndsFilled
+    {81, false, PartEnds::Start},  // Line1stDiamondAtStart
+    {81, true, PartEnds::Start},  // Line1stDiamondAtStartFilled
+    {81, false, PartEnds::End},  // Line1stDiamondAtEnd
+    {81, true, PartEnds::End},  // Line1stDiamondAtEndFilled
+    {81, false},  // Line1stDiamondAtEnds
+    {81, true},  // Line1stDiamondAtEndsFilled
+    {82, false, PartEnds::Start},  // Line1stCircleAtStart
+    {82, true, PartEnds::Start},  // Line1stCircleAtStartFilled
+    {82, false, PartEnds::End},  // Line1stCircleAtEnd
+    {82, true, PartEnds::End},  // Line1stCircleAtEndFilled
+    {82, false},  // Line1stCircleAtEnds
+    {82, true},  // Line1stCircleAtEndsFilled
+    {83, false, PartEnds::Start},  // Line1stTriangleAtStart
+    {83, true, PartEnds::Start},  // Line1stTriangleAtStartFilled
+    {83, false, PartEnds::End},  // Line1stTriangleAtEnd
+    {83, true, PartEnds::End},  // Line1stTriangleAtEndFilled
+    {83, false},  // Line1stTriangleAtEnds
+    {83, true},  // Line1stTriangleAtEndsFilled
     {2, false},  // Line2nd
-    {55, false, ArrowEnds::Start},  // Line2ndArrowAtStart
-    {55, true, ArrowEnds::Start},  // Line2ndArrowAtStartFilled
-    {55, false, ArrowEnds::End},  // Line2ndArrowAtEnd
-    {55, true, ArrowEnds::End},  // Line2ndArrowAtEndFilled
+    {55, false, PartEnds::Start},  // Line2ndArrowAtStart
+    {55, true, PartEnds::Start},  // Line2ndArrowAtStartFilled
+    {55, false, PartEnds::End},  // Line2ndArrowAtEnd
+    {55, true, PartEnds::End},  // Line2ndArrowAtEndFilled
     {55, false},  // Line2ndArrowAtEnds
     {55, true},  // Line2ndArrowAtEndsFilled
-    {63, false, ArrowEnds::Start},  // Line2ndWideArrowAtStart
-    {63, true, ArrowEnds::Start},  // Line2ndWideArrowAtStartFilled
-    {63, false, ArrowEnds::End},  // Line2ndWideArrowAtEnd
-    {63, true, ArrowEnds::End},  // Line2ndWideArrowAtEndFilled
+    {63, false, PartEnds::Start},  // Line2ndWideArrowAtStart
+    {63, true, PartEnds::Start},  // Line2ndWideArrowAtStartFilled
+    {63, false, PartEnds::End},  // Line2ndWideArrowAtEnd
+    {63, true, PartEnds::End},  // Line2ndWideArrowAtEndFilled
     {63, false},  // Line2ndWideArrowAtEnds
     {63, true},  // Line2ndWideArrowAtEndsFilled
+    {84, false, PartEnds::Start},  // Line2ndSquareAtStart
+    {84, true, PartEnds::Start},  // Line2ndSquareAtStartFilled
+    {84, false, PartEnds::End},  // Line2ndSquareAtEnd
+    {84, true, PartEnds::End},  // Line2ndSquareAtEndFilled
+    {84, false},  // Line2ndSquareAtEnds
+    {84, true},  // Line2ndSquareAtEndsFilled
+    {85, false, PartEnds::Start},  // Line2ndDiamondAtStart
+    {85, true, PartEnds::Start},  // Line2ndDiamondAtStartFilled
+    {85, false, PartEnds::End},  // Line2ndDiamondAtEnd
+    {85, true, PartEnds::End},  // Line2ndDiamondAtEndFilled
+    {85, false},  // Line2ndDiamondAtEnds
+    {85, true},  // Line2ndDiamondAtEndsFilled
+    {86, false, PartEnds::Start},  // Line2ndCircleAtStart
+    {86, true, PartEnds::Start},  // Line2ndCircleAtStartFilled
+    {86, false, PartEnds::End},  // Line2ndCircleAtEnd
+    {86, true, PartEnds::End},  // Line2ndCircleAtEndFilled
+    {86, false},  // Line2ndCircleAtEnds
+    {86, true},  // Line2ndCircleAtEndsFilled
+    {87, false, PartEnds::Start},  // Line2ndTriangleAtStart
+    {87, true, PartEnds::Start},  // Line2ndTriangleAtStartFilled
+    {87, false, PartEnds::End},  // Line2ndTriangleAtEnd
+    {87, true, PartEnds::End},  // Line2ndTriangleAtEndFilled
+    {87, false},  // Line2ndTriangleAtEnds
+    {87, true},  // Line2ndTriangleAtEndsFilled
     {3, false},  // Line3rd
-    {56, false, ArrowEnds::Start},  // Line3rdArrowAtStart
-    {56, true, ArrowEnds::Start},  // Line3rdArrowAtStartFilled
-    {56, false, ArrowEnds::End},  // Line3rdArrowAtEnd
-    {56, true, ArrowEnds::End},  // Line3rdArrowAtEndFilled
+    {56, false, PartEnds::Start},  // Line3rdArrowAtStart
+    {56, true, PartEnds::Start},  // Line3rdArrowAtStartFilled
+    {56, false, PartEnds::End},  // Line3rdArrowAtEnd
+    {56, true, PartEnds::End},  // Line3rdArrowAtEndFilled
     {56, false},  // Line3rdArrowAtEnds
     {56, true},  // Line3rdArrowAtEndsFilled
-    {64, false, ArrowEnds::Start},  // Line3rdWideArrowAtStart
-    {64, true, ArrowEnds::Start},  // Line3rdWideArrowAtStartFilled
-    {64, false, ArrowEnds::End},  // Line3rdWideArrowAtEnd
-    {64, true, ArrowEnds::End},  // Line3rdWideArrowAtEndFilled
+    {64, false, PartEnds::Start},  // Line3rdWideArrowAtStart
+    {64, true, PartEnds::Start},  // Line3rdWideArrowAtStartFilled
+    {64, false, PartEnds::End},  // Line3rdWideArrowAtEnd
+    {64, true, PartEnds::End},  // Line3rdWideArrowAtEndFilled
     {64, false},  // Line3rdWideArrowAtEnds
     {64, true},  // Line3rdWideArrowAtEndsFilled
+    {88, false, PartEnds::Start},  // Line3rdSquareAtStart
+    {88, true, PartEnds::Start},  // Line3rdSquareAtStartFilled
+    {88, false, PartEnds::End},  // Line3rdSquareAtEnd
+    {88, true, PartEnds::End},  // Line3rdSquareAtEndFilled
+    {88, false},  // Line3rdSquareAtEnds
+    {88, true},  // Line3rdSquareAtEndsFilled
+    {89, false, PartEnds::Start},  // Line3rdDiamondAtStart
+    {89, true, PartEnds::Start},  // Line3rdDiamondAtStartFilled
+    {89, false, PartEnds::End},  // Line3rdDiamondAtEnd
+    {89, true, PartEnds::End},  // Line3rdDiamondAtEndFilled
+    {89, false},  // Line3rdDiamondAtEnds
+    {89, true},  // Line3rdDiamondAtEndsFilled
+    {90, false, PartEnds::Start},  // Line3rdCircleAtStart
+    {90, true, PartEnds::Start},  // Line3rdCircleAtStartFilled
+    {90, false, PartEnds::End},  // Line3rdCircleAtEnd
+    {90, true, PartEnds::End},  // Line3rdCircleAtEndFilled
+    {90, false},  // Line3rdCircleAtEnds
+    {90, true},  // Line3rdCircleAtEndsFilled
+    {91, false, PartEnds::Start},  // Line3rdTriangleAtStart
+    {91, true, PartEnds::Start},  // Line3rdTriangleAtStartFilled
+    {91, false, PartEnds::End},  // Line3rdTriangleAtEnd
+    {91, true, PartEnds::End},  // Line3rdTriangleAtEndFilled
+    {91, false},  // Line3rdTriangleAtEnds
+    {91, true},  // Line3rdTriangleAtEndsFilled
     {52, false},  // CrossLine1st2nd
-    {57, false, ArrowEnds::Start, 0},  // CrossLine1st2ndArrowAt1stStart
-    {57, true, ArrowEnds::Start, 0},  // CrossLine1st2ndArrowAt1stStartFilled
-    {57, false, ArrowEnds::End, 0},  // CrossLine1st2ndArrowAt1stEnd
-    {57, true, ArrowEnds::End, 0},  // CrossLine1st2ndArrowAt1stEndFilled
-    {57, false, ArrowEnds::Start, 1},  // CrossLine1st2ndArrowAt2ndStart
-    {57, true, ArrowEnds::Start, 1},  // CrossLine1st2ndArrowAt2ndStartFilled
-    {57, false, ArrowEnds::End, 1},  // CrossLine1st2ndArrowAt2ndEnd
-    {57, true, ArrowEnds::End, 1},  // CrossLine1st2ndArrowAt2ndEndFilled
+    {57, false, PartEnds::Start, 0},  // CrossLine1st2ndArrowAt1stStart
+    {57, true, PartEnds::Start, 0},  // CrossLine1st2ndArrowAt1stStartFilled
+    {57, false, PartEnds::End, 0},  // CrossLine1st2ndArrowAt1stEnd
+    {57, true, PartEnds::End, 0},  // CrossLine1st2ndArrowAt1stEndFilled
+    {57, false, PartEnds::Start, 1},  // CrossLine1st2ndArrowAt2ndStart
+    {57, true, PartEnds::Start, 1},  // CrossLine1st2ndArrowAt2ndStartFilled
+    {57, false, PartEnds::End, 1},  // CrossLine1st2ndArrowAt2ndEnd
+    {57, true, PartEnds::End, 1},  // CrossLine1st2ndArrowAt2ndEndFilled
     {57, false},  // CrossLine1st2ndArrowAtEnds
     {57, true},  // CrossLine1st2ndArrowAtEndsFilled
-    {65, false, ArrowEnds::Start, 0},  // CrossLine1st2ndWideArrowAt1stStart
-    {65, true, ArrowEnds::Start, 0},  // CrossLine1st2ndWideArrowAt1stStartFilled
-    {65, false, ArrowEnds::End, 0},  // CrossLine1st2ndWideArrowAt1stEnd
-    {65, true, ArrowEnds::End, 0},  // CrossLine1st2ndWideArrowAt1stEndFilled
-    {65, false, ArrowEnds::Start, 1},  // CrossLine1st2ndWideArrowAt2ndStart
-    {65, true, ArrowEnds::Start, 1},  // CrossLine1st2ndWideArrowAt2ndStartFilled
-    {65, false, ArrowEnds::End, 1},  // CrossLine1st2ndWideArrowAt2ndEnd
-    {65, true, ArrowEnds::End, 1},  // CrossLine1st2ndWideArrowAt2ndEndFilled
+    {65, false, PartEnds::Start, 0},  // CrossLine1st2ndWideArrowAt1stStart
+    {65, true, PartEnds::Start, 0},  // CrossLine1st2ndWideArrowAt1stStartFilled
+    {65, false, PartEnds::End, 0},  // CrossLine1st2ndWideArrowAt1stEnd
+    {65, true, PartEnds::End, 0},  // CrossLine1st2ndWideArrowAt1stEndFilled
+    {65, false, PartEnds::Start, 1},  // CrossLine1st2ndWideArrowAt2ndStart
+    {65, true, PartEnds::Start, 1},  // CrossLine1st2ndWideArrowAt2ndStartFilled
+    {65, false, PartEnds::End, 1},  // CrossLine1st2ndWideArrowAt2ndEnd
+    {65, true, PartEnds::End, 1},  // CrossLine1st2ndWideArrowAt2ndEndFilled
     {65, false},  // CrossLine1st2ndWideArrowAtEnds
     {65, true},  // CrossLine1st2ndWideArrowAtEndsFilled
+    {92, false, PartEnds::Start, 0},  // CrossLine1st2ndSquareAt1stStart
+    {92, true, PartEnds::Start, 0},  // CrossLine1st2ndSquareAt1stStartFilled
+    {92, false, PartEnds::End, 0},  // CrossLine1st2ndSquareAt1stEnd
+    {92, true, PartEnds::End, 0},  // CrossLine1st2ndSquareAt1stEndFilled
+    {92, false, PartEnds::Start, 1},  // CrossLine1st2ndSquareAt2ndStart
+    {92, true, PartEnds::Start, 1},  // CrossLine1st2ndSquareAt2ndStartFilled
+    {92, false, PartEnds::End, 1},  // CrossLine1st2ndSquareAt2ndEnd
+    {92, true, PartEnds::End, 1},  // CrossLine1st2ndSquareAt2ndEndFilled
+    {92, false},  // CrossLine1st2ndSquareAtEnds
+    {92, true},  // CrossLine1st2ndSquareAtEndsFilled
+    {93, false, PartEnds::Start, 0},  // CrossLine1st2ndDiamondAt1stStart
+    {93, true, PartEnds::Start, 0},  // CrossLine1st2ndDiamondAt1stStartFilled
+    {93, false, PartEnds::End, 0},  // CrossLine1st2ndDiamondAt1stEnd
+    {93, true, PartEnds::End, 0},  // CrossLine1st2ndDiamondAt1stEndFilled
+    {93, false, PartEnds::Start, 1},  // CrossLine1st2ndDiamondAt2ndStart
+    {93, true, PartEnds::Start, 1},  // CrossLine1st2ndDiamondAt2ndStartFilled
+    {93, false, PartEnds::End, 1},  // CrossLine1st2ndDiamondAt2ndEnd
+    {93, true, PartEnds::End, 1},  // CrossLine1st2ndDiamondAt2ndEndFilled
+    {93, false},  // CrossLine1st2ndDiamondAtEnds
+    {93, true},  // CrossLine1st2ndDiamondAtEndsFilled
+    {94, false, PartEnds::Start, 0},  // CrossLine1st2ndCircleAt1stStart
+    {94, true, PartEnds::Start, 0},  // CrossLine1st2ndCircleAt1stStartFilled
+    {94, false, PartEnds::End, 0},  // CrossLine1st2ndCircleAt1stEnd
+    {94, true, PartEnds::End, 0},  // CrossLine1st2ndCircleAt1stEndFilled
+    {94, false, PartEnds::Start, 1},  // CrossLine1st2ndCircleAt2ndStart
+    {94, true, PartEnds::Start, 1},  // CrossLine1st2ndCircleAt2ndStartFilled
+    {94, false, PartEnds::End, 1},  // CrossLine1st2ndCircleAt2ndEnd
+    {94, true, PartEnds::End, 1},  // CrossLine1st2ndCircleAt2ndEndFilled
+    {94, false},  // CrossLine1st2ndCircleAtEnds
+    {94, true},  // CrossLine1st2ndCircleAtEndsFilled
+    {95, false, PartEnds::Start, 0},  // CrossLine1st2ndTriangleAt1stStart
+    {95, true, PartEnds::Start, 0},  // CrossLine1st2ndTriangleAt1stStartFilled
+    {95, false, PartEnds::End, 0},  // CrossLine1st2ndTriangleAt1stEnd
+    {95, true, PartEnds::End, 0},  // CrossLine1st2ndTriangleAt1stEndFilled
+    {95, false, PartEnds::Start, 1},  // CrossLine1st2ndTriangleAt2ndStart
+    {95, true, PartEnds::Start, 1},  // CrossLine1st2ndTriangleAt2ndStartFilled
+    {95, false, PartEnds::End, 1},  // CrossLine1st2ndTriangleAt2ndEnd
+    {95, true, PartEnds::End, 1},  // CrossLine1st2ndTriangleAt2ndEndFilled
+    {95, false},  // CrossLine1st2ndTriangleAtEnds
+    {95, true},  // CrossLine1st2ndTriangleAtEndsFilled
     {53, false},  // CrossLine1st3rd
-    {58, false, ArrowEnds::Start, 0},  // CrossLine1st3rdArrowAt1stStart
-    {58, true, ArrowEnds::Start, 0},  // CrossLine1st3rdArrowAt1stStartFilled
-    {58, false, ArrowEnds::End, 0},  // CrossLine1st3rdArrowAt1stEnd
-    {58, true, ArrowEnds::End, 0},  // CrossLine1st3rdArrowAt1stEndFilled
-    {58, false, ArrowEnds::Start, 2},  // CrossLine1st3rdArrowAt3rdStart
-    {58, true, ArrowEnds::Start, 2},  // CrossLine1st3rdArrowAt3rdStartFilled
-    {58, false, ArrowEnds::End, 2},  // CrossLine1st3rdArrowAt3rdEnd
-    {58, true, ArrowEnds::End, 2},  // CrossLine1st3rdArrowAt3rdEndFilled
+    {58, false, PartEnds::Start, 0},  // CrossLine1st3rdArrowAt1stStart
+    {58, true, PartEnds::Start, 0},  // CrossLine1st3rdArrowAt1stStartFilled
+    {58, false, PartEnds::End, 0},  // CrossLine1st3rdArrowAt1stEnd
+    {58, true, PartEnds::End, 0},  // CrossLine1st3rdArrowAt1stEndFilled
+    {58, false, PartEnds::Start, 2},  // CrossLine1st3rdArrowAt3rdStart
+    {58, true, PartEnds::Start, 2},  // CrossLine1st3rdArrowAt3rdStartFilled
+    {58, false, PartEnds::End, 2},  // CrossLine1st3rdArrowAt3rdEnd
+    {58, true, PartEnds::End, 2},  // CrossLine1st3rdArrowAt3rdEndFilled
     {58, false},  // CrossLine1st3rdArrowAtEnds
     {58, true},  // CrossLine1st3rdArrowAtEndsFilled
-    {66, false, ArrowEnds::Start, 0},  // CrossLine1st3rdWideArrowAt1stStart
-    {66, true, ArrowEnds::Start, 0},  // CrossLine1st3rdWideArrowAt1stStartFilled
-    {66, false, ArrowEnds::End, 0},  // CrossLine1st3rdWideArrowAt1stEnd
-    {66, true, ArrowEnds::End, 0},  // CrossLine1st3rdWideArrowAt1stEndFilled
-    {66, false, ArrowEnds::Start, 2},  // CrossLine1st3rdWideArrowAt3rdStart
-    {66, true, ArrowEnds::Start, 2},  // CrossLine1st3rdWideArrowAt3rdStartFilled
-    {66, false, ArrowEnds::End, 2},  // CrossLine1st3rdWideArrowAt3rdEnd
-    {66, true, ArrowEnds::End, 2},  // CrossLine1st3rdWideArrowAt3rdEndFilled
+    {66, false, PartEnds::Start, 0},  // CrossLine1st3rdWideArrowAt1stStart
+    {66, true, PartEnds::Start, 0},  // CrossLine1st3rdWideArrowAt1stStartFilled
+    {66, false, PartEnds::End, 0},  // CrossLine1st3rdWideArrowAt1stEnd
+    {66, true, PartEnds::End, 0},  // CrossLine1st3rdWideArrowAt1stEndFilled
+    {66, false, PartEnds::Start, 2},  // CrossLine1st3rdWideArrowAt3rdStart
+    {66, true, PartEnds::Start, 2},  // CrossLine1st3rdWideArrowAt3rdStartFilled
+    {66, false, PartEnds::End, 2},  // CrossLine1st3rdWideArrowAt3rdEnd
+    {66, true, PartEnds::End, 2},  // CrossLine1st3rdWideArrowAt3rdEndFilled
     {66, false},  // CrossLine1st3rdWideArrowAtEnds
     {66, true},  // CrossLine1st3rdWideArrowAtEndsFilled
+    {96, false, PartEnds::Start, 0},  // CrossLine1st3rdSquareAt1stStart
+    {96, true, PartEnds::Start, 0},  // CrossLine1st3rdSquareAt1stStartFilled
+    {96, false, PartEnds::End, 0},  // CrossLine1st3rdSquareAt1stEnd
+    {96, true, PartEnds::End, 0},  // CrossLine1st3rdSquareAt1stEndFilled
+    {96, false, PartEnds::Start, 2},  // CrossLine1st3rdSquareAt3rdStart
+    {96, true, PartEnds::Start, 2},  // CrossLine1st3rdSquareAt3rdStartFilled
+    {96, false, PartEnds::End, 2},  // CrossLine1st3rdSquareAt3rdEnd
+    {96, true, PartEnds::End, 2},  // CrossLine1st3rdSquareAt3rdEndFilled
+    {96, false},  // CrossLine1st3rdSquareAtEnds
+    {96, true},  // CrossLine1st3rdSquareAtEndsFilled
+    {97, false, PartEnds::Start, 0},  // CrossLine1st3rdDiamondAt1stStart
+    {97, true, PartEnds::Start, 0},  // CrossLine1st3rdDiamondAt1stStartFilled
+    {97, false, PartEnds::End, 0},  // CrossLine1st3rdDiamondAt1stEnd
+    {97, true, PartEnds::End, 0},  // CrossLine1st3rdDiamondAt1stEndFilled
+    {97, false, PartEnds::Start, 2},  // CrossLine1st3rdDiamondAt3rdStart
+    {97, true, PartEnds::Start, 2},  // CrossLine1st3rdDiamondAt3rdStartFilled
+    {97, false, PartEnds::End, 2},  // CrossLine1st3rdDiamondAt3rdEnd
+    {97, true, PartEnds::End, 2},  // CrossLine1st3rdDiamondAt3rdEndFilled
+    {97, false},  // CrossLine1st3rdDiamondAtEnds
+    {97, true},  // CrossLine1st3rdDiamondAtEndsFilled
+    {98, false, PartEnds::Start, 0},  // CrossLine1st3rdCircleAt1stStart
+    {98, true, PartEnds::Start, 0},  // CrossLine1st3rdCircleAt1stStartFilled
+    {98, false, PartEnds::End, 0},  // CrossLine1st3rdCircleAt1stEnd
+    {98, true, PartEnds::End, 0},  // CrossLine1st3rdCircleAt1stEndFilled
+    {98, false, PartEnds::Start, 2},  // CrossLine1st3rdCircleAt3rdStart
+    {98, true, PartEnds::Start, 2},  // CrossLine1st3rdCircleAt3rdStartFilled
+    {98, false, PartEnds::End, 2},  // CrossLine1st3rdCircleAt3rdEnd
+    {98, true, PartEnds::End, 2},  // CrossLine1st3rdCircleAt3rdEndFilled
+    {98, false},  // CrossLine1st3rdCircleAtEnds
+    {98, true},  // CrossLine1st3rdCircleAtEndsFilled
+    {99, false, PartEnds::Start, 0},  // CrossLine1st3rdTriangleAt1stStart
+    {99, true, PartEnds::Start, 0},  // CrossLine1st3rdTriangleAt1stStartFilled
+    {99, false, PartEnds::End, 0},  // CrossLine1st3rdTriangleAt1stEnd
+    {99, true, PartEnds::End, 0},  // CrossLine1st3rdTriangleAt1stEndFilled
+    {99, false, PartEnds::Start, 2},  // CrossLine1st3rdTriangleAt3rdStart
+    {99, true, PartEnds::Start, 2},  // CrossLine1st3rdTriangleAt3rdStartFilled
+    {99, false, PartEnds::End, 2},  // CrossLine1st3rdTriangleAt3rdEnd
+    {99, true, PartEnds::End, 2},  // CrossLine1st3rdTriangleAt3rdEndFilled
+    {99, false},  // CrossLine1st3rdTriangleAtEnds
+    {99, true},  // CrossLine1st3rdTriangleAtEndsFilled
     {4, false},  // CrossLine2nd3rd
-    {59, false, ArrowEnds::Start, 1},  // CrossLine2nd3rdArrowAt2ndStart
-    {59, true, ArrowEnds::Start, 1},  // CrossLine2nd3rdArrowAt2ndStartFilled
-    {59, false, ArrowEnds::End, 1},  // CrossLine2nd3rdArrowAt2ndEnd
-    {59, true, ArrowEnds::End, 1},  // CrossLine2nd3rdArrowAt2ndEndFilled
-    {59, false, ArrowEnds::Start, 2},  // CrossLine2nd3rdArrowAt3rdStart
-    {59, true, ArrowEnds::Start, 2},  // CrossLine2nd3rdArrowAt3rdStartFilled
-    {59, false, ArrowEnds::End, 2},  // CrossLine2nd3rdArrowAt3rdEnd
-    {59, true, ArrowEnds::End, 2},  // CrossLine2nd3rdArrowAt3rdEndFilled
+    {59, false, PartEnds::Start, 1},  // CrossLine2nd3rdArrowAt2ndStart
+    {59, true, PartEnds::Start, 1},  // CrossLine2nd3rdArrowAt2ndStartFilled
+    {59, false, PartEnds::End, 1},  // CrossLine2nd3rdArrowAt2ndEnd
+    {59, true, PartEnds::End, 1},  // CrossLine2nd3rdArrowAt2ndEndFilled
+    {59, false, PartEnds::Start, 2},  // CrossLine2nd3rdArrowAt3rdStart
+    {59, true, PartEnds::Start, 2},  // CrossLine2nd3rdArrowAt3rdStartFilled
+    {59, false, PartEnds::End, 2},  // CrossLine2nd3rdArrowAt3rdEnd
+    {59, true, PartEnds::End, 2},  // CrossLine2nd3rdArrowAt3rdEndFilled
     {59, false},  // CrossLine2nd3rdArrowAtEnds
     {59, true},  // CrossLine2nd3rdArrowAtEndsFilled
-    {67, false, ArrowEnds::Start, 1},  // CrossLine2nd3rdWideArrowAt2ndStart
-    {67, true, ArrowEnds::Start, 1},  // CrossLine2nd3rdWideArrowAt2ndStartFilled
-    {67, false, ArrowEnds::End, 1},  // CrossLine2nd3rdWideArrowAt2ndEnd
-    {67, true, ArrowEnds::End, 1},  // CrossLine2nd3rdWideArrowAt2ndEndFilled
-    {67, false, ArrowEnds::Start, 2},  // CrossLine2nd3rdWideArrowAt3rdStart
-    {67, true, ArrowEnds::Start, 2},  // CrossLine2nd3rdWideArrowAt3rdStartFilled
-    {67, false, ArrowEnds::End, 2},  // CrossLine2nd3rdWideArrowAt3rdEnd
-    {67, true, ArrowEnds::End, 2},  // CrossLine2nd3rdWideArrowAt3rdEndFilled
+    {67, false, PartEnds::Start, 1},  // CrossLine2nd3rdWideArrowAt2ndStart
+    {67, true, PartEnds::Start, 1},  // CrossLine2nd3rdWideArrowAt2ndStartFilled
+    {67, false, PartEnds::End, 1},  // CrossLine2nd3rdWideArrowAt2ndEnd
+    {67, true, PartEnds::End, 1},  // CrossLine2nd3rdWideArrowAt2ndEndFilled
+    {67, false, PartEnds::Start, 2},  // CrossLine2nd3rdWideArrowAt3rdStart
+    {67, true, PartEnds::Start, 2},  // CrossLine2nd3rdWideArrowAt3rdStartFilled
+    {67, false, PartEnds::End, 2},  // CrossLine2nd3rdWideArrowAt3rdEnd
+    {67, true, PartEnds::End, 2},  // CrossLine2nd3rdWideArrowAt3rdEndFilled
     {67, false},  // CrossLine2nd3rdWideArrowAtEnds
     {67, true},  // CrossLine2nd3rdWideArrowAtEndsFilled
+    {100, false, PartEnds::Start, 1},  // CrossLine2nd3rdSquareAt2ndStart
+    {100, true, PartEnds::Start, 1},  // CrossLine2nd3rdSquareAt2ndStartFilled
+    {100, false, PartEnds::End, 1},  // CrossLine2nd3rdSquareAt2ndEnd
+    {100, true, PartEnds::End, 1},  // CrossLine2nd3rdSquareAt2ndEndFilled
+    {100, false, PartEnds::Start, 2},  // CrossLine2nd3rdSquareAt3rdStart
+    {100, true, PartEnds::Start, 2},  // CrossLine2nd3rdSquareAt3rdStartFilled
+    {100, false, PartEnds::End, 2},  // CrossLine2nd3rdSquareAt3rdEnd
+    {100, true, PartEnds::End, 2},  // CrossLine2nd3rdSquareAt3rdEndFilled
+    {100, false},  // CrossLine2nd3rdSquareAtEnds
+    {100, true},  // CrossLine2nd3rdSquareAtEndsFilled
+    {101, false, PartEnds::Start, 1},  // CrossLine2nd3rdDiamondAt2ndStart
+    {101, true, PartEnds::Start, 1},  // CrossLine2nd3rdDiamondAt2ndStartFilled
+    {101, false, PartEnds::End, 1},  // CrossLine2nd3rdDiamondAt2ndEnd
+    {101, true, PartEnds::End, 1},  // CrossLine2nd3rdDiamondAt2ndEndFilled
+    {101, false, PartEnds::Start, 2},  // CrossLine2nd3rdDiamondAt3rdStart
+    {101, true, PartEnds::Start, 2},  // CrossLine2nd3rdDiamondAt3rdStartFilled
+    {101, false, PartEnds::End, 2},  // CrossLine2nd3rdDiamondAt3rdEnd
+    {101, true, PartEnds::End, 2},  // CrossLine2nd3rdDiamondAt3rdEndFilled
+    {101, false},  // CrossLine2nd3rdDiamondAtEnds
+    {101, true},  // CrossLine2nd3rdDiamondAtEndsFilled
+    {102, false, PartEnds::Start, 1},  // CrossLine2nd3rdCircleAt2ndStart
+    {102, true, PartEnds::Start, 1},  // CrossLine2nd3rdCircleAt2ndStartFilled
+    {102, false, PartEnds::End, 1},  // CrossLine2nd3rdCircleAt2ndEnd
+    {102, true, PartEnds::End, 1},  // CrossLine2nd3rdCircleAt2ndEndFilled
+    {102, false, PartEnds::Start, 2},  // CrossLine2nd3rdCircleAt3rdStart
+    {102, true, PartEnds::Start, 2},  // CrossLine2nd3rdCircleAt3rdStartFilled
+    {102, false, PartEnds::End, 2},  // CrossLine2nd3rdCircleAt3rdEnd
+    {102, true, PartEnds::End, 2},  // CrossLine2nd3rdCircleAt3rdEndFilled
+    {102, false},  // CrossLine2nd3rdCircleAtEnds
+    {102, true},  // CrossLine2nd3rdCircleAtEndsFilled
+    {103, false, PartEnds::Start, 1},  // CrossLine2nd3rdTriangleAt2ndStart
+    {103, true, PartEnds::Start, 1},  // CrossLine2nd3rdTriangleAt2ndStartFilled
+    {103, false, PartEnds::End, 1},  // CrossLine2nd3rdTriangleAt2ndEnd
+    {103, true, PartEnds::End, 1},  // CrossLine2nd3rdTriangleAt2ndEndFilled
+    {103, false, PartEnds::Start, 2},  // CrossLine2nd3rdTriangleAt3rdStart
+    {103, true, PartEnds::Start, 2},  // CrossLine2nd3rdTriangleAt3rdStartFilled
+    {103, false, PartEnds::End, 2},  // CrossLine2nd3rdTriangleAt3rdEnd
+    {103, true, PartEnds::End, 2},  // CrossLine2nd3rdTriangleAt3rdEndFilled
+    {103, false},  // CrossLine2nd3rdTriangleAtEnds
+    {103, true},  // CrossLine2nd3rdTriangleAtEndsFilled
     {5, false},  // CrossLine3Axis
     {69, false},  // CrossLine3AxisEndCube
     {69, true},  // CrossLine3AxisEndCubeFilled
@@ -382,6 +768,8 @@ constexpr std::array<PresetInfo, 228> kPresetInfo = {{
     {17, true},  // SquareTemplateArrow4Way2DFilled
     {18, false},  // SquareTemplateArrow4Way3D
     {18, true},  // SquareTemplateArrow4Way3DFilled
+    {79, false},  // Diamond
+    {79, true},  // DiamondFilled
     {19, false},  // Cube
     {19, true},  // CubeFilled
     {20, false},  // CubeArrow2D
@@ -406,16 +794,16 @@ constexpr std::array<PresetInfo, 228> kPresetInfo = {{
     {29, true},  // CircleArrow3DFilled
     {30, false},  // Semicircle
     {30, true},  // SemicircleFilled
-    {61, false, ArrowEnds::Start},  // SemicircleArrowAtStart
-    {61, true, ArrowEnds::Start},  // SemicircleArrowAtStartFilled
-    {61, false, ArrowEnds::End},  // SemicircleArrowAtEnd
-    {61, true, ArrowEnds::End},  // SemicircleArrowAtEndFilled
+    {61, false, PartEnds::Start},  // SemicircleArrowAtStart
+    {61, true, PartEnds::Start},  // SemicircleArrowAtStartFilled
+    {61, false, PartEnds::End},  // SemicircleArrowAtEnd
+    {61, true, PartEnds::End},  // SemicircleArrowAtEndFilled
     {61, false},  // SemicircleArrowAtEnds
     {61, true},  // SemicircleArrowAtEndsFilled
-    {68, false, ArrowEnds::Start},  // SemicircleWideArrowAtStart
-    {68, true, ArrowEnds::Start},  // SemicircleWideArrowAtStartFilled
-    {68, false, ArrowEnds::End},  // SemicircleWideArrowAtEnd
-    {68, true, ArrowEnds::End},  // SemicircleWideArrowAtEndFilled
+    {68, false, PartEnds::Start},  // SemicircleWideArrowAtStart
+    {68, true, PartEnds::Start},  // SemicircleWideArrowAtStartFilled
+    {68, false, PartEnds::End},  // SemicircleWideArrowAtEnd
+    {68, true, PartEnds::End},  // SemicircleWideArrowAtEndFilled
     {68, false},  // SemicircleWideArrowAtEnds
     {68, true},  // SemicircleWideArrowAtEndsFilled
     {31, false},  // SemicircleArrow2D
@@ -490,16 +878,16 @@ bool isFilledPreset(short shape) {
         && kPresetInfo[shape].filled;
 }
 
-short presetArrowAxis(short shape) {
+short presetPartAxis(short shape) {
     return shape >= 0 && shape < static_cast<short>(kPresetInfo.size())
-        ? kPresetInfo[shape].arrowAxis : -1;
+        ? kPresetInfo[shape].partAxis : -1;
 }
 
-bool hasArrowAtEnd(short shape, bool start, short axis = -1) {
+bool hasPartAtEnd(short shape, bool start, short axis = -1) {
     if (shape < 0 || shape >= static_cast<short>(kPresetInfo.size())) return true;
     const auto& info = kPresetInfo[shape];
-    if (axis >= 0 && info.arrowAxis >= 0 && axis != info.arrowAxis) return false;
-    return info.arrowEnds == ArrowEnds::Both || info.arrowEnds == (start ? ArrowEnds::Start : ArrowEnds::End);
+    if (axis >= 0 && info.partAxis >= 0 && axis != info.partAxis) return false;
+    return info.partEnds == PartEnds::Both || info.partEnds == (start ? PartEnds::Start : PartEnds::End);
 }
 
 constexpr std::array<RawPoint, 2> kPrimitive2 = {{
@@ -1099,7 +1487,7 @@ std::vector<ArrowHead> endArrowHeads(short outline, const ShapeSettings& setting
     const auto axes = straightLineAxes(base);
     for (unsigned int axis : axes) {
         for (double sign : {-1.0, 1.0}) {
-            if (!hasArrowAtEnd(settings.shape, sign < 0.0, static_cast<short>(axis))) continue;
+            if (!hasPartAtEnd(settings.shape, sign < 0.0, static_cast<short>(axis))) continue;
             const MVector direction = nativeAxis(axis) * sign;
             const MPoint tip = MPoint::origin + direction * 0.5;
             if (axes.size() == 1) {
@@ -1113,7 +1501,7 @@ std::vector<ArrowHead> endArrowHeads(short outline, const ShapeSettings& setting
     }
     if (base == 30) {
         for (double z : {-0.5, 0.5}) {
-            if (!hasArrowAtEnd(settings.shape, z > 0.0)) continue;
+            if (!hasPartAtEnd(settings.shape, z > 0.0)) continue;
             const MPoint tip(0.0, 0.0, z);
             const MVector direction(0.0, -1.0, 0.0);
             append(tip, direction, nativeAxis(2));
@@ -1208,12 +1596,12 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline, const ShapeSettings& se
         head(leftTip, {{
             leftInner, inner.back(), outer.back(), leftOuter,
         }});
-    } else if (outline >= 65 && presetArrowAxis(settings.shape) >= 0) {
+    } else if (outline >= 65 && presetPartAxis(settings.shape) >= 0) {
         constexpr std::array<std::array<short, 2>, 3> planes = {{{0, 1}, {0, 2}, {1, 2}}};
         const auto& plane = planes[outline - 65];
         for (unsigned int axis = 0; axis < 2; ++axis) {
-            const bool startArrow = hasArrowAtEnd(settings.shape, true, plane[axis]);
-            const bool endArrow = hasArrowAtEnd(settings.shape, false, plane[axis]);
+            const bool startArrow = hasPartAtEnd(settings.shape, true, plane[axis]);
+            const bool endArrow = hasPartAtEnd(settings.shape, false, plane[axis]);
             const double start = startArrow ? -shoulder : -0.5;
             const double end = endArrow ? shoulder : 0.5;
             const auto point = [axis](double along, double side) {
@@ -1226,7 +1614,7 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline, const ShapeSettings& se
         for (unsigned int arm = 0; arm < 4; ++arm) {
             const unsigned int axis = arm % 2;
             const double sign = arm < 2 ? 1.0 : -1.0;
-            const bool arrow = hasArrowAtEnd(settings.shape, sign < 0.0, plane[axis]);
+            const bool arrow = hasPartAtEnd(settings.shape, sign < 0.0, plane[axis]);
             const MVector direction = nativeAxis(axis) * sign;
             const MVector side(-direction.y, direction.x, 0);
             const MPoint base = MPoint::origin + direction * (arrow ? shoulder : 0.5);
@@ -1243,8 +1631,8 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline, const ShapeSettings& se
         }
     } else {
         const bool cross = outline >= 65;
-        const bool startArrow = hasArrowAtEnd(settings.shape, true);
-        const bool endArrow = hasArrowAtEnd(settings.shape, false);
+        const bool startArrow = hasPartAtEnd(settings.shape, true);
+        const bool endArrow = hasPartAtEnd(settings.shape, false);
         const double startJoin = startArrow ? -shoulder : -0.5;
         const double endJoin = endArrow ? shoulder : 0.5;
         const auto point = [](double along, double side, unsigned int axis) {
@@ -1263,7 +1651,7 @@ WideEndArrowGeometry wideEndArrowGeometry(short outline, const ShapeSettings& se
         }
         for (unsigned int axis = 0; axis < (cross ? 2u : 1u); ++axis) {
             for (double sign : {-1.0, 1.0}) {
-                if (!hasArrowAtEnd(settings.shape, sign < 0.0)) continue;
+                if (!hasPartAtEnd(settings.shape, sign < 0.0)) continue;
                 if (cross) {
                     const double start = sign * shaftHalfWidth;
                     quad(point(start, -shaftHalfWidth, axis),
@@ -1403,8 +1791,8 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
         if (transform.settings.partOffset != 0.0) {
             const auto axes = straightLineAxes(endArrowBaseOutline(outline));
             for (auto axis : axes) {
-                const bool startArrow = hasArrowAtEnd(shape, true, static_cast<short>(axis));
-                const bool endArrow = hasArrowAtEnd(shape, false, static_cast<short>(axis));
+                const bool startArrow = hasPartAtEnd(shape, true, static_cast<short>(axis));
+                const bool endArrow = hasPartAtEnd(shape, false, static_cast<short>(axis));
                 const double moved = startArrow && endArrow
                     ? std::max(0.0, 0.5 + transform.settings.partOffset) : 0.5 + transform.settings.partOffset;
                 const MVector direction = nativeAxis(axis);
@@ -1415,7 +1803,7 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             if (!axes.empty()) return;
             appendPresetComponent(29, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             for (double z : {-0.5, 0.5}) {
-                if (!hasArrowAtEnd(shape, z > 0.0)) continue;
+                if (!hasPartAtEnd(shape, z > 0.0)) continue;
                 appendNativeStroke({MPoint(0, 0, z), MPoint(0, -transform.settings.partOffset, z)},
                     StrokeStyle::Normal, transform, strokes, styles);
             }

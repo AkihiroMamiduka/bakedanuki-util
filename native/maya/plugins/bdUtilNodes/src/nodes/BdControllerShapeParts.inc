@@ -477,12 +477,14 @@ void appendWidePartUnion(PartBuilder& builder, short outline, const ShapeSetting
 }
 
 #include "BdControllerShapeSemicircle.inc"
+#include "BdControllerShapeEndPlanar.inc"
 
 bool makeAdjustedPartGeometry(const ShapeSettings& settings, PartGeometry& geometry) {
+    if (makePlanarEndGeometry(settings, geometry)) return true;
     const short outline = outlinePresetIndex(settings.shape);
     const bool semicircle = outline == 30 || outline == 31 || outline == 32 || outline == 61 || outline == 68;
-    const bool singleEnd = !hasArrowAtEnd(settings.shape, true) || !hasArrowAtEnd(settings.shape, false);
-    const bool singleCross = outline >= 65 && outline <= 67 && presetArrowAxis(settings.shape) >= 0;
+    const bool singleEnd = !hasPartAtEnd(settings.shape, true) || !hasPartAtEnd(settings.shape, false);
+    const bool singleCross = outline >= 65 && outline <= 67 && presetPartAxis(settings.shape) >= 0;
     const bool fin = outline == 22 || outline == 23 || outline == 26 || outline == 37 ||
         outline == 38 || outline == 40 || outline == 42 || outline == 44;
     if (!hasPartAdjustment(settings) && !singleCross && (!semicircle || (settings.partOffsetAngle == 0.0 && !singleEnd)) &&

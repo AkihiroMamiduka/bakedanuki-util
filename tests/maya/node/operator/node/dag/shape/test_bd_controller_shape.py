@@ -31,6 +31,30 @@ SHAPE_NAMES = (
     "Line1stWideArrowAtEndFilled",
     "Line1stWideArrowAtEnds",
     "Line1stWideArrowAtEndsFilled",
+    "Line1stSquareAtStart",
+    "Line1stSquareAtStartFilled",
+    "Line1stSquareAtEnd",
+    "Line1stSquareAtEndFilled",
+    "Line1stSquareAtEnds",
+    "Line1stSquareAtEndsFilled",
+    "Line1stDiamondAtStart",
+    "Line1stDiamondAtStartFilled",
+    "Line1stDiamondAtEnd",
+    "Line1stDiamondAtEndFilled",
+    "Line1stDiamondAtEnds",
+    "Line1stDiamondAtEndsFilled",
+    "Line1stCircleAtStart",
+    "Line1stCircleAtStartFilled",
+    "Line1stCircleAtEnd",
+    "Line1stCircleAtEndFilled",
+    "Line1stCircleAtEnds",
+    "Line1stCircleAtEndsFilled",
+    "Line1stTriangleAtStart",
+    "Line1stTriangleAtStartFilled",
+    "Line1stTriangleAtEnd",
+    "Line1stTriangleAtEndFilled",
+    "Line1stTriangleAtEnds",
+    "Line1stTriangleAtEndsFilled",
     "Line2nd",
     "Line2ndArrowAtStart",
     "Line2ndArrowAtStartFilled",
@@ -44,6 +68,30 @@ SHAPE_NAMES = (
     "Line2ndWideArrowAtEndFilled",
     "Line2ndWideArrowAtEnds",
     "Line2ndWideArrowAtEndsFilled",
+    "Line2ndSquareAtStart",
+    "Line2ndSquareAtStartFilled",
+    "Line2ndSquareAtEnd",
+    "Line2ndSquareAtEndFilled",
+    "Line2ndSquareAtEnds",
+    "Line2ndSquareAtEndsFilled",
+    "Line2ndDiamondAtStart",
+    "Line2ndDiamondAtStartFilled",
+    "Line2ndDiamondAtEnd",
+    "Line2ndDiamondAtEndFilled",
+    "Line2ndDiamondAtEnds",
+    "Line2ndDiamondAtEndsFilled",
+    "Line2ndCircleAtStart",
+    "Line2ndCircleAtStartFilled",
+    "Line2ndCircleAtEnd",
+    "Line2ndCircleAtEndFilled",
+    "Line2ndCircleAtEnds",
+    "Line2ndCircleAtEndsFilled",
+    "Line2ndTriangleAtStart",
+    "Line2ndTriangleAtStartFilled",
+    "Line2ndTriangleAtEnd",
+    "Line2ndTriangleAtEndFilled",
+    "Line2ndTriangleAtEnds",
+    "Line2ndTriangleAtEndsFilled",
     "Line3rd",
     "Line3rdArrowAtStart",
     "Line3rdArrowAtStartFilled",
@@ -57,6 +105,30 @@ SHAPE_NAMES = (
     "Line3rdWideArrowAtEndFilled",
     "Line3rdWideArrowAtEnds",
     "Line3rdWideArrowAtEndsFilled",
+    "Line3rdSquareAtStart",
+    "Line3rdSquareAtStartFilled",
+    "Line3rdSquareAtEnd",
+    "Line3rdSquareAtEndFilled",
+    "Line3rdSquareAtEnds",
+    "Line3rdSquareAtEndsFilled",
+    "Line3rdDiamondAtStart",
+    "Line3rdDiamondAtStartFilled",
+    "Line3rdDiamondAtEnd",
+    "Line3rdDiamondAtEndFilled",
+    "Line3rdDiamondAtEnds",
+    "Line3rdDiamondAtEndsFilled",
+    "Line3rdCircleAtStart",
+    "Line3rdCircleAtStartFilled",
+    "Line3rdCircleAtEnd",
+    "Line3rdCircleAtEndFilled",
+    "Line3rdCircleAtEnds",
+    "Line3rdCircleAtEndsFilled",
+    "Line3rdTriangleAtStart",
+    "Line3rdTriangleAtStartFilled",
+    "Line3rdTriangleAtEnd",
+    "Line3rdTriangleAtEndFilled",
+    "Line3rdTriangleAtEnds",
+    "Line3rdTriangleAtEndsFilled",
     "CrossLine1st2nd",
     "CrossLine1st2ndArrowAt1stStart",
     "CrossLine1st2ndArrowAt1stStartFilled",
@@ -78,6 +150,46 @@ SHAPE_NAMES = (
     "CrossLine1st2ndWideArrowAt2ndEndFilled",
     "CrossLine1st2ndWideArrowAtEnds",
     "CrossLine1st2ndWideArrowAtEndsFilled",
+    "CrossLine1st2ndSquareAt1stStart",
+    "CrossLine1st2ndSquareAt1stStartFilled",
+    "CrossLine1st2ndSquareAt1stEnd",
+    "CrossLine1st2ndSquareAt1stEndFilled",
+    "CrossLine1st2ndSquareAt2ndStart",
+    "CrossLine1st2ndSquareAt2ndStartFilled",
+    "CrossLine1st2ndSquareAt2ndEnd",
+    "CrossLine1st2ndSquareAt2ndEndFilled",
+    "CrossLine1st2ndSquareAtEnds",
+    "CrossLine1st2ndSquareAtEndsFilled",
+    "CrossLine1st2ndDiamondAt1stStart",
+    "CrossLine1st2ndDiamondAt1stStartFilled",
+    "CrossLine1st2ndDiamondAt1stEnd",
+    "CrossLine1st2ndDiamondAt1stEndFilled",
+    "CrossLine1st2ndDiamondAt2ndStart",
+    "CrossLine1st2ndDiamondAt2ndStartFilled",
+    "CrossLine1st2ndDiamondAt2ndEnd",
+    "CrossLine1st2ndDiamondAt2ndEndFilled",
+    "CrossLine1st2ndDiamondAtEnds",
+    "CrossLine1st2ndDiamondAtEndsFilled",
+    "CrossLine1st2ndCircleAt1stStart",
+    "CrossLine1st2ndCircleAt1stStartFilled",
+    "CrossLine1st2ndCircleAt1stEnd",
+    "CrossLine1st2ndCircleAt1stEndFilled",
+    "CrossLine1st2ndCircleAt2ndStart",
+    "CrossLine1st2ndCircleAt2ndStartFilled",
+    "CrossLine1st2ndCircleAt2ndEnd",
+    "CrossLine1st2ndCircleAt2ndEndFilled",
+    "CrossLine1st2ndCircleAtEnds",
+    "CrossLine1st2ndCircleAtEndsFilled",
+    "CrossLine1st2ndTriangleAt1stStart",
+    "CrossLine1st2ndTriangleAt1stStartFilled",
+    "CrossLine1st2ndTriangleAt1stEnd",
+    "CrossLine1st2ndTriangleAt1stEndFilled",
+    "CrossLine1st2ndTriangleAt2ndStart",
+    "CrossLine1st2ndTriangleAt2ndStartFilled",
+    "CrossLine1st2ndTriangleAt2ndEnd",
+    "CrossLine1st2ndTriangleAt2ndEndFilled",
+    "CrossLine1st2ndTriangleAtEnds",
+    "CrossLine1st2ndTriangleAtEndsFilled",
     "CrossLine1st3rd",
     "CrossLine1st3rdArrowAt1stStart",
     "CrossLine1st3rdArrowAt1stStartFilled",
@@ -99,6 +211,46 @@ SHAPE_NAMES = (
     "CrossLine1st3rdWideArrowAt3rdEndFilled",
     "CrossLine1st3rdWideArrowAtEnds",
     "CrossLine1st3rdWideArrowAtEndsFilled",
+    "CrossLine1st3rdSquareAt1stStart",
+    "CrossLine1st3rdSquareAt1stStartFilled",
+    "CrossLine1st3rdSquareAt1stEnd",
+    "CrossLine1st3rdSquareAt1stEndFilled",
+    "CrossLine1st3rdSquareAt3rdStart",
+    "CrossLine1st3rdSquareAt3rdStartFilled",
+    "CrossLine1st3rdSquareAt3rdEnd",
+    "CrossLine1st3rdSquareAt3rdEndFilled",
+    "CrossLine1st3rdSquareAtEnds",
+    "CrossLine1st3rdSquareAtEndsFilled",
+    "CrossLine1st3rdDiamondAt1stStart",
+    "CrossLine1st3rdDiamondAt1stStartFilled",
+    "CrossLine1st3rdDiamondAt1stEnd",
+    "CrossLine1st3rdDiamondAt1stEndFilled",
+    "CrossLine1st3rdDiamondAt3rdStart",
+    "CrossLine1st3rdDiamondAt3rdStartFilled",
+    "CrossLine1st3rdDiamondAt3rdEnd",
+    "CrossLine1st3rdDiamondAt3rdEndFilled",
+    "CrossLine1st3rdDiamondAtEnds",
+    "CrossLine1st3rdDiamondAtEndsFilled",
+    "CrossLine1st3rdCircleAt1stStart",
+    "CrossLine1st3rdCircleAt1stStartFilled",
+    "CrossLine1st3rdCircleAt1stEnd",
+    "CrossLine1st3rdCircleAt1stEndFilled",
+    "CrossLine1st3rdCircleAt3rdStart",
+    "CrossLine1st3rdCircleAt3rdStartFilled",
+    "CrossLine1st3rdCircleAt3rdEnd",
+    "CrossLine1st3rdCircleAt3rdEndFilled",
+    "CrossLine1st3rdCircleAtEnds",
+    "CrossLine1st3rdCircleAtEndsFilled",
+    "CrossLine1st3rdTriangleAt1stStart",
+    "CrossLine1st3rdTriangleAt1stStartFilled",
+    "CrossLine1st3rdTriangleAt1stEnd",
+    "CrossLine1st3rdTriangleAt1stEndFilled",
+    "CrossLine1st3rdTriangleAt3rdStart",
+    "CrossLine1st3rdTriangleAt3rdStartFilled",
+    "CrossLine1st3rdTriangleAt3rdEnd",
+    "CrossLine1st3rdTriangleAt3rdEndFilled",
+    "CrossLine1st3rdTriangleAtEnds",
+    "CrossLine1st3rdTriangleAtEndsFilled",
     "CrossLine2nd3rd",
     "CrossLine2nd3rdArrowAt2ndStart",
     "CrossLine2nd3rdArrowAt2ndStartFilled",
@@ -120,6 +272,46 @@ SHAPE_NAMES = (
     "CrossLine2nd3rdWideArrowAt3rdEndFilled",
     "CrossLine2nd3rdWideArrowAtEnds",
     "CrossLine2nd3rdWideArrowAtEndsFilled",
+    "CrossLine2nd3rdSquareAt2ndStart",
+    "CrossLine2nd3rdSquareAt2ndStartFilled",
+    "CrossLine2nd3rdSquareAt2ndEnd",
+    "CrossLine2nd3rdSquareAt2ndEndFilled",
+    "CrossLine2nd3rdSquareAt3rdStart",
+    "CrossLine2nd3rdSquareAt3rdStartFilled",
+    "CrossLine2nd3rdSquareAt3rdEnd",
+    "CrossLine2nd3rdSquareAt3rdEndFilled",
+    "CrossLine2nd3rdSquareAtEnds",
+    "CrossLine2nd3rdSquareAtEndsFilled",
+    "CrossLine2nd3rdDiamondAt2ndStart",
+    "CrossLine2nd3rdDiamondAt2ndStartFilled",
+    "CrossLine2nd3rdDiamondAt2ndEnd",
+    "CrossLine2nd3rdDiamondAt2ndEndFilled",
+    "CrossLine2nd3rdDiamondAt3rdStart",
+    "CrossLine2nd3rdDiamondAt3rdStartFilled",
+    "CrossLine2nd3rdDiamondAt3rdEnd",
+    "CrossLine2nd3rdDiamondAt3rdEndFilled",
+    "CrossLine2nd3rdDiamondAtEnds",
+    "CrossLine2nd3rdDiamondAtEndsFilled",
+    "CrossLine2nd3rdCircleAt2ndStart",
+    "CrossLine2nd3rdCircleAt2ndStartFilled",
+    "CrossLine2nd3rdCircleAt2ndEnd",
+    "CrossLine2nd3rdCircleAt2ndEndFilled",
+    "CrossLine2nd3rdCircleAt3rdStart",
+    "CrossLine2nd3rdCircleAt3rdStartFilled",
+    "CrossLine2nd3rdCircleAt3rdEnd",
+    "CrossLine2nd3rdCircleAt3rdEndFilled",
+    "CrossLine2nd3rdCircleAtEnds",
+    "CrossLine2nd3rdCircleAtEndsFilled",
+    "CrossLine2nd3rdTriangleAt2ndStart",
+    "CrossLine2nd3rdTriangleAt2ndStartFilled",
+    "CrossLine2nd3rdTriangleAt2ndEnd",
+    "CrossLine2nd3rdTriangleAt2ndEndFilled",
+    "CrossLine2nd3rdTriangleAt3rdStart",
+    "CrossLine2nd3rdTriangleAt3rdStartFilled",
+    "CrossLine2nd3rdTriangleAt3rdEnd",
+    "CrossLine2nd3rdTriangleAt3rdEndFilled",
+    "CrossLine2nd3rdTriangleAtEnds",
+    "CrossLine2nd3rdTriangleAtEndsFilled",
     "CrossLine3Axis",
     "CrossLine3AxisEndCube",
     "CrossLine3AxisEndCubeFilled",
@@ -157,6 +349,8 @@ SHAPE_NAMES = (
     "SquareTemplateArrow4Way2DFilled",
     "SquareTemplateArrow4Way3D",
     "SquareTemplateArrow4Way3DFilled",
+    "Diamond",
+    "DiamondFilled",
     "Cube",
     "CubeFilled",
     "CubeArrow2D",
@@ -3324,6 +3518,215 @@ def test_single_end_shape_history_and_scene_reload(
     assert maya_cmds.getAttr(f"{name}.shape") == SHAPE_NAMES.index(
         "SemicircleWideArrowAtEndFilled"
     )
+
+
+@pytest.mark.parametrize("filled", (False, True))
+def test_diamond_fits_square_midpoints(maya_cmds, maya_om, new_scene, filled):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds,
+        shape_value=SHAPE_NAMES.index(
+            "Diamond" + ("Filled" if filled else "")
+        ),
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (0, -0.5, -0.5, 0, 0.5, 0.5), abs=1e-9
+    )
+    maya_cmds.setAttr(f"{shape}.shapeRotateX", 45)
+    extent = math.sqrt(0.125)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (0, -extent, -extent, 0, extent, extent), abs=1e-9
+    )
+    maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.2)
+    maya_cmds.setAttr(f"{shape}.shapePartSize", 3)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (0, -extent, -extent, 0, extent, extent), abs=1e-9
+    )
+
+
+@pytest.mark.parametrize(
+    "base,axes,side,end_axis,end_sign",
+    tuple(
+        (base, axes, side, end_axis, end_sign)
+        for base, axes, side in (
+            ("Line1st", (0,), 1),
+            ("Line2nd", (1,), 0),
+            ("Line3rd", (2,), 0),
+            ("CrossLine1st2nd", (0, 1), None),
+            ("CrossLine1st3rd", (0, 2), None),
+            ("CrossLine2nd3rd", (1, 2), None),
+        )
+        for end_axis, end_sign in (
+            (None, 0),
+            *((axis, sign) for axis in axes for sign in (-1, 1)),
+        )
+    ),
+)
+@pytest.mark.parametrize("part", ("Square", "Diamond", "Circle", "Triangle"))
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize(
+    "offset,length,width,size",
+    (
+        (0, 1, 1, 1),
+        (0.2, 2, 3, 1),
+        (-0.2, 0.5, 1, 2),
+        (0.1, -2, -3, 1),
+        (-0.5, 1, 1, 1),
+        (-0.7, 1, 1, 1),
+        (0.1, 0, 1, 1),
+        (0.1, 1, 0, 1),
+        (0.1, 1, 1, 0),
+    ),
+)
+def test_planar_end_shape_bounds_follow_part_controls(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    base,
+    axes,
+    side,
+    end_axis,
+    end_sign,
+    part,
+    filled,
+    offset,
+    length,
+    width,
+    size,
+):
+    _load_bd_util_nodes(maya_cmds)
+    placement = "Ends"
+    if end_axis is not None:
+        placement = (
+            ("1st", "2nd", "3rd")[end_axis] if len(axes) > 1 else ""
+        ) + ("Start" if end_sign < 0 else "End")
+    name = base + part + "At" + placement + ("Filled" if filled else "")
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(name)
+    )
+    for attribute, value in (
+        ("shapePartOffset", offset),
+        ("shapePartLengthScale", length),
+        ("shapePartWidthScale", width),
+        ("shapePartSize", size),
+    ):
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
+    center = 0.5 + offset
+    if part == "Triangle":
+        center -= 0.05 * length * size
+    along = (center - 0.05 * length * size, center + 0.05 * length * size)
+    transverse = 0.05 * abs(width * size)
+    points = [[0.0, 0.0, 0.0]]
+    for axis in axes:
+        other = (
+            side
+            if side is not None
+            else next(value for value in axes if value != axis)
+        )
+        for sign in (-1, 1):
+            if end_axis is not None and (axis != end_axis or sign != end_sign):
+                point = [0.0, 0.0, 0.0]
+                point[axis] = 0.5 * sign
+                points.append(point)
+                continue
+            for coordinate in along:
+                for width_sign in (-1, 1):
+                    point = [0.0, 0.0, 0.0]
+                    point[axis] = coordinate * sign
+                    point[other] = transverse * width_sign
+                    points.append(point)
+    expected = tuple(min(p[i] for p in points) for i in range(3)) + tuple(
+        max(p[i] for p in points) for i in range(3)
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+    if end_axis is not None:
+        maya_cmds.setAttr(f"{shape}.boundsMode", 1)
+        extent = [(expected[i + 3] - expected[i]) * 0.5 for i in range(3)]
+        assert _bounds(maya_om, shape) == pytest.approx(
+            tuple(-value for value in extent) + tuple(extent), abs=1e-9
+        )
+
+
+@pytest.mark.parametrize(
+    "shape_name",
+    (
+        "Line1stSquareAtStartFilled",
+        "Line2ndDiamondAtEndFilled",
+        "Line3rdCircleAtStartFilled",
+        "CrossLine1st2ndTriangleAt2ndEndFilled",
+        "CrossLine1st3rdSquareAt3rdStartFilled",
+        "CrossLine2nd3rdDiamondAt2ndEndFilled",
+        "CrossLine1st3rdCircleAtEndsFilled",
+    ),
+)
+def test_planar_end_controls_connections_and_history(
+    maya_cmds, maya_om, new_scene, tmp_path, shape_name
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, name = _create_controller(maya_cmds)
+    source = maya_cmds.createNode("multDoubleLinear")
+    maya_cmds.setAttr(f"{source}.input1", 0.1)
+    maya_cmds.setAttr(f"{source}.input2", 2)
+    mod = bdu.ModifierManager()
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    shape = bd_nodes.existing(name)
+    shape.shape.set(getattr(ShapeEnumPlugOperator, shape_name.upper()))
+    shape.shapePartOffset.connect_from(f"{source}.output")
+    shape.shapePartLengthScale.set(2)
+    shape.shapePartWidthScale.set(1.5)
+    shape.shapePartSize.set(2)
+    shape.shape1stAxis.set(4)
+    shape.shape2ndAxis.set(0)
+    mod.do_it_dg()
+    expected = _bounds(maya_om, name)
+    mod.undo_it()
+    assert _bounds(maya_om, name) != pytest.approx(expected)
+    mod.redo_it()
+    assert _bounds(maya_om, name) == pytest.approx(expected)
+    path = tmp_path / "planar_end_shape.ma"
+    maya_cmds.file(rename=str(path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(path), open=True, force=True)
+    assert _bounds(maya_om, name) == pytest.approx(expected)
+    assert maya_cmds.getAttr(f"{name}.shape") == SHAPE_NAMES.index(shape_name)
+    assert maya_cmds.isConnected(f"{source}.output", f"{name}.shapePartOffset")
+    maya_cmds.setAttr(f"{source}.input1", 0.2)
+    assert _bounds(maya_om, name) != pytest.approx(expected)
+
+
+@pytest.mark.parametrize("placement", ("Start", "End", "Ends"))
+def test_planar_end_offset_uses_scene_distance_units(
+    maya_cmds, maya_om, new_scene, placement
+):
+    _load_bd_util_nodes(maya_cmds)
+    previous_unit = maya_cmds.currentUnit(query=True, linear=True)
+    try:
+        maya_cmds.currentUnit(linear="mm")
+        _, shape = _create_controller(
+            maya_cmds,
+            shape_value=SHAPE_NAMES.index(
+                "Line1stDiamondAt" + placement + "Filled"
+            ),
+        )
+        maya_cmds.setAttr(f"{shape}.shapePartOffset", 2)
+        assert _bounds(maya_om, shape) == pytest.approx(
+            (
+                -0.5 if placement == "End" else -0.75,
+                -0.05,
+                0,
+                0.5 if placement == "Start" else 0.75,
+                0.05,
+                0,
+            ),
+            abs=1e-9,
+        )
+        maya_cmds.currentUnit(linear="cm")
+        assert maya_cmds.getAttr(f"{shape}.shapePartOffset") == pytest.approx(
+            0.2
+        )
+    finally:
+        maya_cmds.currentUnit(linear=previous_unit)
 
 
 def test_custom_bounds_node_operator_history_and_scene_reload(
