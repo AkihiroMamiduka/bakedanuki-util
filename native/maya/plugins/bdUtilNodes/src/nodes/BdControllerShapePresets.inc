@@ -1,83 +1,33 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 274> kPresetNames = {
+constexpr std::array<const char*, 224> kPresetNames = {
     "Gear",
     "GearFilled",
-    "Line1st",
-    "Line1stArrowAtEnd",
-    "Line1stArrowAtEndFilled",
-    "Line1stArrowAtEnds",
-    "Line1stArrowAtEndsFilled",
-    "Line1stWideArrowAtEnd",
-    "Line1stWideArrowAtEndFilled",
-    "Line1stWideArrowAtEnds",
-    "Line1stWideArrowAtEndsFilled",
-    "Line1stSquareAtEnd",
-    "Line1stSquareAtEndFilled",
-    "Line1stSquareAtEnds",
-    "Line1stSquareAtEndsFilled",
-    "Line1stDiamondAtEnd",
-    "Line1stDiamondAtEndFilled",
-    "Line1stDiamondAtEnds",
-    "Line1stDiamondAtEndsFilled",
-    "Line1stCircleAtEnd",
-    "Line1stCircleAtEndFilled",
-    "Line1stCircleAtEnds",
-    "Line1stCircleAtEndsFilled",
-    "Line1stTriangleAtEnd",
-    "Line1stTriangleAtEndFilled",
-    "Line1stTriangleAtEnds",
-    "Line1stTriangleAtEndsFilled",
-    "Line2nd",
-    "Line2ndArrowAtEnd",
-    "Line2ndArrowAtEndFilled",
-    "Line2ndArrowAtEnds",
-    "Line2ndArrowAtEndsFilled",
-    "Line2ndWideArrowAtEnd",
-    "Line2ndWideArrowAtEndFilled",
-    "Line2ndWideArrowAtEnds",
-    "Line2ndWideArrowAtEndsFilled",
-    "Line2ndSquareAtEnd",
-    "Line2ndSquareAtEndFilled",
-    "Line2ndSquareAtEnds",
-    "Line2ndSquareAtEndsFilled",
-    "Line2ndDiamondAtEnd",
-    "Line2ndDiamondAtEndFilled",
-    "Line2ndDiamondAtEnds",
-    "Line2ndDiamondAtEndsFilled",
-    "Line2ndCircleAtEnd",
-    "Line2ndCircleAtEndFilled",
-    "Line2ndCircleAtEnds",
-    "Line2ndCircleAtEndsFilled",
-    "Line2ndTriangleAtEnd",
-    "Line2ndTriangleAtEndFilled",
-    "Line2ndTriangleAtEnds",
-    "Line2ndTriangleAtEndsFilled",
-    "Line3rd",
-    "Line3rdArrowAtEnd",
-    "Line3rdArrowAtEndFilled",
-    "Line3rdArrowAtEnds",
-    "Line3rdArrowAtEndsFilled",
-    "Line3rdWideArrowAtEnd",
-    "Line3rdWideArrowAtEndFilled",
-    "Line3rdWideArrowAtEnds",
-    "Line3rdWideArrowAtEndsFilled",
-    "Line3rdSquareAtEnd",
-    "Line3rdSquareAtEndFilled",
-    "Line3rdSquareAtEnds",
-    "Line3rdSquareAtEndsFilled",
-    "Line3rdDiamondAtEnd",
-    "Line3rdDiamondAtEndFilled",
-    "Line3rdDiamondAtEnds",
-    "Line3rdDiamondAtEndsFilled",
-    "Line3rdCircleAtEnd",
-    "Line3rdCircleAtEndFilled",
-    "Line3rdCircleAtEnds",
-    "Line3rdCircleAtEndsFilled",
-    "Line3rdTriangleAtEnd",
-    "Line3rdTriangleAtEndFilled",
-    "Line3rdTriangleAtEnds",
-    "Line3rdTriangleAtEndsFilled",
+    "Line",
+    "LineArrowAtEnd",
+    "LineArrowAtEndFilled",
+    "LineArrowAtEnds",
+    "LineArrowAtEndsFilled",
+    "LineWideArrowAtEnd",
+    "LineWideArrowAtEndFilled",
+    "LineWideArrowAtEnds",
+    "LineWideArrowAtEndsFilled",
+    "LineSquareAtEnd",
+    "LineSquareAtEndFilled",
+    "LineSquareAtEnds",
+    "LineSquareAtEndsFilled",
+    "LineDiamondAtEnd",
+    "LineDiamondAtEndFilled",
+    "LineDiamondAtEnds",
+    "LineDiamondAtEndsFilled",
+    "LineCircleAtEnd",
+    "LineCircleAtEndFilled",
+    "LineCircleAtEnds",
+    "LineCircleAtEndsFilled",
+    "LineTriangleAtEnd",
+    "LineTriangleAtEndFilled",
+    "LineTriangleAtEnds",
+    "LineTriangleAtEndsFilled",
     "CrossLine1st2nd",
     "CrossLine1st2ndArrowAtEnd",
     "CrossLine1st2ndArrowAtEndFilled",
@@ -286,84 +236,34 @@ struct PresetInfo {
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 274> kPresetInfo = {{
+constexpr std::array<PresetInfo, 224> kPresetInfo = {{
     {0, false},  // Gear
     {0, true},  // GearFilled
-    {1, false},  // Line1st
-    {54, false, PartEnds::End},  // Line1stArrowAtEnd
-    {54, true, PartEnds::End},  // Line1stArrowAtEndFilled
-    {54, false},  // Line1stArrowAtEnds
-    {54, true},  // Line1stArrowAtEndsFilled
-    {62, false, PartEnds::End},  // Line1stWideArrowAtEnd
-    {62, true, PartEnds::End},  // Line1stWideArrowAtEndFilled
-    {62, false},  // Line1stWideArrowAtEnds
-    {62, true},  // Line1stWideArrowAtEndsFilled
-    {80, false, PartEnds::End},  // Line1stSquareAtEnd
-    {80, true, PartEnds::End},  // Line1stSquareAtEndFilled
-    {80, false},  // Line1stSquareAtEnds
-    {80, true},  // Line1stSquareAtEndsFilled
-    {81, false, PartEnds::End},  // Line1stDiamondAtEnd
-    {81, true, PartEnds::End},  // Line1stDiamondAtEndFilled
-    {81, false},  // Line1stDiamondAtEnds
-    {81, true},  // Line1stDiamondAtEndsFilled
-    {82, false, PartEnds::End},  // Line1stCircleAtEnd
-    {82, true, PartEnds::End},  // Line1stCircleAtEndFilled
-    {82, false},  // Line1stCircleAtEnds
-    {82, true},  // Line1stCircleAtEndsFilled
-    {83, false, PartEnds::End},  // Line1stTriangleAtEnd
-    {83, true, PartEnds::End},  // Line1stTriangleAtEndFilled
-    {83, false},  // Line1stTriangleAtEnds
-    {83, true},  // Line1stTriangleAtEndsFilled
-    {2, false},  // Line2nd
-    {55, false, PartEnds::End},  // Line2ndArrowAtEnd
-    {55, true, PartEnds::End},  // Line2ndArrowAtEndFilled
-    {55, false},  // Line2ndArrowAtEnds
-    {55, true},  // Line2ndArrowAtEndsFilled
-    {63, false, PartEnds::End},  // Line2ndWideArrowAtEnd
-    {63, true, PartEnds::End},  // Line2ndWideArrowAtEndFilled
-    {63, false},  // Line2ndWideArrowAtEnds
-    {63, true},  // Line2ndWideArrowAtEndsFilled
-    {84, false, PartEnds::End},  // Line2ndSquareAtEnd
-    {84, true, PartEnds::End},  // Line2ndSquareAtEndFilled
-    {84, false},  // Line2ndSquareAtEnds
-    {84, true},  // Line2ndSquareAtEndsFilled
-    {85, false, PartEnds::End},  // Line2ndDiamondAtEnd
-    {85, true, PartEnds::End},  // Line2ndDiamondAtEndFilled
-    {85, false},  // Line2ndDiamondAtEnds
-    {85, true},  // Line2ndDiamondAtEndsFilled
-    {86, false, PartEnds::End},  // Line2ndCircleAtEnd
-    {86, true, PartEnds::End},  // Line2ndCircleAtEndFilled
-    {86, false},  // Line2ndCircleAtEnds
-    {86, true},  // Line2ndCircleAtEndsFilled
-    {87, false, PartEnds::End},  // Line2ndTriangleAtEnd
-    {87, true, PartEnds::End},  // Line2ndTriangleAtEndFilled
-    {87, false},  // Line2ndTriangleAtEnds
-    {87, true},  // Line2ndTriangleAtEndsFilled
-    {3, false},  // Line3rd
-    {56, false, PartEnds::End},  // Line3rdArrowAtEnd
-    {56, true, PartEnds::End},  // Line3rdArrowAtEndFilled
-    {56, false},  // Line3rdArrowAtEnds
-    {56, true},  // Line3rdArrowAtEndsFilled
-    {64, false, PartEnds::End},  // Line3rdWideArrowAtEnd
-    {64, true, PartEnds::End},  // Line3rdWideArrowAtEndFilled
-    {64, false},  // Line3rdWideArrowAtEnds
-    {64, true},  // Line3rdWideArrowAtEndsFilled
-    {88, false, PartEnds::End},  // Line3rdSquareAtEnd
-    {88, true, PartEnds::End},  // Line3rdSquareAtEndFilled
-    {88, false},  // Line3rdSquareAtEnds
-    {88, true},  // Line3rdSquareAtEndsFilled
-    {89, false, PartEnds::End},  // Line3rdDiamondAtEnd
-    {89, true, PartEnds::End},  // Line3rdDiamondAtEndFilled
-    {89, false},  // Line3rdDiamondAtEnds
-    {89, true},  // Line3rdDiamondAtEndsFilled
-    {90, false, PartEnds::End},  // Line3rdCircleAtEnd
-    {90, true, PartEnds::End},  // Line3rdCircleAtEndFilled
-    {90, false},  // Line3rdCircleAtEnds
-    {90, true},  // Line3rdCircleAtEndsFilled
-    {91, false, PartEnds::End},  // Line3rdTriangleAtEnd
-    {91, true, PartEnds::End},  // Line3rdTriangleAtEndFilled
-    {91, false},  // Line3rdTriangleAtEnds
-    {91, true},  // Line3rdTriangleAtEndsFilled
+    {1, false},  // Line
+    {54, false, PartEnds::End},  // LineArrowAtEnd
+    {54, true, PartEnds::End},  // LineArrowAtEndFilled
+    {54, false},  // LineArrowAtEnds
+    {54, true},  // LineArrowAtEndsFilled
+    {62, false, PartEnds::End},  // LineWideArrowAtEnd
+    {62, true, PartEnds::End},  // LineWideArrowAtEndFilled
+    {62, false},  // LineWideArrowAtEnds
+    {62, true},  // LineWideArrowAtEndsFilled
+    {80, false, PartEnds::End},  // LineSquareAtEnd
+    {80, true, PartEnds::End},  // LineSquareAtEndFilled
+    {80, false},  // LineSquareAtEnds
+    {80, true},  // LineSquareAtEndsFilled
+    {81, false, PartEnds::End},  // LineDiamondAtEnd
+    {81, true, PartEnds::End},  // LineDiamondAtEndFilled
+    {81, false},  // LineDiamondAtEnds
+    {81, true},  // LineDiamondAtEndsFilled
+    {82, false, PartEnds::End},  // LineCircleAtEnd
+    {82, true, PartEnds::End},  // LineCircleAtEndFilled
+    {82, false},  // LineCircleAtEnds
+    {82, true},  // LineCircleAtEndsFilled
+    {83, false, PartEnds::End},  // LineTriangleAtEnd
+    {83, true, PartEnds::End},  // LineTriangleAtEndFilled
+    {83, false},  // LineTriangleAtEnds
+    {83, true},  // LineTriangleAtEndsFilled
     {52, false},  // CrossLine1st2nd
     {57, false, PartEnds::End, 0},  // CrossLine1st2ndArrowAtEnd
     {57, true, PartEnds::End, 0},  // CrossLine1st2ndArrowAtEndFilled
@@ -894,10 +794,10 @@ constexpr std::array<RawPoint, 16> kPrimitive24 = {{
 }};
 
 constexpr std::array<RawPoint, 16> kPrimitive25 = {{
-    {0, 0, 1.5},
+    {0, 0, 0.5},
     {0.5, 0, 0},
     {0, 0.5, 0},
-    {0, 0, 1.5},
+    {0, 0, 0.5},
     {-0.5, 0, 0},
     {0, 0.5, 0},
     {0, 0, -0.5},
@@ -906,15 +806,15 @@ constexpr std::array<RawPoint, 16> kPrimitive25 = {{
     {-0.5, 0, 0},
     {0, 0, -0.5},
     {0, -0.5, 0},
-    {0, 0, 1.5},
+    {0, 0, 0.5},
     {0.5, 0, 0},
     {0, -0.5, 0},
     {-0.5, 0, 0},
 }};
 
 constexpr std::array<RawPoint, 4> kPrimitive26 = {{
-    {0, 0, 1.5},
-    {0, 0.5, 1.5},
+    {0, 0, 0.5},
+    {0, 0.5, 0.5},
     {0, 0.5, -0.5},
     {0, 0, -0.5},
 }};

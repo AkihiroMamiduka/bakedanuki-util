@@ -394,7 +394,7 @@ std::vector<MPoint> appendOctahedronPart(PartBuilder& builder, const ShapeSettin
     const double width = 0.5 * partWidth(settings);
     const std::array<MPoint, 4> equator = {MPoint(0, width, 0), MPoint(0, 0, width),
         MPoint(0, -width, 0), MPoint(0, 0, -width)};
-    const MPoint tip = scaledPartPoint(MPoint(1.5, 0, 0), MPoint(0.5, 0, 0), MVector(1, 0, 0), settings);
+    const MPoint tip = scaledPartPoint(MPoint(0.5, 0, 0), MPoint::origin, MVector(1, 0, 0), settings);
     for (std::size_t i = 0; i < equator.size(); ++i) {
         const auto next = (i + 1) % equator.size();
         builder.stroke({equator[i], tip});
@@ -558,7 +558,7 @@ bool makeAdjustedPartGeometry(const ShapeSettings& settings, PartGeometry& geome
     } else if (outline == 25 || outline == 26) {
         const auto body = appendOctahedronPart(builder, settings);
         if (outline == 26) {
-            const double tip = 0.5 + partLength(settings) + settings.partOffset;
+            const double tip = 0.5 * partLength(settings) + settings.partOffset;
             appendFinPart(builder, settings, body,
                 {MPoint(-0.5, 0.5, 0), MPoint(tip, 0.5, 0)}, {0.5, 0.5}, (tip - 0.5) * 0.5);
         }

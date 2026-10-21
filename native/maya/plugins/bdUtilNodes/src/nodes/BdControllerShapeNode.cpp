@@ -1193,7 +1193,7 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                 const MPoint& first = equator[index];
                 const MPoint& second = equator[(index + 1) % equator.size()];
                 appendFillTriangle(triangles, transform,
-                    MPoint(outline == 24 ? 0.5 : 1.5, 0.0, 0.0),
+                    MPoint(0.5, 0.0, 0.0),
                     first, second);
                 appendFillTriangle(triangles, transform,
                     MPoint(-0.5, 0.0, 0.0), second, first);
@@ -1203,8 +1203,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
                     {0.0, 0.0, -0.5}, {0.0, 0.5, 0.0},
                     {0.0, 0.5, -0.5});
                 appendLegacyTriangle(triangles, transform,
-                    {0.0, 0.5, 0.0}, {0.0, 0.0, 1.5},
-                    {0.0, 0.5, 1.5});
+                    {0.0, 0.5, 0.0}, {0.0, 0.0, 0.5},
+                    {0.0, 0.5, 0.5});
             }
             break;
         }

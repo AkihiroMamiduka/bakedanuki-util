@@ -18,81 +18,31 @@ pytestmark = pytest.mark.maya
 SHAPE_NAMES = (
     "Gear",
     "GearFilled",
-    "Line1st",
-    "Line1stArrowAtEnd",
-    "Line1stArrowAtEndFilled",
-    "Line1stArrowAtEnds",
-    "Line1stArrowAtEndsFilled",
-    "Line1stWideArrowAtEnd",
-    "Line1stWideArrowAtEndFilled",
-    "Line1stWideArrowAtEnds",
-    "Line1stWideArrowAtEndsFilled",
-    "Line1stSquareAtEnd",
-    "Line1stSquareAtEndFilled",
-    "Line1stSquareAtEnds",
-    "Line1stSquareAtEndsFilled",
-    "Line1stDiamondAtEnd",
-    "Line1stDiamondAtEndFilled",
-    "Line1stDiamondAtEnds",
-    "Line1stDiamondAtEndsFilled",
-    "Line1stCircleAtEnd",
-    "Line1stCircleAtEndFilled",
-    "Line1stCircleAtEnds",
-    "Line1stCircleAtEndsFilled",
-    "Line1stTriangleAtEnd",
-    "Line1stTriangleAtEndFilled",
-    "Line1stTriangleAtEnds",
-    "Line1stTriangleAtEndsFilled",
-    "Line2nd",
-    "Line2ndArrowAtEnd",
-    "Line2ndArrowAtEndFilled",
-    "Line2ndArrowAtEnds",
-    "Line2ndArrowAtEndsFilled",
-    "Line2ndWideArrowAtEnd",
-    "Line2ndWideArrowAtEndFilled",
-    "Line2ndWideArrowAtEnds",
-    "Line2ndWideArrowAtEndsFilled",
-    "Line2ndSquareAtEnd",
-    "Line2ndSquareAtEndFilled",
-    "Line2ndSquareAtEnds",
-    "Line2ndSquareAtEndsFilled",
-    "Line2ndDiamondAtEnd",
-    "Line2ndDiamondAtEndFilled",
-    "Line2ndDiamondAtEnds",
-    "Line2ndDiamondAtEndsFilled",
-    "Line2ndCircleAtEnd",
-    "Line2ndCircleAtEndFilled",
-    "Line2ndCircleAtEnds",
-    "Line2ndCircleAtEndsFilled",
-    "Line2ndTriangleAtEnd",
-    "Line2ndTriangleAtEndFilled",
-    "Line2ndTriangleAtEnds",
-    "Line2ndTriangleAtEndsFilled",
-    "Line3rd",
-    "Line3rdArrowAtEnd",
-    "Line3rdArrowAtEndFilled",
-    "Line3rdArrowAtEnds",
-    "Line3rdArrowAtEndsFilled",
-    "Line3rdWideArrowAtEnd",
-    "Line3rdWideArrowAtEndFilled",
-    "Line3rdWideArrowAtEnds",
-    "Line3rdWideArrowAtEndsFilled",
-    "Line3rdSquareAtEnd",
-    "Line3rdSquareAtEndFilled",
-    "Line3rdSquareAtEnds",
-    "Line3rdSquareAtEndsFilled",
-    "Line3rdDiamondAtEnd",
-    "Line3rdDiamondAtEndFilled",
-    "Line3rdDiamondAtEnds",
-    "Line3rdDiamondAtEndsFilled",
-    "Line3rdCircleAtEnd",
-    "Line3rdCircleAtEndFilled",
-    "Line3rdCircleAtEnds",
-    "Line3rdCircleAtEndsFilled",
-    "Line3rdTriangleAtEnd",
-    "Line3rdTriangleAtEndFilled",
-    "Line3rdTriangleAtEnds",
-    "Line3rdTriangleAtEndsFilled",
+    "Line",
+    "LineArrowAtEnd",
+    "LineArrowAtEndFilled",
+    "LineArrowAtEnds",
+    "LineArrowAtEndsFilled",
+    "LineWideArrowAtEnd",
+    "LineWideArrowAtEndFilled",
+    "LineWideArrowAtEnds",
+    "LineWideArrowAtEndsFilled",
+    "LineSquareAtEnd",
+    "LineSquareAtEndFilled",
+    "LineSquareAtEnds",
+    "LineSquareAtEndsFilled",
+    "LineDiamondAtEnd",
+    "LineDiamondAtEndFilled",
+    "LineDiamondAtEnds",
+    "LineDiamondAtEndsFilled",
+    "LineCircleAtEnd",
+    "LineCircleAtEndFilled",
+    "LineCircleAtEnds",
+    "LineCircleAtEndsFilled",
+    "LineTriangleAtEnd",
+    "LineTriangleAtEndFilled",
+    "LineTriangleAtEnds",
+    "LineTriangleAtEndsFilled",
     "CrossLine1st2nd",
     "CrossLine1st2ndArrowAtEnd",
     "CrossLine1st2ndArrowAtEndFilled",
@@ -842,17 +792,9 @@ def test_filled_preset_preserves_outline_bounds(
     (
         (SHAPE_NAMES.index("Gear"), (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),  # Gear
         (
-            SHAPE_NAMES.index("Line1st"),
+            SHAPE_NAMES.index("Line"),
             (-0.5, 0.0, 0.0, 0.5, 0.0, 0.0),
-        ),  # Line1st
-        (
-            SHAPE_NAMES.index("Line2nd"),
-            (0.0, -0.5, 0.0, 0.0, 0.5, 0.0),
-        ),  # Line2nd
-        (
-            SHAPE_NAMES.index("Line3rd"),
-            (0.0, 0.0, -0.5, 0.0, 0.0, 0.5),
-        ),  # Line3rd
+        ),  # Line
         (
             SHAPE_NAMES.index("CubeFin"),
             (-0.5, -0.5, -0.5, 0.5, 1.0, 0.5),
@@ -863,7 +805,7 @@ def test_filled_preset_preserves_outline_bounds(
         ),  # CubeFinArrow
         (
             SHAPE_NAMES.index("OctahedronArrow"),
-            (-0.5, -0.5, -0.5, 1.5, 0.5, 0.5),
+            (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
         ),  # OctahedronArrow
         (
             SHAPE_NAMES.index("CircleArrow3D"),
@@ -912,33 +854,48 @@ def test_preset_base_and_decoration_bounds(
 
 
 @pytest.mark.parametrize(
-    ("shape_value", "expected_bounds"),
+    "shape_name", [name for name in SHAPE_NAMES if name.startswith("Line")]
+)
+@pytest.mark.parametrize(
+    "first_axis,second_axis,order,signs",
     (
-        (
-            SHAPE_NAMES.index("Line1st"),
-            (0.0, 0.0, -0.5, 0.0, 0.0, 0.5),
-        ),  # Line1st
-        (
-            SHAPE_NAMES.index("Line2nd"),
-            (0.0, -0.5, 0.0, 0.0, 0.5, 0.0),
-        ),  # Line2nd
-        (
-            SHAPE_NAMES.index("Line3rd"),
-            (-0.5, 0.0, 0.0, 0.5, 0.0, 0.0),
-        ),  # Line3rd
+        (0, 2, (0, 1, 2), (1, 1, 1)),
+        (1, 2, (0, 1, 2), (-1, 1, -1)),
+        (2, 0, (1, 0, 2), (1, 1, -1)),
+        (3, 0, (1, 0, 2), (1, -1, 1)),
+        (4, 0, (1, 2, 0), (1, 1, 1)),
+        (5, 0, (1, 2, 0), (1, -1, -1)),
     ),
 )
 def test_line_follows_selected_axis_basis(
-    maya_cmds, maya_om, new_scene, shape_value, expected_bounds
+    maya_cmds,
+    maya_om,
+    new_scene,
+    shape_name,
+    first_axis,
+    second_axis,
+    order,
+    signs,
 ):
     _load_bd_util_nodes(maya_cmds)
-    _, shape = _create_controller(maya_cmds)
-    maya_cmds.setAttr(f"{shape}.shape", shape_value)
-    maya_cmds.setAttr(f"{shape}.shape1stAxis", 4)  # +Z
-
-    assert _bounds(maya_om, shape) == pytest.approx(
-        expected_bounds, abs=1.0e-9
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(shape_name)
     )
+    maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.2)
+    maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 2)
+    maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 1.5)
+    original = _bounds(maya_om, shape)
+    maya_cmds.setAttr(f"{shape}.shape1stAxis", first_axis)
+    maya_cmds.setAttr(f"{shape}.shape2ndAxis", second_axis)
+    low = [
+        min(original[axis] * sign, original[axis + 3] * sign)
+        for axis, sign in zip(order, signs)
+    ]
+    high = [
+        max(original[axis] * sign, original[axis + 3] * sign)
+        for axis, sign in zip(order, signs)
+    ]
+    assert _bounds(maya_om, shape) == pytest.approx((*low, *high), abs=1e-9)
 
 
 @pytest.mark.parametrize(
@@ -963,9 +920,7 @@ def test_crossline_uses_named_axis_plane(
 @pytest.mark.parametrize(
     ("base_name", "expected"),
     (
-        ("Line1st", (-0.5, -0.05, 0.0, 0.5, 0.05, 0.0)),
-        ("Line2nd", (-0.05, -0.5, 0.0, 0.05, 0.5, 0.0)),
-        ("Line3rd", (-0.05, 0.0, -0.5, 0.05, 0.0, 0.5)),
+        ("Line", (-0.5, -0.05, 0.0, 0.5, 0.05, 0.0)),
         ("CrossLine1st2nd", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
         ("CrossLine1st3rd", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
         ("CrossLine2nd3rd", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
@@ -1761,18 +1716,14 @@ def test_part_attributes_leave_plain_shapes_unchanged(
         ("ConeFin", (-0.75, -0.5, -0.5, 0.75, 1.0, 0.5)),
         ("Arrow", (-2.4, 0, -0.75, 0.6, 0, 0.75)),
         ("ArrowFin", (-2.4, 0, -0.75, 0.6, 1.0, 0.75)),
-        ("OctahedronArrow", (-0.5, -0.75, -0.75, 3.6, 0.75, 0.75)),
-        ("OctahedronArrowFin", (-1.525, -0.75, -0.75, 4.625, 1.0, 0.75)),
-        ("Line1stArrowAtEnds", (-0.6, -0.075, 0, 0.6, 0.075, 0)),
-        ("Line2ndArrowAtEnds", (-0.075, -0.6, 0, 0.075, 0.6, 0)),
-        ("Line3rdArrowAtEnds", (-0.075, 0, -0.6, 0.075, 0, 0.6)),
+        ("OctahedronArrow", (-0.5, -0.75, -0.75, 1.6, 0.75, 0.75)),
+        ("OctahedronArrowFin", (-1.025, -0.75, -0.75, 2.125, 1.0, 0.75)),
+        ("LineArrowAtEnds", (-0.6, -0.075, 0, 0.6, 0.075, 0)),
         ("CrossLine1st2ndArrowAtEnds", (-0.6, -0.6, 0, 0.6, 0.6, 0)),
         ("CrossLine1st3rdArrowAtEnds", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
         ("CrossLine2nd3rdArrowAtEnds", (0, -0.6, -0.6, 0, 0.6, 0.6)),
         ("SemicircleArrowAtEnds", (0, -0.1, -0.575, 0, 0.5, 0.575)),
-        ("Line1stWideArrowAtEnds", (-0.6, -0.075, 0, 0.6, 0.075, 0)),
-        ("Line2ndWideArrowAtEnds", (-0.075, -0.6, 0, 0.075, 0.6, 0)),
-        ("Line3rdWideArrowAtEnds", (-0.075, 0, -0.6, 0.075, 0, 0.6)),
+        ("LineWideArrowAtEnds", (-0.6, -0.075, 0, 0.6, 0.075, 0)),
         ("CrossLine1st2ndWideArrowAtEnds", (-0.6, -0.6, 0, 0.6, 0.6, 0)),
         ("CrossLine1st3rdWideArrowAtEnds", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
         ("CrossLine2nd3rdWideArrowAtEnds", (0, -0.6, -0.6, 0, 0.6, 0.6)),
@@ -1800,6 +1751,59 @@ def test_arrow_and_fin_part_size_bounds(
     maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 1.5)
     maya_cmds.setAttr(f"{shape}.shapePartFinHeight", 1.0)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+
+
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("fin", (False, True))
+@pytest.mark.parametrize(
+    "offset,length,width,size,expected",
+    (
+        (0, 1, 1, 1, (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        (0.2, 1, 1, 1, (-0.5, -0.5, -0.5, 0.7, 0.5, 0.5)),
+        (0, 2, 1, 1, (-0.5, -0.5, -0.5, 1.0, 0.5, 0.5)),
+        (0.1, 1, 0.5, 2, (-0.5, -0.5, -0.5, 1.1, 0.5, 0.5)),
+        (0, -2, 1, 1, (-1, -0.5, -0.5, 0, 0.5, 0.5)),
+        (0, 1, -2, 1, (-0.5, -1, -1, 0.5, 1, 1)),
+        (0, 0, 1, 1, (-0.5, -0.5, -0.5, 0, 0.5, 0.5)),
+        (0.2, 1, 1, 0, (-0.5, 0, 0, 0.2, 0, 0)),
+    ),
+)
+def test_octahedron_arrow_tip_uses_central_section(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    filled,
+    fin,
+    offset,
+    length,
+    width,
+    size,
+    expected,
+):
+    _load_bd_util_nodes(maya_cmds)
+    name = (
+        "OctahedronArrow"
+        + ("Fin" if fin else "")
+        + ("Filled" if filled else "")
+    )
+    _, shape = _create_controller(
+        maya_cmds, shape_value=SHAPE_NAMES.index(name)
+    )
+    if fin:
+        maya_cmds.setAttr(f"{shape}.shapePartFinHeight", 0)
+    for attribute, value in (
+        ("shapePartOffset", offset),
+        ("shapePartLengthScale", length),
+        ("shapePartWidthScale", width),
+        ("shapePartSize", size),
+    ):
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+    maya_cmds.setAttr(f"{shape}.boundsMode", 1)
+    half_size = tuple((expected[i + 3] - expected[i]) * 0.5 for i in range(3))
+    assert _bounds(maya_om, shape) == pytest.approx(
+        tuple(-value for value in half_size) + half_size, abs=1e-9
+    )
 
 
 @pytest.mark.parametrize(
@@ -1974,7 +1978,7 @@ def test_wide_end_arrow_negative_offset_moves_heads_past_origin(
     import math
 
     _load_bd_util_nodes(maya_cmds)
-    name = "Line1stWideArrowAtEnds" + ("Filled" if filled else "")
+    name = "LineWideArrowAtEnds" + ("Filled" if filled else "")
     _, shape = _create_controller(
         maya_cmds, shape_value=SHAPE_NAMES.index(name)
     )
@@ -2723,7 +2727,7 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
         ("ColorCubeFilled", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
         ("ColorCornerCube", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
         ("ColorCornerCubeFilled", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
-        ("Line1stWideArrowAtEndsFilled", (2.0, 3.6, 5.0, 2.0, 4.4, 7.0)),
+        ("LineWideArrowAtEndsFilled", (2.0, 3.6, 5.0, 2.0, 4.4, 7.0)),
         (
             "CrossLine1st2ndWideArrowAtEndsFilled",
             (2.0, 0.0, 5.0, 2.0, 8.0, 7.0),
@@ -3083,9 +3087,7 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     assert maya_cmds.getAttr(f"{shape.full_path}.shapeOffsetLineTemplate")
 
 
-@pytest.mark.parametrize(
-    "base,axis,side", (("Line1st", 0, 1), ("Line2nd", 1, 0), ("Line3rd", 2, 0))
-)
+@pytest.mark.parametrize("base,axis,side", (("Line", 0, 1),))
 @pytest.mark.parametrize("wide", (False, True))
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize(
@@ -3417,9 +3419,7 @@ def test_diamond_fits_square_midpoints(maya_cmds, maya_om, new_scene, filled):
 @pytest.mark.parametrize(
     "base,axes,side",
     (
-        ("Line1st", (0,), 1),
-        ("Line2nd", (1,), 0),
-        ("Line3rd", (2,), 0),
+        ("Line", (0,), 1),
         ("CrossLine1st2nd", (0, 1), None),
         ("CrossLine1st3rd", (0, 2), None),
         ("CrossLine2nd3rd", (1, 2), None),
@@ -3509,9 +3509,9 @@ def test_planar_end_shape_bounds_follow_part_controls(
 @pytest.mark.parametrize(
     "shape_name",
     (
-        "Line1stSquareAtEndFilled",
-        "Line2ndDiamondAtEndFilled",
-        "Line3rdCircleAtEndFilled",
+        "LineSquareAtEndFilled",
+        "LineDiamondAtEndFilled",
+        "LineCircleAtEndFilled",
         "CrossLine1st2ndTriangleAtEndFilled",
         "CrossLine1st3rdSquareAtEndFilled",
         "CrossLine2nd3rdDiamondAtEndFilled",
@@ -3565,7 +3565,7 @@ def test_planar_end_offset_uses_scene_distance_units(
         _, shape = _create_controller(
             maya_cmds,
             shape_value=SHAPE_NAMES.index(
-                "Line1stDiamondAt" + placement + "Filled"
+                "LineDiamondAt" + placement + "Filled"
             ),
         )
         maya_cmds.setAttr(f"{shape}.shapePartOffset", 2)
