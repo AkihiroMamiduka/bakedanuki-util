@@ -43,7 +43,7 @@ class FloatSliderSpinBox(qt.QWidget):
         maximum: float,
         steps: int = 1000,
         decimals: int = 6,
-        single_step: float = 0.1,
+        single_step: float | None = None,
         layout_order: FloatSliderSpinBoxOrder = "slider_value",
         value_select_all_on_mouse_focus: bool = False,
     ) -> None:
@@ -56,7 +56,8 @@ class FloatSliderSpinBox(qt.QWidget):
             maximum: Sliderの公開単位での上限。minimumより大きくする。
             steps: Sliderの整数位置の分割数。
             decimals: 値入力欄の小数桁数。
-            single_step: 値入力欄の表示単位での刻み幅。
+            single_step: 値入力欄の表示単位での刻み幅。`None`なら
+                角度は1、それ以外は0.1。明示指定を優先する。
             layout_order: `slider_value`または`value_slider`。
             value_select_all_on_mouse_focus: 値欄をクリックしたとき全文選択するか。
         """
@@ -65,6 +66,11 @@ class FloatSliderSpinBox(qt.QWidget):
         minimum, maximum = require_slider_range(minimum, maximum)
         steps = require_slider_steps(steps)
         decimals = require_decimals(decimals)
+        # 未指定時だけ単位種別から選び、利用側で指定した刻み幅を維持する
+        if single_step is None:
+            single_step = (
+                1.0 if view_model.presentation.unit_kind == "angle" else 0.1
+            )
         single_step = require_float(single_step, "single_step")
         layout_order = _require_layout_order(layout_order)
         if single_step <= 0:

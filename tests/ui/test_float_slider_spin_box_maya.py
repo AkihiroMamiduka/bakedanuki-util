@@ -69,6 +69,8 @@ def test_composite_shares_units_history_and_out_of_range_input(
     )
     before = tuple(om.MMessage.nodeCallbacks(node.m_obj))
     editor = FloatSliderSpinBox(binding, owner, minimum=-100, maximum=100)
+    step = 1.0 if attribute == "rx" else 0.1
+    assert editor.spin_box.singleStep() == step
     assert not editor.spin_box.isUnitVisible()
     assert editor.spin_box.suffix() == ""
     editor.spin_box.setUnitVisible(True)
@@ -76,6 +78,7 @@ def test_composite_shares_units_history_and_out_of_range_input(
     assert tuple(om.MMessage.nodeCallbacks(node.m_obj)) == before
     cmds.currentUnit(linear="m", angle="rad")
     flush()
+    assert editor.spin_box.singleStep() == step
     cmds.flushUndo()
     editor.slider.setSliderDown(True)
     for position in (600, 800, 900):

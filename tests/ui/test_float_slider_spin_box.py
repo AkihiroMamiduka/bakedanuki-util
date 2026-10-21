@@ -121,6 +121,39 @@ def test_value_mouse_focus_selection_option_reaches_spin_box(owner):
     assert custom.spin_box.select_all_on_mouse_focus()
 
 
+@pytest.mark.parametrize("unit_kind", ["number", "distance", "angle"])
+@pytest.mark.parametrize("single_step", [None, 0.1, 2.5])
+def test_step_default_uses_unit_kind_only_when_unspecified(
+    owner, unit_kind, single_step
+):
+    """未指定時だけ型別の刻み幅を使い、明示指定・精度・Slider分割数を保つ。"""
+    vm = FloatViewModel(
+        3.125,
+        owner,
+        presentation=FloatPresentation(unit_kind=unit_kind),
+    )
+    editor = FloatSliderSpinBox(
+        vm,
+        owner,
+        minimum=-10,
+        maximum=10,
+        single_step=single_step,
+    )
+    expected = (
+        (1.0 if unit_kind == "angle" else 0.1)
+        if single_step is None
+        else single_step
+    )
+    assert editor.spin_box.singleStep() == expected
+    assert editor.spin_box.decimals() == 6
+    assert editor.slider.maximum() - editor.slider.minimum() == 1000
+    assert vm.value.value == 3.125
+    editor.spin_box.stepUp()
+    assert vm.value.value == pytest.approx(3.125 + expected)
+    editor.spin_box.setValue(2.345678)
+    assert vm.value.value == 2.345678
+
+
 def test_slider_range_does_not_limit_numeric_input(owner):
     @dataclass
     class Data:

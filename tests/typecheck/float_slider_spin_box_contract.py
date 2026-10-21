@@ -60,6 +60,10 @@ assert_type(
     ViewEditor(FloatViewModel(), minimum=0, maximum=1), FloatSliderSpinBox
 )
 assert_type(
+    FloatSliderSpinBox(binding, minimum=0, maximum=1, single_step=None),
+    FloatSliderSpinBox,
+)
+assert_type(
     FloatSliderSpinBox(
         MayaFloatPlugBinding(node.translate.translateX),
         minimum=-100,

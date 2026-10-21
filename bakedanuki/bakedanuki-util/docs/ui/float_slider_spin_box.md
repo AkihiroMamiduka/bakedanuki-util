@@ -42,7 +42,7 @@ Maya正本なら`MayaFloatPlugBinding`、Python正本とMaya同期なら`MayaFlo
 
 | API | 内容 |
 | --- | --- |
-| `FloatSliderSpinBox(source, parent=None, *, minimum, maximum, steps=1000, decimals=6, single_step=0.1, layout_order="slider_value", value_select_all_on_mouse_focus=False)` | 水平方向の複合Viewを生成する |
+| `FloatSliderSpinBox(source, parent=None, *, minimum, maximum, steps=1000, decimals=6, single_step=None, layout_order="slider_value", value_select_all_on_mouse_focus=False)` | 水平方向の複合Viewを生成する |
 | `editor.view_model` | 共有ViewModelを返す。明示終了・Qt破棄後は例外を送出する |
 | `editor.slider` | 内部の`FloatSlider`を具体型で返す |
 | `editor.spin_box` | 内部の`FloatSpinBox`を具体型で返す |
@@ -77,6 +77,13 @@ print(binding.value)
 - `steps`はスライダーの分割数です。操作範囲と正本のhard limitの共通範囲を等分します。
 - `decimals`はSpinBoxの表示・入力桁数です。
 - `single_step`はSpinBoxの**表示単位**での刻み幅です。
+
+`single_step`の省略または`None`指定では、生成時の`FloatPresentation.unit_kind`が
+`"angle"`なら1、`"number"`／`"distance"`なら0.1を使います。
+明示指定した正の刻み幅を優先するため、角度でも`single_step=0.1`を指定できます。
+生成後の表示単位変更ではstepの数値を維持し、例えば角度の既定1は度表示では1度、
+radian表示では1radです。Sliderの分割数と小数桁数はこの既定値から独立しています。
+この規則は`FloatSliderSpinBox`の未指定時に適用し、他のViewが渡すstepは明示指定として扱います。
 
 スライダーの操作範囲をSpinBoxの入力範囲へ転用しません。例えばスライダーが0～1でも、
 正本のhard limitが許せばSpinBoxから3.125を入力できます。この場合、正本とSpinBoxは3.125を保持し、

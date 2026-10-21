@@ -1357,6 +1357,8 @@ API、精度、寿命、確認手順は[FloatLabel](float_label.md)を参照し�
 `FloatSliderSpinBox(binding, minimum=-100, maximum=100, decimals=3)`で、横並びの編集Viewを
 1つのWidgetとして配置できます。内部の`editor.slider`と`editor.spin_box`にも型補完つきでアクセスできます。
 各Viewが同じ正本を共有し、スライダーの操作範囲外の数値もSpinBoxから入力できます。
+値欄の`single_step`を省略または`None`にすると、生成時の単位種別が角度なら1、
+通常数値・距離なら0.1を表示単位の刻み幅に使います。明示指定した値を優先します。
 API、範囲と入力単位、寿命の詳細は[FloatSliderSpinBox](float_slider_spin_box.md)を参照してください。
 
 ### 値とstepの複合View
