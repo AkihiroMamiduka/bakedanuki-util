@@ -82,7 +82,7 @@ void appendPlanarEndParts(PartBuilder& builder, short outline, const ShapeSettin
 bool makePlanarEndGeometry(const ShapeSettings& settings, PartGeometry& geometry) {
     const short outline = outlinePresetIndex(settings.shape);
     if (outline < 79 || outline > 103) return false;
-    PartBuilder builder(isFilledPreset(settings.shape));
+    PartBuilder builder(settings.fill);
     if (outline == 79) {
         std::vector<MPoint> points;
         const PartPlane plane{MPoint::origin, nativeAxis(1), nativeAxis(2)};

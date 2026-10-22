@@ -119,6 +119,7 @@ public:
     static MObject shapeOffsetLineTemplate;
     static MObject shapeLineWidth;
     static MObject shapeTransparency;
+    static MObject shapeFill;
     static MObject shapeFillTransparency;
     static MObject shapeDrawOnTop;
 

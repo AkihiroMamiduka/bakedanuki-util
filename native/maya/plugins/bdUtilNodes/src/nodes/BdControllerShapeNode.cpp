@@ -95,6 +95,7 @@ MObject BdControllerShapeNode::showShapeOffsetLine;
 MObject BdControllerShapeNode::shapeOffsetLineTemplate;
 MObject BdControllerShapeNode::shapeLineWidth;
 MObject BdControllerShapeNode::shapeTransparency;
+MObject BdControllerShapeNode::shapeFill;
 MObject BdControllerShapeNode::shapeFillTransparency;
 MObject BdControllerShapeNode::shapeDrawOnTop;
 MObject BdControllerShapeNode::boundsMode;
@@ -150,6 +151,7 @@ constexpr short cubePresetIndex();
 
 struct ShapeSettings {
     short shape = cubePresetIndex();
+    bool fill = false;
     short firstAxis = 0;
     short secondAxis = 2;
     double rootSize = 1.0;
@@ -198,6 +200,7 @@ struct ShapeAttributes {
     MObject partSize;
     MObject showOffsetLine;
     MObject offsetLineTemplate;
+    MObject fill;
 };
 
 ShapeAttributes shapeAttributes() {
@@ -224,6 +227,7 @@ ShapeAttributes shapeAttributes() {
         BdControllerShapeNode::shapePartSize,
         BdControllerShapeNode::showShapeOffsetLine,
         BdControllerShapeNode::shapeOffsetLineTemplate,
+        BdControllerShapeNode::shapeFill,
     };
 }
 
@@ -243,6 +247,7 @@ ShapeAttributes customBoundsAttributes() {
         BdControllerShapeNode::customBoundsAxisRotate,
         BdControllerShapeNode::customBoundsAxisScale,
         BdControllerShapeNode::customBoundsSize,
+        MObject(),
         MObject(),
         MObject(),
         MObject(),
@@ -271,6 +276,7 @@ bool sameMatrix(const MMatrix& left, const MMatrix& right) {
 
 bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
     return left.shape == right.shape &&
+        left.fill == right.fill &&
         left.firstAxis == right.firstAxis &&
         left.secondAxis == right.secondAxis &&
         left.rootSize == right.rootSize &&
@@ -375,6 +381,11 @@ bool readSettings(
     ShapeSettings& settings
 ) {
     MStatus status;
+    settings.fill = false;
+    if (!attributes.fill.isNull()) {
+        settings.fill = MPlug(node, attributes.fill).asBool(&status);
+        if (!status) return false;
+    }
     if (attributes.shape.isNull()) {
         settings.shape = cubePresetIndex();
     } else {
@@ -932,7 +943,7 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeColorCubeFillParts(
     const ShapeTransform& transform, bool corner
 ) {
     std::vector<BdControllerShapeNode::Geometry::FillPart> parts;
-    if (isFilledPreset(transform.settings.shape)) {
+    if (transform.settings.fill) {
         MPointArray triangles;
         for (unsigned int axis = 0; axis < 3; ++axis) {
             appendCubeFaceRect(triangles, transform, axis, -0.5,
@@ -981,14 +992,15 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
     if (outline == 50 || outline == 51) {
         return makeColorCubeFillParts(transform, outline == 51);
     }
-    if (!isFilledPreset(transform.settings.shape)) return {};
+    if (!transform.settings.fill) return {};
     if (hasCrossLineEndSolids(outline)) {
         if (transform.settings.partLengthScale == 0.0 || transform.settings.partWidthScale == 0.0 ||
             transform.settings.partSize == 0.0) {
             return {};
         }
         ShapeSettings componentSettings;
-        componentSettings.shape = crossLineEndSolidPreset(outline, true);
+        componentSettings.shape = crossLineEndSolidPreset(outline);
+        componentSettings.fill = true;
         const auto componentParts = makeFillParts(ShapeTransform(componentSettings));
         MPointArray triangles;
         for (unsigned int axis = 0; axis < 3; ++axis) {
@@ -1531,6 +1543,7 @@ Strokes boundsStrokes(const MBoundingBox& bounds) {
 bool isShapeAttribute(const MObject& attribute) {
     for (const MObject& shapeAttribute : {
              BdControllerShapeNode::shape,
+             BdControllerShapeNode::shapeFill,
              BdControllerShapeNode::shape1stAxis,
              BdControllerShapeNode::shape2ndAxis,
              BdControllerShapeNode::shapeRootSize,
@@ -1638,6 +1651,7 @@ bool hasConnectedSettingsInput(
 ) {
     for (const MObject& attribute : {
              attributes.shape,
+             attributes.fill,
              attributes.firstAxis,
              attributes.secondAxis,
              attributes.rootSize,
@@ -2667,6 +2681,13 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
 
+    status = bd_util_nodes::createBooleanAttribute(
+        numericAttributeFn, shapeFill, "shapeFill", "sfl", false
+    );
+    if (!status) return status;
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) return status;
+
     shapeFillTransparency = numericAttributeFn.create(
         "shapeFillTransparency", "sftp", MFnNumericData::kFloat, 0.85f, &status
     );
@@ -3002,6 +3023,7 @@ MStatus BdControllerShapeNode::initialize() {
              shapeDrawOnTop,
              shapeLineWidth,
              shapeTransparency,
+             shapeFill,
              shapeFillTransparency,
              showShapeOffsetLine,
              shapeOffsetLineTemplate,
@@ -3102,6 +3124,7 @@ MStatus BdControllerShapeNode::initialize() {
              shapeDrawOnTop,
              shapeLineWidth,
              shapeTransparency,
+             shapeFill,
              shapeFillTransparency,
              showShapeOffsetLine,
              shapeOffsetLineTemplate,

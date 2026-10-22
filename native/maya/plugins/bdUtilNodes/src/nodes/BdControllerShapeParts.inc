@@ -17,9 +17,9 @@ bool hasPartAdjustment(const ShapeSettings& settings) {
     return settings.partOffset != 0.0 || partLength(settings) != 1.0 || partWidth(settings) != 1.0;
 }
 
-short partPreset(short outline, bool filled) {
+short partPreset(short outline) {
     for (short index = 0; index < static_cast<short>(kPresetInfo.size()); ++index) {
-        if (kPresetInfo[index].outlineIndex == outline && kPresetInfo[index].filled == filled) return index;
+        if (kPresetInfo[index].outlineIndex == outline) return index;
     }
     return 0;
 }
@@ -113,7 +113,8 @@ struct PartBuilder {
 
     void body(short outline, StrokeStyle style = StrokeStyle::Normal) {
         ShapeSettings base;
-        base.shape = partPreset(outline, filled);
+        base.shape = partPreset(outline);
+        base.fill = filled;
         const ShapeTransform transform(base);
         std::vector<StrokeStyle> styles;
         auto strokes = makeStrokes(transform, styles);
@@ -489,7 +490,7 @@ bool makeAdjustedPartGeometry(const ShapeSettings& settings, PartGeometry& geome
         outline == 38 || outline == 40 || outline == 42 || outline == 44;
     if (!hasPartAdjustment(settings) && !singleCross && (!semicircle || (settings.partOffsetAngle == 0.0 && !singleEnd)) &&
         (!fin || partFinHeight(settings) == 0.5)) return false;
-    PartBuilder builder(isFilledPreset(settings.shape));
+    PartBuilder builder(settings.fill);
     if (semicircle) {
         if (outline == 30 && settings.partOffsetAngle == 0.0) return false;
         appendSemicircleParts(builder, outline, settings);

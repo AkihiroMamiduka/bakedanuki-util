@@ -24,19 +24,19 @@ def _capture_view(panel, path):
 
 
 @pytest.mark.parametrize(
-    "preset",
+    "preset,fill",
     (
-        "CubeFilled",
-        "ColorCornerCubeFilled",
-        "ColorCrossLine3Axis",
-        "ColorSphereFilled",
+        ("Cube", True),
+        ("ColorCornerCube", True),
+        ("ColorCrossLine3Axis", False),
+        ("ColorSphere", True),
     ),
 )
 @pytest.mark.parametrize(
     "override_source", ("shape", "parent", "ancestor", "layer")
 )
 def test_highlighting_off_matches_dormant_display(
-    maya_cmds, new_scene, tmp_path, preset, override_source
+    maya_cmds, new_scene, tmp_path, preset, fill, override_source
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
@@ -57,6 +57,7 @@ def test_highlighting_off_matches_dormant_display(
         0
     ].split(":")
     maya_cmds.setAttr(f"{shape}.shape", names.index(preset))
+    maya_cmds.setAttr(f"{shape}.shapeFill", fill)
     if override_source == "layer":
         source = maya_cmds.createDisplayLayer(
             name="controllerDisplayLayer", empty=True
