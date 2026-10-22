@@ -69,6 +69,8 @@ public:
     static const MString drawRegistrantId;
 
     static MObject shape;
+    static MObject shapeFin;
+    static MObject shapeFinType;
     static MObject shape1stAxis;
     static MObject shape2ndAxis;
     static MObject shapeAnimationTransformMatrix;

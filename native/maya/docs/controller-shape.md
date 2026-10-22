@@ -75,7 +75,9 @@ mod.do_it_dg()
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `shape` | enum | `Cube` (73) | 下表の115種類。`Gear` を一覧の先頭とし、初期値は `Cube` |
+| `shape` | enum | `Cube` (72) | 下表の106種類。`Gear` を一覧の先頭とし、初期値は `Cube` |
+| `shapeFin` | `bool` | `false` | 全106形状へ通常色のFinを1枚追加。short nameは `sfn`。OFFでも種類・高さを保持 |
+| `shapeFinType` | enum | `Standard` (0) | `Standard` (0)、`Tapered` (1)。short nameは `sfnt` |
 | `shape1stAxis` | enum | `+X` (0) | 基準形状の主軸 `+X` を向ける方向。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準形状の補助軸 `+Y` を向ける方向。選択肢は `shape1stAxis` と同じ |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状またはフォーカス用の箱の完成後、親 `transform` の変換前に適用するローカル行列 |
@@ -100,7 +102,7 @@ mod.do_it_dg()
 | `shapeOffsetLineTemplate` | `bool` | `false` | 補助線をテンプレート表示・選択不可にする |
 | `shapeLineWidth` | `float` | `1` | 本体と OffsetLine の画面上の線幅。単位は pixel、最小値 `1` |
 | `shapeTransparency` | `float` | `0` | 本体の輪郭線、OffsetLine、`ColorCornerCube` の小四角の透明度。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
-| `shapeFill` | `bool` | `false` | 本体・付属部品の面を表示する。short nameは `sfl`。純粋な線形状は見た目を変えず値を保持する |
+| `shapeFill` | `bool` | `false` | 本体・付属部品の面を表示する。short nameは `sfl`。線そのものは塗らず、追加Finの面には適用する |
 | `shapeFillTransparency` | `float` | `0.85` | `shapeFill` がONの本体面の透明度。`ColorCornerCube` の小四角には適用しない。`0` は不透明、`1` は完全透明。範囲は `0`–`1` |
 | `shapeDrawOnTop` | `bool` | `false` | 本体の輪郭線・面と OffsetLine を他のシーン形状に隠れないように描画する |
 | `boundsMode` | enum | `ShapeCentered` (1) | フォーカス範囲。`Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
@@ -116,22 +118,21 @@ mod.do_it_dg()
 | 30–39 | `CrossLine1st3rdWideArrowAtEnd`、`CrossLine1st3rdWideArrowAtEnds`、`CrossLine1st3rdSquareAtEnd`、`CrossLine1st3rdSquareAtEnds`、`CrossLine1st3rdDiamondAtEnd`、`CrossLine1st3rdDiamondAtEnds`、`CrossLine1st3rdCircleAtEnd`、`CrossLine1st3rdCircleAtEnds`、`CrossLine1st3rdTriangleAtEnd`、`CrossLine1st3rdTriangleAtEnds` |
 | 40–49 | `CrossLine2nd3rd`、`CrossLine2nd3rdArrowAtEnd`、`CrossLine2nd3rdArrowAtEnds`、`CrossLine2nd3rdWideArrowAtEnd`、`CrossLine2nd3rdWideArrowAtEnds`、`CrossLine2nd3rdSquareAtEnd`、`CrossLine2nd3rdSquareAtEnds`、`CrossLine2nd3rdDiamondAtEnd`、`CrossLine2nd3rdDiamondAtEnds`、`CrossLine2nd3rdCircleAtEnd` |
 | 50–59 | `CrossLine2nd3rdCircleAtEnds`、`CrossLine2nd3rdTriangleAtEnd`、`CrossLine2nd3rdTriangleAtEnds`、`CrossLine3Axis`、`CrossLine3AxisEndCube`、`CrossLine3AxisEndOctahedron`、`CrossLine3AxisEndSphere`、`CrossLine3AxisEndPyramid`、`CrossLine3AxisEndCone`、`Triangle` |
-| 60–69 | `TriangleArrow3D`、`Square`、`SquareArrow2D`、`SquareArrow3D`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine3D`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate3D`、`SquareArrow4Way2D`、`SquareArrow4Way3D` |
-| 70–79 | `SquareTemplateArrow4Way2D`、`SquareTemplateArrow4Way3D`、`Diamond`、`Cube`、`CubeArrow2D`、`CubeArrow3D`、`CubeFin`、`CubeFinArrow`、`Octahedron`、`OctahedronArrow` |
-| 80–89 | `OctahedronArrowFin`、`Circle`、`CircleArrow2D`、`CircleArrow3D`、`Semicircle`、`SemicircleArrowAtEnd`、`SemicircleArrowAtEnds`、`SemicircleWideArrowAtEnd`、`SemicircleWideArrowAtEnds`、`SemicircleArrow2D` |
-| 90–99 | `SemicircleArrow3D`、`Sphere`、`SphereArrow2D`、`SphereArrow3D`、`Cylinder`、`CylinderFin`、`CylinderFinArrow`、`Arrow`、`ArrowFin`、`Pyramid` |
-| 100–109 | `PyramidFin`、`Cone`、`ConeFin`、`ColorCrossLine3Axis`、`ColorCrossLine3AxisEndCube`、`ColorCrossLine3AxisEndOctahedron`、`ColorCrossLine3AxisEndSphere`、`ColorCrossLine3AxisEndPyramid`、`ColorCrossLine3AxisEndCone`、`ColorCube` |
-| 110–114 | `ColorCornerCube`、`ColorSphere`、`ColorSphereArrow2D`、`ColorSphereArrow3D`、`ColorSphereCrossLine` |
+| 60–69 | `Square`、`SquareArrow2D`、`SquareArrow3D`、`SquareArrowCrossLine2D`、`SquareArrowCrossLine3D`、`SquareArrowCrossLineTemplate2D`、`SquareArrowCrossLineTemplate3D`、`SquareArrow4Way2D`、`SquareArrow4Way3D`、`SquareTemplateArrow4Way2D` |
+| 70–79 | `SquareTemplateArrow4Way3D`、`Diamond`、`Cube`、`CubeArrow2D`、`CubeArrow3D`、`Octahedron`、`OctahedronArrow`、`Circle`、`CircleArrow2D`、`CircleArrow3D` |
+| 80–89 | `Semicircle`、`SemicircleArrowAtEnd`、`SemicircleArrowAtEnds`、`SemicircleWideArrowAtEnd`、`SemicircleWideArrowAtEnds`、`SemicircleArrow2D`、`SemicircleArrow3D`、`Sphere`、`SphereArrow2D`、`SphereArrow3D` |
+| 90–99 | `Cylinder`、`Arrow`、`Pyramid`、`Cone`、`ColorCrossLine3Axis`、`ColorCrossLine3AxisEndCube`、`ColorCrossLine3AxisEndOctahedron`、`ColorCrossLine3AxisEndSphere`、`ColorCrossLine3AxisEndPyramid`、`ColorCrossLine3AxisEndCone` |
+| 100–105 | `ColorCube`、`ColorCornerCube`、`ColorSphere`、`ColorSphereArrow2D`、`ColorSphereArrow3D`、`ColorSphereCrossLine` |
 
 塗りは全形状共通の `shapeFill` で切り替えます。OFFが既定値で、ONでは旧Filled版と同じ範囲を塗ります。
-旧Filled付きの109項目は一覧から削除し、基本名115項目へ統合しています。
+旧Filled付きの109項目を統合した115項目から、旧Fin付きの8項目と `TriangleArrow3D` も統合し、106項目に整理しています。
 以下の面の説明は `shapeFill` がONの状態を示します。
 
 基準となる部分はローカル座標の各軸でおおむね `-0.5` から `+0.5` を使います。
 矢印やフィンはその範囲から張り出す設計です。形状全体を長さ1に正規化しません。
 `Line` は主軸に沿って `-0.5` から `+0.5` まで伸びます。
 向きは `shape1stAxis`、端形状の幅方向は `shape2ndAxis` で指定します。
-`CubeFinArrow` と `CylinderFinArrow` は
+`Cube` と `Cylinder` の `shapeFinType=Tapered` は
 `-1stAxis` 側のフィンを `+2ndAxis` 方向へ高さ `1` まで伸ばし、
 `+1stAxis` 側の本体上端へ斜めにつなぎます。
 `2D` の矢印は主平面上にあり、`3D` の矢印は主平面と直交する三角形も持ちます。
@@ -258,21 +259,58 @@ Arrow・Finへの部品変形の範囲は次のとおりです。部品のSize�
 | ArrowAtEnd / ArrowAtEnds | 元の線・半円の端点にある先端をピボットに頭部を調整。矢印のある端だけが移動した先端へ追従 |
 | Semicircleの端点矢印 | 角度調整後の端の接線方向を使う。角度0の既定軸では正のOffsetは `-Y` |
 | Wideの端点矢印 | Lengthは頭部の深さ、WidthとSizeは頭部と帯の幅へ適用。先端・付け根の接続を再計算 |
-| CubeFin / CylinderFin / CubeFinArrow / CylinderFinArrow / PyramidFin / ConeFin | Heightは張り出す高さ、Widthは付け根に沿う広がり。Offset・Lengthは適用せず、付け根を本体へ残す |
-| Arrow / ArrowFin | 矢印全体を一部品とし、元の先端 `+1stAxis=0.5` をピボットに調整。Finの付け根はOffset・Lengthへ追従し、高さは専用Heightで調整 |
-| TriangleArrow3D | 元の三角形を保ち、共通先端 `+2ndAxis=0.5` を基準に直交する追加三角面を調整 |
+| Cube / Cylinder / Pyramid / ConeのFin | Heightは張り出す高さ、Widthは付け根に沿う広がり。Offset・Lengthは適用せず、付け根を本体へ残す |
+| Arrow | 矢印全体を一部品とし、元の先端 `+1stAxis=0.5` をピボットに調整。Finの付け根はOffset・Lengthへ追従し、高さは専用Heightで調整 |
 | OctahedronArrow | 既定の本体はOctahedronと同じ±0.5の八面体。中央断面をLengthの基準とし、先端の1stAxis座標を `0.5 * shapePartSize * shapePartLengthScale + shapePartOffset` とする。OffsetとLengthは先端だけに適用し、中央断面から先端までの辺を直線に保つ。WidthとSizeは中央断面の幅へも適用し、断面を共有する反対側の面も追従。後端の1stAxis座標 `-0.5` は固定 |
-| OctahedronArrowFin | 尖った部分の変形とFinの高さを個別に調整。Finの付け根は変形後の本体へ追従 |
+| OctahedronArrowのFin | 尖った部分の変形とFinの高さを個別に調整。Finの付け根は変形後の本体へ追従 |
 
 OctahedronArrowの中央断面の1stAxis座標は `0` のままです。
 Sizeが1ならLengthが1で先端 `+0.5`、2で `+1.0`、3で従来の先端 `+1.5` になります。
 Offsetは伸縮後に加算し、Fin版も同じ本体の寸法と変形規則を使います。
 
-`shapePartFinHeight` は上記8種類のFin系列に適用し、
+`shapeFin` がONなら本体へFinを1枚追加します。`shapeFinType` は `Standard` / `Tapered` の2値です。
+Standardは本体に合った矩形などのFin、Taperedは付け根の一端を高く、反対側へ低くなるFinです。
+立体、Line、CrossLine3Axisでは1st–2nd平面を使い、+2ndへ張り出します。
+平面形状のFinは本体の中心軸から直角に立てます。向きは以下のとおりです。
+
+| 本体 | Finの幅 | Finの張り出し |
+| --- | --- | --- |
+| CrossLine1st2nd系列 | 1st | +3rd |
+| CrossLine1st3rd系列 | 1st | +2nd |
+| Gear / Triangle / Square系列 / Diamond / Circle系列 / Semicircle系列 / CrossLine2nd3rd系列 | 2nd | +1st |
+
+Taperedは幅の負側が高く、正側が低くなります。Color系のFinは通常色で、軸・回転の制約も本体と共通です。
+
+ArrowのStandardは、くぼみの `1st=-0.25` から先端 `+0.5` までの矩形です。
+従来のStandardの傾斜した外形はTaperedへ移しました。どちらもOffset・Lengthによる本体移動へ追従し、
+根元を閉じる線は追加しません。
+
+Finの基準は矢印や端の小形状を除いた本体断面です。端形状のSize / OffsetでFinを移動させず、
+端の小形状それぞれにFinを追加することもありません。ArrowとOctahedronArrowだけは変形後の本体へ付け根が追従します。
+SemicircleのFinの基準幅は `2nd=0..+0.5`、Widthのピボットは `+0.25` です。
+円弧の角度を変えてもこの基準位置を使います。Circleの幅 `-0.5..+0.5` の半分となります。
+平面形状のFinは本体中心軸へ接続し、根元を閉じる線は追加しません。
+同じ平面にある付属矢印の面と重なる部分は差し引きます。
+Line / CrossLineの平面端形状とCrossLine3Axisの立体端形状では、変形後の端形状の内部を
+Finの輪郭線と塗りの両方から差し引きます。Color版にも同じ処理を適用し、Finの幅・高さ自体は保ちます。
+
+旧Fin付き8項目と `TriangleArrow3D` は一覧から削除しました。対応は以下のとおりで、自動移行は行いません。
+enum番号も変わるため、既存シーンでは `shape` を再指定し、必要な `shapeFin` / `shapeFinType` を設定してください。
+
+| 旧名 | 現在のshape | shapeFinType（shapeFinはON） |
+| --- | --- | --- |
+| CubeFin / CylinderFin | Cube / Cylinder | Standard |
+| CubeFinArrow / CylinderFinArrow | Cube / Cylinder | Tapered |
+| OctahedronArrowFin | OctahedronArrow | Standard |
+| ArrowFin | Arrow | Tapered |
+| PyramidFin / ConeFin | Pyramid / Cone | Standard |
+| TriangleArrow3D | Triangle | Tapered |
+
+`shapePartFinHeight` は全106形状の `shapeFin` がONのときに適用し、
 実効高さは `shapePartFinHeight * shapePartSize` とします。Offset・Length・Widthは高さに掛けません。
-傾斜や頂点間の高さ比率を保ち、ArrowFinの中間頂点の高さは最大高さの半分です。
-0ではFinの線・面のみを省略し、本体やArrowを残します。負値は張り出す方向の反転として扱います。
-既定値は各形状の基準寸法を維持します。Finのない形状には作用しません。
+傾斜や頂点間の高さ比率を保ち、ArrowのTapered Finの中間頂点の高さは最大高さの半分です。
+0ではFinの線・面のみを省略し、本体やArrowを残します。負値は付け根を移し替えず、自由頂点の張り出す方向を反転します。
+既定値は各形状の基準寸法を維持します。`shapeFin` がOFFの間は形状を変えず、値を保持します。
 接続、明示的なキー設定、Undo/Redo、保存に対応し、距離単位と全体変形に追従します。
 
 付属ArrowとFinの塗りは、本体の断面に重なる領域を差し引きます。
@@ -280,7 +318,7 @@ Offsetは伸縮後に加算し、Fin版も同じ本体の寸法と変形規則�
 直交する面は移動後の付け根・張り出し・先端からなる三角形とし、元の付け根までは延長しません。
 付属Arrowの実効LengthまたはWidthが0なら、その部品の面を省略し、本体の面と潰れた輪郭を残します。
 Finは専用Heightを使うため、Lengthが0でも高さを維持します。
-ArrowFinでは本体のLengthに沿って付け根も潰れますが、Widthが0でも独立したFin面を残します。
+ArrowのFinでは本体のLengthに沿って付け根も潰れますが、Widthが0でも独立したFin面を残します。
 通常の端点矢印は頭部だけ、Wideの端点矢印は帯を含めて塗ります。
 SemicircleのWide端点矢印の中心半径は `0.5` のまま、帯の半幅を `0.025 * abs(width)` とします。
 帯が中心へ達したときは内半径を0とし、半円の外側にある頭部へも接続します。
@@ -391,7 +429,7 @@ Angleが30°では240°の扇形、0では半円板、90°では円板、-90°�
 Semicircleの通常の端点矢印の塗りは矢印だけ、Wide版の塗りは帯と矢印を塗ります。
 矢印の突起と Fin も面を持ち、Fin は厚みのない面です。
 `3D` 系の矢印の塗りは、主平面と直交する薄い三角面で表し、閉じた立体には
-しません。`OctahedronArrowFin` の Fin は、八面体の上半分と重ならない左右の
+しません。`OctahedronArrow` のStandard Finは、八面体の上半分と重ならない左右の
 三角面だけを塗ります。
 `SquareArrowCrossLineTemplate*` は十字線、`SquareTemplateArrow4Way*` は四隅だけを
 template 色・選択不可にします。`ColorSphere` は X=赤、Y=緑、Z=青の
@@ -424,7 +462,7 @@ Color系は後述の描画規則により、シェイプ編集で軸色の向き
 `shapeFill` がONなら、`ColorCornerCube` は正側3面の小四角部分を除いたL字形の領域と、負側3面を
 通常色で塗ります。小四角と本体面は境界を共有し、面積は重なりません。
 本体面には `shapeFillTransparency`、小四角には `shapeTransparency` を適用します。
-塗りONでは、本体面は既定の透明度85%、小四角は不透明です。これら2種類にArrow・Finはありません。
+塗りONでは、本体面は既定の透明度85%、小四角は不透明です。これら2種類にもFinオプションを適用できます。
 ColorCornerCubeの小四角は `shapeFill` がOFFでも表示・選択でき、Wireframeでも残ります。
 
 Color系12種類は、シェイプ編集を適用する段階で軸色と親transformのローカルXYZの対応を保ちます。
@@ -475,7 +513,7 @@ Channel Box の表示順は次の７区画です。区切りは表示順に `_`�
 `_____` という表示専用の１値 enum 属性で、値は
 `-----------------------------------`、非 keyable・ロック済みです。
 
-1. `shape`、`shapeDrawOnTop`、`shapeLineWidth`、`shapeTransparency`、`shapeFill`、`shapeFillTransparency`、`showShapeOffsetLine`、`shapeOffsetLineTemplate`
+1. `shape`、`shapeFin`、`shapeFinType`、`shapeDrawOnTop`、`shapeLineWidth`、`shapeTransparency`、`shapeFill`、`shapeFillTransparency`、`showShapeOffsetLine`、`shapeOffsetLineTemplate`
 2. `shape1stAxis`、`shape2ndAxis`、`shapeAxisOffset`、`shapeAxisOffsetDirection`、`shapeAxisOffsetLength`
 3. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
 4. `shapePartOffset`、`shapePartOffsetAngle`、`shapePartFinHeight`、`shapePartSize`、`shapePartLengthScale`、`shapePartWidthScale`
@@ -825,13 +863,13 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 33. `bdControllerShape` を選択したまま **Show > Selection Highlighting** をオフにすると通常線・面と OffsetLine が実効displayTypeの非選択時と同じ表示になる。Normalの軸色はRGB、Template/Referenceの軸色は上表のHSV値を使う。オンに戻すと従来の選択表示になる。Normalではオフでもクリック選択できる。
 34. 複数ビューポートで Selection Highlighting のオン・オフを別々に設定し、それぞれの表示色が独立する。template 色・選択不可の線と、通常線への色オーバーライドも確認する。
 35. `Line` が既定軸でX方向へ長さ1の線として表示される。主軸と補助軸をそれぞれ `+Y/+X`、`+Z/+X` とするとY方向・Z方向へ向き、矢印・端形状の配置平面も対応する。各主軸の負方向でもAtEndは主軸の正側へ追従する。
-36. `CubeFinArrow` と `CylinderFinArrow` の斜線が `-1stAxis` 側の高い位置から `+1stAxis` 側の本体上端へ伸び、軸指定・拡縮後も本体とフィンの接点が離れない。
+36. `Cube` と `Cylinder` のTapered Fin の斜線が `-1stAxis` 側の高い位置から `+1stAxis` 側の本体上端へ伸び、軸指定・拡縮後も本体とフィンの接点が離れない。
 37. 各形状で `shapeFill` を切り替え、Shaded で面と輪郭線、Wireframe で輪郭線、Wireframe on Shaded で両方が表示される。`ColorCornerCube` の小四角はWireframeでも残る。Shaded では面内をクリックして親 `transform` を選択できる。
 38. `Triangle`、`Square`、`Circle` を表裏から見て、面の表示と選択を確認する。立体形状では Backface Culling のオン・オフ、円柱・円錐の側面と底面、ピラミッドの底面も確認する。
 39. `shapeFillTransparency` を `0`、`0.5`、`1` に変え、輪郭線の `shapeTransparency` と独立して面の透明度が変わる。半透明の Cube・Sphere で前後の面の重なりと描画順を確認する。
 40. `shapeFill` がON で `shapeDrawOnTop` を切り替え、面と輪郭線が前面表示される。`shapeFillTransparency` を組み合わせても選択色とクリック選択が期待どおりか確認する。
 41. 各 `shapeFill` がON で輪郭線と面の外縁が一致する。Gear の穴、半円の直径側、矢印・Fin の付属面、template 本体面の非選択、ColorSphere 系の軸色の線を確認する。軸指定と非等方スケールを変えても一致し、負スケール時は表裏の表示を確認する。
-42. 塗りONの `3D` 系の矢印を斜めから見て、矢印部分が直交する２枚の薄い面として表示される。`SquareArrow4Way3D` と `SquareTemplateArrow4Way3D` は４方向とも確認する。`OctahedronArrowFin` は Fin 外周の上側で、八面体と重ならない左右２枚の三角面だけが塗られる。
+42. 塗りONの `3D` 系の矢印を斜めから見て、矢印部分が直交する２枚の薄い面として表示される。`SquareArrow4Way3D` と `SquareTemplateArrow4Way3D` は４方向とも確認する。`OctahedronArrow` のStandard Finは 外周の上側で、八面体と重ならない左右２枚の三角面だけが塗られる。
 43. `ColorCube` の正側3面にRGBの四角い枠、負側の角に通常色の3辺が表示される。共有辺の色の競合がなく、軸指定・回転・非等方スケールでも色が部位に追従する。塗りONは通常色のCube面と、内側へ縮めたRGB枠が表示される。
 44. `ColorCornerCube` の正側の角に一辺0.2の小四角3枚が表示され、Wireframeでも残る。通常色の線が小四角の境界に重ならず、小四角の面内をクリックして選択できる。塗りONでは本体面と小四角の間に隙間や同一面の二重描画がない。
 45. `ColorCornerCube` の `shapeTransparency` と `shapeFillTransparency` を別々に変え、小四角と本体面の透明度が独立して変わる。Selection Highlighting、Draw On Top、軸指定、負スケール、animation matrix、Undo/Redo、シーン再読込でも維持される。
@@ -843,7 +881,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 51. 3種類の `CrossLine*WideArrowAtEnds` の中央に内部線がなく、半透明でも面の二重描画による色の濃い部分がない。`SemicircleWideArrowAtEnds` は半径0.475–0.525の帯と矢印だけを塗り、中央の空間を残す。透明度、Template/Reference、選択、負スケール、軸指定、animation matrixも確認する。
 52. `CrossLine3AxisEnd*` と `ColorCrossLine3AxisEnd*` の各5系列・塗りON/OFFで、6端の形状がサイズ0.1で配置され、軸線が手前の表面で止まる。Pyramid/Coneの先端は6方向とも外向きで原点から0.5、底面は0.4となる。
 53. `ColorCrossLine3AxisEnd*` は正方向の軸線だけRGB、負方向の軸線と端形状は通常色となる。塗り面に軸色が付かず、Wireframeでは面が省略される。面内の選択、透明度、Template/Reference、Selection Highlighting、Draw On Top、軸指定、負スケール、animation matrix、Undo/Redo、シーン再読込も確認する。
-54. `shapeSize` の次に区切り・`shapePartOffset`・`shapePartOffsetAngle`・`shapePartFinHeight`・`shapePartSize`・`shapePartLengthScale`・`shapePartWidthScale`・区切り・`boundsMode` が並ぶ。10種類の端形状でピボット±0.5、長手方向・横2軸の伸縮、接続線の追従、原点越えでの線の省略を確認する。8種類のFinは塗りON/OFFとも専用Heightで高さを調整し、Offset・Lengthから独立する。Height 0でFinのみ消え、ArrowFinの高さ比率と本体に追従する付け根を保つ。
+54. `shapeSize` の次に区切り・`shapePartOffset`・`shapePartOffsetAngle`・`shapePartFinHeight`・`shapePartSize`・`shapePartLengthScale`・`shapePartWidthScale`・区切り・`boundsMode` が並ぶ。10種類の端形状でピボット±0.5、長手方向・横2軸の伸縮、接続線の追従、原点越えでの線の省略を確認する。全106形状のFinは塗りON/OFFとも専用Heightで高さを調整し、Offset・Lengthから独立する。Height 0でFinのみ消え、ArrowのTapered Finの高さ比率と本体に追従する付け根を保つ。
 55. 部品の変形でも輪郭と塗り面が一致し、0スケールでは塗り面を省略、負スケールでも面と選択が正しく表示される。形状全体の変形、3種類のBounds、単位変更、接続・アニメーション、Undo/Redo、シーン再読込、Color版の色分けも確認する。
 56. 付属Arrow3DをOffsetで移動しても、元の付け根へ伸びる中央線がない。直交する三角面の底辺は移動後の付け根にあり、面や輪郭が本体へ不要に延長されない。
 57. `OctahedronArrow*` の既定の本体がOctahedronと同じ±0.5の八面体になる。Offset・Lengthで先端だけが動き、中央断面から先端までの辺が直線になる。Lengthは中央断面を基準とし、1で先端+0.5、2で+1.0になる。Width・Sizeでは中央断面とそれを共有する反対側の面も変わり、後端は固定される。Finの付け根も追従する。
@@ -855,7 +893,9 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 61. CrossLine1st2nd/1st3rd/2nd3rdの片側端点矢印6種類で、名前の先頭にある軸の正側だけに矢印が付き、Offsetでも残り3端が固定される。Wide版の3端は平らに閉じ、中央に内部線や面の重複がない。Size・Length・Widthの負値・ゼロ値、軸指定・全体変形・Bounds・接続・Undo/Redo・シーン再読込も確認する。
 62. DiamondはSquare各辺の中点を結び、幅・高さが1となる。Square系列の後に並び、塗りONでは内側全体を塗る。Lineと2軸CrossLine3種のSquare/Diamond/Circle/Triangle各端形状では、AtEndが代表軸の正側だけ、AtEndsが全端に小形状を持つことを確認する。配置平面・0.1の寸法・外向きのTriangle・接続線の停止位置・小形状のない端の±0.5維持・部品の負値とゼロ値・重なる塗り面・軸指定・全体変形・Bounds・接続・Undo/Redo・シーン再読込も確認する。
 
-63. `shapeFill` が `shapeTransparency` と `shapeFillTransparency` の間に並び、既定OFFで非keyable・Channel Box表示となる。115形状にFilled付きのenum名がなく、ON/OFFで従来の通常版・Filled版と同じ塗り分け・選択・境界範囲になる。純粋な線形状の見た目とColorCornerCubeの軸色の小四角を維持し、透明度の値保持、接続、キー設定、Undo/Redo、保存・再読込を確認する。
+63. `shapeFill` が `shapeTransparency` と `shapeFillTransparency` の間に並び、既定OFFで非keyable・Channel Box表示となる。106形状にFilled付きのenum名がなく、ON/OFFで従来の通常版・Filled版と同じ塗り分け・選択・境界範囲になる。純粋な線形状の見た目とColorCornerCubeの軸色の小四角を維持し、透明度の値保持、接続、キー設定、Undo/Redo、保存・再読込を確認する。
+64. `shape` の次に `shapeFin` / `shapeFinType` が並び、106形状へ2種類のFinを追加できる。OFFとHeight 0で本体へ戻り、Type・Heightの値を保持する。旧8種類のFinの外形と面積、本体だけの配置基準、平面形状の向き、Color系の通常色、付属矢印との塗り面の重なり、接続・キー・Undo/Redo・保存・Boundsを確認する。
+65. 平面形状のFinが本体へ直角に立ち、Semicircleは基準幅0..+0.5・Widthピボット+0.25となる。ArrowのStandardはくぼみから先端までの矩形、Taperedは従来Standardの外形となり、根元を閉じる線を追加しない。TriangleArrow3Dが一覧にないこと、端形状の変形後の内部にFinの線・面が残らないことを確認する。
 
 実際のViewport 2.0を必要とする画像比較テストは
 `tests/maya/ui/test_controller_shape_viewport.py` にあります。既存作業とは別の

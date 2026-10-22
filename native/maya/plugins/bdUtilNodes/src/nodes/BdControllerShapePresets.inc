@@ -1,6 +1,6 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 115> kPresetNames = {
+constexpr std::array<const char*, 106> kPresetNames = {
     "Gear",
     "Line",
     "LineArrowAtEnd",
@@ -61,7 +61,6 @@ constexpr std::array<const char*, 115> kPresetNames = {
     "CrossLine3AxisEndPyramid",
     "CrossLine3AxisEndCone",
     "Triangle",
-    "TriangleArrow3D",
     "Square",
     "SquareArrow2D",
     "SquareArrow3D",
@@ -77,11 +76,8 @@ constexpr std::array<const char*, 115> kPresetNames = {
     "Cube",
     "CubeArrow2D",
     "CubeArrow3D",
-    "CubeFin",
-    "CubeFinArrow",
     "Octahedron",
     "OctahedronArrow",
-    "OctahedronArrowFin",
     "Circle",
     "CircleArrow2D",
     "CircleArrow3D",
@@ -96,14 +92,9 @@ constexpr std::array<const char*, 115> kPresetNames = {
     "SphereArrow2D",
     "SphereArrow3D",
     "Cylinder",
-    "CylinderFin",
-    "CylinderFinArrow",
     "Arrow",
-    "ArrowFin",
     "Pyramid",
-    "PyramidFin",
     "Cone",
-    "ConeFin",
     "ColorCrossLine3Axis",
     "ColorCrossLine3AxisEndCube",
     "ColorCrossLine3AxisEndOctahedron",
@@ -126,7 +117,7 @@ struct PresetInfo {
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 115> kPresetInfo = {{
+constexpr std::array<PresetInfo, 106> kPresetInfo = {{
     {0},  // Gear
     {1},  // Line
     {54, PartEnds::End},  // LineArrowAtEnd
@@ -187,7 +178,6 @@ constexpr std::array<PresetInfo, 115> kPresetInfo = {{
     {72},  // CrossLine3AxisEndPyramid
     {73},  // CrossLine3AxisEndCone
     {6},  // Triangle
-    {7},  // TriangleArrow3D
     {8},  // Square
     {9},  // SquareArrow2D
     {10},  // SquareArrow3D
@@ -203,11 +193,8 @@ constexpr std::array<PresetInfo, 115> kPresetInfo = {{
     {19},  // Cube
     {20},  // CubeArrow2D
     {21},  // CubeArrow3D
-    {22},  // CubeFin
-    {23},  // CubeFinArrow
     {24},  // Octahedron
     {25},  // OctahedronArrow
-    {26},  // OctahedronArrowFin
     {27},  // Circle
     {28},  // CircleArrow2D
     {29},  // CircleArrow3D
@@ -222,14 +209,9 @@ constexpr std::array<PresetInfo, 115> kPresetInfo = {{
     {34},  // SphereArrow2D
     {35},  // SphereArrow3D
     {36},  // Cylinder
-    {37},  // CylinderFin
-    {38},  // CylinderFinArrow
     {39},  // Arrow
-    {40},  // ArrowFin
     {41},  // Pyramid
-    {42},  // PyramidFin
     {43},  // Cone
-    {44},  // ConeFin
     {45},  // ColorCrossLine3Axis
     {74},  // ColorCrossLine3AxisEndCube
     {75},  // ColorCrossLine3AxisEndOctahedron

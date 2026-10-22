@@ -76,7 +76,6 @@ SHAPE_NAMES = (
     "CrossLine3AxisEndPyramid",
     "CrossLine3AxisEndCone",
     "Triangle",
-    "TriangleArrow3D",
     "Square",
     "SquareArrow2D",
     "SquareArrow3D",
@@ -92,11 +91,8 @@ SHAPE_NAMES = (
     "Cube",
     "CubeArrow2D",
     "CubeArrow3D",
-    "CubeFin",
-    "CubeFinArrow",
     "Octahedron",
     "OctahedronArrow",
-    "OctahedronArrowFin",
     "Circle",
     "CircleArrow2D",
     "CircleArrow3D",
@@ -111,14 +107,9 @@ SHAPE_NAMES = (
     "SphereArrow2D",
     "SphereArrow3D",
     "Cylinder",
-    "CylinderFin",
-    "CylinderFinArrow",
     "Arrow",
-    "ArrowFin",
     "Pyramid",
-    "PyramidFin",
     "Cone",
-    "ConeFin",
     "ColorCrossLine3Axis",
     "ColorCrossLine3AxisEndCube",
     "ColorCrossLine3AxisEndOctahedron",
@@ -134,24 +125,48 @@ SHAPE_NAMES = (
 )
 
 
+# 旧Fin名は回帰テストのケース名としてのみ使う。
+LEGACY_FIN_CASES = {
+    "CubeFin": ("Cube", 0),
+    "CubeFinArrow": ("Cube", 1),
+    "CylinderFin": ("Cylinder", 0),
+    "CylinderFinArrow": ("Cylinder", 1),
+    "OctahedronArrowFin": ("OctahedronArrow", 0),
+    "ArrowFin": ("Arrow", 1),
+    "PyramidFin": ("Pyramid", 0),
+    "ConeFin": ("Cone", 0),
+}
+
+
 # Filled接尾辞は回帰テストのケース名であり、公開shape enumの名前ではない。
 SHAPE_VARIANTS = tuple(
-    name + suffix for name in SHAPE_NAMES for suffix in ("", "Filled")
+    name + suffix
+    for name in (*SHAPE_NAMES, *LEGACY_FIN_CASES)
+    for suffix in ("", "Filled")
 )
 
 
 def _shape_index(case_name):
-    return SHAPE_NAMES.index(case_name.removesuffix("Filled"))
+    name = case_name.removesuffix("Filled")
+    return SHAPE_NAMES.index(LEGACY_FIN_CASES.get(name, (name, 0))[0])
 
 
 def _set_shape(maya_cmds, shape, case_name):
     maya_cmds.setAttr(f"{shape}.shape", _shape_index(case_name))
     maya_cmds.setAttr(f"{shape}.shapeFill", case_name.endswith("Filled"))
+    name = case_name.removesuffix("Filled")
+    maya_cmds.setAttr(f"{shape}.shapeFin", name in LEGACY_FIN_CASES)
+    maya_cmds.setAttr(
+        f"{shape}.shapeFinType", LEGACY_FIN_CASES.get(name, (name, 0))[1]
+    )
 
 
 def _set_shape_operator(shape, case_name):
     shape.shape.set(_shape_index(case_name))
     shape.shapeFill.set(case_name.endswith("Filled"))
+    name = case_name.removesuffix("Filled")
+    shape.shapeFin.set(name in LEGACY_FIN_CASES)
+    shape.shapeFinType.set(LEGACY_FIN_CASES.get(name, (name, 0))[1])
 
 
 def _load_bd_util_nodes(maya_cmds) -> None:
@@ -328,6 +343,20 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
             attribute, node=shape, maxExists=True
         )
     assert maya_cmds.getAttr(f"{shape}.shapePartOffsetAngle") == 0.0
+    assert maya_cmds.getAttr(f"{shape}.shapeFinType") == 0
+    assert not maya_cmds.getAttr(f"{shape}.shapeFin")
+    assert maya_cmds.getAttr(f"{shape}.shapeFin", type=True) == "bool"
+    assert (
+        maya_cmds.attributeQuery("shapeFin", node=shape, shortName=True)
+        == "sfn"
+    )
+    assert (
+        maya_cmds.attributeQuery("shapeFinType", node=shape, shortName=True)
+        == "sfnt"
+    )
+    assert maya_cmds.attributeQuery(
+        "shapeFinType", node=shape, listEnum=True
+    ) == ["Standard:Tapered"]
     assert (
         maya_cmds.getAttr(f"{shape}.shapePartOffsetAngle", type=True)
         == "doubleAngle"
@@ -494,6 +523,8 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
     channel_order = maya_cmds.listAttr(shape, channelBox=True)
     ordered_attributes = (
         "shape",
+        "shapeFin",
+        "shapeFinType",
         "shapeDrawOnTop",
         "shapeLineWidth",
         "shapeTransparency",
@@ -1677,7 +1708,6 @@ def test_part_attributes_leave_plain_shapes_unchanged(
             "SquareTemplateArrow4Way3D",
             (0, -0.7875, -0.7875, 0.09375, 0.975, 0.7875),
         ),
-        ("TriangleArrow3D", (0, -2.01, -0.5, 0.75, 0.6, 0.5)),
         ("CubeArrow2D", (-0.5, -0.5, -0.5, 0.975, 0.5, 0.5)),
         ("CubeArrow3D", (-0.5, -0.5, -0.5, 0.975, 0.5, 0.5)),
         ("CircleArrow2D", (0, -0.5, -0.5, 0, 0.975, 0.5)),
@@ -3532,3 +3562,244 @@ def test_custom_bounds_node_operator_history_and_scene_reload(
     assert maya_cmds.getAttr(f"{shape_name}.boundsMode") == 2
     assert maya_cmds.getAttr(f"{shape_name}.showBoundsPreview")
     assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)
+
+
+@pytest.mark.parametrize("shape_name", SHAPE_NAMES)
+@pytest.mark.parametrize("fin_type", (0, 1))
+@pytest.mark.parametrize("filled", (False, True))
+def test_fin_option_all_shapes(
+    maya_cmds, maya_om, new_scene, shape_name, fin_type, filled
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name=shape_name, shape_fill=filled
+    )
+    base = _bounds(maya_om, shape)
+    maya_cmds.setAttr(f"{shape}.shapeFinType", fin_type)
+    maya_cmds.setAttr(f"{shape}.shapePartFinHeight", 1.5)
+    maya_cmds.setAttr(f"{shape}.shapeFin", True)
+    actual = _bounds(maya_om, shape)
+    assert all(math.isfinite(value) for value in actual)
+    assert actual != pytest.approx(base)
+    for axis in range(3):
+        assert actual[axis] <= base[axis] + 1e-9
+        assert actual[axis + 3] >= base[axis + 3] - 1e-9
+    maya_cmds.setAttr(f"{shape}.shapeFin", False)
+    assert _bounds(maya_om, shape) == pytest.approx(base)
+    assert maya_cmds.getAttr(f"{shape}.shapeFinType") == fin_type
+    assert maya_cmds.getAttr(f"{shape}.shapePartFinHeight") == pytest.approx(
+        1.5
+    )
+    maya_cmds.setAttr(f"{shape}.shapeFin", True)
+    assert _bounds(maya_om, shape) == pytest.approx(actual)
+    maya_cmds.setAttr(f"{shape}.shapePartFinHeight", 0)
+    assert _bounds(maya_om, shape) == pytest.approx(base)
+
+
+@pytest.mark.parametrize("bounds_mode", (0, 1, 2))
+@pytest.mark.parametrize("connected", (False, True))
+def test_fin_option_updates_bounds(
+    maya_cmds, maya_om, new_scene, bounds_mode, connected
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name="Pyramid", bounds_mode=bounds_mode
+    )
+    maya_cmds.setAttr(f"{shape}.shapePartFinHeight", 0.75)
+    base = _bounds(maya_om, shape)
+    source = maya_cmds.createNode("network")
+    maya_cmds.addAttr(source, longName="fin", attributeType="bool")
+    maya_cmds.addAttr(source, longName="finType", attributeType="long")
+    if connected:
+        for attr in ("fin", "finType"):
+            maya_cmds.connectAttr(
+                f"{source}.{attr}",
+                f"{shape}.shape{attr[0].upper() + attr[1:]}",
+            )
+    fin = f"{source}.fin" if connected else f"{shape}.shapeFin"
+    kind = f"{source}.finType" if connected else f"{shape}.shapeFinType"
+    for enabled, fin_type, maximum in (
+        (True, 0, 0.75),
+        (True, 1, 1.25),
+        (False, 1, 0.5),
+        (True, 0, 0.75),
+    ):
+        maya_cmds.setAttr(fin, enabled)
+        maya_cmds.setAttr(kind, fin_type)
+        actual = _bounds(maya_om, shape)
+        if bounds_mode == 2:
+            assert actual == pytest.approx(base)
+        elif bounds_mode == 0:
+            assert actual[4] == pytest.approx(maximum)
+        else:
+            assert actual[4] == pytest.approx((maximum + 0.5) / 2)
+
+
+@pytest.mark.parametrize(
+    "shape_name,height_axis,width_axis,low",
+    (
+        ("Gear", 0, 1, -0.5),
+        ("Triangle", 0, 1, -0.37),
+        ("SquareArrow3D", 0, 1, -0.5),
+        ("Diamond", 0, 1, -0.5),
+        ("CircleArrow2D", 0, 1, -0.5),
+        ("SemicircleArrowAtEnds", 0, 1, 0),
+        ("CrossLine1st2nd", 2, 0, -0.5),
+        ("CrossLine1st3rd", 1, 0, -0.5),
+        ("CrossLine2nd3rd", 0, 1, -0.5),
+    ),
+)
+@pytest.mark.parametrize("fin_type", (0, 1))
+@pytest.mark.parametrize("filled", (False, True))
+def test_planar_fin_perpendicular_bounds(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    shape_name,
+    height_axis,
+    width_axis,
+    low,
+    fin_type,
+    filled,
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name=shape_name, shape_fill=filled
+    )
+    maya_cmds.setAttr(f"{shape}.shapeFin", True)
+    maya_cmds.setAttr(f"{shape}.shapeFinType", fin_type)
+    maya_cmds.setAttr(f"{shape}.shapePartFinHeight", 1.25)
+    maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 2)
+    # 本体の部品変形も含む範囲へ、独立したFinの幅・高さを加える。
+    maya_cmds.setAttr(f"{shape}.shapeFin", False)
+    base = list(_bounds(maya_om, shape))
+    expected = base.copy()
+    pivot = (low + 0.5) / 2
+    expected[width_axis] = min(expected[width_axis], pivot + (low - pivot) * 2)
+    expected[width_axis + 3] = max(
+        expected[width_axis + 3], pivot + (0.5 - pivot) * 2
+    )
+    expected[height_axis + 3] = max(expected[height_axis + 3], 1.25)
+    maya_cmds.setAttr(f"{shape}.shapeFin", True)
+    assert _bounds(maya_om, shape) == pytest.approx(expected)
+    maya_cmds.setAttr(f"{shape}.shapePartFinHeight", -1.25)
+    expected[height_axis + 3] = max(base[height_axis + 3], 0)
+    expected[height_axis] = min(expected[height_axis], -1.25)
+    assert _bounds(maya_om, shape) == pytest.approx(expected)
+
+
+@pytest.mark.parametrize("fin_type", (0, 1))
+@pytest.mark.parametrize("angle", (-90, -30, 0, 30, 90))
+def test_semicircle_fin_half_width_and_pivot(
+    maya_cmds, maya_om, new_scene, fin_type, angle
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name="Semicircle")
+    maya_cmds.setAttr(f"{shape}.shapePartOffsetAngle", angle)
+    base = list(_bounds(maya_om, shape))
+    maya_cmds.setAttr(f"{shape}.shapeFin", True)
+    maya_cmds.setAttr(f"{shape}.shapeFinType", fin_type)
+    maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 2)
+    base[3] = 0.5
+    base[1] = min(base[1], -0.25)
+    base[4] = 0.75
+    assert _bounds(maya_om, shape) == pytest.approx(base)
+
+
+@pytest.mark.parametrize("fin_type", (0, 1))
+def test_arrow_fin_type_and_body_following(
+    maya_cmds, maya_om, new_scene, fin_type
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name="Arrow")
+    maya_cmds.setAttr(f"{shape}.shapeFin", True)
+    maya_cmds.setAttr(f"{shape}.shapeFinType", fin_type)
+    maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.2)
+    maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 2)
+    maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 0)
+    assert _bounds(maya_om, shape) == pytest.approx((-1.3, 0, 0, 0.7, 0.5, 0))
+
+
+def test_fin_option_axis_mapping(maya_cmds, maya_om, new_scene):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name="Line")
+    maya_cmds.setAttr(f"{shape}.shapeFin", True)
+    maya_cmds.setAttr(f"{shape}.shape1stAxis", 2)
+    maya_cmds.setAttr(f"{shape}.shape2ndAxis", 4)
+    assert _bounds(maya_om, shape) == pytest.approx((0, -0.5, 0, 0, 0.5, 0.5))
+
+
+@pytest.mark.parametrize(
+    "shape_name",
+    ("ColorCube", "ColorCornerCube", "ColorSphere", "ColorCrossLine3Axis"),
+)
+@pytest.mark.parametrize("fin_type", (0, 1))
+def test_fin_option_color_constraints(
+    maya_cmds, maya_om, new_scene, shape_name, fin_type
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name=shape_name, shape_fill=True
+    )
+    maya_cmds.setAttr(f"{shape}.shapeFin", True)
+    maya_cmds.setAttr(f"{shape}.shapeFinType", fin_type)
+    before = _bounds(maya_om, shape)
+    maya_cmds.setAttr(f"{shape}.shape1stAxis", 5)
+    maya_cmds.setAttr(f"{shape}.shape2ndAxis", 1)
+    maya_cmds.setAttr(f"{shape}.shapeRotate", 30, 60, 90)
+    maya_cmds.setAttr(f"{shape}.shapeAxisRotate", 90, 60, 30)
+    maya_cmds.setAttr(f"{shape}.shapeScale", -1, -1, -1)
+    maya_cmds.setAttr(f"{shape}.shapeAxisScale", -1, -1, -1)
+    assert _bounds(maya_om, shape) == pytest.approx(before)
+
+
+def test_fin_option_animation(maya_cmds, maya_om, new_scene):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name="Pyramid")
+    maya_cmds.setAttr(f"{shape}.shapePartFinHeight", 0.75)
+    for frame, enabled, fin_type in (
+        (1, False, 0),
+        (10, True, 0),
+        (20, True, 1),
+    ):
+        maya_cmds.setKeyframe(
+            shape, attribute="shapeFin", time=frame, value=enabled
+        )
+        maya_cmds.setKeyframe(
+            shape, attribute="shapeFinType", time=frame, value=fin_type
+        )
+    for frame, maximum in ((1, 0.5), (10, 0.75), (20, 1.25), (1, 0.5)):
+        maya_cmds.currentTime(frame)
+        assert _bounds(maya_om, shape)[4] == pytest.approx(maximum)
+
+
+def test_fin_option_history_and_scene_reload(
+    maya_cmds, maya_om, new_scene, tmp_path
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, name = _create_controller(maya_cmds, shape_name="Pyramid")
+    source = maya_cmds.createNode("network")
+    maya_cmds.addAttr(
+        source, longName="kind", attributeType="long", defaultValue=1
+    )
+    mod = bdu.ModifierManager()
+    shape = bdu.Nodes(modifier_manager=mod).existing(name)
+    shape.shapeFin.set(True)
+    shape.shapeFinType.connect_from(f"{source}.kind")
+    shape.shapePartFinHeight.set(0.75)
+    mod.do_it_dg()
+    assert _bounds(maya_om, name)[4] == pytest.approx(1.25)
+    mod.undo_it()
+    assert _bounds(maya_om, name)[4] == pytest.approx(0.5)
+    mod.redo_it()
+    assert _bounds(maya_om, name)[4] == pytest.approx(1.25)
+    scene_path = tmp_path / "shape_fin.ma"
+    maya_cmds.file(rename=str(scene_path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(scene_path), open=True, force=True)
+    assert maya_cmds.getAttr(f"{name}.shapeFin")
+    assert maya_cmds.isConnected(f"{source}.kind", f"{name}.shapeFinType")
+    assert _bounds(maya_om, name)[4] == pytest.approx(1.25)
+    maya_cmds.setAttr(f"{source}.kind", 0)
+    assert _bounds(maya_om, name)[4] == pytest.approx(0.75)

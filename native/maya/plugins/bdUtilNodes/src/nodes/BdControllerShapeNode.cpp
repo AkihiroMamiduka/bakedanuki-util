@@ -1,4 +1,4 @@
-#include "bdUtilNodes/nodes/BdControllerShapeNode.h"
+﻿#include "bdUtilNodes/nodes/BdControllerShapeNode.h"
 
 #include <algorithm>
 #include <array>
@@ -53,6 +53,8 @@ const MString BdControllerShapeNode::drawRegistrantId(
 );
 
 MObject BdControllerShapeNode::shape;
+MObject BdControllerShapeNode::shapeFin;
+MObject BdControllerShapeNode::shapeFinType;
 MObject BdControllerShapeNode::shape1stAxis;
 MObject BdControllerShapeNode::shape2ndAxis;
 MObject BdControllerShapeNode::shapeAnimationTransformMatrix;
@@ -152,6 +154,8 @@ constexpr short cubePresetIndex();
 struct ShapeSettings {
     short shape = cubePresetIndex();
     bool fill = false;
+    bool fin = false;
+    short finType = 0;
     short firstAxis = 0;
     short secondAxis = 2;
     double rootSize = 1.0;
@@ -201,6 +205,8 @@ struct ShapeAttributes {
     MObject showOffsetLine;
     MObject offsetLineTemplate;
     MObject fill;
+    MObject fin;
+    MObject finType;
 };
 
 ShapeAttributes shapeAttributes() {
@@ -228,6 +234,8 @@ ShapeAttributes shapeAttributes() {
         BdControllerShapeNode::showShapeOffsetLine,
         BdControllerShapeNode::shapeOffsetLineTemplate,
         BdControllerShapeNode::shapeFill,
+        BdControllerShapeNode::shapeFin,
+        BdControllerShapeNode::shapeFinType,
     };
 }
 
@@ -247,6 +255,8 @@ ShapeAttributes customBoundsAttributes() {
         BdControllerShapeNode::customBoundsAxisRotate,
         BdControllerShapeNode::customBoundsAxisScale,
         BdControllerShapeNode::customBoundsSize,
+        MObject(),
+        MObject(),
         MObject(),
         MObject(),
         MObject(),
@@ -277,6 +287,7 @@ bool sameMatrix(const MMatrix& left, const MMatrix& right) {
 bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
     return left.shape == right.shape &&
         left.fill == right.fill &&
+        left.fin == right.fin && left.finType == right.finType &&
         left.firstAxis == right.firstAxis &&
         left.secondAxis == right.secondAxis &&
         left.rootSize == right.rootSize &&
@@ -382,6 +393,15 @@ bool readSettings(
 ) {
     MStatus status;
     settings.fill = false;
+    settings.fin = false;
+    settings.finType = 0;
+    if (!attributes.fin.isNull()) {
+        settings.fin = MPlug(node, attributes.fin).asBool(&status);
+        if (!status) return false;
+        settings.finType = MPlug(node, attributes.finType).asShort(&status);
+        if (!status) return false;
+        settings.finType = std::clamp<short>(settings.finType, 0, 1);
+    }
     if (!attributes.fill.isNull()) {
         settings.fill = MPlug(node, attributes.fill).asBool(&status);
         if (!status) return false;
@@ -1399,21 +1419,48 @@ MBoundingBox boundsForGeometry(
     return box;
 }
 
+#include "BdControllerShapeFin.inc"
+
 std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const ShapeSettings& settings
 ) {
     const ShapeTransform transform(settings);
     auto result = std::make_shared<BdControllerShapeNode::Geometry>();
-    if (makeAdjustedPartGeometry(settings, *result)) {
+    const bool withFin = settings.fin && partFinHeight(settings) != 0.0;
+    ShapeSettings source = settings;
+    if (withFin) {
+        source.firstAxis = 0;
+        source.secondAxis = 2;
+        source.rootSize = source.size = source.axisOffsetLength = 1.0;
+        source.translate = source.rotateAngles = source.axisTranslate = source.axisRotateAngles = MVector::zero;
+        source.scale = source.axisScale = MVector(1, 1, 1);
+        source.axisOffset = false;
+    }
+    const ShapeTransform sourceTransform = withFin ? ShapeTransform(source) : transform;
+    if (makeAdjustedPartGeometry(source, *result)) {
+        for (auto& stroke : result->strokes) {
+            for (unsigned int i = 0; i < stroke.length(); ++i) stroke[i] = transformPoint(stroke[i], sourceTransform);
+        }
+        for (auto& part : result->fillParts) {
+            for (unsigned int i = 0; i < part.triangles.length(); ++i) part.triangles[i] = transformPoint(part.triangles[i], sourceTransform);
+        }
+    } else {
+        result->strokes = makeStrokes(sourceTransform, result->strokeStyles);
+        result->fillParts = makeFillParts(sourceTransform);
+    }
+    if (withFin) {
+        const auto bodyFills = result->fillParts;
+        appendShapeFin(source, *result);
+        const short outline = outlinePresetIndex(source.shape);
+        const bool trimmedEnds = hasCrossLineEndSolids(outline) || (outline >= 80 && outline <= 103);
+        // 端形状は線と面を既に同じ境界で切っているため、面の差分を繰り返さない。
+        if (source.fill && !trimmedEnds) removeFinFillOverlaps(*result, bodyFills);
         for (auto& stroke : result->strokes) {
             for (unsigned int i = 0; i < stroke.length(); ++i) stroke[i] = transformPoint(stroke[i], transform);
         }
         for (auto& part : result->fillParts) {
             for (unsigned int i = 0; i < part.triangles.length(); ++i) part.triangles[i] = transformPoint(part.triangles[i], transform);
         }
-    } else {
-        result->strokes = makeStrokes(transform, result->strokeStyles);
-        result->fillParts = makeFillParts(transform);
     }
     result->bounds = boundsForGeometry(result->strokes, result->fillParts);
     result->offsetLineTemplate = settings.offsetLineTemplate;
@@ -1544,6 +1591,8 @@ bool isShapeAttribute(const MObject& attribute) {
     for (const MObject& shapeAttribute : {
              BdControllerShapeNode::shape,
              BdControllerShapeNode::shapeFill,
+             BdControllerShapeNode::shapeFin,
+             BdControllerShapeNode::shapeFinType,
              BdControllerShapeNode::shape1stAxis,
              BdControllerShapeNode::shape2ndAxis,
              BdControllerShapeNode::shapeRootSize,
@@ -1652,6 +1701,8 @@ bool hasConnectedSettingsInput(
     for (const MObject& attribute : {
              attributes.shape,
              attributes.fill,
+             attributes.fin,
+             attributes.finType,
              attributes.firstAxis,
              attributes.secondAxis,
              attributes.rootSize,
@@ -2297,6 +2348,19 @@ MStatus BdControllerShapeNode::initialize() {
             return status;
         }
     }
+
+    status = bd_util_nodes::createBooleanAttribute(
+        numericAttributeFn, shapeFin, "shapeFin", "sfn", false
+    );
+    if (!status) return status;
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) return status;
+    shapeFinType = enumAttributeFn.create("shapeFinType", "sfnt", 0, &status);
+    if (!status) return status;
+    status = enumAttributeFn.addField("Standard", 0);
+    if (!status) return status;
+    status = enumAttributeFn.addField("Tapered", 1);
+    if (!status) return status;
 
     for (const auto& axisAttribute : {
              std::pair<MObject*, std::pair<const char*, const char*>>{
@@ -3020,6 +3084,8 @@ MStatus BdControllerShapeNode::initialize() {
 
     for (const MObject& attribute : {
              shape,
+             shapeFin,
+             shapeFinType,
              shapeDrawOnTop,
              shapeLineWidth,
              shapeTransparency,
@@ -3121,6 +3187,8 @@ MStatus BdControllerShapeNode::initialize() {
     for (const MObject& attribute : {
              shape,
              shapeAnimationTransformMatrix,
+             shapeFin,
+             shapeFinType,
              shapeDrawOnTop,
              shapeLineWidth,
              shapeTransparency,
