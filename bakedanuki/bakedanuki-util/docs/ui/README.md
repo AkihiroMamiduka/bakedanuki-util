@@ -467,6 +467,22 @@ Binding接続には`add_button(check_box, on_change=set_locked)`のように
 通常クリック・キーボード入力は元のWidgetへ渡すため、別途`clicked`へ同じ入力先を接続します。
 開始／終了通知、`is_active`、`finish()`・`clear()`・`dispose()`もラジオ版と共通です。
 
+両方の`add_button()`は、`apply_unchanged=False`と`group=None`を省略できます。
+`apply_unchanged=True`では表示が要求状態と同じでも入力します。基準の一対象だけを
+表示し、他の対象へも同じ状態を適用する用途で使います。チェックボックスには
+`on_change`を渡し、ラジオボタンでは`on_change: Callable[[], None]`を渡すか、
+未指定のまま既存の`clicked`経路へ委ねます。明示した入力先は表示同期も担当します。
+ラジオボタンで`on_change`または`apply_unchanged`を指定した場合と、チェックボックスでは、
+一ドラッグ中に同じボタンへ一回だけ要求し、表示が変わらなくても往復・releaseで再要求しません。
+通常クリックとキーボード入力は、これらの指定によって変更しません。
+
+`group`を指定したボタンから開始すると、開始時の`group`と`==`で等しい登録だけを
+操作します。列ごとに`"keyable"`・`"channel_box"`・`"hidden"`などを渡せば、横移動で
+別列へ触れても変更しません。`None`のボタンから開始した場合は、従来どおり全登録を
+対象にします。再登録はそのボタンの設定を置き換え、`clear()`は入力先とgroupも解放します。
+`tests/ui/test_radio_button_sweep.py`と`test_check_box_sweep.py`で、同値要求・往復・
+列横断・通常クリックの独立性・登録解除を確認します。
+
 `bd_util.maya.ui.MayaEditSession(owner, chunk_name="ContinuousEdit")`は、Viewや属性型に
 依存しないUndoのまとまりです。`begin()`で開始し、差分を書き込む部分だけを`write()`で
 囲んで、操作終了時に`finish()`します。`is_editing`で追加入力が可能か確認できます。

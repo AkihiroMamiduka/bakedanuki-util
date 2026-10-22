@@ -18,6 +18,12 @@
 
 ### Changed
 
+- `RadioButtonSweep`と`CheckBoxSweep`の`add_button()`へ
+  `apply_unchanged=False`と`group=None`を追加。基準の表示と同じ状態も明示要求でき、
+  開始ボタンと同じgroupの登録だけになぞり入力を限定できる。
+  ラジオ版には`on_change: Callable[[], None]`も追加し、入力先に表示同期を委ねられる。
+  明示入力は一ドラッグ中に同じボタンへ一回だけ送り、通常クリック・キー入力と
+  引数を省略した既存動作を維持する。scene・保存設定の移行は不要。
 - `FloatSliderSpinBox`の`single_step`既定を`None`へ変更し、生成時に
   `unit_kind="angle"`なら1、通常数値・距離なら0.1を表示単位の刻み幅に使う。
   明示指定したstepは優先し、Slider分割数・小数精度・単位変更時のstep数値は維持する。

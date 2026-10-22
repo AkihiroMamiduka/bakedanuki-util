@@ -37,6 +37,8 @@ class ButtonSweep(qt.QObject):
         super().__init__(scope)
         self._scope = scope
         self._buttons: list[qt.QtWidgets.QAbstractButton] = []
+        self._groups: dict[qt.QtWidgets.QAbstractButton, object | None] = {}
+        self._group: object | None = None
         self._origin: qt.QtWidgets.QAbstractButton | None = None
         self._cancelled_origin: qt.QtWidgets.QAbstractButton | None = None
         self._position = qt.QPoint()
@@ -49,7 +51,12 @@ class ButtonSweep(qt.QObject):
         """通常の押下待ちを除き、なぞり選択中か返す。"""
         return self._dragging
 
-    def _add_button(self, button: qt.QtWidgets.QAbstractButton) -> None:
+    def _add_button(
+        self,
+        button: qt.QtWidgets.QAbstractButton,
+        *,
+        group: object | None = None,
+    ) -> None:
         """表示範囲の子ボタンへ任意参加のドラッグ操作を追加する。"""
         if self._disposed:
             raise RuntimeError("終了済みのなぞり操作です")
@@ -58,6 +65,7 @@ class ButtonSweep(qt.QObject):
         if button not in self._buttons:
             self._buttons.append(button)
             button.installEventFilter(self)
+        self._groups[button] = group
 
     def clear(self) -> None:
         """行を差し替える前に操作を終了し、ボタンの登録を解除する。"""
@@ -66,6 +74,7 @@ class ButtonSweep(qt.QObject):
             if qt.isValid(button):
                 button.removeEventFilter(self)
         self._buttons.clear()
+        self._groups.clear()
 
     def finish(self) -> None:
         """終了・中断時は現在の選択を保持し、押下状態と監視を解除する。"""
@@ -74,6 +83,7 @@ class ButtonSweep(qt.QObject):
     def _reset(self, *, clear_down: bool) -> None:
         """状態を先に解放し、終了通知からの再入を無害にする。"""
         origin, self._origin = self._origin, None
+        self._group = None
         dragging, self._dragging = self._dragging, False
         application = qt.QApplication.instance()
         if application is not None and qt.isValid(self):
@@ -106,6 +116,7 @@ class ButtonSweep(qt.QObject):
                     and watched.hitButton(event.position().toPoint())
                 ):
                     self._origin = watched
+                    self._group = self._groups[watched]
                     self._position = event.globalPosition().toPoint()
                     self._prepare(watched)
                     application = qt.QApplication.instance()
@@ -200,6 +211,8 @@ class ButtonSweep(qt.QObject):
         clip = viewport.rect().translated(viewport.mapToGlobal(qt.QPoint()))
         candidates: list[tuple[float, qt.QtWidgets.QAbstractButton]] = []
         for button in self._buttons:
+            if self._group is not None and self._groups[button] != self._group:
+                continue
             if not qt.isValid(button) or not button.isVisible():
                 continue
             if not button.isEnabled():

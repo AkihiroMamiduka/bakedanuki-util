@@ -2,6 +2,8 @@
 """なぞり選択の通常操作、経路判定、中断と登録範囲を検証する。"""
 
 from collections.abc import Iterator
+from functools import partial
+from typing import Protocol, cast
 
 import pytest
 
@@ -30,19 +32,30 @@ def panel(qt_application: qt.QApplication) -> Iterator[qt.QWidget]:
     qt.QApplication.sendPostedEvents(None, qt.QEvent.Type.DeferredDelete)
 
 
+class _RadioContainer(Protocol):
+    """Qtの子検索を、テストで指定するラジオボタン型へ限定する。"""
+
+    def findChildren(
+        self, kind: type[qt.QRadioButton]
+    ) -> list[qt.QRadioButton]:
+        """指定したラジオボタン型の子を列挙する。"""
+        raise NotImplementedError
+
+
+def _all_buttons(panel: qt.QWidget) -> list[qt.QRadioButton]:
+    """Qtの型が未確定な列挙結果を、指定したボタン型へ限定する。"""
+    return cast(_RadioContainer, panel).findChildren(qt.QRadioButton)
+
+
 def _buttons(panel: qt.QWidget, text: str) -> list[qt.QRadioButton]:
     """指定した列のボタンを表示順に返す。"""
-    return [
-        button
-        for button in panel.findChildren(qt.QRadioButton)
-        if button.text() == text
-    ]
+    return [button for button in _all_buttons(panel) if button.text() == text]
 
 
 def _sweep(panel: qt.QWidget) -> RadioButtonSweep:
     """表示範囲内のラジオボタンだけを操作対象に登録する。"""
     sweep = RadioButtonSweep(panel)
-    for button in panel.findChildren(qt.QRadioButton):
+    for button in _all_buttons(panel):
         sweep.add_button(button)
     return sweep
 
@@ -203,4 +216,111 @@ def test_end_during_callback_stops_remaining_targets(
         False,
         False,
     ]
+    assert not sweep.is_active
+
+
+@pytest.mark.parametrize("apply_unchanged", [False, True])
+@pytest.mark.parametrize("column", ["key", "ch"])
+def test_explicit_writer_visits_once_without_changing_display(
+    panel: qt.QWidget, apply_unchanged: bool, column: str
+) -> None:
+    """表示同期しない入力先でも一回だけ要求し、同値は明示指定で許可する。"""
+    buttons = _buttons(panel, column)
+    calls: list[int] = []
+    sweep = RadioButtonSweep(panel)
+    for index, button in enumerate(buttons):
+        sweep.add_button(
+            button,
+            on_change=partial(calls.append, index),
+            apply_unchanged=apply_unchanged,
+        )
+    _mouse(buttons[0], qt.QEvent.Type.MouseButtonPress, buttons[0])
+    _mouse(buttons[0], qt.QEvent.Type.MouseMove, buttons[-1])
+    _mouse(buttons[0], qt.QEvent.Type.MouseMove, buttons[0])
+    _mouse(buttons[0], qt.QEvent.Type.MouseButtonRelease, buttons[0])
+    expected = list(range(5)) if column == "ch" or apply_unchanged else []
+    assert calls == expected
+    assert all(button.isChecked() == (column == "key") for button in buttons)
+    assert not sweep.is_active
+
+
+def test_group_excludes_crossed_columns_and_restarts_from_new_origin(
+    panel: qt.QWidget,
+) -> None:
+    """等しいgroupだけを要求し、横断や往復でも別列へ波及しない。"""
+    calls: list[qt.QRadioButton] = []
+    sweep = RadioButtonSweep(panel)
+    for button in _all_buttons(panel):
+        sweep.add_button(
+            button,
+            on_change=partial(calls.append, button),
+            apply_unchanged=True,
+            group=[button.text()],
+        )
+    channels, hidden = _buttons(panel, "ch"), _buttons(panel, "hide")
+    _mouse(channels[0], qt.QEvent.Type.MouseButtonPress, channels[0])
+    _mouse(channels[0], qt.QEvent.Type.MouseMove, hidden[2])
+    _mouse(channels[0], qt.QEvent.Type.MouseMove, channels[-1])
+    _mouse(channels[0], qt.QEvent.Type.MouseMove, channels[0])
+    _mouse(channels[0], qt.QEvent.Type.MouseButtonRelease, channels[0])
+    assert channels[0] in calls and channels[-1] in calls
+    assert all(button.text() == "ch" for button in calls)
+    assert len(calls) == len(set(calls))
+    calls.clear()
+    _mouse(hidden[0], qt.QEvent.Type.MouseButtonPress, hidden[0])
+    _mouse(hidden[0], qt.QEvent.Type.MouseMove, hidden[-1])
+    _mouse(hidden[0], qt.QEvent.Type.MouseButtonRelease, hidden[-1])
+    assert calls == hidden
+
+
+def test_unchanged_click_fallback_and_clear_restore_default_registration(
+    panel: qt.QWidget,
+) -> None:
+    """同値要求はclickedへ委譲でき、再登録時は入力設定を残さない。"""
+    buttons = _buttons(panel, "key")
+    calls: list[int] = []
+    sweep = RadioButtonSweep(panel)
+    for index, button in enumerate(buttons):
+        button.clicked.connect(lambda _checked=False, i=index: calls.append(i))
+        sweep.add_button(button, apply_unchanged=True, group="key")
+    _mouse(buttons[0], qt.QEvent.Type.MouseButtonPress, buttons[0])
+    _mouse(buttons[0], qt.QEvent.Type.MouseMove, buttons[-1])
+    _mouse(buttons[0], qt.QEvent.Type.MouseMove, buttons[0])
+    _mouse(buttons[0], qt.QEvent.Type.MouseButtonRelease, buttons[0])
+    assert calls == list(range(5))
+    sweep.clear()
+    calls.clear()
+    for button in buttons:
+        sweep.add_button(button)
+    _mouse(buttons[0], qt.QEvent.Type.MouseButtonPress, buttons[0])
+    _mouse(buttons[0], qt.QEvent.Type.MouseMove, buttons[-1])
+    _mouse(buttons[0], qt.QEvent.Type.MouseButtonRelease, buttons[-1])
+    assert not calls
+
+
+def test_writer_exception_finishes_and_invalid_bool_is_rejected(
+    panel: qt.QWidget,
+) -> None:
+    """明示入力の失敗で操作を閉じ、bool以外の同値指定を登録前に拒否する。"""
+    button = _buttons(panel, "key")[0]
+
+    class FailureSweep(RadioButtonSweep):
+        """Qtに握りつぶされない経路で入力先の例外を確認する。"""
+
+        def apply_for_test(self, target: qt.QRadioButton) -> None:
+            """開始済みのなぞりを再現して対象の入力先を呼ぶ。"""
+            self._dragging = True
+            self._apply(target)
+
+    sweep = FailureSweep(panel)
+
+    def fail() -> None:
+        """入力先からの失敗を再現する。"""
+        raise RuntimeError("入力失敗")
+
+    with pytest.raises(TypeError, match="apply_unchanged"):
+        sweep.add_button(button, apply_unchanged=cast(bool, 1))
+    sweep.add_button(button, on_change=fail, apply_unchanged=True)
+    with pytest.raises(RuntimeError, match="入力失敗"):
+        sweep.apply_for_test(button)
     assert not sweep.is_active

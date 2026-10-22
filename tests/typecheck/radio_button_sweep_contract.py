@@ -9,6 +9,15 @@ from bd_util.ui import CheckBoxSweep, RadioButtonSweep, qt
 viewport = qt.QWidget()
 sweep = RadioButtonSweep(viewport)
 assert_type(sweep.add_button(qt.QRadioButton(viewport)), None)
+assert_type(
+    sweep.add_button(
+        qt.QRadioButton(viewport),
+        on_change=lambda: None,
+        apply_unchanged=True,
+        group="channel_box",
+    ),
+    None,
+)
 assert_type(sweep.is_active, bool)
 assert_type(sweep.finish(), None)
 assert_type(sweep.clear(), None)
@@ -17,7 +26,10 @@ check_sweep = CheckBoxSweep(viewport)
 assert_type(check_sweep.add_button(qt.QCheckBox(viewport)), None)
 assert_type(
     check_sweep.add_button(
-        qt.QCheckBox(viewport), on_change=lambda value: None
+        qt.QCheckBox(viewport),
+        on_change=lambda value: None,
+        apply_unchanged=True,
+        group="lock",
     ),
     None,
 )
