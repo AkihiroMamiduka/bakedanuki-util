@@ -69,8 +69,16 @@ public:
     static const MString drawRegistrantId;
 
     static MObject shape;
+    static MObject shapeWideWidth;
+    static MObject shapeCircleAngle;
+    static MObject shapePart;
+    static MObject shapePartShape;
+    static MObject shapePartType;
     static MObject shapeFin;
     static MObject shapeFinType;
+    static MObject shapeFinHeight;
+    static MObject shapeFinSize;
+    static MObject shapeFinWidthScale;
     static MObject shape1stAxis;
     static MObject shape2ndAxis;
     static MObject shapeAnimationTransformMatrix;
@@ -112,15 +120,13 @@ public:
 
     static MObject shapeSize;
     static MObject shapePartOffset;
-    static MObject shapePartOffsetAngle;
-    static MObject shapePartFinHeight;
     static MObject shapePartLengthScale;
     static MObject shapePartWidthScale;
     static MObject shapePartSize;
-    static MObject showShapeOffsetLine;
+    static MObject shapeOffsetLine;
     static MObject shapeOffsetLineTemplate;
     static MObject shapeLineWidth;
-    static MObject shapeTransparency;
+    static MObject shapeLineTransparency;
     static MObject shapeFill;
     static MObject shapeFillTransparency;
     static MObject shapeDrawOnTop;

@@ -16,23 +16,24 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
                                  MPoint(0.5, 0.5, 0), MPoint(0.5, 0, 0)};
         std::vector<MPoint> transformed;
         for (const auto& p : points) {
-            transformed.emplace_back(0.5 + (p.x - 0.5) * partLength(settings) + settings.partOffset,
+            const double x = 0.125 + (p.x - 0.125) * settings.finWidthScale * settings.finSize;
+            transformed.emplace_back(0.5 + (x - 0.5) * partLength(settings) + settings.partOffset,
                 p.y * 2.0 * partFinHeight(settings), 0);
         }
         builder.stroke(transformed);
         builder.polygon(transformed);
     } else {
         std::vector<MPoint> section;
-        const bool planarCross = outline == 4 || outline == 59 || outline == 67 ||
+        const bool planarCross = outline == 4 || outline == 107 || outline == 59 || outline == 67 ||
             (outline >= 100 && outline <= 103);
-        const bool crossXY = outline == 52 || outline == 57 || outline == 65 ||
+        const bool crossXY = outline == 52 || outline == 105 || outline == 57 || outline == 65 ||
             (outline >= 92 && outline <= 95);
         const bool line = outline == 1 || outline == 5 || outline == 45 || outline == 52 || outline == 53 ||
             (outline >= 54 && outline <= 60) || (outline >= 62 && outline <= 67) ||
-            (outline >= 69 && outline <= 78) || (outline >= 80 && outline <= 103) || planarCross;
+            (outline >= 69 && outline <= 78) || (outline >= 80 && outline <= 107) || planarCross;
         const bool semicircle = outline == 30 || outline == 31 || outline == 32 || outline == 61 || outline == 68;
         const bool planar = outline == 0 || (outline >= 6 && outline <= 18) ||
-            (outline >= 27 && outline <= 32) || outline == 79 || semicircle || planarCross;
+            (outline >= 27 && outline <= 32) || outline == 79 || (outline >= 108 && outline <= 111) || semicircle || planarCross;
         if (planar) plane = {MPoint::origin, MVector(0, 1, 0), MVector(1, 0, 0)};
         if (crossXY) plane = {MPoint::origin, MVector(1, 0, 0), MVector(0, 0, 1)};
 
@@ -41,6 +42,7 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
             double low = -0.5;
             if (outline == 6 || outline == 7) low = -0.37;
             if (semicircle) low = 0.0;
+            if (outline == 27 || outline == 111) low = 0.5 * std::cos(std::clamp(settings.circleAngle, 0.0, 2.0 * kPi) * 0.5);
             section = {MPoint(low, 0, 0), MPoint(0.5, 0, 0)};
         } else if (line) {
             section = {MPoint(-0.5, 0, 0), MPoint(0.5, 0, 0)};
@@ -72,7 +74,7 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
         const std::vector<double> heights = tapered ? std::vector<double>{0.5, 0}
             : (pointed ? std::vector<double>{0, 0.5} : std::vector<double>{0.5, 0.5});
         // 線形状と平面形状はFinだけを作り、端形状の内側を後から差し引く。
-        const bool separate = planar || line;
+        const bool separate = planar || line || optionPartSupported(outline);
         if (!separate) builder.geometry = std::move(geometry);
         const double tip = 0.5 * partLength(settings) + settings.partOffset;
         const auto outer = outline == 25

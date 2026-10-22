@@ -1,111 +1,36 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 106> kPresetNames = {
+constexpr std::array<const char*, 31> kPresetNames = {
     "Gear",
     "Line",
-    "LineArrowAtEnd",
-    "LineArrowAtEnds",
-    "LineWideArrowAtEnd",
-    "LineWideArrowAtEnds",
-    "LineSquareAtEnd",
-    "LineSquareAtEnds",
-    "LineDiamondAtEnd",
-    "LineDiamondAtEnds",
-    "LineCircleAtEnd",
-    "LineCircleAtEnds",
-    "LineTriangleAtEnd",
-    "LineTriangleAtEnds",
+    "WideLine",
     "CrossLine1st2nd",
-    "CrossLine1st2ndArrowAtEnd",
-    "CrossLine1st2ndArrowAtEnds",
-    "CrossLine1st2ndWideArrowAtEnd",
-    "CrossLine1st2ndWideArrowAtEnds",
-    "CrossLine1st2ndSquareAtEnd",
-    "CrossLine1st2ndSquareAtEnds",
-    "CrossLine1st2ndDiamondAtEnd",
-    "CrossLine1st2ndDiamondAtEnds",
-    "CrossLine1st2ndCircleAtEnd",
-    "CrossLine1st2ndCircleAtEnds",
-    "CrossLine1st2ndTriangleAtEnd",
-    "CrossLine1st2ndTriangleAtEnds",
+    "WideCrossLine1st2nd",
     "CrossLine1st3rd",
-    "CrossLine1st3rdArrowAtEnd",
-    "CrossLine1st3rdArrowAtEnds",
-    "CrossLine1st3rdWideArrowAtEnd",
-    "CrossLine1st3rdWideArrowAtEnds",
-    "CrossLine1st3rdSquareAtEnd",
-    "CrossLine1st3rdSquareAtEnds",
-    "CrossLine1st3rdDiamondAtEnd",
-    "CrossLine1st3rdDiamondAtEnds",
-    "CrossLine1st3rdCircleAtEnd",
-    "CrossLine1st3rdCircleAtEnds",
-    "CrossLine1st3rdTriangleAtEnd",
-    "CrossLine1st3rdTriangleAtEnds",
+    "WideCrossLine1st3rd",
     "CrossLine2nd3rd",
-    "CrossLine2nd3rdArrowAtEnd",
-    "CrossLine2nd3rdArrowAtEnds",
-    "CrossLine2nd3rdWideArrowAtEnd",
-    "CrossLine2nd3rdWideArrowAtEnds",
-    "CrossLine2nd3rdSquareAtEnd",
-    "CrossLine2nd3rdSquareAtEnds",
-    "CrossLine2nd3rdDiamondAtEnd",
-    "CrossLine2nd3rdDiamondAtEnds",
-    "CrossLine2nd3rdCircleAtEnd",
-    "CrossLine2nd3rdCircleAtEnds",
-    "CrossLine2nd3rdTriangleAtEnd",
-    "CrossLine2nd3rdTriangleAtEnds",
+    "WideCrossLine2nd3rd",
     "CrossLine3Axis",
-    "CrossLine3AxisEndCube",
-    "CrossLine3AxisEndOctahedron",
-    "CrossLine3AxisEndSphere",
-    "CrossLine3AxisEndPyramid",
-    "CrossLine3AxisEndCone",
     "Triangle",
     "Square",
-    "SquareArrow2D",
-    "SquareArrow3D",
-    "SquareArrowCrossLine2D",
-    "SquareArrowCrossLine3D",
-    "SquareArrowCrossLineTemplate2D",
-    "SquareArrowCrossLineTemplate3D",
-    "SquareArrow4Way2D",
-    "SquareArrow4Way3D",
-    "SquareTemplateArrow4Way2D",
-    "SquareTemplateArrow4Way3D",
+    "SquareCrossLine",
+    "SquareCrossLineTemplate",
+    "SquareTemplate",
     "Diamond",
     "Cube",
-    "CubeArrow2D",
-    "CubeArrow3D",
     "Octahedron",
     "OctahedronArrow",
     "Circle",
-    "CircleArrow2D",
-    "CircleArrow3D",
-    "Semicircle",
-    "SemicircleArrowAtEnd",
-    "SemicircleArrowAtEnds",
-    "SemicircleWideArrowAtEnd",
-    "SemicircleWideArrowAtEnds",
-    "SemicircleArrow2D",
-    "SemicircleArrow3D",
+    "WideCircle",
     "Sphere",
-    "SphereArrow2D",
-    "SphereArrow3D",
     "Cylinder",
     "Arrow",
     "Pyramid",
     "Cone",
     "ColorCrossLine3Axis",
-    "ColorCrossLine3AxisEndCube",
-    "ColorCrossLine3AxisEndOctahedron",
-    "ColorCrossLine3AxisEndSphere",
-    "ColorCrossLine3AxisEndPyramid",
-    "ColorCrossLine3AxisEndCone",
     "ColorCube",
     "ColorCornerCube",
     "ColorSphere",
-    "ColorSphereArrow2D",
-    "ColorSphereArrow3D",
     "ColorSphereCrossLine",
 };
 
@@ -117,112 +42,37 @@ struct PresetInfo {
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 106> kPresetInfo = {{
+constexpr std::array<PresetInfo, 31> kPresetInfo = {{
     {0},  // Gear
     {1},  // Line
-    {54, PartEnds::End},  // LineArrowAtEnd
-    {54},  // LineArrowAtEnds
-    {62, PartEnds::End},  // LineWideArrowAtEnd
-    {62},  // LineWideArrowAtEnds
-    {80, PartEnds::End},  // LineSquareAtEnd
-    {80},  // LineSquareAtEnds
-    {81, PartEnds::End},  // LineDiamondAtEnd
-    {81},  // LineDiamondAtEnds
-    {82, PartEnds::End},  // LineCircleAtEnd
-    {82},  // LineCircleAtEnds
-    {83, PartEnds::End},  // LineTriangleAtEnd
-    {83},  // LineTriangleAtEnds
+    {104},  // WideLine
     {52},  // CrossLine1st2nd
-    {57, PartEnds::End, 0},  // CrossLine1st2ndArrowAtEnd
-    {57},  // CrossLine1st2ndArrowAtEnds
-    {65, PartEnds::End, 0},  // CrossLine1st2ndWideArrowAtEnd
-    {65},  // CrossLine1st2ndWideArrowAtEnds
-    {92, PartEnds::End, 0},  // CrossLine1st2ndSquareAtEnd
-    {92},  // CrossLine1st2ndSquareAtEnds
-    {93, PartEnds::End, 0},  // CrossLine1st2ndDiamondAtEnd
-    {93},  // CrossLine1st2ndDiamondAtEnds
-    {94, PartEnds::End, 0},  // CrossLine1st2ndCircleAtEnd
-    {94},  // CrossLine1st2ndCircleAtEnds
-    {95, PartEnds::End, 0},  // CrossLine1st2ndTriangleAtEnd
-    {95},  // CrossLine1st2ndTriangleAtEnds
+    {105},  // WideCrossLine1st2nd
     {53},  // CrossLine1st3rd
-    {58, PartEnds::End, 0},  // CrossLine1st3rdArrowAtEnd
-    {58},  // CrossLine1st3rdArrowAtEnds
-    {66, PartEnds::End, 0},  // CrossLine1st3rdWideArrowAtEnd
-    {66},  // CrossLine1st3rdWideArrowAtEnds
-    {96, PartEnds::End, 0},  // CrossLine1st3rdSquareAtEnd
-    {96},  // CrossLine1st3rdSquareAtEnds
-    {97, PartEnds::End, 0},  // CrossLine1st3rdDiamondAtEnd
-    {97},  // CrossLine1st3rdDiamondAtEnds
-    {98, PartEnds::End, 0},  // CrossLine1st3rdCircleAtEnd
-    {98},  // CrossLine1st3rdCircleAtEnds
-    {99, PartEnds::End, 0},  // CrossLine1st3rdTriangleAtEnd
-    {99},  // CrossLine1st3rdTriangleAtEnds
+    {106},  // WideCrossLine1st3rd
     {4},  // CrossLine2nd3rd
-    {59, PartEnds::End, 1},  // CrossLine2nd3rdArrowAtEnd
-    {59},  // CrossLine2nd3rdArrowAtEnds
-    {67, PartEnds::End, 1},  // CrossLine2nd3rdWideArrowAtEnd
-    {67},  // CrossLine2nd3rdWideArrowAtEnds
-    {100, PartEnds::End, 1},  // CrossLine2nd3rdSquareAtEnd
-    {100},  // CrossLine2nd3rdSquareAtEnds
-    {101, PartEnds::End, 1},  // CrossLine2nd3rdDiamondAtEnd
-    {101},  // CrossLine2nd3rdDiamondAtEnds
-    {102, PartEnds::End, 1},  // CrossLine2nd3rdCircleAtEnd
-    {102},  // CrossLine2nd3rdCircleAtEnds
-    {103, PartEnds::End, 1},  // CrossLine2nd3rdTriangleAtEnd
-    {103},  // CrossLine2nd3rdTriangleAtEnds
+    {107},  // WideCrossLine2nd3rd
     {5},  // CrossLine3Axis
-    {69},  // CrossLine3AxisEndCube
-    {70},  // CrossLine3AxisEndOctahedron
-    {71},  // CrossLine3AxisEndSphere
-    {72},  // CrossLine3AxisEndPyramid
-    {73},  // CrossLine3AxisEndCone
     {6},  // Triangle
     {8},  // Square
-    {9},  // SquareArrow2D
-    {10},  // SquareArrow3D
-    {11},  // SquareArrowCrossLine2D
-    {12},  // SquareArrowCrossLine3D
-    {13},  // SquareArrowCrossLineTemplate2D
-    {14},  // SquareArrowCrossLineTemplate3D
-    {15},  // SquareArrow4Way2D
-    {16},  // SquareArrow4Way3D
-    {17},  // SquareTemplateArrow4Way2D
-    {18},  // SquareTemplateArrow4Way3D
+    {108},  // SquareCrossLine
+    {109},  // SquareCrossLineTemplate
+    {110},  // SquareTemplate
     {79},  // Diamond
     {19},  // Cube
-    {20},  // CubeArrow2D
-    {21},  // CubeArrow3D
     {24},  // Octahedron
     {25},  // OctahedronArrow
     {27},  // Circle
-    {28},  // CircleArrow2D
-    {29},  // CircleArrow3D
-    {30},  // Semicircle
-    {61, PartEnds::End},  // SemicircleArrowAtEnd
-    {61},  // SemicircleArrowAtEnds
-    {68, PartEnds::End},  // SemicircleWideArrowAtEnd
-    {68},  // SemicircleWideArrowAtEnds
-    {31},  // SemicircleArrow2D
-    {32},  // SemicircleArrow3D
+    {111},  // WideCircle
     {33},  // Sphere
-    {34},  // SphereArrow2D
-    {35},  // SphereArrow3D
     {36},  // Cylinder
     {39},  // Arrow
     {41},  // Pyramid
     {43},  // Cone
     {45},  // ColorCrossLine3Axis
-    {74},  // ColorCrossLine3AxisEndCube
-    {75},  // ColorCrossLine3AxisEndOctahedron
-    {76},  // ColorCrossLine3AxisEndSphere
-    {77},  // ColorCrossLine3AxisEndPyramid
-    {78},  // ColorCrossLine3AxisEndCone
     {50},  // ColorCube
     {51},  // ColorCornerCube
     {46},  // ColorSphere
-    {48},  // ColorSphereArrow2D
-    {49},  // ColorSphereArrow3D
     {47},  // ColorSphereCrossLine
 }};
 

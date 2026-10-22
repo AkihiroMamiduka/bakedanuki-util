@@ -10,7 +10,7 @@ double partWidth(const ShapeSettings& settings) {
 }
 
 double partFinHeight(const ShapeSettings& settings) {
-    return settings.partFinHeight * settings.partSize;
+    return settings.partFinHeight * settings.finSize;
 }
 
 bool hasPartAdjustment(const ShapeSettings& settings) {
@@ -351,7 +351,7 @@ void appendFinPart(PartBuilder& builder, const ShapeSettings& settings,
     for (const auto& p : body) { minX = std::min(minX, p.x); maxX = std::max(maxX, p.x); }
     std::vector<MPoint> free;
     for (std::size_t i = 0; i < outer.size(); ++i) {
-        const double x = pivotX + (outer[i].x - pivotX) * partWidth(settings);
+        const double x = pivotX + (outer[i].x - pivotX) * settings.finWidthScale * settings.finSize;
         const double surfaceX = std::clamp(x, minX, maxX);
         free.emplace_back(x, partSurfaceY(body, surfaceX) + heights[i] * 2.0 * partFinHeight(settings), 0);
     }
@@ -386,7 +386,7 @@ void appendFinPart(PartBuilder& builder, const ShapeSettings& settings,
         return firstX < lastX ? a.x > b.x : a.x < b.x;
     });
     polygon.insert(polygon.end(), root.begin(), root.end());
-    if (partWidth(settings) != 0.0) {
+    if (settings.finWidthScale * settings.finSize != 0.0) {
         appendOutsidePart(builder, polygon, body, {MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0)});
     }
 }

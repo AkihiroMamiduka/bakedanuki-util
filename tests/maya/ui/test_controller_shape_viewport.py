@@ -24,19 +24,65 @@ def _capture_view(panel, path):
 
 
 @pytest.mark.parametrize(
-    "preset,fill",
+    "preset,fill,part_settings",
     (
-        ("Cube", True),
-        ("ColorCornerCube", True),
-        ("ColorCrossLine3Axis", False),
-        ("ColorSphere", True),
+        ("Cube", True, {}),
+        ("ColorCornerCube", True, {}),
+        ("ColorCrossLine3Axis", False, {}),
+        ("ColorSphere", True, {}),
+        pytest.param(
+            "Line",
+            True,
+            {
+                "shapePart": True,
+                "shapePartShape": 6,
+                "shapePartType": 1,
+                "shapeFin": True,
+            },
+            id="LineCubeAtEnds",
+        ),
+        pytest.param(
+            "SquareTemplate",
+            True,
+            {"shapePart": True, "shapePartShape": 1, "shapePartType": 1},
+            id="SquareTemplateArrow3DAtEnds",
+        ),
+        pytest.param(
+            "WideCircle",
+            True,
+            {
+                "shapeCircleAngle": 240,
+                "shapePart": True,
+                "shapePartShape": 0,
+                "shapePartType": 1,
+                "shapePartOffset": 0.2,
+            },
+            id="WideCircleArrow2DAtEnds",
+        ),
+        pytest.param(
+            "ColorCrossLine3Axis",
+            True,
+            {
+                "shapePart": True,
+                "shapePartShape": 9,
+                "shapePartType": 1,
+                "shapeFin": True,
+            },
+            id="ColorCrossLine3AxisPyramidAtEnds",
+        ),
     ),
 )
 @pytest.mark.parametrize(
     "override_source", ("shape", "parent", "ancestor", "layer")
 )
 def test_highlighting_off_matches_dormant_display(
-    maya_cmds, new_scene, tmp_path, preset, fill, override_source
+    maya_cmds,
+    new_scene,
+    tmp_path,
+    preset,
+    fill,
+    part_settings,
+    override_source,
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
@@ -58,6 +104,8 @@ def test_highlighting_off_matches_dormant_display(
     ].split(":")
     maya_cmds.setAttr(f"{shape}.shape", names.index(preset))
     maya_cmds.setAttr(f"{shape}.shapeFill", fill)
+    for attribute, value in part_settings.items():
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
     if override_source == "layer":
         source = maya_cmds.createDisplayLayer(
             name="controllerDisplayLayer", empty=True
@@ -115,6 +163,11 @@ def test_highlighting_off_matches_dormant_display(
             selected = _capture_view(
                 panel, tmp_path / f"{display_type}_selected.png"
             )
-            assert selected == dormant, (preset, override_source, display_type)
+            assert selected == dormant, (
+                preset,
+                part_settings,
+                override_source,
+                display_type,
+            )
     finally:
         maya_cmds.deleteUI(window)

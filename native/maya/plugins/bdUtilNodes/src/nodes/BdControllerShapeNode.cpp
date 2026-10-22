@@ -53,8 +53,16 @@ const MString BdControllerShapeNode::drawRegistrantId(
 );
 
 MObject BdControllerShapeNode::shape;
+MObject BdControllerShapeNode::shapeWideWidth;
+MObject BdControllerShapeNode::shapeCircleAngle;
+MObject BdControllerShapeNode::shapePart;
+MObject BdControllerShapeNode::shapePartShape;
+MObject BdControllerShapeNode::shapePartType;
 MObject BdControllerShapeNode::shapeFin;
 MObject BdControllerShapeNode::shapeFinType;
+MObject BdControllerShapeNode::shapeFinHeight;
+MObject BdControllerShapeNode::shapeFinSize;
+MObject BdControllerShapeNode::shapeFinWidthScale;
 MObject BdControllerShapeNode::shape1stAxis;
 MObject BdControllerShapeNode::shape2ndAxis;
 MObject BdControllerShapeNode::shapeAnimationTransformMatrix;
@@ -88,15 +96,13 @@ MObject BdControllerShapeNode::shapeAxisScaleY;
 MObject BdControllerShapeNode::shapeAxisScaleZ;
 MObject BdControllerShapeNode::shapeSize;
 MObject BdControllerShapeNode::shapePartOffset;
-MObject BdControllerShapeNode::shapePartOffsetAngle;
-MObject BdControllerShapeNode::shapePartFinHeight;
 MObject BdControllerShapeNode::shapePartLengthScale;
 MObject BdControllerShapeNode::shapePartWidthScale;
 MObject BdControllerShapeNode::shapePartSize;
-MObject BdControllerShapeNode::showShapeOffsetLine;
+MObject BdControllerShapeNode::shapeOffsetLine;
 MObject BdControllerShapeNode::shapeOffsetLineTemplate;
 MObject BdControllerShapeNode::shapeLineWidth;
-MObject BdControllerShapeNode::shapeTransparency;
+MObject BdControllerShapeNode::shapeLineTransparency;
 MObject BdControllerShapeNode::shapeFill;
 MObject BdControllerShapeNode::shapeFillTransparency;
 MObject BdControllerShapeNode::shapeDrawOnTop;
@@ -142,6 +148,13 @@ MObject channelBoxSeparator3;
 MObject channelBoxSeparator4;
 MObject channelBoxSeparator5;
 MObject channelBoxSeparator6;
+MObject channelBoxSeparator7;
+MObject channelBoxSeparator8;
+MObject channelBoxSeparator9;
+MObject channelBoxSeparator10;
+MObject channelBoxSeparator11;
+MObject channelBoxSeparator12;
+MObject channelBoxSeparator13;
 
 constexpr double kPi = 3.14159265358979323846;
 constexpr unsigned int kCircleSegments = 64;
@@ -154,8 +167,15 @@ constexpr short cubePresetIndex();
 struct ShapeSettings {
     short shape = cubePresetIndex();
     bool fill = false;
+    bool part = false;
+    short partShape = 0;
+    short partType = 0;
+    double wideWidth = 0.05;
+    double circleAngle = 2.0 * kPi;
     bool fin = false;
     short finType = 0;
+    double finSize = 1.0;
+    double finWidthScale = 1.0;
     short firstAxis = 0;
     short secondAxis = 2;
     double rootSize = 1.0;
@@ -170,7 +190,7 @@ struct ShapeSettings {
     MVector axisScale = MVector(1.0, 1.0, 1.0);
     double size = 1.0;
     double partOffset = 0.0;
-    double partOffsetAngle = 0.0;
+    double partOffsetAngle = kPi / 2.0;
     double partFinHeight = 0.5;
     double partLengthScale = 1.0;
     double partWidthScale = 1.0;
@@ -197,7 +217,7 @@ struct ShapeAttributes {
     MObject axisScale;
     MObject size;
     MObject partOffset;
-    MObject partOffsetAngle;
+    MObject circleAngle;
     MObject partFinHeight;
     MObject partLengthScale;
     MObject partWidthScale;
@@ -207,6 +227,12 @@ struct ShapeAttributes {
     MObject fill;
     MObject fin;
     MObject finType;
+    MObject wideWidth;
+    MObject part;
+    MObject partShape;
+    MObject partType;
+    MObject finSize;
+    MObject finWidthScale;
 };
 
 ShapeAttributes shapeAttributes() {
@@ -226,47 +252,41 @@ ShapeAttributes shapeAttributes() {
         BdControllerShapeNode::shapeAxisScale,
         BdControllerShapeNode::shapeSize,
         BdControllerShapeNode::shapePartOffset,
-        BdControllerShapeNode::shapePartOffsetAngle,
-        BdControllerShapeNode::shapePartFinHeight,
+        BdControllerShapeNode::shapeCircleAngle,
+        BdControllerShapeNode::shapeFinHeight,
         BdControllerShapeNode::shapePartLengthScale,
         BdControllerShapeNode::shapePartWidthScale,
         BdControllerShapeNode::shapePartSize,
-        BdControllerShapeNode::showShapeOffsetLine,
+        BdControllerShapeNode::shapeOffsetLine,
         BdControllerShapeNode::shapeOffsetLineTemplate,
         BdControllerShapeNode::shapeFill,
         BdControllerShapeNode::shapeFin,
         BdControllerShapeNode::shapeFinType,
+        BdControllerShapeNode::shapeWideWidth,
+        BdControllerShapeNode::shapePart,
+        BdControllerShapeNode::shapePartShape,
+        BdControllerShapeNode::shapePartType,
+        BdControllerShapeNode::shapeFinSize,
+        BdControllerShapeNode::shapeFinWidthScale,
     };
 }
 
 ShapeAttributes customBoundsAttributes() {
-    return {
-        MObject(),
-        BdControllerShapeNode::customBounds1stAxis,
-        BdControllerShapeNode::customBounds2ndAxis,
-        BdControllerShapeNode::customBoundsRootSize,
-        BdControllerShapeNode::customBoundsTranslate,
-        BdControllerShapeNode::customBoundsRotate,
-        BdControllerShapeNode::customBoundsScale,
-        BdControllerShapeNode::customBoundsAxisOffsetLength,
-        BdControllerShapeNode::customBoundsAxisOffset,
-        BdControllerShapeNode::customBoundsAxisOffsetDirection,
-        BdControllerShapeNode::customBoundsAxisTranslate,
-        BdControllerShapeNode::customBoundsAxisRotate,
-        BdControllerShapeNode::customBoundsAxisScale,
-        BdControllerShapeNode::customBoundsSize,
-        MObject(),
-        MObject(),
-        MObject(),
-        MObject(),
-        MObject(),
-        MObject(),
-        MObject(),
-        MObject(),
-        MObject(),
-        MObject(),
-        MObject(),
-    };
+    ShapeAttributes attributes;
+    attributes.firstAxis = BdControllerShapeNode::customBounds1stAxis;
+    attributes.secondAxis = BdControllerShapeNode::customBounds2ndAxis;
+    attributes.rootSize = BdControllerShapeNode::customBoundsRootSize;
+    attributes.translate = BdControllerShapeNode::customBoundsTranslate;
+    attributes.rotate = BdControllerShapeNode::customBoundsRotate;
+    attributes.scale = BdControllerShapeNode::customBoundsScale;
+    attributes.axisOffsetLength = BdControllerShapeNode::customBoundsAxisOffsetLength;
+    attributes.axisOffset = BdControllerShapeNode::customBoundsAxisOffset;
+    attributes.axisOffsetDirection = BdControllerShapeNode::customBoundsAxisOffsetDirection;
+    attributes.axisTranslate = BdControllerShapeNode::customBoundsAxisTranslate;
+    attributes.axisRotate = BdControllerShapeNode::customBoundsAxisRotate;
+    attributes.axisScale = BdControllerShapeNode::customBoundsAxisScale;
+    attributes.size = BdControllerShapeNode::customBoundsSize;
+    return attributes;
 }
 
 bool sameVector(const MVector& left, const MVector& right) {
@@ -287,7 +307,11 @@ bool sameMatrix(const MMatrix& left, const MMatrix& right) {
 bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
     return left.shape == right.shape &&
         left.fill == right.fill &&
+        left.part == right.part && left.partShape == right.partShape &&
+        left.partType == right.partType && left.wideWidth == right.wideWidth &&
+        left.circleAngle == right.circleAngle &&
         left.fin == right.fin && left.finType == right.finType &&
+        left.finSize == right.finSize && left.finWidthScale == right.finWidthScale &&
         left.firstAxis == right.firstAxis &&
         left.secondAxis == right.secondAxis &&
         left.rootSize == right.rootSize &&
@@ -395,12 +419,44 @@ bool readSettings(
     settings.fill = false;
     settings.fin = false;
     settings.finType = 0;
+    settings.finSize = 1.0;
+    settings.finWidthScale = 1.0;
+    settings.partFinHeight = 0.5;
+    settings.part = false;
+    settings.partShape = 0;
+    settings.partType = 0;
+    settings.wideWidth = 0.05;
+    settings.circleAngle = 2.0 * kPi;
+    settings.partOffsetAngle = kPi / 2.0;
     if (!attributes.fin.isNull()) {
         settings.fin = MPlug(node, attributes.fin).asBool(&status);
         if (!status) return false;
         settings.finType = MPlug(node, attributes.finType).asShort(&status);
         if (!status) return false;
         settings.finType = std::clamp<short>(settings.finType, 0, 1);
+        settings.partFinHeight = MPlug(node, attributes.partFinHeight).asMDistance(&status).asCentimeters();
+        if (!status) return false;
+        settings.finSize = MPlug(node, attributes.finSize).asDouble(&status);
+        if (!status) return false;
+        settings.finWidthScale = MPlug(node, attributes.finWidthScale).asDouble(&status);
+        if (!status) return false;
+    }
+    if (!attributes.part.isNull()) {
+        settings.part = MPlug(node, attributes.part).asBool(&status);
+        if (!status) return false;
+        settings.partShape = std::clamp<short>(MPlug(node, attributes.partShape).asShort(&status), 0, 10);
+        if (!status) return false;
+        settings.partType = std::clamp<short>(MPlug(node, attributes.partType).asShort(&status), 0, 2);
+        if (!status) return false;
+    }
+    if (!attributes.wideWidth.isNull()) {
+        settings.wideWidth = std::max(0.0,
+            MPlug(node, attributes.wideWidth).asMDistance(&status).asCentimeters());
+        if (!status) return false;
+        settings.circleAngle = std::clamp(
+            MPlug(node, attributes.circleAngle).asMAngle(&status).asRadians(), 0.0, 2.0 * kPi);
+        if (!status) return false;
+        settings.partOffsetAngle = (settings.circleAngle - kPi) / 2.0;
     }
     if (!attributes.fill.isNull()) {
         settings.fill = MPlug(node, attributes.fill).asBool(&status);
@@ -542,11 +598,6 @@ bool readSettings(
     }
     if (!attributes.partOffset.isNull()) {
         settings.partOffset = MPlug(node, attributes.partOffset).asMDistance(&status).asCentimeters();
-        if (!status) return false;
-        settings.partOffsetAngle = std::clamp(
-            MPlug(node, attributes.partOffsetAngle).asMAngle(&status).asRadians(), -kPi / 2.0, kPi / 2.0);
-        if (!status) return false;
-        settings.partFinHeight = MPlug(node, attributes.partFinHeight).asMDistance(&status).asCentimeters();
         if (!status) return false;
         settings.partLengthScale = MPlug(node, attributes.partLengthScale).asDouble(&status);
         if (!status) return false;
@@ -1419,6 +1470,7 @@ MBoundingBox boundsForGeometry(
     return box;
 }
 
+#include "BdControllerShapeOptions.inc"
 #include "BdControllerShapeFin.inc"
 
 std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
@@ -1427,8 +1479,9 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const ShapeTransform transform(settings);
     auto result = std::make_shared<BdControllerShapeNode::Geometry>();
     const bool withFin = settings.fin && partFinHeight(settings) != 0.0;
+    const bool referenceGeometry = withFin || optionPartSupported(outlinePresetIndex(settings.shape));
     ShapeSettings source = settings;
-    if (withFin) {
+    if (referenceGeometry) {
         source.firstAxis = 0;
         source.secondAxis = 2;
         source.rootSize = source.size = source.axisOffsetLength = 1.0;
@@ -1436,8 +1489,8 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
         source.scale = source.axisScale = MVector(1, 1, 1);
         source.axisOffset = false;
     }
-    const ShapeTransform sourceTransform = withFin ? ShapeTransform(source) : transform;
-    if (makeAdjustedPartGeometry(source, *result)) {
+    const ShapeTransform sourceTransform = referenceGeometry ? ShapeTransform(source) : transform;
+    if (makeOptionShapeGeometry(source, *result) || makeAdjustedPartGeometry(source, *result)) {
         for (auto& stroke : result->strokes) {
             for (unsigned int i = 0; i < stroke.length(); ++i) stroke[i] = transformPoint(stroke[i], sourceTransform);
         }
@@ -1451,10 +1504,11 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     if (withFin) {
         const auto bodyFills = result->fillParts;
         appendShapeFin(source, *result);
-        const short outline = outlinePresetIndex(source.shape);
-        const bool trimmedEnds = hasCrossLineEndSolids(outline) || (outline >= 80 && outline <= 103);
+        const bool trimmedEnds = source.part && optionPartSupported(outlinePresetIndex(source.shape));
         // 端形状は線と面を既に同じ境界で切っているため、面の差分を繰り返さない。
         if (source.fill && !trimmedEnds) removeFinFillOverlaps(*result, bodyFills);
+    }
+    if (referenceGeometry) {
         for (auto& stroke : result->strokes) {
             for (unsigned int i = 0; i < stroke.length(); ++i) stroke[i] = transformPoint(stroke[i], transform);
         }
@@ -1590,9 +1644,16 @@ Strokes boundsStrokes(const MBoundingBox& bounds) {
 bool isShapeAttribute(const MObject& attribute) {
     for (const MObject& shapeAttribute : {
              BdControllerShapeNode::shape,
+             BdControllerShapeNode::shapeWideWidth,
+             BdControllerShapeNode::shapeCircleAngle,
+             BdControllerShapeNode::shapePart,
+             BdControllerShapeNode::shapePartShape,
+             BdControllerShapeNode::shapePartType,
              BdControllerShapeNode::shapeFill,
              BdControllerShapeNode::shapeFin,
              BdControllerShapeNode::shapeFinType,
+             BdControllerShapeNode::shapeFinSize,
+             BdControllerShapeNode::shapeFinWidthScale,
              BdControllerShapeNode::shape1stAxis,
              BdControllerShapeNode::shape2ndAxis,
              BdControllerShapeNode::shapeRootSize,
@@ -1625,12 +1686,11 @@ bool isShapeAttribute(const MObject& attribute) {
              BdControllerShapeNode::shapeAxisScaleZ,
              BdControllerShapeNode::shapeSize,
              BdControllerShapeNode::shapePartOffset,
-             BdControllerShapeNode::shapePartOffsetAngle,
-             BdControllerShapeNode::shapePartFinHeight,
+             BdControllerShapeNode::shapeFinHeight,
              BdControllerShapeNode::shapePartLengthScale,
              BdControllerShapeNode::shapePartWidthScale,
              BdControllerShapeNode::shapePartSize,
-             BdControllerShapeNode::showShapeOffsetLine,
+             BdControllerShapeNode::shapeOffsetLine,
              BdControllerShapeNode::shapeOffsetLineTemplate,
          }) {
         if (attribute == shapeAttribute) {
@@ -1700,9 +1760,16 @@ bool hasConnectedSettingsInput(
 ) {
     for (const MObject& attribute : {
              attributes.shape,
+             attributes.wideWidth,
+             attributes.circleAngle,
+             attributes.part,
+             attributes.partShape,
+             attributes.partType,
              attributes.fill,
              attributes.fin,
              attributes.finType,
+             attributes.finSize,
+             attributes.finWidthScale,
              attributes.firstAxis,
              attributes.secondAxis,
              attributes.rootSize,
@@ -1717,7 +1784,6 @@ bool hasConnectedSettingsInput(
              attributes.axisScale,
              attributes.size,
              attributes.partOffset,
-             attributes.partOffsetAngle,
              attributes.partFinHeight,
              attributes.partLengthScale,
              attributes.partWidthScale,
@@ -1916,7 +1982,7 @@ public:
             ? std::max(1.0f, lineWidth)
             : 1.0f;
         const float transparency = MPlug(
-            objectPath.node(), BdControllerShapeNode::shapeTransparency
+            objectPath.node(), BdControllerShapeNode::shapeLineTransparency
         ).asFloat(&status);
         const float opacity = status && std::isfinite(transparency)
             ? 1.0f - std::clamp(transparency, 0.0f, 1.0f)
@@ -2321,6 +2387,13 @@ void BdControllerShapeNode::postConstructor() {
              channelBoxSeparator4,
              channelBoxSeparator5,
              channelBoxSeparator6,
+             channelBoxSeparator7,
+             channelBoxSeparator8,
+             channelBoxSeparator9,
+             channelBoxSeparator10,
+             channelBoxSeparator11,
+             channelBoxSeparator12,
+             channelBoxSeparator13,
          }) {
         const MStatus status = MPlug(node, attribute).setLocked(true);
         if (!status) {
@@ -2349,6 +2422,42 @@ MStatus BdControllerShapeNode::initialize() {
         }
     }
 
+    status = bd_util_nodes::createDoubleLinearAttribute(
+        unitAttributeFn, shapeWideWidth, "shapeWideWidth", "sww", 0.05
+    );
+    if (!status) return status;
+    status = unitAttributeFn.setMin(0.0);
+    if (!status) return status;
+    status = bd_util_nodes::configureInputUnitAttribute(unitAttributeFn);
+    if (!status) return status;
+
+    status = bd_util_nodes::createBooleanAttribute(
+        numericAttributeFn, shapePart, "shapePart", "spt", false
+    );
+    if (!status) return status;
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) return status;
+    shapePartShape = enumAttributeFn.create("shapePartShape", "spsh", 0, &status);
+    if (!status) return status;
+    const std::array<const char*, 11> partShapes = {{
+        "Arrow2D", "Arrow3D", "Triangle", "Square", "Diamond", "Circle",
+        "Cube", "Octahedron", "Sphere", "Pyramid", "Cone",
+    }};
+    for (std::size_t index = 0; index < partShapes.size(); ++index) {
+        status = enumAttributeFn.addField(partShapes[index], static_cast<short>(index));
+        if (!status) return status;
+    }
+    shapePartType = enumAttributeFn.create("shapePartType", "sptp", 0, &status);
+    if (!status) return status;
+    for (const auto& field : {
+             std::pair<const char*, short>{"AtEnd", 0},
+             std::pair<const char*, short>{"AtEnds", 1},
+             std::pair<const char*, short>{"AtApex", 2},
+         }) {
+        status = enumAttributeFn.addField(field.first, field.second);
+        if (!status) return status;
+    }
+
     status = bd_util_nodes::createBooleanAttribute(
         numericAttributeFn, shapeFin, "shapeFin", "sfn", false
     );
@@ -2360,6 +2469,18 @@ MStatus BdControllerShapeNode::initialize() {
     status = enumAttributeFn.addField("Standard", 0);
     if (!status) return status;
     status = enumAttributeFn.addField("Tapered", 1);
+    if (!status) return status;
+    status = bd_util_nodes::createDoubleAttribute(
+        numericAttributeFn, shapeFinSize, "shapeFinSize", "sfns", 1.0
+    );
+    if (!status) return status;
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) return status;
+    status = bd_util_nodes::createDoubleAttribute(
+        numericAttributeFn, shapeFinWidthScale, "shapeFinWidthScale", "sfnws", 1.0
+    );
+    if (!status) return status;
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
     if (!status) return status;
 
     for (const auto& axisAttribute : {
@@ -2642,19 +2763,19 @@ MStatus BdControllerShapeNode::initialize() {
     status = bd_util_nodes::configureInputUnitAttribute(unitAttributeFn);
     if (!status) return status;
 
-    status = bd_util_nodes::createDoubleAngleAttribute(
-        unitAttributeFn, shapePartOffsetAngle, "shapePartOffsetAngle", "spoa", 0.0
+    shapeCircleAngle = unitAttributeFn.create(
+        "shapeCircleAngle", "sca", MAngle(360.0, MAngle::kDegrees), &status
     );
     if (!status) return status;
     status = bd_util_nodes::configureInputUnitAttribute(unitAttributeFn);
     if (!status) return status;
-    status = unitAttributeFn.setMin(MAngle(-90.0, MAngle::kDegrees));
+    status = unitAttributeFn.setMin(MAngle(0.0, MAngle::kDegrees));
     if (!status) return status;
-    status = unitAttributeFn.setMax(MAngle(90.0, MAngle::kDegrees));
+    status = unitAttributeFn.setMax(MAngle(360.0, MAngle::kDegrees));
     if (!status) return status;
 
     status = bd_util_nodes::createDoubleLinearAttribute(
-        unitAttributeFn, shapePartFinHeight, "shapePartFinHeight", "spfh", 0.5
+        unitAttributeFn, shapeFinHeight, "shapeFinHeight", "sfnh", 0.5
     );
     if (!status) return status;
     status = bd_util_nodes::configureInputUnitAttribute(unitAttributeFn);
@@ -2683,9 +2804,9 @@ MStatus BdControllerShapeNode::initialize() {
 
     status = bd_util_nodes::createBooleanAttribute(
         numericAttributeFn,
-        showShapeOffsetLine,
-        "showShapeOffsetLine",
-        "ssol",
+        shapeOffsetLine,
+        "shapeOffsetLine",
+        "sol",
         false
     );
     if (!status) {
@@ -2726,8 +2847,8 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
 
-    shapeTransparency = numericAttributeFn.create(
-        "shapeTransparency", "stp", MFnNumericData::kFloat, 0.0f, &status
+    shapeLineTransparency = numericAttributeFn.create(
+        "shapeLineTransparency", "slt", MFnNumericData::kFloat, 0.0f, &status
     );
     if (!status) {
         return status;
@@ -3061,6 +3182,13 @@ MStatus BdControllerShapeNode::initialize() {
              std::pair<MObject*, const char*>{&channelBoxSeparator4, "____"},
              std::pair<MObject*, const char*>{&channelBoxSeparator5, "_____"},
              std::pair<MObject*, const char*>{&channelBoxSeparator6, "______"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator7, "_______"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator8, "________"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator9, "_________"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator10, "__________"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator11, "___________"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator12, "____________"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator13, "_____________"},
          }) {
         *separator.first = enumAttributeFn.create(
             separator.second, separator.second, 0, &status
@@ -3083,23 +3211,43 @@ MStatus BdControllerShapeNode::initialize() {
     }
 
     for (const MObject& attribute : {
-             shape,
-             shapeFin,
-             shapeFinType,
              shapeDrawOnTop,
+             channelBoxSeparator1,
              shapeLineWidth,
-             shapeTransparency,
+             shapeLineTransparency,
+             channelBoxSeparator2,
              shapeFill,
              shapeFillTransparency,
-             showShapeOffsetLine,
+             channelBoxSeparator3,
+             shape,
+             channelBoxSeparator4,
+             shapeWideWidth,
+             channelBoxSeparator5,
+             shapeCircleAngle,
+             channelBoxSeparator6,
+             shapePart,
+             shapePartShape,
+             shapePartType,
+             shapePartOffset,
+             shapePartSize,
+             shapePartLengthScale,
+             shapePartWidthScale,
+             channelBoxSeparator7,
+             shapeFin,
+             shapeFinType,
+             shapeFinHeight,
+             shapeFinSize,
+             shapeFinWidthScale,
+             channelBoxSeparator8,
+             shapeOffsetLine,
              shapeOffsetLineTemplate,
-             channelBoxSeparator1,
+             channelBoxSeparator9,
              shape1stAxis,
              shape2ndAxis,
              shapeAxisOffset,
              shapeAxisOffsetDirection,
              shapeAxisOffsetLength,
-             channelBoxSeparator2,
+             channelBoxSeparator10,
              shapeRootSize,
              shapeTranslate,
              shapeRotate,
@@ -3108,23 +3256,16 @@ MStatus BdControllerShapeNode::initialize() {
              shapeAxisRotate,
              shapeAxisScale,
              shapeSize,
-             channelBoxSeparator3,
-             shapePartOffset,
-             shapePartOffsetAngle,
-             shapePartFinHeight,
-             shapePartSize,
-             shapePartLengthScale,
-             shapePartWidthScale,
-             channelBoxSeparator6,
+             channelBoxSeparator11,
              boundsMode,
              showBoundsPreview,
-             channelBoxSeparator4,
+             channelBoxSeparator12,
              customBounds1stAxis,
              customBounds2ndAxis,
              customBoundsAxisOffset,
              customBoundsAxisOffsetDirection,
              customBoundsAxisOffsetLength,
-             channelBoxSeparator5,
+             channelBoxSeparator13,
              customBoundsRootSize,
              customBoundsTranslate,
              customBoundsRotate,
@@ -3185,24 +3326,44 @@ MStatus BdControllerShapeNode::initialize() {
     }
 
     for (const MObject& attribute : {
-             shape,
              shapeAnimationTransformMatrix,
-             shapeFin,
-             shapeFinType,
              shapeDrawOnTop,
+             channelBoxSeparator1,
              shapeLineWidth,
-             shapeTransparency,
+             shapeLineTransparency,
+             channelBoxSeparator2,
              shapeFill,
              shapeFillTransparency,
-             showShapeOffsetLine,
+             channelBoxSeparator3,
+             shape,
+             channelBoxSeparator4,
+             shapeWideWidth,
+             channelBoxSeparator5,
+             shapeCircleAngle,
+             channelBoxSeparator6,
+             shapePart,
+             shapePartShape,
+             shapePartType,
+             shapePartOffset,
+             shapePartSize,
+             shapePartLengthScale,
+             shapePartWidthScale,
+             channelBoxSeparator7,
+             shapeFin,
+             shapeFinType,
+             shapeFinHeight,
+             shapeFinSize,
+             shapeFinWidthScale,
+             channelBoxSeparator8,
+             shapeOffsetLine,
              shapeOffsetLineTemplate,
-             channelBoxSeparator1,
+             channelBoxSeparator9,
              shape1stAxis,
              shape2ndAxis,
              shapeAxisOffset,
              shapeAxisOffsetDirection,
              shapeAxisOffsetLength,
-             channelBoxSeparator2,
+             channelBoxSeparator10,
              shapeRootSize,
              shapeTranslate,
              shapeRotate,
@@ -3211,23 +3372,16 @@ MStatus BdControllerShapeNode::initialize() {
              shapeAxisRotate,
              shapeAxisScale,
              shapeSize,
-             channelBoxSeparator3,
-             shapePartOffset,
-             shapePartOffsetAngle,
-             shapePartFinHeight,
-             shapePartSize,
-             shapePartLengthScale,
-             shapePartWidthScale,
-             channelBoxSeparator6,
+             channelBoxSeparator11,
              boundsMode,
              showBoundsPreview,
-             channelBoxSeparator4,
+             channelBoxSeparator12,
              customBounds1stAxis,
              customBounds2ndAxis,
              customBoundsAxisOffset,
              customBoundsAxisOffsetDirection,
              customBoundsAxisOffsetLength,
-             channelBoxSeparator5,
+             channelBoxSeparator13,
              customBoundsRootSize,
              customBoundsTranslate,
              customBoundsRotate,

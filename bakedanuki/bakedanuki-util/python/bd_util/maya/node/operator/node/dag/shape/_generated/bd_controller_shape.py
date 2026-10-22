@@ -44,110 +44,35 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
 
     GEAR = 0
     LINE = 1
-    LINEARROWATEND = 2
-    LINEARROWATENDS = 3
-    LINEWIDEARROWATEND = 4
-    LINEWIDEARROWATENDS = 5
-    LINESQUAREATEND = 6
-    LINESQUAREATENDS = 7
-    LINEDIAMONDATEND = 8
-    LINEDIAMONDATENDS = 9
-    LINECIRCLEATEND = 10
-    LINECIRCLEATENDS = 11
-    LINETRIANGLEATEND = 12
-    LINETRIANGLEATENDS = 13
-    CROSSLINE1ST2ND = 14
-    CROSSLINE1ST2NDARROWATEND = 15
-    CROSSLINE1ST2NDARROWATENDS = 16
-    CROSSLINE1ST2NDWIDEARROWATEND = 17
-    CROSSLINE1ST2NDWIDEARROWATENDS = 18
-    CROSSLINE1ST2NDSQUAREATEND = 19
-    CROSSLINE1ST2NDSQUAREATENDS = 20
-    CROSSLINE1ST2NDDIAMONDATEND = 21
-    CROSSLINE1ST2NDDIAMONDATENDS = 22
-    CROSSLINE1ST2NDCIRCLEATEND = 23
-    CROSSLINE1ST2NDCIRCLEATENDS = 24
-    CROSSLINE1ST2NDTRIANGLEATEND = 25
-    CROSSLINE1ST2NDTRIANGLEATENDS = 26
-    CROSSLINE1ST3RD = 27
-    CROSSLINE1ST3RDARROWATEND = 28
-    CROSSLINE1ST3RDARROWATENDS = 29
-    CROSSLINE1ST3RDWIDEARROWATEND = 30
-    CROSSLINE1ST3RDWIDEARROWATENDS = 31
-    CROSSLINE1ST3RDSQUAREATEND = 32
-    CROSSLINE1ST3RDSQUAREATENDS = 33
-    CROSSLINE1ST3RDDIAMONDATEND = 34
-    CROSSLINE1ST3RDDIAMONDATENDS = 35
-    CROSSLINE1ST3RDCIRCLEATEND = 36
-    CROSSLINE1ST3RDCIRCLEATENDS = 37
-    CROSSLINE1ST3RDTRIANGLEATEND = 38
-    CROSSLINE1ST3RDTRIANGLEATENDS = 39
-    CROSSLINE2ND3RD = 40
-    CROSSLINE2ND3RDARROWATEND = 41
-    CROSSLINE2ND3RDARROWATENDS = 42
-    CROSSLINE2ND3RDWIDEARROWATEND = 43
-    CROSSLINE2ND3RDWIDEARROWATENDS = 44
-    CROSSLINE2ND3RDSQUAREATEND = 45
-    CROSSLINE2ND3RDSQUAREATENDS = 46
-    CROSSLINE2ND3RDDIAMONDATEND = 47
-    CROSSLINE2ND3RDDIAMONDATENDS = 48
-    CROSSLINE2ND3RDCIRCLEATEND = 49
-    CROSSLINE2ND3RDCIRCLEATENDS = 50
-    CROSSLINE2ND3RDTRIANGLEATEND = 51
-    CROSSLINE2ND3RDTRIANGLEATENDS = 52
-    CROSSLINE3AXIS = 53
-    CROSSLINE3AXISENDCUBE = 54
-    CROSSLINE3AXISENDOCTAHEDRON = 55
-    CROSSLINE3AXISENDSPHERE = 56
-    CROSSLINE3AXISENDPYRAMID = 57
-    CROSSLINE3AXISENDCONE = 58
-    TRIANGLE = 59
-    SQUARE = 60
-    SQUAREARROW2D = 61
-    SQUAREARROW3D = 62
-    SQUAREARROWCROSSLINE2D = 63
-    SQUAREARROWCROSSLINE3D = 64
-    SQUAREARROWCROSSLINETEMPLATE2D = 65
-    SQUAREARROWCROSSLINETEMPLATE3D = 66
-    SQUAREARROW4WAY2D = 67
-    SQUAREARROW4WAY3D = 68
-    SQUARETEMPLATEARROW4WAY2D = 69
-    SQUARETEMPLATEARROW4WAY3D = 70
-    DIAMOND = 71
-    CUBE = 72
-    CUBEARROW2D = 73
-    CUBEARROW3D = 74
-    OCTAHEDRON = 75
-    OCTAHEDRONARROW = 76
-    CIRCLE = 77
-    CIRCLEARROW2D = 78
-    CIRCLEARROW3D = 79
-    SEMICIRCLE = 80
-    SEMICIRCLEARROWATEND = 81
-    SEMICIRCLEARROWATENDS = 82
-    SEMICIRCLEWIDEARROWATEND = 83
-    SEMICIRCLEWIDEARROWATENDS = 84
-    SEMICIRCLEARROW2D = 85
-    SEMICIRCLEARROW3D = 86
-    SPHERE = 87
-    SPHEREARROW2D = 88
-    SPHEREARROW3D = 89
-    CYLINDER = 90
-    ARROW = 91
-    PYRAMID = 92
-    CONE = 93
-    COLORCROSSLINE3AXIS = 94
-    COLORCROSSLINE3AXISENDCUBE = 95
-    COLORCROSSLINE3AXISENDOCTAHEDRON = 96
-    COLORCROSSLINE3AXISENDSPHERE = 97
-    COLORCROSSLINE3AXISENDPYRAMID = 98
-    COLORCROSSLINE3AXISENDCONE = 99
-    COLORCUBE = 100
-    COLORCORNERCUBE = 101
-    COLORSPHERE = 102
-    COLORSPHEREARROW2D = 103
-    COLORSPHEREARROW3D = 104
-    COLORSPHERECROSSLINE = 105
+    WIDELINE = 2
+    CROSSLINE1ST2ND = 3
+    WIDECROSSLINE1ST2ND = 4
+    CROSSLINE1ST3RD = 5
+    WIDECROSSLINE1ST3RD = 6
+    CROSSLINE2ND3RD = 7
+    WIDECROSSLINE2ND3RD = 8
+    CROSSLINE3AXIS = 9
+    TRIANGLE = 10
+    SQUARE = 11
+    SQUARECROSSLINE = 12
+    SQUARECROSSLINETEMPLATE = 13
+    SQUARETEMPLATE = 14
+    DIAMOND = 15
+    CUBE = 16
+    OCTAHEDRON = 17
+    OCTAHEDRONARROW = 18
+    CIRCLE = 19
+    WIDECIRCLE = 20
+    SPHERE = 21
+    CYLINDER = 22
+    ARROW = 23
+    PYRAMID = 24
+    CONE = 25
+    COLORCROSSLINE3AXIS = 26
+    COLORCUBE = 27
+    COLORCORNERCUBE = 28
+    COLORSPHERE = 29
+    COLORSPHERECROSSLINE = 30
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
@@ -155,217 +80,67 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
 
     GEAR = 0
     LINE = 1
-    LINEARROWATEND = 2
-    LINEARROWATENDS = 3
-    LINEWIDEARROWATEND = 4
-    LINEWIDEARROWATENDS = 5
-    LINESQUAREATEND = 6
-    LINESQUAREATENDS = 7
-    LINEDIAMONDATEND = 8
-    LINEDIAMONDATENDS = 9
-    LINECIRCLEATEND = 10
-    LINECIRCLEATENDS = 11
-    LINETRIANGLEATEND = 12
-    LINETRIANGLEATENDS = 13
-    CROSSLINE1ST2ND = 14
-    CROSSLINE1ST2NDARROWATEND = 15
-    CROSSLINE1ST2NDARROWATENDS = 16
-    CROSSLINE1ST2NDWIDEARROWATEND = 17
-    CROSSLINE1ST2NDWIDEARROWATENDS = 18
-    CROSSLINE1ST2NDSQUAREATEND = 19
-    CROSSLINE1ST2NDSQUAREATENDS = 20
-    CROSSLINE1ST2NDDIAMONDATEND = 21
-    CROSSLINE1ST2NDDIAMONDATENDS = 22
-    CROSSLINE1ST2NDCIRCLEATEND = 23
-    CROSSLINE1ST2NDCIRCLEATENDS = 24
-    CROSSLINE1ST2NDTRIANGLEATEND = 25
-    CROSSLINE1ST2NDTRIANGLEATENDS = 26
-    CROSSLINE1ST3RD = 27
-    CROSSLINE1ST3RDARROWATEND = 28
-    CROSSLINE1ST3RDARROWATENDS = 29
-    CROSSLINE1ST3RDWIDEARROWATEND = 30
-    CROSSLINE1ST3RDWIDEARROWATENDS = 31
-    CROSSLINE1ST3RDSQUAREATEND = 32
-    CROSSLINE1ST3RDSQUAREATENDS = 33
-    CROSSLINE1ST3RDDIAMONDATEND = 34
-    CROSSLINE1ST3RDDIAMONDATENDS = 35
-    CROSSLINE1ST3RDCIRCLEATEND = 36
-    CROSSLINE1ST3RDCIRCLEATENDS = 37
-    CROSSLINE1ST3RDTRIANGLEATEND = 38
-    CROSSLINE1ST3RDTRIANGLEATENDS = 39
-    CROSSLINE2ND3RD = 40
-    CROSSLINE2ND3RDARROWATEND = 41
-    CROSSLINE2ND3RDARROWATENDS = 42
-    CROSSLINE2ND3RDWIDEARROWATEND = 43
-    CROSSLINE2ND3RDWIDEARROWATENDS = 44
-    CROSSLINE2ND3RDSQUAREATEND = 45
-    CROSSLINE2ND3RDSQUAREATENDS = 46
-    CROSSLINE2ND3RDDIAMONDATEND = 47
-    CROSSLINE2ND3RDDIAMONDATENDS = 48
-    CROSSLINE2ND3RDCIRCLEATEND = 49
-    CROSSLINE2ND3RDCIRCLEATENDS = 50
-    CROSSLINE2ND3RDTRIANGLEATEND = 51
-    CROSSLINE2ND3RDTRIANGLEATENDS = 52
-    CROSSLINE3AXIS = 53
-    CROSSLINE3AXISENDCUBE = 54
-    CROSSLINE3AXISENDOCTAHEDRON = 55
-    CROSSLINE3AXISENDSPHERE = 56
-    CROSSLINE3AXISENDPYRAMID = 57
-    CROSSLINE3AXISENDCONE = 58
-    TRIANGLE = 59
-    SQUARE = 60
-    SQUAREARROW2D = 61
-    SQUAREARROW3D = 62
-    SQUAREARROWCROSSLINE2D = 63
-    SQUAREARROWCROSSLINE3D = 64
-    SQUAREARROWCROSSLINETEMPLATE2D = 65
-    SQUAREARROWCROSSLINETEMPLATE3D = 66
-    SQUAREARROW4WAY2D = 67
-    SQUAREARROW4WAY3D = 68
-    SQUARETEMPLATEARROW4WAY2D = 69
-    SQUARETEMPLATEARROW4WAY3D = 70
-    DIAMOND = 71
-    CUBE = 72
-    CUBEARROW2D = 73
-    CUBEARROW3D = 74
-    OCTAHEDRON = 75
-    OCTAHEDRONARROW = 76
-    CIRCLE = 77
-    CIRCLEARROW2D = 78
-    CIRCLEARROW3D = 79
-    SEMICIRCLE = 80
-    SEMICIRCLEARROWATEND = 81
-    SEMICIRCLEARROWATENDS = 82
-    SEMICIRCLEWIDEARROWATEND = 83
-    SEMICIRCLEWIDEARROWATENDS = 84
-    SEMICIRCLEARROW2D = 85
-    SEMICIRCLEARROW3D = 86
-    SPHERE = 87
-    SPHEREARROW2D = 88
-    SPHEREARROW3D = 89
-    CYLINDER = 90
-    ARROW = 91
-    PYRAMID = 92
-    CONE = 93
-    COLORCROSSLINE3AXIS = 94
-    COLORCROSSLINE3AXISENDCUBE = 95
-    COLORCROSSLINE3AXISENDOCTAHEDRON = 96
-    COLORCROSSLINE3AXISENDSPHERE = 97
-    COLORCROSSLINE3AXISENDPYRAMID = 98
-    COLORCROSSLINE3AXISENDCONE = 99
-    COLORCUBE = 100
-    COLORCORNERCUBE = 101
-    COLORSPHERE = 102
-    COLORSPHEREARROW2D = 103
-    COLORSPHEREARROW3D = 104
-    COLORSPHERECROSSLINE = 105
+    WIDELINE = 2
+    CROSSLINE1ST2ND = 3
+    WIDECROSSLINE1ST2ND = 4
+    CROSSLINE1ST3RD = 5
+    WIDECROSSLINE1ST3RD = 6
+    CROSSLINE2ND3RD = 7
+    WIDECROSSLINE2ND3RD = 8
+    CROSSLINE3AXIS = 9
+    TRIANGLE = 10
+    SQUARE = 11
+    SQUARECROSSLINE = 12
+    SQUARECROSSLINETEMPLATE = 13
+    SQUARETEMPLATE = 14
+    DIAMOND = 15
+    CUBE = 16
+    OCTAHEDRON = 17
+    OCTAHEDRONARROW = 18
+    CIRCLE = 19
+    WIDECIRCLE = 20
+    SPHERE = 21
+    CYLINDER = 22
+    ARROW = 23
+    PYRAMID = 24
+    CONE = 25
+    COLORCROSSLINE3AXIS = 26
+    COLORCUBE = 27
+    COLORCORNERCUBE = 28
+    COLORSPHERE = 29
+    COLORSPHERECROSSLINE = 30
 
     NAME_MAP = {
         GEAR: "Gear",
         LINE: "Line",
-        LINEARROWATEND: "LineArrowAtEnd",
-        LINEARROWATENDS: "LineArrowAtEnds",
-        LINEWIDEARROWATEND: "LineWideArrowAtEnd",
-        LINEWIDEARROWATENDS: "LineWideArrowAtEnds",
-        LINESQUAREATEND: "LineSquareAtEnd",
-        LINESQUAREATENDS: "LineSquareAtEnds",
-        LINEDIAMONDATEND: "LineDiamondAtEnd",
-        LINEDIAMONDATENDS: "LineDiamondAtEnds",
-        LINECIRCLEATEND: "LineCircleAtEnd",
-        LINECIRCLEATENDS: "LineCircleAtEnds",
-        LINETRIANGLEATEND: "LineTriangleAtEnd",
-        LINETRIANGLEATENDS: "LineTriangleAtEnds",
+        WIDELINE: "WideLine",
         CROSSLINE1ST2ND: "CrossLine1st2nd",
-        CROSSLINE1ST2NDARROWATEND: "CrossLine1st2ndArrowAtEnd",
-        CROSSLINE1ST2NDARROWATENDS: "CrossLine1st2ndArrowAtEnds",
-        CROSSLINE1ST2NDWIDEARROWATEND: "CrossLine1st2ndWideArrowAtEnd",
-        CROSSLINE1ST2NDWIDEARROWATENDS: "CrossLine1st2ndWideArrowAtEnds",
-        CROSSLINE1ST2NDSQUAREATEND: "CrossLine1st2ndSquareAtEnd",
-        CROSSLINE1ST2NDSQUAREATENDS: "CrossLine1st2ndSquareAtEnds",
-        CROSSLINE1ST2NDDIAMONDATEND: "CrossLine1st2ndDiamondAtEnd",
-        CROSSLINE1ST2NDDIAMONDATENDS: "CrossLine1st2ndDiamondAtEnds",
-        CROSSLINE1ST2NDCIRCLEATEND: "CrossLine1st2ndCircleAtEnd",
-        CROSSLINE1ST2NDCIRCLEATENDS: "CrossLine1st2ndCircleAtEnds",
-        CROSSLINE1ST2NDTRIANGLEATEND: "CrossLine1st2ndTriangleAtEnd",
-        CROSSLINE1ST2NDTRIANGLEATENDS: "CrossLine1st2ndTriangleAtEnds",
+        WIDECROSSLINE1ST2ND: "WideCrossLine1st2nd",
         CROSSLINE1ST3RD: "CrossLine1st3rd",
-        CROSSLINE1ST3RDARROWATEND: "CrossLine1st3rdArrowAtEnd",
-        CROSSLINE1ST3RDARROWATENDS: "CrossLine1st3rdArrowAtEnds",
-        CROSSLINE1ST3RDWIDEARROWATEND: "CrossLine1st3rdWideArrowAtEnd",
-        CROSSLINE1ST3RDWIDEARROWATENDS: "CrossLine1st3rdWideArrowAtEnds",
-        CROSSLINE1ST3RDSQUAREATEND: "CrossLine1st3rdSquareAtEnd",
-        CROSSLINE1ST3RDSQUAREATENDS: "CrossLine1st3rdSquareAtEnds",
-        CROSSLINE1ST3RDDIAMONDATEND: "CrossLine1st3rdDiamondAtEnd",
-        CROSSLINE1ST3RDDIAMONDATENDS: "CrossLine1st3rdDiamondAtEnds",
-        CROSSLINE1ST3RDCIRCLEATEND: "CrossLine1st3rdCircleAtEnd",
-        CROSSLINE1ST3RDCIRCLEATENDS: "CrossLine1st3rdCircleAtEnds",
-        CROSSLINE1ST3RDTRIANGLEATEND: "CrossLine1st3rdTriangleAtEnd",
-        CROSSLINE1ST3RDTRIANGLEATENDS: "CrossLine1st3rdTriangleAtEnds",
+        WIDECROSSLINE1ST3RD: "WideCrossLine1st3rd",
         CROSSLINE2ND3RD: "CrossLine2nd3rd",
-        CROSSLINE2ND3RDARROWATEND: "CrossLine2nd3rdArrowAtEnd",
-        CROSSLINE2ND3RDARROWATENDS: "CrossLine2nd3rdArrowAtEnds",
-        CROSSLINE2ND3RDWIDEARROWATEND: "CrossLine2nd3rdWideArrowAtEnd",
-        CROSSLINE2ND3RDWIDEARROWATENDS: "CrossLine2nd3rdWideArrowAtEnds",
-        CROSSLINE2ND3RDSQUAREATEND: "CrossLine2nd3rdSquareAtEnd",
-        CROSSLINE2ND3RDSQUAREATENDS: "CrossLine2nd3rdSquareAtEnds",
-        CROSSLINE2ND3RDDIAMONDATEND: "CrossLine2nd3rdDiamondAtEnd",
-        CROSSLINE2ND3RDDIAMONDATENDS: "CrossLine2nd3rdDiamondAtEnds",
-        CROSSLINE2ND3RDCIRCLEATEND: "CrossLine2nd3rdCircleAtEnd",
-        CROSSLINE2ND3RDCIRCLEATENDS: "CrossLine2nd3rdCircleAtEnds",
-        CROSSLINE2ND3RDTRIANGLEATEND: "CrossLine2nd3rdTriangleAtEnd",
-        CROSSLINE2ND3RDTRIANGLEATENDS: "CrossLine2nd3rdTriangleAtEnds",
+        WIDECROSSLINE2ND3RD: "WideCrossLine2nd3rd",
         CROSSLINE3AXIS: "CrossLine3Axis",
-        CROSSLINE3AXISENDCUBE: "CrossLine3AxisEndCube",
-        CROSSLINE3AXISENDOCTAHEDRON: "CrossLine3AxisEndOctahedron",
-        CROSSLINE3AXISENDSPHERE: "CrossLine3AxisEndSphere",
-        CROSSLINE3AXISENDPYRAMID: "CrossLine3AxisEndPyramid",
-        CROSSLINE3AXISENDCONE: "CrossLine3AxisEndCone",
         TRIANGLE: "Triangle",
         SQUARE: "Square",
-        SQUAREARROW2D: "SquareArrow2D",
-        SQUAREARROW3D: "SquareArrow3D",
-        SQUAREARROWCROSSLINE2D: "SquareArrowCrossLine2D",
-        SQUAREARROWCROSSLINE3D: "SquareArrowCrossLine3D",
-        SQUAREARROWCROSSLINETEMPLATE2D: "SquareArrowCrossLineTemplate2D",
-        SQUAREARROWCROSSLINETEMPLATE3D: "SquareArrowCrossLineTemplate3D",
-        SQUAREARROW4WAY2D: "SquareArrow4Way2D",
-        SQUAREARROW4WAY3D: "SquareArrow4Way3D",
-        SQUARETEMPLATEARROW4WAY2D: "SquareTemplateArrow4Way2D",
-        SQUARETEMPLATEARROW4WAY3D: "SquareTemplateArrow4Way3D",
+        SQUARECROSSLINE: "SquareCrossLine",
+        SQUARECROSSLINETEMPLATE: "SquareCrossLineTemplate",
+        SQUARETEMPLATE: "SquareTemplate",
         DIAMOND: "Diamond",
         CUBE: "Cube",
-        CUBEARROW2D: "CubeArrow2D",
-        CUBEARROW3D: "CubeArrow3D",
         OCTAHEDRON: "Octahedron",
         OCTAHEDRONARROW: "OctahedronArrow",
         CIRCLE: "Circle",
-        CIRCLEARROW2D: "CircleArrow2D",
-        CIRCLEARROW3D: "CircleArrow3D",
-        SEMICIRCLE: "Semicircle",
-        SEMICIRCLEARROWATEND: "SemicircleArrowAtEnd",
-        SEMICIRCLEARROWATENDS: "SemicircleArrowAtEnds",
-        SEMICIRCLEWIDEARROWATEND: "SemicircleWideArrowAtEnd",
-        SEMICIRCLEWIDEARROWATENDS: "SemicircleWideArrowAtEnds",
-        SEMICIRCLEARROW2D: "SemicircleArrow2D",
-        SEMICIRCLEARROW3D: "SemicircleArrow3D",
+        WIDECIRCLE: "WideCircle",
         SPHERE: "Sphere",
-        SPHEREARROW2D: "SphereArrow2D",
-        SPHEREARROW3D: "SphereArrow3D",
         CYLINDER: "Cylinder",
         ARROW: "Arrow",
         PYRAMID: "Pyramid",
         CONE: "Cone",
         COLORCROSSLINE3AXIS: "ColorCrossLine3Axis",
-        COLORCROSSLINE3AXISENDCUBE: "ColorCrossLine3AxisEndCube",
-        COLORCROSSLINE3AXISENDOCTAHEDRON: "ColorCrossLine3AxisEndOctahedron",
-        COLORCROSSLINE3AXISENDSPHERE: "ColorCrossLine3AxisEndSphere",
-        COLORCROSSLINE3AXISENDPYRAMID: "ColorCrossLine3AxisEndPyramid",
-        COLORCROSSLINE3AXISENDCONE: "ColorCrossLine3AxisEndCone",
         COLORCUBE: "ColorCube",
         COLORCORNERCUBE: "ColorCornerCube",
         COLORSPHERE: "ColorSphere",
-        COLORSPHEREARROW2D: "ColorSphereArrow2D",
-        COLORSPHEREARROW3D: "ColorSphereArrow3D",
         COLORSPHERECROSSLINE: "ColorSphereCrossLine",
     }
 
@@ -375,6 +150,100 @@ class ShapeEnumField(EnumField[ShapeEnumAttrOperator, ShapeEnumPlugOperator]):
 
     ATTR_CLS = ShapeEnumAttrOperator
     PLUG_CLS = ShapeEnumPlugOperator
+
+
+class ShapePartShapeEnumPlugOperator(
+    EnumPlugOperator["ShapePartShapeEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    ARROW2D = 0
+    ARROW3D = 1
+    TRIANGLE = 2
+    SQUARE = 3
+    DIAMOND = 4
+    CIRCLE = 5
+    CUBE = 6
+    OCTAHEDRON = 7
+    SPHERE = 8
+    PYRAMID = 9
+    CONE = 10
+
+
+class ShapePartShapeEnumAttrOperator(
+    EnumAttrOperator[ShapePartShapeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ARROW2D = 0
+    ARROW3D = 1
+    TRIANGLE = 2
+    SQUARE = 3
+    DIAMOND = 4
+    CIRCLE = 5
+    CUBE = 6
+    OCTAHEDRON = 7
+    SPHERE = 8
+    PYRAMID = 9
+    CONE = 10
+
+    NAME_MAP = {
+        ARROW2D: "Arrow2D",
+        ARROW3D: "Arrow3D",
+        TRIANGLE: "Triangle",
+        SQUARE: "Square",
+        DIAMOND: "Diamond",
+        CIRCLE: "Circle",
+        CUBE: "Cube",
+        OCTAHEDRON: "Octahedron",
+        SPHERE: "Sphere",
+        PYRAMID: "Pyramid",
+        CONE: "Cone",
+    }
+
+
+class ShapePartShapeEnumField(
+    EnumField[ShapePartShapeEnumAttrOperator, ShapePartShapeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapePartShapeEnumAttrOperator
+    PLUG_CLS = ShapePartShapeEnumPlugOperator
+
+
+class ShapePartTypeEnumPlugOperator(
+    EnumPlugOperator["ShapePartTypeEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    ATEND = 0
+    ATENDS = 1
+    ATAPEX = 2
+
+
+class ShapePartTypeEnumAttrOperator(
+    EnumAttrOperator[ShapePartTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATEND = 0
+    ATENDS = 1
+    ATAPEX = 2
+
+    NAME_MAP = {
+        ATEND: "AtEnd",
+        ATENDS: "AtEnds",
+        ATAPEX: "AtApex",
+    }
+
+
+class ShapePartTypeEnumField(
+    EnumField[ShapePartTypeEnumAttrOperator, ShapePartTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapePartTypeEnumAttrOperator
+    PLUG_CLS = ShapePartTypeEnumPlugOperator
 
 
 class ShapeFinTypeEnumPlugOperator(
@@ -838,17 +707,8 @@ class GeneratedBdControllerShape(Shape):
     localScaleZ = localScale.localScaleZ
     lsz = localScaleZ
 
-    shape = ShapeEnumField(default_value=72)
-    sh = shape
-
     shapeAnimationTransformMatrix = DataMatrixField()
     satm = shapeAnimationTransformMatrix
-
-    shapeFin = BoolField(default_value=False)
-    sfn = shapeFin
-
-    shapeFinType = ShapeFinTypeEnumField(default_value=0)
-    sfnt = shapeFinType
 
     shapeDrawOnTop = BoolField(default_value=False)
     sdot = shapeDrawOnTop
@@ -856,10 +716,10 @@ class GeneratedBdControllerShape(Shape):
     shapeLineWidth = FloatField(default_value=1.0, min_value=1.0)
     slw = shapeLineWidth
 
-    shapeTransparency = FloatField(
+    shapeLineTransparency = FloatField(
         default_value=0.0, min_value=0.0, max_value=1.0
     )
-    stp = shapeTransparency
+    slt = shapeLineTransparency
 
     shapeFill = BoolField(default_value=False)
     sfl = shapeFill
@@ -869,8 +729,55 @@ class GeneratedBdControllerShape(Shape):
     )
     sftp = shapeFillTransparency
 
-    showShapeOffsetLine = BoolField(default_value=False)
-    ssol = showShapeOffsetLine
+    shape = ShapeEnumField(default_value=16)
+    sh = shape
+
+    shapeWideWidth = DoubleLinearField(default_value=0.05, min_value=0.0)
+    sww = shapeWideWidth
+
+    shapeCircleAngle = DoubleAngleField(
+        default_value=360.0, min_value=0.0, max_value=360.0
+    )
+    sca = shapeCircleAngle
+
+    shapePart = BoolField(default_value=False)
+    spt = shapePart
+
+    shapePartShape = ShapePartShapeEnumField(default_value=0)
+    spsh = shapePartShape
+
+    shapePartType = ShapePartTypeEnumField(default_value=0)
+    sptp = shapePartType
+
+    shapePartOffset = DoubleLinearField(default_value=0.0)
+    spo = shapePartOffset
+
+    shapePartSize = DoubleField(default_value=1.0)
+    sps = shapePartSize
+
+    shapePartLengthScale = DoubleField(default_value=1.0)
+    spls = shapePartLengthScale
+
+    shapePartWidthScale = DoubleField(default_value=1.0)
+    spws = shapePartWidthScale
+
+    shapeFin = BoolField(default_value=False)
+    sfn = shapeFin
+
+    shapeFinType = ShapeFinTypeEnumField(default_value=0)
+    sfnt = shapeFinType
+
+    shapeFinHeight = DoubleLinearField(default_value=0.5)
+    sfnh = shapeFinHeight
+
+    shapeFinSize = DoubleField(default_value=1.0)
+    sfns = shapeFinSize
+
+    shapeFinWidthScale = DoubleField(default_value=1.0)
+    sfnws = shapeFinWidthScale
+
+    shapeOffsetLine = BoolField(default_value=False)
+    sol = shapeOffsetLine
 
     shapeOffsetLineTemplate = BoolField(default_value=False)
     solt = shapeOffsetLineTemplate
@@ -951,26 +858,6 @@ class GeneratedBdControllerShape(Shape):
 
     shapeSize = DoubleField(default_value=1.0)
     ss = shapeSize
-
-    shapePartOffset = DoubleLinearField(default_value=0.0)
-    spo = shapePartOffset
-
-    shapePartOffsetAngle = DoubleAngleField(
-        default_value=0.0, min_value=-90.0, max_value=90.0
-    )
-    spoa = shapePartOffsetAngle
-
-    shapePartFinHeight = DoubleLinearField(default_value=0.5)
-    spfh = shapePartFinHeight
-
-    shapePartSize = DoubleField(default_value=1.0)
-    sps = shapePartSize
-
-    shapePartLengthScale = DoubleField(default_value=1.0)
-    spls = shapePartLengthScale
-
-    shapePartWidthScale = DoubleField(default_value=1.0)
-    spws = shapePartWidthScale
 
     boundsMode = BoundsModeEnumField(default_value=1)
     bdm = boundsMode

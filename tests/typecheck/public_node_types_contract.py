@@ -39,6 +39,9 @@ from bd_util.maya.node.operator.node.dag.shape._generated.bd_controller_shape im
     Shape2ndAxisEnumPlugOperator,
     ShapeAxisOffsetDirectionEnumPlugOperator,
     ShapeEnumPlugOperator,
+    ShapeFinTypeEnumPlugOperator,
+    ShapePartShapeEnumPlugOperator,
+    ShapePartTypeEnumPlugOperator,
 )
 from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 
@@ -132,124 +135,102 @@ def controller_shape_offset_line_contract() -> None:
     _, shape = bdu.Nodes().create.controllerShape()
     assert_type(shape, bdu.node_types.BdControllerShape)
     assert_type(shape.shape, ShapeEnumPlugOperator)
-    shape.shape.set(ShapeEnumPlugOperator.GEAR)
-    shape.shape.set(ShapeEnumPlugOperator.LINE)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2ND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RD)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RD)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXIS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXISENDCUBE)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXISENDCUBE)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXISENDOCTAHEDRON)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXISENDOCTAHEDRON)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXISENDSPHERE)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXISENDSPHERE)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXISENDPYRAMID)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXISENDPYRAMID)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXISENDCONE)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE3AXISENDCONE)
-    shape.shape.set(ShapeEnumPlugOperator.LINEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.LINEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.LINEWIDEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.LINEWIDEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDWIDEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDWIDEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDWIDEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDWIDEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDWIDEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDWIDEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLEWIDEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLEWIDEARROWATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXIS)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXISENDCUBE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXISENDCUBE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXISENDOCTAHEDRON)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXISENDOCTAHEDRON)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXISENDSPHERE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXISENDSPHERE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXISENDPYRAMID)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXISENDPYRAMID)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXISENDCONE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCROSSLINE3AXISENDCONE)
-    shape.shape.set(ShapeEnumPlugOperator.TRIANGLE)
-    shape.shape.set(ShapeEnumPlugOperator.SQUARE)
-    shape.shape.set(ShapeEnumPlugOperator.CUBE)
-    shape.shape.set(ShapeEnumPlugOperator.OCTAHEDRON)
-    shape.shape.set(ShapeEnumPlugOperator.CIRCLE)
-    shape.shape.set(ShapeEnumPlugOperator.SPHERE)
-    shape.shape.set(ShapeEnumPlugOperator.CYLINDER)
-    shape.shape.set(ShapeEnumPlugOperator.PYRAMID)
-    shape.shape.set(ShapeEnumPlugOperator.CONE)
-    shape.shape.set(ShapeEnumPlugOperator.CUBE)
-    shape.shape.set(ShapeEnumPlugOperator.CYLINDER)
+    for preset in (
+        ShapeEnumPlugOperator.GEAR,
+        ShapeEnumPlugOperator.LINE,
+        ShapeEnumPlugOperator.WIDELINE,
+        ShapeEnumPlugOperator.CROSSLINE1ST2ND,
+        ShapeEnumPlugOperator.WIDECROSSLINE1ST2ND,
+        ShapeEnumPlugOperator.CROSSLINE1ST3RD,
+        ShapeEnumPlugOperator.WIDECROSSLINE1ST3RD,
+        ShapeEnumPlugOperator.CROSSLINE2ND3RD,
+        ShapeEnumPlugOperator.WIDECROSSLINE2ND3RD,
+        ShapeEnumPlugOperator.CROSSLINE3AXIS,
+        ShapeEnumPlugOperator.TRIANGLE,
+        ShapeEnumPlugOperator.SQUARE,
+        ShapeEnumPlugOperator.SQUARECROSSLINE,
+        ShapeEnumPlugOperator.SQUARECROSSLINETEMPLATE,
+        ShapeEnumPlugOperator.SQUARETEMPLATE,
+        ShapeEnumPlugOperator.DIAMOND,
+        ShapeEnumPlugOperator.CUBE,
+        ShapeEnumPlugOperator.OCTAHEDRON,
+        ShapeEnumPlugOperator.OCTAHEDRONARROW,
+        ShapeEnumPlugOperator.CIRCLE,
+        ShapeEnumPlugOperator.WIDECIRCLE,
+        ShapeEnumPlugOperator.SPHERE,
+        ShapeEnumPlugOperator.CYLINDER,
+        ShapeEnumPlugOperator.ARROW,
+        ShapeEnumPlugOperator.PYRAMID,
+        ShapeEnumPlugOperator.CONE,
+        ShapeEnumPlugOperator.COLORCROSSLINE3AXIS,
+        ShapeEnumPlugOperator.COLORCUBE,
+        ShapeEnumPlugOperator.COLORCORNERCUBE,
+        ShapeEnumPlugOperator.COLORSPHERE,
+        ShapeEnumPlugOperator.COLORSPHERECROSSLINE,
+    ):
+        shape.shape.set(preset)
     assert_type(shape.shapeFin, BoolPlugOperator)
     assert_type(shape.sfn, BoolPlugOperator)
+    assert_type(shape.shapeFinType, ShapeFinTypeEnumPlugOperator)
+    assert_type(shape.sfnt, ShapeFinTypeEnumPlugOperator)
     shape.shapeFin.set(True)
-    shape.shapeFinType.set(shape.shapeFinType.TAPERED)
-    shape.sfnt.set(shape.sfnt.STANDARD)
-    shape.shape.set(ShapeEnumPlugOperator.CIRCLEARROW2D)
-    shape.shape.set(ShapeEnumPlugOperator.OCTAHEDRON)
-    shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORSPHERE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORSPHERECROSSLINE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCUBE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCUBE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCORNERCUBE)
-    shape.shape.set(ShapeEnumPlugOperator.COLORCORNERCUBE)
+    shape.shapeFinType.set(ShapeFinTypeEnumPlugOperator.TAPERED)
+    shape.sfnt.set(ShapeFinTypeEnumPlugOperator.STANDARD)
     assert_type(shape.shape1stAxis, Shape1stAxisEnumPlugOperator)
-    shape.shape.set(ShapeEnumPlugOperator.LINEARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.LINEARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.LINEWIDEARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.LINEWIDEARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLEARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.SEMICIRCLEWIDEARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDWIDEARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDWIDEARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDWIDEARROWATEND)
-    shape.shape.set(ShapeEnumPlugOperator.DIAMOND)
-    shape.shape.set(ShapeEnumPlugOperator.DIAMOND)
-    shape.shape.set(ShapeEnumPlugOperator.LINESQUAREATEND)
-    shape.shape.set(ShapeEnumPlugOperator.LINESQUAREATEND)
-    shape.shape.set(ShapeEnumPlugOperator.LINESQUAREATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.LINEDIAMONDATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.LINECIRCLEATEND)
-    shape.shape.set(ShapeEnumPlugOperator.LINETRIANGLEATEND)
-    shape.shape.set(ShapeEnumPlugOperator.LINEDIAMONDATEND)
-    shape.shape.set(ShapeEnumPlugOperator.LINECIRCLEATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDTRIANGLEATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST2NDSQUAREATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDSQUAREATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE1ST3RDDIAMONDATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDCIRCLEATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDTRIANGLEATEND)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDCIRCLEATENDS)
-    shape.shape.set(ShapeEnumPlugOperator.CROSSLINE2ND3RDTRIANGLEATENDS)
     assert_type(shape.shape2ndAxis, Shape2ndAxisEnumPlugOperator)
     assert_type(shape.shapeAnimationTransformMatrix, DataMatrixPlugOperator)
     assert_type(shape.shapeAxisOffsetLength, DoubleLinearPlugOperator)
+    assert_type(shape.shapeWideWidth, DoubleLinearPlugOperator)
+    assert_type(shape.sww, DoubleLinearPlugOperator)
+    assert_type(shape.shapePart, BoolPlugOperator)
+    assert_type(shape.spt, BoolPlugOperator)
+    assert_type(shape.shapePartShape, ShapePartShapeEnumPlugOperator)
+    assert_type(shape.spsh, ShapePartShapeEnumPlugOperator)
+    assert_type(shape.shapePartType, ShapePartTypeEnumPlugOperator)
+    assert_type(shape.sptp, ShapePartTypeEnumPlugOperator)
+    shape.shapePart.set(True)
+    shape.spt.set(False)
+    for part_shape in (
+        ShapePartShapeEnumPlugOperator.ARROW2D,
+        ShapePartShapeEnumPlugOperator.ARROW3D,
+        ShapePartShapeEnumPlugOperator.TRIANGLE,
+        ShapePartShapeEnumPlugOperator.SQUARE,
+        ShapePartShapeEnumPlugOperator.DIAMOND,
+        ShapePartShapeEnumPlugOperator.CIRCLE,
+        ShapePartShapeEnumPlugOperator.CUBE,
+        ShapePartShapeEnumPlugOperator.OCTAHEDRON,
+        ShapePartShapeEnumPlugOperator.SPHERE,
+        ShapePartShapeEnumPlugOperator.PYRAMID,
+        ShapePartShapeEnumPlugOperator.CONE,
+    ):
+        shape.shapePartShape.set(part_shape)
+    shape.spsh.set(shape.spsh.CUBE)
+    for part_type in (
+        ShapePartTypeEnumPlugOperator.ATEND,
+        ShapePartTypeEnumPlugOperator.ATENDS,
+        ShapePartTypeEnumPlugOperator.ATAPEX,
+    ):
+        shape.shapePartType.set(part_type)
+    shape.sptp.set(shape.sptp.ATENDS)
+    shape.shapeWideWidth.set(0.075)
     assert_type(shape.shapePartOffset, DoubleLinearPlugOperator)
-    assert_type(shape.shapePartOffsetAngle, DoubleAnglePlugOperator)
-    assert_type(shape.spoa, DoubleAnglePlugOperator)
-    assert_type(shape.shapePartFinHeight, DoubleLinearPlugOperator)
-    assert_type(shape.spfh, DoubleLinearPlugOperator)
+    assert_type(shape.shapeCircleAngle, DoubleAnglePlugOperator)
+    assert_type(shape.sca, DoubleAnglePlugOperator)
+    assert_type(shape.shapeFinHeight, DoubleLinearPlugOperator)
+    assert_type(shape.sfnh, DoubleLinearPlugOperator)
+    assert_type(shape.shapeFinSize, DoublePlugOperator)
+    assert_type(shape.sfns, DoublePlugOperator)
+    assert_type(shape.shapeFinWidthScale, DoublePlugOperator)
+    assert_type(shape.sfnws, DoublePlugOperator)
+    shape.shapeFinSize.set(1.25)
+    shape.shapeFinWidthScale.set(0.75)
     assert_type(shape.shapePartSize, DoublePlugOperator)
     assert_type(shape.shapePartLengthScale, DoublePlugOperator)
     assert_type(shape.shapePartWidthScale, DoublePlugOperator)
     assert_type(shape.sps, DoublePlugOperator)
     shape.shapePartOffset.set(0.1)
-    shape.shapePartOffsetAngle.set(30)
-    shape.shapePartFinHeight.set(0.75)
+    shape.shapeCircleAngle.set(240)
+    shape.shapeFinHeight.set(0.75)
     shape.shapePartSize.set(2.0)
     shape.shapePartLengthScale.set(2.0)
     shape.shapePartWidthScale.set(3.0)
@@ -291,9 +272,10 @@ def controller_shape_offset_line_contract() -> None:
     shape.shapeAxisTranslate.set(1.0, 2.0, 3.0)
     shape.shapeAxisRotate.set(0.0, 0.0, 90.0)
     shape.shapeAxisScale.set(2.0, 1.0, 1.0)
-    assert_type(shape.showShapeOffsetLine, BoolPlugOperator)
+    assert_type(shape.shapeOffsetLine, BoolPlugOperator)
+    assert_type(shape.sol, BoolPlugOperator)
     assert_type(shape.shapeOffsetLineTemplate, BoolPlugOperator)
-    shape.showShapeOffsetLine.set(True)
+    shape.shapeOffsetLine.set(True)
     shape.shapeOffsetLineTemplate.set(False)
 
 
@@ -339,13 +321,14 @@ def controller_shape_bounds_contract() -> None:
 def controller_shape_draw_style_contract() -> None:
     _, shape = bdu.Nodes().create.controllerShape()
     assert_type(shape.shapeLineWidth, FloatPlugOperator)
-    assert_type(shape.shapeTransparency, FloatPlugOperator)
+    assert_type(shape.shapeLineTransparency, FloatPlugOperator)
+    assert_type(shape.slt, FloatPlugOperator)
     assert_type(shape.shapeFill, BoolPlugOperator)
     assert_type(shape.sfl, BoolPlugOperator)
     shape.shapeFill.set(True)
     assert_type(shape.shapeFillTransparency, FloatPlugOperator)
     assert_type(shape.shapeDrawOnTop, BoolPlugOperator)
     shape.shapeLineWidth.set(2.5)
-    shape.shapeTransparency.set(0.375)
+    shape.shapeLineTransparency.set(0.375)
     shape.shapeFillTransparency.set(0.25)
     shape.shapeDrawOnTop.set(True)
