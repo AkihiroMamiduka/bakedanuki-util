@@ -328,6 +328,39 @@ Circle系のFinは角度に合わせて基準幅とピボットを連続的に�
 180°では2nd=0..+0.5・ピボット+0.25、360°では-0.5..+0.5・ピボット0です。
 Fin専用Widthはそのピボットで拡縮し、円弧の角度・Partの変形とは別に調整できます。
 
+### Part矢印の向き
+
+主面はArrow2Dを構成する面、追加面はArrow3Dで主面に直交して加わる薄い三角面です。
+Arrow2DとArrow3Dの主面は同じで、進行方向と、その軸まわりの回転を区別します。
+以下は `shape1stAxis=+X`、`shape2ndAxis=+Y`、回転0、正のスケールでの基準ローカルXYZです。
+主面は画面やワールド座標に固定した面ではありません。
+
+| 本体 | 進行方向 | 主面 | Arrow3Dの追加面が立ち上がる側 |
+| --- | --- | --- | --- |
+| Line / WideLine | ±X | XY | +Z |
+| CrossLine1st2nd系 | ±X・±Y | XY | +Z |
+| CrossLine1st3rd系 | ±X・±Z | XZ | +Y |
+| CrossLine2nd3rd系 | ±Y・±Z | YZ | +X |
+| CrossLine3Axis / ColorCrossLine3Axis | ±X | XY | +Z |
+| 同上 | ±Y | YZ | +X |
+| 同上 | ±Z | XZ | +Y |
+| Cube / Sphere / ColorSphere / ColorSphereCrossLine | ±X | XZ | +Y |
+| 同上 | ±Y | YZ | +X |
+| 同上 | ±Z | XZ | +Y |
+| Square系 | ±Y・±Z | YZ | +X |
+| Circle / WideCircle | 円弧端の接線方向。AtApexは+Y | YZ | +X |
+
+表は配置可能な方向を示し、実際に追加する端は `shapePartType` で選びます。
+Circleの接線方向は `shapeCircleAngle` に従って変わります。
+Line・3軸CrossLineとCube・Sphereでは、X方向の主面に90°の違いがあります。
+平面のCircleと立体のSphereも、この表では別の本体として扱います。
+
+Arrow3Dの追加面は主面の正側だけに立ち上げ、肩の中央・立ち上がった肩・先端を結ぶ三角面にします。
+肩から主面へ戻る辺はFill表示時も描き、±両端とも同じ基準軸の正側に揃えます。
+符号付きスケールや軸指定・全体変形はその後に適用し、追加面も本体と一緒に変換します。
+Color系の軸指定・回転・スケールの制約は「塗りとColor」に記した規則に従います。
+この向きの全体統一は、後述の「保留中: Part矢印の向きの共通化」で扱います。
+
 ### 塗りとColor
 
 塗りは共通のshapeFillで切り替え、OFFでも透明度やPart・Finの設定を保持します。
@@ -348,12 +381,6 @@ SquareCrossLine・SquareCrossLineTemplateの中央ガイドは、Fill表示時�
 Wide系の帯はこの切替の対象外です。
 `shapeFillTransparency=1` で面が完全透明の場合も、面を表示しない場合の線を使います。
 面はViewport 2.0用で、NURBSのCV・UV・材質・レンダリング用サーフェスは生成しません。
-
-Arrow3Dの直交面は主平面の正側だけに立ち上げ、肩の中央・立ち上がった肩・先端を結ぶ三角面にします。
-肩から主平面へ戻る辺はFill表示時も描きます。正側は形状の基準ローカル軸で決め、両端とも同じ側に揃えます。
-LineとCrossLine1st2ndでは+3rd、CrossLine1st3rdでは+2nd、CrossLine2nd3rdとCircle・Square系では+1stです。
-CrossLine3Axisの各軸は、1st方向で+3rd、2nd方向で+1st、3rd方向で+2ndに立ち上げます。
-主軸・補助軸や変形を適用すると、この直交面も本体と一緒に変換します。
 
 ColorCrossLine3Axisは正方向の線をRGB、負方向を通常色にします。
 ColorSphereはX=赤・Y=緑・Z=青の直交円で、ColorSphereCrossLineは同じ円へ
@@ -708,6 +735,35 @@ Maya 2025 でその plug-in をロードして `generate_node_class_file()` か�
 を参照してください。生成ファイルは手編集せず、テストと仕様書を同時に更新します。
 完了前の統一検証は repository 直下で `.\scripts\verify.cmd -IncludeNative` です。
 
+### 保留中: Part矢印の向きの共通化
+
+2026-10-23の検討では、形状間のArrow2D / Arrow3Dの向きの統一は保留とし、
+「Part矢印の向き」の現行対応を維持しています。
+3軸CrossLineのX方向だけをCubeへ合わせる変更や、向き指定属性の追加は実装していません。
+以下は再開時の比較材料であり、採用済みの仕様ではありません。
+
+同じ進行方向なら全本体で主面を揃える規則と、平面本体では主面を本体面に沿わせる規則は、
+完全には両立しません。例えばZ方向の矢印はCubeではXZ面、CircleではYZ面を使います。
+再開時は、進行方向・主面・追加面の立ち上がる側を分け、次の優先順位から決めます。
+
+| 検討案 | 利点 | 検討が必要な点 |
+| --- | --- | --- |
+| 進行方向を最優先 | 同じ方向の矢印が本体によらず同じ向きになる | 平面本体から主面が起き上がる場合があり、Circleの任意角度にも向きの規則が必要 |
+| Circle・Square・2軸CrossLineは本体面を優先し、Line・3軸CrossLine・立体系は共通化 | 本体面との接合を自然に保ち、面を優先しない系列の向きを揃えられる | Line基準とCube基準のどちらを使うか、WideLineの帯の面も含めて選ぶ |
+| 優先する規則を属性で選択 | 用途に応じて使い分けられる | 設定項目と接合処理が増えるため、まず既定の規則を決める必要がある |
+
+共通化する場合のLine基準は、既存WideLineのXY面を維持でき、Cube・SphereのX方向を合わせる案です。
+Cube基準はLine・3軸CrossLineのX方向をXZ面・追加面+Yへ合わせる案で、
+WideLineの帯もXZ面へ変更するかを併せて検討します。
+代表X方向のFinはLine・3軸CrossLine・Cube・SphereでXY面にあり、+Yへ張り出します。
+そのためLine基準なら主面とFinが同面、Cube基準なら主面とFinが直交し、追加面がFinと同面になります。
+これは代表X方向の比較であり、一枚のFinに対して全方向で同じ関係になるという意味ではありません。
+
+どの案でもArrow3DはArrow2Dと主面を共有し、追加面だけを増やす関係を検討の前提にします。
+±両端、AtEnd / AtEnds / AtApex、Color版、円弧角度、Wideの帯、Finとの関係を一緒に確認してください。
+向きの生成は `BdControllerShapeOptions.inc` の `optionPartSites()` / `makeOptionHeads()`、
+Finは `BdControllerShapeFin.inc`、軸変換とColor系の制約は `BdControllerShapeNode.cpp` にあります。
+
 ### 今後の候補: 多数配置時の再生性能測定
 
 多数の `bdControllerShape` を置いたシーンで、調整属性が静的な場合、
@@ -816,3 +872,5 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 実際のViewport 2.0を必要とする画像比較テストは
 `tests/maya/ui/test_controller_shape_viewport.py` にあります。既存作業とは別の
 Maya GUIプロセスでpytestから実行します。mayapyのbatch環境では明示的にskipします。
+再実行手順と画像比較の注意点は
+[Testing And DebuggingのViewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) を参照してください。
