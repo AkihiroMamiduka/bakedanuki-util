@@ -48,10 +48,12 @@ public:
             StrokeStyle style = StrokeStyle::Normal;
             // Markers remain filled in Wireframe and use the line transparency.
             bool marker = false;
+            bool singleSided = false;
         };
         std::vector<MPointArray> strokes;
         std::vector<StrokeStyle> strokeStyles;
         std::vector<FillPart> fillParts;
+        std::shared_ptr<const Geometry> wireframeGeometry;
         std::vector<MPointArray> boundsPreview;
         MPointArray offsetLine;
         MPoint offsetLineEndpoint = MPoint::origin;

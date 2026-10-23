@@ -778,6 +778,12 @@ Strokes makeStrokes(
 ) {
     Strokes strokes;
     appendPresetGeometry(transform.settings.shape, transform, strokes, styles);
+    if (transform.settings.fill) {
+        const short outline = outlinePresetIndex(transform.settings.shape);
+        const std::size_t circles = outline == 36 ? 2 : (outline == 43 ? 1 : strokes.size());
+        strokes.resize(circles);
+        styles.resize(circles);
+    }
     return strokes;
 }
 
@@ -1010,6 +1016,38 @@ void appendCubeFaceRect(
     }
 }
 
+void orientSolidFill(BdControllerShapeNode::Geometry::FillPart& part, const MPoint& inside) {
+    part.singleSided = true;
+    for (unsigned int i = 0; i + 2 < part.triangles.length(); i += 3) {
+        const auto a = part.triangles[i];
+        const auto b = part.triangles[i + 1];
+        const auto c = part.triangles[i + 2];
+        if (((b - a) ^ (c - a)) * (a - inside) < 0.0) {
+            part.triangles[i + 1] = c;
+            part.triangles[i + 2] = b;
+        }
+    }
+}
+
+void reverseSolidFillWinding(BdControllerShapeNode::Geometry& geometry) {
+    for (auto& part : geometry.fillParts) {
+        if (!part.singleSided) continue;
+        for (unsigned int i = 0; i + 2 < part.triangles.length(); i += 3) {
+            const auto point = part.triangles[i + 1];
+            part.triangles[i + 1] = part.triangles[i + 2];
+            part.triangles[i + 2] = point;
+        }
+    }
+}
+
+bool reversesSolidFillWinding(const ShapeTransform& transform) {
+    const auto origin = transformPoint(MPoint::origin, transform);
+    const auto x = transformPoint(MPoint(1, 0, 0), transform) - origin;
+    const auto y = transformPoint(MPoint(0, 1, 0), transform) - origin;
+    const auto z = transformPoint(MPoint(0, 0, 1), transform) - origin;
+    return ((x ^ y) * z) < 0.0;
+}
+
 std::vector<BdControllerShapeNode::Geometry::FillPart> makeColorCubeFillParts(
     const ShapeTransform& transform, bool corner
 ) {
@@ -1053,6 +1091,7 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeColorCubeFillParts(
             parts.push_back({std::move(triangles), kAxisStyles[axis], true});
         }
     }
+    for (auto& part : parts) orientSolidFill(part, transformPoint(MPoint::origin, transform));
     return parts;
 }
 
@@ -1441,6 +1480,10 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
     if (templateTriangles.length() != 0) {
         parts.push_back({std::move(templateTriangles), StrokeStyle::Template});
     }
+    if (outline == 19 || outline == 24 || outline == 25 || outline == 33 ||
+        outline == 36 || outline == 41 || outline == 43 || outline == 46 || outline == 47) {
+        for (auto& part : parts) orientSolidFill(part, transformPoint(MPoint::origin, transform));
+    }
     return parts;
 }
 
@@ -1497,6 +1540,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
         for (auto& part : result->fillParts) {
             for (unsigned int i = 0; i < part.triangles.length(); ++i) part.triangles[i] = transformPoint(part.triangles[i], sourceTransform);
         }
+        if (reversesSolidFillWinding(sourceTransform)) reverseSolidFillWinding(*result);
     } else {
         result->strokes = makeStrokes(sourceTransform, result->strokeStyles);
         result->fillParts = makeFillParts(sourceTransform);
@@ -1515,6 +1559,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
         for (auto& part : result->fillParts) {
             for (unsigned int i = 0; i < part.triangles.length(); ++i) part.triangles[i] = transformPoint(part.triangles[i], transform);
         }
+        if (reversesSolidFillWinding(transform)) reverseSolidFillWinding(*result);
     }
     result->bounds = boundsForGeometry(result->strokes, result->fillParts);
     result->offsetLineTemplate = settings.offsetLineTemplate;
@@ -1524,6 +1569,16 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
         result->offsetLine.append(result->offsetLineEndpoint);
         result->bounds.expand(MPoint::origin);
         result->bounds.expand(result->offsetLineEndpoint);
+    }
+    const short outline = outlinePresetIndex(settings.shape);
+    const bool arrowLines = settings.part && settings.partShape <= 1 &&
+        (outline == 1 || outline == 4 || outline == 5 || outline == 45 ||
+         outline == 52 || outline == 53 || outline == 108 || outline == 109);
+    const bool conePart = settings.part && settings.partShape == 10 && optionPartSupported(outline);
+    if (settings.fill && (arrowLines || conePart || outline == 36 || outline == 43)) {
+        ShapeSettings wireframe = settings;
+        wireframe.fill = false;
+        result->wireframeGeometry = makeBaseGeometry(wireframe);
     }
     return result;
 }
@@ -1547,11 +1602,16 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> transformGeometry(
         BdControllerShapeNode::Geometry::FillPart part;
         part.style = basePart.style;
         part.marker = basePart.marker;
+        part.singleSided = basePart.singleSided;
         for (unsigned int index = 0;
              index < basePart.triangles.length(); ++index) {
             part.triangles.append(basePart.triangles[index] * matrix);
         }
         result->fillParts.push_back(std::move(part));
+    }
+    if (matrix.det3x3() < 0.0) reverseSolidFillWinding(*result);
+    if (base.wireframeGeometry) {
+        result->wireframeGeometry = transformGeometry(*base.wireframeGeometry, matrix, showOffsetLine);
     }
     result->bounds = boundsForGeometry(result->strokes, result->fillParts);
     result->offsetLineEndpoint = base.offsetLineEndpoint * matrix;
@@ -1892,9 +1952,30 @@ MColor axisStyledColor(
     return result;
 }
 
+// MUIDrawManagerには面のカリング指定がないため、現在のビューへ向く面だけを渡す。
+MPointArray frontFacingTriangles(const MPointArray& triangles, const MMatrix& objectToView, bool perspective) {
+    MPointArray result;
+    const double orientation = objectToView.det3x3() < 0.0 ? -1.0 : 1.0;
+    for (unsigned int i = 0; i + 2 < triangles.length(); i += 3) {
+        const auto a = triangles[i] * objectToView;
+        const auto b = triangles[i + 1] * objectToView;
+        const auto c = triangles[i + 2] * objectToView;
+        const auto towardCamera = perspective ? MPoint::origin - a : MVector(0, 0, 1);
+        if ((((b - a) ^ (c - a)) * towardCamera) * orientation <= 0.0) continue;
+        result.append(triangles[i]);
+        result.append(triangles[i + 1]);
+        result.append(triangles[i + 2]);
+    }
+    return result;
+}
+
 struct ShapeDrawData final : public MUserData {
     std::shared_ptr<const BdControllerShapeNode::Geometry> geometry;
     Strokes onTopSegments;
+    Strokes wireframeOnTopSegments;
+    std::vector<MPointArray> frontTriangles;
+    MMatrix objectToView;
+    bool perspective = false;
     MColor color;
     MColor dormantColor;
     MColor fillColor;
@@ -1965,7 +2046,7 @@ public:
     MUserData* prepareForDraw(
         const MDagPath& objectPath,
         const MDagPath&,
-        const MHWRender::MFrameContext&,
+        const MHWRender::MFrameContext& frameContext,
         MUserData* oldData
     ) override {
         ShapeDrawData* data = oldData
@@ -1975,6 +2056,25 @@ public:
         const bool geometryChanged = data->geometry != geometry;
         data->geometry = geometry;
         MStatus status;
+        const bool singleSided = geometry && std::any_of(geometry->fillParts.begin(), geometry->fillParts.end(),
+            [](const BdControllerShapeNode::Geometry::FillPart& part) { return part.singleSided; });
+        MMatrix view;
+        if (singleSided) view = frameContext.getMatrix(MHWRender::MFrameContext::kViewMtx, &status);
+        if (singleSided && status) {
+            const auto objectToView = objectPath.inclusiveMatrix() * view;
+            const auto projection = frameContext.getMatrix(MHWRender::MFrameContext::kProjectionMtx, &status);
+            const bool perspective = status && std::abs(projection[3][3]) < 1e-12;
+            if (geometryChanged || data->frontTriangles.size() != geometry->fillParts.size() ||
+                data->objectToView != objectToView || data->perspective != perspective) {
+                data->frontTriangles.clear();
+                for (const auto& part : geometry->fillParts) {
+                    data->frontTriangles.push_back(part.singleSided
+                        ? frontFacingTriangles(part.triangles, objectToView, perspective) : MPointArray());
+                }
+                data->objectToView = objectToView;
+                data->perspective = perspective;
+            }
+        } else data->frontTriangles.clear();
         const float lineWidth = MPlug(
             objectPath.node(), BdControllerShapeNode::shapeLineWidth
         ).asFloat(&status);
@@ -2002,9 +2102,15 @@ public:
         }
         if (data->drawOnTop && (geometryChanged || !wasDrawOnTop)) {
             data->onTopSegments.clear();
+            data->wireframeOnTopSegments.clear();
             if (data->geometry) {
                 for (const Stroke& stroke : data->geometry->strokes) {
                     data->onTopSegments.push_back(lineSegments(Strokes{stroke}));
+                }
+                if (data->geometry->wireframeGeometry) {
+                    for (const Stroke& stroke : data->geometry->wireframeGeometry->strokes) {
+                        data->wireframeOnTopSegments.push_back(lineSegments(Strokes{stroke}));
+                    }
                 }
             }
         }
@@ -2057,8 +2163,12 @@ public:
         }
         const auto appearance = drawAppearance(*data, frameContext.getDisplayStyle());
         const MColor& color = appearance.color;
-        for (const auto& part : data->geometry->fillParts) {
+        for (std::size_t index = 0; index < data->geometry->fillParts.size(); ++index) {
+            const auto& part = data->geometry->fillParts[index];
             if (!appearance.shaded && !part.marker) continue;
+            const auto& triangles = part.singleSided && index < data->frontTriangles.size()
+                ? data->frontTriangles[index] : part.triangles;
+            if (triangles.length() == 0) continue;
             drawManager.beginDrawable(
                 part.style == StrokeStyle::Template
                     ? MHWRender::MUIDrawManager::kNonSelectable
@@ -2076,13 +2186,17 @@ public:
             drawManager.setPaintStyle(MHWRender::MUIDrawManager::kFlat);
             if (data->drawOnTop) drawManager.beginDrawInXray();
             drawManager.mesh(
-                MHWRender::MUIDrawManager::kTriangles, part.triangles
+                MHWRender::MUIDrawManager::kTriangles, triangles
             );
             if (data->drawOnTop) drawManager.endDrawInXray();
             drawManager.endDrawable();
         }
-        for (std::size_t index = 0; index < data->geometry->strokes.size(); ++index) {
-            const StrokeStyle style = data->geometry->strokeStyles[index];
+        const bool wireframe = (!appearance.shaded || appearance.fillColor.a <= 0.0f) &&
+            data->geometry->wireframeGeometry;
+        const auto& strokeGeometry = wireframe ? *data->geometry->wireframeGeometry : *data->geometry;
+        const auto& onTopSegments = wireframe ? data->wireframeOnTopSegments : data->onTopSegments;
+        for (std::size_t index = 0; index < strokeGeometry.strokes.size(); ++index) {
+            const StrokeStyle style = strokeGeometry.strokeStyles[index];
             drawManager.beginDrawable(
                 style == StrokeStyle::Template
                     ? MHWRender::MUIDrawManager::kNonSelectable
@@ -2097,15 +2211,15 @@ public:
             if (data->lineWidth > 1.0f) {
                 drawManager.setLineWidth(data->lineWidth);
             }
-            if (data->drawOnTop && index < data->onTopSegments.size()) {
+            if (data->drawOnTop && index < onTopSegments.size()) {
                 drawManager.beginDrawInXray();
                 drawManager.mesh(
                     MHWRender::MUIDrawManager::kLines,
-                    data->onTopSegments[index]
+                    onTopSegments[index]
                 );
                 drawManager.endDrawInXray();
             } else {
-                drawManager.lineStrip(data->geometry->strokes[index], false);
+                drawManager.lineStrip(strokeGeometry.strokes[index], false);
             }
             drawManager.endDrawable();
         }

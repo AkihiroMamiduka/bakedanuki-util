@@ -139,6 +139,7 @@ void trimOptionGeometry(PartGeometry& geometry, const std::vector<OptionClipVolu
         }
         for (auto& face : faces.geometry.fillParts) {
             face.marker = part.marker;
+            face.singleSided = part.singleSided;
             trimmed.geometry.fillParts.push_back(std::move(face));
         }
     }
@@ -319,11 +320,12 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
             constexpr std::array<short, 5> outlines = {19, 24, 33, 41, 43};
             ShapeSettings component;
             component.shape = partPreset(outlines[settings.partShape - 6]);
-            component.fill = true;
-            const ShapeTransform transform(component);
+            component.fill = settings.fill && partLength(settings) != 0.0 && partWidth(settings) != 0.0;
             std::vector<StrokeStyle> styles;
-            const auto strokes = makeStrokes(transform, styles);
-            const auto sourceParts = makeFillParts(transform);
+            const auto strokes = makeStrokes(ShapeTransform(component), styles);
+            component.fill = true;
+            const auto sourceParts = makeFillParts(ShapeTransform(component));
+            head.singleSided = true;
             const auto mapped = [&](const MPoint& p) {
                 return point(MPoint(0.1 * p.x + (settings.partShape >= 9 ? (site.attached ? 0.05 : -0.05) : 0), 0.1 * p.y, 0.1 * p.z));
             };
@@ -334,7 +336,12 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
             }
             MPoint inside;
             double count = 0;
-            for (const auto& part : sourceParts) for (const auto& p : part.triangles) { inside += mapped(p) - MPoint::origin; count += 1; }
+            for (const auto& part : sourceParts) for (const auto& p : part.triangles) {
+                const auto position = mapped(p);
+                remember(position);
+                inside += position - MPoint::origin;
+                count += 1;
+            }
             if (count != 0) inside = MPoint::origin + (inside - MPoint::origin) / count;
             OptionClipVolume volume;
             for (const auto& part : sourceParts) for (unsigned int i = 0; i < part.triangles.length(); i += 3) {
@@ -530,6 +537,22 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
         if (!volume.empty()) trimOptionGeometry(heads.geometry, {std::move(volume)}, settings.fill, settings.partShape >= 6);
     } else if (!bodyVolumes.empty()) trimOptionStrokes(heads.geometry, bodyVolumes);
     trimOptionGeometry(builder.geometry, heads.volumes, settings.fill);
+    // 開いた矢印では軸線を先端へつなぎ、塗り面の内部には線を残さない。
+    if (!settings.fill && settings.partShape <= 1 &&
+        ((straight && !optionWideOutline(outline)) || outline == 108 || outline == 109)) {
+        for (std::size_t i = 0; i < sites.size(); ++i) {
+            const auto& site = sites[i];
+            const double tip = site.attached ? 0.125 * site.arrowSize * partLength(settings) : 0.0;
+            const auto end = site.endpoint + site.along * (tip + settings.partOffset);
+            const double stop = straight && narrow != 1 ? std::max(0.0, heads.stops[i]) : heads.stops[i];
+            const auto start = MPoint::origin + site.along * stop;
+            StrokeStyle style = outline == 109 ? StrokeStyle::Template : StrokeStyle::Normal;
+            if (narrow == 45) for (unsigned int axis = 0; axis < 3; ++axis) {
+                if ((site.along - nativeAxis(axis)).length() < 1e-10) style = kAxisStyles[axis];
+            }
+            if ((end - start).length() > 1e-10) builder.stroke({start, end}, style);
+        }
+    }
     mergeOptionGeometry(builder.geometry, std::move(heads.geometry));
     geometry = std::move(builder.geometry);
     return true;

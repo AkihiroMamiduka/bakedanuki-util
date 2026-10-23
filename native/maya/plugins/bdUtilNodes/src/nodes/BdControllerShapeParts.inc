@@ -27,6 +27,7 @@ short partPreset(short outline) {
 struct PartBuilder {
     PartGeometry geometry;
     bool filled;
+    bool singleSided = false;
 
     explicit PartBuilder(bool fill) : filled(fill) {}
 
@@ -40,8 +41,9 @@ struct PartBuilder {
 
     void triangle(MPoint a, MPoint b, MPoint c, StrokeStyle style = StrokeStyle::Normal) {
         if (!filled || ((b - a) ^ (c - a)).length() < 1.0e-12) return;
-        if (geometry.fillParts.empty() || geometry.fillParts.back().style != style) {
-            geometry.fillParts.push_back({MPointArray(), style});
+        if (geometry.fillParts.empty() || geometry.fillParts.back().style != style ||
+            geometry.fillParts.back().singleSided != singleSided) {
+            geometry.fillParts.push_back({MPointArray(), style, false, singleSided});
         }
         auto& points = geometry.fillParts.back().triangles;
         points.append(a);
@@ -392,6 +394,8 @@ void appendFinPart(PartBuilder& builder, const ShapeSettings& settings,
 }
 
 std::vector<MPoint> appendOctahedronPart(PartBuilder& builder, const ShapeSettings& settings) {
+    const bool previousSingleSided = builder.singleSided;
+    builder.singleSided = true;
     const double width = 0.5 * partWidth(settings);
     const std::array<MPoint, 4> equator = {MPoint(0, width, 0), MPoint(0, 0, width),
         MPoint(0, -width, 0), MPoint(0, 0, -width)};
@@ -406,6 +410,7 @@ std::vector<MPoint> appendOctahedronPart(PartBuilder& builder, const ShapeSettin
         else builder.triangle(tip, equator[i], equator[next]);
     }
     const double extent = std::abs(width);
+    builder.singleSided = previousSingleSided;
     return {MPoint(-0.5, 0, 0), MPoint(0, -extent, 0), tip, MPoint(0, extent, 0)};
 }
 
