@@ -18,6 +18,10 @@
 
 ### Changed
 
+- `bd_util.maya.node.inspection.inspect_scalar_attributes_by_type()`を追加。
+  ノードを作成せず、抽象型を含む登録済み型の標準scalar属性・正式path・表示名・
+  既定のkeyable／channelBoxフラグを取得する。配列配下・非対応型・個別ノードの追加属性は
+  含まない。既存のノード調査APIとscene・保存設定の移行は不要。
 - `RadioButtonSweep`と`CheckBoxSweep`の`add_button()`へ
   `apply_unchanged=False`と`group=None`を追加。基準の表示と同じ状態も明示要求でき、
   開始ボタンと同じgroupの登録だけになぞり入力を限定できる。

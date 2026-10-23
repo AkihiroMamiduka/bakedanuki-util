@@ -13,12 +13,59 @@ from bd_util.maya.node.inspection import (
     ScalarAttributeDisplayFilter,
     filter_scalar_attribute_paths,
     inspect_scalar_attributes,
+    inspect_scalar_attributes_by_type,
     inspect_scalar_attribute_types,
     matches_scalar_attribute_display_filter,
     node_display_name,
     selected_node_names,
 )
 from bd_util.maya.ui import resolve_bool_plug, resolve_float_plug
+
+
+@pytest.mark.parametrize("node_type", ("transform", "joint", "network"))
+def test_class_inspection_matches_standard_leaf_paths_without_scene_changes(
+    new_scene: None, node_type: str
+) -> None:
+    """型候補が標準leafと一致し、個体の追加属性と表示変更を含めない。"""
+    del new_scene
+    node = cmds.createNode(node_type)
+    expected = inspect_scalar_attributes(node)
+    cmds.addAttr(node, longName="instanceOnly", attributeType="double")
+    if node_type != "network":
+        cmds.setAttr(f"{node}.translateX", keyable=False, channelBox=False)
+    cmds.select(node)
+    cmds.flushUndo()
+    before = cmds.ls(long=True)
+    selected = cmds.ls(selection=True, long=True)
+
+    actual = inspect_scalar_attributes_by_type(node_type)
+
+    # 作成時に追加される動的属性は型候補に含めず、標準属性だけを照合する
+    expected_by_path = {info.path: info for info in expected}
+    assert actual
+    for info in actual:
+        assert info == expected_by_path[info.path]
+    assert "instanceOnly" not in {info.path for info in actual}
+    assert cmds.ls(long=True) == before
+    assert cmds.ls(selection=True, long=True) == selected
+    assert cmds.undoInfo(query=True, undoQueueEmpty=True)
+
+
+def test_class_inspection_supports_abstract_types_and_rejects_unknown_types(
+    new_scene: None,
+) -> None:
+    """抽象型から候補を取得し、未登録型と不正な引数を明示的に拒否する。"""
+    del new_scene
+    before = cmds.ls(long=True)
+    infos = inspect_scalar_attributes_by_type("shape")
+    assert "visibility" in {info.path for info in infos}
+    assert cmds.ls(long=True) == before
+    with pytest.raises(ValueError):
+        inspect_scalar_attributes_by_type("bdMissingNodeType")
+    with pytest.raises(ValueError):
+        inspect_scalar_attributes_by_type("")
+    with pytest.raises(TypeError):
+        inspect_scalar_attributes_by_type(cast(str, None))
 
 
 @pytest.mark.parametrize("paths", [None, ("tx", "tx", "missing", "v")])

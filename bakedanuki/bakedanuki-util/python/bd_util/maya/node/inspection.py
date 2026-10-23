@@ -39,6 +39,7 @@ __all__ = [
     "selected_node_names",
     "node_display_name",
     "inspect_scalar_attributes",
+    "inspect_scalar_attributes_by_type",
     "inspect_scalar_attribute_types",
 ]
 
@@ -228,7 +229,13 @@ def _scalar_kind(plug: om.MPlug) -> ScalarAttributeKind | None:
         if not ancestor.isChild:
             break
         ancestor = ancestor.parent()
-    attribute = plug.attribute()
+    return _scalar_attribute_kind(plug.attribute())
+
+
+def _scalar_attribute_kind(
+    attribute: om.MObject,
+) -> ScalarAttributeKind | None:
+    """属性オブジェクトから、対応するscalar値種別を分類する。"""
     if attribute.hasFn(om.MFn.kEnumAttribute):
         return "enum"
     if attribute.hasFn(om.MFn.kNumericAttribute):
@@ -267,6 +274,69 @@ def _require_attribute_paths(value: object) -> tuple[str, ...]:
         if not isinstance(path, str):
             raise TypeError("pathsには文字列のSequenceを指定してください")
         result.append(path)
+    return tuple(result)
+
+
+def inspect_scalar_attributes_by_type(
+    node_type: str,
+) -> tuple[ScalarAttributeInfo, ...]:
+    """ノードを作らず、型の標準scalar属性と既定の表示フラグを返す。
+
+    Args:
+        node_type: Mayaに登録済みのノード型名。抽象型も指定できる。
+
+    Returns:
+        型の属性順で並ぶ正式path・表示名・値種別・既定表示フラグ。
+        個別ノードの追加属性や表示フラグの変更は含まない。
+
+    Raises:
+        TypeError: `node_type`が文字列でない場合。
+        ValueError: `node_type`が空、または未登録の場合。
+    """
+    if not isinstance(cast(object, node_type), str):
+        raise TypeError("node_typeにはstrを指定してください")
+    if not node_type:
+        raise ValueError("登録済みのノード型名を指定してください")
+    try:
+        node_class = om.MNodeClass(node_type)
+        attribute_count = node_class.attributeCount
+    except RuntimeError as error:
+        raise ValueError(f"未登録のノード型です: {node_type}") from error
+
+    # 実plugを作らずに親階層を調べ、配列配下と非対応型を除外する
+    result: list[ScalarAttributeInfo] = []
+    for index in range(attribute_count):
+        attribute = node_class.attribute(index)
+        kind = _scalar_attribute_kind(attribute)
+        if kind is None:
+            continue
+        fn_attribute = om.MFnAttribute(attribute)
+        names: list[str] = []
+        ancestor = attribute
+        while not ancestor.isNull():
+            fn_ancestor = om.MFnAttribute(ancestor)
+            if fn_ancestor.array:
+                break
+            names.append(cast(str, fn_ancestor.name))
+            ancestor = fn_ancestor.parent
+        else:
+            name = cast(str, fn_attribute.name)
+            path = ".".join(reversed(names))
+            if len(names) == 1 and not fn_attribute.enforcingUniqueName:
+                path = "." + path
+            nice_name = cast(
+                str, cmds.attributeQuery(name, type=node_type, niceName=True)
+            )
+            result.append(
+                ScalarAttributeInfo(
+                    name=name,
+                    path=path,
+                    nice_name=nice_name,
+                    kind=kind,
+                    keyable=bool(fn_attribute.keyable),
+                    channel_box=bool(fn_attribute.channelBox),
+                )
+            )
     return tuple(result)
 
 

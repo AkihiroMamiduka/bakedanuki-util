@@ -32,13 +32,19 @@ DAGでは名前とパスが一意ならnamespaceを含む短名、同名ノー�
 同名・インスタンスの状態は呼び出し時点で再判定します。
 
 `inspect_scalar_attributes()`はMayaの属性定義順に`ScalarAttributeInfo`のtupleを
-返します。bool、float/double、距離、角度、enumのscalarを扱い、compoundの子も
-含めます。配列自身と配列配下、整数、time、文字列等は含めません。
+返します。bool、byte・short・long、float/double、距離、角度、enum、typed stringのscalarを
+扱い、compoundの子も含めます。配列自身と配列配下、time、matrix等は含めません。
 
 `ScalarAttributeInfo`は変更不能で、`name`（長名）、`path`（長名の完全な相対属性
 path）、`nice_name`、`kind`、`keyable`、`channel_box`を持ちます。`kind`は
-`bool`、`number`、`distance`、`angle`、`enum`のいずれかです。表示フラグによる除外、表示順の
+`bool`、`byte`、`short`、`long`、`number`、`distance`、`angle`、`enum`、`string`のいずれかです。表示フラグによる除外、表示順の
 並べ替え、複数nodeの同名対応は利用側が決めます。
+
+`inspect_scalar_attributes_by_type(node_type)`は、ノードを作成せずに登録済みノード型の
+標準属性を調べ、同じ`ScalarAttributeInfo`のtupleを返します。抽象型も指定できます。
+対応値種別と配列配下の除外は既存ノードの調査と共通です。keyableとchannel_boxは
+型の既定フラグであり、個別ノードの変更や追加属性を含みません。返却順は型の属性定義順です。
+未登録型と空文字列は`ValueError`、文字列以外は`TypeError`になります。
 
 MayaのChannel Boxに対応する表示条件は`keyable or channel_box`です。親compoundが
 非表示でも子はkeyableにできるため、親のフラグで子を除外しません。
