@@ -173,8 +173,8 @@ Triangle・Square・Diamond・Circleは既定軸でYZ平面にあり、
 Triangleの底辺は `Y=-0.37` です。
 DiamondはSquare各辺の中点を結び、縦横の対角線が1となります。
 Cylinderは側面と両端、Coneは側面と底面、Pyramidは側面と底面を持ちます。
-Fillを表示する場合、Coneは底円、Cylinderは両端の円を輪郭線として残し、
-円と先端・円同士を結ぶ補助線を省略します。小形状のConeも同じ規則です。
+ConeはFillのON/OFFにかかわらず、底円と先端を結ぶ補助線を表示します。小形状のConeも同様です。
+CylinderはFillを表示する場合に両端の円だけを残し、円同士を結ぶ補助線を省略します。
 Wireframeや非選択のTemplate・Referenceなど、面を表示しない状態では補助線を表示します。
 円周は64分割の折れ線、Sphereの面は32経度×16緯度で構成します。
 
@@ -340,12 +340,20 @@ Color系の立体とColorCornerCubeの小四角も同様です。負のスケー
 平面形状・Fin・Arrow2D・Arrow3Dの薄い面は両面から表示します。
 裏面による半透明の重なりは除きますが、別の面や形状同士が重なる部分の濃淡は残ります。
 
-Line・CrossLine各種・SquareCrossLine・SquareCrossLineTemplateのArrow2D・Arrow3Dは、
+Line・CrossLine各種・Circleの端に付けたArrow2D・Arrow3Dは、
 面を表示しない場合に軸線を先端までつなぎ、Fillを表示する場合は付け根までつなぎます。
+Circleは元の円弧を維持し、Offsetによる移動分を端の接線方向で結びます。
+SquareCrossLine・SquareCrossLineTemplateの中央ガイドは、Fill表示時も先端までつなぎます。
 延長部分にも軸色・Template線の表示種別を引き継ぎます。
-Wide系の帯とCircle系の接線による接合はこの切替の対象外です。
+Wide系の帯はこの切替の対象外です。
 `shapeFillTransparency=1` で面が完全透明の場合も、面を表示しない場合の線を使います。
 面はViewport 2.0用で、NURBSのCV・UV・材質・レンダリング用サーフェスは生成しません。
+
+Arrow3Dの直交面は主平面の正側だけに立ち上げ、肩の中央・立ち上がった肩・先端を結ぶ三角面にします。
+肩から主平面へ戻る辺はFill表示時も描きます。正側は形状の基準ローカル軸で決め、両端とも同じ側に揃えます。
+LineとCrossLine1st2ndでは+3rd、CrossLine1st3rdでは+2nd、CrossLine2nd3rdとCircle・Square系では+1stです。
+CrossLine3Axisの各軸は、1st方向で+3rd、2nd方向で+1st、3rd方向で+2ndに立ち上げます。
+主軸・補助軸や変形を適用すると、この直交面も本体と一緒に変換します。
 
 ColorCrossLine3Axisは正方向の線をRGB、負方向を通常色にします。
 ColorSphereはX=赤・Y=緑・Z=青の直交円で、ColorSphereCrossLineは同じ円へ
@@ -776,16 +784,16 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 26. shapeの31項目、PartShapeの11項目、PartTypeの3項目を確認し、旧複合名・Semicircle・旧属性の別名がない。
 27. 全本体でshapeFillを切り替え、Shadedでは面・輪郭、Wireframeでは輪郭、Wireframe on Shadedでは両方を表示する。ColorCornerCubeの小四角は常に残る。
 28. Triangle・Square・Circle・Fin・Arrow3Dは両面から見える。立体の本体・小形状・Color面は外側だけ見え、内側からは見えない。負のスケール・親transform・Animation行列の反転、透視・平行投影でも確認する。
-29. 各塗り面の外縁が輪郭と一致し、非等方・負スケールでも選択できる。ConeのFillは底円、CylinderのFillは両端の円を残して側線を省略し、面を表示しない場合は側線が戻る。Finの線は維持する。
+29. 各塗り面の外縁が輪郭と一致し、非等方・負スケールでも選択できる。Coneと小形状Coneの側線はFill表示時も残る。CylinderのFillは両端の円を残して側線を省略し、面を表示しない場合は側線が戻る。Finの線は維持する。
 30. shapePartのON/OFFで小形状だけが切り替わり、種類・配置・Offset・Size・Length・Widthの値を保持する。
 31. Part対象外11本体ではONでも本体が変わらず、対応本体へ切り替えると保持していたPart設定が作用する。
 32. Line・CrossLine各種でAtEndが代表軸の正側、AtEndsが全端となり、小形状のない端は元の±0.5に残る。
 33. Square系でAtEndが+2nd、AtEndsが4方向となり、Arrowは主方向と他の3方向の2:1の比率を維持する。
 34. Cube・Sphere・ColorSphere系でAtEndが+1st、AtEndsが6端となる。2D本体へ3DのPart、3D本体へ平面のPartも追加できる。
 35. Partの基準寸法0.1、外向きTriangle/Pyramid/Cone、端点ピボット、Offsetの加算距離、長手方向と横2軸の倍率を確認する。
-36. 変形したPartの手前で接続線が止まり、小形状内へ本体・Finの線や塗り面が残らない。Line・CrossLine・SquareCrossLine系のArrow2D/3Dだけは、面を表示しない場合に軸線を先端までつなぐ。
+36. 変形したPartの手前で接続線が止まり、小形状内へ本体・Finの線や塗り面が残らない。Line・CrossLine・CircleのArrow2D/3Dは面を表示しない場合に先端までつなぐ。SquareCrossLine系の中央ガイドはFill表示時も先端までつなぐ。
 37. PartとFinの倍率に負値・ゼロを使い、面積0の面を省略し、輪郭と塗り・選択・Shape / ShapeCenteredの範囲が揃う。
-38. Arrow3DのOffsetで元の付け根へ戻る中央線が出ず、直交する薄い面の形を保つ。閉じたPyramid/Coneの面と区別できる。
+38. Arrow3Dの直交面が基準軸の正側だけに立ち上がり、両端でも同じ側に揃う。肩から主平面へ戻る辺をFill表示時も描き、Offset・Size・Length・Widthに追従する。閉じたPyramid/Coneの面と区別できる。
 39. ArrowとOctahedronArrowはPart OFFでも既存の本体調整を適用する。OctahedronArrowは既定でOctahedronと同形、Offset・Lengthで先端だけを直線的に伸ばし、Width・Sizeで共有断面と後側の面も変える。
 40. Circle・WideCircleのshapeCircleAngleを0・120・180・240・360°へ変更し、上側中心を保って両端が対称に動く。Part OFFでも作用し、Sphere・小形状Circleには作用しない。
 41. Circleの塗りが中心からの扇形、WideCircleの塗りが帯となり、0°で円弧の線・面を省略、360°で継ぎ目の不要線を作らない。

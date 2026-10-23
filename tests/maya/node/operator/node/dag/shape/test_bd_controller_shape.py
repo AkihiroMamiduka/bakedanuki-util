@@ -3579,6 +3579,48 @@ def test_diamond_fits_square_midpoints(maya_cmds, maya_om, new_scene, filled):
 
 
 @pytest.mark.parametrize(
+    "preset,normal",
+    (
+        ("Line", 2),
+        ("WideLine", 2),
+        ("CrossLine1st2nd", 2),
+        ("WideCrossLine1st2nd", 2),
+        ("CrossLine1st3rd", 1),
+        ("WideCrossLine1st3rd", 1),
+        ("CrossLine2nd3rd", 0),
+        ("WideCrossLine2nd3rd", 0),
+        ("Circle", 0),
+        ("WideCircle", 0),
+    ),
+)
+@pytest.mark.parametrize("all_ends", (False, True))
+@pytest.mark.parametrize("filled", (False, True))
+def test_arrow3d_part_uses_positive_normal_at_every_endpoint(
+    maya_cmds, maya_om, new_scene, preset, normal, all_ends, filled
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name=preset, shape_fill=filled
+    )
+    for attribute, value in (
+        ("shapePart", True),
+        ("shapePartShape", 1),
+        ("shapePartType", int(all_ends)),
+        ("shapeCircleAngle", 240),
+        ("shapePartOffset", 0.2),
+        ("shapePartWidthScale", 2),
+    ):
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
+    bounds = _bounds(maya_om, shape)
+    assert bounds[normal] == pytest.approx(0, abs=1e-9)
+    assert bounds[normal + 3] == pytest.approx(0.1, abs=1e-9)
+    maya_cmds.setAttr(f"{shape}.shapeScale", -1, -1, -1)
+    reflected = _bounds(maya_om, shape)
+    assert reflected[normal] == pytest.approx(-0.1, abs=1e-9)
+    assert reflected[normal + 3] == pytest.approx(0, abs=1e-9)
+
+
+@pytest.mark.parametrize(
     "base,axes,side",
     (
         ("Line", (0,), 1),
@@ -4129,7 +4171,7 @@ def test_common_part_controls_update_cached_bounds(
         (False, 6, 0, (-0.5, 0, 0, 0.5, 0, 0)),
         (True, 6, 0, (-0.5, -0.05, -0.05, 0.55, 0.05, 0.05)),
         (True, 6, 1, (-0.55, -0.05, -0.05, 0.55, 0.05, 0.05)),
-        (True, 1, 0, (-0.5, -0.05, -0.05, 0.5, 0.05, 0.05)),
+        (True, 1, 0, (-0.5, -0.05, 0, 0.5, 0.05, 0.05)),
         (False, 1, 1, (-0.5, 0, 0, 0.5, 0, 0)),
     ):
         for name, value in zip(targets, (enabled, kind, placement)):
@@ -4160,7 +4202,7 @@ def test_common_part_option_animation(maya_cmds, maya_om, new_scene):
             )
     for frame, expected in (
         (10, (-0.55, -0.05, -0.05, 0.55, 0.05, 0.05)),
-        (20, (-0.5, -0.05, -0.05, 0.5, 0.05, 0.05)),
+        (20, (-0.5, -0.05, 0, 0.5, 0.05, 0.05)),
         (1, (-0.5, 0, 0, 0.5, 0, 0)),
     ):
         maya_cmds.currentTime(frame)

@@ -270,7 +270,9 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
     for (const auto& site : optionPartSites(settings)) {
         PartBuilder head(settings.fill);
         const auto volumeStart = result.volumes.size();
-        const MVector up = site.along ^ site.side;
+        MVector up = site.along ^ site.side;
+        // 主平面の法線は基準軸に平行。両端とも同じ軸の正側へ立ち上げる。
+        if (settings.partShape == 1 && up.x + up.y + up.z < 0) up = -up;
         const auto point = [&](const MPoint& p) {
             return site.endpoint + site.along * (p.x * partLength(settings) + settings.partOffset)
                 + site.side * (p.y * partWidth(settings)) + up * (p.z * partWidth(settings));
@@ -308,7 +310,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
                 if (site.attached) {
                     planar({MPoint(0, 0, 0), MPoint(0, 0, 0.0625 * site.arrowSize), MPoint(tip, 0, 0)}, true);
                 } else {
-                    planar({MPoint(shoulder, 0, width), MPoint(tip, 0, 0), MPoint(shoulder, 0, -width)}, true);
+                    planar({MPoint(shoulder, 0, 0), MPoint(shoulder, 0, width), MPoint(tip, 0, 0)}, true);
                 }
             }
         } else if (settings.partShape <= 5) {
@@ -431,8 +433,11 @@ void appendOptionCircle(PartBuilder& builder, const ShapeSettings& settings,
         builder.stroke(outerPoints);
         if (builder.filled && !wideBase) builder.geometry.fillParts = std::move(arc.geometry.fillParts);
         for (std::size_t i = 0; i < sites.size(); ++i) {
-            if (!sites[i].attached && heads.stops[i] > 1e-12) {
-                builder.stroke({sites[i].endpoint, sites[i].endpoint + sites[i].along * heads.stops[i]});
+            if (sites[i].attached) continue;
+            const bool openArrow = !settings.fill && settings.partShape <= 1 && !wideBase;
+            const double stop = openArrow ? settings.partOffset : heads.stops[i];
+            if ((openArrow && std::abs(stop) > 1e-12) || stop > 1e-12) {
+                builder.stroke({sites[i].endpoint, sites[i].endpoint + sites[i].along * stop});
             }
         }
         return;
@@ -536,10 +541,12 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
         auto volume = optionSolidVolume(body.geometry);
         if (!volume.empty()) trimOptionGeometry(heads.geometry, {std::move(volume)}, settings.fill, settings.partShape >= 6);
     } else if (!bodyVolumes.empty()) trimOptionStrokes(heads.geometry, bodyVolumes);
-    trimOptionGeometry(builder.geometry, heads.volumes, settings.fill);
-    // 開いた矢印では軸線を先端へつなぎ、塗り面の内部には線を残さない。
-    if (!settings.fill && settings.partShape <= 1 &&
-        ((straight && !optionWideOutline(outline)) || outline == 108 || outline == 109)) {
+    // 開いた円弧矢印では元の円弧を先端まで残す。
+    const bool openCircleArrow = outline == 27 && !settings.fill && settings.partShape <= 1 && settings.partType != 2;
+    if (!openCircleArrow) trimOptionGeometry(builder.geometry, heads.volumes, settings.fill);
+    // Squareの中央ガイドは塗り面にも通す。通常の軸線は面を表示しない場合だけ延長する。
+    if (settings.partShape <= 1 &&
+        ((!settings.fill && straight && !optionWideOutline(outline)) || outline == 108 || outline == 109)) {
         for (std::size_t i = 0; i < sites.size(); ++i) {
             const auto& site = sites[i];
             const double tip = site.attached ? 0.125 * site.arrowSize * partLength(settings) : 0.0;

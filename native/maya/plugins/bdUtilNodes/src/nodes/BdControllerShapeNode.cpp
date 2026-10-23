@@ -778,11 +778,9 @@ Strokes makeStrokes(
 ) {
     Strokes strokes;
     appendPresetGeometry(transform.settings.shape, transform, strokes, styles);
-    if (transform.settings.fill) {
-        const short outline = outlinePresetIndex(transform.settings.shape);
-        const std::size_t circles = outline == 36 ? 2 : (outline == 43 ? 1 : strokes.size());
-        strokes.resize(circles);
-        styles.resize(circles);
+    if (transform.settings.fill && outlinePresetIndex(transform.settings.shape) == 36) {
+        strokes.resize(2);
+        styles.resize(2);
     }
     return strokes;
 }
@@ -1573,9 +1571,8 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const short outline = outlinePresetIndex(settings.shape);
     const bool arrowLines = settings.part && settings.partShape <= 1 &&
         (outline == 1 || outline == 4 || outline == 5 || outline == 45 ||
-         outline == 52 || outline == 53 || outline == 108 || outline == 109);
-    const bool conePart = settings.part && settings.partShape == 10 && optionPartSupported(outline);
-    if (settings.fill && (arrowLines || conePart || outline == 36 || outline == 43)) {
+         outline == 52 || outline == 53 || outline == 27 || outline == 108 || outline == 109);
+    if (settings.fill && (arrowLines || outline == 36)) {
         ShapeSettings wireframe = settings;
         wireframe.fill = false;
         result->wireframeGeometry = makeBaseGeometry(wireframe);

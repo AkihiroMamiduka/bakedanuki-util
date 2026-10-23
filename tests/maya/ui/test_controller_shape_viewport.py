@@ -218,6 +218,7 @@ def test_thin_fill_remains_visible_from_both_sides(
         ("CrossLine2nd3rd", 1),
         ("CrossLine3Axis", 0),
         ("ColorCrossLine3Axis", 1),
+        ("Circle", 1),
         ("SquareCrossLine", 0),
         ("SquareCrossLineTemplate", 1),
         ("Line", 10),
@@ -293,10 +294,12 @@ def _brightness_near_world(panel, pixels, point):
     )
 
 
-@pytest.mark.parametrize("preset", ("Line", "SquareCrossLine"))
+@pytest.mark.parametrize(
+    "preset", ("Line", "Circle", "SquareCrossLine", "SquareCrossLineTemplate")
+)
 @pytest.mark.parametrize("part_shape", (0, 1))
 @pytest.mark.parametrize("draw_on_top", (False, True))
-def test_arrow_shaft_reaches_tip_only_without_fill(
+def test_arrow_tip_connection_matches_fill_and_guide_style(
     maya_cmds, new_scene, tmp_path, preset, part_shape, draw_on_top
 ):
     if maya_cmds.about(batch=True):
@@ -308,6 +311,7 @@ def test_arrow_shaft_reaches_tip_only_without_fill(
         shapePart=True,
         shapePartShape=part_shape,
         shapePartOffset=0.05,
+        shapeCircleAngle=240,
         shapeDrawOnTop=draw_on_top,
     ) as (_, shape, camera, _, panel):
         maya_cmds.setAttr(f"{camera}.translate", 3, 2.5, 4)
@@ -316,8 +320,16 @@ def test_arrow_shaft_reaches_tip_only_without_fill(
             target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
         )
         maya_cmds.delete(constraint, target)
-        if preset == "SquareCrossLine":
+        if preset.startswith("SquareCrossLine"):
             point = (0, 0.645, 0)
+        elif preset == "Circle":
+            import math
+
+            point = (
+                0,
+                -0.25 - 0.02 * math.cos(math.pi / 6),
+                0.5 * math.cos(math.pi / 6) - 0.01,
+            )
         else:
             point = (0.52, 0, 0)
         open_arrow = _capture_view(panel, tmp_path / "open.png")
@@ -325,11 +337,19 @@ def test_arrow_shaft_reaches_tip_only_without_fill(
         filled_arrow = _capture_view(panel, tmp_path / "filled.png")
         open_brightness = _brightness_near_world(panel, open_arrow, point)
         filled_brightness = _brightness_near_world(panel, filled_arrow, point)
-        assert open_brightness > filled_brightness + 120, (
-            "開いた矢印の軸線が先端へ届かないか、Fillの内側に軸線が残っている",
-            open_brightness,
-            filled_brightness,
-        )
+        if preset.startswith("SquareCrossLine"):
+            assert open_brightness > 200
+            assert filled_brightness >= open_brightness - 30, (
+                "Fill表示時に中央ガイドが先端へ届かないか、線の表示種別が変わっている",
+                open_brightness,
+                filled_brightness,
+            )
+        else:
+            assert open_brightness > filled_brightness + 120, (
+                "開いた矢印が先端へ届かないか、Fillの内側に線が残っている",
+                open_brightness,
+                filled_brightness,
+            )
 
 
 @pytest.mark.parametrize(
@@ -341,7 +361,7 @@ def test_arrow_shaft_reaches_tip_only_without_fill(
     ),
 )
 @pytest.mark.parametrize("draw_on_top", (False, True))
-def test_round_solid_side_lines_are_hidden_only_with_visible_fill(
+def test_cone_keeps_side_lines_and_cylinder_hides_them_with_fill(
     maya_cmds, new_scene, tmp_path, preset, point, options, draw_on_top
 ):
     if maya_cmds.about(batch=True):
@@ -357,9 +377,52 @@ def test_round_solid_side_lines_are_hidden_only_with_visible_fill(
         shaded = _capture_view(panel, tmp_path / "shaded.png")
         maya_cmds.modelEditor(panel, edit=True, displayAppearance="wireframe")
         wireframe = _capture_view(panel, tmp_path / "wireframe.png")
-        assert _brightness_near_world(panel, wireframe, point) > (
-            _brightness_near_world(panel, shaded, point) + 120
-        ), "Fill表示時に側線が残るか、Wireframeで側線が消えている"
+        wire_brightness = _brightness_near_world(panel, wireframe, point)
+        shaded_brightness = _brightness_near_world(panel, shaded, point)
+        if preset == "Cylinder":
+            assert wire_brightness > shaded_brightness + 120
+        else:
+            assert wire_brightness > 600
+            assert shaded_brightness >= wire_brightness - 30, (
+                "ConeのFill表示時に側線が消えている",
+                shaded_brightness,
+            )
+
+
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("all_ends", (False, True))
+def test_arrow3d_raises_only_on_positive_side_and_draws_shoulder_edge(
+    maya_cmds, new_scene, tmp_path, filled, all_ends
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    import math
+
+    with _drawing_view(
+        maya_cmds,
+        "Line",
+        shapeFill=filled,
+        shapePart=True,
+        shapePartShape=1,
+        shapePartType=int(all_ends),
+    ) as (_, _, camera, _, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 0, -4, 0)
+        target = maya_cmds.createNode("transform")
+        constraint = maya_cmds.aimConstraint(
+            target, camera, aimVector=(0, 0, -1), upVector=(0, 0, 1)
+        )
+        maya_cmds.delete(constraint, target)
+        pixels = _capture_view(panel, tmp_path / "side.png")
+        depth = 0.1 * math.cos(math.pi / 6)
+        for sign in (-1, 1) if all_ends else (1,):
+            shoulder = ((0.5 - depth) * sign, 0, 0.025)
+            negative = ((0.5 - depth * 0.5) * sign, 0, -0.025)
+            assert _brightness_near_world(panel, pixels, shoulder) > 600
+            assert _brightness_near_world(panel, pixels, negative) < 120, (
+                "Arrow3Dが主平面の負側にも作られている",
+                sign,
+            )
 
 
 @pytest.mark.parametrize(
