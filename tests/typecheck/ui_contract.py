@@ -40,6 +40,7 @@ from bd_util.ui import (
     BoolValue,
     BoolValueStore,
     BoolViewModel,
+    DialogAnchorTracker,
     FloatStepProfile,
     FloatStepSetting,
     FloatUnitKind,
@@ -50,7 +51,9 @@ from bd_util.ui import (
     WindowController,
     ensure_window_on_screen,
     exec_dialog_near,
+    get_open_file_names_near,
     get_save_file_name_near,
+    warning_near,
     qt,
 )
 
@@ -60,6 +63,18 @@ class SampleWindow(QtWidgets.QDialog):
 
 
 assert_type(exec_dialog_near(SampleWindow(), qt.QPoint(100, 100)), int)
+assert_type(DialogAnchorTracker(SampleWindow()).position(), qt.QPoint)
+assert_type(
+    DialogAnchorTracker(SampleWindow()).position(SampleWindow()), qt.QPoint
+)
+assert_type(
+    warning_near(None, "確認", "未保存です", qt.QPoint(100, 100)),
+    qt.QMessageBox.StandardButton,
+)
+assert_type(
+    get_open_file_names_near(None, "読込", "", "JSON (*.json)", qt.QPoint()),
+    tuple[list[str], str],
+)
 assert_type(
     get_save_file_name_near(None, "保存", "", "JSON (*.json)", qt.QPoint()),
     tuple[str, str],

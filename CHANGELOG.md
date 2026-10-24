@@ -18,6 +18,12 @@
 
 ### Changed
 
+- 操作位置へ表示するQt画面APIへ`warning_near()`と`get_open_file_names_near()`を追加。
+  警告の標準ボタンと、Qt版の既存ファイル複数選択を扱える。
+  `exec_dialog_near()`の実行中に対象ダイアログ配下へ表示されるQt標準確認も、
+  元の操作位置へ配置する。標準の上書き確認と選択結果は維持する。
+  `DialogAnchorTracker`でマウス位置とキーボード操作元の中心を使い分けられる。
+  既存API・scene・保存設定の移行は不要。
 - 共有`bakedanuki`メニューと各categoryを`tearOff=True`で作成するよう変更。
   既存メニュー配下の配置でも、先頭の点線からMaya標準の独立Windowへ切り離せる。
   切り離し側の項目・設定は元メニューに同期し、元メニューの破棄で終了する。

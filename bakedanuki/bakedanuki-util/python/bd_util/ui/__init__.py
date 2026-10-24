@@ -1,7 +1,13 @@
 # coding: utf-8
 
 from . import qt
-from .dialog import exec_dialog_near, get_save_file_name_near
+from .dialog_anchor import DialogAnchorTracker
+from .dialog import (
+    exec_dialog_near,
+    get_open_file_names_near,
+    get_save_file_name_near,
+    warning_near,
+)
 from .binding import (
     IntBinding,
     IntLabel,
@@ -94,7 +100,10 @@ from .window_state import (
 )
 
 __all__ = [
+    "DialogAnchorTracker",
     "exec_dialog_near",
+    "warning_near",
+    "get_open_file_names_near",
     "get_save_file_name_near",
     "IntBinding",
     "IntLabel",

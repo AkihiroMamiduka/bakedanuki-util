@@ -9,7 +9,12 @@ from typing import cast
 
 from . import qt
 
-__all__ = ["exec_dialog_near", "get_save_file_name_near"]
+__all__ = [
+    "exec_dialog_near",
+    "warning_near",
+    "get_open_file_names_near",
+    "get_save_file_name_near",
+]
 
 
 def _available_geometry(dialog: qt.QDialog, anchor: qt.QPoint) -> qt.QRect:
@@ -58,9 +63,13 @@ class _DialogPlacement(qt.QObject):
     def eventFilter(self, watched: qt.QObject, event: qt.QEvent) -> bool:
         """表示時の外枠確定後に同じ起点で補正し、他の通知は通常処理へ渡す。"""
         if watched is self.dialog and event.type() == qt.QEvent.Type.Show:
-            self._place()
-            self._timer.start(0)
+            self.correct_after_show()
         return super().eventFilter(watched, event)
+
+    def correct_after_show(self) -> None:
+        """表示通知中と次のイベントループで、確定した外枠へ補正する。"""
+        self._place()
+        self._timer.start(0)
 
     def _place(self) -> None:
         """画面より大きい場合だけ縮小し、起点を中心に外枠を収める。"""
@@ -117,10 +126,62 @@ class _DialogPlacement(qt.QObject):
         self.deleteLater()
 
 
+class _ChildMessageBoxPlacement(qt.QObject):
+    """実行中のダイアログ配下に現れる標準確認だけを同じ起点へ配置する。"""
+
+    def __init__(self, dialog: qt.QDialog, anchor: qt.QPoint) -> None:
+        """対象の親階層と起点を保持し、実行中だけ表示通知を監視する。"""
+        super().__init__(dialog)
+        self._dialog = dialog
+        self._anchor = qt.QPoint(anchor)
+        self._placements: list[_DialogPlacement] = []
+        self._application = qt.QApplication.instance()
+        if self._application is not None:
+            self._application.installEventFilter(self)
+
+    def eventFilter(self, watched: qt.QObject, event: qt.QEvent) -> bool:
+        """親ダイアログに属する確認だけを捕捉し、内容と標準動作は維持する。"""
+        if (
+            event.type() == qt.QEvent.Type.Show
+            and isinstance(watched, qt.QMessageBox)
+            and watched is not self._dialog
+            and self._owns_message(watched)
+            and not any(
+                qt.isValid(placement) and placement.dialog is watched
+                for placement in self._placements
+            )
+        ):
+            placement = _DialogPlacement(watched, self._anchor)
+            self._placements.append(placement)
+            placement.prepare()
+            placement.correct_after_show()
+        return super().eventFilter(watched, event)
+
+    def _owns_message(self, message: qt.QMessageBox) -> bool:
+        """Window境界で途切れる祖先判定を避け、実際の親Widget階層を辿る。"""
+        parent = cast(qt.QWidget | None, message.parentWidget())
+        while parent is not None:
+            if parent is self._dialog:
+                return True
+            parent = cast(qt.QWidget | None, parent.parentWidget())
+        return False
+
+    def dispose(self) -> None:
+        """共有イベント監視と、存命の標準確認に付けた補正を解除する。"""
+        if self._application is not None:
+            self._application.removeEventFilter(self)
+        for placement in self._placements:
+            if qt.isValid(placement):
+                placement.dispose()
+        self._placements.clear()
+        self.deleteLater()
+
+
 def exec_dialog_near(dialog: qt.QDialog, anchor: qt.QPoint) -> int:
     """`anchor`を中心に、外枠まで画面内へ収めてモーダル実行する。
 
     通常のQtダイアログ用です。ネイティブのファイルダイアログは対象外です。
+    実行中に`dialog`配下へ表示されるQt標準の確認も同じ起点へ配置します。
     表示直後に一度補正し、その後の利用者による移動は追跡しません。
 
     Args:
@@ -131,12 +192,90 @@ def exec_dialog_near(dialog: qt.QDialog, anchor: qt.QPoint) -> int:
         `QDialog.exec()`の結果。ダイアログ自体は削除しません。
     """
     placement = _DialogPlacement(dialog, anchor)
+    messages = _ChildMessageBoxPlacement(dialog, anchor)
     try:
         placement.prepare()
         return int(dialog.exec())
     finally:
+        if qt.isValid(messages):
+            messages.dispose()
         if qt.isValid(placement):
             placement.dispose()
+
+
+def warning_near(
+    parent: qt.QWidget | None,
+    title: str,
+    text: str,
+    anchor: qt.QPoint,
+    buttons: qt.QMessageBox.StandardButton = qt.QMessageBox.StandardButton.Ok,
+    default_button: qt.QMessageBox.StandardButton = (
+        qt.QMessageBox.StandardButton.NoButton
+    ),
+) -> qt.QMessageBox.StandardButton:
+    """警告を操作位置へ表示し、選択したQt標準ボタンを返す。
+
+    Args:
+        parent: 所有Widget。`None`の場合は親を指定しません。
+        title: ダイアログのタイトル。
+        text: 警告の本文。
+        anchor: 操作開始時に記録したグローバル座標。
+        buttons: 表示する標準ボタンの組合せ。既定は`Ok`です。
+        default_button: 初期選択。`NoButton`ではQtの標準選択を使用します。
+
+    Returns:
+        選択した標準ボタン。閉じる操作の扱いはQtの標準動作に従います。
+    """
+    dialog = qt.QMessageBox(parent)
+    dialog.setWindowTitle(title)
+    dialog.setIcon(qt.QMessageBox.Icon.Warning)
+    dialog.setText(text)
+    dialog.setStandardButtons(buttons)
+    if default_button != qt.QMessageBox.StandardButton.NoButton:
+        dialog.setDefaultButton(default_button)
+    try:
+        return qt.QMessageBox.StandardButton(exec_dialog_near(dialog, anchor))
+    finally:
+        dialog.deleteLater()
+
+
+def get_open_file_names_near(
+    parent: qt.QWidget | None,
+    caption: str,
+    directory: str,
+    name_filter: str,
+    anchor: qt.QPoint,
+) -> tuple[list[str], str]:
+    """Qt版の複数ファイル選択を操作位置へ表示する。
+
+    Args:
+        parent: 所有Widget。`None`の場合は親を指定しません。
+        caption: ダイアログのタイトル。
+        directory: 初期フォルダー、または初期ファイル名を含むパス。
+        name_filter: Qt形式のファイル名filter。
+        anchor: 操作開始時に記録したグローバル座標。
+
+    Returns:
+        選択したファイル名の一覧とfilter。取消時は空の一覧と空文字です。
+    """
+    dialog = qt.QFileDialog(parent)
+    dialog.setOption(qt.QFileDialog.Option.DontUseNativeDialog, True)
+    dialog.setWindowTitle(caption)
+    dialog.setAcceptMode(qt.QFileDialog.AcceptMode.AcceptOpen)
+    dialog.setFileMode(qt.QFileDialog.FileMode.ExistingFiles)
+    dialog.setNameFilter(name_filter)
+    initial = Path(directory).expanduser()
+    if initial.is_dir():
+        dialog.setDirectory(str(initial))
+    else:
+        dialog.setDirectory(str(initial.parent))
+        dialog.selectFile(initial.name)
+    try:
+        if exec_dialog_near(dialog, anchor) != qt.QDialog.DialogCode.Accepted:
+            return [], ""
+        return dialog.selectedFiles(), dialog.selectedNameFilter()
+    finally:
+        dialog.deleteLater()
 
 
 def get_save_file_name_near(

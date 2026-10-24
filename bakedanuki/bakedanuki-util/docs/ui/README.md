@@ -1658,29 +1658,56 @@ Windows予約名や使用できない文字は拒否されます。
 操作開始時のグローバル座標`anchor`を中心にし、その画面の`availableGeometry()`へ
 タイトルバー・外枠まで収めます。サイズを維持できない場合だけ縮小します。
 モニターが見つからなければWindowの画面・primary screenの順に補完します。
+実行中にそのダイアログ配下へ表示される`QMessageBox`も同じ起点へ配置します。
+保存先選択の標準上書き確認も対象とし、ボタンや確認内容、上書き可否の判断はQtの動作を維持します。
+対象外のWindowに属する確認へは適用せず、実行終了・例外時に共有イベント監視を解除します。
 
 ```python
-from bd_util.ui import exec_dialog_near, get_save_file_name_near, qt
+from bd_util.ui import (
+    DialogAnchorTracker,
+    exec_dialog_near,
+    get_open_file_names_near,
+    get_save_file_name_near,
+    qt,
+    warning_near,
+)
 
-anchor = qt.QCursor.pos()
+anchor_tracker = DialogAnchorTracker(parent)
+# 操作の入口で起点を記録し、途中の確認を含めて同じ値を引き継ぐ
+anchor = anchor_tracker.position()
 dialog = qt.QDialog(parent)
 # 入力部品とレイアウトを構築する
 result = exec_dialog_near(dialog, anchor)
 dialog.deleteLater()
 
+warning_near(parent, "確認", "未保存の変更があります", anchor)
+paths, selected_filter = get_open_file_names_near(
+    parent, "読込元", "C:/work", "JSON (*.json)", anchor
+)
 path, selected_filter = get_save_file_name_near(
     parent, "保存先", "C:/work", "JSON (*.json)", anchor, "json"
 )
 ```
 
 未保存確認などを挟む場合は、確認前に`anchor`を取得して引き継いでください。
+`DialogAnchorTracker`はツールの入力を追跡し、マウス操作ではカーソル位置、
+キーボード操作では関連するフォーカスWidgetの中心を返します。
+`position(source)`でfocusと最後の入力元が無効なときの補完元Widgetを明示できます。
+入力追跡が不要なら従来どおり
+`qt.QCursor.pos()`でグローバル座標を取得しても構いません。
+trackerはツールの所有Widgetを親とし、明示的に終了する場合は`dispose()`を呼びます。
 表示直後に外枠寸法を再確認し、その後の利用者による移動は追跡しません。
 実行終了・例外時にイベント監視と所有タイマーを解除し、最小寸法・layout制約を戻します。
 `dialog`自体の破棄は呼出し元が行います。配置の永続化やMayaの状態変更は行いません。
 
-`get_save_file_name_near()`は配置を制御できるQt版の`QFileDialog`を使用するため、
+`warning_near()`はQtの警告を表示し、選択された`QMessageBox.StandardButton`を返します。
+既定は`Ok`ボタンで、複数ボタンの組合せと`default_button`も指定できます。
+`get_open_file_names_near()`は既存ファイルの複数選択に対応し、取消時は`([], "")`を返します。
+
+ファイル選択APIは配置を制御できるQt版の`QFileDialog`を使用するため、
 Windows標準の保存画面とは外観が変わります。フォルダーだけならファイル名は未入力、
-ファイル名まで指定した場合はその名前を初期値にします。末尾引数で既定拡張子を指定できます。
+ファイル名まで指定した場合はその名前を初期値にします。
+`get_save_file_name_near()`の末尾引数で既定拡張子を指定できます。
 標準の上書き確認を有効にし、取消時は`("", "")`を返します。実際の保存・上書き可否は呼出し元の責務です。
 ネイティブのファイルダイアログへ`exec_dialog_near()`を適用する使い方は対象外です。
 
