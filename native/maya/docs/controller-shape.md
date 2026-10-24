@@ -11,6 +11,17 @@
 手順、移行用ドキュメントは作成せず、この仕様書とサンプルを現行仕様へ揃えます。
 一度公開した `MTypeId` は変更・再利用しません。
 
+## 今回の開発範囲
+
+2026-10-25時点で、本体35種類、Part11種類、Circle系・CrossCircle系の円周変形と接合、
+Fin、表示・選択・フォーカス範囲・キャッシュを本仕様書の範囲で一区切りにします。
+Circle系の6種類のPartは円周変形、残る5種類の立体Partは寸法を保つ角度補正を使い、
+AtApexは従来の配置を使います。Circle系・CrossCircle系6本体ではFinを生成しません。
+
+Part矢印の向きの共通化と多数配置時の再生性能測定は、下記の保留事項・今後の候補です。
+現在の開発範囲へ必須の追加実装として含めず、実際の利用で必要性や負荷が確認できた際に再検討します。
+再開時は、再現シーンと期待する形状・表示を先に定め、この仕様書と既存の回帰テストを確認してください。
+
 ## 作成例
 
 ```python
@@ -896,6 +907,42 @@ Maya 2025 でその plug-in をロードして `generate_node_class_file()` か�
 を参照してください。生成ファイルは手編集せず、テストと仕様書を同時に更新します。
 完了前の統一検証は repository 直下で `.\scripts\verify.cmd -IncludeNative` です。
 
+### Circle系の保守時に確認する実装経路
+
+形状の分岐と接合の入口は `BdControllerShapeOptions.inc` の `makeOptionShapeGeometry()` です。
+下記のファイルは同じ `src/nodes` ディレクトリにあり、独立したノードではなく、その生成処理を分担します。
+
+| ファイル | 主な責務 |
+| --- | --- |
+| `BdControllerShapeAxialWrap.inc` | 円周方向の周期処理・断面合成と、Axialの主面・立ち上がり |
+| `BdControllerShapeRadialWrap.inc` | Circle・Radialの主面・立ち上がり、内半径0への制限、Circleの扇形との合成 |
+| `BdControllerShapeAxialHead.inc` / `BdControllerShapeRadialHead.inc` | 円弧へ曲げない立体Partの固定点・接合位置・向き |
+| `BdControllerShapeAxialCircle.inc` / `BdControllerShapeRadialCircle.inc` | 立体Partと本体の円弧・帯との接合 |
+| `BdControllerShapeCrossCircle.inc` | 直交する2つの円の合成、Part内部の切取り、Axial交差部の平面接合 |
+
+RadialWrapはAxialWrapの周期・断面・分割位置の処理を共用します。
+Axial側の共通処理を変更するときは、Radialと両方のCross版も確認してください。
+`AxialHeadPlacement` はRadialの接合判定にも使うため、名前だけを根拠にAxial専用と判断しません。
+
+Circleの塗りは元の扇形を保ち、Partの半径区間と重複しない面へ合成します。
+帯と同じ対称な幅の処理だけへまとめると、中心側の塗りを失うため、この経路を残してください。
+塗りOFFのCircleのArrow2D・Arrow3Dは開いたV字と円周上の軸線を使い、
+塗りONでは扇形内部の輪郭を省略します。線と塗りの生成を共通化する際も、この違いを保ちます。
+Crossの平面接合はWideCrossCircleAxialだけの仕様で、Radialへ自動的に適用しません。
+
+円周は `kCircleSegments=64` を基準にし、Partの境界・交差・中心へ達する位置を追加して分割します。
+頂点数は固定ではなく、boundsは実際に生成した頂点を包みます。
+分割数や交点を変更する場合は、連続した曲線の理論上の極値と、生成頂点から得るboundsを区別してください。
+
+数値の回帰は `tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py`、
+描画の回帰は `tests/maya/ui/test_controller_shape_viewport.py` にあります。
+`radial_circle`・`axial_circle`・`cross_circle` のテストを変更対象に応じて確認し、
+長さ6.7、複数周、負値・ゼロ、大きな幅、Offsetの接続保持、AtApexへの切替を含めます。
+数値・履歴・保存再読込の成功と、実GUIでの輪郭・半透明面の成功は別々に確認します。
+統一検証でbatch実行時の描画テストがskipしても、GUIでの成功を意味しません。
+再実行には [Viewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) の手順を使い、
+`build/` 内の一時的な起動スクリプトや画像の存在を前提にしないでください。
+
 ### 保留中: Part矢印の向きの共通化
 
 2026-10-23の検討では、形状間のArrow2D / Arrow3Dの向きの統一は保留とし、
@@ -933,6 +980,8 @@ Finは `BdControllerShapeFin.inc`、軸変換とColor系の制約は `BdControll
 再生成回数も記録し、現在のキャッシュが効く条件と負荷の大きい処理を特定します。
 最適化が必要と分かった場合は、描画・クリック選択・`boundingBox()` の結果を
 保ったまま、実測した負荷箇所に絞って変更します。
+長いPartやCross版では、周期断面の合成、Part内部を除く切取り、共面部分の合成も測定対象です。
+性能測定の前に、これらを既知の不具合や必須のリファクタとして扱わないでください。
 
 ## 表示と選択
 
