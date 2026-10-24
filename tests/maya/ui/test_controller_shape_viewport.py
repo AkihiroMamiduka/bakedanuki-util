@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import math
 from contextlib import contextmanager
 from ctypes import string_at
 from pathlib import Path
@@ -10,6 +11,15 @@ from pathlib import Path
 import pytest
 
 pytestmark = pytest.mark.maya
+
+CIRCLE_SHAPES = (
+    "Circle",
+    "WideCircleRadial",
+    "WideCircleAxial",
+    "CrossCircle",
+    "WideCrossCircleRadial",
+    "WideCrossCircleAxial",
+)
 
 
 def _capture_view(panel, path):
@@ -37,6 +47,15 @@ def _capture_view(panel, path):
     image.readFromFile(str(path))
     width, height = image.getSize()
     return string_at(image.pixels(), width * height * 4)
+
+
+def _aim_at_origin(cmds, camera, position):
+    cmds.setAttr(f"{camera}.translate", *position)
+    target = cmds.createNode("transform")
+    constraint = cmds.aimConstraint(
+        target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
+    )
+    cmds.delete(constraint, target)
 
 
 @contextmanager
@@ -579,6 +598,87 @@ def test_highlighting_off_matches_dormant_display(
     finally:
         maya_cmds.deleteUI(window)
         maya_cmds.displayRGBColor("background", *previous_background)
+
+
+@pytest.mark.parametrize("preset", CIRCLE_SHAPES)
+@pytest.mark.parametrize("filled", (False, True))
+def test_circle_fin_has_no_visible_geometry(
+    maya_cmds, new_scene, tmp_path, preset, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeFill=filled,
+        shapeCircleAngle=240,
+        shapePart=True,
+        shapePartShape=1,
+        shapePartType=1,
+        shapePartSize=2,
+    ) as (_, shape, camera, _, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        baseline = _capture_view(panel, tmp_path / "without_fin.png")
+        maya_cmds.setAttr(f"{shape}.shapeFin", True)
+        maya_cmds.setAttr(f"{shape}.shapeFinSize", 2)
+        maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 3)
+        for kind, height in ((0, 2), (1, -2)):
+            maya_cmds.setAttr(f"{shape}.shapeFinType", kind)
+            maya_cmds.setAttr(f"{shape}.shapeFinHeight", height)
+            assert (
+                _capture_view(panel, tmp_path / f"fin_{kind}.png") == baseline
+            )
+
+
+@pytest.mark.parametrize("preset", CIRCLE_SHAPES[3:])
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("placement", (0, 1, 2))
+def test_cross_circle_part_sites_and_planes(
+    maya_cmds, new_scene, tmp_path, preset, filled, placement
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeFill=filled,
+        shapeCircleAngle=180,
+        shapePart=True,
+        shapePartShape=0,
+        shapePartType=placement,
+        shapePartSize=10 if placement == 2 else 2,
+    ) as (_, _, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        maya_cmds.setAttr(
+            f"{camera_shape}.orthographicWidth", 3.8 if placement == 2 else 1.8
+        )
+        pixels = _capture_view(panel, tmp_path / "parts.png")
+        axial = preset.endswith("Axial")
+        if placement == 2:
+            # 頂部は代表円の主面に一つだけ付け、もう一方の主面へ複製しない。
+            wing = (0.75, 0.5, 0) if axial else (0, 0.45096189432, 0.75)
+            other = (0, 0.5, 0.75) if axial else (0.75, 0.45096189432, 0)
+            assert _brightness_near_world(panel, pixels, wing) > 600
+            assert _brightness_near_world(panel, pixels, other) < 120
+        else:
+            depth = 0.2 * math.cos(math.pi / 6)
+            wing = (
+                (0.1, 0.5 * math.sin(2 * depth), 0.5 * math.cos(2 * depth))
+                if axial
+                else (0, depth, 0.6)
+            )
+            probes = (
+                wing,
+                (wing[0], wing[1], -wing[2]),
+                (wing[2], wing[1], -wing[0]),
+                (-wing[2], wing[1], wing[0]),
+            )
+            for index, point in enumerate(probes):
+                brightness = _brightness_near_world(panel, pixels, point)
+                if placement == 1 or index == 0:
+                    assert brightness > 600, (preset, placement, index)
+                else:
+                    assert brightness < 120, (preset, placement, index)
 
 
 def test_axial_circle_thin_fill_is_visible_from_outside_and_inside(

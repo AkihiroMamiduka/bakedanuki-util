@@ -1,6 +1,6 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 32> kPresetNames = {
+constexpr std::array<const char*, 35> kPresetNames = {
     "Gear",
     "Line",
     "WideLine",
@@ -23,6 +23,9 @@ constexpr std::array<const char*, 32> kPresetNames = {
     "Circle",
     "WideCircleRadial",
     "WideCircleAxial",
+    "CrossCircle",
+    "WideCrossCircleRadial",
+    "WideCrossCircleAxial",
     "Sphere",
     "Cylinder",
     "Arrow",
@@ -43,7 +46,7 @@ struct PresetInfo {
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 32> kPresetInfo = {{
+constexpr std::array<PresetInfo, 35> kPresetInfo = {{
     {0},  // Gear
     {1},  // Line
     {104},  // WideLine
@@ -66,6 +69,9 @@ constexpr std::array<PresetInfo, 32> kPresetInfo = {{
     {27},  // Circle
     {111},  // WideCircleRadial
     {112},  // WideCircleAxial
+    {113},  // CrossCircle
+    {114},  // WideCrossCircleRadial
+    {115},  // WideCrossCircleAxial
     {33},  // Sphere
     {36},  // Cylinder
     {39},  // Arrow
@@ -90,6 +96,17 @@ constexpr short cubePresetIndex() {
 short outlinePresetIndex(short shape) {
     return shape >= 0 && shape < static_cast<short>(kPresetInfo.size())
         ? kPresetInfo[shape].outlineIndex : 0;
+}
+
+bool isCircleOutline(short outline) {
+    return outline == 27 || (outline >= 111 && outline <= 115);
+}
+
+short crossCircleBaseOutline(short outline) {
+    if (outline == 113) return 27;
+    if (outline == 114) return 111;
+    if (outline == 115) return 112;
+    return -1;
 }
 
 short presetPartAxis(short shape) {

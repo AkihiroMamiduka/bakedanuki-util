@@ -1519,7 +1519,8 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
 ) {
     const ShapeTransform transform(settings);
     auto result = std::make_shared<BdControllerShapeNode::Geometry>();
-    const bool withFin = settings.fin && partFinHeight(settings) != 0.0;
+    const bool withFin = settings.fin && !isCircleOutline(outlinePresetIndex(settings.shape)) &&
+        partFinHeight(settings) != 0.0;
     const bool referenceGeometry = withFin || optionPartSupported(outlinePresetIndex(settings.shape));
     ShapeSettings source = settings;
     if (referenceGeometry) {
@@ -1571,7 +1572,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const short outline = outlinePresetIndex(settings.shape);
     const bool arrowLines = settings.part && settings.partShape <= 1 &&
         (outline == 1 || outline == 4 || outline == 5 || outline == 45 ||
-         outline == 52 || outline == 53 || outline == 27 || outline == 108 || outline == 109);
+         outline == 52 || outline == 53 || outline == 27 || outline == 113 || outline == 108 || outline == 109);
     if (settings.fill && (arrowLines || outline == 36)) {
         ShapeSettings wireframe = settings;
         wireframe.fill = false;

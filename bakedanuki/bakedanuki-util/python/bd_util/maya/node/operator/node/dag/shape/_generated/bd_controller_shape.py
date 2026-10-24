@@ -64,16 +64,19 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     CIRCLE = 19
     WIDECIRCLERADIAL = 20
     WIDECIRCLEAXIAL = 21
-    SPHERE = 22
-    CYLINDER = 23
-    ARROW = 24
-    PYRAMID = 25
-    CONE = 26
-    COLORCROSSLINE3AXIS = 27
-    COLORCUBE = 28
-    COLORCORNERCUBE = 29
-    COLORSPHERE = 30
-    COLORSPHERECROSSLINE = 31
+    CROSSCIRCLE = 22
+    WIDECROSSCIRCLERADIAL = 23
+    WIDECROSSCIRCLEAXIAL = 24
+    SPHERE = 25
+    CYLINDER = 26
+    ARROW = 27
+    PYRAMID = 28
+    CONE = 29
+    COLORCROSSLINE3AXIS = 30
+    COLORCUBE = 31
+    COLORCORNERCUBE = 32
+    COLORSPHERE = 33
+    COLORSPHERECROSSLINE = 34
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
@@ -101,16 +104,19 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     CIRCLE = 19
     WIDECIRCLERADIAL = 20
     WIDECIRCLEAXIAL = 21
-    SPHERE = 22
-    CYLINDER = 23
-    ARROW = 24
-    PYRAMID = 25
-    CONE = 26
-    COLORCROSSLINE3AXIS = 27
-    COLORCUBE = 28
-    COLORCORNERCUBE = 29
-    COLORSPHERE = 30
-    COLORSPHERECROSSLINE = 31
+    CROSSCIRCLE = 22
+    WIDECROSSCIRCLERADIAL = 23
+    WIDECROSSCIRCLEAXIAL = 24
+    SPHERE = 25
+    CYLINDER = 26
+    ARROW = 27
+    PYRAMID = 28
+    CONE = 29
+    COLORCROSSLINE3AXIS = 30
+    COLORCUBE = 31
+    COLORCORNERCUBE = 32
+    COLORSPHERE = 33
+    COLORSPHERECROSSLINE = 34
 
     NAME_MAP = {
         GEAR: "Gear",
@@ -135,6 +141,9 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         CIRCLE: "Circle",
         WIDECIRCLERADIAL: "WideCircleRadial",
         WIDECIRCLEAXIAL: "WideCircleAxial",
+        CROSSCIRCLE: "CrossCircle",
+        WIDECROSSCIRCLERADIAL: "WideCrossCircleRadial",
+        WIDECROSSCIRCLEAXIAL: "WideCrossCircleAxial",
         SPHERE: "Sphere",
         CYLINDER: "Cylinder",
         ARROW: "Arrow",

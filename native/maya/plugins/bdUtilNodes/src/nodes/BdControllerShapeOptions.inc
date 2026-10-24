@@ -180,7 +180,7 @@ void trimOptionStrokes(PartGeometry& geometry, const std::vector<OptionClipVolum
 bool optionPartSupported(short outline) {
     return outline == 1 || outline == 4 || outline == 5 || outline == 8 || outline == 19 ||
         outline == 27 || outline == 33 || outline == 45 || outline == 46 || outline == 47 ||
-        outline == 52 || outline == 53 || (outline >= 104 && outline <= 112);
+        outline == 52 || outline == 53 || (outline >= 104 && outline <= 115);
 }
 
 short optionNarrowOutline(short outline) {
@@ -513,9 +513,12 @@ void appendOptionCircle(PartBuilder& builder, const ShapeSettings& settings,
 #include "BdControllerShapeAxialCircle.inc"
 #include "BdControllerShapeAxialWrap.inc"
 
+bool makeCrossCircleGeometry(const ShapeSettings& settings, PartGeometry& geometry);
+
 bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geometry) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!optionPartSupported(outline)) return false;
+    if (crossCircleBaseOutline(outline) >= 0) return makeCrossCircleGeometry(settings, geometry);
     if (optionAxialWrapped(settings)) {
         geometry = makeAxialWrappedGeometry(settings);
         return true;
@@ -601,3 +604,5 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
     geometry = std::move(builder.geometry);
     return true;
 }
+
+#include "BdControllerShapeCrossCircle.inc"
