@@ -656,8 +656,9 @@ def test_cross_circle_part_sites_and_planes(
         axial = preset.endswith("Axial")
         if placement == 2:
             # 頂部は代表円の主面に一つだけ付け、もう一方の主面へ複製しない。
-            wing = (0.75, 0.5, 0) if axial else (0, 0.45096189432, 0.75)
-            other = (0, 0.5, 0.75) if axial else (0.75, 0.45096189432, 0)
+            height = math.sqrt(0.25 - 0.025**2) if axial else 0.5
+            wing = (0.75, height, 0) if axial else (0, 0.45096189432, 0.75)
+            other = (0, height, 0.75) if axial else (0.75, 0.45096189432, 0)
             assert _brightness_near_world(panel, pixels, wing) > 600
             assert _brightness_near_world(panel, pixels, other) < 120
         else:
@@ -679,6 +680,174 @@ def test_cross_circle_part_sites_and_planes(
                     assert brightness > 600, (preset, placement, index)
                 else:
                     assert brightness < 120, (preset, placement, index)
+
+
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("angle", (180, 360))
+def test_cross_circle_axial_join_removes_internal_rims_and_keeps_outer_arcs(
+    maya_cmds, new_scene, tmp_path, filled, angle
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCrossCircleAxial",
+        shapeWideWidth=0.3,
+        shapeCircleAngle=angle,
+        shapeFill=filled,
+        shapeFillTransparency=0.8,
+    ) as (_, _, camera, camera_shape, panel):
+        sign = 1 if angle == 180 else -1
+        maya_cmds.setAttr(f"{camera}.translate", 0, sign * 4, 0)
+        maya_cmds.setAttr(f"{camera}.rotateX", -sign * 90)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 1.4)
+        pixels = _capture_view(panel, tmp_path / "joined_rims.png")
+        height = sign * math.sqrt(0.25 - 0.15**2)
+        for point in (
+            (0.15, height, 0),
+            (-0.15, height, 0),
+            (0, height, 0.15),
+            (0, height, -0.15),
+        ):
+            assert _brightness_near_world(panel, pixels, point) < 400, (
+                "交差部に元の円弧の輪郭または平面の継ぎ目線が残っている",
+                angle,
+                point,
+            )
+        outer_height = sign * math.sqrt(0.25 - 0.35**2)
+        for point in (
+            (0.15, outer_height, 0.35),
+            (-0.15, outer_height, -0.35),
+            (0.35, outer_height, 0.15),
+            (-0.35, outer_height, -0.15),
+        ):
+            assert _brightness_near_world(panel, pixels, point) > 600, (
+                "交差部の外側にある円弧の輪郭が失われている",
+                angle,
+                point,
+            )
+
+
+def test_cross_circle_axial_join_has_one_transparent_top_face(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCrossCircleAxial",
+        shapeWideWidth=0.3,
+        shapeCircleAngle=180,
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0.5,
+    ) as (_, shape, camera, _, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 0, 4, 0)
+        maya_cmds.setAttr(f"{camera}.rotateX", -90)
+        joined = _capture_view(panel, tmp_path / "joined_transparent_top.png")
+        names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
+            0
+        ].split(":")
+        maya_cmds.setAttr(f"{shape}.shape", names.index("Square"))
+        maya_cmds.setAttr(f"{shape}.shapeRotateZ", 90)
+        reference = _capture_view(
+            panel, tmp_path / "single_transparent_face.png"
+        )
+        for point in ((0, 0, 0), (0.04, 0, 0.025), (-0.03, 0, 0.06)):
+            expected = _brightness_near_world(panel, reference, point)
+            actual = _brightness_near_world(panel, joined, point)
+            assert expected > 120
+            assert actual == pytest.approx(expected, abs=10), (
+                "接合した平面の透過色が一枚の面と一致しない",
+                actual,
+                expected,
+            )
+
+
+@pytest.mark.parametrize("filled", (False, True))
+def test_cross_circle_axial_apex_follows_the_joined_top_face(
+    maya_cmds, new_scene, tmp_path, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCrossCircleAxial",
+        shapeWideWidth=0.6,
+        shapeCircleAngle=180,
+        shapePart=True,
+        shapePartType=2,
+        shapePartShape=3,
+        shapePartSize=2,
+        shapeFill=filled,
+        shapeFillTransparency=0.8,
+    ) as (_, shape, _, _, panel):
+        height = math.sqrt(0.25 - 0.3**2)
+        for offset in (0, 0.1):
+            maya_cmds.setAttr(f"{shape}.shapePartOffset", offset)
+            pixels = _capture_view(
+                panel, tmp_path / f"joined_apex_{offset}.png"
+            )
+            assert (
+                _brightness_near_world(
+                    panel, pixels, (0.075, height + 0.1 + offset, 0)
+                )
+                > 600
+            ), "AtApexのPartが接合面中央へ追従していない"
+            assert (
+                _brightness_near_world(panel, pixels, (0.075, 0.6 + offset, 0))
+                < 120
+            ), "元の円頂部にAtApexのPartが残っている"
+
+
+@pytest.mark.parametrize("filled", (False, True))
+def test_cross_circle_axial_join_preserves_wrapped_arrow3d_crest(
+    maya_cmds, new_scene, tmp_path, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCrossCircleAxial",
+        shapeWideWidth=0.3,
+        shapeCircleAngle=90,
+        shapePart=True,
+        shapePartType=0,
+        shapePartShape=1,
+        shapePartSize=6,
+        shapeFill=filled,
+        shapeFillTransparency=0.8,
+    ) as (_, _, camera, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 4, 0.6, 0.05)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.6)
+        target = maya_cmds.createNode("transform")
+        maya_cmds.setAttr(f"{target}.translate", 0, 0.6, 0.05)
+        constraint = maya_cmds.aimConstraint(
+            target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
+        )
+        maya_cmds.delete(constraint, target)
+        pixels = _capture_view(panel, tmp_path / "joined_arrow3d_crest.png")
+        angle = 15 * math.pi / 32
+        depth = 0.6 * math.cos(math.pi / 6)
+        crest = 0.3 * (angle - math.pi / 4) / (2 * depth)
+        height = math.sqrt(0.25 - 0.15**2)
+        side = (0.5 + crest) * math.cos(angle)
+        assert (
+            _brightness_near_world(
+                panel, pixels, (0, height + crest * math.sin(angle), side)
+            )
+            > 600
+        ), "接合面へ移したArrow3Dの立ち上がりが失われている"
+        assert (
+            _brightness_near_world(
+                panel, pixels, (0, (0.5 + crest) * math.sin(angle), side)
+            )
+            < 120
+        ), "Arrow3Dの稜線が元の円筒面の高さに残っている"
 
 
 def test_axial_circle_thin_fill_is_visible_from_outside_and_inside(

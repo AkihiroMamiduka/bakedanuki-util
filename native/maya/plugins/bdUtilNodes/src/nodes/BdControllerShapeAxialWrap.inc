@@ -142,6 +142,7 @@ AxialWrapData makeAxialWrapData(const ShapeSettings& settings) {
     appendAxialWrapCuts(data.slices, data.crest);
     for (const auto& spoke : data.spokes) data.slices.push_back(spoke.position);
     for (const auto& spoke : data.crestSpokes) data.slices.push_back(spoke.position);
+    appendAxialJoinAngles(data.slices, settings, 0.0, kPi, 0.5);
     std::sort(data.slices.begin(), data.slices.end());
     data.slices.erase(std::unique(data.slices.begin(), data.slices.end(), [](double a, double b) {
         return std::abs(a - b) < 1e-12;
@@ -175,20 +176,21 @@ std::vector<AxialWrapInterval> axialWrapIntervals(
     return intervals;
 }
 
-MPoint axialWrapPoint(double position, double width, double height = 0.0) {
+MPoint axialWrapPoint(double position, double width, double height, const ShapeSettings& settings) {
     const auto radial = semicircleRadial(position * 2.0);
-    return MPoint(width, radial.y * (0.5 + height), radial.x * (0.5 + height));
+    return axialJoinedPoint(MPoint(width, radial.y * (0.5 + height), radial.x * (0.5 + height)),
+        radial.y * 0.5, settings);
 }
 
 void appendAxialWrapFaces(PartBuilder& surface,
-    const std::vector<AxialWrapInterval>& intervals, bool crest) {
+    const std::vector<AxialWrapInterval>& intervals, bool crest, const ShapeSettings& settings) {
     for (const auto& interval : intervals) {
         if (!interval.active) continue;
-        const auto a = axialWrapPoint(interval.first, 0.0);
-        const auto b = axialWrapPoint(interval.last, 0.0);
+        const auto a = axialWrapPoint(interval.first, 0.0, 0.0, settings);
+        const auto b = axialWrapPoint(interval.last, 0.0, 0.0, settings);
         if (crest) {
-            surface.quad(a, b, axialWrapPoint(interval.last, 0.0, interval.lastHeight),
-                axialWrapPoint(interval.first, 0.0, interval.firstHeight));
+            surface.quad(a, b, axialWrapPoint(interval.last, 0.0, interval.lastHeight, settings),
+                axialWrapPoint(interval.first, 0.0, interval.firstHeight, settings));
         } else {
             const auto firstSide = nativeAxis(0) * interval.firstHeight;
             const auto lastSide = nativeAxis(0) * interval.lastHeight;
@@ -212,10 +214,10 @@ void addAxialWrapSegment(AxialWrapSegments& segments, const MPoint& a, const MPo
 
 void appendAxialWrapBoundary(AxialWrapSegments& segments,
     const std::vector<AxialWrapInterval>& intervals,
-    const std::vector<AxialWrapSpoke>& spokes, bool crest) {
+    const std::vector<AxialWrapSpoke>& spokes, bool crest, const ShapeSettings& settings) {
     if (intervals.empty()) return;
     const auto point = [&](double position, double extent) {
-        return crest ? axialWrapPoint(position, 0.0, extent) : axialWrapPoint(position, extent);
+        return crest ? axialWrapPoint(position, 0.0, extent, settings) : axialWrapPoint(position, extent, 0.0, settings);
     };
     for (const auto& interval : intervals) {
         if (!interval.active) continue;
@@ -275,12 +277,12 @@ PartGeometry makeAxialWrappedGeometry(const ShapeSettings& settings) {
     const auto data = makeAxialWrapData(settings);
     const auto main = axialWrapIntervals(data.slices, data.main);
     const auto crest = axialWrapIntervals(data.slices, data.crest);
-    PartBuilder builder(settings.fill);
-    appendAxialWrapFaces(builder, main, false);
-    appendAxialWrapFaces(builder, crest, true);
+    PartBuilder builder(settings.fill || settings.crossAxialJoinTop || settings.crossAxialJoinBottom);
+    appendAxialWrapFaces(builder, main, false, settings);
+    appendAxialWrapFaces(builder, crest, true, settings);
     AxialWrapSegments segments;
-    appendAxialWrapBoundary(segments, main, data.spokes, false);
-    appendAxialWrapBoundary(segments, crest, data.crestSpokes, true);
+    appendAxialWrapBoundary(segments, main, data.spokes, false, settings);
+    appendAxialWrapBoundary(segments, crest, data.crestSpokes, true, settings);
     appendAxialWrapStrokes(builder, std::move(segments));
     return std::move(builder.geometry);
 }
@@ -288,8 +290,8 @@ PartGeometry makeAxialWrappedGeometry(const ShapeSettings& settings) {
 std::vector<OptionClipVolume> axialWrappedPartClipVolumes(const ShapeSettings& settings) {
     const auto data = makeAxialWrapData(settings);
     PartBuilder parts(true);
-    appendAxialWrapFaces(parts, axialWrapIntervals(data.slices, data.heads), false);
-    appendAxialWrapFaces(parts, axialWrapIntervals(data.slices, data.crest), true);
+    appendAxialWrapFaces(parts, axialWrapIntervals(data.slices, data.heads), false, settings);
+    appendAxialWrapFaces(parts, axialWrapIntervals(data.slices, data.crest), true, settings);
     std::vector<OptionClipVolume> volumes;
     for (const auto& part : parts.geometry.fillParts) for (unsigned int i = 0; i < part.triangles.length(); i += 3) {
         auto volume = optionPlanarVolume({part.triangles[i], part.triangles[i + 1], part.triangles[i + 2]});

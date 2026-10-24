@@ -172,6 +172,8 @@ struct ShapeSettings {
     short partType = 0;
     double wideWidth = 0.05;
     double circleAngle = 2.0 * kPi;
+    bool crossAxialJoinTop = false;
+    bool crossAxialJoinBottom = false;
     bool fin = false;
     short finType = 0;
     double finSize = 1.0;

@@ -4181,6 +4181,16 @@ def test_circle_total_angle_bounds(
         if "CrossCircle" in shape_name:
             side = max(side, depth)
             expected = (-side, minimum, -side, side, outer, side)
+        if shape_name == "WideCrossCircleAxial":
+            top = math.sqrt(0.25 - depth * depth)
+            expected = (
+                -side,
+                -top if angle == 360 else minimum,
+                -side,
+                side,
+                top,
+                side,
+            )
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
 
 
@@ -4895,6 +4905,11 @@ def test_cross_circle_matches_perpendicular_circle_components(
         ):
             maya_cmds.setAttr(f"{shape}.{name}", value)
     maya_cmds.setAttr(f"{shapes[2]}.shapeRotateY", 90)
+    join_height = math.sqrt(0.25 - 0.075**2)
+    if cross == "WideCrossCircleAxial" and placement == 2:
+        maya_cmds.setAttr(
+            f"{shapes[1]}.shapePartOffset", 0.2 + join_height - 0.5
+        )
     for angle in (90, 180, 360):
         for shape in shapes:
             maya_cmds.setAttr(f"{shape}.shapeCircleAngle", angle)
@@ -4902,7 +4917,20 @@ def test_cross_circle_matches_perpendicular_circle_components(
         expected = tuple(min(first[i], second[i]) for i in range(3)) + tuple(
             max(first[i], second[i]) for i in range(3, 6)
         )
-        assert _bounds(maya_om, shapes[0]) == pytest.approx(expected, abs=1e-8)
+        actual = _bounds(maya_om, shapes[0])
+        if cross == "WideCrossCircleAxial":
+            # 交差部の接合は上下方向だけを変え、各円とPartの横方向寸法を保つ。
+            indices = (0, 2, 3, 5)
+            assert tuple(actual[i] for i in indices) == pytest.approx(
+                tuple(expected[i] for i in indices), abs=1e-8
+            )
+            if placement == 2:
+                assert actual[1] == pytest.approx(
+                    -join_height if angle == 360 else expected[1], abs=1e-8
+                )
+                assert actual[4] == pytest.approx(expected[4], abs=1e-8)
+        else:
+            assert actual == pytest.approx(expected, abs=1e-8)
 
 
 @pytest.mark.parametrize("part", range(6))
@@ -4925,3 +4953,223 @@ def test_cross_circle_axial_wrapped_offset_is_ignored(
         maya_cmds.setAttr(f"{shape}.shapePartOffset", offset)
         assert _bounds(maya_om, shape) == pytest.approx(baseline)
     assert maya_cmds.getAttr(f"{shape}.shapePartOffset") == 2
+
+
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("width", (0.2, 0.6))
+def test_cross_circle_axial_joined_body_bounds(
+    maya_cmds, maya_om, new_scene, filled, width
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name="WideCrossCircleAxial", shape_fill=filled
+    )
+    maya_cmds.setAttr(f"{shape}.shapeWideWidth", width)
+    height = math.sqrt(0.25 - (width / 2) ** 2)
+    for angle in (90, 180, 360):
+        maya_cmds.setAttr(f"{shape}.shapeCircleAngle", angle)
+        side = 0.5 * math.sin(math.radians(angle / 2)) if angle < 180 else 0.5
+        minimum = (
+            -height
+            if angle == 360
+            else 0.5 * math.cos(math.radians(angle / 2))
+        )
+        assert _bounds(maya_om, shape) == pytest.approx(
+            (-side, minimum, -side, side, height, side), abs=1e-9
+        )
+    maya_cmds.setAttr(f"{shape}.shapeCircleAngle", 0)
+    assert _bounds(maya_om, shape) == pytest.approx((0,) * 6)
+
+
+@pytest.mark.parametrize("filled", (False, True))
+def test_cross_circle_axial_join_preserves_short_arcs_and_lower_opening(
+    maya_cmds, maya_om, new_scene, filled
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name="WideCrossCircleAxial", shape_fill=filled
+    )
+    maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0.2)
+    for angle in (10, 350):
+        maya_cmds.setAttr(f"{shape}.shapeCircleAngle", angle)
+        side = (
+            max(0.1, 0.5 * math.sin(math.radians(angle / 2)))
+            if angle < 180
+            else 0.5
+        )
+        maximum = 0.5 if angle == 10 else math.sqrt(0.24)
+        assert _bounds(maya_om, shape) == pytest.approx(
+            (
+                -side,
+                0.5 * math.cos(math.radians(angle / 2)),
+                -side,
+                side,
+                maximum,
+                side,
+            ),
+            abs=1e-9,
+        )
+
+
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("width", (0, 1, 1.2))
+def test_cross_circle_axial_join_width_fallback_keeps_both_cylinders(
+    maya_cmds, maya_om, new_scene, filled, width
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name="WideCrossCircleAxial", shape_fill=filled
+    )
+    maya_cmds.setAttr(f"{shape}.shapeWideWidth", width)
+    for angle in (90, 360):
+        maya_cmds.setAttr(f"{shape}.shapeCircleAngle", angle)
+        side = max(width / 2, math.sqrt(0.125) if angle == 90 else 0.5)
+        minimum = math.sqrt(0.125) if angle == 90 else -0.5
+        assert _bounds(maya_om, shape) == pytest.approx(
+            (-side, minimum, -side, side, 0.5, side), abs=1e-9
+        )
+
+
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("part", range(len(PART_SHAPES)))
+def test_cross_circle_axial_apex_follows_the_joined_plane(
+    maya_cmds, maya_om, new_scene, filled, part
+):
+    _load_bd_util_nodes(maya_cmds)
+    shapes = [
+        _create_controller(
+            maya_cmds,
+            name=f"joinedApex{index}",
+            shape_name=name,
+            shape_fill=filled,
+        )[1]
+        for index, name in enumerate(
+            ("WideCrossCircleAxial", "WideCircleAxial")
+        )
+    ]
+    for shape in shapes:
+        for name, value in (
+            ("shapePart", True),
+            ("shapePartShape", part),
+            ("shapePartType", 2),
+            ("shapePartSize", 2),
+            ("shapeWideWidth", 0.2),
+            ("shapeCircleAngle", 180),
+        ):
+            maya_cmds.setAttr(f"{shape}.{name}", value)
+    height = math.sqrt(0.24)
+    for offset in (0, 0.2):
+        maya_cmds.setAttr(f"{shapes[0]}.shapePartOffset", offset)
+        maya_cmds.setAttr(
+            f"{shapes[1]}.shapePartOffset", offset + height - 0.5
+        )
+        expected = _bounds(maya_om, shapes[1])
+        actual = _bounds(maya_om, shapes[0])
+        assert actual == pytest.approx(
+            (-0.5, expected[1], expected[2], 0.5, expected[4], expected[5]),
+            abs=1e-9,
+        )
+        assert maya_cmds.getAttr(
+            f"{shapes[0]}.shapePartOffset"
+        ) == pytest.approx(offset)
+    # 交点がそろわない短い円弧では、AtApexも元の円頂部へ戻る。
+    for shape in shapes:
+        maya_cmds.setAttr(f"{shape}.shapeCircleAngle", 10)
+        maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.2)
+    assert _bounds(maya_om, shapes[0])[4] == pytest.approx(
+        _bounds(maya_om, shapes[1])[4], abs=1e-9
+    )
+
+
+@pytest.mark.parametrize("filled", (False, True))
+def test_cross_circle_axial_join_updates_from_connected_width_and_history(
+    maya_cmds, maya_om, new_scene, filled
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name="WideCrossCircleAxial", shape_fill=filled
+    )
+    source = maya_cmds.createNode("network")
+    maya_cmds.addAttr(source, longName="width", attributeType="doubleLinear")
+    maya_cmds.connectAttr(f"{source}.width", f"{shape}.shapeWideWidth")
+    for width in (0.2, 0.6, 1, 0):
+        maya_cmds.setAttr(f"{source}.width", width)
+        height = math.sqrt(0.25 - (width / 2) ** 2) if 0 < width < 1 else 0.5
+        assert _bounds(maya_om, shape) == pytest.approx(
+            (-0.5, -height, -0.5, 0.5, height, 0.5), abs=1e-9
+        )
+    maya_cmds.setAttr(f"{source}.width", 0.2)
+    before = _bounds(maya_om, shape)
+    maya_cmds.setAttr(f"{source}.width", 0.6)
+    after = _bounds(maya_om, shape)
+    maya_cmds.undo()
+    assert _bounds(maya_om, shape) == pytest.approx(before, abs=1e-9)
+    maya_cmds.redo()
+    assert _bounds(maya_om, shape) == pytest.approx(after, abs=1e-9)
+
+
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("part", (6, 7, 8))
+@pytest.mark.parametrize(
+    "size,length_scale,width_scale,placement",
+    (
+        pytest.param(0.1, 0, 1, 1, id="zero_length_strokes"),
+        pytest.param(6, 1, 0.01, 0, id="long_narrow_at_end"),
+        pytest.param(6, 1, 1, 1, id="large_solid_at_ends"),
+    ),
+)
+def test_cross_circle_axial_solid_preserves_the_lower_curve_and_part(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    filled,
+    part,
+    size,
+    length_scale,
+    width_scale,
+    placement,
+):
+    _load_bd_util_nodes(maya_cmds)
+    shapes = [
+        _create_controller(
+            maya_cmds,
+            name=f"lowerPoleReference{index}",
+            shape_name=name,
+            shape_fill=filled,
+        )[1]
+        for index, name in enumerate(
+            ("WideCrossCircleAxial", "WideCircleAxial", "WideCircleAxial")
+        )
+    ]
+    for index, shape in enumerate(shapes):
+        for name, value in (
+            ("shapeWideWidth", 0.2),
+            ("shapeCircleAngle", 360),
+            ("shapePart", index != 2 or placement == 1),
+            ("shapePartShape", part),
+            ("shapePartType", placement),
+            ("shapePartSize", size),
+            ("shapePartLengthScale", length_scale),
+            ("shapePartWidthScale", width_scale),
+        ):
+            maya_cmds.setAttr(f"{shape}.{name}", value)
+    maya_cmds.setAttr(f"{shapes[2]}.shapeRotateY", 90)
+    expected_minimum = min(_bounds(maya_om, shape)[1] for shape in shapes[1:])
+    actual = _bounds(maya_om, shapes[0])
+    assert actual[1] == pytest.approx(expected_minimum, abs=1e-9)
+    assert actual[4] == pytest.approx(math.sqrt(0.24), abs=1e-9)
+    if length_scale == 0:
+        assert expected_minimum == pytest.approx(-0.505, abs=1e-9)
+
+    # 下部の線形Partが範囲を覆い隠さない方向から、残る円筒リムを確認する。
+    angle = math.degrees(math.atan2(0.1, 0.5))
+    for shape in shapes:
+        maya_cmds.setAttr(f"{shape}.shapeRotateZ", angle)
+    expected_minimum = min(_bounds(maya_om, shape)[1] for shape in shapes[1:])
+    if length_scale == 0 or placement == 0:
+        assert expected_minimum == pytest.approx(
+            -math.hypot(0.5, 0.1), abs=1e-9
+        )
+    assert _bounds(maya_om, shapes[0])[1] == pytest.approx(
+        expected_minimum, abs=1e-9
+    )

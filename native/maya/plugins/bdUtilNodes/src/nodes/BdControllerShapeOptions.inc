@@ -198,6 +198,31 @@ bool optionAxialWrapped(const ShapeSettings& settings) {
         settings.partType != 2 && settings.partShape <= 5;
 }
 
+double crossAxialJoinHeight(const ShapeSettings& settings) {
+    const double halfWidth = settings.wideWidth * 0.5;
+    return std::sqrt(std::max(0.0, 0.25 - halfWidth * halfWidth));
+}
+
+MPoint axialJoinedPoint(MPoint point, double baseY, const ShapeSettings& settings) {
+    if (!settings.crossAxialJoinTop && !settings.crossAxialJoinBottom) return point;
+    const double height = crossAxialJoinHeight(settings);
+    if (settings.crossAxialJoinTop && baseY > height) point.y += height - baseY;
+    if (settings.crossAxialJoinBottom && baseY < -height) point.y -= height + baseY;
+    return point;
+}
+
+void appendAxialJoinAngles(std::vector<double>& angles, const ShapeSettings& settings,
+    double first, double last, double scale = 1.0) {
+    const double alpha = std::asin(std::clamp(settings.wideWidth, 0.0, 1.0));
+    for (int pole = 0; pole < 2; ++pole) {
+        if (!(pole == 0 ? settings.crossAxialJoinTop : settings.crossAxialJoinBottom)) continue;
+        for (int turn = -1; turn <= 1; ++turn) for (double side : {-1.0, 1.0}) {
+            const double angle = ((pole == 0 ? 0.5 : 1.5) * kPi + side * alpha + turn * 2.0 * kPi) * scale;
+            if (angle > first + 1e-12 && angle < last - 1e-12) angles.push_back(angle);
+        }
+    }
+}
+
 std::vector<OptionClipVolume> axialWrappedPartClipVolumes(const ShapeSettings& settings);
 
 struct OptionSite {
@@ -231,6 +256,7 @@ std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
         if (sweep < 1e-12) return sites;
         if (settings.partType == 2) {
             add(nativeAxis(1), outline == 112 ? -nativeAxis(0) : nativeAxis(2), true);
+            if (outline == 112 && settings.crossAxialJoinTop) sites.back().endpoint.y = crossAxialJoinHeight(settings);
             return sites;
         }
         const double start = 0.5 * (kPi - sweep);
@@ -294,7 +320,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
     const bool round = outline == 27 || outline == 33 || outline == 46 || outline == 47 || outline == 111;
     for (const auto& site : optionPartSites(settings)) {
-        PartBuilder head(settings.fill);
+        PartBuilder head(settings.fill || settings.crossAxialJoinTop || settings.crossAxialJoinBottom);
         const auto volumeStart = result.volumes.size();
         MVector up = site.along ^ site.side;
         // 軸方向の帯では各配置点の外側、それ以外では基準軸の正側へ立ち上げる。
@@ -523,7 +549,7 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
         geometry = makeAxialWrappedGeometry(settings);
         return true;
     }
-    PartBuilder builder(settings.fill);
+    PartBuilder builder(settings.fill || settings.crossAxialJoinTop || settings.crossAxialJoinBottom);
     auto heads = makeOptionHeads(settings);
     const auto sites = optionPartSites(settings);
     std::vector<OptionClipVolume> bodyVolumes;

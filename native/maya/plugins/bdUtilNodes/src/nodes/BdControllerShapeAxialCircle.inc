@@ -81,7 +81,10 @@ void appendOptionAxialCircle(PartBuilder& builder, const ShapeSettings& settings
     const double start = (kPi - sweep) * 0.5;
     const double end = (kPi + sweep) * 0.5;
     const double halfWidth = settings.wideWidth * 0.5;
-    const auto at = [](double angle) { return kSemicirclePlane.point(MPoint::origin + semicircleRadial(angle) * 0.5); };
+    const auto at = [&](double angle) {
+        const auto point = kSemicirclePlane.point(MPoint::origin + semicircleRadial(angle) * 0.5);
+        return axialJoinedPoint(point, point.y, settings);
+    };
     double first = start, last = end;
     const bool chordHead = settings.partShape <= 2;
     const bool solidHead = settings.partShape >= 6;
@@ -104,14 +107,15 @@ void appendOptionAxialCircle(PartBuilder& builder, const ShapeSettings& settings
     }
     if (first > last) return;
     auto angles = semicircleSampleAngles(first, last);
+    appendAxialJoinAngles(angles, settings, first, last);
     if (solidHead) {
         // 姿勢調整に使った円弧上の断面を含め、立体との実交差を切り取る。
         for (const auto& placement : headPlacements) if (placement.onArc) angles.push_back(placement.angle);
-        std::sort(angles.begin(), angles.end());
-        angles.erase(std::unique(angles.begin(), angles.end(), [](double a, double b) {
-            return std::abs(a - b) < 1e-12;
-        }), angles.end());
     }
+    std::sort(angles.begin(), angles.end());
+    angles.erase(std::unique(angles.begin(), angles.end(), [](double a, double b) {
+        return std::abs(a - b) < 1e-12;
+    }), angles.end());
     const bool solidContact = solidHead && axialArcTouchesSolid(angles, heads);
     if (halfWidth <= 1e-12) {
         std::vector<MPoint> points;
