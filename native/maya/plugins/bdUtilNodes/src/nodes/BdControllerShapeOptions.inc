@@ -198,6 +198,12 @@ bool optionAxialWrapped(const ShapeSettings& settings) {
         settings.partType != 2 && settings.partShape <= 5;
 }
 
+bool optionRadialWrapped(const ShapeSettings& settings) {
+    const short outline = outlinePresetIndex(settings.shape);
+    return settings.part && (outline == 27 || outline == 111) &&
+        settings.partType != 2 && settings.partShape <= 5;
+}
+
 double crossAxialJoinHeight(const ShapeSettings& settings) {
     const double halfWidth = settings.wideWidth * 0.5;
     return std::sqrt(std::max(0.0, 0.25 - halfWidth * halfWidth));
@@ -224,6 +230,7 @@ void appendAxialJoinAngles(std::vector<double>& angles, const ShapeSettings& set
 }
 
 std::vector<OptionClipVolume> axialWrappedPartClipVolumes(const ShapeSettings& settings);
+std::vector<OptionClipVolume> radialWrappedPartClipVolumes(const ShapeSettings& settings);
 
 struct OptionSite {
     MPoint endpoint;
@@ -234,6 +241,15 @@ struct OptionSite {
 };
 
 #include "BdControllerShapeAxialHead.inc"
+#include "BdControllerShapeRadialHead.inc"
+
+OptionSite radialCircleEndSite(double angle, bool first) {
+    const auto radial = semicircleRadial(angle);
+    const auto tangent = semicircleOutward(angle, first);
+    return {kSemicirclePlane.point(MPoint::origin + radial * 0.5),
+        nativeAxis(2) * tangent.x + nativeAxis(1) * tangent.y,
+        nativeAxis(2) * radial.x + nativeAxis(1) * radial.y, false};
+}
 
 OptionSite axialCircleEndSite(double angle, bool first) {
     const auto radial = semicircleRadial(angle);
@@ -268,11 +284,9 @@ std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
                 sites.push_back(optionAxialWrapped(settings) ? site : axialHeadPlacement(settings, site, start, end).site);
                 continue;
             }
-            const auto radial = semicircleRadial(angle);
-            const auto tangent = semicircleOutward(angle, first);
-            const MVector direction = nativeAxis(2) * tangent.x + nativeAxis(1) * tangent.y;
-            const MVector radius = nativeAxis(2) * radial.x + nativeAxis(1) * radial.y;
-            sites.push_back({MPoint::origin + radius * 0.5, direction, radius, false});
+            const auto site = radialCircleEndSite(angle, first);
+            sites.push_back(optionRadialWrapped(settings) ? site :
+                radialHeadPlacement(settings, site, start, end, first).site);
         }
         return sites;
     }
@@ -315,7 +329,7 @@ struct OptionHeads {
 
 OptionHeads makeOptionHeads(const ShapeSettings& settings) {
     OptionHeads result;
-    if (optionAxialWrapped(settings)) return result;
+    if (optionAxialWrapped(settings) || optionRadialWrapped(settings)) return result;
     std::vector<std::vector<MPoint>> signatures;
     const short outline = outlinePresetIndex(settings.shape);
     const bool round = outline == 27 || outline == 33 || outline == 46 || outline == 47 || outline == 111;
@@ -436,6 +450,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
 
 std::vector<OptionClipVolume> optionPartClipVolumes(const ShapeSettings& settings) {
     if (optionAxialWrapped(settings)) return axialWrappedPartClipVolumes(settings);
+    if (optionRadialWrapped(settings)) return radialWrappedPartClipVolumes(settings);
     return makeOptionHeads(settings).volumes;
 }
 
@@ -461,9 +476,12 @@ void appendOptionSquare(PartBuilder& builder, short outline) {
     }
 }
 
+#include "BdControllerShapeRadialCircle.inc"
+
 void appendOptionCircle(PartBuilder& builder, const ShapeSettings& settings,
     const OptionHeads& heads, const std::vector<OptionSite>& sites,
     std::vector<OptionClipVolume>& bodyVolumes) {
+    if (appendAdjustedRadialCircle(builder, settings, bodyVolumes)) return;
     const double sweep = std::clamp(settings.circleAngle, 0.0, 2.0 * kPi);
     if (sweep < 1e-12) return;
     const bool wideBase = outlinePresetIndex(settings.shape) == 111;
@@ -538,6 +556,7 @@ void appendOptionCircle(PartBuilder& builder, const ShapeSettings& settings,
 
 #include "BdControllerShapeAxialCircle.inc"
 #include "BdControllerShapeAxialWrap.inc"
+#include "BdControllerShapeRadialWrap.inc"
 
 bool makeCrossCircleGeometry(const ShapeSettings& settings, PartGeometry& geometry);
 
@@ -547,6 +566,10 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
     if (crossCircleBaseOutline(outline) >= 0) return makeCrossCircleGeometry(settings, geometry);
     if (optionAxialWrapped(settings)) {
         geometry = makeAxialWrappedGeometry(settings);
+        return true;
+    }
+    if (optionRadialWrapped(settings)) {
+        geometry = makeRadialWrappedGeometry(settings);
         return true;
     }
     PartBuilder builder(settings.fill || settings.crossAxialJoinTop || settings.crossAxialJoinBottom);
@@ -607,7 +630,7 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
         auto volume = optionSolidVolume(body.geometry);
         if (!volume.empty()) trimOptionGeometry(heads.geometry, {std::move(volume)}, settings.fill, settings.partShape >= 6);
     } else if (!bodyVolumes.empty()) trimOptionStrokes(heads.geometry, bodyVolumes);
-    // 開いた円弧矢印では元の円弧を先端まで残す。
+    // 開いた矢印では、円弧または接合後の軸線を先端まで残す。
     const bool openCircleArrow = outline == 27 && !settings.fill && settings.partShape <= 1 && settings.partType != 2;
     if (!openCircleArrow && outline != 112) trimOptionGeometry(builder.geometry, heads.volumes, settings.fill);
     // Squareの中央ガイドは塗り面にも通す。通常の軸線は面を表示しない場合だけ延長する。

@@ -342,13 +342,8 @@ def test_arrow_tip_connection_matches_fill_and_guide_style(
         if preset.startswith("SquareCrossLine"):
             point = (0, 0.645, 0)
         elif preset == "Circle":
-            import math
-
-            point = (
-                0,
-                -0.25 - 0.02 * math.cos(math.pi / 6),
-                0.5 * math.cos(math.pi / 6) - 0.01,
-            )
+            angle = -math.pi / 6 + 0.06
+            point = (0, 0.5 * math.sin(angle), 0.5 * math.cos(angle))
         else:
             point = (0.52, 0, 0)
         open_arrow = _capture_view(panel, tmp_path / "open.png")
@@ -666,7 +661,7 @@ def test_cross_circle_part_sites_and_planes(
             wing = (
                 (0.1, 0.5 * math.sin(2 * depth), 0.5 * math.cos(2 * depth))
                 if axial
-                else (0, depth, 0.6)
+                else (0, 0.6 * math.sin(2 * depth), 0.6 * math.cos(2 * depth))
             )
             probes = (
                 wing,
@@ -680,6 +675,247 @@ def test_cross_circle_part_sites_and_planes(
                     assert brightness > 600, (preset, placement, index)
                 else:
                     assert brightness < 120, (preset, placement, index)
+
+
+@pytest.mark.parametrize(
+    "preset",
+    ("Circle", "WideCircleRadial", "CrossCircle", "WideCrossCircleRadial"),
+)
+@pytest.mark.parametrize("filled", (False, True))
+def test_radial_circle_long_arrow_follows_the_arc_and_keeps_its_tip(
+    maya_cmds, new_scene, tmp_path, preset, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeCircleAngle=180,
+        shapePart=True,
+        shapePartShape=0,
+        shapePartLengthScale=6.7,
+        shapeFill=filled,
+    ) as (_, shape, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (4, 0, 0))
+        maya_cmds.setAttr(f"{camera}.translate", 4, 0.2, 0.05)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 1.6)
+        depth = 0.67 * math.cos(math.pi / 6)
+        wing_y = 0.55 * math.sin(2 * depth)
+        wing_z = 0.55 * math.cos(2 * depth)
+        for placement in (0, 1):
+            maya_cmds.setAttr(f"{shape}.shapePartType", placement)
+            pixels = _capture_view(
+                panel, tmp_path / f"long_arrow_{placement}.png"
+            )
+            assert (
+                _brightness_near_world(panel, pixels, (0, wing_y, wing_z))
+                > 600
+            ), "矢印の後端が円周上へ配置されていない"
+            opposite = _brightness_near_world(
+                panel, pixels, (0, wing_y, -wing_z)
+            )
+            if placement == 1:
+                assert (
+                    opposite > 600
+                ), "AtEndsの反対側の矢印が円周へ追従していない"
+            else:
+                assert opposite < 120, "AtEndで反対側にも矢印が追加されている"
+            for sign in ((-1, 1) if placement == 1 else (1,)):
+                assert (
+                    _brightness_near_world(
+                        panel, pixels, (0, depth, sign * 0.55)
+                    )
+                    < 120
+                ), "元の接線姿勢の矢印が残っている"
+                assert (
+                    _brightness_near_world(panel, pixels, (0, 0, sign * 0.5))
+                    > 600
+                ), "円周変形で矢印先端が円弧端点から移動している"
+
+
+@pytest.mark.parametrize(
+    "preset", ("WideCircleRadial", "WideCrossCircleRadial")
+)
+@pytest.mark.parametrize("filled", (False, True))
+def test_radial_circle_wrapped_arrow_removes_internal_band_rims(
+    maya_cmds, new_scene, tmp_path, preset, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeCircleAngle=180,
+        shapeWideWidth=0.05,
+        shapePart=True,
+        shapePartShape=0,
+        shapePartLengthScale=6.7,
+        shapeFill=filled,
+        shapeFillTransparency=0.8,
+    ) as (_, _, camera, camera_shape, panel):
+        depth = 0.67 * math.cos(math.pi / 6)
+        rear_angle = 2 * depth
+        rear = (0, 0.5 * math.sin(rear_angle), 0.5 * math.cos(rear_angle))
+        _aim_at_origin(maya_cmds, camera, (4, 0, 0))
+        maya_cmds.setAttr(f"{camera}.translate", 4, rear[1], rear[2])
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.4)
+        pixels = _capture_view(panel, tmp_path / "radial_rear_join.png")
+        assert (
+            _brightness_near_world(panel, pixels, rear) < 400
+        ), "帯と矢印の接合部に後端の内部線が残っている"
+        inside_angle = 0.8 * rear_angle
+        for radius in (0.475, 0.525):
+            before = (
+                0,
+                radius * math.sin(rear_angle + 0.08),
+                radius * math.cos(rear_angle + 0.08),
+            )
+            inside = (
+                0,
+                radius * math.sin(inside_angle),
+                radius * math.cos(inside_angle),
+            )
+            assert _brightness_near_world(panel, pixels, before) > 600, (
+                "Partの後端より本体側の円弧が失われている",
+                radius,
+            )
+            assert _brightness_near_world(panel, pixels, inside) < 400, (
+                "矢印内部に帯の円弧が残っている",
+                radius,
+            )
+        for radius in (0.46, 0.54):
+            assert (
+                _brightness_near_world(
+                    panel,
+                    pixels,
+                    (
+                        0,
+                        radius * math.sin(inside_angle),
+                        radius * math.cos(inside_angle),
+                    ),
+                )
+                > 600
+            ), "帯の輪郭を除いた位置に、曲がったPartの輪郭がない"
+
+
+@pytest.mark.parametrize("preset", ("Circle", "CrossCircle"))
+def test_radial_circle_wrapping_preserves_sector_fill_without_overlap(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeCircleAngle=180,
+        shapePart=True,
+        shapePartShape=0,
+        shapePartType=1,
+        shapePartLengthScale=6.7,
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0.5,
+    ) as (_, shape, camera, _, panel):
+        _aim_at_origin(maya_cmds, camera, (4, 0, 0))
+        actual = _capture_view(panel, tmp_path / "wrapped_sector.png")
+        maya_cmds.setAttr(f"{shape}.shapePart", False)
+        reference = _capture_view(panel, tmp_path / "plain_sector.png")
+        for angle in (0.12, math.pi / 2):
+            point = (0, 0.2 * math.sin(angle), 0.2 * math.cos(angle))
+            expected = _brightness_near_world(panel, reference, point)
+            assert expected > 120
+            assert _brightness_near_world(
+                panel, actual, point
+            ) == pytest.approx(expected, abs=10)
+
+
+@pytest.mark.parametrize("filled", (False, True))
+def test_radial_circle_wide_marker_does_not_fold_through_center(
+    maya_cmds, new_scene, tmp_path, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleRadial",
+        shapeCircleAngle=180,
+        shapePart=True,
+        shapePartShape=3,
+        shapePartLengthScale=6.7,
+        shapePartWidthScale=40,
+        shapeFill=filled,
+    ) as (_, _, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (4, 0, 0))
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 6)
+        pixels = _capture_view(panel, tmp_path / "center_clipped_marker.png")
+        assert _brightness_near_world(panel, pixels, (0, 0, 2.5)) > 600
+        assert _brightness_near_world(panel, pixels, (0, 0, -1.5)) < 120
+
+
+@pytest.mark.parametrize("filled", (False, True))
+def test_radial_circle_arrow3d_crest_follows_curve_and_plane_normal(
+    maya_cmds, new_scene, tmp_path, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleRadial",
+        shapeCircleAngle=180,
+        shapePart=True,
+        shapePartShape=1,
+        shapePartLengthScale=6.7,
+        shapeFill=filled,
+    ) as (_, _, camera, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 0, 0.4, 4)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.35)
+        angle = 1.34 * math.cos(math.pi / 6)
+        point = (0.05, 0.5 * math.sin(angle), 0.5 * math.cos(angle))
+        pixels = _capture_view(panel, tmp_path / "radial_crest.png")
+        assert _brightness_near_world(panel, pixels, point) > 600
+        assert (
+            _brightness_near_world(panel, pixels, (-point[0], *point[1:]))
+            < 120
+        )
+
+
+def test_radial_circle_multiple_turns_have_one_transparent_fill(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleRadial",
+        shapeCircleAngle=180,
+        shapePart=True,
+        shapePartShape=3,
+        shapePartType=1,
+        shapePartLengthScale=50,
+        shapePartWidthScale=40,
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0.5,
+    ) as (_, shape, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (4, 0, 0))
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 6)
+        actual = _capture_view(panel, tmp_path / "periodic_fill.png")
+        names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
+            0
+        ].split(":")
+        maya_cmds.setAttr(f"{shape}.shape", names.index("Circle"))
+        maya_cmds.setAttr(f"{shape}.shapePart", False)
+        maya_cmds.setAttr(f"{shape}.shapeCircleAngle", 360)
+        maya_cmds.setAttr(f"{shape}.shapeRootSize", 5)
+        reference = _capture_view(panel, tmp_path / "single_disk.png")
+        for point in ((0, 0.2, 0.2), (0, -1, 1), (0, 1.5, 0)):
+            expected = _brightness_near_world(panel, reference, point)
+            assert expected > 120
+            assert _brightness_near_world(
+                panel, actual, point
+            ) == pytest.approx(expected, abs=10)
 
 
 @pytest.mark.parametrize("filled", (False, True))
