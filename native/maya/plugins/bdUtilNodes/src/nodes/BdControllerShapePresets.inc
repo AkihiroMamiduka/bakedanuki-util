@@ -1,6 +1,6 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 31> kPresetNames = {
+constexpr std::array<const char*, 32> kPresetNames = {
     "Gear",
     "Line",
     "WideLine",
@@ -21,7 +21,8 @@ constexpr std::array<const char*, 31> kPresetNames = {
     "Octahedron",
     "OctahedronArrow",
     "Circle",
-    "WideCircle",
+    "WideCircleRadial",
+    "WideCircleAxial",
     "Sphere",
     "Cylinder",
     "Arrow",
@@ -42,7 +43,7 @@ struct PresetInfo {
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 31> kPresetInfo = {{
+constexpr std::array<PresetInfo, 32> kPresetInfo = {{
     {0},  // Gear
     {1},  // Line
     {104},  // WideLine
@@ -63,7 +64,8 @@ constexpr std::array<PresetInfo, 31> kPresetInfo = {{
     {24},  // Octahedron
     {25},  // OctahedronArrow
     {27},  // Circle
-    {111},  // WideCircle
+    {111},  // WideCircleRadial
+    {112},  // WideCircleAxial
     {33},  // Sphere
     {36},  // Cylinder
     {39},  // Arrow

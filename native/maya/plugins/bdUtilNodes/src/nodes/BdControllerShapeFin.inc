@@ -3,6 +3,8 @@
 
 void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
     const short outline = outlinePresetIndex(settings.shape);
+    const bool axialCircle = outline == 112;
+    if (axialCircle && (settings.circleAngle < 1e-12 || settings.wideWidth <= 1e-12)) return;
     const bool tapered = settings.finType == 1;
     PartBuilder builder(settings.fill);
     PartPlane plane{MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0)};
@@ -38,7 +40,11 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
         if (crossXY) plane = {MPoint::origin, MVector(1, 0, 0), MVector(0, 0, 1)};
 
         const bool pointed = outline == 41 || outline == 43;
-        if (planar) {
+        if (axialCircle) {
+            // 頂点の母線を付け根とし、軸方向の帯幅から半径外向きへ立ち上げる。
+            const double halfWidth = settings.wideWidth * 0.5;
+            section = {MPoint(-halfWidth, 0.5, 0), MPoint(halfWidth, 0.5, 0)};
+        } else if (planar) {
             double low = -0.5;
             if (outline == 6 || outline == 7) low = -0.37;
             if (semicircle) low = 0.0;

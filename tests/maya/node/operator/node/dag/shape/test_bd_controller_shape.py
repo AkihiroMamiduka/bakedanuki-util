@@ -36,7 +36,8 @@ SHAPE_NAMES = (
     "Octahedron",
     "OctahedronArrow",
     "Circle",
-    "WideCircle",
+    "WideCircleRadial",
+    "WideCircleAxial",
     "Sphere",
     "Cylinder",
     "Arrow",
@@ -231,7 +232,7 @@ def _case_settings(case_name):
             if base.endswith(("Arrow2D", "Arrow3D")):
                 settings["shapePartType"] = 2
                 settings["shapePartShape"] = int(base.endswith("Arrow3D"))
-            base = "WideCircle" if "Wide" in base else "Circle"
+            base = "WideCircleRadial" if "Wide" in base else "Circle"
         elif "CrossLine3AxisEnd" in base:
             prefix, part = base.split("End")
             settings["shapePartType"] = 1
@@ -2406,7 +2407,11 @@ def test_semicircle_angle_history_and_scene_reload(
         name
         for name in SHAPE_VARIANTS
         if _shape_index(name)
-        not in (_shape_index("Circle"), _shape_index("WideCircle"))
+        not in (
+            _shape_index("Circle"),
+            _shape_index("WideCircleRadial"),
+            _shape_index("WideCircleAxial"),
+        )
     ],
 )
 def test_semicircle_angle_leaves_other_shapes_unchanged(
@@ -3590,7 +3595,7 @@ def test_diamond_fits_square_midpoints(maya_cmds, maya_om, new_scene, filled):
         ("CrossLine2nd3rd", 0),
         ("WideCrossLine2nd3rd", 0),
         ("Circle", 0),
-        ("WideCircle", 0),
+        ("WideCircleRadial", 0),
     ),
 )
 @pytest.mark.parametrize("all_ends", (False, True))
@@ -4096,7 +4101,9 @@ def test_common_part_combinations_are_finite_and_reversible(
     assert _bounds(maya_om, shape) == pytest.approx(decorated)
 
 
-@pytest.mark.parametrize("shape_name", ("Circle", "WideCircle"))
+@pytest.mark.parametrize(
+    "shape_name", ("Circle", "WideCircleRadial", "WideCircleAxial")
+)
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize("angle", (0, 45, 90, 180, 270, 360))
 def test_circle_total_angle_bounds(
@@ -4110,15 +4117,17 @@ def test_circle_total_angle_bounds(
     if angle == 0:
         expected = (0, 0, 0, 0, 0, 0)
     else:
-        wide = shape_name == "WideCircle"
+        wide = shape_name == "WideCircleRadial"
+        axial = shape_name == "WideCircleAxial"
         outer = 0.525 if wide else 0.5
         half = math.radians(angle / 2)
         lower_radius = 0.475 if wide and angle < 180 else outer
         minimum = lower_radius * math.cos(half)
-        if filled and not wide and angle < 180:
+        if filled and not wide and not axial and angle < 180:
             minimum = 0
         side = outer * math.sin(half) if angle < 180 else outer
-        expected = (0, minimum, -side, 0, outer, side)
+        depth = 0.025 if axial else 0
+        expected = (-depth, minimum, -side, depth, outer, side)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
 
 
@@ -4209,12 +4218,13 @@ def test_common_part_option_animation(maya_cmds, maya_om, new_scene):
         assert _bounds(maya_om, shape) == pytest.approx(expected)
 
 
+@pytest.mark.parametrize("shape_name", ("WideCircleRadial", "WideCircleAxial"))
 def test_common_options_history_and_scene_reload(
-    maya_cmds, maya_om, new_scene, tmp_path
+    maya_cmds, maya_om, new_scene, tmp_path, shape_name
 ):
     _load_bd_util_nodes(maya_cmds)
     _, name = _create_controller(
-        maya_cmds, shape_name="WideCircle", shape_fill=True
+        maya_cmds, shape_name=shape_name, shape_fill=True
     )
     before = _bounds(maya_om, name)
     mod = bdu.ModifierManager()
@@ -4256,7 +4266,8 @@ def test_common_options_history_and_scene_reload(
         ("WideCrossLine1st2nd", "CrossLine1st2nd"),
         ("WideCrossLine1st3rd", "CrossLine1st3rd"),
         ("WideCrossLine2nd3rd", "CrossLine2nd3rd"),
-        ("WideCircle", "Circle"),
+        ("WideCircleRadial", "Circle"),
+        ("WideCircleAxial", "Circle"),
     ),
 )
 @pytest.mark.parametrize("filled", (False, True))
@@ -4296,3 +4307,348 @@ def test_common_parts_combine_planar_and_solid_shapes(
     maya_cmds.setAttr(f"{shape}.shapePartShape", PART_SHAPES.index(part_name))
     maya_cmds.setAttr(f"{shape}.shapePartType", placement)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+
+
+@pytest.mark.parametrize("angle", (45, 90, 180, 240, 360))
+@pytest.mark.parametrize("all_ends", (False, True))
+@pytest.mark.parametrize("part", (0, 1))
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("offset,part_size", ((0, 1), (0.4, 1), (0.4, 2)))
+def test_axial_circle_arrow_frame_follows_the_surface(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    angle,
+    all_ends,
+    part,
+    filled,
+    offset,
+    part_size,
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name="WideCircleAxial", shape_fill=filled
+    )
+    for attribute, value in (
+        ("shapeCircleAngle", angle),
+        ("shapePart", True),
+        ("shapePartShape", part),
+        ("shapePartType", int(all_ends)),
+        ("shapePartOffset", offset),
+        ("shapePartSize", part_size),
+    ):
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
+    sweep = math.radians(angle)
+    start, end = (math.pi - sweep) / 2, (math.pi + sweep) / 2
+    sample_angles = [start, end] + [
+        index * math.pi / 2
+        for index in range(-2, 5)
+        if start < index * math.pi / 2 < end
+    ]
+    points = [
+        (x, 0.5 * math.sin(a), 0.5 * math.cos(a))
+        for a in sample_angles
+        for x in (-0.025, 0.025)
+    ]
+    depth = 0.1 * math.cos(math.pi / 6) * part_size
+    half_width = 0.05 * part_size
+    for a, sign in ((start, 1), (end, -1)) if all_ends else ((start, 1),):
+        radial = (0, math.sin(a), math.cos(a))
+        along = (0, -sign * math.cos(a), sign * math.sin(a))
+        outward = radial
+        if offset == 0:
+            cosine = math.sqrt(1 - depth * depth)
+            outward = tuple(
+                cosine * radial[i] - depth * along[i] for i in range(3)
+            )
+            along = tuple(
+                cosine * along[i] + depth * radial[i] for i in range(3)
+            )
+        profile = [
+            (-depth, -half_width, 0),
+            (0, 0, 0),
+            (-depth, half_width, 0),
+        ]
+        if part == 1:
+            profile.append((-depth, 0, half_width))
+        for length, width, up in profile:
+            points.append(
+                tuple(
+                    radial[i] * 0.5
+                    + outward[i] * up
+                    + along[i] * (offset + length)
+                    + (sign * width if i == 0 else 0)
+                    for i in range(3)
+                )
+            )
+    expected = tuple(min(p[i] for p in points) for i in range(3)) + tuple(
+        max(p[i] for p in points) for i in range(3)
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+
+
+@pytest.mark.parametrize("filled", (False, True))
+def test_axial_circle_apex_keeps_outward_direction_and_axial_width(
+    maya_cmds, maya_om, new_scene, filled
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name="WideCircleAxial", shape_fill=filled
+    )
+    for attribute, value in (
+        ("shapeCircleAngle", 1),
+        ("shapePart", True),
+        ("shapePartType", 2),
+        ("shapePartShape", 1),
+    ):
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
+    half = math.radians(0.5)
+    expected = (
+        -0.075,
+        0.5 * math.cos(half),
+        -0.5 * math.sin(half),
+        0.075,
+        0.625,
+        0.0625,
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+
+
+@pytest.mark.parametrize("fin_type", (0, 1))
+def test_axial_circle_fin_uses_axial_width_and_apex_surface(
+    maya_cmds, maya_om, new_scene, fin_type
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name="WideCircleAxial")
+    for attribute, value in (
+        ("shapeWideWidth", 0.2),
+        ("shapeFin", True),
+        ("shapeFinType", fin_type),
+        ("shapeFinSize", 2),
+        ("shapeFinWidthScale", 3),
+    ):
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.6, -0.5, -0.5, 0.6, 1.5, 0.5)
+    )
+    maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (0, -0.5, -0.5, 0, 0.5, 0.5)
+    )
+    maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0.2)
+    maya_cmds.setAttr(f"{shape}.shapeCircleAngle", 0)
+    assert _bounds(maya_om, shape) == pytest.approx((0,) * 6)
+
+
+@pytest.mark.parametrize("connected", (False, True))
+def test_axial_circle_width_updates_cached_geometry(
+    maya_cmds, maya_om, new_scene, connected
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name="WideCircleAxial")
+    target = f"{shape}.shapeWideWidth"
+    if connected:
+        source = maya_cmds.createNode("network")
+        maya_cmds.addAttr(
+            source, longName="width", attributeType="doubleLinear"
+        )
+        maya_cmds.connectAttr(f"{source}.width", target)
+        target = f"{source}.width"
+    for width in (0.2, 0, 0.05):
+        maya_cmds.setAttr(target, width)
+        assert _bounds(maya_om, shape) == pytest.approx(
+            (-width / 2, -0.5, -0.5, width / 2, 0.5, 0.5)
+        )
+
+
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("all_ends", (False, True))
+@pytest.mark.parametrize("part", (0, 1, 2))
+def test_axial_circle_pointed_part_base_stays_on_the_circle(
+    maya_cmds, maya_om, new_scene, filled, all_ends, part
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name="WideCircleAxial", shape_fill=filled
+    )
+    for name, value in (
+        ("shapeCircleAngle", 180),
+        ("shapePart", True),
+        ("shapePartShape", part),
+        ("shapePartType", int(all_ends)),
+    ):
+        maya_cmds.setAttr(f"{shape}.{name}", value)
+    depth = 0.1 * (math.cos(math.pi / 6) if part <= 1 else 1)
+    shoulder = 0.05 * math.sqrt(1 - depth * depth) if part == 1 else 0
+    maximum = max(0.5, 0.5 - depth * depth + shoulder)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (-0.05, 0, -maximum if all_ends else -0.5, 0.05, 0.5, maximum),
+        abs=1e-9,
+    )
+    # 底辺の半径方向が+Zへ向く回転で、接線配置の段差を検出する。
+    maya_cmds.setAttr(
+        f"{shape}.shapeRotateX", math.degrees(2 * math.asin(depth))
+    )
+    assert _bounds(maya_om, shape)[5] == pytest.approx(
+        0.5 + shoulder, abs=1e-9
+    )
+
+
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("all_ends", (False, True))
+@pytest.mark.parametrize("offset", (0, 0.2))
+def test_axial_circle_large_sphere_keeps_its_center_and_radius(
+    maya_cmds, maya_om, new_scene, filled, all_ends, offset
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name="WideCircleAxial", shape_fill=filled
+    )
+    for name, value in (
+        ("shapeCircleAngle", 180),
+        ("shapePart", True),
+        ("shapePartShape", PART_SHAPES.index("Sphere")),
+        ("shapePartType", int(all_ends)),
+        ("shapePartSize", 4),
+        ("shapePartOffset", offset),
+    ):
+        maya_cmds.setAttr(f"{shape}.{name}", value)
+    radius = 0.2
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (
+            -radius,
+            -offset - radius,
+            -0.5 - radius if all_ends else -0.5,
+            radius,
+            0.5,
+            0.5 + radius,
+        ),
+        abs=1e-9,
+    )
+
+
+@pytest.mark.parametrize(
+    "part_name",
+    (
+        "Square",
+        "Diamond",
+        "Circle",
+        "Cube",
+        "Octahedron",
+        "Sphere",
+        "Pyramid",
+        "Cone",
+    ),
+)
+@pytest.mark.parametrize("length_scale", (1, 1.5))
+@pytest.mark.parametrize("filled", (False, True))
+def test_axial_circle_large_part_chord_frame_preserves_anchor_and_dimensions(
+    maya_cmds, maya_om, new_scene, part_name, length_scale, filled
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name="WideCircleAxial", shape_fill=filled
+    )
+    half_length, half_width = 0.3 * length_scale, 0.3
+    band_width = 0.1
+    if part_name == "Sphere" and length_scale == 1:
+        depth = 0
+    elif part_name in ("Circle", "Sphere"):
+        # 輪郭の頂点を通る断面を選び、円の分割数による近似誤差を避ける。
+        band_width = 2 * half_width * math.sin(math.pi / 4)
+        depth = half_length * math.cos(math.pi / 4)
+    elif part_name in ("Diamond", "Octahedron"):
+        depth = half_length * (1 - band_width / (2 * half_width))
+    elif part_name in ("Pyramid", "Cone"):
+        depth = 2 * half_length
+    else:
+        depth = half_length
+    for name, value in (
+        ("shapeCircleAngle", 180),
+        ("shapePart", True),
+        ("shapePartShape", PART_SHAPES.index(part_name)),
+        ("shapePartSize", 6),
+        ("shapePartLengthScale", length_scale),
+        ("shapeWideWidth", band_width),
+        ("shapeRotateX", math.degrees(math.asin(depth))),
+    ):
+        maya_cmds.setAttr(f"{shape}.{name}", value)
+    # Aim後の長さ軸を-Yへ揃え、固定した中心・先端と元の寸法を同時に確認する。
+    anchor_y = -depth / 2
+    anchor_z = math.sqrt(1 - depth * depth) / 2
+    # 回転後の円弧も64分割の頂点から描かれ、連続円の極値には一致しない。
+    arc_maximum_y = max(
+        0.5 * math.sin(index * math.pi / 32 - math.asin(depth))
+        for index in range(33)
+    )
+    pointed = part_name in ("Pyramid", "Cone")
+    solid = part_name in ("Cube", "Octahedron", "Sphere", "Pyramid", "Cone")
+    actual = _bounds(maya_om, shape)
+    assert actual == pytest.approx(
+        (
+            -half_width,
+            anchor_y if pointed else anchor_y - half_length,
+            -anchor_z,
+            half_width,
+            arc_maximum_y,
+            anchor_z + half_width if solid else anchor_z,
+        ),
+        abs=1e-9,
+    )
+
+
+@pytest.mark.parametrize("filled", (False, True))
+def test_axial_circle_large_part_fallback_and_apex_keep_offset_and_history(
+    maya_cmds, maya_om, new_scene, filled
+):
+    _load_bd_util_nodes(maya_cmds)
+    for part_name in (
+        "Square",
+        "Diamond",
+        "Circle",
+        "Cube",
+        "Octahedron",
+        "Sphere",
+        "Pyramid",
+        "Cone",
+    ):
+        _, name = _create_controller(
+            maya_cmds, shape_name="WideCircleAxial", shape_fill=filled
+        )
+        for attribute, value in (
+            ("shapeCircleAngle", 180),
+            ("shapePart", True),
+            ("shapePartShape", PART_SHAPES.index(part_name)),
+            ("shapePartSize", 4),
+            ("shapePartOffset", 1),
+        ):
+            maya_cmds.setAttr(f"{name}.{attribute}", value)
+        pointed = part_name in ("Pyramid", "Cone")
+        solid = part_name in (
+            "Cube",
+            "Octahedron",
+            "Sphere",
+            "Pyramid",
+            "Cone",
+        )
+        # 円弧へ届かないOffsetでは元の接線姿勢と中心・先端位置を維持する。
+        fallback = (
+            -0.2,
+            -1 if pointed else -1.2,
+            -0.5,
+            0.2,
+            0.5,
+            0.7 if solid else 0.5,
+        )
+        assert _bounds(maya_om, name) == pytest.approx(fallback), part_name
+        mod = bdu.ModifierManager()
+        shape = bdu.Nodes(modifier_manager=mod).existing(name)
+        shape.shapePartType.set(2)
+        shape.shapePartOffset.set(0.2)
+        mod.do_it_dg()
+        apex = (-0.2, 0, -0.5, 0.2, 1.1 if pointed else 0.9, 0.5)
+        assert _bounds(maya_om, name) == pytest.approx(apex), part_name
+        mod.undo_it()
+        assert _bounds(maya_om, name) == pytest.approx(fallback), part_name
+        mod.redo_it()
+        assert _bounds(maya_om, name) == pytest.approx(apex), part_name

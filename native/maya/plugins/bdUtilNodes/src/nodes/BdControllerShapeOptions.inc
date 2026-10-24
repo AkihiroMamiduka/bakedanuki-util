@@ -180,7 +180,7 @@ void trimOptionStrokes(PartGeometry& geometry, const std::vector<OptionClipVolum
 bool optionPartSupported(short outline) {
     return outline == 1 || outline == 4 || outline == 5 || outline == 8 || outline == 19 ||
         outline == 27 || outline == 33 || outline == 45 || outline == 46 || outline == 47 ||
-        outline == 52 || outline == 53 || (outline >= 104 && outline <= 111);
+        outline == 52 || outline == 53 || (outline >= 104 && outline <= 112);
 }
 
 short optionNarrowOutline(short outline) {
@@ -201,6 +201,16 @@ struct OptionSite {
     double arrowSize = 1.0;
 };
 
+#include "BdControllerShapeAxialHead.inc"
+
+OptionSite axialCircleEndSite(double angle, bool first) {
+    const auto radial = semicircleRadial(angle);
+    const auto tangent = semicircleOutward(angle, first);
+    return {kSemicirclePlane.point(MPoint::origin + radial * 0.5),
+        nativeAxis(2) * tangent.x + nativeAxis(1) * tangent.y,
+        nativeAxis(0) * (first ? 1.0 : -1.0), false};
+}
+
 std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!settings.part || !optionPartSupported(outline)) return {};
@@ -209,19 +219,27 @@ std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
     const auto add = [&](MVector along, MVector side, bool attached, double arrowSize = 1.0) {
         sites.push_back({MPoint::origin + along * 0.5, along, side, attached, arrowSize});
     };
-    if (outline == 27 || outline == 111) {
+    if (outline == 27 || outline == 111 || outline == 112) {
         const double sweep = std::clamp(settings.circleAngle, 0.0, 2.0 * kPi);
         if (sweep < 1e-12) return sites;
-        if (settings.partType == 2) { add(nativeAxis(1), nativeAxis(2), true); return sites; }
+        if (settings.partType == 2) {
+            add(nativeAxis(1), outline == 112 ? -nativeAxis(0) : nativeAxis(2), true);
+            return sites;
+        }
         const double start = 0.5 * (kPi - sweep);
         const double end = 0.5 * (kPi + sweep);
         for (double angle : all ? std::vector<double>{start, end} : std::vector<double>{start}) {
             const bool first = angle == start;
+            if (outline == 112) {
+                const auto site = axialCircleEndSite(angle, first);
+                sites.push_back(axialHeadPlacement(settings, site, start, end).site);
+                continue;
+            }
             const auto radial = semicircleRadial(angle);
             const auto tangent = semicircleOutward(angle, first);
             const MVector direction = nativeAxis(2) * tangent.x + nativeAxis(1) * tangent.y;
-            const MVector side = nativeAxis(2) * radial.x + nativeAxis(1) * radial.y;
-            sites.push_back({MPoint::origin + side * 0.5, direction, side, false});
+            const MVector radius = nativeAxis(2) * radial.x + nativeAxis(1) * radial.y;
+            sites.push_back({MPoint::origin + radius * 0.5, direction, radius, false});
         }
         return sites;
     }
@@ -271,8 +289,8 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
         PartBuilder head(settings.fill);
         const auto volumeStart = result.volumes.size();
         MVector up = site.along ^ site.side;
-        // 主平面の法線は基準軸に平行。両端とも同じ軸の正側へ立ち上げる。
-        if (settings.partShape == 1 && up.x + up.y + up.z < 0) up = -up;
+        // 軸方向の帯では各配置点の外側、それ以外では基準軸の正側へ立ち上げる。
+        if (settings.partShape == 1 && outline != 112 && up.x + up.y + up.z < 0) up = -up;
         const auto point = [&](const MPoint& p) {
             return site.endpoint + site.along * (p.x * partLength(settings) + settings.partOffset)
                 + site.side * (p.y * partWidth(settings)) + up * (p.z * partWidth(settings));
@@ -299,13 +317,14 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
             const double shoulder = site.attached ? (round ? -0.004903810568 * site.arrowSize : 0.0) : -depth;
             const double tip = site.attached ? depth : 0.0;
             if (site.attached) {
-                const double rootWidth = std::clamp(width * partWidth(settings), -0.5, 0.5);
+                const double rootLimit = outline == 112 ? settings.wideWidth * 0.5 : 0.5;
+                const double rootWidth = std::clamp(width * partWidth(settings), -rootLimit, rootLimit);
                 const double rootY = round ? partSurfaceY(partRoundSection(), rootWidth) : 0.0;
                 planarPoints({site.endpoint + site.side * rootWidth + site.along * rootY,
                     point(MPoint(shoulder, width, 0)), point(MPoint(tip, 0, 0)), point(MPoint(shoulder, -width, 0)),
                     site.endpoint - site.side * rootWidth + site.along * rootY}, true);
             } else planar({MPoint(shoulder, width, 0), MPoint(tip, 0, 0), MPoint(shoulder, -width, 0)},
-                    !optionWideOutline(outline) && outline != 111);
+                    !optionWideOutline(outline) && outline != 111 && outline != 112);
             if (settings.partShape == 1) {
                 if (site.attached) {
                     planar({MPoint(0, 0, 0), MPoint(0, 0, 0.0625 * site.arrowSize), MPoint(tip, 0, 0)}, true);
@@ -482,6 +501,8 @@ void appendOptionCircle(PartBuilder& builder, const ShapeSettings& settings,
     appendPartTriangleUnion(builder, band, kSemicirclePlane);
 }
 
+#include "BdControllerShapeAxialCircle.inc"
+
 bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geometry) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!optionPartSupported(outline)) return false;
@@ -531,6 +552,8 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
             } else if (stop > 1e-12) builder.stroke({MPoint::origin, MPoint::origin + direction * stop}, style);
         }
         if (optionWideOutline(outline)) appendPartTriangleUnion(builder, bands, bandPlane);
+    } else if (outline == 112) {
+        appendOptionAxialCircle(builder, settings, heads, sites, bodyVolumes);
     } else if (outline == 27 || outline == 111) {
         appendOptionCircle(builder, settings, heads, sites, bodyVolumes);
     } else if (outline >= 108 && outline <= 110) appendOptionSquare(builder, outline);
@@ -543,7 +566,7 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
     } else if (!bodyVolumes.empty()) trimOptionStrokes(heads.geometry, bodyVolumes);
     // 開いた円弧矢印では元の円弧を先端まで残す。
     const bool openCircleArrow = outline == 27 && !settings.fill && settings.partShape <= 1 && settings.partType != 2;
-    if (!openCircleArrow) trimOptionGeometry(builder.geometry, heads.volumes, settings.fill);
+    if (!openCircleArrow && outline != 112) trimOptionGeometry(builder.geometry, heads.volumes, settings.fill);
     // Squareの中央ガイドは塗り面にも通す。通常の軸線は面を表示しない場合だけ延長する。
     if (settings.partShape <= 1 &&
         ((!settings.fill && straight && !optionWideOutline(outline)) || outline == 108 || outline == 109)) {

@@ -450,7 +450,7 @@ def test_arrow3d_raises_only_on_positive_side_and_draws_shoulder_edge(
             id="SquareTemplateArrow3DAtEnds",
         ),
         pytest.param(
-            "WideCircle",
+            "WideCircleRadial",
             True,
             {
                 "shapeCircleAngle": 240,
@@ -459,7 +459,7 @@ def test_arrow3d_raises_only_on_positive_side_and_draws_shoulder_edge(
                 "shapePartType": 1,
                 "shapePartOffset": 0.2,
             },
-            id="WideCircleArrow2DAtEnds",
+            id="WideCircleRadialArrow2DAtEnds",
         ),
         pytest.param(
             "ColorCrossLine3Axis",
@@ -579,3 +579,367 @@ def test_highlighting_off_matches_dormant_display(
     finally:
         maya_cmds.deleteUI(window)
         maya_cmds.displayRGBColor("background", *previous_background)
+
+
+def test_axial_circle_thin_fill_is_visible_from_outside_and_inside(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapeWideWidth=0.4,
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0.5,
+    ) as (_, _, camera, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera_shape}.orthographic", False)
+        for name, position, point in (
+            ("outside", 4, (0, 0, 0.5)),
+            ("inside", 0, (0, 0, -0.5)),
+        ):
+            maya_cmds.setAttr(f"{camera}.translateZ", position)
+            pixels = _capture_view(panel, tmp_path / f"{name}.png")
+            assert _brightness_near_world(panel, pixels, point) > 120, (
+                "円筒側面の薄い塗り面が見えない",
+                name,
+            )
+
+
+def test_axial_circle_draws_two_rims_without_a_full_circle_seam(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(maya_cmds, "WideCircleAxial", shapeWideWidth=0.3) as (
+        _,
+        _,
+        _,
+        _,
+        panel,
+    ):
+        pixels = _capture_view(panel, tmp_path / "rims.png")
+        for side in (-0.15, 0.15):
+            assert (
+                _brightness_near_world(panel, pixels, (side, 0, 0.5)) > 600
+            ), "軸方向の帯の両側に輪郭がない"
+        for point in ((0, 0, 0.5), (0, -0.5, 0), (0, 0.5, 0)):
+            assert _brightness_near_world(panel, pixels, point) < 120, (
+                "360度の帯に継ぎ目線または不要な母線が残っている",
+                point,
+            )
+
+
+def test_axial_circle_arrow3d_raises_radially_outward_at_both_ends(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    import math
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapeCircleAngle=180,
+        shapeFill=True,
+        shapePart=True,
+        shapePartShape=1,
+        shapePartType=1,
+    ) as (_, _, camera, _, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 4, 0, 0)
+        target = maya_cmds.createNode("transform")
+        constraint = maya_cmds.aimConstraint(
+            target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
+        )
+        maya_cmds.delete(constraint, target)
+        pixels = _capture_view(panel, tmp_path / "radial_arrows.png")
+        depth = 0.1 * math.cos(math.pi / 6)
+        cosine = math.sqrt(1 - depth * depth)
+        for sign in (-1, 1):
+            assert (
+                _brightness_near_world(
+                    panel,
+                    pixels,
+                    (
+                        0,
+                        depth * cosine + 0.025 * depth,
+                        sign * (0.5 - depth * depth + 0.025 * cosine),
+                    ),
+                )
+                > 600
+            ), "Arrow3Dの肩が各円弧端の半径外側へ立ち上がっていない"
+            assert (
+                _brightness_near_world(
+                    panel, pixels, (0, depth * 0.5, sign * 0.475)
+                )
+                < 120
+            ), "Arrow3Dが円の内側へ立ち上がっている"
+
+
+def test_axial_circle_moved_part_keeps_the_band_connected_without_a_join_line(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapeCircleAngle=180,
+        shapeWideWidth=0.1,
+        shapePart=True,
+        shapePartShape=3,
+        shapePartSize=2,
+        shapePartOffset=0.3,
+    ) as (_, _, _, _, panel):
+        pixels = _capture_view(panel, tmp_path / "moved_part.png")
+        for side in (-0.05, 0.05):
+            assert (
+                _brightness_near_world(panel, pixels, (side, -0.1, 0.5)) > 600
+            ), "移動したPartまで帯の両側が延長されていない"
+        assert (
+            _brightness_near_world(panel, pixels, (0, -0.2, 0.5)) < 120
+        ), "Partと帯の接合位置に内部の横線が残っている"
+
+
+def _frame_axial_join(
+    cmds, camera, camera_shape, *, side=False, oblique=False
+):
+    center = (0, 0.06, 0.495)
+    position = (4, 0.06, 0.495) if side else (1 if oblique else 0, 0.06, 4)
+    cmds.setAttr(f"{camera}.translate", *position)
+    cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.3)
+    target = cmds.createNode("transform")
+    cmds.setAttr(f"{target}.translate", *center)
+    constraint = cmds.aimConstraint(
+        target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
+    )
+    cmds.delete(constraint, target)
+
+
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("part", (0, 1, 2))
+def test_axial_circle_pointed_part_joins_without_a_step(
+    maya_cmds, new_scene, tmp_path, filled, part
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    import math
+
+    depth = 0.1 * (math.cos(math.pi / 6) if part <= 1 else 1)
+    delta = 2 * math.asin(depth)
+    base_y, base_z = 0.5 * math.sin(delta), 0.5 * math.cos(delta)
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapeCircleAngle=180,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartType=1,
+        shapeFill=filled,
+    ) as (_, shape, camera, camera_shape, panel):
+        _frame_axial_join(maya_cmds, camera, camera_shape, side=True)
+        if part == 1:
+            maya_cmds.setAttr(f"{shape}.shapeFill", False)
+        side = _capture_view(panel, tmp_path / "pointed_side.png")
+        old_sag = 0.5 - math.sqrt(0.25 - depth * depth)
+        for point in (
+            (0, base_y, base_z),
+            (0, base_y / 2, (base_z + 0.5) / 2),
+        ):
+            assert _brightness_near_world(panel, side, point) > 600
+        old_join = (0, depth, 0.5 - 0.2 * old_sag)
+        if part == 1:
+            # 追加面の肩線と旧段面の距離を、画像上でも十分に離す。
+            maya_cmds.setAttr(
+                f"{camera}.translate", 4, old_join[1], old_join[2]
+            )
+            maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.01)
+            side = _capture_view(panel, tmp_path / "pointed_side_detail.png")
+            cosine = math.sqrt(1 - depth * depth)
+            height = (old_join[1] - base_y) * depth + (
+                old_join[2] - base_z
+            ) * cosine
+            shoulder = (0, base_y + height * depth, base_z + height * cosine)
+            assert _brightness_near_world(panel, side, shoulder) > 600
+        assert _brightness_near_world(panel, side, old_join) < 120
+        _frame_axial_join(maya_cmds, camera, camera_shape)
+        maya_cmds.setAttr(f"{shape}.shapeFill", filled)
+        front = _capture_view(panel, tmp_path / "pointed_front.png")
+        assert (
+            _brightness_near_world(panel, front, (0.0125, base_y, base_z))
+            < 600
+        )
+        assert _brightness_near_world(panel, front, (0.025, 0.13, 0.48)) > 600
+
+
+@pytest.mark.parametrize("part", (3, 4, 5))
+@pytest.mark.parametrize("offset", (0, -0.02))
+def test_axial_circle_planar_part_removes_internal_rims(
+    maya_cmds, new_scene, tmp_path, part, offset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapeCircleAngle=180,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartType=1,
+        shapePartOffset=offset,
+    ) as (_, _, camera, camera_shape, panel):
+        _frame_axial_join(maya_cmds, camera, camera_shape)
+        pixels = _capture_view(panel, tmp_path / "planar_rims.png")
+        assert (
+            _brightness_near_world(
+                panel, pixels, (0.025, -offset + 0.015, 0.5)
+            )
+            < 120
+        )
+        assert (
+            _brightness_near_world(panel, pixels, (0.05, -offset, 0.5)) > 600
+        )
+
+
+@pytest.mark.parametrize("part", (3, 4, 5))
+@pytest.mark.parametrize("offset", (0, -0.02))
+def test_axial_circle_planar_part_has_no_duplicate_transparent_fill(
+    maya_cmds, new_scene, tmp_path, part, offset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapeCircleAngle=180,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartOffset=offset,
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0.5,
+    ) as (_, shape, camera, camera_shape, panel):
+        _frame_axial_join(maya_cmds, camera, camera_shape, oblique=True)
+        combined = _capture_view(panel, tmp_path / "combined_fill.png")
+        maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0)
+        single = _capture_view(panel, tmp_path / "single_fill.png")
+        point = (0.01, -offset + 0.015, 0.5)
+        actual = _brightness_near_world(panel, combined, point)
+        expected = _brightness_near_world(panel, single, point)
+        assert expected > 120
+        assert actual == pytest.approx(expected, abs=10), (actual, expected)
+
+
+@pytest.mark.parametrize("part", (3, 4, 5, 9, 10))
+@pytest.mark.parametrize("filled", (False, True))
+def test_axial_circle_large_part_removes_the_tangent_step(
+    maya_cmds, new_scene, tmp_path, part, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapeCircleAngle=180,
+        shapeWideWidth=0.1,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartType=1,
+        shapePartSize=6,
+        shapeFill=filled,
+    ) as (_, _, camera, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 4, 0.2, 0.3)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 1.2)
+        target = maya_cmds.createNode("transform")
+        maya_cmds.setAttr(f"{target}.translate", 0, 0.2, 0.3)
+        constraint = maya_cmds.aimConstraint(
+            target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
+        )
+        maya_cmds.delete(constraint, target)
+        pixels = _capture_view(panel, tmp_path / "large_part_side.png")
+        for point in ((0, 0, 0.5), (0, 0.5, 0)):
+            assert _brightness_near_world(panel, pixels, point) > 600
+        # 元の接線配置へ延ばす補助面の位置を、輪郭と塗りの両方で確認する。
+        old_step = (0, 0.3, 0.475) if part <= 5 else (0, 0.51, 0.05)
+        assert _brightness_near_world(panel, pixels, old_step) < 120
+
+
+@pytest.mark.parametrize("part", (6, 7, 8))
+def test_axial_circle_large_solid_part_removes_rims_inside_the_volume(
+    maya_cmds, new_scene, tmp_path, part
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    import math
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapeCircleAngle=180,
+        shapeWideWidth=0.1,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartType=1,
+        shapePartSize=6,
+    ) as (_, _, _, _, panel):
+        pixels = _capture_view(panel, tmp_path / "large_solid_rims.png")
+        for x in (-0.05, 0.05):
+            assert (
+                _brightness_near_world(panel, pixels, (x, 0.5, 0)) > 600
+            ), "Partの外側にある円弧の輪郭が失われている"
+            assert (
+                _brightness_near_world(
+                    panel,
+                    pixels,
+                    (x, 0.5 * math.sin(0.06), 0.5 * math.cos(0.06)),
+                )
+                < 120
+            ), "立体Partの内部に帯の輪郭が残っている"
+
+
+@pytest.mark.parametrize("part", (9, 10))
+@pytest.mark.parametrize("filled", (False, True))
+def test_axial_circle_pointed_solid_replaces_the_arc_near_its_tip(
+    maya_cmds, new_scene, tmp_path, part, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    import math
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapeCircleAngle=360,
+        shapeWideWidth=0.1,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartType=1,
+        shapePartSize=6,
+        shapeFill=filled,
+    ) as (_, _, camera, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 4, 0, 0)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 1.6)
+        target = maya_cmds.createNode("transform")
+        constraint = maya_cmds.aimConstraint(
+            target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
+        )
+        maya_cmds.delete(constraint, target)
+        pixels = _capture_view(panel, tmp_path / "pointed_solid_tip.png")
+        for point in ((0, -0.5, 0), (0, 0.5, 0)):
+            assert _brightness_near_world(panel, pixels, point) > 600
+        for sign in (-1, 1):
+            point = (0, -0.5 * math.cos(0.2), sign * 0.5 * math.sin(0.2))
+            assert (
+                _brightness_near_world(panel, pixels, point) < 120
+            ), "先端型Partで置き換えた区間に元の円弧片が残っている"
