@@ -21,12 +21,26 @@ assert_type(
         category="tools",
         item_id="bdChannelBox",
         label="bdChannelBox",
-        command=lambda: None,
+        command='python("import bd_tools.bd_channel_box; '
+        'bd_tools.bd_channel_box.show()");',
+        source_type="mel",
         icon_path=Path("icons/channel_box.png"),
     ),
     bool,
 )
 assert_type(unregister_menu_owner("bd_tools"), None)
+
+assert_type(
+    register_menu_item(
+        owner="bd_tools",
+        category="tools",
+        item_id="pythonScript",
+        label="Python script",
+        command="print('sample')",
+        source_type="python",
+    ),
+    bool,
+)
 
 assert_type(
     register_menu_item(

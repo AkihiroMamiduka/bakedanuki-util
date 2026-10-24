@@ -6,7 +6,7 @@ from __future__ import annotations
 import json
 from collections.abc import Callable
 from pathlib import Path
-from typing import cast
+from typing import Literal, cast
 
 import pytest
 
@@ -186,12 +186,92 @@ def test_owners_share_category_and_reregister_in_place(
     assert fake_menus.menu(root, query=True, itemArray=True)[-1] == option
     cast(Callable[..., object], fake_menus.items[item]["command"])("maya")
     assert called == ["new"]
+    assert fake_menus.items[item]["sourceType"] == "python"
 
     unregister_menu_owner("bd_tools")
     assert item not in fake_menus.items
     assert category in fake_menus.items
     assert len(fake_menus.items) == 3
     unregister_menu_owner("bd_extra")
+    assert not fake_menus.items
+    assert not fake_menus.menus
+
+
+def test_reregister_updates_script_and_language_in_both_directions(
+    fake_menus: FakeMenus,
+) -> None:
+    """関数・MEL・Python文字列を同じ項目へ再登録し、言語を更新する。"""
+    called: list[bool] = []
+    arguments = dict(
+        owner="bd_tools", category="tools", item_id="sample", label="Sample"
+    )
+    item = (
+        "MayaWindow|bdUtilMainMenu|bdUtilCategory_tools|"
+        "bdUtilItem_8_bd_tools_sample"
+    )
+    assert register_menu_item(command=lambda: None, **arguments)
+    scripts: tuple[tuple[str, Literal["mel", "python"]], ...] = (
+        ('print("MEL");', "mel"),
+        ("print('Python')", "python"),
+        ('print("MEL again");', "mel"),
+    )
+    for command, source_type in scripts:
+        assert register_menu_item(
+            command=command, source_type=source_type, **arguments
+        )
+        assert fake_menus.items[item]["command"] == command
+        assert fake_menus.items[item]["sourceType"] == source_type
+        assert len(fake_menus.items) == 3
+
+    assert register_menu_item(command=lambda: called.append(True), **arguments)
+    assert fake_menus.items[item]["sourceType"] == "python"
+    cast(Callable[..., object], fake_menus.items[item]["command"])("maya")
+    assert called == [True]
+
+
+@pytest.mark.parametrize("command", ("", " ", "\r\n\t"))
+def test_empty_script_is_rejected_before_ui_changes(
+    fake_menus: FakeMenus, command: str
+) -> None:
+    """空のスクリプトではmenuを作成しない。"""
+    with pytest.raises(ValueError, match="空でないスクリプト"):
+        register_menu_item(
+            owner="bd_tools",
+            category="tools",
+            item_id="sample",
+            label="Sample",
+            command=command,
+            source_type="mel",
+        )
+    assert not fake_menus.items
+    assert not fake_menus.menus
+
+
+@pytest.mark.parametrize(
+    ("command", "source_type", "error", "message"),
+    (
+        (42, "python", TypeError, "文字列または呼び出し可能"),
+        ("print('sample')", "invalid", ValueError, "melまたはpython"),
+        (lambda: None, "mel", ValueError, "Python関数"),
+    ),
+)
+def test_invalid_command_language_is_rejected_before_ui_changes(
+    fake_menus: FakeMenus,
+    command: object,
+    source_type: str,
+    error: type[Exception],
+    message: str,
+) -> None:
+    """不正なコマンド型と言語の組合せではmenuを作成しない。"""
+    with pytest.raises(error, match=message):
+        register_menu_item(
+            owner="bd_tools",
+            category="tools",
+            item_id="sample",
+            label="Sample",
+            command=cast(str, command),
+            source_type=cast(Literal["mel", "python"], source_type),
+        )
     assert not fake_menus.items
     assert not fake_menus.menus
 

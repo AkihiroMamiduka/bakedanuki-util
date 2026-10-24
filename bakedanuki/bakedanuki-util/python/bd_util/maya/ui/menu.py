@@ -11,7 +11,7 @@ import tomllib
 import warnings
 from collections.abc import Callable
 from pathlib import Path
-from typing import cast
+from typing import Literal, cast
 
 from maya import cmds, mel
 
@@ -415,7 +415,7 @@ def _initialize_parent_menu(parent: str) -> None:
 
 
 def _ensure_root(main_window: str) -> str:
-    """所有が確認できる共有rootを作成または再利用する。"""
+    """切り離せる共有rootを作成し、所有が確認できる既存rootを再利用する。"""
     parent = _configured_parent(main_window)
     root = f"{parent}|{_ROOT_NAME}"
     for old_root in _owned_roots(main_window):
@@ -437,7 +437,7 @@ def _ensure_root(main_window: str) -> str:
             _ROOT_NAME,
             parent=main_window,
             label=_ROOT_LABEL,
-            tearOff=False,
+            tearOff=True,
             docTag=_ROOT_TAG,
         )
     else:
@@ -449,7 +449,7 @@ def _ensure_root(main_window: str) -> str:
                 parent=parent,
                 label=_ROOT_LABEL,
                 subMenu=True,
-                tearOff=False,
+                tearOff=True,
                 docTag=_ROOT_TAG,
             ),
         )
@@ -459,7 +459,7 @@ def _ensure_root(main_window: str) -> str:
 
 
 def _ensure_category(root: str, category: str) -> str:
-    """所有が確認できるcategory submenuを作成または再利用する。"""
+    """切り離せるcategoryを作成し、所有が確認できる既存categoryを再利用する。"""
     path = f"{root}|{_category_name(category)}"
     if cmds.menuItem(path, exists=True):
         if not _is_owned_category(path, category):
@@ -470,7 +470,7 @@ def _ensure_category(root: str, category: str) -> str:
         parent=root,
         label=category,
         subMenu=True,
-        tearOff=False,
+        tearOff=True,
         docTag=_category_tag(category),
     )
     return path
@@ -517,23 +517,52 @@ def register_menu_item(
     category: str,
     item_id: str,
     label: str,
-    command: Callable[[], object],
+    command: str | Callable[[], object],
+    source_type: Literal["mel", "python"] = "python",
     icon_path: str | Path | None = None,
 ) -> bool:
     """設定先の`bakedanuki > category`へpackage所有の項目を登録する。
 
-    同じownerとitem IDは再登録で更新し、別categoryへ移した場合は
-    古い項目を削除する。batchまたはmain window未生成時は何もせずFalseを返す。
-    icon_pathは画像fileを指定し、省略時は画像を解除する。読めない画像は警告して
-    画像なしで登録する。実表示はMayaのShow icons in menus設定に従う。
+    同じ`owner`と`item_id`は再登録で更新し、別`category`へ移した場合は
+    古い項目を削除する。実表示はMayaのShow icons in menus設定に従う。
+
+    Args:
+        owner: 項目を所有するpackageの固定識別子。
+        category: 項目を配置するcategoryの固定識別子。
+        item_id: 所有package内で一意な項目の固定識別子。
+        label: メニューに表示する空でない文字列。
+        command: 実行するスクリプト文字列、または引数なしのPython関数。
+            Shelfへ保存する項目には文字列を指定する。
+        source_type: 文字列の言語。既定は`"python"`で、MELは`"mel"`を指定する。
+            Python関数には`"python"`だけを指定できる。
+        icon_path: 画像file。省略時は画像を解除し、読めない画像は警告して
+            画像なしで登録する。
+
+    Returns:
+        登録できた場合は`True`。batchまたはmain window未生成時は
+        UIを変更せず`False`を返す。
+
+    Raises:
+        ValueError: 識別子・表示名・言語が不正、空のスクリプト、または
+            Python関数にMELを指定した場合。
+        TypeError: `command`が文字列でも呼び出し可能な値でもない場合。
     """
     _validate_identifier(owner, "owner")
     _validate_identifier(category, "category")
     _validate_identifier(item_id, "item_id")
     if not label:
         raise ValueError("labelには空でない文字列を指定してください")
-    if not callable(command):
-        raise TypeError("commandには呼び出し可能な値を指定してください")
+    if source_type not in ("mel", "python"):
+        raise ValueError("source_typeにはmelまたはpythonを指定してください")
+    if isinstance(command, str):
+        if not command.strip():
+            raise ValueError("commandには空でないスクリプトを指定してください")
+    elif not callable(command):
+        raise TypeError(
+            "commandには文字列または呼び出し可能な値を指定してください"
+        )
+    elif source_type != "python":
+        raise ValueError("Python関数のsource_typeにはpythonを指定してください")
 
     main_window = _main_window()
     if main_window is None:
@@ -568,13 +597,28 @@ def register_menu_item(
 
     target_category = _ensure_category(root, category)
 
-    def invoke(*_args: object) -> object:
-        """Mayaが渡すUI引数を除いて登録された処理を呼ぶ。"""
-        return command()
+    # 文字列はそのまま渡し、Python関数だけMayaのUI引数を取り除く
+    maya_command: str | Callable[..., object]
+    if isinstance(command, str):
+        maya_command = command
+    else:
 
+        def invoke(*_args: object) -> object:
+            """Mayaが渡すUI引数を除いて登録された処理を呼ぶ。"""
+            return command()
+
+        maya_command = invoke
+
+    # Maya stubのcommandは関数型だけなので、文字列対応をこの境界に限定する
+    menu_item_command = cast(Callable[..., str | bool], cmds.menuItem)
     if current_item is not None:
-        cmds.menuItem(
-            current_item, edit=True, label=label, command=invoke, image=image
+        menu_item_command(
+            current_item,
+            edit=True,
+            label=label,
+            command=maya_command,
+            sourceType=source_type,
+            image=image,
         )
         _refresh_menu_icon(current_item, image)
         _ensure_auto_install_option(root)
@@ -588,16 +632,14 @@ def register_menu_item(
         if cmds.menuItem(item_path, exists=True):
             raise RuntimeError(f"{item_path}の旧項目を削除できませんでした")
 
-    created = cast(
-        str | bool,
-        cmds.menuItem(
-            target_name,
-            parent=target_category,
-            label=label,
-            command=invoke,
-            image=image,
-            docTag=_item_tag(owner, item_id),
-        ),
+    created = menu_item_command(
+        target_name,
+        parent=target_category,
+        label=label,
+        command=maya_command,
+        sourceType=source_type,
+        image=image,
+        docTag=_item_tag(owner, item_id),
     )
     if not created or item_path not in _children(target_category):
         raise RuntimeError(f"{item_path}をmenuへ登録できませんでした")

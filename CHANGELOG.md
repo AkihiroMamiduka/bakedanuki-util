@@ -18,6 +18,15 @@
 
 ### Changed
 
+- 共有`bakedanuki`メニューと各categoryを`tearOff=True`で作成するよう変更。
+  既存メニュー配下の配置でも、先頭の点線からMaya標準の独立Windowへ切り離せる。
+  切り離し側の項目・設定は元メニューに同期し、元メニューの破棄で終了する。
+  Maya再起動またはメニュー再生成で反映する。scene・保存設定の移行は不要。
+- `bd_util.maya.ui.register_menu_item()`へスクリプト文字列と
+  `source_type="mel" | "python"`を追加。文字列と言語をMayaへ直接登録し、
+  Shelfやマーキングメニューに保存できる起動コマンドを扱える。
+  既定はPythonで、引数なしのPython関数による既存の登録も維持する。
+  関数にMELを指定した場合と空のスクリプトは拒否する。scene・設定の移行は不要。
 - `bd_util.maya.node.inspection.inspect_scalar_attributes_by_type()`を追加。
   ノードを作成せず、抽象型を含む登録済み型の標準scalar属性・正式path・表示名・
   既定のkeyable／channelBoxフラグを取得する。配列配下・非対応型・個別ノードの追加属性は

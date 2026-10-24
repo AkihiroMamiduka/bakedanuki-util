@@ -199,13 +199,6 @@ start "" "C:\Program Files\Autodesk\Maya2025\bin\maya.exe"
 from bd_util.maya.ui import register_menu_item, unregister_menu_owner
 
 
-def show_channel_box() -> None:
-    """menu選択時にtoolを読み込んで表示する。"""
-    from bd_tools.bd_channel_box import show
-
-    show()
-
-
 def install_menu() -> bool:
     """Maya UI初期化後にpackageの項目を登録する。"""
     return register_menu_item(
@@ -213,7 +206,9 @@ def install_menu() -> bool:
         category="tools",
         item_id="bdChannelBox",
         label="bdChannelBox",
-        command=show_channel_box,
+        command='python("import bd_tools.bd_channel_box; '
+        'bd_tools.bd_channel_box.show()");',
+        source_type="mel",
     )
 
 
@@ -223,7 +218,7 @@ def uninstall_menu() -> None:
 ```
 
 `owner`、`category`、`item_id`には英字で始まる英数字と`_`の固定識別子を指定します。
-`owner`と`item_id`の組はpackage内で一意です。同じ組を再登録するとlabelとcallbackを
+`owner`と`item_id`の組はpackage内で一意です。同じ組を再登録するとlabel・コマンド・言語を
 更新し、categoryを変更した場合は古い項目を移動します。`unregister_menu_owner()`は
 指定ownerの項目だけを削除し、空になったcategoryと`bakedanuki`を片付けます。UI名と`docTag`で
 所有を確認するため、utilのmodule状態を再作成しても他packageの項目を削除しません。
@@ -231,6 +226,26 @@ def uninstall_menu() -> None:
 `label`は表示文字列で、UI名は`owner`・`item_id`から作られます。表示名だけを変更する
 場合は識別子を維持してください。Maya上部の表示名は`bakedanuki`ですが、rootの内部UI名
 `bdUtilMainMenu`は既存メニューの再利用とreloadのため維持します。
+
+共有rootと各categoryは`tearOff=True`で作成します。メニュー先頭の点線を押すと、
+Maya標準の切り離しWindowを表示できます。既存メニュー配下へ配置したrootも同じ仕様です。
+切り離し側は元の項目・コマンド・設定チェックと同期し、owner解除で項目を更新します。
+最後の項目がなくなり元メニューを削除すると、切り離しWindowもMayaが閉じます。
+reloadで破棄したメニューの切り離し状態や位置は独自保存せず、必要な場合は再度切り離します。
+作成時のフラグなので、更新後はMaya再起動または元メニューの再生成で反映します。
+
+`command`にはスクリプト文字列か引数なしのPython関数を指定します。
+`source_type`の既定は`"python"`で、MEL文字列には`"mel"`を明示します。
+文字列は変更せず`cmds.menuItem(command=..., sourceType=...)`へ渡し、
+空または空白だけのスクリプトは拒否します。Python関数は従来どおりMayaが渡す
+UI引数を除いて呼び、`source_type="python"`だけを受け付けます。
+再登録時は関数・MEL文字列・Python文字列の切替も反映します。
+
+Shelfや標準マーキングメニューへ保存するツール起動項目には、上例のように
+毎回importして公開APIを呼ぶMEL文字列を推奨します。Maya標準のメニューからShelfへの
+転送ではコマンドと言語が引き継がれ、保存先から元のメニューや関数登録を参照しません。
+toolsの配置がPythonから解決できれば、メニュー自動登録OFFでも実行できます。
+任意のPython関数からスクリプト文字列を自動生成する機能は提供しません。
 
 `icon_path`には画像fileの`str`または`Path`を指定できます。利用側packageが自分の
 配置を基準に絶対pathを組み立て、画像と一緒に配布します。`icon/__init__.py`と同じ
