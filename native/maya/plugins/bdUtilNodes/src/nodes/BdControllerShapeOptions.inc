@@ -193,6 +193,13 @@ short optionNarrowOutline(short outline) {
 
 bool optionWideOutline(short outline) { return outline >= 104 && outline <= 107; }
 
+bool optionAxialWrapped(const ShapeSettings& settings) {
+    return settings.part && outlinePresetIndex(settings.shape) == 112 &&
+        settings.partType != 2 && settings.partShape <= 5;
+}
+
+std::vector<OptionClipVolume> axialWrappedPartClipVolumes(const ShapeSettings& settings);
+
 struct OptionSite {
     MPoint endpoint;
     MVector along;
@@ -232,7 +239,7 @@ std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
             const bool first = angle == start;
             if (outline == 112) {
                 const auto site = axialCircleEndSite(angle, first);
-                sites.push_back(axialHeadPlacement(settings, site, start, end).site);
+                sites.push_back(optionAxialWrapped(settings) ? site : axialHeadPlacement(settings, site, start, end).site);
                 continue;
             }
             const auto radial = semicircleRadial(angle);
@@ -282,6 +289,7 @@ struct OptionHeads {
 
 OptionHeads makeOptionHeads(const ShapeSettings& settings) {
     OptionHeads result;
+    if (optionAxialWrapped(settings)) return result;
     std::vector<std::vector<MPoint>> signatures;
     const short outline = outlinePresetIndex(settings.shape);
     const bool round = outline == 27 || outline == 33 || outline == 46 || outline == 47 || outline == 111;
@@ -401,6 +409,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
 }
 
 std::vector<OptionClipVolume> optionPartClipVolumes(const ShapeSettings& settings) {
+    if (optionAxialWrapped(settings)) return axialWrappedPartClipVolumes(settings);
     return makeOptionHeads(settings).volumes;
 }
 
@@ -502,10 +511,15 @@ void appendOptionCircle(PartBuilder& builder, const ShapeSettings& settings,
 }
 
 #include "BdControllerShapeAxialCircle.inc"
+#include "BdControllerShapeAxialWrap.inc"
 
 bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geometry) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!optionPartSupported(outline)) return false;
+    if (optionAxialWrapped(settings)) {
+        geometry = makeAxialWrappedGeometry(settings);
+        return true;
+    }
     PartBuilder builder(settings.fill);
     auto heads = makeOptionHeads(settings);
     const auto sites = optionPartSites(settings);

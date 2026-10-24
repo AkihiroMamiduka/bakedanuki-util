@@ -51,8 +51,6 @@ double optionAxialJoinDistance(const ShapeSettings& settings) {
     return settings.partOffset;
 }
 
-#include "BdControllerShapeAxialPlanar.inc"
-
 bool axialArcTouchesSolid(const std::vector<double>& angles, const OptionHeads& heads) {
     for (std::size_t i = 1; i < angles.size(); ++i) {
         const auto a = kSemicirclePlane.point(MPoint::origin + semicircleRadial(angles[i - 1]) * 0.5);
@@ -87,6 +85,7 @@ void appendOptionAxialCircle(PartBuilder& builder, const ShapeSettings& settings
     double first = start, last = end;
     const bool chordHead = settings.partShape <= 2;
     const bool solidHead = settings.partShape >= 6;
+    const bool preserveApex = settings.partType == 2 && settings.partShape >= 3 && settings.partShape <= 5;
     std::vector<AxialHeadPlacement> headPlacements;
     const double joinDistance = optionAxialJoinDistance(settings);
     const double trim = std::min(std::asin(std::clamp(-joinDistance * 2.0, 0.0, 1.0)), sweep * (sites.size() == 2 ? 0.5 : 1.0));
@@ -127,7 +126,7 @@ void appendOptionAxialCircle(PartBuilder& builder, const ShapeSettings& settings
             else points.push_back(join);
         }
         builder.stroke(points);
-        trimOptionGeometry(builder.geometry, heads.volumes, builder.filled);
+        if (!preserveApex) trimOptionGeometry(builder.geometry, heads.volumes, builder.filled);
         return;
     }
     PartBuilder surface(true);
@@ -148,14 +147,9 @@ void appendOptionAxialCircle(PartBuilder& builder, const ShapeSettings& settings
         if (site.side.x > 0) surface.quad(join - side, arc - side, arc + side, join + side);
         else surface.quad(arc - side, join - side, join + side, arc + side);
     }
-    if (settings.part && settings.partShape >= 3 && settings.partShape <= 5 &&
-        std::abs(partLength(settings)) > 1e-12 && std::abs(partWidth(settings)) > 1e-12) {
-        appendOptionAxialPlanarParts(builder, settings, heads, sites, std::move(surface.geometry));
-        return;
-    }
-    trimOptionGeometry(surface.geometry, heads.volumes, true);
+    if (!preserveApex) trimOptionGeometry(surface.geometry, heads.volumes, true);
     appendOptionSurfaceOutline(builder, surface.geometry);
-    trimOptionStrokes(builder.geometry, heads.volumes);
+    if (!preserveApex) trimOptionStrokes(builder.geometry, heads.volumes);
     for (const auto& part : surface.geometry.fillParts) for (unsigned int i = 0; i < part.triangles.length(); i += 3) {
         auto volume = optionPlanarVolume({part.triangles[i], part.triangles[i + 1], part.triangles[i + 2]});
         if (!volume.empty()) bodyVolumes.push_back(std::move(volume));

@@ -658,7 +658,6 @@ def test_axial_circle_arrow3d_raises_radially_outward_at_both_ends(
         maya_cmds.delete(constraint, target)
         pixels = _capture_view(panel, tmp_path / "radial_arrows.png")
         depth = 0.1 * math.cos(math.pi / 6)
-        cosine = math.sqrt(1 - depth * depth)
         for sign in (-1, 1):
             assert (
                 _brightness_near_world(
@@ -666,8 +665,8 @@ def test_axial_circle_arrow3d_raises_radially_outward_at_both_ends(
                     pixels,
                     (
                         0,
-                        depth * cosine + 0.025 * depth,
-                        sign * (0.5 - depth * depth + 0.025 * cosine),
+                        0.525 * math.sin(2 * depth),
+                        sign * 0.525 * math.cos(2 * depth),
                     ),
                 )
                 > 600
@@ -680,8 +679,9 @@ def test_axial_circle_arrow3d_raises_radially_outward_at_both_ends(
             ), "Arrow3Dが円の内側へ立ち上がっている"
 
 
-def test_axial_circle_moved_part_keeps_the_band_connected_without_a_join_line(
-    maya_cmds, new_scene, tmp_path
+@pytest.mark.parametrize("part", range(6))
+def test_axial_circle_wrapped_part_ignores_distance_offset(
+    maya_cmds, new_scene, tmp_path, part
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
@@ -692,18 +692,15 @@ def test_axial_circle_moved_part_keeps_the_band_connected_without_a_join_line(
         shapeCircleAngle=180,
         shapeWideWidth=0.1,
         shapePart=True,
-        shapePartShape=3,
+        shapePartShape=part,
         shapePartSize=2,
-        shapePartOffset=0.3,
-    ) as (_, _, _, _, panel):
-        pixels = _capture_view(panel, tmp_path / "moved_part.png")
-        for side in (-0.05, 0.05):
-            assert (
-                _brightness_near_world(panel, pixels, (side, -0.1, 0.5)) > 600
-            ), "移動したPartまで帯の両側が延長されていない"
-        assert (
-            _brightness_near_world(panel, pixels, (0, -0.2, 0.5)) < 120
-        ), "Partと帯の接合位置に内部の横線が残っている"
+    ) as (_, shape, _, _, panel):
+        expected = _capture_view(panel, tmp_path / "offset_zero.png")
+        for offset in (-0.3, 0.3):
+            maya_cmds.setAttr(f"{shape}.shapePartOffset", offset)
+            actual = _capture_view(panel, tmp_path / f"offset_{offset}.png")
+            assert actual == expected, "曲面Partへ距離Offsetが作用している"
+            assert maya_cmds.getAttr(f"{shape}.shapePartOffset") == offset
 
 
 def _frame_axial_join(
@@ -722,8 +719,8 @@ def _frame_axial_join(
 
 
 @pytest.mark.parametrize("filled", (False, True))
-@pytest.mark.parametrize("part", (0, 1, 2))
-def test_axial_circle_pointed_part_joins_without_a_step(
+@pytest.mark.parametrize("part", range(6))
+def test_axial_circle_wrapped_part_follows_the_circle(
     maya_cmds, new_scene, tmp_path, filled, part
 ):
     if maya_cmds.about(batch=True):
@@ -731,9 +728,6 @@ def test_axial_circle_pointed_part_joins_without_a_step(
 
     import math
 
-    depth = 0.1 * (math.cos(math.pi / 6) if part <= 1 else 1)
-    delta = 2 * math.asin(depth)
-    base_y, base_z = 0.5 * math.sin(delta), 0.5 * math.cos(delta)
     with _drawing_view(
         maya_cmds,
         "WideCircleAxial",
@@ -741,41 +735,26 @@ def test_axial_circle_pointed_part_joins_without_a_step(
         shapePart=True,
         shapePartShape=part,
         shapePartType=1,
+        shapePartSize=6,
         shapeFill=filled,
-    ) as (_, shape, camera, camera_shape, panel):
-        _frame_axial_join(maya_cmds, camera, camera_shape, side=True)
-        if part == 1:
-            maya_cmds.setAttr(f"{shape}.shapeFill", False)
-        side = _capture_view(panel, tmp_path / "pointed_side.png")
-        old_sag = 0.5 - math.sqrt(0.25 - depth * depth)
-        for point in (
-            (0, base_y, base_z),
-            (0, base_y / 2, (base_z + 0.5) / 2),
-        ):
-            assert _brightness_near_world(panel, side, point) > 600
-        old_join = (0, depth, 0.5 - 0.2 * old_sag)
-        if part == 1:
-            # 追加面の肩線と旧段面の距離を、画像上でも十分に離す。
-            maya_cmds.setAttr(
-                f"{camera}.translate", 4, old_join[1], old_join[2]
-            )
-            maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.01)
-            side = _capture_view(panel, tmp_path / "pointed_side_detail.png")
-            cosine = math.sqrt(1 - depth * depth)
-            height = (old_join[1] - base_y) * depth + (
-                old_join[2] - base_z
-            ) * cosine
-            shoulder = (0, base_y + height * depth, base_z + height * cosine)
-            assert _brightness_near_world(panel, side, shoulder) > 600
-        assert _brightness_near_world(panel, side, old_join) < 120
-        _frame_axial_join(maya_cmds, camera, camera_shape)
-        maya_cmds.setAttr(f"{shape}.shapeFill", filled)
-        front = _capture_view(panel, tmp_path / "pointed_front.png")
-        assert (
-            _brightness_near_world(panel, front, (0.0125, base_y, base_z))
-            < 600
+    ) as (_, _, camera, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 4, 0.12, 0.46)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.45)
+        target = maya_cmds.createNode("transform")
+        maya_cmds.setAttr(f"{target}.translate", 0, 0.12, 0.46)
+        constraint = maya_cmds.aimConstraint(
+            target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
         )
-        assert _brightness_near_world(panel, front, (0.025, 0.13, 0.48)) > 600
+        maya_cmds.delete(constraint, target)
+        pixels = _capture_view(panel, tmp_path / "curved_part_side.png")
+        for angle in (0.15, 0.25, 0.35):
+            point = (0, 0.5 * math.sin(angle), 0.5 * math.cos(angle))
+            assert (
+                _brightness_near_world(panel, pixels, point) > 600
+            ), "Part部分が円周から離れている"
+        assert (
+            _brightness_near_world(panel, pixels, (0, 0.12, 0.43)) < 120
+        ), "円の内側に直線のPartや補助面が残っている"
 
 
 @pytest.mark.parametrize("part", (3, 4, 5))
@@ -797,15 +776,8 @@ def test_axial_circle_planar_part_removes_internal_rims(
     ) as (_, _, camera, camera_shape, panel):
         _frame_axial_join(maya_cmds, camera, camera_shape)
         pixels = _capture_view(panel, tmp_path / "planar_rims.png")
-        assert (
-            _brightness_near_world(
-                panel, pixels, (0.025, -offset + 0.015, 0.5)
-            )
-            < 120
-        )
-        assert (
-            _brightness_near_world(panel, pixels, (0.05, -offset, 0.5)) > 600
-        )
+        assert _brightness_near_world(panel, pixels, (0.025, 0.015, 0.5)) < 120
+        assert _brightness_near_world(panel, pixels, (0.05, 0, 0.5)) > 600
 
 
 @pytest.mark.parametrize("part", (3, 4, 5))
@@ -831,7 +803,7 @@ def test_axial_circle_planar_part_has_no_duplicate_transparent_fill(
         combined = _capture_view(panel, tmp_path / "combined_fill.png")
         maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0)
         single = _capture_view(panel, tmp_path / "single_fill.png")
-        point = (0.01, -offset + 0.015, 0.5)
+        point = (0.01, 0.015, 0.5)
         actual = _brightness_near_world(panel, combined, point)
         expected = _brightness_near_world(panel, single, point)
         assert expected > 120
@@ -943,3 +915,77 @@ def test_axial_circle_pointed_solid_replaces_the_arc_near_its_tip(
             assert (
                 _brightness_near_world(panel, pixels, point) < 120
             ), "先端型Partで置き換えた区間に元の円弧片が残っている"
+
+
+@pytest.mark.parametrize("part", (3, 4, 5))
+@pytest.mark.parametrize("width", (0, 0.1))
+@pytest.mark.parametrize("filled", (False, True))
+def test_axial_circle_planar_apex_keeps_the_original_circle(
+    maya_cmds, new_scene, tmp_path, part, width, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    import math
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapeWideWidth=width,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartType=2,
+        shapePartSize=6,
+        shapeFill=filled,
+    ) as (_, _, camera, _, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 4, 0, 0)
+        target = maya_cmds.createNode("transform")
+        constraint = maya_cmds.aimConstraint(
+            target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
+        )
+        maya_cmds.delete(constraint, target)
+        pixels = _capture_view(panel, tmp_path / "planar_apex_circle.png")
+        for sign in (-1, 1):
+            point = (0, 0.5 * math.cos(0.25), sign * 0.5 * math.sin(0.25))
+            assert (
+                _brightness_near_world(panel, pixels, point) > 600
+            ), "AtApexの平面Partが円筒上部を切り取っている"
+        assert (
+            _brightness_near_world(panel, pixels, (0, 0.2, 0.3)) < 120
+        ), "円弧を平らに置き換える接合面が残っている"
+
+
+@pytest.mark.parametrize("all_ends", (False, True))
+def test_axial_circle_long_wrapped_part_has_no_duplicate_periodic_fill(
+    maya_cmds, new_scene, tmp_path, all_ends
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "WideCircleAxial",
+        shapePart=True,
+        shapePartShape=3,
+        shapePartType=int(all_ends),
+        shapePartSize=8,
+        shapePartLengthScale=5,
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0.5,
+    ) as (_, shape, _, _, panel):
+        wrapped = _capture_view(panel, tmp_path / "periodic_wrapped_fill.png")
+        # 一周より長いSquareは、同じ幅の円筒側面一枚と一致する。
+        maya_cmds.setAttr(f"{shape}.shapePart", False)
+        maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0.8)
+        reference = _capture_view(
+            panel, tmp_path / "periodic_reference_fill.png"
+        )
+        for point in ((0.1, 0.1, 0.49), (-0.1, 0.2, 0.45)):
+            expected = _brightness_near_world(panel, reference, point)
+            actual = _brightness_near_world(panel, wrapped, point)
+            assert expected > 120
+            assert actual == pytest.approx(expected, abs=10), (
+                actual,
+                expected,
+            )
