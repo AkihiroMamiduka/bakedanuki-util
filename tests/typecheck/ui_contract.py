@@ -49,12 +49,21 @@ from bd_util.ui import (
     UiStateManager,
     WindowController,
     ensure_window_on_screen,
+    exec_dialog_near,
+    get_save_file_name_near,
     qt,
 )
 
 
 class SampleWindow(QtWidgets.QDialog):
     pass
+
+
+assert_type(exec_dialog_near(SampleWindow(), qt.QPoint(100, 100)), int)
+assert_type(
+    get_save_file_name_near(None, "保存", "", "JSON (*.json)", qt.QPoint()),
+    tuple[str, str],
+)
 
 
 @dataclass

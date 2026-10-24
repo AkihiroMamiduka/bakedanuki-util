@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from . import qt
+from .dialog import exec_dialog_near, get_save_file_name_near
 from .binding import (
     IntBinding,
     IntLabel,
@@ -93,6 +94,8 @@ from .window_state import (
 )
 
 __all__ = [
+    "exec_dialog_near",
+    "get_save_file_name_near",
     "IntBinding",
     "IntLabel",
     "IntSlider",

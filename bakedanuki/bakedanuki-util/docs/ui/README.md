@@ -1634,6 +1634,38 @@ ensure_window_on_screen(window)
 `settings_path`はplatformにかかわらず`/`で区切ります。絶対path、`.`、`..`、空segment、
 Windows予約名や使用できない文字は拒否されます。
 
+## モーダル画面を操作位置へ配置する
+
+`exec_dialog_near(dialog, anchor)`は通常のQtダイアログをモーダル実行します。
+操作開始時のグローバル座標`anchor`を中心にし、その画面の`availableGeometry()`へ
+タイトルバー・外枠まで収めます。サイズを維持できない場合だけ縮小します。
+モニターが見つからなければWindowの画面・primary screenの順に補完します。
+
+```python
+from bd_util.ui import exec_dialog_near, get_save_file_name_near, qt
+
+anchor = qt.QCursor.pos()
+dialog = qt.QDialog(parent)
+# 入力部品とレイアウトを構築する
+result = exec_dialog_near(dialog, anchor)
+dialog.deleteLater()
+
+path, selected_filter = get_save_file_name_near(
+    parent, "保存先", "C:/work", "JSON (*.json)", anchor, "json"
+)
+```
+
+未保存確認などを挟む場合は、確認前に`anchor`を取得して引き継いでください。
+表示直後に外枠寸法を再確認し、その後の利用者による移動は追跡しません。
+実行終了・例外時にイベント監視と所有タイマーを解除し、最小寸法・layout制約を戻します。
+`dialog`自体の破棄は呼出し元が行います。配置の永続化やMayaの状態変更は行いません。
+
+`get_save_file_name_near()`は配置を制御できるQt版の`QFileDialog`を使用するため、
+Windows標準の保存画面とは外観が変わります。フォルダーだけならファイル名は未入力、
+ファイル名まで指定した場合はその名前を初期値にします。末尾引数で既定拡張子を指定できます。
+標準の上書き確認を有効にし、取消時は`("", "")`を返します。実際の保存・上書き可否は呼出し元の責務です。
+ネイティブのファイルダイアログへ`exec_dialog_near()`を適用する使い方は対象外です。
+
 ## UI内部状態の保存
 
 `UiStateManager`は、明示登録したWidgetやActionの内部状態を同じtool単位の`ui.ini`へ保存します。
