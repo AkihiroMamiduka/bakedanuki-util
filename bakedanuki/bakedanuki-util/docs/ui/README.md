@@ -1716,6 +1716,33 @@ Windows標準の保存画面とは外観が変わります。フォルダーだ�
 標準の上書き確認を有効にし、取消時は`("", "")`を返します。実際の保存・上書き可否は呼出し元の責務です。
 ネイティブのファイルダイアログへ`exec_dialog_near()`を適用する使い方は対象外です。
 
+### Maya標準のフォルダー選択
+
+編集可能な上部のアドレス欄が必要な場合は、Maya adapterを使用します。
+
+```python
+from bd_util.maya.ui import get_existing_directory_near
+from bd_util.ui import qt
+
+directory = get_existing_directory_near(
+    parent, "出力先を選択", "C:/work", anchor,
+    initial_size=qt.QSize(1200, 650),
+)
+```
+
+`cmds.fileDialog2(dialogStyle=2, fileMode=3)`でMaya標準画面を開きます。
+今回の呼出し中に表示される、指定タイトルの新しい`QFileDialog`だけを捕捉し、
+Qtの論理ピクセルで指定した初期サイズと操作起点を適用します。
+Maya内部のWidget名は使用せず、既存画面や別タイトルの画面は動かしません。
+表示後の手動リサイズ・移動と、パス欄の操作はMaya標準の動作を使用します。
+取消は空文字を返し、コマンド失敗や対象画面を取得できない場合は`RuntimeError`です。
+このAPIの一時監視は成功・取消・例外のいずれでも解除します。
+
+外部APIが表示・実行を所有する通常Qt画面には、
+`with place_dialog_near(dialog, anchor):`で共通の配置を適用できます。
+未表示・表示済みの両方を扱い、context終了時に監視と制約を解除します。
+ダイアログの実行・削除はこのcontextでは行いません。
+
 ## UI内部状態の保存
 
 `UiStateManager`は、明示登録したWidgetやActionの内部状態を同じtool単位の`ui.ini`へ保存します。

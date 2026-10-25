@@ -3,6 +3,7 @@
 from . import qt
 from .dialog_anchor import DialogAnchorTracker
 from .dialog import (
+    place_dialog_near,
     exec_dialog_near,
     get_existing_directory_near,
     get_open_file_names_near,
@@ -101,6 +102,7 @@ from .window_state import (
 )
 
 __all__ = [
+    "place_dialog_near",
     "DialogAnchorTracker",
     "exec_dialog_near",
     "warning_near",

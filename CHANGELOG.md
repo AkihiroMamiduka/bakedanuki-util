@@ -18,6 +18,11 @@
 
 ### Changed
 
+- Maya標準のフォルダー選択を操作起点へ配置する
+  `bd_util.maya.ui.get_existing_directory_near()`を追加。
+  `fileDialog2`の表示中だけ対象画面を捕捉し、指定寸法と画面端補正を適用する。
+  外部APIが所有するQt画面向けに`bd_util.ui.place_dialog_near()`も公開する。
+  既存のQt版フォルダー選択APIとJSON・設定の形式は維持する。
 - 操作位置へ表示する既存フォルダー選択API`get_existing_directory_near()`を追加。
   Qt版のフォルダー選択と通常の移動操作を使用し、取消時は空文字を返す。
   ファイルやフォルダーの作成は行わない。既存API・scene・保存設定の移行は不要。

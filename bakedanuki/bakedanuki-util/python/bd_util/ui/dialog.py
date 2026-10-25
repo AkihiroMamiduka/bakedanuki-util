@@ -3,13 +3,15 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Generator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import cast
 
 from . import qt
 
 __all__ = [
+    "place_dialog_near",
     "exec_dialog_near",
     "warning_near",
     "get_open_file_names_near",
@@ -178,6 +180,37 @@ class _ChildMessageBoxPlacement(qt.QObject):
         self.deleteLater()
 
 
+@contextmanager
+def place_dialog_near(
+    dialog: qt.QDialog, anchor: qt.QPoint
+) -> Generator[None, None, None]:
+    """外部APIで実行するQtダイアログも、所有期間だけ起点付近へ配置する。
+
+    ネイティブのファイルダイアログは対象外です。表示済みの画面にも使用でき、
+    外枠確定後に一度補正します。その後の利用者による移動は追跡しません。
+    配下に表示されるQt標準の確認にも、同じ起点を使用します。
+
+    Args:
+        dialog: 呼出し元または外部APIが所有するダイアログ。
+        anchor: 操作開始時に記録したグローバル座標。
+
+    Yields:
+        配置監視が有効な期間。ダイアログ自体は実行・削除しません。
+    """
+    placement = _DialogPlacement(dialog, anchor)
+    messages = _ChildMessageBoxPlacement(dialog, anchor)
+    try:
+        placement.prepare()
+        if dialog.isVisible():
+            placement.correct_after_show()
+        yield
+    finally:
+        if qt.isValid(messages):
+            messages.dispose()
+        if qt.isValid(placement):
+            placement.dispose()
+
+
 def exec_dialog_near(dialog: qt.QDialog, anchor: qt.QPoint) -> int:
     """`anchor`を中心に、外枠まで画面内へ収めてモーダル実行する。
 
@@ -192,16 +225,8 @@ def exec_dialog_near(dialog: qt.QDialog, anchor: qt.QPoint) -> int:
     Returns:
         `QDialog.exec()`の結果。ダイアログ自体は削除しません。
     """
-    placement = _DialogPlacement(dialog, anchor)
-    messages = _ChildMessageBoxPlacement(dialog, anchor)
-    try:
-        placement.prepare()
+    with place_dialog_near(dialog, anchor):
         return int(dialog.exec())
-    finally:
-        if qt.isValid(messages):
-            messages.dispose()
-        if qt.isValid(placement):
-            placement.dispose()
 
 
 def warning_near(

@@ -10,10 +10,44 @@ from bd_util.ui import (
     get_existing_directory_near,
     get_open_file_names_near,
     get_save_file_name_near,
+    place_dialog_near,
     qt,
     warning_near,
 )
 from bd_util.ui import dialog as dialog_module
+
+
+@pytest.mark.parametrize("shown", (False, True))
+def test_external_dialog_placement_preserves_later_user_movement(
+    qt_application, monkeypatch, shown
+) -> None:
+    """表示前と表示中の両方で配置し、利用者の後続移動には追従しない。"""
+    dialog = qt.QDialog()
+    dialog.setWindowFlag(qt.Qt.WindowType.FramelessWindowHint, True)
+    dialog.resize(300, 200)
+    available = qt.QRect(0, 0, 800, 600)
+
+    def geometry(_dialog, _position):
+        """外部APIが開く画面にも共通の作業領域を与える。"""
+        return available
+
+    monkeypatch.setattr(dialog_module, "_available_geometry", geometry)
+    if shown:
+        dialog.show()
+    try:
+        with place_dialog_near(dialog, qt.QPoint(799, 599)):
+            dialog.show()
+            qt_application.processEvents()
+            assert dialog.frameGeometry() == qt.QRect(500, 400, 300, 200)
+            dialog.move(50, 60)
+            qt_application.processEvents()
+            assert dialog.pos() == qt.QPoint(50, 60)
+        qt.QApplication.sendPostedEvents(None, qt.QEvent.Type.DeferredDelete)
+        assert not dialog.findChildren(dialog_module._DialogPlacement)
+        assert not dialog.findChildren(dialog_module._ChildMessageBoxPlacement)
+    finally:
+        dialog.close()
+        dialog.deleteLater()
 
 
 @pytest.mark.parametrize(

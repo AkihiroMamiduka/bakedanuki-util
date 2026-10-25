@@ -14,6 +14,7 @@ from bd_util._sample.maya.ui.bool_sample.bool_views import (
     VisibilityData,
 )
 from bd_util.maya.ui import (
+    get_existing_directory_near as get_maya_existing_directory_near,
     DockOptions,
     DockRestoreSpec,
     MayaCallbackRegistry,
@@ -51,6 +52,7 @@ from bd_util.ui import (
     WindowController,
     ensure_window_on_screen,
     exec_dialog_near,
+    place_dialog_near,
     get_existing_directory_near,
     get_open_file_names_near,
     get_save_file_name_near,
@@ -64,6 +66,14 @@ class SampleWindow(QtWidgets.QDialog):
 
 
 assert_type(exec_dialog_near(SampleWindow(), qt.QPoint(100, 100)), int)
+with place_dialog_near(SampleWindow(), qt.QPoint(100, 100)) as placement:
+    assert_type(placement, None)
+assert_type(
+    get_maya_existing_directory_near(
+        None, "出力先", "", qt.QPoint(), initial_size=qt.QSize(1200, 650)
+    ),
+    str,
+)
 assert_type(DialogAnchorTracker(SampleWindow()).position(), qt.QPoint)
 assert_type(
     DialogAnchorTracker(SampleWindow()).position(SampleWindow()), qt.QPoint

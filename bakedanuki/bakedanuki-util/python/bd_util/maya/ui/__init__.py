@@ -80,6 +80,7 @@ from .binding import (
     resolve_float_plug,
 )
 from .callback import MayaCallbackRegistry
+from .dialog import get_existing_directory_near
 from .channel_box import get_channel_box_precision
 from .dock import (
     DockArea,
@@ -116,6 +117,7 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "get_existing_directory_near",
     "shared_plugs_lifetime",
     "shared_scalar_plug_nodes",
     "MayaNodeNameStore",
