@@ -1666,6 +1666,7 @@ Windows予約名や使用できない文字は拒否されます。
 from bd_util.ui import (
     DialogAnchorTracker,
     exec_dialog_near,
+    get_existing_directory_near,
     get_open_file_names_near,
     get_save_file_name_near,
     qt,
@@ -1681,6 +1682,7 @@ result = exec_dialog_near(dialog, anchor)
 dialog.deleteLater()
 
 warning_near(parent, "確認", "未保存の変更があります", anchor)
+directory = get_existing_directory_near(parent, "出力先", "C:/work", anchor)
 paths, selected_filter = get_open_file_names_near(
     parent, "読込元", "C:/work", "JSON (*.json)", anchor
 )
@@ -1703,6 +1705,9 @@ trackerはツールの所有Widgetを親とし、明示的に終了する場合�
 `warning_near()`はQtの警告を表示し、選択された`QMessageBox.StandardButton`を返します。
 既定は`Ok`ボタンで、複数ボタンの組合せと`default_button`も指定できます。
 `get_open_file_names_near()`は既存ファイルの複数選択に対応し、取消時は`([], "")`を返します。
+`get_existing_directory_near()`は既存フォルダーを1件選択し、取消時は空文字を返します。
+ファイルを選択対象から除き、フォルダー間の移動・確定はQt標準の動作を維持します。
+フォルダーやファイルの作成、選択位置の永続化は行いません。
 
 ファイル選択APIは配置を制御できるQt版の`QFileDialog`を使用するため、
 Windows標準の保存画面とは外観が変わります。フォルダーだけならファイル名は未入力、

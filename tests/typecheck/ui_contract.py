@@ -51,6 +51,7 @@ from bd_util.ui import (
     WindowController,
     ensure_window_on_screen,
     exec_dialog_near,
+    get_existing_directory_near,
     get_open_file_names_near,
     get_save_file_name_near,
     warning_near,
@@ -70,6 +71,10 @@ assert_type(
 assert_type(
     warning_near(None, "確認", "未保存です", qt.QPoint(100, 100)),
     qt.QMessageBox.StandardButton,
+)
+assert_type(
+    get_existing_directory_near(None, "出力先", "", qt.QPoint()),
+    str,
 )
 assert_type(
     get_open_file_names_near(None, "読込", "", "JSON (*.json)", qt.QPoint()),

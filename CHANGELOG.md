@@ -18,6 +18,9 @@
 
 ### Changed
 
+- 操作位置へ表示する既存フォルダー選択API`get_existing_directory_near()`を追加。
+  Qt版のフォルダー選択と通常の移動操作を使用し、取消時は空文字を返す。
+  ファイルやフォルダーの作成は行わない。既存API・scene・保存設定の移行は不要。
 - 操作位置へ表示するQt画面APIへ`warning_near()`と`get_open_file_names_near()`を追加。
   警告の標準ボタンと、Qt版の既存ファイル複数選択を扱える。
   `exec_dialog_near()`の実行中に対象ダイアログ配下へ表示されるQt標準確認も、

@@ -7,6 +7,7 @@ import pytest
 
 from bd_util.ui import (
     exec_dialog_near,
+    get_existing_directory_near,
     get_open_file_names_near,
     get_save_file_name_near,
     qt,
@@ -268,6 +269,81 @@ def test_open_file_dialog_preserves_multiple_selection_contract(
     qt.QApplication.sendPostedEvents(None, qt.QEvent.Type.DeferredDelete)
     assert len(dialogs) == 1
     assert not qt.isValid(dialogs[0])
+
+
+@pytest.mark.parametrize("accept", (False, True))
+def test_directory_dialog_uses_qt_and_preserves_navigation(
+    qt_application, monkeypatch, tmp_path, accept
+) -> None:
+    """既存フォルダーへ移動して確定でき、取消と一時画面の破棄を維持する。"""
+    chosen = tmp_path / "chosen"
+    chosen.mkdir()
+    anchor = qt.QPoint(713, 529)
+    dialogs: list[qt.QFileDialog] = []
+    execute = dialog_module.exec_dialog_near
+
+    def inspect(dialog, position):
+        """Qt版の既存フォルダー選択を検査して通常のモーダル処理へ渡す。"""
+        assert isinstance(dialog, qt.QFileDialog)
+        assert dialog.testOption(qt.QFileDialog.Option.DontUseNativeDialog)
+        assert dialog.testOption(qt.QFileDialog.Option.ShowDirsOnly)
+        assert dialog.acceptMode() == qt.QFileDialog.AcceptMode.AcceptOpen
+        assert dialog.fileMode() == qt.QFileDialog.FileMode.Directory
+        assert dialog.windowTitle() == "出力先"
+        assert Path(dialog.directory().absolutePath()) == tmp_path
+        assert position == anchor
+        dialogs.append(dialog)
+
+        def close() -> None:
+            """別の既存フォルダーへ移動し、選択または取消を実行する。"""
+            dialog.setDirectory(str(chosen))
+            if accept:
+                dialog.accept()
+            else:
+                dialog.reject()
+
+        timer = qt.QTimer(dialog)
+        timer.setSingleShot(True)
+        timer.timeout.connect(close)
+        timer.start(30)
+        return execute(dialog, position)
+
+    monkeypatch.setattr(dialog_module, "exec_dialog_near", inspect)
+    result = get_existing_directory_near(None, "出力先", str(tmp_path), anchor)
+    if accept:
+        assert Path(result) == chosen
+    else:
+        assert result == ""
+    qt.QApplication.sendPostedEvents(None, qt.QEvent.Type.DeferredDelete)
+    assert len(dialogs) == 1
+    assert not qt.isValid(dialogs[0])
+    assert sorted(path.name for path in tmp_path.iterdir()) == ["chosen"]
+
+
+@pytest.mark.parametrize("kind", ("file", "missing"))
+def test_directory_dialog_rejects_non_directory_results(
+    qt_application, monkeypatch, tmp_path, kind
+) -> None:
+    """実行境界から不正な確定結果が返っても、ファイルや未作成pathを返さない。"""
+    selected = tmp_path / "chosen"
+    if kind == "file":
+        selected.write_text("existing file", encoding="utf-8")
+
+    def selected_files(_dialog):
+        """フォルダー以外のパスが選択結果に混入した状態を再現する。"""
+        return [str(selected)]
+
+    def accept(_dialog, _position):
+        """既存性の最終確認を検査するため、確定済みの結果を返す。"""
+        return int(qt.QDialog.DialogCode.Accepted)
+
+    monkeypatch.setattr(qt.QFileDialog, "selectedFiles", selected_files)
+    monkeypatch.setattr(dialog_module, "exec_dialog_near", accept)
+    assert (
+        get_existing_directory_near(None, "出力先", str(tmp_path), qt.QPoint())
+        == ""
+    )
+    qt.QApplication.sendPostedEvents(None, qt.QEvent.Type.DeferredDelete)
 
 
 @pytest.mark.parametrize("overwrite", (False, True))

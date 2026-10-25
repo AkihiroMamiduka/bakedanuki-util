@@ -13,6 +13,7 @@ __all__ = [
     "exec_dialog_near",
     "warning_near",
     "get_open_file_names_near",
+    "get_existing_directory_near",
     "get_save_file_name_near",
 ]
 
@@ -274,6 +275,43 @@ def get_open_file_names_near(
         if exec_dialog_near(dialog, anchor) != qt.QDialog.DialogCode.Accepted:
             return [], ""
         return dialog.selectedFiles(), dialog.selectedNameFilter()
+    finally:
+        dialog.deleteLater()
+
+
+def get_existing_directory_near(
+    parent: qt.QWidget | None,
+    caption: str,
+    directory: str,
+    anchor: qt.QPoint,
+) -> str:
+    """Qt版の既存フォルダー選択を操作位置へ表示する。
+
+    フォルダー間の移動と確定にはQt標準の動作を使用します。
+    この関数は選択だけを行い、フォルダーやファイルを作成しません。
+
+    Args:
+        parent: 所有Widget。`None`の場合は親を指定しません。
+        caption: ダイアログのタイトル。
+        directory: 初期フォルダー。
+        anchor: 操作開始時に記録したグローバル座標。
+
+    Returns:
+        選択した既存フォルダーのパス。取消時は空文字です。
+    """
+    dialog = qt.QFileDialog(parent)
+    # Qt版で配置と既存フォルダーのみの選択を制御する
+    dialog.setOption(qt.QFileDialog.Option.DontUseNativeDialog, True)
+    dialog.setWindowTitle(caption)
+    dialog.setAcceptMode(qt.QFileDialog.AcceptMode.AcceptOpen)
+    dialog.setFileMode(qt.QFileDialog.FileMode.Directory)
+    dialog.setOption(qt.QFileDialog.Option.ShowDirsOnly, True)
+    dialog.setDirectory(str(Path(directory).expanduser()))
+    try:
+        if exec_dialog_near(dialog, anchor) != qt.QDialog.DialogCode.Accepted:
+            return ""
+        paths = dialog.selectedFiles()
+        return paths[0] if paths and Path(paths[0]).is_dir() else ""
     finally:
         dialog.deleteLater()
 
