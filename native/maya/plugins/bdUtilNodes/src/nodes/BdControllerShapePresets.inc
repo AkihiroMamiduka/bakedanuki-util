@@ -1,212 +1,124 @@
-// Static outline definitions extracted from the legacy ctrlshape.py.
+﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 94> kPresetNames = {
+constexpr std::array<const char*, 35> kPresetNames = {
     "Gear",
-    "GearFilled",
-    "Line1st",
-    "Line2nd",
-    "Line3rd",
-    "CrossLineXY",
-    "CrossLineXYZ",
+    "Line",
+    "WideLine",
+    "CrossLine1st2nd",
+    "WideCrossLine1st2nd",
+    "CrossLine1st3rd",
+    "WideCrossLine1st3rd",
+    "CrossLine2nd3rd",
+    "WideCrossLine2nd3rd",
+    "CrossLine3Axis",
     "Triangle",
-    "TriangleFilled",
-    "TriangleArrow3D",
-    "TriangleArrow3DFilled",
     "Square",
-    "SquareFilled",
-    "SquareArrow2D",
-    "SquareArrow2DFilled",
-    "SquareArrow3D",
-    "SquareArrow3DFilled",
-    "SquareArrowCrossLine2D",
-    "SquareArrowCrossLine2DFilled",
-    "SquareArrowCrossLine3D",
-    "SquareArrowCrossLine3DFilled",
-    "SquareArrowCrossLineTemplate2D",
-    "SquareArrowCrossLineTemplate2DFilled",
-    "SquareArrowCrossLineTemplate3D",
-    "SquareArrowCrossLineTemplate3DFilled",
-    "SquareArrow4Way2D",
-    "SquareArrow4Way2DFilled",
-    "SquareArrow4Way3D",
-    "SquareArrow4Way3DFilled",
-    "SquareTemplateArrow4Way2D",
-    "SquareTemplateArrow4Way2DFilled",
-    "SquareTemplateArrow4Way3D",
-    "SquareTemplateArrow4Way3DFilled",
+    "SquareCrossLine",
+    "SquareCrossLineTemplate",
+    "SquareTemplate",
+    "Diamond",
     "Cube",
-    "CubeFilled",
-    "CubeArrow2D",
-    "CubeArrow2DFilled",
-    "CubeArrow3D",
-    "CubeArrow3DFilled",
-    "CubeFin",
-    "CubeFinFilled",
-    "CubeFinArrow",
-    "CubeFinArrowFilled",
     "Octahedron",
-    "OctahedronFilled",
     "OctahedronArrow",
-    "OctahedronArrowFilled",
-    "OctahedronArrowFin",
-    "OctahedronArrowFinFilled",
     "Circle",
-    "CircleFilled",
-    "CircleArrow2D",
-    "CircleArrow2DFilled",
-    "CircleArrow3D",
-    "CircleArrow3DFilled",
-    "Semicircle",
-    "SemicircleFilled",
-    "SemicircleArrow2D",
-    "SemicircleArrow2DFilled",
-    "SemicircleArrow3D",
-    "SemicircleArrow3DFilled",
+    "WideCircleRadial",
+    "WideCircleAxial",
+    "CrossCircle",
+    "WideCrossCircleRadial",
+    "WideCrossCircleAxial",
     "Sphere",
-    "SphereFilled",
-    "SphereArrow2D",
-    "SphereArrow2DFilled",
-    "SphereArrow3D",
-    "SphereArrow3DFilled",
     "Cylinder",
-    "CylinderFilled",
-    "CylinderFin",
-    "CylinderFinFilled",
-    "CylinderFinArrow",
-    "CylinderFinArrowFilled",
     "Arrow",
-    "ArrowFilled",
-    "ArrowFin",
-    "ArrowFinFilled",
     "Pyramid",
-    "PyramidFilled",
-    "PyramidFin",
-    "PyramidFinFilled",
     "Cone",
-    "ConeFilled",
-    "ConeFin",
-    "ConeFinFilled",
-    "ColorCrossLine",
+    "ColorCrossLine3Axis",
+    "ColorCube",
+    "ColorCornerCube",
     "ColorSphere",
-    "ColorSphereFilled",
-    "ColorSphereArrow2D",
-    "ColorSphereArrow2DFilled",
-    "ColorSphereArrow3D",
-    "ColorSphereArrow3DFilled",
     "ColorSphereCrossLine",
-    "ColorSphereCrossLineFilled",
 };
+
+enum class PartEnds { Both, End };
 
 struct PresetInfo {
     short outlineIndex;
-    bool filled;
+    PartEnds partEnds = PartEnds::Both;
+    short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 94> kPresetInfo = {{
-    {0, false},  // Gear
-    {0, true},  // GearFilled
-    {1, false},  // Line1st
-    {2, false},  // Line2nd
-    {3, false},  // Line3rd
-    {4, false},  // CrossLineXY
-    {5, false},  // CrossLineXYZ
-    {6, false},  // Triangle
-    {6, true},  // TriangleFilled
-    {7, false},  // TriangleArrow3D
-    {7, true},  // TriangleArrow3DFilled
-    {8, false},  // Square
-    {8, true},  // SquareFilled
-    {9, false},  // SquareArrow2D
-    {9, true},  // SquareArrow2DFilled
-    {10, false},  // SquareArrow3D
-    {10, true},  // SquareArrow3DFilled
-    {11, false},  // SquareArrowCrossLine2D
-    {11, true},  // SquareArrowCrossLine2DFilled
-    {12, false},  // SquareArrowCrossLine3D
-    {12, true},  // SquareArrowCrossLine3DFilled
-    {13, false},  // SquareArrowCrossLineTemplate2D
-    {13, true},  // SquareArrowCrossLineTemplate2DFilled
-    {14, false},  // SquareArrowCrossLineTemplate3D
-    {14, true},  // SquareArrowCrossLineTemplate3DFilled
-    {15, false},  // SquareArrow4Way2D
-    {15, true},  // SquareArrow4Way2DFilled
-    {16, false},  // SquareArrow4Way3D
-    {16, true},  // SquareArrow4Way3DFilled
-    {17, false},  // SquareTemplateArrow4Way2D
-    {17, true},  // SquareTemplateArrow4Way2DFilled
-    {18, false},  // SquareTemplateArrow4Way3D
-    {18, true},  // SquareTemplateArrow4Way3DFilled
-    {19, false},  // Cube
-    {19, true},  // CubeFilled
-    {20, false},  // CubeArrow2D
-    {20, true},  // CubeArrow2DFilled
-    {21, false},  // CubeArrow3D
-    {21, true},  // CubeArrow3DFilled
-    {22, false},  // CubeFin
-    {22, true},  // CubeFinFilled
-    {23, false},  // CubeFinArrow
-    {23, true},  // CubeFinArrowFilled
-    {24, false},  // Octahedron
-    {24, true},  // OctahedronFilled
-    {25, false},  // OctahedronArrow
-    {25, true},  // OctahedronArrowFilled
-    {26, false},  // OctahedronArrowFin
-    {26, true},  // OctahedronArrowFinFilled
-    {27, false},  // Circle
-    {27, true},  // CircleFilled
-    {28, false},  // CircleArrow2D
-    {28, true},  // CircleArrow2DFilled
-    {29, false},  // CircleArrow3D
-    {29, true},  // CircleArrow3DFilled
-    {30, false},  // Semicircle
-    {30, true},  // SemicircleFilled
-    {31, false},  // SemicircleArrow2D
-    {31, true},  // SemicircleArrow2DFilled
-    {32, false},  // SemicircleArrow3D
-    {32, true},  // SemicircleArrow3DFilled
-    {33, false},  // Sphere
-    {33, true},  // SphereFilled
-    {34, false},  // SphereArrow2D
-    {34, true},  // SphereArrow2DFilled
-    {35, false},  // SphereArrow3D
-    {35, true},  // SphereArrow3DFilled
-    {36, false},  // Cylinder
-    {36, true},  // CylinderFilled
-    {37, false},  // CylinderFin
-    {37, true},  // CylinderFinFilled
-    {38, false},  // CylinderFinArrow
-    {38, true},  // CylinderFinArrowFilled
-    {39, false},  // Arrow
-    {39, true},  // ArrowFilled
-    {40, false},  // ArrowFin
-    {40, true},  // ArrowFinFilled
-    {41, false},  // Pyramid
-    {41, true},  // PyramidFilled
-    {42, false},  // PyramidFin
-    {42, true},  // PyramidFinFilled
-    {43, false},  // Cone
-    {43, true},  // ConeFilled
-    {44, false},  // ConeFin
-    {44, true},  // ConeFinFilled
-    {45, false},  // ColorCrossLine
-    {46, false},  // ColorSphere
-    {46, true},  // ColorSphereFilled
-    {48, false},  // ColorSphereArrow2D
-    {48, true},  // ColorSphereArrow2DFilled
-    {49, false},  // ColorSphereArrow3D
-    {49, true},  // ColorSphereArrow3DFilled
-    {47, false},  // ColorSphereCrossLine
-    {47, true},  // ColorSphereCrossLineFilled
+constexpr std::array<PresetInfo, 35> kPresetInfo = {{
+    {0},  // Gear
+    {1},  // Line
+    {104},  // WideLine
+    {52},  // CrossLine1st2nd
+    {105},  // WideCrossLine1st2nd
+    {53},  // CrossLine1st3rd
+    {106},  // WideCrossLine1st3rd
+    {4},  // CrossLine2nd3rd
+    {107},  // WideCrossLine2nd3rd
+    {5},  // CrossLine3Axis
+    {6},  // Triangle
+    {8},  // Square
+    {108},  // SquareCrossLine
+    {109},  // SquareCrossLineTemplate
+    {110},  // SquareTemplate
+    {79},  // Diamond
+    {19},  // Cube
+    {24},  // Octahedron
+    {25},  // OctahedronArrow
+    {27},  // Circle
+    {111},  // WideCircleRadial
+    {112},  // WideCircleAxial
+    {113},  // CrossCircle
+    {114},  // WideCrossCircleRadial
+    {115},  // WideCrossCircleAxial
+    {33},  // Sphere
+    {36},  // Cylinder
+    {39},  // Arrow
+    {41},  // Pyramid
+    {43},  // Cone
+    {45},  // ColorCrossLine3Axis
+    {50},  // ColorCube
+    {51},  // ColorCornerCube
+    {46},  // ColorSphere
+    {47},  // ColorSphereCrossLine
 }};
+
+constexpr short cubePresetIndex() {
+    for (short index = 0; index < static_cast<short>(kPresetInfo.size()); ++index) {
+        if (kPresetInfo[index].outlineIndex == 19) {
+            return index;
+        }
+    }
+    return 0;
+}
 
 short outlinePresetIndex(short shape) {
     return shape >= 0 && shape < static_cast<short>(kPresetInfo.size())
         ? kPresetInfo[shape].outlineIndex : 0;
 }
 
-bool isFilledPreset(short shape) {
+bool isCircleOutline(short outline) {
+    return outline == 27 || (outline >= 111 && outline <= 115);
+}
+
+short crossCircleBaseOutline(short outline) {
+    if (outline == 113) return 27;
+    if (outline == 114) return 111;
+    if (outline == 115) return 112;
+    return -1;
+}
+
+short presetPartAxis(short shape) {
     return shape >= 0 && shape < static_cast<short>(kPresetInfo.size())
-        && kPresetInfo[shape].filled;
+        ? kPresetInfo[shape].partAxis : -1;
+}
+
+bool hasPartAtEnd(short shape, bool start, short axis = -1) {
+    if (shape < 0 || shape >= static_cast<short>(kPresetInfo.size())) return true;
+    const auto& info = kPresetInfo[shape];
+    if (axis >= 0 && info.partAxis >= 0 && axis != info.partAxis) return false;
+    return info.partEnds == PartEnds::Both || !start;
 }
 
 constexpr std::array<RawPoint, 2> kPrimitive2 = {{
@@ -509,10 +421,10 @@ constexpr std::array<RawPoint, 16> kPrimitive24 = {{
 }};
 
 constexpr std::array<RawPoint, 16> kPrimitive25 = {{
-    {0, 0, 1.5},
+    {0, 0, 0.5},
     {0.5, 0, 0},
     {0, 0.5, 0},
-    {0, 0, 1.5},
+    {0, 0, 0.5},
     {-0.5, 0, 0},
     {0, 0.5, 0},
     {0, 0, -0.5},
@@ -521,15 +433,15 @@ constexpr std::array<RawPoint, 16> kPrimitive25 = {{
     {-0.5, 0, 0},
     {0, 0, -0.5},
     {0, -0.5, 0},
-    {0, 0, 1.5},
+    {0, 0, 0.5},
     {0.5, 0, 0},
     {0, -0.5, 0},
     {-0.5, 0, 0},
 }};
 
 constexpr std::array<RawPoint, 4> kPrimitive26 = {{
-    {0, 0, 1.5},
-    {0, 0.5, 1.5},
+    {0, 0, 0.5},
+    {0, 0.5, 0.5},
     {0, 0.5, -0.5},
     {0, 0, -0.5},
 }};
@@ -701,9 +613,435 @@ constexpr std::array<RawPoint, 3> kPrimitive47 = {{
     {0, 0.5, 0.5},
 }};
 
+constexpr double kColorCubeInset = 0.005;
+constexpr double kCornerSquareMin = 0.3;
+constexpr std::array<StrokeStyle, 3> kAxisStyles = {
+    StrokeStyle::AxisX, StrokeStyle::AxisY, StrokeStyle::AxisZ,
+};
+
+MPoint cubeFacePoint(unsigned int axis, double position, double u, double v) {
+    switch (axis) {
+        case 0: return MPoint(position, u, v);
+        case 1: return MPoint(v, position, u);
+        default: return MPoint(u, v, position);
+    }
+}
+
+void appendNativeStroke(
+    const std::vector<MPoint>& points, StrokeStyle style,
+    const ShapeTransform& transform, Strokes& strokes,
+    std::vector<StrokeStyle>& styles
+) {
+    Stroke stroke;
+    for (const MPoint& point : points) {
+        stroke.append(transformPoint(point, transform));
+    }
+    strokes.push_back(std::move(stroke));
+    styles.push_back(style);
+}
+
+void appendColorCubeGeometry(
+    bool corner, const ShapeTransform& transform, Strokes& strokes,
+    std::vector<StrokeStyle>& styles
+) {
+    for (unsigned int axis = 0; axis < 3; ++axis) {
+        if (corner) {
+            for (double u : {-0.5, 0.5}) {
+                for (double v : {-0.5, 0.5}) {
+                    // Stop the three corner edges at the marker boundary.
+                    const double end = u == 0.5 && v == 0.5
+                        ? kCornerSquareMin : 0.5;
+                    appendNativeStroke({
+                        cubeFacePoint(axis, -0.5, u, v),
+                        cubeFacePoint(axis, end, u, v),
+                    }, StrokeStyle::Normal, transform, strokes, styles);
+                }
+            }
+        } else {
+            const double low = -0.5 + kColorCubeInset;
+            const double high = 0.5 - kColorCubeInset;
+            appendNativeStroke({
+                cubeFacePoint(axis, 0.5, low, low),
+                cubeFacePoint(axis, 0.5, high, low),
+                cubeFacePoint(axis, 0.5, high, high),
+                cubeFacePoint(axis, 0.5, low, high),
+                cubeFacePoint(axis, 0.5, low, low),
+            }, kAxisStyles[axis], transform, strokes, styles);
+            appendNativeStroke({
+                MPoint(-0.5, -0.5, -0.5),
+                cubeFacePoint(axis, 0.5, -0.5, -0.5),
+            }, StrokeStyle::Normal, transform, strokes, styles);
+        }
+    }
+}
+
+short endArrowBaseOutline(short outline) {
+    constexpr std::array<short, 6> straightBases = {1, 2, 3, 52, 53, 4};
+    if (outline >= 54 && outline <= 59) return straightBases[outline - 54];
+    if (outline == 61) return 30;
+    return outline;
+}
+
+std::vector<unsigned int> straightLineAxes(short outline) {
+    switch (outline) {
+        case 1: return {0};
+        case 2: return {1};
+        case 3: return {2};
+        case 52: return {0, 1};
+        case 53: return {0, 2};
+        case 4: return {1, 2};
+        default: return {};
+    }
+}
+
+MVector nativeAxis(unsigned int axis) {
+    switch (axis) {
+        case 0: return MVector(1.0, 0.0, 0.0);
+        case 1: return MVector(0.0, 1.0, 0.0);
+        default: return MVector(0.0, 0.0, 1.0);
+    }
+}
+
+using ArrowHead = std::array<MPoint, 3>;
+
+std::vector<ArrowHead> endArrowHeads(short outline, const ShapeSettings& settings) {
+    std::vector<ArrowHead> heads;
+    const double depth = 0.1 * std::cos(kPi / 6.0) * settings.partLengthScale * settings.partSize;
+    const double halfWidth = 0.05 * settings.partWidthScale * settings.partSize;
+    const auto append = [&](const MPoint& tip, const MVector& direction,
+                            const MVector& side) {
+        const MPoint movedTip = tip + direction * settings.partOffset;
+        const MPoint base = movedTip - direction * depth;
+        heads.push_back({base + side * halfWidth, movedTip, base - side * halfWidth});
+    };
+    const short base = endArrowBaseOutline(outline);
+    const auto axes = straightLineAxes(base);
+    for (unsigned int axis : axes) {
+        for (double sign : {-1.0, 1.0}) {
+            if (!hasPartAtEnd(settings.shape, sign < 0.0, static_cast<short>(axis))) continue;
+            const MVector direction = nativeAxis(axis) * sign;
+            const MPoint tip = MPoint::origin + direction * 0.5;
+            if (axes.size() == 1) {
+                append(tip, direction, nativeAxis(axis == 0 ? 1 : 0));
+            } else {
+                for (unsigned int side : axes) {
+                    if (side != axis) append(tip, direction, nativeAxis(side));
+                }
+            }
+        }
+    }
+    if (base == 30) {
+        for (double z : {-0.5, 0.5}) {
+            if (!hasPartAtEnd(settings.shape, z < 0.0)) continue;
+            const MPoint tip(0.0, 0.0, z);
+            const MVector direction(0.0, -1.0, 0.0);
+            append(tip, direction, nativeAxis(2));
+        }
+    }
+    return heads;
+}
+
+void appendStraightLines(
+    short outline, const ShapeTransform& transform, Strokes& strokes,
+    std::vector<StrokeStyle>& styles
+) {
+    for (unsigned int axis : straightLineAxes(outline)) {
+        const MVector direction = nativeAxis(axis);
+        appendNativeStroke({
+            MPoint::origin - direction * 0.5,
+            MPoint::origin + direction * 0.5,
+        }, StrokeStyle::Normal, transform, strokes, styles);
+    }
+}
+
+struct WideEndArrowGeometry {
+    std::vector<MPoint> outline;
+    std::vector<ArrowHead> triangles;
+};
+
+WideEndArrowGeometry wideEndArrowGeometry(short outline, const ShapeSettings& settings) {
+    WideEndArrowGeometry geometry;
+    const double shaftHalfWidth = 0.025 * std::abs(settings.partWidthScale * settings.partSize);
+    const double headHalfWidth = 0.05 * std::abs(settings.partWidthScale * settings.partSize);
+    const double depth = 0.1 * std::cos(kPi / 6.0) * settings.partLengthScale * settings.partSize;
+    const double tip = 0.5 + settings.partOffset;
+    const double shoulder = tip - depth;
+    const auto triangle = [&](MPoint first, MPoint second, MPoint third) {
+        const MVector normal = (second - first) ^ (third - first);
+        if (normal.length() < 1.0e-12) return;
+        if (normal.z < 0.0) {
+            std::swap(second, third);
+        }
+        geometry.triangles.push_back({first, second, third});
+    };
+    const auto quad = [&](MPoint first, MPoint second, MPoint third, MPoint fourth) {
+        triangle(first, second, third);
+        triangle(first, third, fourth);
+    };
+    // Split each head base at the shaft joins to keep triangle edges aligned.
+    const auto head = [&](MPoint tip, const std::array<MPoint, 4>& base) {
+        for (std::size_t index = 0; index + 1 < base.size(); ++index) {
+            triangle(tip, base[index], base[index + 1]);
+        }
+    };
+
+    if (outline == 68) {
+        const double outerRadius = 0.5 + shaftHalfWidth;
+        const double innerRadius = std::max(0.0, 0.5 - shaftHalfWidth);
+        const double baseY = depth - settings.partOffset;
+        const double joinY = std::clamp(baseY, 0.0, innerRadius);
+        const double outerJoin = std::sqrt(std::max(0.0, outerRadius * outerRadius - joinY * joinY));
+        const double innerJoin = std::sqrt(std::max(0.0, innerRadius * innerRadius - joinY * joinY));
+        std::vector<MPoint> outer = {MPoint(outerJoin, joinY, 0.0)};
+        std::vector<MPoint> inner = {MPoint(innerJoin, joinY, 0.0)};
+        // Clip both arc edges at the head bases and sample their remaining angles together.
+        for (unsigned int index = 1; index < kCircleSegments / 2; ++index) {
+            const double angle = 2.0 * kPi * index / kCircleSegments;
+            const bool collapsedInner = joinY >= innerRadius;
+            if ((collapsedInner ? outerRadius : innerRadius) * std::sin(angle) <= joinY) continue;
+            outer.emplace_back(outerRadius * std::cos(angle), outerRadius * std::sin(angle), 0.0);
+            if (collapsedInner) inner.emplace_back(0.0, joinY, 0.0);
+            else inner.emplace_back(innerRadius * std::cos(angle), innerRadius * std::sin(angle), 0.0);
+        }
+        outer.emplace_back(-outerJoin, joinY, 0.0);
+        inner.emplace_back(-innerJoin, joinY, 0.0);
+        const MPoint rightTip(0.5, -settings.partOffset, 0.0);
+        const MPoint leftTip(-0.5, -settings.partOffset, 0.0);
+        const MPoint rightOuter(0.5 + headHalfWidth, baseY, 0.0);
+        const MPoint rightInner(0.5 - headHalfWidth, baseY, 0.0);
+        const MPoint leftOuter(-0.5 - headHalfWidth, baseY, 0.0);
+        const MPoint leftInner(-0.5 + headHalfWidth, baseY, 0.0);
+        geometry.outline = {rightTip, rightOuter};
+        geometry.outline.insert(geometry.outline.end(), outer.begin(), outer.end());
+        geometry.outline.insert(geometry.outline.end(), {
+            leftOuter, leftTip, leftInner,
+        });
+        geometry.outline.insert(geometry.outline.end(), inner.rbegin(), inner.rend());
+        geometry.outline.push_back(rightInner);
+        for (std::size_t index = 0; index + 1 < outer.size(); ++index) {
+            quad(outer[index], outer[index + 1], inner[index + 1], inner[index]);
+        }
+        head(rightTip, {{
+            rightOuter, outer.front(), inner.front(), rightInner,
+        }});
+        head(leftTip, {{
+            leftInner, inner.back(), outer.back(), leftOuter,
+        }});
+    } else if (outline >= 65 && presetPartAxis(settings.shape) >= 0) {
+        constexpr std::array<std::array<short, 2>, 3> planes = {{{0, 1}, {0, 2}, {1, 2}}};
+        const auto& plane = planes[outline - 65];
+        for (unsigned int axis = 0; axis < 2; ++axis) {
+            const bool startArrow = hasPartAtEnd(settings.shape, true, plane[axis]);
+            const bool endArrow = hasPartAtEnd(settings.shape, false, plane[axis]);
+            const double start = startArrow ? -shoulder : -0.5;
+            const double end = endArrow ? shoulder : 0.5;
+            const auto point = [axis](double along, double side) {
+                return axis == 0 ? MPoint(along, side, 0) : MPoint(side, along, 0);
+            };
+            quad(point(start, -shaftHalfWidth), point(end, -shaftHalfWidth),
+                point(end, shaftHalfWidth), point(start, shaftHalfWidth));
+        }
+        // 4本の腕を順にたどり、矢印のない端は平らに閉じる。
+        for (unsigned int arm = 0; arm < 4; ++arm) {
+            const unsigned int axis = arm % 2;
+            const double sign = arm < 2 ? 1.0 : -1.0;
+            const bool arrow = hasPartAtEnd(settings.shape, sign < 0.0, plane[axis]);
+            const MVector direction = nativeAxis(axis) * sign;
+            const MVector side(-direction.y, direction.x, 0);
+            const MPoint base = MPoint::origin + direction * (arrow ? shoulder : 0.5);
+            geometry.outline.push_back(base - side * shaftHalfWidth);
+            if (arrow) {
+                const MPoint apex = MPoint::origin + direction * tip;
+                head(apex, {{base - side * headHalfWidth, base - side * shaftHalfWidth,
+                    base + side * shaftHalfWidth, base + side * headHalfWidth}});
+                geometry.outline.insert(geometry.outline.end(), {
+                    base - side * headHalfWidth, apex, base + side * headHalfWidth});
+            }
+            geometry.outline.push_back(base + side * shaftHalfWidth);
+            geometry.outline.push_back(MPoint::origin + (direction + side) * shaftHalfWidth);
+        }
+    } else {
+        const bool cross = outline >= 65;
+        const bool startArrow = hasPartAtEnd(settings.shape, true);
+        const bool endArrow = hasPartAtEnd(settings.shape, false);
+        const double startJoin = startArrow ? -shoulder : -0.5;
+        const double endJoin = endArrow ? shoulder : 0.5;
+        const auto point = [](double along, double side, unsigned int axis) {
+            return axis == 0 ? MPoint(along, side, 0.0) : MPoint(side, along, 0.0);
+        };
+        if (cross) {
+            quad(MPoint(-shaftHalfWidth, -shaftHalfWidth, 0.0),
+                MPoint(shaftHalfWidth, -shaftHalfWidth, 0.0),
+                MPoint(shaftHalfWidth, shaftHalfWidth, 0.0),
+                MPoint(-shaftHalfWidth, shaftHalfWidth, 0.0));
+        } else {
+            quad(MPoint(startJoin, -shaftHalfWidth, 0.0),
+                MPoint(endJoin, -shaftHalfWidth, 0.0),
+                MPoint(endJoin, shaftHalfWidth, 0.0),
+                MPoint(startJoin, shaftHalfWidth, 0.0));
+        }
+        for (unsigned int axis = 0; axis < (cross ? 2u : 1u); ++axis) {
+            for (double sign : {-1.0, 1.0}) {
+                if (!hasPartAtEnd(settings.shape, sign < 0.0)) continue;
+                if (cross) {
+                    const double start = sign * shaftHalfWidth;
+                    quad(point(start, -shaftHalfWidth, axis),
+                        point(sign * shoulder, -shaftHalfWidth, axis),
+                        point(sign * shoulder, shaftHalfWidth, axis),
+                        point(start, shaftHalfWidth, axis));
+                }
+                head(point(sign * tip, 0.0, axis), {{
+                    point(sign * shoulder, -headHalfWidth, axis),
+                    point(sign * shoulder, -shaftHalfWidth, axis),
+                    point(sign * shoulder, shaftHalfWidth, axis),
+                    point(sign * shoulder, headHalfWidth, axis),
+                }});
+            }
+        }
+        if (cross) {
+            geometry.outline = {
+                MPoint(tip, 0.0, 0.0),
+                MPoint(shoulder, headHalfWidth, 0.0), MPoint(shoulder, shaftHalfWidth, 0.0),
+                MPoint(shaftHalfWidth, shaftHalfWidth, 0.0),
+                MPoint(shaftHalfWidth, shoulder, 0.0), MPoint(headHalfWidth, shoulder, 0.0),
+                MPoint(0.0, tip, 0.0),
+                MPoint(-headHalfWidth, shoulder, 0.0), MPoint(-shaftHalfWidth, shoulder, 0.0),
+                MPoint(-shaftHalfWidth, shaftHalfWidth, 0.0),
+                MPoint(-shoulder, shaftHalfWidth, 0.0), MPoint(-shoulder, headHalfWidth, 0.0),
+                MPoint(-tip, 0.0, 0.0),
+                MPoint(-shoulder, -headHalfWidth, 0.0), MPoint(-shoulder, -shaftHalfWidth, 0.0),
+                MPoint(-shaftHalfWidth, -shaftHalfWidth, 0.0),
+                MPoint(-shaftHalfWidth, -shoulder, 0.0), MPoint(-headHalfWidth, -shoulder, 0.0),
+                MPoint(0.0, -tip, 0.0),
+                MPoint(headHalfWidth, -shoulder, 0.0), MPoint(shaftHalfWidth, -shoulder, 0.0),
+                MPoint(shaftHalfWidth, -shaftHalfWidth, 0.0),
+                MPoint(shoulder, -shaftHalfWidth, 0.0), MPoint(shoulder, -headHalfWidth, 0.0),
+            };
+        } else if (startArrow && endArrow) {
+            geometry.outline = {
+                MPoint(-tip, 0.0, 0.0),
+                MPoint(-shoulder, -headHalfWidth, 0.0), MPoint(-shoulder, -shaftHalfWidth, 0.0),
+                MPoint(shoulder, -shaftHalfWidth, 0.0), MPoint(shoulder, -headHalfWidth, 0.0),
+                MPoint(tip, 0.0, 0.0),
+                MPoint(shoulder, headHalfWidth, 0.0), MPoint(shoulder, shaftHalfWidth, 0.0),
+                MPoint(-shoulder, shaftHalfWidth, 0.0), MPoint(-shoulder, headHalfWidth, 0.0),
+            };
+        } else {
+            if (startArrow) {
+                geometry.outline = {MPoint(-tip, 0, 0), MPoint(-shoulder, -headHalfWidth, 0),
+                    MPoint(-shoulder, -shaftHalfWidth, 0)};
+            } else {
+                geometry.outline = {MPoint(-0.5, -shaftHalfWidth, 0)};
+            }
+            if (endArrow) {
+                geometry.outline.insert(geometry.outline.end(), {
+                    MPoint(shoulder, -shaftHalfWidth, 0), MPoint(shoulder, -headHalfWidth, 0),
+                    MPoint(tip, 0, 0), MPoint(shoulder, headHalfWidth, 0), MPoint(shoulder, shaftHalfWidth, 0)});
+            } else {
+                geometry.outline.insert(geometry.outline.end(), {MPoint(0.5, -shaftHalfWidth, 0), MPoint(0.5, shaftHalfWidth, 0)});
+            }
+            geometry.outline.push_back(MPoint(startJoin, shaftHalfWidth, 0));
+            if (startArrow) geometry.outline.push_back(MPoint(-shoulder, headHalfWidth, 0));
+        }
+    }
+    geometry.outline.push_back(geometry.outline.front());
+    constexpr std::array<std::array<unsigned int, 2>, 7> planes = {{{0, 1}, {1, 0}, {2, 0},
+        {0, 1}, {0, 2}, {1, 2}, {2, 1}}};
+    const auto& plane = planes[outline - 62];
+    const auto nativePoint = [&](const MPoint& point) {
+        return MPoint::origin + nativeAxis(plane[0]) * point.x + nativeAxis(plane[1]) * point.y;
+    };
+    for (auto& point : geometry.outline) point = nativePoint(point);
+    for (auto& face : geometry.triangles) {
+        for (auto& point : face) point = nativePoint(point);
+    }
+    return geometry;
+}
+
+bool hasCrossLineEndSolids(short outline) {
+    return outline >= 69 && outline <= 78;
+}
+
+short crossLineEndSolidPreset(short outline) {
+    constexpr std::array<short, 5> bases = {19, 24, 33, 41, 43};
+    const short base = bases[(outline - 69) % bases.size()];
+    for (short index = 0; index < static_cast<short>(kPresetInfo.size()); ++index) {
+        if (kPresetInfo[index].outlineIndex == base) {
+            return index;
+        }
+    }
+    return 0;
+}
+
+double crossLineEndSolidOffset(short outline) {
+    return (outline - 69) % 5 >= 3 ? 0.45 : 0.5;
+}
+
+double crossLineEndSolidAlong(double coordinate, short outline, const ShapeSettings& settings) {
+    double along = crossLineEndSolidOffset(outline) + 0.1 * coordinate;
+    const double length = settings.partLengthScale * settings.partSize;
+    if (length != 1.0) {
+        along = 0.5 + (along - 0.5) * length;
+    }
+    return along + settings.partOffset;
+}
+
+MPoint crossLineEndSolidPoint(
+    const MPoint& point, short outline, unsigned int axis, double sign,
+    const ShapeSettings& settings
+) {
+    const MVector direction = nativeAxis(axis) * sign;
+    const MVector side = nativeAxis((axis + 1) % 3);
+    const MVector up = direction ^ side;
+    return MPoint::origin + direction * crossLineEndSolidAlong(point.x, outline, settings)
+        + side * (0.1 * point.y * settings.partWidthScale * settings.partSize)
+        + up * (0.1 * point.z * settings.partWidthScale * settings.partSize);
+}
+
+void appendCrossLineEndSolids(
+    short outline, const ShapeTransform& transform, Strokes& strokes,
+    std::vector<StrokeStyle>& styles
+);
+
 void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes& strokes, std::vector<StrokeStyle>& styles) {
     const short outline = outlinePresetIndex(shape);
-    switch (outline) {
+    if (hasCrossLineEndSolids(outline)) {
+        appendCrossLineEndSolids(outline, transform, strokes, styles);
+        return;
+    }
+    if (outline >= 62 && outline <= 68) {
+        appendNativeStroke(wideEndArrowGeometry(outline, transform.settings).outline,
+            StrokeStyle::Normal, transform, strokes, styles);
+        return;
+    }
+    if ((outline >= 54 && outline <= 59) || outline == 61) {
+        for (const auto& head : endArrowHeads(outline, transform.settings)) {
+            appendNativeStroke({head[0], head[1], head[2]},
+                StrokeStyle::Normal, transform, strokes, styles);
+        }
+        if (transform.settings.partOffset != 0.0) {
+            const auto axes = straightLineAxes(endArrowBaseOutline(outline));
+            for (auto axis : axes) {
+                const bool startArrow = hasPartAtEnd(shape, true, static_cast<short>(axis));
+                const bool endArrow = hasPartAtEnd(shape, false, static_cast<short>(axis));
+                const double moved = startArrow && endArrow
+                    ? std::max(0.0, 0.5 + transform.settings.partOffset) : 0.5 + transform.settings.partOffset;
+                const MVector direction = nativeAxis(axis);
+                appendNativeStroke({MPoint::origin - direction * (startArrow ? moved : 0.5),
+                    MPoint::origin + direction * (endArrow ? moved : 0.5)},
+                    StrokeStyle::Normal, transform, strokes, styles);
+            }
+            if (!axes.empty()) return;
+            appendPresetComponent(29, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            for (double z : {-0.5, 0.5}) {
+                if (!hasPartAtEnd(shape, z < 0.0)) continue;
+                appendNativeStroke({MPoint(0, 0, z), MPoint(0, -transform.settings.partOffset, z)},
+                    StrokeStyle::Normal, transform, strokes, styles);
+            }
+            return;
+        }
+    }
+    switch (endArrowBaseOutline(outline)) {
         case 0:  // Gear
             appendPresetComponent(0, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(1, {0, 0, 0}, {0, 0, 0}, {0.275, 0.275, 0.275}, StrokeStyle::Normal, transform, strokes, styles);
@@ -717,11 +1055,15 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
         case 3:  // Line3rd
             appendPresetComponent(46, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 4:  // CrossLineXY
+        case 4:  // CrossLine2nd3rd
             appendPresetComponent(3, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 5:  // CrossLineXYZ
+        case 5:  // CrossLine3Axis
             appendPresetComponent(4, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
+            break;
+        case 52:  // CrossLine1st2nd
+        case 53:  // CrossLine1st3rd
+            appendStraightLines(endArrowBaseOutline(outline), transform, strokes, styles);
             break;
         case 6:  // Triangle
             appendPresetComponent(5, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
@@ -889,7 +1231,7 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             appendPresetComponent(1, {0, 0, -0.5}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(38, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
-        case 45:  // ColorCrossLine
+        case 45:  // ColorCrossLine3Axis
             appendPresetComponent(39, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisX, transform, strokes, styles);
             appendPresetComponent(40, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisY, transform, strokes, styles);
             appendPresetComponent(41, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::AxisZ, transform, strokes, styles);
@@ -918,8 +1260,45 @@ void appendPresetGeometry(short shape, const ShapeTransform& transform, Strokes&
             appendPresetComponent(43, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             appendPresetComponent(44, {0, 0, 0}, {0, 0, 0}, {1, 1, 1}, StrokeStyle::Normal, transform, strokes, styles);
             break;
+        case 50:  // ColorCube
+        case 51:  // ColorCornerCube
+            appendColorCubeGeometry(outline == 51, transform, strokes, styles);
+            break;
         default:
             break;
+    }
+}
+
+void appendCrossLineEndSolids(
+    short outline, const ShapeTransform& transform, Strokes& strokes,
+    std::vector<StrokeStyle>& styles
+) {
+    ShapeSettings componentSettings;
+    componentSettings.shape = crossLineEndSolidPreset(outline);
+    Strokes componentStrokes;
+    std::vector<StrokeStyle> componentStyles;
+    appendPresetGeometry(componentSettings.shape, ShapeTransform(componentSettings),
+        componentStrokes, componentStyles);
+    const double lineEnd = std::max(0.0, std::min(
+        crossLineEndSolidAlong(-0.5, outline, transform.settings),
+        crossLineEndSolidAlong(0.5, outline, transform.settings)));
+    for (unsigned int axis = 0; axis < 3; ++axis) {
+        for (double sign : {-1.0, 1.0}) {
+            const StrokeStyle lineStyle = outline >= 74 && sign > 0.0
+                ? kAxisStyles[axis] : StrokeStyle::Normal;
+            if (lineEnd > 0.0) {
+                appendNativeStroke({MPoint::origin, MPoint::origin + nativeAxis(axis) * (sign * lineEnd)},
+                    lineStyle, transform, strokes, styles);
+            }
+            for (const auto& component : componentStrokes) {
+                std::vector<MPoint> points;
+                points.reserve(component.length());
+                for (unsigned int index = 0; index < component.length(); ++index) {
+                    points.push_back(crossLineEndSolidPoint(component[index], outline, axis, sign, transform.settings));
+                }
+                appendNativeStroke(points, StrokeStyle::Normal, transform, strokes, styles);
+            }
+        }
     }
 }
 

@@ -46,10 +46,14 @@ public:
         struct FillPart {
             MPointArray triangles;
             StrokeStyle style = StrokeStyle::Normal;
+            // Markers remain filled in Wireframe and use the line transparency.
+            bool marker = false;
+            bool singleSided = false;
         };
         std::vector<MPointArray> strokes;
         std::vector<StrokeStyle> strokeStyles;
         std::vector<FillPart> fillParts;
+        std::shared_ptr<const Geometry> wireframeGeometry;
         std::vector<MPointArray> boundsPreview;
         MPointArray offsetLine;
         MPoint offsetLineEndpoint = MPoint::origin;
@@ -67,6 +71,16 @@ public:
     static const MString drawRegistrantId;
 
     static MObject shape;
+    static MObject shapeWideWidth;
+    static MObject shapeCircleAngle;
+    static MObject shapePart;
+    static MObject shapePartShape;
+    static MObject shapePartType;
+    static MObject shapeFin;
+    static MObject shapeFinType;
+    static MObject shapeFinHeight;
+    static MObject shapeFinSize;
+    static MObject shapeFinWidthScale;
     static MObject shape1stAxis;
     static MObject shape2ndAxis;
     static MObject shapeAnimationTransformMatrix;
@@ -107,10 +121,15 @@ public:
     static MObject shapeAxisScaleZ;
 
     static MObject shapeSize;
-    static MObject showShapeOffsetLine;
+    static MObject shapePartOffset;
+    static MObject shapePartLengthScale;
+    static MObject shapePartWidthScale;
+    static MObject shapePartSize;
+    static MObject shapeOffsetLine;
     static MObject shapeOffsetLineTemplate;
     static MObject shapeLineWidth;
-    static MObject shapeTransparency;
+    static MObject shapeLineTransparency;
+    static MObject shapeFill;
     static MObject shapeFillTransparency;
     static MObject shapeDrawOnTop;
 

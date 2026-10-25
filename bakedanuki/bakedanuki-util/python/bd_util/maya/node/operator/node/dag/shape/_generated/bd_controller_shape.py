@@ -30,6 +30,9 @@ from .....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from .....attr.define.std.at.scalar.numeric.range.float import FloatField
 from .....attr.define.std.at.scalar.numeric.range.long import LongField
 from .....attr.define.std.at.scalar.numeric.range.short import ShortField
+from .....attr.define.std.at.scalar.unit.range.double_angle import (
+    DoubleAngleField,
+)
 from .....attr.define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearField,
 )
@@ -40,298 +43,117 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     __slots__ = ()
 
     GEAR = 0
-    GEARFILLED = 1
-    LINE1ST = 2
-    LINE2ND = 3
-    LINE3RD = 4
-    CROSSLINEXY = 5
-    CROSSLINEXYZ = 6
-    TRIANGLE = 7
-    TRIANGLEFILLED = 8
-    TRIANGLEARROW3D = 9
-    TRIANGLEARROW3DFILLED = 10
+    LINE = 1
+    WIDELINE = 2
+    CROSSLINE1ST2ND = 3
+    WIDECROSSLINE1ST2ND = 4
+    CROSSLINE1ST3RD = 5
+    WIDECROSSLINE1ST3RD = 6
+    CROSSLINE2ND3RD = 7
+    WIDECROSSLINE2ND3RD = 8
+    CROSSLINE3AXIS = 9
+    TRIANGLE = 10
     SQUARE = 11
-    SQUAREFILLED = 12
-    SQUAREARROW2D = 13
-    SQUAREARROW2DFILLED = 14
-    SQUAREARROW3D = 15
-    SQUAREARROW3DFILLED = 16
-    SQUAREARROWCROSSLINE2D = 17
-    SQUAREARROWCROSSLINE2DFILLED = 18
-    SQUAREARROWCROSSLINE3D = 19
-    SQUAREARROWCROSSLINE3DFILLED = 20
-    SQUAREARROWCROSSLINETEMPLATE2D = 21
-    SQUAREARROWCROSSLINETEMPLATE2DFILLED = 22
-    SQUAREARROWCROSSLINETEMPLATE3D = 23
-    SQUAREARROWCROSSLINETEMPLATE3DFILLED = 24
-    SQUAREARROW4WAY2D = 25
-    SQUAREARROW4WAY2DFILLED = 26
-    SQUAREARROW4WAY3D = 27
-    SQUAREARROW4WAY3DFILLED = 28
-    SQUARETEMPLATEARROW4WAY2D = 29
-    SQUARETEMPLATEARROW4WAY2DFILLED = 30
-    SQUARETEMPLATEARROW4WAY3D = 31
-    SQUARETEMPLATEARROW4WAY3DFILLED = 32
-    CUBE = 33
-    CUBEFILLED = 34
-    CUBEARROW2D = 35
-    CUBEARROW2DFILLED = 36
-    CUBEARROW3D = 37
-    CUBEARROW3DFILLED = 38
-    CUBEFIN = 39
-    CUBEFINFILLED = 40
-    CUBEFINARROW = 41
-    CUBEFINARROWFILLED = 42
-    OCTAHEDRON = 43
-    OCTAHEDRONFILLED = 44
-    OCTAHEDRONARROW = 45
-    OCTAHEDRONARROWFILLED = 46
-    OCTAHEDRONARROWFIN = 47
-    OCTAHEDRONARROWFINFILLED = 48
-    CIRCLE = 49
-    CIRCLEFILLED = 50
-    CIRCLEARROW2D = 51
-    CIRCLEARROW2DFILLED = 52
-    CIRCLEARROW3D = 53
-    CIRCLEARROW3DFILLED = 54
-    SEMICIRCLE = 55
-    SEMICIRCLEFILLED = 56
-    SEMICIRCLEARROW2D = 57
-    SEMICIRCLEARROW2DFILLED = 58
-    SEMICIRCLEARROW3D = 59
-    SEMICIRCLEARROW3DFILLED = 60
-    SPHERE = 61
-    SPHEREFILLED = 62
-    SPHEREARROW2D = 63
-    SPHEREARROW2DFILLED = 64
-    SPHEREARROW3D = 65
-    SPHEREARROW3DFILLED = 66
-    CYLINDER = 67
-    CYLINDERFILLED = 68
-    CYLINDERFIN = 69
-    CYLINDERFINFILLED = 70
-    CYLINDERFINARROW = 71
-    CYLINDERFINARROWFILLED = 72
-    ARROW = 73
-    ARROWFILLED = 74
-    ARROWFIN = 75
-    ARROWFINFILLED = 76
-    PYRAMID = 77
-    PYRAMIDFILLED = 78
-    PYRAMIDFIN = 79
-    PYRAMIDFINFILLED = 80
-    CONE = 81
-    CONEFILLED = 82
-    CONEFIN = 83
-    CONEFINFILLED = 84
-    COLORCROSSLINE = 85
-    COLORSPHERE = 86
-    COLORSPHEREFILLED = 87
-    COLORSPHEREARROW2D = 88
-    COLORSPHEREARROW2DFILLED = 89
-    COLORSPHEREARROW3D = 90
-    COLORSPHEREARROW3DFILLED = 91
-    COLORSPHERECROSSLINE = 92
-    COLORSPHERECROSSLINEFILLED = 93
+    SQUARECROSSLINE = 12
+    SQUARECROSSLINETEMPLATE = 13
+    SQUARETEMPLATE = 14
+    DIAMOND = 15
+    CUBE = 16
+    OCTAHEDRON = 17
+    OCTAHEDRONARROW = 18
+    CIRCLE = 19
+    WIDECIRCLERADIAL = 20
+    WIDECIRCLEAXIAL = 21
+    CROSSCIRCLE = 22
+    WIDECROSSCIRCLERADIAL = 23
+    WIDECROSSCIRCLEAXIAL = 24
+    SPHERE = 25
+    CYLINDER = 26
+    ARROW = 27
+    PYRAMID = 28
+    CONE = 29
+    COLORCROSSLINE3AXIS = 30
+    COLORCUBE = 31
+    COLORCORNERCUBE = 32
+    COLORSPHERE = 33
+    COLORSPHERECROSSLINE = 34
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     __slots__ = ()
 
     GEAR = 0
-    GEARFILLED = 1
-    LINE1ST = 2
-    LINE2ND = 3
-    LINE3RD = 4
-    CROSSLINEXY = 5
-    CROSSLINEXYZ = 6
-    TRIANGLE = 7
-    TRIANGLEFILLED = 8
-    TRIANGLEARROW3D = 9
-    TRIANGLEARROW3DFILLED = 10
+    LINE = 1
+    WIDELINE = 2
+    CROSSLINE1ST2ND = 3
+    WIDECROSSLINE1ST2ND = 4
+    CROSSLINE1ST3RD = 5
+    WIDECROSSLINE1ST3RD = 6
+    CROSSLINE2ND3RD = 7
+    WIDECROSSLINE2ND3RD = 8
+    CROSSLINE3AXIS = 9
+    TRIANGLE = 10
     SQUARE = 11
-    SQUAREFILLED = 12
-    SQUAREARROW2D = 13
-    SQUAREARROW2DFILLED = 14
-    SQUAREARROW3D = 15
-    SQUAREARROW3DFILLED = 16
-    SQUAREARROWCROSSLINE2D = 17
-    SQUAREARROWCROSSLINE2DFILLED = 18
-    SQUAREARROWCROSSLINE3D = 19
-    SQUAREARROWCROSSLINE3DFILLED = 20
-    SQUAREARROWCROSSLINETEMPLATE2D = 21
-    SQUAREARROWCROSSLINETEMPLATE2DFILLED = 22
-    SQUAREARROWCROSSLINETEMPLATE3D = 23
-    SQUAREARROWCROSSLINETEMPLATE3DFILLED = 24
-    SQUAREARROW4WAY2D = 25
-    SQUAREARROW4WAY2DFILLED = 26
-    SQUAREARROW4WAY3D = 27
-    SQUAREARROW4WAY3DFILLED = 28
-    SQUARETEMPLATEARROW4WAY2D = 29
-    SQUARETEMPLATEARROW4WAY2DFILLED = 30
-    SQUARETEMPLATEARROW4WAY3D = 31
-    SQUARETEMPLATEARROW4WAY3DFILLED = 32
-    CUBE = 33
-    CUBEFILLED = 34
-    CUBEARROW2D = 35
-    CUBEARROW2DFILLED = 36
-    CUBEARROW3D = 37
-    CUBEARROW3DFILLED = 38
-    CUBEFIN = 39
-    CUBEFINFILLED = 40
-    CUBEFINARROW = 41
-    CUBEFINARROWFILLED = 42
-    OCTAHEDRON = 43
-    OCTAHEDRONFILLED = 44
-    OCTAHEDRONARROW = 45
-    OCTAHEDRONARROWFILLED = 46
-    OCTAHEDRONARROWFIN = 47
-    OCTAHEDRONARROWFINFILLED = 48
-    CIRCLE = 49
-    CIRCLEFILLED = 50
-    CIRCLEARROW2D = 51
-    CIRCLEARROW2DFILLED = 52
-    CIRCLEARROW3D = 53
-    CIRCLEARROW3DFILLED = 54
-    SEMICIRCLE = 55
-    SEMICIRCLEFILLED = 56
-    SEMICIRCLEARROW2D = 57
-    SEMICIRCLEARROW2DFILLED = 58
-    SEMICIRCLEARROW3D = 59
-    SEMICIRCLEARROW3DFILLED = 60
-    SPHERE = 61
-    SPHEREFILLED = 62
-    SPHEREARROW2D = 63
-    SPHEREARROW2DFILLED = 64
-    SPHEREARROW3D = 65
-    SPHEREARROW3DFILLED = 66
-    CYLINDER = 67
-    CYLINDERFILLED = 68
-    CYLINDERFIN = 69
-    CYLINDERFINFILLED = 70
-    CYLINDERFINARROW = 71
-    CYLINDERFINARROWFILLED = 72
-    ARROW = 73
-    ARROWFILLED = 74
-    ARROWFIN = 75
-    ARROWFINFILLED = 76
-    PYRAMID = 77
-    PYRAMIDFILLED = 78
-    PYRAMIDFIN = 79
-    PYRAMIDFINFILLED = 80
-    CONE = 81
-    CONEFILLED = 82
-    CONEFIN = 83
-    CONEFINFILLED = 84
-    COLORCROSSLINE = 85
-    COLORSPHERE = 86
-    COLORSPHEREFILLED = 87
-    COLORSPHEREARROW2D = 88
-    COLORSPHEREARROW2DFILLED = 89
-    COLORSPHEREARROW3D = 90
-    COLORSPHEREARROW3DFILLED = 91
-    COLORSPHERECROSSLINE = 92
-    COLORSPHERECROSSLINEFILLED = 93
+    SQUARECROSSLINE = 12
+    SQUARECROSSLINETEMPLATE = 13
+    SQUARETEMPLATE = 14
+    DIAMOND = 15
+    CUBE = 16
+    OCTAHEDRON = 17
+    OCTAHEDRONARROW = 18
+    CIRCLE = 19
+    WIDECIRCLERADIAL = 20
+    WIDECIRCLEAXIAL = 21
+    CROSSCIRCLE = 22
+    WIDECROSSCIRCLERADIAL = 23
+    WIDECROSSCIRCLEAXIAL = 24
+    SPHERE = 25
+    CYLINDER = 26
+    ARROW = 27
+    PYRAMID = 28
+    CONE = 29
+    COLORCROSSLINE3AXIS = 30
+    COLORCUBE = 31
+    COLORCORNERCUBE = 32
+    COLORSPHERE = 33
+    COLORSPHERECROSSLINE = 34
 
     NAME_MAP = {
         GEAR: "Gear",
-        GEARFILLED: "GearFilled",
-        LINE1ST: "Line1st",
-        LINE2ND: "Line2nd",
-        LINE3RD: "Line3rd",
-        CROSSLINEXY: "CrossLineXY",
-        CROSSLINEXYZ: "CrossLineXYZ",
+        LINE: "Line",
+        WIDELINE: "WideLine",
+        CROSSLINE1ST2ND: "CrossLine1st2nd",
+        WIDECROSSLINE1ST2ND: "WideCrossLine1st2nd",
+        CROSSLINE1ST3RD: "CrossLine1st3rd",
+        WIDECROSSLINE1ST3RD: "WideCrossLine1st3rd",
+        CROSSLINE2ND3RD: "CrossLine2nd3rd",
+        WIDECROSSLINE2ND3RD: "WideCrossLine2nd3rd",
+        CROSSLINE3AXIS: "CrossLine3Axis",
         TRIANGLE: "Triangle",
-        TRIANGLEFILLED: "TriangleFilled",
-        TRIANGLEARROW3D: "TriangleArrow3D",
-        TRIANGLEARROW3DFILLED: "TriangleArrow3DFilled",
         SQUARE: "Square",
-        SQUAREFILLED: "SquareFilled",
-        SQUAREARROW2D: "SquareArrow2D",
-        SQUAREARROW2DFILLED: "SquareArrow2DFilled",
-        SQUAREARROW3D: "SquareArrow3D",
-        SQUAREARROW3DFILLED: "SquareArrow3DFilled",
-        SQUAREARROWCROSSLINE2D: "SquareArrowCrossLine2D",
-        SQUAREARROWCROSSLINE2DFILLED: "SquareArrowCrossLine2DFilled",
-        SQUAREARROWCROSSLINE3D: "SquareArrowCrossLine3D",
-        SQUAREARROWCROSSLINE3DFILLED: "SquareArrowCrossLine3DFilled",
-        SQUAREARROWCROSSLINETEMPLATE2D: "SquareArrowCrossLineTemplate2D",
-        SQUAREARROWCROSSLINETEMPLATE2DFILLED: (
-            "SquareArrowCrossLineTemplate2DFilled"
-        ),
-        SQUAREARROWCROSSLINETEMPLATE3D: "SquareArrowCrossLineTemplate3D",
-        SQUAREARROWCROSSLINETEMPLATE3DFILLED: (
-            "SquareArrowCrossLineTemplate3DFilled"
-        ),
-        SQUAREARROW4WAY2D: "SquareArrow4Way2D",
-        SQUAREARROW4WAY2DFILLED: "SquareArrow4Way2DFilled",
-        SQUAREARROW4WAY3D: "SquareArrow4Way3D",
-        SQUAREARROW4WAY3DFILLED: "SquareArrow4Way3DFilled",
-        SQUARETEMPLATEARROW4WAY2D: "SquareTemplateArrow4Way2D",
-        SQUARETEMPLATEARROW4WAY2DFILLED: "SquareTemplateArrow4Way2DFilled",
-        SQUARETEMPLATEARROW4WAY3D: "SquareTemplateArrow4Way3D",
-        SQUARETEMPLATEARROW4WAY3DFILLED: "SquareTemplateArrow4Way3DFilled",
+        SQUARECROSSLINE: "SquareCrossLine",
+        SQUARECROSSLINETEMPLATE: "SquareCrossLineTemplate",
+        SQUARETEMPLATE: "SquareTemplate",
+        DIAMOND: "Diamond",
         CUBE: "Cube",
-        CUBEFILLED: "CubeFilled",
-        CUBEARROW2D: "CubeArrow2D",
-        CUBEARROW2DFILLED: "CubeArrow2DFilled",
-        CUBEARROW3D: "CubeArrow3D",
-        CUBEARROW3DFILLED: "CubeArrow3DFilled",
-        CUBEFIN: "CubeFin",
-        CUBEFINFILLED: "CubeFinFilled",
-        CUBEFINARROW: "CubeFinArrow",
-        CUBEFINARROWFILLED: "CubeFinArrowFilled",
         OCTAHEDRON: "Octahedron",
-        OCTAHEDRONFILLED: "OctahedronFilled",
         OCTAHEDRONARROW: "OctahedronArrow",
-        OCTAHEDRONARROWFILLED: "OctahedronArrowFilled",
-        OCTAHEDRONARROWFIN: "OctahedronArrowFin",
-        OCTAHEDRONARROWFINFILLED: "OctahedronArrowFinFilled",
         CIRCLE: "Circle",
-        CIRCLEFILLED: "CircleFilled",
-        CIRCLEARROW2D: "CircleArrow2D",
-        CIRCLEARROW2DFILLED: "CircleArrow2DFilled",
-        CIRCLEARROW3D: "CircleArrow3D",
-        CIRCLEARROW3DFILLED: "CircleArrow3DFilled",
-        SEMICIRCLE: "Semicircle",
-        SEMICIRCLEFILLED: "SemicircleFilled",
-        SEMICIRCLEARROW2D: "SemicircleArrow2D",
-        SEMICIRCLEARROW2DFILLED: "SemicircleArrow2DFilled",
-        SEMICIRCLEARROW3D: "SemicircleArrow3D",
-        SEMICIRCLEARROW3DFILLED: "SemicircleArrow3DFilled",
+        WIDECIRCLERADIAL: "WideCircleRadial",
+        WIDECIRCLEAXIAL: "WideCircleAxial",
+        CROSSCIRCLE: "CrossCircle",
+        WIDECROSSCIRCLERADIAL: "WideCrossCircleRadial",
+        WIDECROSSCIRCLEAXIAL: "WideCrossCircleAxial",
         SPHERE: "Sphere",
-        SPHEREFILLED: "SphereFilled",
-        SPHEREARROW2D: "SphereArrow2D",
-        SPHEREARROW2DFILLED: "SphereArrow2DFilled",
-        SPHEREARROW3D: "SphereArrow3D",
-        SPHEREARROW3DFILLED: "SphereArrow3DFilled",
         CYLINDER: "Cylinder",
-        CYLINDERFILLED: "CylinderFilled",
-        CYLINDERFIN: "CylinderFin",
-        CYLINDERFINFILLED: "CylinderFinFilled",
-        CYLINDERFINARROW: "CylinderFinArrow",
-        CYLINDERFINARROWFILLED: "CylinderFinArrowFilled",
         ARROW: "Arrow",
-        ARROWFILLED: "ArrowFilled",
-        ARROWFIN: "ArrowFin",
-        ARROWFINFILLED: "ArrowFinFilled",
         PYRAMID: "Pyramid",
-        PYRAMIDFILLED: "PyramidFilled",
-        PYRAMIDFIN: "PyramidFin",
-        PYRAMIDFINFILLED: "PyramidFinFilled",
         CONE: "Cone",
-        CONEFILLED: "ConeFilled",
-        CONEFIN: "ConeFin",
-        CONEFINFILLED: "ConeFinFilled",
-        COLORCROSSLINE: "ColorCrossLine",
+        COLORCROSSLINE3AXIS: "ColorCrossLine3Axis",
+        COLORCUBE: "ColorCube",
+        COLORCORNERCUBE: "ColorCornerCube",
         COLORSPHERE: "ColorSphere",
-        COLORSPHEREFILLED: "ColorSphereFilled",
-        COLORSPHEREARROW2D: "ColorSphereArrow2D",
-        COLORSPHEREARROW2DFILLED: "ColorSphereArrow2DFilled",
-        COLORSPHEREARROW3D: "ColorSphereArrow3D",
-        COLORSPHEREARROW3DFILLED: "ColorSphereArrow3DFilled",
         COLORSPHERECROSSLINE: "ColorSphereCrossLine",
-        COLORSPHERECROSSLINEFILLED: "ColorSphereCrossLineFilled",
     }
 
 
@@ -340,6 +162,132 @@ class ShapeEnumField(EnumField[ShapeEnumAttrOperator, ShapeEnumPlugOperator]):
 
     ATTR_CLS = ShapeEnumAttrOperator
     PLUG_CLS = ShapeEnumPlugOperator
+
+
+class ShapePartShapeEnumPlugOperator(
+    EnumPlugOperator["ShapePartShapeEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    ARROW2D = 0
+    ARROW3D = 1
+    TRIANGLE = 2
+    SQUARE = 3
+    DIAMOND = 4
+    CIRCLE = 5
+    CUBE = 6
+    OCTAHEDRON = 7
+    SPHERE = 8
+    PYRAMID = 9
+    CONE = 10
+
+
+class ShapePartShapeEnumAttrOperator(
+    EnumAttrOperator[ShapePartShapeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ARROW2D = 0
+    ARROW3D = 1
+    TRIANGLE = 2
+    SQUARE = 3
+    DIAMOND = 4
+    CIRCLE = 5
+    CUBE = 6
+    OCTAHEDRON = 7
+    SPHERE = 8
+    PYRAMID = 9
+    CONE = 10
+
+    NAME_MAP = {
+        ARROW2D: "Arrow2D",
+        ARROW3D: "Arrow3D",
+        TRIANGLE: "Triangle",
+        SQUARE: "Square",
+        DIAMOND: "Diamond",
+        CIRCLE: "Circle",
+        CUBE: "Cube",
+        OCTAHEDRON: "Octahedron",
+        SPHERE: "Sphere",
+        PYRAMID: "Pyramid",
+        CONE: "Cone",
+    }
+
+
+class ShapePartShapeEnumField(
+    EnumField[ShapePartShapeEnumAttrOperator, ShapePartShapeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapePartShapeEnumAttrOperator
+    PLUG_CLS = ShapePartShapeEnumPlugOperator
+
+
+class ShapePartTypeEnumPlugOperator(
+    EnumPlugOperator["ShapePartTypeEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    ATEND = 0
+    ATENDS = 1
+    ATAPEX = 2
+
+
+class ShapePartTypeEnumAttrOperator(
+    EnumAttrOperator[ShapePartTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATEND = 0
+    ATENDS = 1
+    ATAPEX = 2
+
+    NAME_MAP = {
+        ATEND: "AtEnd",
+        ATENDS: "AtEnds",
+        ATAPEX: "AtApex",
+    }
+
+
+class ShapePartTypeEnumField(
+    EnumField[ShapePartTypeEnumAttrOperator, ShapePartTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapePartTypeEnumAttrOperator
+    PLUG_CLS = ShapePartTypeEnumPlugOperator
+
+
+class ShapeFinTypeEnumPlugOperator(
+    EnumPlugOperator["ShapeFinTypeEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    STANDARD = 0
+    TAPERED = 1
+
+
+class ShapeFinTypeEnumAttrOperator(
+    EnumAttrOperator[ShapeFinTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    STANDARD = 0
+    TAPERED = 1
+
+    NAME_MAP = {
+        STANDARD: "Standard",
+        TAPERED: "Tapered",
+    }
+
+
+class ShapeFinTypeEnumField(
+    EnumField[ShapeFinTypeEnumAttrOperator, ShapeFinTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeFinTypeEnumAttrOperator
+    PLUG_CLS = ShapeFinTypeEnumPlugOperator
 
 
 class Shape1stAxisEnumPlugOperator(
@@ -771,9 +719,6 @@ class GeneratedBdControllerShape(Shape):
     localScaleZ = localScale.localScaleZ
     lsz = localScaleZ
 
-    shape = ShapeEnumField(default_value=33)
-    sh = shape
-
     shapeAnimationTransformMatrix = DataMatrixField()
     satm = shapeAnimationTransformMatrix
 
@@ -783,18 +728,68 @@ class GeneratedBdControllerShape(Shape):
     shapeLineWidth = FloatField(default_value=1.0, min_value=1.0)
     slw = shapeLineWidth
 
-    shapeTransparency = FloatField(
+    shapeLineTransparency = FloatField(
         default_value=0.0, min_value=0.0, max_value=1.0
     )
-    stp = shapeTransparency
+    slt = shapeLineTransparency
+
+    shapeFill = BoolField(default_value=False)
+    sfl = shapeFill
 
     shapeFillTransparency = FloatField(
         default_value=0.8500000238418579, min_value=0.0, max_value=1.0
     )
     sftp = shapeFillTransparency
 
-    showShapeOffsetLine = BoolField(default_value=False)
-    ssol = showShapeOffsetLine
+    shape = ShapeEnumField(default_value=16)
+    sh = shape
+
+    shapeWideWidth = DoubleLinearField(default_value=0.05, min_value=0.0)
+    sww = shapeWideWidth
+
+    shapeCircleAngle = DoubleAngleField(
+        default_value=360.0, min_value=0.0, max_value=360.0
+    )
+    sca = shapeCircleAngle
+
+    shapePart = BoolField(default_value=False)
+    spt = shapePart
+
+    shapePartShape = ShapePartShapeEnumField(default_value=0)
+    spsh = shapePartShape
+
+    shapePartType = ShapePartTypeEnumField(default_value=0)
+    sptp = shapePartType
+
+    shapePartOffset = DoubleLinearField(default_value=0.0)
+    spo = shapePartOffset
+
+    shapePartSize = DoubleField(default_value=1.0)
+    sps = shapePartSize
+
+    shapePartLengthScale = DoubleField(default_value=1.0)
+    spls = shapePartLengthScale
+
+    shapePartWidthScale = DoubleField(default_value=1.0)
+    spws = shapePartWidthScale
+
+    shapeFin = BoolField(default_value=False)
+    sfn = shapeFin
+
+    shapeFinType = ShapeFinTypeEnumField(default_value=0)
+    sfnt = shapeFinType
+
+    shapeFinHeight = DoubleLinearField(default_value=0.5)
+    sfnh = shapeFinHeight
+
+    shapeFinSize = DoubleField(default_value=1.0)
+    sfns = shapeFinSize
+
+    shapeFinWidthScale = DoubleField(default_value=1.0)
+    sfnws = shapeFinWidthScale
+
+    shapeOffsetLine = BoolField(default_value=False)
+    sol = shapeOffsetLine
 
     shapeOffsetLineTemplate = BoolField(default_value=False)
     solt = shapeOffsetLineTemplate

@@ -73,6 +73,76 @@ native nodeの標準テストは、配布対象のMaya 2025 / 2026 / 2027それ�
 schedule を検証できません。最終的な correctness test は、Maya に plug-in をロードして
 実際の DG を評価します。
 
+## Viewport 2.0描画テスト
+
+`bdControllerShape` の描画比較は
+[test_controller_shape_viewport.py](../../../tests/maya/ui/test_controller_shape_viewport.py) にあります。
+立体の外向きの面、薄い面の両面表示、Fillの表示条件による線の切り替え、
+矢印先端への接続、Arrow3Dの追加面、Selection Highlightingと表示種別の組み合わせを確認します。
+形状の仕様と手動で確認する項目は [Controller Shape](controller-shape.md) を参照してください。
+
+このテストは実際のViewport 2.0を持つMaya GUIで実行します。
+`mayapy` のbatch環境ではskipするため、`test-ui-maya*.cmd` や
+`verify.cmd -IncludeNative` の成功だけでは画像比較の成功を確認できません。
+`offScreen=True` はplayblastの取得方法であり、GUIを不要にする設定ではありません。
+
+対象バージョンのplug-inをbuild / stageした後、作業中のMayaとは別の空のMaya GUIを起動し、
+PythonのScript Editorから次を実行します。テストはsceneを新規作成するため、
+必要なsceneや作業状態のない専用プロセスを使用してください。
+`repo_root` は実際のcheckoutへ変更します。pytestは `setup-test.cmd` で用意した `.test` を使います。
+
+```python
+import sys
+import tempfile
+from pathlib import Path
+
+from maya import utils
+
+repo_root = Path(r"D:\develop\bakedanuki_dev\bakedanuki-util")
+sys.path.insert(0, str(repo_root / ".test"))
+
+
+def run_controller_viewport_tests():
+    import pytest
+
+    output_dir = Path(tempfile.mkdtemp(prefix="bd-controller-vp2-"))
+    exit_code = pytest.main(
+        [
+            "-p",
+            "no:cacheprovider",
+            "-q",
+            str(repo_root / "tests/maya/ui/test_controller_shape_viewport.py"),
+            "--basetemp",
+            str(output_dir / "pytest"),
+            "--junitxml",
+            str(output_dir / "results.xml"),
+        ]
+    )
+    print(f"Viewport pytest: {exit_code}, results: {output_dir}")
+
+
+utils.executeDeferred(run_controller_viewport_tests)
+```
+
+既定では実行中のMayaバージョンに対応した配布先 `.mll` をロードします。
+別のbinaryを検証する場合は、Mayaを起動する前に `BD_UTIL_NODES_PLUGIN_PATH` へその絶対pathを指定します。
+Maya 2025 / 2026 / 2027の各GUIで同じ手順を使い、pytestの終了コードとJUnit XMLを確認します。
+テストのPNGは `output_dir / "pytest"` 以下に残ります。
+検証後は専用Mayaを終了してからstaged binaryを更新してください。
+テスト用Mayaが残っている場合もWindowsのfile lockでstageに失敗します。
+
+画像比較を変更する際は、既存の `_capture_view()` を基準にします。
+
+- パネルへfocusを移してidle処理を進め、`cmds.playblast(editorPanelName=..., offScreen=True, ...)` でPNGを取得する。
+  この検証環境では `M3dView.readColorBuffer()` で空や更新前の画像を得たことがあるため、
+  単に `refresh()` を増やす方法へ戻さない。
+- PNGは `MImage.readFromFile()` で読み、`pixels()` のポインタから
+  `ctypes.string_at(..., width * height * 4)` でRGBAを取得する。
+- 黒いReference線と透明な背景はRGBが同じになる場合があるため、画像全体の一致や背景判定にはAlphaも含める。
+  線が見えることを先に確認し、空の画像同士の一致を成功と扱わない。
+- カメラ・ズーム・背景・アンチエイリアス・表示種別を固定する。
+  矢印内部の線を判定するときは、Arrow3Dの別の面や辺が同じpixelへ投影されない視点を使う。
+
 ## DG, Serial, And Parallel
 
 Evaluation Manager の問題を切り分けるときは、同じ scene と入力列を DG、Serial、
