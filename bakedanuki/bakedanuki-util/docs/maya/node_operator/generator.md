@@ -723,10 +723,11 @@ print(errors)
 
 内部実装の `ExistingNode.decomposeMatrix()` のような型別メソッドは実行時には lazy に解決されます。
 公開APIの `bd_nodes.existing.decomposeMatrix()` は、共有 `ModifierManager` を束縛したうえで同じ型別アクセスを提供します。
-IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の14ファイルを生成します。
+IDE から具体的な戻り値型を追えるように、次のスクリプトが生成済み NodeOperator class を走査して、以下の15ファイルを生成します。
 
 - `python/bd_util/maya/node/existing_node.pyi`
 - `python/bd_util/maya/node/nodes.pyi`
+- `python/bd_util/typing_profiles.pyi`
 - `python/bd_util/maya/node/_versioned_accessors.pyi`
 - `python/bd_util/maya/node/creator/_shape_with_transform.pyi`
 - `python/bd_util/maya/node/creator/_transform_creator.pyi`
@@ -781,6 +782,13 @@ version 別の戻り値型の union にします。version 別 module は、そ�
 node だけを公開し、schema 型が異なる戻り値は union 型にします。`nodes.pyi` の
 `typing_maya_version` overload は、この静的 accessor だけを選択します。実行中 Maya の
 version 判定や node availability には使用しません。
+
+`typing_profiles.pyi` は、この version 別 `Nodes` facade の公開型 alias を生成します。
+引数省略時の overload は `bd_util_typing_config.DefaultNodes` を返し、明示した version の
+overload は従来の facade を直接返します。`nodes.pyi` の constructor の説明は
+`nodes.py` の docstring から転記します。
+利用者が編集する `bd_util/config/typing.pyi` とプロジェクト用テンプレートは手書きで管理し、
+生成器は上書き・生成内容一致検査を行いません。
 
 Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreator` と同様に `and_()` / `or_()` / `not_()` として公開します。
 これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。

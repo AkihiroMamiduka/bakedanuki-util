@@ -104,7 +104,8 @@ Pyright が解決する型を `typing.assert_type()` で固定します。
 - `typing_maya_version="2025" / "2026" / "2027"` と
   `"2025+" / "2026+" / "2027+"` ごとの `bd_nodes.create` / `bd_nodes.existing` /
   `bd_nodes.create.with_transform` の候補と versioned attribute schema。省略時は
-  3 version 共通面と共通型を検証します。
+  同梱の初期設定 `Maya2025Plus` と共通型を検証します。
+- `typing_profiles` の全6プロファイルと、明示的な `None` の既定設定への解決。
 - `AttributeField` の class access と instance access。
 - compound child と alias の具体的な plug 型。
 - enum plug と enum 定数。
@@ -172,6 +173,15 @@ versionごとのscriptとして`typecheck-maya2025.cmd`、
 node availabilityの変更には使われません。
 runtime挙動は各versionの`.\scripts\test-pytest-maya2025.cmd`、
 `.\scripts\test-pytest-maya2026.cmd`、`.\scripts\test-pytest-maya2027.cmd`で検証します。
+
+`tests/dev/maya/node/operator/node/test_typing_config.py` は、配布の Python ディレクトリを
+一時ディレクトリへ複製し、同梱設定の変更とプロジェクトの `stubPath` からの上書きを
+実際の Pyright で検証します。元の同梱設定は編集しません。
+全6プロファイルの上書き、明示引数の優先、`None`、node availability、attribute schema、
+`existing` / `create.with_transform`、プロジェクト用テンプレートを確認します。
+この pytest も `.typecheck` の Pyright を使用するため、未導入の場合は
+`setup-typecheck.cmd` で用意してください。最終の `verify.cmd` は先に型チェック環境を
+検証してから full pytest を実行します。
 
 ### 実装ファイルの診断確認
 

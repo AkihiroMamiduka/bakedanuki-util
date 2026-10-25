@@ -317,12 +317,17 @@ bd_nodes = bdu.Nodes(
 
 この引数は Pylance / Pyright 向けの型選択だけに使います。例えば Maya 2025 上で
 `"2027"` を指定しても version 不一致エラーにはならず、実行時には Maya 2025 の
-schema と利用可能ノードが使われます。指定を省略した場合、IDE には3 versionで共通の
-安全な API 面が提示されます。version 固有ノードや attribute まで補完したいコードで
-のみ指定してください。この指定で実行時にversion固有nodeが有効になるわけではなく、
+schema と利用可能ノードが使われます。省略または `None` の場合は補完設定を使い、
+初期値の `Maya2025Plus` では3 version共通の API 面が提示されます。
+この指定で実行時にversion固有nodeが有効になるわけではなく、
 起動中のMayaで利用できないnodeへアクセスした場合は`AttributeError`になります。
 `"2026+"` は正式対応済みの Maya 2026 以降、現在は 2026 / 2027 の共通面を選びます。
-`"2025+"` は省略時、`"2027+"` は `"2027"` と同じ範囲です。
+`"2025+"` は初期設定、`"2027+"` は `"2027"` と同じ範囲です。
+
+引数省略時の既定値は `python/bd_util/config/typing.pyi` で変更できます。
+プロジェクト側の `stubPath` から `bd_util_typing_config.pyi` を指定すると、
+同梱設定を上書きできます。明示引数を最優先にし、プロジェクト設定、同梱設定の順で
+選択します。配置と編集方法は [既定設定](../../../python/bd_util/config/README.md) を参照してください。
 
 `typing_maya_version` が選ぶ補完面は `bd_nodes.create` と `bd_nodes.existing` です。
 `bd_nodes.create.with_transform` にも同じ範囲が適用されます。

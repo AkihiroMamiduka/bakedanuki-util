@@ -121,8 +121,8 @@ bd_nodes = bdu.Nodes(typing_maya_version="2027")
 ```
 
 この指定は`bd_nodes.create` / `bd_nodes.existing`の静的な見え方だけを選び、
-実行 Maya の選択、version 検証、利用可能 node の変更には使われません。省略時は、
-対応する3 versionに共通する安全な補完面になります。
+実行 Maya の選択、version 検証、利用可能 node の変更には使われません。省略または
+`None` の場合は補完設定を使い、初期状態では3 versionに共通する補完面になります。
 複数 version を対象にする場合は `"2026+"` のように下限を指定します。
 
 ```python
@@ -132,11 +132,22 @@ bevels.append(bd_nodes.create.polySmartBevel())
 ```
 
 現在の `"2026+"` は Maya 2026 / 2027 の共通面です。
-`"2025+"` は省略時と、`"2027+"` は `"2027"` と同じ範囲になります。
+`"2025+"` は初期設定と、`"2027+"` は `"2027"` と同じ範囲になります。
 将来、正式対応 version が増えると `+` の対象も広がります。
 型注釈を version ごとの補完面に合わせる場合は、
 `bdu.node_types.maya2027.Joint` または
 `bdu.node_types.maya2026_plus.PolySmartBevel` のように対応する module を指定します。
+
+`Nodes()` の既定補完は `python/bd_util/config/typing.pyi` で変更できます。
+初期値は `Maya2025Plus` です。例えば、2026 以降の共通部分に変更する場合です。
+
+```python
+from ..typing_profiles import Maya2026Plus as DefaultNodes
+```
+
+共有パッケージを使う場合は、プロジェクトの `stubPath` から上書きできます。
+明示した `typing_maya_version`、プロジェクト設定、同梱設定の順で優先します。
+配置例とコピー用テンプレートは [既定設定](python/bd_util/config/README.md) を参照してください。
 
 ### Numeric Compound Values
 

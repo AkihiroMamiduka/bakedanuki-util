@@ -150,6 +150,8 @@ class Nodes:
                 相対指定はこの呼び出し時のカレント namespace を基準にする。
             typing_maya_version: IDE の補完対象にする Maya バージョン。
                 `+` を付けると、指定版以降の正式対応版に共通する補完面を選ぶ。
+                省略または `None` の場合はプロジェクト側の補完設定を使い、
+                上書きがなければ `bd_util/config/typing.pyi` の設定を使う。
                 実行時のノード定義は現在の Maya に従う。
         """
         # `typing_maya_version` は型補完だけに使う。実行時は読み込んだ Maya の版に従う。

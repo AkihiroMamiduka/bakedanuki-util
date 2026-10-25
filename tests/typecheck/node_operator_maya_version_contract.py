@@ -1,4 +1,7 @@
-from typing import assert_type
+from typing import TYPE_CHECKING, assert_type
+
+if TYPE_CHECKING:
+    from bd_util import typing_profiles
 
 import bd_util as bdu
 from bd_util.maya.node.operator.attr import (
@@ -65,6 +68,14 @@ bd_nodes_2027 = bdu.Nodes(typing_maya_version="2027")
 bd_nodes_2025_plus = bdu.Nodes(typing_maya_version="2025+")
 bd_nodes_2026_plus = bdu.Nodes(typing_maya_version="2026+")
 bd_nodes_2027_plus = bdu.Nodes(typing_maya_version="2027+")
+assert_type(bd_nodes_common, typing_profiles.Maya2025Plus)
+assert_type(bdu.Nodes(typing_maya_version=None), typing_profiles.Maya2025Plus)
+assert_type(bd_nodes_2025, typing_profiles.Maya2025)
+assert_type(bd_nodes_2026, typing_profiles.Maya2026)
+assert_type(bd_nodes_2027, typing_profiles.Maya2027)
+assert_type(bd_nodes_2025_plus, typing_profiles.Maya2025Plus)
+assert_type(bd_nodes_2026_plus, typing_profiles.Maya2026Plus)
+assert_type(bd_nodes_2027_plus, typing_profiles.Maya2027Plus)
 for bd_nodes_version in (
     bd_nodes_2025,
     bd_nodes_2026,

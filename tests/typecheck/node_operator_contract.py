@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Any, Literal, assert_type
 
 if TYPE_CHECKING:
+    from bd_util.typing_profiles import Maya2025Plus
     from bd_util.maya.node.operator.attr._keyframe_discovery import (
         AnimCurveNode,
     )
@@ -1909,7 +1910,7 @@ def transform_creation_contract(bd_nodes: bdu.Nodes) -> None:
 def nodes_namespace_contract() -> None:
     bd_nodes = bdu.Nodes(namespace=":rig")
     assert_type(bd_nodes.namespace, str | None)
-    assert_type(bd_nodes.set_namespace(None), bdu.Nodes)
+    assert_type(bd_nodes.set_namespace(None), Maya2025Plus)
     assert_type(bd_nodes.create.transform(name="control"), Transform)
     assert_type(
         bd_nodes.move_to_namespace(["existing"], namespace=":rig"), None

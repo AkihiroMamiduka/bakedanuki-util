@@ -83,15 +83,16 @@ constructor の結果型を version ごとに変えるため、選択は `__init
 `_NodeCreatorMaya2027` と `_ExistingNodeAccessorMaya2027` を返します。
 
 実際の補完面は `_versioned_accessors.pyi` に生成します。
-`typing_maya_version` を省略した `Nodes()` は、全対応 version に共通する安全な API 面を
-返します。version 間で attribute 型だけが異なる場合、共通面では union 型になります。
+`typing_maya_version` を省略した `Nodes()` は補完設定の `DefaultNodes` を返します。
+初期値は `Maya2025Plus` で、全対応 version に共通する API 面です。
+version 間で attribute 型だけが異なる場合、共通面では union 型になります。
 
 `"<version>+"` は、指定した version から正式対応済みの最新 version までの
 共通部分を選びます。現時点の対象は次の通りです。
 
 | `typing_maya_version` | 補完対象 |
 | --- | --- |
-| 省略 | Maya 2025 / 2026 / 2027 の共通部分 |
+| 省略または `None` | 補完設定を使用。初期値は Maya 2025 / 2026 / 2027 の共通部分 |
 | `"2025+"` | Maya 2025 / 2026 / 2027 の共通部分 |
 | `"2026+"` | Maya 2026 / 2027 の共通部分 |
 | `"2027+"` | Maya 2027 |
@@ -102,6 +103,33 @@ Maya 2027 専用の `shotLabel` は補完されません。version 間で同じ�
 attribute が異なる場合は、対象 version のいずれでも使える属性だけを提示し、
 異なる型は union 型で表します。`bd_nodes.create.with_transform` にも同じ範囲が適用されます。
 将来、正式対応 version が増えた場合は `+` の範囲も広がり、共通部分を再計算します。
+
+### 引数省略時の既定設定
+
+利用者が編集する同梱設定は `python/bd_util/config/typing.pyi` に集約します。
+
+```python
+from ..typing_profiles import Maya2025Plus as DefaultNodes
+```
+
+`typing_profiles.pyi` は既存の version 別 facade を公開名で表す生成型 alias です。
+`Maya2025` / `Maya2026` / `Maya2027` と、それぞれの `Plus` を選択できます。
+この alias は補完専用で、実行時に version 別クラスを作成・import する入口ではありません。
+
+`nodes.pyi` は、独立 module の `bd_util_typing_config` から既定型を参照します。
+同梱の `python/bd_util_typing_config.pyi` は `bd_util.config.typing.DefaultNodes` を
+取り次ぎます。プロジェクトの `stubPath` に同名の `.pyi` があればそちらを優先します。
+独立した import 名を使うことで、パッケージ内部の相対 import を保ったまま、
+共有パッケージを編集せずに既定型を変更できます。
+
+優先順位は、明示した `typing_maya_version`、プロジェクト設定、同梱設定です。
+`None` は省略と同じ設定を選びます。`Nodes` の共通基底型自体は変更せず、
+constructor の結果型だけを切り替えるため、単一版・`+` 範囲の明示指定を維持します。
+設定は `create` / `existing` / `create.with_transform` に適用し、`bdu.node_types` と
+実行時の Maya 判定からは独立しています。
+
+具体的な設定方法とプロジェクト用テンプレートは
+[既定設定](../../../python/bd_util/config/README.md) を参照してください。
 
 型注釈には、共通面なら `bdu.node_types.Joint`、単一 version を指定する場合は
 `bdu.node_types.maya2027.Joint` のように対応する module を使います。
@@ -151,6 +179,9 @@ version 対応に関する主な管理場所です。
 | version schema 生成 CLI | `python/bd_util/_dev/maya/node/operator/node/generate_version_schema.py` |
 | 補完 stub 生成 | `python/bd_util/_dev/maya/node/operator/node/generate_existing_node_stub.py` |
 | 型注釈用 module / stub | `python/bd_util/node_types` |
+| 引数省略時の同梱補完設定 | `python/bd_util/config/typing.pyi` |
+| プロジェクト上書きの内部入口 | `python/bd_util_typing_config.pyi` |
+| 設定で選ぶ公開型 alias | `python/bd_util/typing_profiles.pyi` |
 | runtime の `typing_maya_version` 引数 | `python/bd_util/maya/node/nodes.py` |
 | generated schema 差分 | `operator/node/**/_generated_maya<version>` |
 | compound attribute 差分 | `operator/attr/define/node_attr_maya<version>` |
@@ -230,7 +261,7 @@ inventoryを正規snapshotとして採用しません。
 新overlayへ出力されていることを確認します。新規 node には public wrapper が必要です。
 
 続いて Maya 2025 の `mayapy` から `generate_existing_node_stub.py` を実行し、
-現行の14ファイルに新 version 用の単一版・`+` 範囲 stub を加えた
+現行の15ファイルに新 version 用の単一版・`+` 範囲 stub を加えた
 registry / stub 生成物を更新します。生成後に `--check` を実行し、ASTとして最新である
 ことも確認します。生成物の一覧は [Generator](generator.md) を参照してください。
 

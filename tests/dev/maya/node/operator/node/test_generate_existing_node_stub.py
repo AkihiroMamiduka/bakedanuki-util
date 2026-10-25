@@ -224,6 +224,19 @@ def test_versioned_accessors_stub_matches_generated_code():
     )
 
 
+def test_typing_profiles_stub_matches_generated_code():
+    import bd_util
+    from bd_util._dev.maya.node.operator.node import (
+        generate_existing_node_stub as stub_generator,
+    )
+
+    python_root = Path(bd_util.__file__).resolve().parent.parent
+    assert stub_generator.stub_code_is_current(
+        stub_generator.typing_profiles_stub_path(python_root),
+        stub_generator.generate_typing_profiles_stub_code(),
+    )
+
+
 def test_versioned_creator_surfaces_follow_node_availability():
     import bd_util
     from bd_util._dev.maya.node.operator.node import (

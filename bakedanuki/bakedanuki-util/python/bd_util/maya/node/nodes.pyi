@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import Literal, Self, overload
+from typing import Literal, Self, TypeAlias, overload
 
 from maya.api import OpenMaya as om
+
+from bd_util_typing_config import DefaultNodes as _DefaultNodes
 
 from .modifier import ModifierManager
 from .operator.node._core import NodeOperator
@@ -28,6 +30,8 @@ from ._versioned_accessors import (
 )
 
 class Nodes:
+    """ノードの作成・取得と共通の `ModifierManager` をまとめる入口。"""
+
     @overload
     def __new__(
         cls,
@@ -83,7 +87,7 @@ class Nodes:
         *,
         namespace: str | None = None,
         typing_maya_version: None = None,
-    ) -> Nodes: ...
+    ) -> _DefaultNodes: ...
     def __init__(
         self,
         modifier_manager: ModifierManager | None = None,
@@ -92,7 +96,21 @@ class Nodes:
         typing_maya_version: (
             Literal["2025", "2026", "2027", "2025+", "2026+", "2027+"] | None
         ) = None,
-    ) -> None: ...
+    ) -> None:
+        """ノード操作の入口を初期化する。
+
+        Args:
+            modifier_manager: 操作を予約する先。省略時は新規作成する。
+            namespace: 作成時の既定 namespace。`None` は既定値なし。
+                相対指定はこの呼び出し時のカレント namespace を基準にする。
+            typing_maya_version: IDE の補完対象にする Maya バージョン。
+                `+` を付けると、指定版以降の正式対応版に共通する補完面を選ぶ。
+                省略または `None` の場合はプロジェクト側の補完設定を使い、
+                上書きがなければ `bd_util/config/typing.pyi` の設定を使う。
+                実行時のノード定義は現在の Maya に従う。
+        """
+        ...
+
     @property
     def modifier_manager(self) -> ModifierManager: ...
     @property
@@ -146,3 +164,10 @@ class _NodesMaya2027Plus(Nodes):
     def create(self) -> _NodeCreatorMaya2027Plus: ...
     @property
     def existing(self) -> _ExistingNodeAccessorMaya2027Plus: ...
+
+Maya2025: TypeAlias = _NodesMaya2025
+Maya2026: TypeAlias = _NodesMaya2026
+Maya2027: TypeAlias = _NodesMaya2027
+Maya2025Plus: TypeAlias = _NodesMaya2025Plus
+Maya2026Plus: TypeAlias = _NodesMaya2026Plus
+Maya2027Plus: TypeAlias = _NodesMaya2027Plus
