@@ -32,6 +32,8 @@ from bd_util.maya.ui import (
     resolve_bool_plug,
 )
 from bd_util.ui import (
+    PathLineEdit,
+    add_path_actions,
     BoolBinding,
     BoolCheckBox,
     BoolComboBox,
@@ -66,6 +68,8 @@ class SampleWindow(QtWidgets.QDialog):
 
 
 assert_type(exec_dialog_near(SampleWindow(), qt.QPoint(100, 100)), int)
+assert_type(PathLineEdit("C:/work").isReadOnly(), bool)
+assert_type(add_path_actions(qt.QMenu(), "C:/work", qt.QPoint()), None)
 with place_dialog_near(SampleWindow(), qt.QPoint(100, 100)) as placement:
     assert_type(placement, None)
 assert_type(

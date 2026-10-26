@@ -88,6 +88,7 @@ from .binding import (
     SetBoolCommand,
 )
 from .settings_path import SettingsPath
+from .path import PathLineEdit, add_path_actions
 from .json_clipboard import JsonClipboard
 from .float_step_profile import FloatStepProfile, FloatStepSetting
 from .int_step_profile import IntStepProfile, IntStepSetting
@@ -102,6 +103,8 @@ from .window_state import (
 )
 
 __all__ = [
+    "PathLineEdit",
+    "add_path_actions",
     "place_dialog_near",
     "DialogAnchorTracker",
     "exec_dialog_near",
