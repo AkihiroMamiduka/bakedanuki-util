@@ -1,22 +1,27 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 35> kPresetNames = {
+constexpr std::array<const char*, 40> kPresetNames = {
     "Gear",
+    "GearSwapped",
     "Line",
     "WideLine",
-    "CrossLine1st2nd",
-    "WideCrossLine1st2nd",
-    "CrossLine1st3rd",
-    "WideCrossLine1st3rd",
-    "CrossLine2nd3rd",
-    "WideCrossLine2nd3rd",
-    "CrossLine3Axis",
+    "CrossLine",
+    "WideCrossLine",
     "Triangle",
     "Square",
     "SquareCrossLine",
     "SquareCrossLineTemplate",
     "SquareTemplate",
     "Diamond",
+    "CrossLineSwapped",
+    "WideCrossLineSwapped",
+    "TriangleSwapped",
+    "SquareSwapped",
+    "SquareCrossLineSwapped",
+    "SquareCrossLineTemplateSwapped",
+    "SquareTemplateSwapped",
+    "DiamondSwapped",
+    "CrossLine3Axis",
     "Cube",
     "Octahedron",
     "OctahedronArrow",
@@ -42,27 +47,33 @@ enum class PartEnds { Both, End };
 
 struct PresetInfo {
     short outlineIndex;
+    bool swapped = false;
     PartEnds partEnds = PartEnds::Both;
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 35> kPresetInfo = {{
+constexpr std::array<PresetInfo, 40> kPresetInfo = {{
     {0},  // Gear
+    {0, true},  // GearSwapped
     {1},  // Line
     {104},  // WideLine
-    {52},  // CrossLine1st2nd
-    {105},  // WideCrossLine1st2nd
-    {53},  // CrossLine1st3rd
-    {106},  // WideCrossLine1st3rd
-    {4},  // CrossLine2nd3rd
-    {107},  // WideCrossLine2nd3rd
-    {5},  // CrossLine3Axis
+    {53},  // CrossLine
+    {106},  // WideCrossLine
     {6},  // Triangle
     {8},  // Square
     {108},  // SquareCrossLine
     {109},  // SquareCrossLineTemplate
     {110},  // SquareTemplate
     {79},  // Diamond
+    {53, true},  // CrossLineSwapped
+    {106, true},  // WideCrossLineSwapped
+    {6, true},  // TriangleSwapped
+    {8, true},  // SquareSwapped
+    {108, true},  // SquareCrossLineSwapped
+    {109, true},  // SquareCrossLineTemplateSwapped
+    {110, true},  // SquareTemplateSwapped
+    {79, true},  // DiamondSwapped
+    {5},  // CrossLine3Axis
     {19},  // Cube
     {24},  // Octahedron
     {25},  // OctahedronArrow
@@ -96,6 +107,21 @@ constexpr short cubePresetIndex() {
 short outlinePresetIndex(short shape) {
     return shape >= 0 && shape < static_cast<short>(kPresetInfo.size())
         ? kPresetInfo[shape].outlineIndex : 0;
+}
+
+bool isSwappedPreset(short shape) {
+    return shape >= 0 && shape < static_cast<short>(kPresetInfo.size()) && kPresetInfo[shape].swapped;
+}
+
+// 旧YZ平面の本体と付属形状は、接合を終えてから主軸を含むXZ平面へ揃える。
+bool hasLegacyPlanarOrientation(short outline) {
+    return outline == 0 || outline == 6 || outline == 8 || outline == 79 ||
+        (outline >= 108 && outline <= 110);
+}
+
+MPoint presetOrientedPoint(const MPoint& point, short shape) {
+    const bool exchange = hasLegacyPlanarOrientation(outlinePresetIndex(shape)) != isSwappedPreset(shape);
+    return exchange ? MPoint(point.y, point.x, -point.z) : point;
 }
 
 bool isCircleOutline(short outline) {

@@ -1523,7 +1523,8 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     auto result = std::make_shared<BdControllerShapeNode::Geometry>();
     const bool withFin = settings.fin && !isCircleOutline(outlinePresetIndex(settings.shape)) &&
         partFinHeight(settings) != 0.0;
-    const bool referenceGeometry = withFin || optionPartSupported(outlinePresetIndex(settings.shape));
+    const bool referenceGeometry = withFin || optionPartSupported(outlinePresetIndex(settings.shape)) ||
+        hasLegacyPlanarOrientation(outlinePresetIndex(settings.shape)) || isSwappedPreset(settings.shape);
     ShapeSettings source = settings;
     if (referenceGeometry) {
         source.firstAxis = 0;
@@ -1554,11 +1555,16 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
         if (source.fill && !trimmedEnds) removeFinFillOverlaps(*result, bodyFills);
     }
     if (referenceGeometry) {
+        // 本体・部品・Finの接合後に姿勢を揃え、軸指定の変形とOffsetはその外側へ適用する。
         for (auto& stroke : result->strokes) {
-            for (unsigned int i = 0; i < stroke.length(); ++i) stroke[i] = transformPoint(stroke[i], transform);
+            for (unsigned int i = 0; i < stroke.length(); ++i) {
+                stroke[i] = transformPoint(presetOrientedPoint(stroke[i], settings.shape), transform);
+            }
         }
         for (auto& part : result->fillParts) {
-            for (unsigned int i = 0; i < part.triangles.length(); ++i) part.triangles[i] = transformPoint(part.triangles[i], transform);
+            for (unsigned int i = 0; i < part.triangles.length(); ++i) {
+                part.triangles[i] = transformPoint(presetOrientedPoint(part.triangles[i], settings.shape), transform);
+            }
         }
         if (reversesSolidFillWinding(transform)) reverseSolidFillWinding(*result);
     }

@@ -209,13 +209,16 @@ def test_thin_fill_remains_visible_from_both_sides(
     with _drawing_view(
         maya_cmds, preset, shapeFill=True, shapeLineTransparency=1, **options
     ) as (_, _, camera, _, panel):
-        axis = "X" if preset == "Triangle" else "Z"
+        axis = "Y" if preset == "Triangle" else "Z"
         for sign in (-1, 1):
             maya_cmds.setAttr(f"{camera}.translate", 0, 0, 0)
             maya_cmds.setAttr(f"{camera}.translate{axis}", sign * 4)
             target = maya_cmds.createNode("transform")
             constraint = maya_cmds.aimConstraint(
-                target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
+                target,
+                camera,
+                aimVector=(0, 0, -1),
+                upVector=(0, 0, 1) if axis == "Y" else (0, 1, 0),
             )
             maya_cmds.delete(constraint, target)
             pixels = _capture_view(panel, tmp_path / f"side_{sign}.png")
@@ -232,9 +235,8 @@ def test_thin_fill_remains_visible_from_both_sides(
         ("Cone", None),
         ("Cylinder", None),
         ("Line", 0),
-        ("CrossLine1st2nd", 1),
-        ("CrossLine1st3rd", 0),
-        ("CrossLine2nd3rd", 1),
+        ("CrossLine", 0),
+        ("CrossLineSwapped", 1),
         ("CrossLine3Axis", 0),
         ("ColorCrossLine3Axis", 1),
         ("Circle", 1),
@@ -340,7 +342,7 @@ def test_arrow_tip_connection_matches_fill_and_guide_style(
         )
         maya_cmds.delete(constraint, target)
         if preset.startswith("SquareCrossLine"):
-            point = (0, 0.645, 0)
+            point = (0.645, 0, 0)
         elif preset == "Circle":
             angle = -math.pi / 6 + 0.06
             point = (0, 0.5 * math.sin(angle), 0.5 * math.cos(angle))
@@ -403,6 +405,56 @@ def test_cone_keeps_side_lines_and_cylinder_hides_them_with_fill(
             )
 
 
+@pytest.mark.parametrize(
+    "base",
+    (
+        "Gear",
+        "Triangle",
+        "Square",
+        "SquareCrossLine",
+        "SquareCrossLineTemplate",
+        "SquareTemplate",
+        "Diamond",
+        "CrossLine",
+        "WideCrossLine",
+    ),
+)
+@pytest.mark.parametrize("filled", (False, True))
+def test_swapped_shape_matches_complete_axis_exchange(
+    maya_cmds, new_scene, tmp_path, base, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        base,
+        shapeFill=filled,
+        shapePart=True,
+        shapePartShape=1,
+        shapePartType=1,
+        shapePartOffset=0.08,
+        shapeFin=True,
+        shapeFinType=1,
+        shapeFinHeight=0.4,
+        shape1stAxis=3,
+        shape2ndAxis=1,
+    ) as (_, shape, camera, _, panel):
+        maya_cmds.setAttr(f"{shape}.shapeScale", -0.9, 0.7, 1.1)
+        maya_cmds.setAttr(f"{shape}.shapeRotate", 13, -19, 23)
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        reference = _capture_view(panel, tmp_path / "exchanged_axes.png")
+        names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
+            0
+        ].split(":")
+        maya_cmds.setAttr(f"{shape}.shape", names.index(base + "Swapped"))
+        maya_cmds.setAttr(f"{shape}.shape1stAxis", 1)
+        maya_cmds.setAttr(f"{shape}.shape2ndAxis", 3)
+        actual = _capture_view(panel, tmp_path / "swapped_shape.png")
+        assert (
+            actual == reference
+        ), "Swappedで本体・Part・Finの位置または向きが軸交換と一致しない"
+
+
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize("all_ends", (False, True))
 def test_arrow3d_raises_only_on_positive_side_and_draws_shoulder_edge(
@@ -421,17 +473,17 @@ def test_arrow3d_raises_only_on_positive_side_and_draws_shoulder_edge(
         shapePartShape=1,
         shapePartType=int(all_ends),
     ) as (_, _, camera, _, panel):
-        maya_cmds.setAttr(f"{camera}.translate", 0, -4, 0)
+        maya_cmds.setAttr(f"{camera}.translate", 0, 0, -4)
         target = maya_cmds.createNode("transform")
         constraint = maya_cmds.aimConstraint(
-            target, camera, aimVector=(0, 0, -1), upVector=(0, 0, 1)
+            target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
         )
         maya_cmds.delete(constraint, target)
         pixels = _capture_view(panel, tmp_path / "side.png")
         depth = 0.1 * math.cos(math.pi / 6)
         for sign in (-1, 1) if all_ends else (1,):
-            shoulder = ((0.5 - depth) * sign, 0, 0.025)
-            negative = ((0.5 - depth * 0.5) * sign, 0, -0.025)
+            shoulder = ((0.5 - depth) * sign, 0.025, 0)
+            negative = ((0.5 - depth * 0.5) * sign, -0.025, 0)
             assert _brightness_near_world(panel, pixels, shoulder) > 600
             assert _brightness_near_world(panel, pixels, negative) < 120, (
                 "Arrow3Dが主平面の負側にも作られている",
@@ -987,7 +1039,7 @@ def test_cross_circle_axial_join_has_one_transparent_top_face(
             0
         ].split(":")
         maya_cmds.setAttr(f"{shape}.shape", names.index("Square"))
-        maya_cmds.setAttr(f"{shape}.shapeRotateZ", 90)
+        maya_cmds.setAttr(f"{shape}.shapeRotateZ", 0)
         reference = _capture_view(
             panel, tmp_path / "single_transparent_face.png"
         )

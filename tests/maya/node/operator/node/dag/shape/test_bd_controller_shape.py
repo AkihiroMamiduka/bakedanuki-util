@@ -17,21 +17,26 @@ pytestmark = pytest.mark.maya
 
 SHAPE_NAMES = (
     "Gear",
+    "GearSwapped",
     "Line",
     "WideLine",
-    "CrossLine1st2nd",
-    "WideCrossLine1st2nd",
-    "CrossLine1st3rd",
-    "WideCrossLine1st3rd",
-    "CrossLine2nd3rd",
-    "WideCrossLine2nd3rd",
-    "CrossLine3Axis",
+    "CrossLine",
+    "WideCrossLine",
     "Triangle",
     "Square",
     "SquareCrossLine",
     "SquareCrossLineTemplate",
     "SquareTemplate",
     "Diamond",
+    "CrossLineSwapped",
+    "WideCrossLineSwapped",
+    "TriangleSwapped",
+    "SquareSwapped",
+    "SquareCrossLineSwapped",
+    "SquareCrossLineTemplateSwapped",
+    "SquareTemplateSwapped",
+    "DiamondSwapped",
+    "CrossLine3Axis",
     "Cube",
     "Octahedron",
     "OctahedronArrow",
@@ -66,6 +71,18 @@ PART_SHAPES = (
     "Pyramid",
     "Cone",
 )
+
+PLANAR_BASES = (
+    "Gear",
+    "Triangle",
+    "Square",
+    "SquareCrossLine",
+    "SquareCrossLineTemplate",
+    "SquareTemplate",
+    "Diamond",
+)
+
+SWAPPED_BASES = (*PLANAR_BASES, "CrossLine", "WideCrossLine")
 
 
 def _circle_arrow_profile_points(start, depth, half_width):
@@ -106,8 +123,11 @@ CIRCLE_SHAPES = (
 
 PART_UNSUPPORTED = (
     "Gear",
+    "GearSwapped",
     "Triangle",
+    "TriangleSwapped",
     "Diamond",
+    "DiamondSwapped",
     "Octahedron",
     "OctahedronArrow",
     "Cylinder",
@@ -118,7 +138,7 @@ PART_UNSUPPORTED = (
     "ColorCornerCube",
 )
 
-LEGACY_SHAPE_NAMES = (
+OPTION_CASE_NAMES = (
     "Gear",
     "Line",
     "LineArrowAtEnd",
@@ -133,45 +153,32 @@ LEGACY_SHAPE_NAMES = (
     "LineCircleAtEnds",
     "LineTriangleAtEnd",
     "LineTriangleAtEnds",
-    "CrossLine1st2nd",
-    "CrossLine1st2ndArrowAtEnd",
-    "CrossLine1st2ndArrowAtEnds",
-    "CrossLine1st2ndWideArrowAtEnd",
-    "CrossLine1st2ndWideArrowAtEnds",
-    "CrossLine1st2ndSquareAtEnd",
-    "CrossLine1st2ndSquareAtEnds",
-    "CrossLine1st2ndDiamondAtEnd",
-    "CrossLine1st2ndDiamondAtEnds",
-    "CrossLine1st2ndCircleAtEnd",
-    "CrossLine1st2ndCircleAtEnds",
-    "CrossLine1st2ndTriangleAtEnd",
-    "CrossLine1st2ndTriangleAtEnds",
-    "CrossLine1st3rd",
-    "CrossLine1st3rdArrowAtEnd",
-    "CrossLine1st3rdArrowAtEnds",
-    "CrossLine1st3rdWideArrowAtEnd",
-    "CrossLine1st3rdWideArrowAtEnds",
-    "CrossLine1st3rdSquareAtEnd",
-    "CrossLine1st3rdSquareAtEnds",
-    "CrossLine1st3rdDiamondAtEnd",
-    "CrossLine1st3rdDiamondAtEnds",
-    "CrossLine1st3rdCircleAtEnd",
-    "CrossLine1st3rdCircleAtEnds",
-    "CrossLine1st3rdTriangleAtEnd",
-    "CrossLine1st3rdTriangleAtEnds",
-    "CrossLine2nd3rd",
-    "CrossLine2nd3rdArrowAtEnd",
-    "CrossLine2nd3rdArrowAtEnds",
-    "CrossLine2nd3rdWideArrowAtEnd",
-    "CrossLine2nd3rdWideArrowAtEnds",
-    "CrossLine2nd3rdSquareAtEnd",
-    "CrossLine2nd3rdSquareAtEnds",
-    "CrossLine2nd3rdDiamondAtEnd",
-    "CrossLine2nd3rdDiamondAtEnds",
-    "CrossLine2nd3rdCircleAtEnd",
-    "CrossLine2nd3rdCircleAtEnds",
-    "CrossLine2nd3rdTriangleAtEnd",
-    "CrossLine2nd3rdTriangleAtEnds",
+    "CrossLine",
+    "CrossLineArrowAtEnd",
+    "CrossLineArrowAtEnds",
+    "CrossLineWideArrowAtEnd",
+    "CrossLineWideArrowAtEnds",
+    "CrossLineSquareAtEnd",
+    "CrossLineSquareAtEnds",
+    "CrossLineDiamondAtEnd",
+    "CrossLineDiamondAtEnds",
+    "CrossLineCircleAtEnd",
+    "CrossLineCircleAtEnds",
+    "CrossLineTriangleAtEnd",
+    "CrossLineTriangleAtEnds",
+    "CrossLineSwapped",
+    "CrossLineSwappedArrowAtEnd",
+    "CrossLineSwappedArrowAtEnds",
+    "CrossLineSwappedWideArrowAtEnd",
+    "CrossLineSwappedWideArrowAtEnds",
+    "CrossLineSwappedSquareAtEnd",
+    "CrossLineSwappedSquareAtEnds",
+    "CrossLineSwappedDiamondAtEnd",
+    "CrossLineSwappedDiamondAtEnds",
+    "CrossLineSwappedCircleAtEnd",
+    "CrossLineSwappedCircleAtEnds",
+    "CrossLineSwappedTriangleAtEnd",
+    "CrossLineSwappedTriangleAtEnds",
     "CrossLine3Axis",
     "CrossLine3AxisEndCube",
     "CrossLine3AxisEndOctahedron",
@@ -228,8 +235,8 @@ LEGACY_SHAPE_NAMES = (
 )
 
 
-# 旧Fin名は回帰テストのケース名としてのみ使う。
-LEGACY_FIN_CASES = {
+# Finの組合せを指定するテストケース名。
+FIN_CASES = {
     "CubeFin": ("Cube", 0),
     "CubeFinArrow": ("Cube", 1),
     "CylinderFin": ("Cylinder", 0),
@@ -244,17 +251,15 @@ LEGACY_FIN_CASES = {
 # Filled接尾辞は回帰テストのケース名であり、公開shape enumの名前ではない。
 SHAPE_VARIANTS = tuple(
     name + suffix
-    for name in dict.fromkeys(
-        (*SHAPE_NAMES, *LEGACY_SHAPE_NAMES, *LEGACY_FIN_CASES)
-    )
+    for name in dict.fromkeys((*SHAPE_NAMES, *OPTION_CASE_NAMES, *FIN_CASES))
     for suffix in ("", "Filled")
 )
 
 
 def _case_settings(case_name):
-    # 旧プリセット名は、共通オプションを指定する回帰ケース名としてのみ扱う。
+    # 本体と共通オプションの組合せを、テスト用の短縮名から指定する。
     name = case_name.removesuffix("Filled")
-    fin = LEGACY_FIN_CASES.get(name)
+    fin = FIN_CASES.get(name)
     base = fin[0] if fin else name
     settings = {
         "shapeFill": case_name.endswith("Filled"),
@@ -361,10 +366,11 @@ def _create_controller(
     maya_cmds,
     *,
     name="controller",
-    shape_name="Square",
+    shape_name="SquareSwapped",
     shape_fill=None,
     bounds_mode=0,
 ) -> tuple[str, str]:
+    # 向きと無関係な既存の変形テストでは、YZ面の四角を基準に使う。
     transform = maya_cmds.createNode("transform", name=name)
     shape = maya_cmds.createNode(
         "bdControllerShape", parent=transform, name=f"{name}Shape"
@@ -860,13 +866,13 @@ def test_inherited_locator_channels_are_hidden_only_on_controller_shape(
 @pytest.mark.parametrize(
     ("shape_name", "expected_bounds"),
     (
-        ("Triangle", (0.0, -0.37, -0.5, 0.0, 0.5, 0.5)),
+        ("Triangle", (-0.37, 0.0, -0.5, 0.5, 0.0, 0.5)),
         (
             "TriangleFilled",
-            (0.0, -0.37, -0.5, 0.0, 0.5, 0.5),
+            (-0.37, 0.0, -0.5, 0.5, 0.0, 0.5),
         ),
-        ("Square", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
-        ("SquareFilled", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        ("Square", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
+        ("SquareFilled", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
         ("Cube", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
         ("CubeFilled", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
         ("Octahedron", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
@@ -906,6 +912,138 @@ def test_shape_bounds(
     assert _bounds(maya_om, shape) == pytest.approx(
         expected_bounds, abs=1.0e-9
     )
+
+
+@pytest.mark.parametrize("base", PLANAR_BASES)
+@pytest.mark.parametrize("filled", (False, True))
+def test_planar_base_uses_first_third_plane(
+    maya_cmds, maya_om, new_scene, base, filled
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name=base, shape_fill=filled
+    )
+    low = -0.37 if base == "Triangle" else -0.5
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (low, 0, -0.5, 0.5, 0, 0.5), abs=1e-9
+    )
+
+
+@pytest.mark.parametrize("base", SWAPPED_BASES)
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("first_axis,second_axis", ((0, 2), (1, 4), (5, 3)))
+@pytest.mark.parametrize(
+    "part,placement,fin_type", ((None, 0, 0), (1, 0, 1), (9, 1, 0))
+)
+def test_swapped_geometry_follows_right_handed_axis_exchange(
+    maya_cmds,
+    maya_om,
+    new_scene,
+    base,
+    filled,
+    first_axis,
+    second_axis,
+    part,
+    placement,
+    fin_type,
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, reference = _create_controller(
+        maya_cmds, shape_name=base, shape_fill=filled
+    )
+    _, swapped = _create_controller(
+        maya_cmds,
+        name="swapped",
+        shape_name=base + "Swapped",
+        shape_fill=filled,
+    )
+    for shape in (reference, swapped):
+        for name, value in (
+            ("shapePart", part is not None),
+            ("shapePartShape", part if part is not None else 0),
+            ("shapePartType", placement),
+            ("shapePartOffset", 0.17),
+            ("shapePartLengthScale", -1.3),
+            ("shapePartWidthScale", 1.7),
+            ("shapeFin", part is not None),
+            ("shapeFinType", fin_type),
+            ("shapeFinHeight", 0.8),
+        ):
+            maya_cmds.setAttr(f"{shape}.{name}", value)
+        maya_cmds.setAttr(f"{shape}.shapeScale", -2, 0.7, 1.3)
+        maya_cmds.setAttr(f"{shape}.shapeRotate", 17, -31, 23)
+        maya_cmds.setAttr(f"{shape}.shapeTranslate", 0.4, -0.2, 0.6)
+        maya_cmds.setAttr(f"{shape}.shapeRootSize", 1.2)
+        maya_cmds.setAttr(
+            f"{shape}.shapeAnimationTransformMatrix",
+            1,
+            0.2,
+            -0.1,
+            0,
+            -0.3,
+            1,
+            0.4,
+            0,
+            0.1,
+            -0.2,
+            1,
+            0,
+            0.3,
+            0.5,
+            -0.2,
+            1,
+            type="matrix",
+        )
+    # 軸を交換すると第3軸も反転し、本体・Part・Finの全頂点が同じ位置へ移る。
+    maya_cmds.setAttr(f"{reference}.shape1stAxis", second_axis)
+    maya_cmds.setAttr(f"{reference}.shape2ndAxis", first_axis)
+    maya_cmds.setAttr(f"{reference}.shapeAxisScale", -3, 2, 1.5)
+    maya_cmds.setAttr(f"{reference}.shapeAxisTranslate", -0.1, 0.2, -0.3)
+    maya_cmds.setAttr(f"{swapped}.shape1stAxis", first_axis)
+    maya_cmds.setAttr(f"{swapped}.shape2ndAxis", second_axis)
+    maya_cmds.setAttr(f"{swapped}.shapeAxisScale", 2, -3, 1.5)
+    maya_cmds.setAttr(f"{swapped}.shapeAxisTranslate", 0.2, -0.1, 0.3)
+    assert _bounds(maya_om, swapped) == pytest.approx(
+        _bounds(maya_om, reference), abs=1e-8
+    )
+
+
+@pytest.mark.parametrize("base", ("Line", "CrossLine", *PLANAR_BASES))
+@pytest.mark.parametrize("filled", (False, True))
+def test_tapered_fin_narrows_toward_positive_first_axis(
+    maya_cmds, maya_om, new_scene, base, filled
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name=base, shape_fill=filled
+    )
+    maya_cmds.setAttr(f"{shape}.shapeFin", True)
+    maya_cmds.setAttr(f"{shape}.shapeFinHeight", 1)
+    # YへXを加え、Finの高い端が-1st側にあることを範囲から区別する。
+    maya_cmds.setAttr(
+        f"{shape}.shapeAnimationTransformMatrix",
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        type="matrix",
+    )
+    assert _bounds(maya_om, shape)[4] == pytest.approx(1.5)
+    maya_cmds.setAttr(f"{shape}.shapeFinType", 1)
+    expected = 0.63 if base == "Triangle" else 0.5
+    assert _bounds(maya_om, shape)[4] == pytest.approx(expected)
 
 
 def test_sphere_filled_bounds_include_surface_vertices(
@@ -1060,7 +1198,7 @@ def test_fill_option_connection_history_and_scene_reload(
 @pytest.mark.parametrize(
     ("shape_name", "expected_bounds"),
     (
-        ("Gear", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),  # Gear
+        ("Gear", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),  # Gear
         (
             "Line",
             (-0.5, 0.0, 0.0, 0.5, 0.0, 0.0),
@@ -1169,9 +1307,8 @@ def test_line_follows_selected_axis_basis(
 @pytest.mark.parametrize(
     ("shape_name", "expected"),
     (
-        ("CrossLine1st2nd", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
-        ("CrossLine1st3rd", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
-        ("CrossLine2nd3rd", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        ("CrossLine", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
+        ("CrossLineSwapped", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
         ("CrossLine3Axis", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
     ),
 )
@@ -1186,10 +1323,9 @@ def test_crossline_uses_named_axis_plane(
 @pytest.mark.parametrize(
     ("base_name", "expected"),
     (
-        ("Line", (-0.5, -0.05, 0.0, 0.5, 0.05, 0.0)),
-        ("CrossLine1st2nd", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
-        ("CrossLine1st3rd", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
-        ("CrossLine2nd3rd", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        ("Line", (-0.5, 0.0, -0.05, 0.5, 0.0, 0.05)),
+        ("CrossLine", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
+        ("CrossLineSwapped", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
         (
             "Semicircle",
             (
@@ -1293,13 +1429,13 @@ def test_crossline_end_solids_extent_and_axis_transform(
 @pytest.mark.parametrize(
     ("shape_name", "expected_bounds"),
     (
-        ("Triangle", (-0.5, -0.37, 0.0, 0.5, 0.5, 0.0)),
+        ("Triangle", (-0.5, 0.0, -0.37, 0.5, 0.0, 0.5)),
         (
             "TriangleFilled",
-            (-0.5, -0.37, 0.0, 0.5, 0.5, 0.0),
+            (-0.5, 0.0, -0.37, 0.5, 0.0, 0.5),
         ),
-        ("Square", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
-        ("SquareFilled", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        ("Square", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
+        ("SquareFilled", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
         ("Circle", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
         ("CircleFilled", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
         (
@@ -1308,7 +1444,7 @@ def test_crossline_end_solids_extent_and_axis_transform(
         ),
     ),
 )
-def test_planar_shape_faces_first_axis(
+def test_planar_shape_follows_selected_axis_basis(
     maya_cmds, maya_om, new_scene, shape_name, expected_bounds
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -1941,21 +2077,21 @@ def test_part_attributes_leave_plain_shapes_unchanged(
 @pytest.mark.parametrize(
     ("shape_name", "expected"),
     (
-        ("SquareArrow2D", (0, -0.5, -0.5, 0, 0.975, 0.5)),
-        ("SquareArrow3D", (0, -0.5, -0.5, 0.09375, 0.975, 0.5)),
-        ("SquareArrowCrossLine2D", (0, -0.5, -0.5, 0, 0.975, 0.5)),
-        ("SquareArrowCrossLine3D", (0, -0.5, -0.5, 0.09375, 0.975, 0.5)),
-        ("SquareArrowCrossLineTemplate2D", (0, -0.5, -0.5, 0, 0.975, 0.5)),
+        ("SquareArrow2D", (-0.5, 0, -0.5, 0.975, 0, 0.5)),
+        ("SquareArrow3D", (-0.5, 0, -0.5, 0.975, 0.09375, 0.5)),
+        ("SquareArrowCrossLine2D", (-0.5, 0, -0.5, 0.975, 0, 0.5)),
+        ("SquareArrowCrossLine3D", (-0.5, 0, -0.5, 0.975, 0.09375, 0.5)),
+        ("SquareArrowCrossLineTemplate2D", (-0.5, 0, -0.5, 0.975, 0, 0.5)),
         (
             "SquareArrowCrossLineTemplate3D",
-            (0, -0.5, -0.5, 0.09375, 0.975, 0.5),
+            (-0.5, 0, -0.5, 0.975, 0.09375, 0.5),
         ),
-        ("SquareArrow4Way2D", (0, -0.7875, -0.7875, 0, 0.975, 0.7875)),
-        ("SquareArrow4Way3D", (0, -0.7875, -0.7875, 0.09375, 0.975, 0.7875)),
-        ("SquareTemplateArrow4Way2D", (0, -0.7875, -0.7875, 0, 0.975, 0.7875)),
+        ("SquareArrow4Way2D", (-0.7875, 0, -0.7875, 0.975, 0, 0.7875)),
+        ("SquareArrow4Way3D", (-0.7875, 0, -0.7875, 0.975, 0.09375, 0.7875)),
+        ("SquareTemplateArrow4Way2D", (-0.7875, 0, -0.7875, 0.975, 0, 0.7875)),
         (
             "SquareTemplateArrow4Way3D",
-            (0, -0.7875, -0.7875, 0.09375, 0.975, 0.7875),
+            (-0.7875, 0, -0.7875, 0.975, 0.09375, 0.7875),
         ),
         ("CubeArrow2D", (-0.5, -0.5, -0.5, 0.975, 0.5, 0.5)),
         ("CubeArrow3D", (-0.5, -0.5, -0.5, 0.975, 0.5, 0.5)),
@@ -1977,10 +2113,9 @@ def test_part_attributes_leave_plain_shapes_unchanged(
         ("ArrowFin", (-3.3375, 0, -0.75, 1.1625, 1.0, 0.75)),
         ("OctahedronArrow", (-0.5, -0.75, -0.75, 1.6, 0.75, 0.75)),
         ("OctahedronArrowFin", (-1.025, -0.75, -0.75, 2.125, 1.0, 0.75)),
-        ("LineArrowAtEnds", (-0.6, -0.075, 0, 0.6, 0.075, 0)),
-        ("CrossLine1st2ndArrowAtEnds", (-0.6, -0.6, 0, 0.6, 0.6, 0)),
-        ("CrossLine1st3rdArrowAtEnds", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
-        ("CrossLine2nd3rdArrowAtEnds", (0, -0.6, -0.6, 0, 0.6, 0.6)),
+        ("LineArrowAtEnds", (-0.6, 0, -0.075, 0.6, 0, 0.075)),
+        ("CrossLineArrowAtEnds", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
+        ("CrossLineSwappedArrowAtEnds", (0, -0.6, -0.6, 0, 0.6, 0.6)),
         (
             "SemicircleArrowAtEnds",
             (
@@ -1994,10 +2129,9 @@ def test_part_attributes_leave_plain_shapes_unchanged(
                 _circle_arrow_outer_extent(0.3 * math.cos(math.pi / 6), 0.075),
             ),
         ),
-        ("LineWideArrowAtEnds", (-0.6, -0.075, 0, 0.6, 0.075, 0)),
-        ("CrossLine1st2ndWideArrowAtEnds", (-0.6, -0.6, 0, 0.6, 0.6, 0)),
-        ("CrossLine1st3rdWideArrowAtEnds", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
-        ("CrossLine2nd3rdWideArrowAtEnds", (0, -0.6, -0.6, 0, 0.6, 0.6)),
+        ("LineWideArrowAtEnds", (-0.6, 0, -0.075, 0.6, 0, 0.075)),
+        ("CrossLineWideArrowAtEnds", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
+        ("CrossLineSwappedWideArrowAtEnds", (0, -0.6, -0.6, 0, 0.6, 0.6)),
         (
             "SemicircleWideArrowAtEnds",
             (
@@ -2253,7 +2387,7 @@ def test_wide_end_arrow_negative_offset_moves_heads_past_origin(
     maya_cmds.setAttr(f"{shape}.shapePartOffset", -0.8)
     extent = 0.3 + 0.1 * math.cos(math.pi / 6)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-extent, -0.05, 0, extent, 0.05, 0)
+        (-extent, 0, -0.05, extent, 0, 0.05)
     )
 
 
@@ -2998,11 +3132,7 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
         ("ColorCubeFilled", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
         ("ColorCornerCube", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
         ("ColorCornerCubeFilled", (-2.0, 0.0, 3.0, 6.0, 8.0, 9.0)),
-        ("LineWideArrowAtEndsFilled", (2.0, 3.6, 5.0, 2.0, 4.4, 7.0)),
-        (
-            "CrossLine1st2ndWideArrowAtEndsFilled",
-            (2.0, 0.0, 5.0, 2.0, 8.0, 7.0),
-        ),
+        ("LineWideArrowAtEndsFilled", (0.8, 4.0, 5.0, 3.2, 4.0, 7.0)),
         (
             "SemicircleWideArrowAtEndsFilled",
             (
@@ -3360,7 +3490,7 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
     assert maya_cmds.getAttr(f"{shape.full_path}.shapeOffsetLineTemplate")
 
 
-@pytest.mark.parametrize("base,axis,side", (("Line", 0, 1),))
+@pytest.mark.parametrize("base,axis,side", (("Line", 0, 2),))
 @pytest.mark.parametrize("wide", (False, True))
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize(
@@ -3689,9 +3819,8 @@ def test_radial_circle_wrapping_preserves_connected_offset_and_history(
 @pytest.mark.parametrize(
     "base,axes",
     (
-        ("CrossLine1st2nd", (0, 1)),
-        ("CrossLine1st3rd", (0, 2)),
-        ("CrossLine2nd3rd", (1, 2)),
+        ("CrossLine", (0, 2)),
+        ("CrossLineSwapped", (1, 2)),
     ),
 )
 @pytest.mark.parametrize("wide", (False, True))
@@ -3773,11 +3902,7 @@ def test_single_cross_arrow_bounds_follow_only_selected_endpoint(
 
 @pytest.mark.parametrize(
     "shape_name",
-    (
-        "CrossLine1st2ndArrowAtEndFilled",
-        "CrossLine1st3rdWideArrowAtEndFilled",
-        "CrossLine2nd3rdWideArrowAtEndFilled",
-    ),
+    ("CrossLineWideArrowAtEndFilled", "CrossLineSwappedWideArrowAtEndFilled"),
 )
 def test_single_cross_arrow_history_and_scene_reload(
     maya_cmds, maya_om, new_scene, tmp_path, shape_name
@@ -3882,31 +4007,29 @@ def test_diamond_fits_square_midpoints(maya_cmds, maya_om, new_scene, filled):
         maya_cmds, shape_name="Diamond" + ("Filled" if filled else "")
     )
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0, -0.5, -0.5, 0, 0.5, 0.5), abs=1e-9
+        (-0.5, 0, -0.5, 0.5, 0, 0.5), abs=1e-9
     )
-    maya_cmds.setAttr(f"{shape}.shapeRotateX", 45)
+    maya_cmds.setAttr(f"{shape}.shapeRotateY", 45)
     extent = math.sqrt(0.125)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0, -extent, -extent, 0, extent, extent), abs=1e-9
+        (-extent, 0, -extent, extent, 0, extent), abs=1e-9
     )
     maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.2)
     maya_cmds.setAttr(f"{shape}.shapePartSize", 3)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0, -extent, -extent, 0, extent, extent), abs=1e-9
+        (-extent, 0, -extent, extent, 0, extent), abs=1e-9
     )
 
 
 @pytest.mark.parametrize(
     "preset,normal",
     (
-        ("Line", 2),
-        ("WideLine", 2),
-        ("CrossLine1st2nd", 2),
-        ("WideCrossLine1st2nd", 2),
-        ("CrossLine1st3rd", 1),
-        ("WideCrossLine1st3rd", 1),
-        ("CrossLine2nd3rd", 0),
-        ("WideCrossLine2nd3rd", 0),
+        ("Line", 1),
+        ("WideLine", 1),
+        ("CrossLine", 1),
+        ("WideCrossLine", 1),
+        ("CrossLineSwapped", 0),
+        ("WideCrossLineSwapped", 0),
         ("Circle", 0),
         ("WideCircleRadial", 0),
     ),
@@ -3938,13 +4061,76 @@ def test_arrow3d_part_uses_positive_normal_at_every_endpoint(
     assert reflected[normal + 3] == pytest.approx(0, abs=1e-9)
 
 
+@pytest.mark.parametrize("base", ("CrossLine3Axis", "ColorCrossLine3Axis"))
+@pytest.mark.parametrize("part", (0, 1))
+@pytest.mark.parametrize("filled", (False, True))
+def test_three_axis_end_arrows_use_direction_specific_planes(
+    maya_cmds, maya_om, new_scene, base, part, filled
+):
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(
+        maya_cmds, shape_name=base, shape_fill=filled
+    )
+    for name, value in (
+        ("shapePart", True),
+        ("shapePartShape", part),
+        ("shapePartType", 1),
+        ("shapePartOffset", 0.3),
+        ("shapePartWidthScale", 7),
+    ):
+        maya_cmds.setAttr(f"{shape}.{name}", value)
+    matrix_values = (
+        1.1,
+        1,
+        0.2,
+        0,
+        1,
+        1.1,
+        1,
+        0,
+        0.1,
+        0.15,
+        1.1,
+        0,
+        0,
+        0,
+        0,
+        1,
+    )
+    maya_cmds.setAttr(
+        f"{shape}.shapeAnimationTransformMatrix", *matrix_values, type="matrix"
+    )
+    matrix = maya_om.MMatrix(matrix_values)
+    points = []
+    shoulder = 0.8 - 0.1 * math.cos(math.pi / 6)
+    # 主面はX/Z方向でXZ、Y方向でYZ。追加面はそれぞれ+Y、+Xへ立てる。
+    for along, side, up in ((0, 2, 1), (1, 2, 0), (2, 0, 1)):
+        for sign in (-1, 1):
+            tip = [0.0, 0.0, 0.0]
+            tip[along] = sign * 0.8
+            points.append(maya_om.MPoint(*tip) * matrix)
+            for width in (-0.35, 0.35):
+                wing = [0.0, 0.0, 0.0]
+                wing[along] = sign * shoulder
+                wing[side] = width
+                points.append(maya_om.MPoint(*wing) * matrix)
+            if part == 1:
+                crest = [0.0, 0.0, 0.0]
+                crest[along] = sign * shoulder
+                crest[up] = 0.35
+                points.append(maya_om.MPoint(*crest) * matrix)
+    expected = tuple(min(p[i] for p in points) for i in range(3)) + tuple(
+        max(p[i] for p in points) for i in range(3)
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+
+
 @pytest.mark.parametrize(
     "base,axes,side",
     (
-        ("Line", (0,), 1),
-        ("CrossLine1st2nd", (0, 1), None),
-        ("CrossLine1st3rd", (0, 2), None),
-        ("CrossLine2nd3rd", (1, 2), None),
+        ("Line", (0,), 2),
+        ("CrossLine", (0, 2), None),
+        ("CrossLineSwapped", (1, 2), None),
     ),
 )
 @pytest.mark.parametrize("all_ends", (False, True))
@@ -4032,10 +4218,9 @@ def test_planar_end_shape_bounds_follow_part_controls(
         "LineSquareAtEndFilled",
         "LineDiamondAtEndFilled",
         "LineCircleAtEndFilled",
-        "CrossLine1st2ndTriangleAtEndFilled",
-        "CrossLine1st3rdSquareAtEndFilled",
-        "CrossLine2nd3rdDiamondAtEndFilled",
-        "CrossLine1st3rdCircleAtEndsFilled",
+        "CrossLineSquareAtEndFilled",
+        "CrossLineSwappedDiamondAtEndFilled",
+        "CrossLineCircleAtEndsFilled",
     ),
 )
 def test_planar_end_controls_connections_and_history(
@@ -4089,11 +4274,11 @@ def test_planar_end_offset_uses_scene_distance_units(
         assert _bounds(maya_om, shape) == pytest.approx(
             (
                 -0.5 if placement == "End" else -0.75,
+                0,
                 -0.05,
-                0,
                 0.75,
-                0.05,
                 0,
+                0.05,
             ),
             abs=1e-9,
         )
@@ -4211,13 +4396,12 @@ def test_fin_option_updates_bounds(
 @pytest.mark.parametrize(
     "shape_name,height_axis,width_axis,low",
     (
-        ("Gear", 0, 1, -0.5),
-        ("Triangle", 0, 1, -0.37),
-        ("SquareArrow3D", 0, 1, -0.5),
-        ("Diamond", 0, 1, -0.5),
-        ("CrossLine1st2nd", 2, 0, -0.5),
-        ("CrossLine1st3rd", 1, 0, -0.5),
-        ("CrossLine2nd3rd", 0, 1, -0.5),
+        ("Gear", 1, 0, -0.5),
+        ("Triangle", 1, 0, -0.37),
+        ("SquareArrow3D", 1, 0, -0.5),
+        ("Diamond", 1, 0, -0.5),
+        ("CrossLine", 1, 0, -0.5),
+        ("CrossLineSwapped", 0, 1, -0.5),
     ),
 )
 @pytest.mark.parametrize("fin_type", (0, 1))
@@ -4541,7 +4725,7 @@ def test_common_part_controls_update_cached_bounds(
         (False, 6, 0, (-0.5, 0, 0, 0.5, 0, 0)),
         (True, 6, 0, (-0.5, -0.05, -0.05, 0.55, 0.05, 0.05)),
         (True, 6, 1, (-0.55, -0.05, -0.05, 0.55, 0.05, 0.05)),
-        (True, 1, 0, (-0.5, -0.05, 0, 0.5, 0.05, 0.05)),
+        (True, 1, 0, (-0.5, 0, -0.05, 0.5, 0.05, 0.05)),
         (False, 1, 1, (-0.5, 0, 0, 0.5, 0, 0)),
     ):
         for name, value in zip(targets, (enabled, kind, placement)):
@@ -4572,7 +4756,7 @@ def test_common_part_option_animation(maya_cmds, maya_om, new_scene):
             )
     for frame, expected in (
         (10, (-0.55, -0.05, -0.05, 0.55, 0.05, 0.05)),
-        (20, (-0.5, -0.05, 0, 0.5, 0.05, 0.05)),
+        (20, (-0.5, 0, -0.05, 0.5, 0.05, 0.05)),
         (1, (-0.5, 0, 0, 0.5, 0, 0)),
     ):
         maya_cmds.currentTime(frame)
@@ -4624,9 +4808,8 @@ def test_common_options_history_and_scene_reload(
     "wide_name,base_name",
     (
         ("WideLine", "Line"),
-        ("WideCrossLine1st2nd", "CrossLine1st2nd"),
-        ("WideCrossLine1st3rd", "CrossLine1st3rd"),
-        ("WideCrossLine2nd3rd", "CrossLine2nd3rd"),
+        ("WideCrossLine", "CrossLine"),
+        ("WideCrossLineSwapped", "CrossLineSwapped"),
         ("WideCircleRadial", "Circle"),
         ("WideCircleAxial", "Circle"),
         ("WideCrossCircleRadial", "CrossCircle"),
@@ -4653,8 +4836,8 @@ def test_zero_wide_width_keeps_the_base_outline(
     "base,part_name,placement,expected",
     (
         ("Line", "Cube", 0, (-0.5, -0.05, -0.05, 0.55, 0.05, 0.05)),
-        ("Square", "Cube", 0, (-0.05, -0.5, -0.5, 0.05, 0.55, 0.5)),
-        ("Square", "Cube", 1, (-0.05, -0.55, -0.55, 0.05, 0.55, 0.55)),
+        ("Square", "Cube", 0, (-0.5, -0.05, -0.5, 0.55, 0.05, 0.5)),
+        ("Square", "Cube", 1, (-0.55, -0.05, -0.55, 0.55, 0.05, 0.55)),
         ("Cube", "Triangle", 0, (-0.5, -0.5, -0.5, 0.6, 0.5, 0.5)),
         ("Cube", "Cone", 1, (-0.6, -0.6, -0.6, 0.6, 0.6, 0.6)),
     ),

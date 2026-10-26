@@ -240,6 +240,12 @@ struct OptionSite {
     double arrowSize = 1.0;
 };
 
+// X/Z方向の部品はXZ平面、Y方向はYZ平面へ置く。
+MVector directionalPartSide(unsigned int axis) {
+    if (axis == 0) return -nativeAxis(2);
+    return nativeAxis(axis == 1 ? 2 : 0);
+}
+
 #include "BdControllerShapeAxialHead.inc"
 #include "BdControllerShapeRadialHead.inc"
 
@@ -313,10 +319,11 @@ std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
     const short base = optionNarrowOutline(outline);
     const auto axes = base == 5 || base == 45 ? std::vector<unsigned int>{0, 1, 2} : straightLineAxes(base);
     for (auto axis : axes) {
-        const auto other = axes.size() == 2 ? (axis == axes[0] ? axes[1] : axes[0]) : (axis + 1) % 3;
-        add(nativeAxis(axis), nativeAxis(other), false);
+        const auto side = axes.size() == 2
+            ? nativeAxis(axis == axes[0] ? axes[1] : axes[0]) : directionalPartSide(axis);
+        add(nativeAxis(axis), side, false);
         if (!all) break;
-        add(-nativeAxis(axis), nativeAxis(other), false);
+        add(-nativeAxis(axis), -side, false);
     }
     return sites;
 }
@@ -581,7 +588,8 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
     if (straight) {
         const auto axes = narrow == 5 || narrow == 45 ? std::vector<unsigned int>{0, 1, 2} : straightLineAxes(narrow);
         WideEndArrowGeometry bands;
-        const PartPlane bandPlane{MPoint::origin, nativeAxis(axes.front()), nativeAxis(axes.size() == 2 ? axes.back() : 1)};
+        const PartPlane bandPlane{MPoint::origin, nativeAxis(axes.front()),
+            nativeAxis(axes.size() == 2 ? axes.back() : (narrow == 1 ? 2 : 1))};
         if (narrow == 1) {
             MPoint first(-0.5, 0, 0);
             MPoint last(0.5, 0, 0);
@@ -591,7 +599,7 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
                 else first = endpoint;
             }
             if (optionWideOutline(outline) && settings.wideWidth > 1e-12) {
-                const auto side = nativeAxis(1) * (settings.wideWidth * 0.5);
+                const auto side = nativeAxis(2) * (settings.wideWidth * 0.5);
                 auto volume = optionPlanarVolume(
                     {first - side, last - side, last + side, first + side});
                 if (!volume.empty()) bodyVolumes.push_back(std::move(volume));
