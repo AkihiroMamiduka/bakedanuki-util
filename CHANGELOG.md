@@ -18,10 +18,11 @@
 
 ### Changed
 
-- `Nodes()` の IDE 補完の既定値を `bd_util/config/typing.pyi` で選択可能にした。
-  初期値は `Maya2025Plus` とし、単一版と `Plus` 範囲の全6プロファイルを用意する。
-  プロジェクトの `stubPath` から上書きでき、明示した `typing_maya_version` を最優先する。
-  コピー用テンプレートを同梱し、実行時の Maya 判定と `bdu.node_types` は維持する。
+- `Nodes()` の IDE 補完対象を、配布外の `bd_util_typing_config.pyi` で選択可能にした。
+  IDE の `stubPath` から参照し、パッケージ更新後も利用者設定を保持する。
+  同梱の `config` は標準値とテンプレートの置き場にし、標準値は `Maya2025Plus` とする。
+  単一版と `Plus` 範囲の全6プロファイル、プロジェクト用・個人共通の設定手順を用意する。
+  明示した `typing_maya_version` を最優先し、実行時の Maya 判定と `bdu.node_types` は維持する。
 - 共有`bakedanuki`メニューと各categoryを`tearOff=True`で作成するよう変更。
   既存メニュー配下の配置でも、先頭の点線からMaya標準の独立Windowへ切り離せる。
   切り離し側の項目・設定は元メニューに同期し、元メニューの破棄で終了する。

@@ -1,5 +1,5 @@
 # coding: utf-8
-"""プロジェクト側の `stubPath` から上書きする補完設定の内部入口。"""
+"""IDE の `stubPath` から上書きする補完設定の内部入口。"""
 
-# 同梱の設定は `bd_util/config/typing.pyi` で編集する。
+# 外部設定がない場合は、同梱の標準値を取り次ぐ。
 from bd_util.config.typing import DefaultNodes as DefaultNodes

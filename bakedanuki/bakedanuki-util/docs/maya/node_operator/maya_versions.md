@@ -106,11 +106,19 @@ attribute が異なる場合は、対象 version のいずれでも使える属�
 
 ### 引数省略時の既定設定
 
-利用者が編集する同梱設定は `python/bd_util/config/typing.pyi` に集約します。
+利用者設定は、更新時に置き換える配布フォルダーの外に保存します。
+外部の `bd_util_typing_config.pyi` でプロファイルを選択し、IDE の `stubPath` に
+配置先を指定してください。
 
 ```python
-from ..typing_profiles import Maya2025Plus as DefaultNodes
+from bd_util.typing_profiles import Maya2026Plus as DefaultNodes
+
+__all__ = ["DefaultNodes"]
 ```
+
+プロジェクト用なら `config/bakedanuki/typings` などへ置き、設定を Git で共有できます。
+個人用の共通設定も、配布外の任意のディレクトリを IDE に指定して使えます。
+既存の `stubPath` がある場合はその配置先へ追加し、他の stub を保持します。
 
 `typing_profiles.pyi` は既存の version 別 facade を公開名で表す生成型 alias です。
 `Maya2025` / `Maya2026` / `Maya2027` と、それぞれの `Plus` を選択できます。
@@ -118,18 +126,23 @@ from ..typing_profiles import Maya2025Plus as DefaultNodes
 
 `nodes.pyi` は、独立 module の `bd_util_typing_config` から既定型を参照します。
 同梱の `python/bd_util_typing_config.pyi` は `bd_util.config.typing.DefaultNodes` を
-取り次ぎます。プロジェクトの `stubPath` に同名の `.pyi` があればそちらを優先します。
+取り次ぎます。IDE の `stubPath` に同名の `.pyi` があればそちらを優先します。
 独立した import 名を使うことで、パッケージ内部の相対 import を保ったまま、
 共有パッケージを編集せずに既定型を変更できます。
 
-優先順位は、明示した `typing_maya_version`、プロジェクト設定、同梱設定です。
+同梱の `bd_util/config/typing.pyi` はパッケージ側の標準値 `Maya2025Plus` を保持します。
+同梱の `config` は標準値・コピー用テンプレート・設定手順の置き場とし、
+通常は外部設定から補完対象を変更します。同梱ファイルを直接編集した内容は、
+配布の置き換えで上書きされます。
+
+優先順位は、明示した `typing_maya_version`、外部設定、パッケージ標準値です。
 `None` は省略と同じ設定を選びます。`Nodes` の共通基底型自体は変更せず、
 constructor の結果型だけを切り替えるため、単一版・`+` 範囲の明示指定を維持します。
 設定は `create` / `existing` / `create.with_transform` に適用し、`bdu.node_types` と
 実行時の Maya 判定からは独立しています。
 
 具体的な設定方法とプロジェクト用テンプレートは
-[既定設定](../../../python/bd_util/config/README.md) を参照してください。
+[補完設定](../../../python/bd_util/config/README.md) を参照してください。
 
 型注釈には、共通面なら `bdu.node_types.Joint`、単一 version を指定する場合は
 `bdu.node_types.maya2027.Joint` のように対応する module を使います。
@@ -179,8 +192,8 @@ version 対応に関する主な管理場所です。
 | version schema 生成 CLI | `python/bd_util/_dev/maya/node/operator/node/generate_version_schema.py` |
 | 補完 stub 生成 | `python/bd_util/_dev/maya/node/operator/node/generate_existing_node_stub.py` |
 | 型注釈用 module / stub | `python/bd_util/node_types` |
-| 引数省略時の同梱補完設定 | `python/bd_util/config/typing.pyi` |
-| プロジェクト上書きの内部入口 | `python/bd_util_typing_config.pyi` |
+| 引数省略時のパッケージ標準値 | `python/bd_util/config/typing.pyi` |
+| 外部上書きの内部入口 | `python/bd_util_typing_config.pyi` |
 | 設定で選ぶ公開型 alias | `python/bd_util/typing_profiles.pyi` |
 | runtime の `typing_maya_version` 引数 | `python/bd_util/maya/node/nodes.py` |
 | generated schema 差分 | `operator/node/**/_generated_maya<version>` |

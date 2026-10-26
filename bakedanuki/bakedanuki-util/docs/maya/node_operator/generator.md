@@ -787,8 +787,9 @@ version 判定や node availability には使用しません。
 引数省略時の overload は `bd_util_typing_config.DefaultNodes` を返し、明示した version の
 overload は従来の facade を直接返します。`nodes.pyi` の constructor の説明は
 `nodes.py` の docstring から転記します。
-利用者が編集する `bd_util/config/typing.pyi` とプロジェクト用テンプレートは手書きで管理し、
-生成器は上書き・生成内容一致検査を行いません。
+パッケージ標準値の `bd_util/config/typing.pyi` と外部設定用テンプレートは手書きで管理し、
+生成器は上書き・生成内容一致検査を行いません。利用者はテンプレートを配布外へコピーし、
+`stubPath` で参照します。配布を置き換えても外部の利用者設定は保持できます。
 
 Python キーワードと module 名が衝突する `and` / `or` / `not` は、`NodeCreator` と同様に `and_()` / `or_()` / `not_()` として公開します。
 これら3つだけは Python の import 構文で具体 class を参照できないため、stub 上の戻り値型を `NodeOperator` とします。

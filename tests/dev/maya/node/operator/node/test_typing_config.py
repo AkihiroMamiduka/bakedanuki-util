@@ -31,10 +31,11 @@ def _check_typing(
     profile: str,
     *,
     override: str | None = None,
+    stub_path: str = "typings",
 ) -> None:
     repo_root = Path(__file__).resolve().parents[6]
-    stub_dir = project_dir / "typings"
-    stub_dir.mkdir()
+    stub_dir = project_dir / stub_path
+    stub_dir.mkdir(parents=True)
     if override is not None:
         (stub_dir / "bd_util_typing_config.pyi").write_text(
             override, encoding="utf-8"
@@ -94,7 +95,7 @@ bdu.node_types.AbsoluteDL  # pyright: ignore[reportAttributeAccessIssue, reportU
                 "extends": str(repo_root / "pyrightconfig.json"),
                 "include": ["contract.py"],
                 "extraPaths": [str(python_root), str(repo_root / "typings")],
-                "stubPath": "typings",
+                "stubPath": stub_path,
             }
         ),
         encoding="utf-8",
@@ -169,12 +170,17 @@ def test_project_typing_template(tmp_path, typing_package):
     template_dir = (
         typing_package / "bd_util" / "config" / "templates" / "project"
     )
+    template_config = json.loads(
+        (template_dir / "pyrightconfig.json").read_text(encoding="utf-8")
+    )
+    stub_path = template_config["stubPath"]
     _check_typing(
         tmp_path,
         typing_package,
         "Maya2026Plus",
+        stub_path=stub_path,
         override=(
-            template_dir / "typings" / "bd_util_typing_config.pyi"
+            template_dir / stub_path / "bd_util_typing_config.pyi"
         ).read_text(encoding="utf-8"),
     )
 

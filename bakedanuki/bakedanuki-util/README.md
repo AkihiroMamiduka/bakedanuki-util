@@ -138,16 +138,21 @@ bevels.append(bd_nodes.create.polySmartBevel())
 `bdu.node_types.maya2027.Joint` または
 `bdu.node_types.maya2026_plus.PolySmartBevel` のように対応する module を指定します。
 
-`Nodes()` の既定補完は `python/bd_util/config/typing.pyi` で変更できます。
-初期値は `Maya2025Plus` です。例えば、2026 以降の共通部分に変更する場合です。
+`Nodes()` の既定補完を変更する場合は、配布フォルダーの外に
+`bd_util_typing_config.pyi` を用意し、IDE の `stubPath` から参照します。
+例えば、`config/bakedanuki/typings/bd_util_typing_config.pyi` に指定する内容です。
 
 ```python
-from ..typing_profiles import Maya2026Plus as DefaultNodes
+from bd_util.typing_profiles import Maya2026Plus as DefaultNodes
+
+__all__ = ["DefaultNodes"]
 ```
 
-共有パッケージを使う場合は、プロジェクトの `stubPath` から上書きできます。
-明示した `typing_maya_version`、プロジェクト設定、同梱設定の順で優先します。
-配置例とコピー用テンプレートは [既定設定](python/bd_util/config/README.md) を参照してください。
+外部設定を保持したまま配布を更新できます。既存の `stubPath` がある場合はその先へ
+ファイルを追加します。明示した `typing_maya_version`、外部設定、パッケージ標準値の
+順で優先し、外部設定がなければ `Maya2025Plus` を使います。
+同梱の `config` は標準値とテンプレートの置き場です。
+プロジェクト用・個人共通の配置例は [補完設定](python/bd_util/config/README.md) を参照してください。
 
 ### Numeric Compound Values
 

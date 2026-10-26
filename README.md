@@ -83,6 +83,11 @@ print(bd_util.__file__)
 
 `bakedanuki/bakedanuki-util/python/bd_util/__init__.py` が表示されれば導入できています。
 
+`Nodes()` の IDE 補完対象を設定する場合は、パッケージ更新後も保持できるよう、
+利用者設定を配布フォルダーの外に保存してください。
+プロジェクト用・個人共通の設定方法とテンプレートは
+[補完設定](bakedanuki/bakedanuki-util/python/bd_util/config/README.md) を参照してください。
+
 同梱リソースの絶対パスは、
 `bd_util.py.path.resolve_relative_path(__file__, "sub/data.json")`で解決できます。
 各packageの`icon`フォルダへ画像と定数をまとめる例は、

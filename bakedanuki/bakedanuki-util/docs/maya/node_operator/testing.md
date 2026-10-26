@@ -175,10 +175,12 @@ runtime挙動は各versionの`.\scripts\test-pytest-maya2025.cmd`、
 `.\scripts\test-pytest-maya2026.cmd`、`.\scripts\test-pytest-maya2027.cmd`で検証します。
 
 `tests/dev/maya/node/operator/node/test_typing_config.py` は、配布の Python ディレクトリを
-一時ディレクトリへ複製し、同梱設定の変更とプロジェクトの `stubPath` からの上書きを
+一時ディレクトリへ複製し、パッケージ標準値と外部の `stubPath` からの上書きを
 実際の Pyright で検証します。元の同梱設定は編集しません。
 全6プロファイルの上書き、明示引数の優先、`None`、node availability、attribute schema、
 `existing` / `create.with_transform`、プロジェクト用テンプレートを確認します。
+テンプレートは `pyrightconfig.json` の `stubPath` に指定された
+`config/bakedanuki/typings` の配置で検証します。
 この pytest も `.typecheck` の Pyright を使用するため、未導入の場合は
 `setup-typecheck.cmd` で用意してください。最終の `verify.cmd` は先に型チェック環境を
 検証してから full pytest を実行します。

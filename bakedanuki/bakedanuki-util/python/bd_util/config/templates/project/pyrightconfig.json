@@ -2,5 +2,5 @@
     "extraPaths": [
         "D:/path/to/bakedanuki/bakedanuki-util/python"
     ],
-    "stubPath": "typings"
+    "stubPath": "config/bakedanuki/typings"
 }
