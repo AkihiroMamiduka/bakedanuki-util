@@ -10,6 +10,92 @@ from bd_util.ui import dialog as ui_dialog
 from bd_util.ui import qt
 
 
+@pytest.mark.parametrize("saving", (False, True))
+@pytest.mark.parametrize("cancelled", (False, True))
+def test_maya_file_selection_preserves_modes_filters_size_and_cancellation(
+    qt_application, tmp_path: Path, monkeypatch, saving: bool, cancelled: bool
+) -> None:
+    """Maya標準の保存・複数追加で、戻り値と寸法・捕捉解除を確認する。"""
+    caption = "保存先" if saving else "複数追加"
+    initial = str(tmp_path / "Suggested.json") if saving else str(tmp_path)
+    created: list[qt.QFileDialog] = []
+
+    def choose(**kwargs):
+        """Mayaに渡すモードと初期ファイル名を検査し、表示通知を発生させる。"""
+        assert kwargs == {
+            "caption": caption,
+            "startingDirectory": initial,
+            "dialogStyle": 2,
+            "fileMode": 0 if saving else 4,
+            "okCaption": "保存" if saving else "選択",
+            "cancelCaption": "キャンセル",
+            "fileFilter": "JSON (*.json)",
+            "returnFilter": True,
+        }
+        dialog = qt.QFileDialog()
+        dialog.setOption(qt.QFileDialog.Option.DontUseNativeDialog, True)
+        dialog.setWindowTitle(caption)
+        created.append(dialog)
+        dialog.show()
+        qt_application.processEvents()
+        assert dialog.size() == qt.QSize(700, 500)
+        dialog.hide()
+        if cancelled:
+            return None
+        return (
+            [str(tmp_path / "One"), "JSON (*.json)"]
+            if saving
+            else [
+                str(tmp_path / "One.json"),
+                str(tmp_path / "Two.json"),
+                "JSON (*.json)",
+            ]
+        )
+
+    monkeypatch.setattr(maya_dialog.cmds, "fileDialog2", choose)
+    try:
+        if saving:
+            result = maya_dialog.get_save_file_name_near(
+                None,
+                caption,
+                initial,
+                "JSON (*.json)",
+                qt.QPoint(),
+                "json",
+                initial_size=qt.QSize(700, 500),
+            )
+            assert result == (
+                ("", "")
+                if cancelled
+                else (str(tmp_path / "One.json"), "JSON (*.json)")
+            )
+        else:
+            result = maya_dialog.get_open_file_names_near(
+                None,
+                caption,
+                initial,
+                "JSON (*.json)",
+                qt.QPoint(),
+                initial_size=qt.QSize(700, 500),
+            )
+            assert result == (
+                ([], "")
+                if cancelled
+                else (
+                    [str(tmp_path / "One.json"), str(tmp_path / "Two.json")],
+                    "JSON (*.json)",
+                )
+            )
+        qt.QApplication.sendPostedEvents(None, qt.QEvent.Type.DeferredDelete)
+        for dialog in created:
+            assert not dialog.findChildren(ui_dialog._DialogPlacement)
+            assert not dialog.findChildren(ui_dialog._ChildMessageBoxPlacement)
+    finally:
+        for dialog in created:
+            dialog.close()
+            dialog.deleteLater()
+
+
 @pytest.mark.parametrize(
     "outcome", ("accept", "cancel", "missing", "command_error", "no_dialog")
 )

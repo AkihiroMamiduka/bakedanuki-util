@@ -1,5 +1,5 @@
 # coding: utf-8
-"""Maya標準のフォルダー選択へ、Qtの初期サイズと起点配置を適用する。"""
+"""Maya標準のパス選択へ、Qtの初期サイズと起点配置を適用する。"""
 
 from __future__ import annotations
 
@@ -12,7 +12,11 @@ from maya import cmds
 
 from ...ui import place_dialog_near, qt
 
-__all__ = ["get_existing_directory_near"]
+__all__ = [
+    "get_existing_directory_near",
+    "get_open_file_names_near",
+    "get_save_file_name_near",
+]
 
 
 class _MayaDirectoryPlacement(qt.QObject):
@@ -97,6 +101,69 @@ def get_existing_directory_near(
         ValueError: タイトルが空、または寸法が正でない場合。
         RuntimeError: Qt applicationがないか、Maya画面の実行・配置に失敗した場合。
     """
+    selected = _choose_path(
+        parent, caption, directory, anchor, initial_size, 3
+    )
+    return selected[0] if selected and Path(selected[0]).is_dir() else ""
+
+
+def get_open_file_names_near(
+    parent: qt.QWidget | None,
+    caption: str,
+    directory: str,
+    name_filter: str,
+    anchor: qt.QPoint,
+    *,
+    initial_size: qt.QSize,
+) -> tuple[list[str], str]:
+    """Maya標準画面で複数の既存ファイルを選び、選択フィルターと共に返す。
+
+    取消時は`([], "")`です。`name_filter`は`JSON (*.json);;All (*.*)`形式です。
+    編集可能なアドレス欄、クリック位置と画面内への配置、直接指定の初期寸法を
+    フォルダー選択と共通にします。
+    """
+    selected = _choose_path(
+        parent, caption, directory, anchor, initial_size, 4, name_filter
+    )
+    return (selected[:-1], selected[-1]) if selected else ([], "")
+
+
+def get_save_file_name_near(
+    parent: qt.QWidget | None,
+    caption: str,
+    directory: str,
+    name_filter: str,
+    anchor: qt.QPoint,
+    default_suffix: str = "",
+    *,
+    initial_size: qt.QSize,
+) -> tuple[str, str]:
+    """Maya標準画面で保存先を指定し、拡張子未指定時だけ既定拡張子を補う。
+
+    `directory`には初期ファイル名も指定できます。取消時は`("", "")`です。
+    この関数はファイルを書き込まず、既存ファイルの確認はMaya標準画面に任せます。
+    """
+    selected = _choose_path(
+        parent, caption, directory, anchor, initial_size, 0, name_filter
+    )
+    if len(selected) < 2:
+        return "", ""
+    path = selected[0]
+    if default_suffix and not Path(path).suffix:
+        path += "." + default_suffix.lstrip(".")
+    return path, selected[-1]
+
+
+def _choose_path(
+    parent: qt.QWidget | None,
+    caption: str,
+    directory: str,
+    anchor: qt.QPoint,
+    initial_size: qt.QSize,
+    file_mode: int,
+    name_filter: str = "",
+) -> list[str]:
+    """今回のMaya標準画面だけを捕捉し、全パス選択の配置と監視解除を揃える。"""
     if not caption or initial_size.width() <= 0 or initial_size.height() <= 0:
         raise ValueError("タイトルと正の初期幅・高さを指定してください")
     application = qt.QApplication.instance()
@@ -109,20 +176,23 @@ def get_existing_directory_near(
     choose = cast(Callable[..., list[str] | None], cmds.fileDialog2)
     try:
         # Mayaの内部Widget名には依存せず、表示された公開Qt型へ初期配置を適用する
-        selected = choose(
-            caption=caption,
-            startingDirectory=str(Path(directory).expanduser()),
-            dialogStyle=2,
-            fileMode=3,
-            okCaption="選択",
-            cancelCaption="キャンセル",
-        )
+        options: dict[str, object] = {
+            "caption": caption,
+            "startingDirectory": str(Path(directory).expanduser()),
+            "dialogStyle": 2,
+            "fileMode": file_mode,
+            "okCaption": "保存" if file_mode == 0 else "選択",
+            "cancelCaption": "キャンセル",
+        }
+        if file_mode != 3:
+            options.update(fileFilter=name_filter, returnFilter=True)
+        selected = choose(**options)
         if placement.error is not None:
-            raise RuntimeError("Mayaのフォルダー選択を配置できません") from (
+            raise RuntimeError("Mayaのパス選択を配置できません") from (
                 placement.error
             )
         if placement.dialog is None:
-            raise RuntimeError("Mayaのフォルダー選択画面を取得できません")
-        return selected[0] if selected and Path(selected[0]).is_dir() else ""
+            raise RuntimeError("Mayaのパス選択画面を取得できません")
+        return selected or []
     finally:
         placement.dispose()

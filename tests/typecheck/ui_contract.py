@@ -15,6 +15,8 @@ from bd_util._sample.maya.ui.bool_sample.bool_views import (
 )
 from bd_util.maya.ui import (
     get_existing_directory_near as get_maya_existing_directory_near,
+    get_open_file_names_near as get_maya_open_file_names_near,
+    get_save_file_name_near as get_maya_save_file_name_near,
     DockOptions,
     DockRestoreSpec,
     MayaCallbackRegistry,
@@ -79,6 +81,29 @@ assert_type(
     str,
 )
 assert_type(DialogAnchorTracker(SampleWindow()).position(), qt.QPoint)
+assert_type(
+    get_maya_open_file_names_near(
+        None,
+        "追加",
+        "",
+        "JSON (*.json)",
+        qt.QPoint(),
+        initial_size=qt.QSize(1200, 650),
+    ),
+    tuple[list[str], str],
+)
+assert_type(
+    get_maya_save_file_name_near(
+        None,
+        "保存",
+        "",
+        "JSON (*.json)",
+        qt.QPoint(),
+        "json",
+        initial_size=qt.QSize(1200, 650),
+    ),
+    tuple[str, str],
+)
 assert_type(
     DialogAnchorTracker(SampleWindow()).position(SampleWindow()), qt.QPoint
 )

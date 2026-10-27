@@ -18,6 +18,10 @@
 
 ### Changed
 
+- Maya標準のパス選択へ`bd_util.maya.ui.get_open_file_names_near()`と
+  `get_save_file_name_near()`を追加。複数追加・保存先指定をフォルダー選択と同じ
+  初期寸法・操作起点・監視解除で扱う。Maya上のbakedanuki系UIの標準とする。
+  Qt専用の`bd_util.ui`のAPI、JSON・scene・保存設定の形式は維持する。
 - Maya標準のフォルダー選択を操作起点へ配置する
   `bd_util.maya.ui.get_existing_directory_near()`を追加。
   `fileDialog2`の表示中だけ対象画面を捕捉し、指定寸法と画面端補正を適用する。

@@ -1739,9 +1739,10 @@ Windows以外では`NotImplementedError`です。ファイル選択はWindowsの
 標準の文字選択・Ctrl+C・コピー・全選択を残し、右クリックの末尾へ同じパスメニューを加えます。
 標準コピーは選択部分、「パスをコピーする」は常に全文を対象とします。
 
-### Maya標準のフォルダー選択
+### Maya標準のパス選択
 
-編集可能な上部のアドレス欄が必要な場合は、Maya adapterを使用します。
+Maya上で表示するbakedanuki系パッケージのパス選択は、編集可能なアドレス欄を持つ
+Maya adapterを標準とします。Mayaに依存しないQt UIには`bd_util.ui`のQt版を使用します。
 
 ```python
 from bd_util.maya.ui import get_existing_directory_near
@@ -1760,6 +1761,16 @@ Maya内部のWidget名は使用せず、既存画面や別タイトルの画面�
 表示後の手動リサイズ・移動と、パス欄の操作はMaya標準の動作を使用します。
 取消は空文字を返し、コマンド失敗や対象画面を取得できない場合は`RuntimeError`です。
 このAPIの一時監視は成功・取消・例外のいずれでも解除します。
+
+同じ`bd_util.maya.ui`の`get_open_file_names_near()`は`fileMode=4`で複数の既存ファイルを
+選び、`tuple[list[str], str]`でパス一覧と選択フィルターを返します。取消は`([], "")`です。
+`get_save_file_name_near()`は`fileMode=0`で保存先を選び、`tuple[str, str]`を返します。
+取消は`("", "")`で、`default_suffix`は拡張子が未指定の場合だけ補います。
+両APIとも`(parent, caption, directory, name_filter, anchor, *, initial_size=...)`で呼び、
+保存APIだけ`anchor`の後に任意の`default_suffix`を指定できます。
+`name_filter`は`JSON (*.json);;All (*.*)`形式、保存APIの`directory`には初期ファイル名も指定できます。
+ファイルを書き込まず、上書き確認とアドレス操作はMaya標準画面の動作を使用します。
+寸法・操作起点・画面端補正・監視解除はフォルダー選択と同じです。
 
 外部APIが表示・実行を所有する通常Qt画面には、
 `with place_dialog_near(dialog, anchor):`で共通の配置を適用できます。
