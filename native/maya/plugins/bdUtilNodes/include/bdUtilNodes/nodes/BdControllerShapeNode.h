@@ -81,6 +81,8 @@ public:
     static MObject shapeFinHeight;
     static MObject shapeFinSize;
     static MObject shapeFinWidthScale;
+    static MObject shapeGuideLine;
+    static MObject shapeGuideLineTemplate;
     static MObject shape1stAxis;
     static MObject shape2ndAxis;
     static MObject shapeAnimationTransformMatrix;

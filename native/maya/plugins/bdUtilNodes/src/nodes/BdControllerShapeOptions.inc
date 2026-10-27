@@ -590,7 +590,13 @@ bool makeCrossCircleGeometry(const ShapeSettings& settings, PartGeometry& geomet
 
 #include "BdControllerShapeWideCross3Axis.inc"
 
-bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geometry) {
+struct GuideBodyGeometry {
+    std::vector<OptionClipVolume> volumes;
+    Strokes strokes;
+};
+
+bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geometry,
+    GuideBodyGeometry* guideBody = nullptr) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!optionPartSupported(outline)) return false;
     if (crossCircleBaseOutline(outline) >= 0) return makeCrossCircleGeometry(settings, geometry);
@@ -687,6 +693,10 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
             }
             if ((end - start).length() > 1e-10) builder.stroke({start, end}, style);
         }
+    }
+    if (guideBody) {
+        guideBody->volumes = std::move(bodyVolumes);
+        guideBody->strokes = builder.geometry.strokes;
     }
     mergeOptionGeometry(builder.geometry, std::move(heads.geometry));
     geometry = std::move(builder.geometry);

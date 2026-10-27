@@ -144,8 +144,6 @@ def controller_shape_offset_line_contract() -> None:
         ShapeEnumPlugOperator.WIDECROSSLINE,
         ShapeEnumPlugOperator.TRIANGLE,
         ShapeEnumPlugOperator.SQUARE,
-        ShapeEnumPlugOperator.SQUARECROSSLINE,
-        ShapeEnumPlugOperator.SQUARECROSSLINETEMPLATE,
         ShapeEnumPlugOperator.SQUARETEMPLATE,
         ShapeEnumPlugOperator.DIAMOND,
         ShapeEnumPlugOperator.CIRCLE,
@@ -154,8 +152,6 @@ def controller_shape_offset_line_contract() -> None:
         ShapeEnumPlugOperator.WIDECROSSLINESWAPPED,
         ShapeEnumPlugOperator.TRIANGLESWAPPED,
         ShapeEnumPlugOperator.SQUARESWAPPED,
-        ShapeEnumPlugOperator.SQUARECROSSLINESWAPPED,
-        ShapeEnumPlugOperator.SQUARECROSSLINETEMPLATESWAPPED,
         ShapeEnumPlugOperator.SQUARETEMPLATESWAPPED,
         ShapeEnumPlugOperator.DIAMONDSWAPPED,
         ShapeEnumPlugOperator.CIRCLESWAPPED,
@@ -181,10 +177,17 @@ def controller_shape_offset_line_contract() -> None:
         ShapeEnumPlugOperator.COLORCUBE,
         ShapeEnumPlugOperator.COLORCORNERCUBE,
         ShapeEnumPlugOperator.COLORSPHERE,
-        ShapeEnumPlugOperator.COLORSPHERECROSSLINE,
     ):
         shape.shape.set(preset)
     assert_type(shape.shapeFin, BoolPlugOperator)
+    assert_type(shape.shapeGuideLine, BoolPlugOperator)
+    assert_type(shape.sgl, BoolPlugOperator)
+    assert_type(shape.shapeGuideLineTemplate, BoolPlugOperator)
+    assert_type(shape.sglt, BoolPlugOperator)
+    shape.shapeGuideLine.set(True)
+    shape.sgl.set(False)
+    shape.shapeGuideLineTemplate.set(True)
+    shape.sglt.set(False)
     assert_type(shape.sfn, BoolPlugOperator)
     assert_type(shape.shapeFinType, ShapeFinTypeEnumPlugOperator)
     assert_type(shape.sfnt, ShapeFinTypeEnumPlugOperator)

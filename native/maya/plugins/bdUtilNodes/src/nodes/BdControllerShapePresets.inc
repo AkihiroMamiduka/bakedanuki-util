@@ -1,6 +1,6 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 46> kPresetNames = {
+constexpr std::array<const char*, 41> kPresetNames = {
     "Gear",
     "GearSwapped",
     "Line",
@@ -9,8 +9,6 @@ constexpr std::array<const char*, 46> kPresetNames = {
     "WideCrossLine",
     "Triangle",
     "Square",
-    "SquareCrossLine",
-    "SquareCrossLineTemplate",
     "SquareTemplate",
     "Diamond",
     "Circle",
@@ -19,8 +17,6 @@ constexpr std::array<const char*, 46> kPresetNames = {
     "WideCrossLineSwapped",
     "TriangleSwapped",
     "SquareSwapped",
-    "SquareCrossLineSwapped",
-    "SquareCrossLineTemplateSwapped",
     "SquareTemplateSwapped",
     "DiamondSwapped",
     "CircleSwapped",
@@ -46,7 +42,6 @@ constexpr std::array<const char*, 46> kPresetNames = {
     "ColorCube",
     "ColorCornerCube",
     "ColorSphere",
-    "ColorSphereCrossLine",
 };
 
 enum class PartEnds { Both, End };
@@ -58,7 +53,7 @@ struct PresetInfo {
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 46> kPresetInfo = {{
+constexpr std::array<PresetInfo, 41> kPresetInfo = {{
     {0},  // Gear
     {0, true},  // GearSwapped
     {1},  // Line
@@ -67,8 +62,6 @@ constexpr std::array<PresetInfo, 46> kPresetInfo = {{
     {106},  // WideCrossLine
     {6},  // Triangle
     {8},  // Square
-    {108},  // SquareCrossLine
-    {109},  // SquareCrossLineTemplate
     {110},  // SquareTemplate
     {79},  // Diamond
     {116},  // Circle
@@ -77,8 +70,6 @@ constexpr std::array<PresetInfo, 46> kPresetInfo = {{
     {106, true},  // WideCrossLineSwapped
     {6, true},  // TriangleSwapped
     {8, true},  // SquareSwapped
-    {108, true},  // SquareCrossLineSwapped
-    {109, true},  // SquareCrossLineTemplateSwapped
     {110, true},  // SquareTemplateSwapped
     {79, true},  // DiamondSwapped
     {116, true},  // CircleSwapped
@@ -104,7 +95,6 @@ constexpr std::array<PresetInfo, 46> kPresetInfo = {{
     {50},  // ColorCube
     {51},  // ColorCornerCube
     {46},  // ColorSphere
-    {47},  // ColorSphereCrossLine
 }};
 
 constexpr short cubePresetIndex() {

@@ -50,44 +50,39 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     WIDECROSSLINE = 5
     TRIANGLE = 6
     SQUARE = 7
-    SQUARECROSSLINE = 8
-    SQUARECROSSLINETEMPLATE = 9
-    SQUARETEMPLATE = 10
-    DIAMOND = 11
-    CIRCLE = 12
-    WIDECIRCLE = 13
-    CROSSLINESWAPPED = 14
-    WIDECROSSLINESWAPPED = 15
-    TRIANGLESWAPPED = 16
-    SQUARESWAPPED = 17
-    SQUARECROSSLINESWAPPED = 18
-    SQUARECROSSLINETEMPLATESWAPPED = 19
-    SQUARETEMPLATESWAPPED = 20
-    DIAMONDSWAPPED = 21
-    CIRCLESWAPPED = 22
-    WIDECIRCLESWAPPED = 23
-    CROSSLINE3AXIS = 24
-    WIDECROSSLINE3AXIS = 25
-    CUBE = 26
-    OCTAHEDRON = 27
-    OCTAHEDRONARROW = 28
-    ARC = 29
-    WIDEARCRADIAL = 30
-    WIDEARCAXIAL = 31
-    CROSSARC = 32
-    WIDECROSSARCRADIAL = 33
-    WIDECROSSARCAXIAL = 34
-    SPHERE = 35
-    CYLINDER = 36
-    ARROW = 37
-    PYRAMID = 38
-    CONE = 39
-    COLORCROSSLINE3AXIS = 40
-    COLORWIDECROSSLINE3AXIS = 41
-    COLORCUBE = 42
-    COLORCORNERCUBE = 43
-    COLORSPHERE = 44
-    COLORSPHERECROSSLINE = 45
+    SQUARETEMPLATE = 8
+    DIAMOND = 9
+    CIRCLE = 10
+    WIDECIRCLE = 11
+    CROSSLINESWAPPED = 12
+    WIDECROSSLINESWAPPED = 13
+    TRIANGLESWAPPED = 14
+    SQUARESWAPPED = 15
+    SQUARETEMPLATESWAPPED = 16
+    DIAMONDSWAPPED = 17
+    CIRCLESWAPPED = 18
+    WIDECIRCLESWAPPED = 19
+    CROSSLINE3AXIS = 20
+    WIDECROSSLINE3AXIS = 21
+    CUBE = 22
+    OCTAHEDRON = 23
+    OCTAHEDRONARROW = 24
+    ARC = 25
+    WIDEARCRADIAL = 26
+    WIDEARCAXIAL = 27
+    CROSSARC = 28
+    WIDECROSSARCRADIAL = 29
+    WIDECROSSARCAXIAL = 30
+    SPHERE = 31
+    CYLINDER = 32
+    ARROW = 33
+    PYRAMID = 34
+    CONE = 35
+    COLORCROSSLINE3AXIS = 36
+    COLORWIDECROSSLINE3AXIS = 37
+    COLORCUBE = 38
+    COLORCORNERCUBE = 39
+    COLORSPHERE = 40
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
@@ -101,44 +96,39 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     WIDECROSSLINE = 5
     TRIANGLE = 6
     SQUARE = 7
-    SQUARECROSSLINE = 8
-    SQUARECROSSLINETEMPLATE = 9
-    SQUARETEMPLATE = 10
-    DIAMOND = 11
-    CIRCLE = 12
-    WIDECIRCLE = 13
-    CROSSLINESWAPPED = 14
-    WIDECROSSLINESWAPPED = 15
-    TRIANGLESWAPPED = 16
-    SQUARESWAPPED = 17
-    SQUARECROSSLINESWAPPED = 18
-    SQUARECROSSLINETEMPLATESWAPPED = 19
-    SQUARETEMPLATESWAPPED = 20
-    DIAMONDSWAPPED = 21
-    CIRCLESWAPPED = 22
-    WIDECIRCLESWAPPED = 23
-    CROSSLINE3AXIS = 24
-    WIDECROSSLINE3AXIS = 25
-    CUBE = 26
-    OCTAHEDRON = 27
-    OCTAHEDRONARROW = 28
-    ARC = 29
-    WIDEARCRADIAL = 30
-    WIDEARCAXIAL = 31
-    CROSSARC = 32
-    WIDECROSSARCRADIAL = 33
-    WIDECROSSARCAXIAL = 34
-    SPHERE = 35
-    CYLINDER = 36
-    ARROW = 37
-    PYRAMID = 38
-    CONE = 39
-    COLORCROSSLINE3AXIS = 40
-    COLORWIDECROSSLINE3AXIS = 41
-    COLORCUBE = 42
-    COLORCORNERCUBE = 43
-    COLORSPHERE = 44
-    COLORSPHERECROSSLINE = 45
+    SQUARETEMPLATE = 8
+    DIAMOND = 9
+    CIRCLE = 10
+    WIDECIRCLE = 11
+    CROSSLINESWAPPED = 12
+    WIDECROSSLINESWAPPED = 13
+    TRIANGLESWAPPED = 14
+    SQUARESWAPPED = 15
+    SQUARETEMPLATESWAPPED = 16
+    DIAMONDSWAPPED = 17
+    CIRCLESWAPPED = 18
+    WIDECIRCLESWAPPED = 19
+    CROSSLINE3AXIS = 20
+    WIDECROSSLINE3AXIS = 21
+    CUBE = 22
+    OCTAHEDRON = 23
+    OCTAHEDRONARROW = 24
+    ARC = 25
+    WIDEARCRADIAL = 26
+    WIDEARCAXIAL = 27
+    CROSSARC = 28
+    WIDECROSSARCRADIAL = 29
+    WIDECROSSARCAXIAL = 30
+    SPHERE = 31
+    CYLINDER = 32
+    ARROW = 33
+    PYRAMID = 34
+    CONE = 35
+    COLORCROSSLINE3AXIS = 36
+    COLORWIDECROSSLINE3AXIS = 37
+    COLORCUBE = 38
+    COLORCORNERCUBE = 39
+    COLORSPHERE = 40
 
     NAME_MAP = {
         GEAR: "Gear",
@@ -149,8 +139,6 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         WIDECROSSLINE: "WideCrossLine",
         TRIANGLE: "Triangle",
         SQUARE: "Square",
-        SQUARECROSSLINE: "SquareCrossLine",
-        SQUARECROSSLINETEMPLATE: "SquareCrossLineTemplate",
         SQUARETEMPLATE: "SquareTemplate",
         DIAMOND: "Diamond",
         CIRCLE: "Circle",
@@ -159,8 +147,6 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         WIDECROSSLINESWAPPED: "WideCrossLineSwapped",
         TRIANGLESWAPPED: "TriangleSwapped",
         SQUARESWAPPED: "SquareSwapped",
-        SQUARECROSSLINESWAPPED: "SquareCrossLineSwapped",
-        SQUARECROSSLINETEMPLATESWAPPED: "SquareCrossLineTemplateSwapped",
         SQUARETEMPLATESWAPPED: "SquareTemplateSwapped",
         DIAMONDSWAPPED: "DiamondSwapped",
         CIRCLESWAPPED: "CircleSwapped",
@@ -186,7 +172,6 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         COLORCUBE: "ColorCube",
         COLORCORNERCUBE: "ColorCornerCube",
         COLORSPHERE: "ColorSphere",
-        COLORSPHERECROSSLINE: "ColorSphereCrossLine",
     }
 
 
@@ -774,14 +759,14 @@ class GeneratedBdControllerShape(Shape):
     )
     sftp = shapeFillTransparency
 
-    shape = ShapeEnumField(default_value=26)
+    shape = ShapeEnumField(default_value=22)
     sh = shape
 
     shapeWideWidth = DoubleLinearField(default_value=0.05, min_value=0.0)
     sww = shapeWideWidth
 
     shapeArcAngle = DoubleAngleField(
-        default_value=360.0, min_value=0.0, max_value=360.0
+        default_value=180.0, min_value=0.0, max_value=360.0
     )
     saa = shapeArcAngle
 
@@ -820,6 +805,12 @@ class GeneratedBdControllerShape(Shape):
 
     shapeFinWidthScale = DoubleField(default_value=1.0)
     sfnws = shapeFinWidthScale
+
+    shapeGuideLine = BoolField(default_value=False)
+    sgl = shapeGuideLine
+
+    shapeGuideLineTemplate = BoolField(default_value=False)
+    sglt = shapeGuideLineTemplate
 
     shapeOffsetLine = BoolField(default_value=False)
     sol = shapeOffsetLine

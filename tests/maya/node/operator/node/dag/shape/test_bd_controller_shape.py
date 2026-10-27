@@ -24,8 +24,6 @@ SHAPE_NAMES = (
     "WideCrossLine",
     "Triangle",
     "Square",
-    "SquareCrossLine",
-    "SquareCrossLineTemplate",
     "SquareTemplate",
     "Diamond",
     "Circle",
@@ -34,8 +32,6 @@ SHAPE_NAMES = (
     "WideCrossLineSwapped",
     "TriangleSwapped",
     "SquareSwapped",
-    "SquareCrossLineSwapped",
-    "SquareCrossLineTemplateSwapped",
     "SquareTemplateSwapped",
     "DiamondSwapped",
     "CircleSwapped",
@@ -61,8 +57,15 @@ SHAPE_NAMES = (
     "ColorCube",
     "ColorCornerCube",
     "ColorSphere",
-    "ColorSphereCrossLine",
 )
+
+GUIDE_CASES = {
+    "SquareCrossLine": ("Square", False),
+    "SquareCrossLineTemplate": ("Square", True),
+    "SquareCrossLineSwapped": ("SquareSwapped", False),
+    "SquareCrossLineTemplateSwapped": ("SquareSwapped", True),
+    "ColorSphereCrossLine": ("ColorSphere", False),
+}
 
 PART_SHAPES = (
     "Arrow2D",
@@ -263,7 +266,9 @@ FIN_CASES = {
 # Filled接尾辞は回帰テストのケース名であり、公開shape enumの名前ではない。
 SHAPE_VARIANTS = tuple(
     name + suffix
-    for name in dict.fromkeys((*SHAPE_NAMES, *OPTION_CASE_NAMES, *FIN_CASES))
+    for name in dict.fromkeys(
+        (*SHAPE_NAMES, *GUIDE_CASES, *OPTION_CASE_NAMES, *FIN_CASES)
+    )
     for suffix in ("", "Filled")
 )
 
@@ -280,9 +285,11 @@ def _case_settings(case_name):
         "shapePart": False,
         "shapePartShape": 0,
         "shapePartType": 0,
+        "shapeGuideLine": False,
+        "shapeGuideLineTemplate": False,
         "shapeArcAngle": 180 if base.startswith("Semicircle") else 360,
     }
-    if base not in SHAPE_NAMES:
+    if base not in SHAPE_NAMES and base not in GUIDE_CASES:
         settings["shapePart"] = base != "Semicircle"
         if base.startswith("Semicircle"):
             settings["shapePartType"] = 1 if base.endswith("AtEnds") else 0
@@ -333,6 +340,10 @@ def _case_settings(case_name):
                 settings["shapePartType"] = 2
         else:
             raise AssertionError(case_name)
+    if base in GUIDE_CASES:
+        base, template = GUIDE_CASES[base]
+        settings["shapeGuideLine"] = True
+        settings["shapeGuideLineTemplate"] = template
     settings["shape"] = SHAPE_NAMES.index(base)
     return settings
 
@@ -532,7 +543,19 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         assert not maya_cmds.attributeQuery(
             attribute, node=shape, maxExists=True
         )
-    assert maya_cmds.getAttr(f"{shape}.shapeArcAngle") == 360.0
+    assert maya_cmds.getAttr(f"{shape}.shapeArcAngle") == 180.0
+    for attribute, short_name in (
+        ("shapeGuideLine", "sgl"),
+        ("shapeGuideLineTemplate", "sglt"),
+    ):
+        assert not maya_cmds.getAttr(f"{shape}.{attribute}")
+        assert maya_cmds.getAttr(f"{shape}.{attribute}", type=True) == "bool"
+        assert (
+            maya_cmds.attributeQuery(attribute, node=shape, shortName=True)
+            == short_name
+        )
+        assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
+        assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
     assert not maya_cmds.getAttr(f"{shape}.shapePart")
     assert maya_cmds.getAttr(f"{shape}.shapePart", type=True) == "bool"
     for attribute, short_name, names in (
@@ -746,7 +769,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
         assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
 
-    for index in range(1, 14):
+    for index in range(1, 15):
         separator = "_" * index
         assert (
             maya_cmds.attributeQuery(separator, node=shape, shortName=True)
@@ -791,15 +814,18 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeFinSize",
         "shapeFinWidthScale",
         "________",
+        "shapeGuideLine",
+        "shapeGuideLineTemplate",
+        "_________",
         "shapeOffsetLine",
         "shapeOffsetLineTemplate",
-        "_________",
+        "__________",
         "shape1stAxis",
         "shape2ndAxis",
         "shapeAxisOffset",
         "shapeAxisOffsetDirection",
         "shapeAxisOffsetLength",
-        "__________",
+        "___________",
         "shapeRootSize",
         "shapeTranslateX",
         "shapeRotateX",
@@ -808,16 +834,16 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeAxisRotateX",
         "shapeAxisScaleX",
         "shapeSize",
-        "___________",
+        "____________",
         "boundsMode",
         "showBoundsPreview",
-        "____________",
+        "_____________",
         "customBounds1stAxis",
         "customBounds2ndAxis",
         "customBoundsAxisOffset",
         "customBoundsAxisOffsetDirection",
         "customBoundsAxisOffsetLength",
-        "_____________",
+        "______________",
         "customBoundsRootSize",
         "customBoundsTranslateX",
         "customBoundsRotateX",
@@ -5859,3 +5885,200 @@ def test_wide_three_axis_fin_reaches_the_same_height_as_cross_line(
             assert (actual[1], actual[4]) == pytest.approx(
                 (min(-extent, reach), max(extent, reach)), abs=1e-9
             )
+
+
+@pytest.mark.parametrize("preset", SHAPE_NAMES)
+def test_guide_options_do_not_expand_shape_bounds(
+    maya_cmds, maya_om, new_scene, preset
+):
+    """ガイドの表示とTemplate切替でも本体と付属形状の範囲を保つ。"""
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name=preset)
+    for name, value in (
+        ("shapePart", True),
+        ("shapePartType", 1),
+        ("shapePartShape", 1),
+        ("shapePartSize", 1.4),
+        ("shapePartLengthScale", 1.7),
+        ("shapePartWidthScale", 1.3),
+        ("shapePartOffset", 0.15),
+        ("shapeFin", True),
+        ("shapeFinHeight", 0.3),
+    ):
+        maya_cmds.setAttr(f"{shape}.{name}", value)
+    for filled in (False, True):
+        maya_cmds.setAttr(f"{shape}.shapeFill", filled)
+        maya_cmds.setAttr(f"{shape}.shapeGuideLine", False)
+        maya_cmds.setAttr(f"{shape}.shapeGuideLineTemplate", False)
+        expected = _bounds(maya_om, shape)
+        for guide, template in ((True, False), (True, True), (False, True)):
+            maya_cmds.setAttr(f"{shape}.shapeGuideLine", guide)
+            maya_cmds.setAttr(f"{shape}.shapeGuideLineTemplate", template)
+            assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+
+
+@pytest.mark.parametrize(
+    "preset",
+    (
+        "WideLine",
+        "WideCrossLine",
+        "WideCrossLineSwapped",
+        "WideCrossLine3Axis",
+        "ColorWideCrossLine3Axis",
+    ),
+)
+@pytest.mark.parametrize("part_shape", (0, 1, 6))
+def test_wide_guides_follow_retracted_body(
+    maya_cmds, maya_om, new_scene, preset, part_shape
+):
+    """内向きPartや幅ゼロでもガイドを短縮後の本体内に収める。"""
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name=preset)
+    maya_cmds.setAttr(f"{shape}.shapePart", True)
+    maya_cmds.setAttr(f"{shape}.shapePartShape", part_shape)
+    for width, offset, part_type in (
+        (0, -0.4, 0),
+        (0.05, -0.4, 0),
+        (0.2, -2, 0),
+        (0.2, -0.6, 1),
+        (1.4, -2, 1),
+    ):
+        maya_cmds.setAttr(f"{shape}.shapeWideWidth", width)
+        maya_cmds.setAttr(f"{shape}.shapePartOffset", offset)
+        maya_cmds.setAttr(f"{shape}.shapePartType", part_type)
+        for filled in (False, True):
+            maya_cmds.setAttr(f"{shape}.shapeFill", filled)
+            maya_cmds.setAttr(f"{shape}.shapeGuideLine", False)
+            expected = _bounds(maya_om, shape)
+            for template in (False, True):
+                maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
+                maya_cmds.setAttr(f"{shape}.shapeGuideLineTemplate", template)
+                assert _bounds(maya_om, shape) == pytest.approx(
+                    expected, abs=1e-9
+                )
+
+
+@pytest.mark.parametrize(
+    "preset",
+    (
+        "WideLine",
+        "WideCrossLine",
+        "WideCrossLineSwapped",
+        "Circle",
+        "CircleSwapped",
+    ),
+)
+@pytest.mark.parametrize("part_shape", (0, 1))
+def test_arrow_tip_guides_preserve_shape_bounds(
+    maya_cmds, maya_om, new_scene, preset, part_shape
+):
+    """先端へつなぐガイドを、変形した本体とPartの範囲に収める。"""
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name=preset)
+    maya_cmds.setAttr(f"{shape}.shapePart", True)
+    maya_cmds.setAttr(f"{shape}.shapePartShape", part_shape)
+    maya_cmds.setAttr(f"{shape}.shapePartSize", 1.4)
+    maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 1.2)
+    for offset, length, width, part_type in (
+        (0.35, 1.7, 0.2, 0),
+        (-0.4, 0.5, 0.05, 0),
+        (-1.5, 1.4, 0.2, 0),
+        (0.2, 1.4, 0, 1),
+        (-2, 1.4, 1.4, 1),
+    ):
+        for name, value in (
+            ("shapePartOffset", offset),
+            ("shapePartLengthScale", length),
+            ("shapeWideWidth", width),
+            ("shapePartType", part_type),
+        ):
+            maya_cmds.setAttr(f"{shape}.{name}", value)
+        for filled in (False, True):
+            maya_cmds.setAttr(f"{shape}.shapeFill", filled)
+            maya_cmds.setAttr(f"{shape}.shapeGuideLine", False)
+            expected = _bounds(maya_om, shape)
+            for template in (False, True):
+                maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
+                maya_cmds.setAttr(f"{shape}.shapeGuideLineTemplate", template)
+                assert _bounds(maya_om, shape) == pytest.approx(
+                    expected, abs=1e-9
+                )
+
+
+def test_arc_default_draws_a_half_circle_without_case_overrides(
+    maya_cmds, maya_om, new_scene
+):
+    """テスト用の角度指定を通さず、Arcの初期円弧を確認する。"""
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name=None)
+    maya_cmds.setAttr(f"{shape}.shape", _shape_index("Arc"))
+    assert maya_cmds.getAttr(f"{shape}.shapeArcAngle") == pytest.approx(180)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        (0, 0, -0.5, 0, 0.5, 0.5), abs=1e-9
+    )
+
+
+def test_guide_options_preserve_history_and_scene_values(
+    maya_cmds, maya_om, new_scene, tmp_path
+):
+    """ガイドの値を履歴・本体切替・シーン再読込で保持する。"""
+    _load_bd_util_nodes(maya_cmds)
+    _, shape_name = _create_controller(maya_cmds, shape_name="Square")
+    expected = _bounds(maya_om, shape_name)
+    mod = bdu.ModifierManager()
+    shape = bdu.Nodes(modifier_manager=mod).existing(shape_name)
+    shape.shapeGuideLine.set(True)
+    shape.shapeGuideLineTemplate.set(True)
+    mod.do_it_dg()
+    assert maya_cmds.getAttr(f"{shape_name}.shapeGuideLine")
+    assert maya_cmds.getAttr(f"{shape_name}.shapeGuideLineTemplate")
+    assert _bounds(maya_om, shape_name) == pytest.approx(expected)
+    mod.undo_it()
+    assert not maya_cmds.getAttr(f"{shape_name}.shapeGuideLine")
+    assert not maya_cmds.getAttr(f"{shape_name}.shapeGuideLineTemplate")
+    mod.redo_it()
+    for preset in ("Line", "Arc", "ColorSphere", "SquareTemplate", "Square"):
+        maya_cmds.setAttr(f"{shape_name}.shape", _shape_index(preset))
+        assert maya_cmds.getAttr(f"{shape_name}.shapeGuideLine")
+        assert maya_cmds.getAttr(f"{shape_name}.shapeGuideLineTemplate")
+    assert _bounds(maya_om, shape_name) == pytest.approx(expected)
+    path = tmp_path / "controller_guide_options.ma"
+    maya_cmds.file(rename=str(path))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(path), open=True, force=True)
+    assert maya_cmds.getAttr(f"{shape_name}.shapeGuideLine")
+    assert maya_cmds.getAttr(f"{shape_name}.shapeGuideLineTemplate")
+    assert _bounds(maya_om, shape_name) == pytest.approx(expected)
+
+
+@pytest.mark.parametrize(
+    "attribute", ("shapeGuideLine", "shapeGuideLineTemplate")
+)
+def test_guide_option_connected_animation_is_retained(
+    maya_cmds, maya_om, new_scene, attribute
+):
+    """対象外でもガイドの接続と明示キーを保持する。"""
+    _load_bd_util_nodes(maya_cmds)
+    _, shape = _create_controller(maya_cmds, shape_name="Square")
+    expected = _bounds(maya_om, shape)
+    if attribute == "shapeGuideLineTemplate":
+        maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
+    source = maya_cmds.createNode("network")
+    maya_cmds.addAttr(
+        source, longName="enabled", attributeType="bool", keyable=True
+    )
+    maya_cmds.connectAttr(f"{source}.enabled", f"{shape}.{attribute}")
+    for frame, value in ((1, False), (10, True)):
+        maya_cmds.setKeyframe(
+            source, attribute="enabled", time=frame, value=value
+        )
+    for frame, value in ((1, False), (10, True), (1, False), (10, True)):
+        maya_cmds.currentTime(frame)
+        assert maya_cmds.getAttr(f"{shape}.{attribute}") == value
+        assert _bounds(maya_om, shape) == pytest.approx(expected)
+    maya_cmds.setAttr(f"{shape}.shape", _shape_index("Line"))
+    assert maya_cmds.getAttr(f"{shape}.{attribute}")
+    assert maya_cmds.isConnected(f"{source}.enabled", f"{shape}.{attribute}")
+    maya_cmds.setAttr(f"{shape}.shape", _shape_index("Square"))
+    assert _bounds(maya_om, shape) == pytest.approx(expected)

@@ -239,33 +239,43 @@ def test_thin_fill_remains_visible_from_both_sides(
 
 
 @pytest.mark.parametrize(
-    "preset,part_shape",
+    "preset,part_shape,guide_template",
     (
-        ("Cone", None),
-        ("Cylinder", None),
-        ("Line", 0),
-        ("CrossLine", 0),
-        ("CrossLineSwapped", 1),
-        ("CrossLine3Axis", 0),
-        ("ColorCrossLine3Axis", 1),
-        ("Arc", 1),
-        ("Circle", 1),
-        ("WideCircle", 0),
-        ("WideCrossLine3Axis", 0),
-        ("ColorWideCrossLine3Axis", 1),
-        ("SquareCrossLine", 0),
-        ("SquareCrossLineTemplate", 1),
-        ("Line", 10),
+        ("Cone", None, None),
+        ("Cylinder", None, None),
+        ("Line", 0, None),
+        ("CrossLine", 0, None),
+        ("CrossLineSwapped", 1, None),
+        ("CrossLine3Axis", 0, None),
+        ("ColorCrossLine3Axis", 1, None),
+        ("Arc", 1, None),
+        ("Circle", 1, None),
+        ("WideCircle", 0, None),
+        ("WideCrossLine3Axis", 0, None),
+        ("ColorWideCrossLine3Axis", 1, None),
+        ("Square", 0, False),
+        ("Square", 1, True),
+        ("Line", 10, None),
     ),
 )
 @pytest.mark.parametrize("draw_on_top", (False, True))
 def test_hidden_fill_restores_wireframe(
-    maya_cmds, new_scene, tmp_path, preset, part_shape, draw_on_top
+    maya_cmds,
+    new_scene,
+    tmp_path,
+    preset,
+    part_shape,
+    guide_template,
+    draw_on_top,
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
 
     options = dict(shapeDrawOnTop=draw_on_top)
+    if guide_template is not None:
+        options.update(
+            shapeGuideLine=True, shapeGuideLineTemplate=guide_template
+        )
     if part_shape is not None:
         options.update(
             shapePart=True,
@@ -329,12 +339,27 @@ def _brightness_near_world(panel, pixels, point):
 
 
 @pytest.mark.parametrize(
-    "preset", ("Line", "Arc", "SquareCrossLine", "SquareCrossLineTemplate")
+    "preset,guide,guide_template",
+    (
+        ("Line", False, False),
+        ("Arc", False, False),
+        ("Square", True, False),
+        ("Square", True, True),
+        ("SquareTemplate", True, False),
+        ("SquareTemplate", True, True),
+    ),
 )
 @pytest.mark.parametrize("part_shape", (0, 1))
 @pytest.mark.parametrize("draw_on_top", (False, True))
 def test_arrow_tip_connection_matches_fill_and_guide_style(
-    maya_cmds, new_scene, tmp_path, preset, part_shape, draw_on_top
+    maya_cmds,
+    new_scene,
+    tmp_path,
+    preset,
+    guide,
+    guide_template,
+    part_shape,
+    draw_on_top,
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
@@ -347,6 +372,8 @@ def test_arrow_tip_connection_matches_fill_and_guide_style(
         shapePartOffset=0.05,
         shapeArcAngle=240,
         shapeDrawOnTop=draw_on_top,
+        shapeGuideLine=guide,
+        shapeGuideLineTemplate=guide_template,
     ) as (_, shape, camera, _, panel):
         maya_cmds.setAttr(f"{camera}.translate", 3, 2.5, 4)
         target = maya_cmds.createNode("transform")
@@ -354,7 +381,7 @@ def test_arrow_tip_connection_matches_fill_and_guide_style(
             target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
         )
         maya_cmds.delete(constraint, target)
-        if preset.startswith("SquareCrossLine"):
+        if guide:
             point = (0.645, 0, 0)
         elif preset == "Arc":
             angle = -math.pi / 6 + 0.06
@@ -366,7 +393,7 @@ def test_arrow_tip_connection_matches_fill_and_guide_style(
         filled_arrow = _capture_view(panel, tmp_path / "filled.png")
         open_brightness = _brightness_near_world(panel, open_arrow, point)
         filled_brightness = _brightness_near_world(panel, filled_arrow, point)
-        if preset.startswith("SquareCrossLine"):
+        if guide:
             assert open_brightness > 200
             assert filled_brightness >= open_brightness - 30, (
                 "Fill表示時に中央ガイドが先端へ届かないか、線の表示種別が変わっている",
@@ -424,8 +451,6 @@ def test_cone_keeps_side_lines_and_cylinder_hides_them_with_fill(
         "Gear",
         "Triangle",
         "Square",
-        "SquareCrossLine",
-        "SquareCrossLineTemplate",
         "SquareTemplate",
         "Diamond",
         "CrossLine",
@@ -435,8 +460,9 @@ def test_cone_keeps_side_lines_and_cylinder_hides_them_with_fill(
     ),
 )
 @pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("guide_template", (False, True))
 def test_swapped_shape_matches_complete_axis_exchange(
-    maya_cmds, new_scene, tmp_path, base, filled
+    maya_cmds, new_scene, tmp_path, base, filled, guide_template
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
@@ -453,6 +479,8 @@ def test_swapped_shape_matches_complete_axis_exchange(
         shapeFinHeight=0.4,
         shape1stAxis=3,
         shape2ndAxis=1,
+        shapeGuideLine=True,
+        shapeGuideLineTemplate=guide_template,
     ) as (_, shape, camera, _, panel):
         maya_cmds.setAttr(f"{shape}.shapeScale", -0.9, 0.7, 1.1)
         maya_cmds.setAttr(f"{shape}.shapeRotate", 13, -19, 23)
@@ -1161,6 +1189,7 @@ def test_axial_circle_thin_fill_is_visible_from_outside_and_inside(
     with _drawing_view(
         maya_cmds,
         "WideArcAxial",
+        shapeArcAngle=360,
         shapeWideWidth=0.4,
         shapeFill=True,
         shapeLineTransparency=1,
@@ -1185,7 +1214,9 @@ def test_axial_circle_draws_two_rims_without_a_full_circle_seam(
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
 
-    with _drawing_view(maya_cmds, "WideArcAxial", shapeWideWidth=0.3) as (
+    with _drawing_view(
+        maya_cmds, "WideArcAxial", shapeWideWidth=0.3, shapeArcAngle=360
+    ) as (
         _,
         _,
         _,
@@ -1502,6 +1533,7 @@ def test_axial_circle_planar_apex_keeps_the_original_circle(
     with _drawing_view(
         maya_cmds,
         "WideArcAxial",
+        shapeArcAngle=360,
         shapeWideWidth=width,
         shapePart=True,
         shapePartShape=part,
@@ -1536,6 +1568,7 @@ def test_axial_circle_long_wrapped_part_has_no_duplicate_periodic_fill(
     with _drawing_view(
         maya_cmds,
         "WideArcAxial",
+        shapeArcAngle=360,
         shapePart=True,
         shapePartShape=3,
         shapePartType=int(all_ends),
@@ -1915,3 +1948,465 @@ def test_planar_circle_arrow_attaches_to_the_rim_and_replaces_the_arc(
                     )
                     > 600
                 ), "円周への密着処理でArrow先端のOffsetが変わっている"
+
+
+@pytest.mark.parametrize(
+    "preset,on_point,off_point,options",
+    (
+        ("Triangle", (-0.185, 0, 0.25), (0, 0, 0.25), {}),
+        ("Square", (0.25, 0, 0), (0.55, 0, 0), {}),
+        ("SquareSwapped", (0, 0.25, 0), (0, 0.55, 0), {}),
+        ("Circle", (0.25, 0, 0), (0.55, 0, 0), {}),
+        ("WideCircle", (0.2, 0, 0), (0.5, 0, 0), {"shapeWideWidth": 0.2}),
+        (
+            "WideCircleSwapped",
+            (0, 0.2, 0),
+            (0, 0.5, 0),
+            {"shapeWideWidth": 0.2},
+        ),
+        ("WideLine", (0, 0, 0.05), (0, 0, 0.15), {"shapeWideWidth": 0.2}),
+        ("WideCrossLine", (0.25, 0, 0), (0.55, 0, 0), {"shapeWideWidth": 0.2}),
+        (
+            "WideCrossLineSwapped",
+            (0, 0.25, 0),
+            (0, 0.55, 0),
+            {"shapeWideWidth": 0.2},
+        ),
+    ),
+)
+def test_guide_line_uses_the_planar_body_surface(
+    maya_cmds, new_scene, tmp_path, preset, on_point, off_point, options
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(maya_cmds, preset, **options) as (
+        _,
+        shape,
+        camera,
+        _,
+        panel,
+    ):
+        swapped = preset.endswith("Swapped")
+        maya_cmds.setAttr(
+            f"{camera}.translate", *((4, 0, 0) if swapped else (0, 4, 0))
+        )
+        maya_cmds.setAttr(
+            f"{camera}.rotate", *((0, 90, 0) if swapped else (-90, 0, 0))
+        )
+        before = _capture_view(panel, tmp_path / "guide_off.png")
+        assert _brightness_near_world(panel, before, on_point) < 120
+        maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
+        after = _capture_view(panel, tmp_path / "guide_on.png")
+        assert (
+            _brightness_near_world(panel, after, on_point) > 600
+        ), "本体に対応したガイド線が描かれていない"
+        assert (
+            _brightness_near_world(panel, after, off_point) < 120
+        ), "ガイド線が表面・内周を越えているかTriangleに十字を描いている"
+
+
+@pytest.mark.parametrize("preset", ("WideCircle", "WideCircleSwapped"))
+def test_guide_line_disappears_when_the_wide_circle_has_no_hole(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(maya_cmds, preset) as (
+        _,
+        shape,
+        camera,
+        camera_shape,
+        panel,
+    ):
+        swapped = preset.endswith("Swapped")
+        maya_cmds.setAttr(
+            f"{camera}.translate", *((4, 0, 0) if swapped else (0, 4, 0))
+        )
+        maya_cmds.setAttr(
+            f"{camera}.rotate", *((0, 90, 0) if swapped else (-90, 0, 0))
+        )
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3)
+        for width in (1, 1.4):
+            maya_cmds.setAttr(f"{shape}.shapeWideWidth", width)
+            maya_cmds.setAttr(f"{shape}.shapeGuideLine", False)
+            before = _capture_view(
+                panel, tmp_path / f"no_hole_{width}_off.png"
+            )
+            maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
+            assert (
+                _capture_view(panel, tmp_path / f"no_hole_{width}_on.png")
+                == before
+            ), "内半径0のWideCircleにガイドが残る"
+
+
+@pytest.mark.parametrize(
+    "preset",
+    ("ColorSphere", "ColorCube", "ColorCornerCube", "ColorWideCrossLine3Axis"),
+)
+def test_guide_line_uses_axis_colors_only_on_positive_rays(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(maya_cmds, preset, shapeGuideLine=True) as (
+        _,
+        _,
+        camera,
+        _,
+        panel,
+    ):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        pixels = _capture_view(panel, tmp_path / "guide_colors.png")
+        for axis in range(3):
+            point = [0, 0, 0]
+            point[axis] = 0.3
+            color = _rgb_near_world(panel, pixels, point)
+            assert color[axis] > 180 and all(
+                color[j] < 50 for j in range(3) if j != axis
+            ), (axis, color)
+            # ColorCornerCubeの中央マーカーに隠れない位置で負側を測る。
+            point[axis] = -0.45
+            assert min(_rgb_near_world(panel, pixels, point)) > 180, (
+                axis,
+                "負側は通常色",
+            )
+
+
+@pytest.mark.parametrize(
+    "axis,positive",
+    ((0, False), (0, True), (1, False), (1, True), (2, False), (2, True)),
+)
+def test_color_cube_fill_colors_follow_the_face_axis(
+    maya_cmds, new_scene, tmp_path, axis, positive
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "ColorCube",
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0,
+    ) as (_, _, camera, _, panel):
+        sign = 1 if positive else -1
+        position = [0, 0, 0]
+        position[axis] = 4 * sign
+        rotations = (
+            (0, 90 * sign, 0),
+            (-90 * sign, 0, 0),
+            (0, 0 if positive else 180, 0),
+        )
+        maya_cmds.setAttr(f"{camera}.translate", *position)
+        maya_cmds.setAttr(f"{camera}.rotate", *rotations[axis])
+        pixels = _capture_view(panel, tmp_path / "cube_face.png")
+        point = [0, 0, 0]
+        point[axis] = 0.5 * sign
+        color = _rgb_near_world(panel, pixels, point)
+        if positive:
+            assert color[axis] > 180 and all(
+                color[j] < 50 for j in range(3) if j != axis
+            ), (axis, color)
+        else:
+            assert min(color) > 180, (axis, color)
+
+
+def test_arc_initial_angle_is_a_semicircle(maya_cmds, new_scene, tmp_path):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(maya_cmds, "Arc") as (_, shape, camera, _, panel):
+        assert maya_cmds.getAttr(f"{shape}.shapeArcAngle") == 180
+        maya_cmds.setAttr(f"{camera}.translate", 4, 0, 0)
+        maya_cmds.setAttr(f"{camera}.rotate", 0, 90, 0)
+        pixels = _capture_view(panel, tmp_path / "initial_arc.png")
+        assert _brightness_near_world(panel, pixels, (0, 0.5, 0)) > 600
+        assert _brightness_near_world(panel, pixels, (0, -0.5, 0)) < 120
+
+
+@pytest.mark.parametrize(
+    "preset",
+    (
+        "Square",
+        "WideLine",
+        "WideCrossLine",
+        "WideCrossLineSwapped",
+        "Circle",
+        "CircleSwapped",
+    ),
+)
+def test_guide_line_template_changes_only_guide_selection(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    from maya import utils
+    from maya.api import OpenMaya as om
+    from maya.api import OpenMayaUI as omui
+
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeGuideLine=True,
+        shapePart=True,
+        shapePartShape=0,
+        shapePartSize=1.4,
+        shapePartLengthScale=1.7,
+        shapePartWidthScale=1.2,
+        shapePartOffset=0.35,
+        shapeWideWidth=0.2,
+    ) as (
+        _,
+        shape,
+        camera,
+        camera_shape,
+        panel,
+    ):
+        swapped = preset.endswith("Swapped")
+        maya_cmds.setAttr(
+            f"{camera}.translate", *((4, 0, 0) if swapped else (0, 4, 0))
+        )
+        maya_cmds.setAttr(
+            f"{camera}.rotate", *((0, 90, 0) if swapped else (-90, 0, 0))
+        )
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3)
+        gap = (
+            (0.5 + 0.85 - 0.1 * math.cos(math.pi / 6) * 1.4 * 1.7) * 0.5
+            if preset.startswith("Wide")
+            else 0.675
+        )
+        guide_point = (0, gap, 0) if swapped else (gap, 0, 0)
+        body_point = (
+            (0.2, 0, 0.1)
+            if preset.startswith("Wide")
+            else (
+                (math.sqrt(0.125), 0, math.sqrt(0.125))
+                if preset.startswith("Circle")
+                else (0.5, 0, 0.3)
+            )
+        )
+        if swapped:
+            body_point = (body_point[1], body_point[0], -body_point[2])
+        _capture_view(panel, tmp_path / "normal_guide.png")
+
+        def pick(point):
+            maya_cmds.select(clear=True)
+            maya_cmds.setFocus(panel)
+            utils.processIdleEvents()
+            view = omui.M3dView.getM3dViewFromModelPanel(panel)
+            x, y, visible = view.worldToView(om.MPoint(*point))
+            assert visible
+            om.MGlobal.selectFromScreen(
+                x - 2,
+                y - 2,
+                x + 2,
+                y + 2,
+                om.MGlobal.kReplaceList,
+                om.MGlobal.kWireframeSelectMethod,
+            )
+            return bool(maya_cmds.ls(selection=True))
+
+        assert pick(guide_point), "先端へ延長した通常のガイド線を選択できない"
+        maya_cmds.select(clear=True)
+        maya_cmds.setAttr(f"{shape}.shapeGuideLineTemplate", True)
+        template = _capture_view(panel, tmp_path / "template_guide.png")
+        assert (
+            _brightness_near_world(panel, template, guide_point) > 120
+        ), "Templateのガイド線が消えている"
+        assert not pick(guide_point), "Templateの延長ガイド線だけで選択された"
+        assert pick(
+            body_point
+        ), "GuideLineTemplateで本体の通常線まで選択不可になった"
+
+
+@pytest.mark.parametrize(
+    "preset",
+    (
+        "Gear",
+        "GearSwapped",
+        "Line",
+        "CrossLine",
+        "CrossLineSwapped",
+        "CrossLine3Axis",
+        "ColorCrossLine3Axis",
+        "Arrow",
+        *ARC_SHAPES,
+    ),
+)
+def test_guide_line_is_ignored_on_excluded_shapes(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(maya_cmds, preset) as (_, shape, camera, _, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        reference = _capture_view(panel, tmp_path / "without_guide.png")
+        maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
+        for template in (False, True):
+            maya_cmds.setAttr(f"{shape}.shapeGuideLineTemplate", template)
+            assert (
+                _capture_view(panel, tmp_path / f"ignored_{template}.png")
+                == reference
+            ), "対象外の本体へガイド線が追加された"
+            assert maya_cmds.getAttr(f"{shape}.shapeGuideLine")
+            assert (
+                maya_cmds.getAttr(f"{shape}.shapeGuideLineTemplate")
+                == template
+            )
+
+
+@pytest.mark.parametrize(
+    "preset", ("Cube", "Cylinder", "Pyramid", "Cone", "WideCrossLine3Axis")
+)
+def test_guide_line_stops_at_the_solid_body(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(maya_cmds, preset, shapeGuideLine=True) as (
+        _,
+        _,
+        camera,
+        _,
+        panel,
+    ):
+        if preset in ("Pyramid", "Cone"):
+            on_point, off_point = (0, 0.15, 0), (0, 0.35, 0)
+        else:
+            _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+            on_point, off_point = (0.25, 0, 0), (0.6, 0, 0)
+        pixels = _capture_view(panel, tmp_path / "solid_guide.png")
+        assert _brightness_near_world(panel, pixels, on_point) > 600
+        assert (
+            _brightness_near_world(panel, pixels, off_point) < 120
+        ), "3Dのガイドが本体表面を越えた"
+
+
+@pytest.mark.parametrize("preset", ("WideCircle", "WideCircleSwapped"))
+def test_guide_line_stops_at_wide_circle_inner_rim_with_parts(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeWideWidth=0.2,
+        shapeGuideLine=True,
+        shapePart=True,
+        shapePartShape=0,
+        shapePartSize=3,
+    ) as (_, _, camera, _, panel):
+        swapped = preset.endswith("Swapped")
+        radius = 0.6 if preset.startswith("Wide") else 0.5
+        maya_cmds.setAttr(
+            f"{camera}.translate", *((4, 0, 0) if swapped else (0, 4, 0))
+        )
+        maya_cmds.setAttr(
+            f"{camera}.rotate", *((0, 90, 0) if swapped else (-90, 0, 0))
+        )
+        point = (0, radius + 0.1, 0) if swapped else (radius + 0.1, 0, 0)
+        pixels = _capture_view(
+            panel, tmp_path / "part_without_guide_extension.png"
+        )
+        assert (
+            _brightness_near_world(panel, pixels, point) < 120
+        ), "WideCircleのガイドが内周を越えてArrow先端へ延長された"
+
+
+@pytest.mark.parametrize(
+    "preset",
+    (
+        "WideLine",
+        "WideCrossLine",
+        "WideCrossLineSwapped",
+        "Circle",
+        "CircleSwapped",
+    ),
+)
+@pytest.mark.parametrize("part_shape", (0, 1))
+@pytest.mark.parametrize("template", (False, True))
+def test_guide_line_connects_planar_arrow_tips(
+    maya_cmds, new_scene, tmp_path, preset, part_shape, template
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeWideWidth=0.2,
+        shapePart=True,
+        shapePartShape=part_shape,
+        shapePartSize=1.4,
+        shapePartLengthScale=1.7,
+        shapePartWidthScale=1.2,
+        shapePartOffset=0.35,
+        shapeGuideLineTemplate=template,
+    ) as (_, shape, camera, camera_shape, panel):
+        swapped = preset.endswith("Swapped")
+        maya_cmds.setAttr(
+            f"{camera}.translate", *((4, 0, 0) if swapped else (0, 4, 0))
+        )
+        maya_cmds.setAttr(
+            f"{camera}.rotate", *((0, 90, 0) if swapped else (-90, 0, 0))
+        )
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3)
+        directions = ((1, 0, 0), (-1, 0, 0))
+        if preset != "WideLine":
+            directions += ((0, 0, 1), (0, 0, -1))
+
+        def point(direction, distance):
+            x, y, z = (component * distance for component in direction)
+            return (y, x, -z) if swapped else (x, y, z)
+
+        circle = preset.startswith("Circle")
+        root = (
+            0.85 if circle else 0.85 - 0.1 * math.cos(math.pi / 6) * 1.4 * 1.7
+        )
+        gap = (0.5 + root) * 0.5
+        for part_type in (0, 1):
+            maya_cmds.setAttr(f"{shape}.shapePartType", part_type)
+            active = directions if part_type == 1 else directions[:1]
+            for filled in (False, True):
+                maya_cmds.setAttr(f"{shape}.shapeFill", filled)
+                maya_cmds.setAttr(f"{shape}.shapeGuideLine", False)
+                before = _capture_view(
+                    panel, tmp_path / f"before_{part_type}_{filled}.png"
+                )
+                maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
+                after = _capture_view(
+                    panel, tmp_path / f"after_{part_type}_{filled}.png"
+                )
+                for index, direction in enumerate(active):
+                    sample = point(direction, gap)
+                    baseline = _brightness_near_world(panel, before, sample)
+                    actual = _brightness_near_world(panel, after, sample)
+                    assert actual > max(200, baseline + 60), (
+                        "矢印の付け根までガイドが接続していない",
+                        direction,
+                        actual,
+                        baseline,
+                    )
+                    tip = 0.85 + (
+                        0.125 * 1.4 * 1.7 * (1 if index == 0 else 0.5)
+                        if circle
+                        else 0
+                    )
+                    if part_shape == 0:
+                        assert (
+                            _brightness_near_world(
+                                panel, after, point(direction, tip - 0.04)
+                            )
+                            > 200
+                        ), "Arrow2Dの内部でガイドが先端の手前で切れている"
+                    assert (
+                        _brightness_near_world(
+                            panel, after, point(direction, tip + 0.08)
+                        )
+                        < 120
+                    ), "ガイドがArrowの先端を越えた"
+                if part_type == 0:
+                    assert (
+                        _brightness_near_world(
+                            panel, after, point(directions[1], gap)
+                        )
+                        < 120
+                    ), "矢印のない方向へガイドが延長された"

@@ -18,6 +18,13 @@
 
 ### Changed
 
+- `bdControllerShape` の中央ガイドを `shapeGuideLine` / `shapeGuideLineTemplate`
+  に統合し、十字付きの専用本体を整理して `shape` を41種類にした。
+  ガイドは本体表面までとし、Square系、WideLine、WideCrossLine・Circleと各Swappedの
+  Arrow先端接続、WideCircle系の内周停止、
+  Color系の正側RGB・負側通常色と、ガイドだけのtemplate表示・選択不可に対応する。
+  GuideLineの2属性をFinとOffsetLineの間へ配置し、Channel Boxを15区画にした。
+  `shapeArcAngle` の既定値を180°に変更し、ColorCubeの正側3面のFillをRGB、負側3面を通常色にした。
 - `Nodes()` の IDE 補完対象を、配布外の `bd_util_typing_config.pyi` で選択可能にした。
   IDE の `stubPath` から参照し、パッケージ更新後も利用者設定を保持する。
   同梱の `config` は標準値とテンプレートの置き場にし、標準値は `Maya2025Plus` とする。
@@ -156,12 +163,12 @@
 
 - `bdControllerShape` の既定形状を `Cube`、既定の `boundsMode` を
   `ShapeCentered` に変更した。
-- `bdControllerShape` の `3D` 系 Filled 矢印は直交する薄い三角面で描き、
-  `OctahedronArrowFinFilled` は八面体と重ならない左右の Fin 面だけを塗る。
+- `bdControllerShape` の `Arrow3D` Partは直交する薄い三角面で描き、
+  `OctahedronArrow` のFinは本体と重ならない面だけを塗る。
 - `bdControllerShape` の選択色をビューポートごとの Selection Highlighting 設定に従わせ、
   オフでは通常色と軸色を保つ。
 - `bdControllerShape` の基準軸を主軸 `+X`・補助軸 `+Y` の右手系へ変更した。
-  `Square`・`Circle`・`CircleArrow2D` の基準面と作成時の表示面は YZ とし、
+  通常の `Square`・`Circle` はXZ面、各SwappedとArc系はYZ面を基準とし、
   `shape1stAxis` / `customBounds1stAxis` の既定値を `+X` に変更した。
   形状と Custom Bounds の Axis 系 X/Y/Z は主軸／補助軸／第３軸に対応し、
   `+3rdAxis` は「主軸 × 補助軸」の正方向とする。旧計算仕様は残さない。
@@ -250,13 +257,11 @@
   実行元の `modules` パスだけを確認後に解除する。共通ルートの同梱packageは
   次回起動からまとめて無効になり、配布ファイル・scene・個人設定は維持する。
 
-- `bdControllerShape.shape` に94種類の形状を定義した。Gearを一覧の先頭、Cubeを
-  初期値とし、矢印・フィン、部分template、軸色を含む複合形状を1つのshapeで描画する。
-  `ColorSphere` は軸色の直交円だけを描き、`ColorCrossLine` と
-  `ColorSphereCrossLine` の間に配置した。両者の間へ軸色の円と通常色の
-  矢印を組み合わせた `ColorSphereArrow2D/3D` とその Filled 版を追加した。
-  純線形状を除く44種類に `*Filled` を用意し、Gear の内円は穴、
-  矢印・フィンは付属部分も面で描画する。template の本体面は選択不可にする。
+- `bdControllerShape.shape` に41種類の本体を定義した。Gearを一覧の先頭、Cubeを
+  初期値とし、塗り・11種類のPart・Fin・GuideLineを共通オプションで組み合わせる。
+  角度固定のCircle系、角度を変更できるArc系、四角断面を接合した3軸Wide本体、
+  部分template・軸色を1つのshapeで描画する。Gearの内円は穴として残し、
+  付属Part・Finにも塗りを適用する。template指定の線と面は選択不可にする。
 - 共有`bakedanuki`メニューへ起動時自動表示のチェック項目を追加。既定はONで、OFFは次回起動から
   各packageの自動登録を抑止する。設定はMayaバージョンごとのユーザー設定へ保存する。
   共通`installer.py`の再D&Dでは、Module pathが登録済みでも確認後にONへ戻せる。
