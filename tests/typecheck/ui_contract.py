@@ -14,6 +14,9 @@ from bd_util._sample.maya.ui.bool_sample.bool_views import (
     VisibilityData,
 )
 from bd_util.maya.ui import (
+    get_existing_directory_near as get_maya_existing_directory_near,
+    get_open_file_names_near as get_maya_open_file_names_near,
+    get_save_file_name_near as get_maya_save_file_name_near,
     DockOptions,
     DockRestoreSpec,
     MayaCallbackRegistry,
@@ -31,6 +34,8 @@ from bd_util.maya.ui import (
     resolve_bool_plug,
 )
 from bd_util.ui import (
+    PathLineEdit,
+    add_path_actions,
     BoolBinding,
     BoolCheckBox,
     BoolComboBox,
@@ -40,6 +45,7 @@ from bd_util.ui import (
     BoolValue,
     BoolValueStore,
     BoolViewModel,
+    DialogAnchorTracker,
     FloatStepProfile,
     FloatStepSetting,
     FloatUnitKind,
@@ -50,7 +56,11 @@ from bd_util.ui import (
     WindowController,
     ensure_window_on_screen,
     exec_dialog_near,
+    place_dialog_near,
+    get_existing_directory_near,
+    get_open_file_names_near,
     get_save_file_name_near,
+    warning_near,
     qt,
 )
 
@@ -60,6 +70,55 @@ class SampleWindow(QtWidgets.QDialog):
 
 
 assert_type(exec_dialog_near(SampleWindow(), qt.QPoint(100, 100)), int)
+assert_type(PathLineEdit("C:/work").isReadOnly(), bool)
+assert_type(add_path_actions(qt.QMenu(), "C:/work", qt.QPoint()), None)
+with place_dialog_near(SampleWindow(), qt.QPoint(100, 100)) as placement:
+    assert_type(placement, None)
+assert_type(
+    get_maya_existing_directory_near(
+        None, "出力先", "", qt.QPoint(), initial_size=qt.QSize(1200, 650)
+    ),
+    str,
+)
+assert_type(DialogAnchorTracker(SampleWindow()).position(), qt.QPoint)
+assert_type(
+    get_maya_open_file_names_near(
+        None,
+        "追加",
+        "",
+        "JSON (*.json)",
+        qt.QPoint(),
+        initial_size=qt.QSize(1200, 650),
+    ),
+    tuple[list[str], str],
+)
+assert_type(
+    get_maya_save_file_name_near(
+        None,
+        "保存",
+        "",
+        "JSON (*.json)",
+        qt.QPoint(),
+        "json",
+        initial_size=qt.QSize(1200, 650),
+    ),
+    tuple[str, str],
+)
+assert_type(
+    DialogAnchorTracker(SampleWindow()).position(SampleWindow()), qt.QPoint
+)
+assert_type(
+    warning_near(None, "確認", "未保存です", qt.QPoint(100, 100)),
+    qt.QMessageBox.StandardButton,
+)
+assert_type(
+    get_existing_directory_near(None, "出力先", "", qt.QPoint()),
+    str,
+)
+assert_type(
+    get_open_file_names_near(None, "読込", "", "JSON (*.json)", qt.QPoint()),
+    tuple[list[str], str],
+)
 assert_type(
     get_save_file_name_near(None, "保存", "", "JSON (*.json)", qt.QPoint()),
     tuple[str, str],
