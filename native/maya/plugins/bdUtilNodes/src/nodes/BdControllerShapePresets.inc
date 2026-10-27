@@ -1,87 +1,100 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 35> kPresetNames = {
+constexpr std::array<const char*, 41> kPresetNames = {
     "Gear",
+    "GearSwapped",
     "Line",
     "WideLine",
-    "CrossLine1st2nd",
-    "WideCrossLine1st2nd",
-    "CrossLine1st3rd",
-    "WideCrossLine1st3rd",
-    "CrossLine2nd3rd",
-    "WideCrossLine2nd3rd",
-    "CrossLine3Axis",
+    "CrossLine",
+    "WideCrossLine",
     "Triangle",
     "Square",
-    "SquareCrossLine",
-    "SquareCrossLineTemplate",
     "SquareTemplate",
     "Diamond",
+    "Circle",
+    "WideCircle",
+    "CrossLineSwapped",
+    "WideCrossLineSwapped",
+    "TriangleSwapped",
+    "SquareSwapped",
+    "SquareTemplateSwapped",
+    "DiamondSwapped",
+    "CircleSwapped",
+    "WideCircleSwapped",
+    "CrossLine3Axis",
+    "WideCrossLine3Axis",
     "Cube",
     "Octahedron",
     "OctahedronArrow",
-    "Circle",
-    "WideCircleRadial",
-    "WideCircleAxial",
-    "CrossCircle",
-    "WideCrossCircleRadial",
-    "WideCrossCircleAxial",
+    "Arc",
+    "WideArcRadial",
+    "WideArcAxial",
+    "CrossArc",
+    "WideCrossArcRadial",
+    "WideCrossArcAxial",
     "Sphere",
     "Cylinder",
     "Arrow",
     "Pyramid",
     "Cone",
     "ColorCrossLine3Axis",
+    "ColorWideCrossLine3Axis",
     "ColorCube",
     "ColorCornerCube",
     "ColorSphere",
-    "ColorSphereCrossLine",
 };
 
 enum class PartEnds { Both, End };
 
 struct PresetInfo {
     short outlineIndex;
+    bool swapped = false;
     PartEnds partEnds = PartEnds::Both;
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 35> kPresetInfo = {{
+constexpr std::array<PresetInfo, 41> kPresetInfo = {{
     {0},  // Gear
+    {0, true},  // GearSwapped
     {1},  // Line
     {104},  // WideLine
-    {52},  // CrossLine1st2nd
-    {105},  // WideCrossLine1st2nd
-    {53},  // CrossLine1st3rd
-    {106},  // WideCrossLine1st3rd
-    {4},  // CrossLine2nd3rd
-    {107},  // WideCrossLine2nd3rd
-    {5},  // CrossLine3Axis
+    {53},  // CrossLine
+    {106},  // WideCrossLine
     {6},  // Triangle
     {8},  // Square
-    {108},  // SquareCrossLine
-    {109},  // SquareCrossLineTemplate
     {110},  // SquareTemplate
     {79},  // Diamond
+    {116},  // Circle
+    {117},  // WideCircle
+    {53, true},  // CrossLineSwapped
+    {106, true},  // WideCrossLineSwapped
+    {6, true},  // TriangleSwapped
+    {8, true},  // SquareSwapped
+    {110, true},  // SquareTemplateSwapped
+    {79, true},  // DiamondSwapped
+    {116, true},  // CircleSwapped
+    {117, true},  // WideCircleSwapped
+    {5},  // CrossLine3Axis
+    {118},  // WideCrossLine3Axis
     {19},  // Cube
     {24},  // Octahedron
     {25},  // OctahedronArrow
-    {27},  // Circle
-    {111},  // WideCircleRadial
-    {112},  // WideCircleAxial
-    {113},  // CrossCircle
-    {114},  // WideCrossCircleRadial
-    {115},  // WideCrossCircleAxial
+    {27},  // Arc
+    {111},  // WideArcRadial
+    {112},  // WideArcAxial
+    {113},  // CrossArc
+    {114},  // WideCrossArcRadial
+    {115},  // WideCrossArcAxial
     {33},  // Sphere
     {36},  // Cylinder
     {39},  // Arrow
     {41},  // Pyramid
     {43},  // Cone
     {45},  // ColorCrossLine3Axis
+    {119},  // ColorWideCrossLine3Axis
     {50},  // ColorCube
     {51},  // ColorCornerCube
     {46},  // ColorSphere
-    {47},  // ColorSphereCrossLine
 }};
 
 constexpr short cubePresetIndex() {
@@ -98,7 +111,22 @@ short outlinePresetIndex(short shape) {
         ? kPresetInfo[shape].outlineIndex : 0;
 }
 
-bool isCircleOutline(short outline) {
+bool isSwappedPreset(short shape) {
+    return shape >= 0 && shape < static_cast<short>(kPresetInfo.size()) && kPresetInfo[shape].swapped;
+}
+
+// 旧YZ平面の本体と付属形状は、接合を終えてから主軸を含むXZ平面へ揃える。
+bool hasLegacyPlanarOrientation(short outline) {
+    return outline == 0 || outline == 6 || outline == 8 || outline == 79 ||
+        (outline >= 108 && outline <= 110) || outline == 116 || outline == 117;
+}
+
+MPoint presetOrientedPoint(const MPoint& point, short shape) {
+    const bool exchange = hasLegacyPlanarOrientation(outlinePresetIndex(shape)) != isSwappedPreset(shape);
+    return exchange ? MPoint(point.y, point.x, -point.z) : point;
+}
+
+bool isArcOutline(short outline) {
     return outline == 27 || (outline >= 111 && outline <= 115);
 }
 

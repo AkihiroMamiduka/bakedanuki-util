@@ -100,6 +100,7 @@ from maya import utils
 
 repo_root = Path(r"D:\develop\bakedanuki_dev\bakedanuki-util")
 sys.path.insert(0, str(repo_root / ".test"))
+sys.path.insert(0, str(repo_root / "bakedanuki/bakedanuki-util/python"))
 
 
 def run_controller_viewport_tests():
@@ -111,6 +112,8 @@ def run_controller_viewport_tests():
             "-p",
             "no:cacheprovider",
             "-q",
+            "--confcutdir",
+            str(repo_root / "tests/maya"),
             str(repo_root / "tests/maya/ui/test_controller_shape_viewport.py"),
             "--basetemp",
             str(output_dir / "pytest"),
@@ -124,12 +127,20 @@ def run_controller_viewport_tests():
 utils.executeDeferred(run_controller_viewport_tests)
 ```
 
+`--confcutdir` は `tests/maya/conftest.py` のfixtureを使い、
+上位の `tests/conftest.py` によるstandalone初期化をGUIから呼ばないための指定です。
+GuideLineの変更だけを切り分ける場合は、`pytest.main()` の引数へ
+`"-k", "guide_line or arrow_tip_connection"` を追加できます。
+対象を絞った確認後は、変更範囲に応じた回帰と統一検証も行います。
+
 既定では実行中のMayaバージョンに対応した配布先 `.mll` をロードします。
 別のbinaryを検証する場合は、Mayaを起動する前に `BD_UTIL_NODES_PLUGIN_PATH` へその絶対pathを指定します。
 Maya 2025 / 2026 / 2027の各GUIで同じ手順を使い、pytestの終了コードとJUnit XMLを確認します。
 テストのPNGは `output_dir / "pytest"` 以下に残ります。
 検証後は専用Mayaを終了してからstaged binaryを更新してください。
 テスト用Mayaが残っている場合もWindowsのfile lockでstageに失敗します。
+Maya自身のplug-in読み込み確認が表示された場合は、利用者が許可してから実行を再開します。
+確認ダイアログで停止している間は、テストの完了として扱いません。
 
 画像比較を変更する際は、既存の `_capture_view()` を基準にします。
 
@@ -142,6 +153,9 @@ Maya 2025 / 2026 / 2027の各GUIで同じ手順を使い、pytestの終了コー
   線が見えることを先に確認し、空の画像同士の一致を成功と扱わない。
 - カメラ・ズーム・背景・アンチエイリアス・表示種別を固定する。
   矢印内部の線を判定するときは、Arrow3Dの別の面や辺が同じpixelへ投影されない視点を使う。
+- GuideLineの色・接続を測る点は、本体の辺、Partの中心線、ColorCornerCubeの小四角に
+  隠れない位置を選ぶ。GuideLineのON/OFFを比較し、既存の線や面を新しいガイドと誤認しない。
+  Templateの選択確認では、ガイドだけをクリックした場合と本体の通常線をクリックした場合を分ける。
 
 ## DG, Serial, And Parallel
 

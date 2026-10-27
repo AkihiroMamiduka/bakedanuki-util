@@ -72,7 +72,7 @@ public:
 
     static MObject shape;
     static MObject shapeWideWidth;
-    static MObject shapeCircleAngle;
+    static MObject shapeArcAngle;
     static MObject shapePart;
     static MObject shapePartShape;
     static MObject shapePartType;
@@ -81,6 +81,8 @@ public:
     static MObject shapeFinHeight;
     static MObject shapeFinSize;
     static MObject shapeFinWidthScale;
+    static MObject shapeGuideLine;
+    static MObject shapeGuideLineTemplate;
     static MObject shape1stAxis;
     static MObject shape2ndAxis;
     static MObject shapeAnimationTransformMatrix;

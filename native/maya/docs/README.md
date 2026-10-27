@@ -68,8 +68,9 @@
 27. [bdDbl Multiplication Benchmark](bd-dbl-multiply-benchmark.md)
    - 固定2入力チェーンと配列入力の性能境界、dirty位置別の実測
 28. [Controller Shape](controller-shape.md)
-   - 今回の開発範囲、基準形状の座標規約、Partの円周変形・接合と実装経路、
-     軸・長さ・アニメーション行列による変形、保留事項、数値・GUIの検証手順
+   - 現在の実装範囲、基準形状の座標規約、Partの円周変形・接合と実装経路、
+     GuideLine・Arrow先端接続の保守規約、軸・長さ・アニメーション行列による変形、
+     保留事項、数値・GUIの検証手順
 
 ## Reference Implementation
 
