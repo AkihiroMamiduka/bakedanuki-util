@@ -54,7 +54,7 @@ const MString BdControllerShapeNode::drawRegistrantId(
 
 MObject BdControllerShapeNode::shape;
 MObject BdControllerShapeNode::shapeWideWidth;
-MObject BdControllerShapeNode::shapeCircleAngle;
+MObject BdControllerShapeNode::shapeArcAngle;
 MObject BdControllerShapeNode::shapePart;
 MObject BdControllerShapeNode::shapePartShape;
 MObject BdControllerShapeNode::shapePartType;
@@ -202,6 +202,7 @@ struct ShapeSettings {
 };
 
 void normalizeColorSettings(ShapeSettings& settings);
+void normalizeShapeSettings(ShapeSettings& settings);
 
 struct ShapeAttributes {
     MObject shape;
@@ -254,7 +255,7 @@ ShapeAttributes shapeAttributes() {
         BdControllerShapeNode::shapeAxisScale,
         BdControllerShapeNode::shapeSize,
         BdControllerShapeNode::shapePartOffset,
-        BdControllerShapeNode::shapeCircleAngle,
+        BdControllerShapeNode::shapeArcAngle,
         BdControllerShapeNode::shapeFinHeight,
         BdControllerShapeNode::shapePartLengthScale,
         BdControllerShapeNode::shapePartWidthScale,
@@ -621,7 +622,7 @@ bool readSettings(
             MPlug(node, attributes.offsetLineTemplate).asBool(&status);
     }
     if (!status) return false;
-    normalizeColorSettings(settings);
+    normalizeShapeSettings(settings);
     return true;
 }
 
@@ -700,7 +701,7 @@ void appendPresetComponent(
 
 void normalizeColorSettings(ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
-    if (!((outline >= 45 && outline <= 51) || (outline >= 74 && outline <= 78))) return;
+    if (!((outline >= 45 && outline <= 51) || (outline >= 74 && outline <= 78) || outline == 119)) return;
 
     settings.firstAxis = 0;
     settings.secondAxis = 2;
@@ -714,6 +715,14 @@ void normalizeColorSettings(ShapeSettings& settings) {
     settings.axisScale = MVector(
         std::abs(settings.axisScale.x), std::abs(settings.axisScale.y), std::abs(settings.axisScale.z)
     );
+}
+
+void normalizeShapeSettings(ShapeSettings& settings) {
+    normalizeColorSettings(settings);
+    if (!isArcOutline(outlinePresetIndex(settings.shape))) {
+        settings.circleAngle = 2.0 * kPi;
+        settings.partOffsetAngle = kPi / 2.0;
+    }
 }
 
 void appendPresetComponent(
@@ -1521,7 +1530,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
 ) {
     const ShapeTransform transform(settings);
     auto result = std::make_shared<BdControllerShapeNode::Geometry>();
-    const bool withFin = settings.fin && !isCircleOutline(outlinePresetIndex(settings.shape)) &&
+    const bool withFin = settings.fin && !isArcOutline(outlinePresetIndex(settings.shape)) &&
         partFinHeight(settings) != 0.0;
     const bool referenceGeometry = withFin || optionPartSupported(outlinePresetIndex(settings.shape)) ||
         hasLegacyPlanarOrientation(outlinePresetIndex(settings.shape)) || isSwappedPreset(settings.shape);
@@ -1581,7 +1590,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const bool arrowLines = settings.part && settings.partShape <= 1 &&
         (outline == 1 || outline == 4 || outline == 5 || outline == 45 ||
          outline == 52 || outline == 53 || outline == 27 || outline == 113 || outline == 108 || outline == 109);
-    if (settings.fill && (arrowLines || outline == 36)) {
+    if (settings.fill && (arrowLines || outline == 36 || (settings.part && outline == 116))) {
         ShapeSettings wireframe = settings;
         wireframe.fill = false;
         result->wireframeGeometry = makeBaseGeometry(wireframe);
@@ -1711,7 +1720,7 @@ bool isShapeAttribute(const MObject& attribute) {
     for (const MObject& shapeAttribute : {
              BdControllerShapeNode::shape,
              BdControllerShapeNode::shapeWideWidth,
-             BdControllerShapeNode::shapeCircleAngle,
+             BdControllerShapeNode::shapeArcAngle,
              BdControllerShapeNode::shapePart,
              BdControllerShapeNode::shapePartShape,
              BdControllerShapeNode::shapePartType,
@@ -2883,8 +2892,8 @@ MStatus BdControllerShapeNode::initialize() {
     status = bd_util_nodes::configureInputUnitAttribute(unitAttributeFn);
     if (!status) return status;
 
-    shapeCircleAngle = unitAttributeFn.create(
-        "shapeCircleAngle", "sca", MAngle(360.0, MAngle::kDegrees), &status
+    shapeArcAngle = unitAttributeFn.create(
+        "shapeArcAngle", "saa", MAngle(360.0, MAngle::kDegrees), &status
     );
     if (!status) return status;
     status = bd_util_nodes::configureInputUnitAttribute(unitAttributeFn);
@@ -3343,7 +3352,7 @@ MStatus BdControllerShapeNode::initialize() {
              channelBoxSeparator4,
              shapeWideWidth,
              channelBoxSeparator5,
-             shapeCircleAngle,
+             shapeArcAngle,
              channelBoxSeparator6,
              shapePart,
              shapePartShape,
@@ -3459,7 +3468,7 @@ MStatus BdControllerShapeNode::initialize() {
              channelBoxSeparator4,
              shapeWideWidth,
              channelBoxSeparator5,
-             shapeCircleAngle,
+             shapeArcAngle,
              channelBoxSeparator6,
              shapePart,
              shapePartShape,

@@ -1,6 +1,6 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 40> kPresetNames = {
+constexpr std::array<const char*, 46> kPresetNames = {
     "Gear",
     "GearSwapped",
     "Line",
@@ -13,6 +13,8 @@ constexpr std::array<const char*, 40> kPresetNames = {
     "SquareCrossLineTemplate",
     "SquareTemplate",
     "Diamond",
+    "Circle",
+    "WideCircle",
     "CrossLineSwapped",
     "WideCrossLineSwapped",
     "TriangleSwapped",
@@ -21,22 +23,26 @@ constexpr std::array<const char*, 40> kPresetNames = {
     "SquareCrossLineTemplateSwapped",
     "SquareTemplateSwapped",
     "DiamondSwapped",
+    "CircleSwapped",
+    "WideCircleSwapped",
     "CrossLine3Axis",
+    "WideCrossLine3Axis",
     "Cube",
     "Octahedron",
     "OctahedronArrow",
-    "Circle",
-    "WideCircleRadial",
-    "WideCircleAxial",
-    "CrossCircle",
-    "WideCrossCircleRadial",
-    "WideCrossCircleAxial",
+    "Arc",
+    "WideArcRadial",
+    "WideArcAxial",
+    "CrossArc",
+    "WideCrossArcRadial",
+    "WideCrossArcAxial",
     "Sphere",
     "Cylinder",
     "Arrow",
     "Pyramid",
     "Cone",
     "ColorCrossLine3Axis",
+    "ColorWideCrossLine3Axis",
     "ColorCube",
     "ColorCornerCube",
     "ColorSphere",
@@ -52,7 +58,7 @@ struct PresetInfo {
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 40> kPresetInfo = {{
+constexpr std::array<PresetInfo, 46> kPresetInfo = {{
     {0},  // Gear
     {0, true},  // GearSwapped
     {1},  // Line
@@ -65,6 +71,8 @@ constexpr std::array<PresetInfo, 40> kPresetInfo = {{
     {109},  // SquareCrossLineTemplate
     {110},  // SquareTemplate
     {79},  // Diamond
+    {116},  // Circle
+    {117},  // WideCircle
     {53, true},  // CrossLineSwapped
     {106, true},  // WideCrossLineSwapped
     {6, true},  // TriangleSwapped
@@ -73,22 +81,26 @@ constexpr std::array<PresetInfo, 40> kPresetInfo = {{
     {109, true},  // SquareCrossLineTemplateSwapped
     {110, true},  // SquareTemplateSwapped
     {79, true},  // DiamondSwapped
+    {116, true},  // CircleSwapped
+    {117, true},  // WideCircleSwapped
     {5},  // CrossLine3Axis
+    {118},  // WideCrossLine3Axis
     {19},  // Cube
     {24},  // Octahedron
     {25},  // OctahedronArrow
-    {27},  // Circle
-    {111},  // WideCircleRadial
-    {112},  // WideCircleAxial
-    {113},  // CrossCircle
-    {114},  // WideCrossCircleRadial
-    {115},  // WideCrossCircleAxial
+    {27},  // Arc
+    {111},  // WideArcRadial
+    {112},  // WideArcAxial
+    {113},  // CrossArc
+    {114},  // WideCrossArcRadial
+    {115},  // WideCrossArcAxial
     {33},  // Sphere
     {36},  // Cylinder
     {39},  // Arrow
     {41},  // Pyramid
     {43},  // Cone
     {45},  // ColorCrossLine3Axis
+    {119},  // ColorWideCrossLine3Axis
     {50},  // ColorCube
     {51},  // ColorCornerCube
     {46},  // ColorSphere
@@ -116,7 +128,7 @@ bool isSwappedPreset(short shape) {
 // 旧YZ平面の本体と付属形状は、接合を終えてから主軸を含むXZ平面へ揃える。
 bool hasLegacyPlanarOrientation(short outline) {
     return outline == 0 || outline == 6 || outline == 8 || outline == 79 ||
-        (outline >= 108 && outline <= 110);
+        (outline >= 108 && outline <= 110) || outline == 116 || outline == 117;
 }
 
 MPoint presetOrientedPoint(const MPoint& point, short shape) {
@@ -124,7 +136,7 @@ MPoint presetOrientedPoint(const MPoint& point, short shape) {
     return exchange ? MPoint(point.y, point.x, -point.z) : point;
 }
 
-bool isCircleOutline(short outline) {
+bool isArcOutline(short outline) {
     return outline == 27 || (outline >= 111 && outline <= 115);
 }
 

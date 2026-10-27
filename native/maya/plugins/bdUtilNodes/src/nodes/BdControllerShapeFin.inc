@@ -3,7 +3,7 @@
 
 void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
     const short outline = outlinePresetIndex(settings.shape);
-    if (isCircleOutline(outline)) return;
+    if (isArcOutline(outline)) return;
     const bool tapered = settings.finType == 1;
     PartBuilder builder(settings.fill);
     PartPlane plane{MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0)};
@@ -31,19 +31,31 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
             (outline >= 92 && outline <= 95);
         const bool line = outline == 1 || outline == 5 || outline == 45 || outline == 52 || outline == 53 ||
             (outline >= 54 && outline <= 60) || (outline >= 62 && outline <= 67) ||
-            (outline >= 69 && outline <= 78) || (outline >= 80 && outline <= 107) || planarCross;
+            (outline >= 69 && outline <= 78) || (outline >= 80 && outline <= 107) ||
+            outline == 118 || outline == 119 || planarCross;
         const bool semicircle = outline == 30 || outline == 31 || outline == 32 || outline == 61 || outline == 68;
         const bool planar = outline == 0 || (outline >= 6 && outline <= 18) ||
-            (outline >= 27 && outline <= 32) || outline == 79 || (outline >= 108 && outline <= 111) || semicircle || planarCross;
+            (outline >= 27 && outline <= 32) || outline == 79 || (outline >= 108 && outline <= 111) ||
+            isPlanarCircleOutline(outline) || semicircle || planarCross;
         if (planar) plane = {MPoint::origin, MVector(0, 1, 0), MVector(1, 0, 0)};
         if (crossXY) plane = {MPoint::origin, MVector(1, 0, 0), MVector(0, 0, 1)};
 
         const bool pointed = outline == 41 || outline == 43;
         if (planar) {
             double low = -0.5;
+            double high = 0.5;
+            if (outline == 117) {
+                low -= settings.wideWidth * 0.5;
+                high += settings.wideWidth * 0.5;
+            }
             if (outline == 6 || outline == 7) low = -0.37;
             if (semicircle) low = 0.0;
-            section = {MPoint(low, 0, 0), MPoint(0.5, 0, 0)};
+            section = {MPoint(low, 0, 0), MPoint(high, 0, 0)};
+        } else if (outline == 118 || outline == 119) {
+            const double halfWidth = settings.wideWidth * 0.5;
+            const double extent = std::max(0.5, halfWidth);
+            // 高さは中心軸から測り、本体内に入る付け根は後から切り取る。
+            section = {MPoint(-extent, 0, 0), MPoint(extent, 0, 0)};
         } else if (line) {
             section = {MPoint(-0.5, 0, 0), MPoint(0.5, 0, 0)};
         } else if (pointed) {
@@ -96,6 +108,7 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
         for (const auto& point : part.triangles) points.append(plane.point(point));
         mapped.geometry.fillParts.push_back({points, StrokeStyle::Normal});
     }
+    if (outline == 118 || outline == 119) trimWideCross3AxisFin(settings, mapped.geometry);
     trimFinEndParts(settings, mapped);
     for (auto& stroke : mapped.geometry.strokes) {
         geometry.strokes.push_back(std::move(stroke));

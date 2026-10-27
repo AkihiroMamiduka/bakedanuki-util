@@ -72,7 +72,7 @@ public:
 
     static MObject shape;
     static MObject shapeWideWidth;
-    static MObject shapeCircleAngle;
+    static MObject shapeArcAngle;
     static MObject shapePart;
     static MObject shapePartShape;
     static MObject shapePartType;

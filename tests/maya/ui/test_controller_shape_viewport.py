@@ -12,13 +12,20 @@ import pytest
 
 pytestmark = pytest.mark.maya
 
-CIRCLE_SHAPES = (
+ARC_SHAPES = (
+    "Arc",
+    "WideArcRadial",
+    "WideArcAxial",
+    "CrossArc",
+    "WideCrossArcRadial",
+    "WideCrossArcAxial",
+)
+
+PLANAR_CIRCLE_SHAPES = (
     "Circle",
-    "WideCircleRadial",
-    "WideCircleAxial",
-    "CrossCircle",
-    "WideCrossCircleRadial",
-    "WideCrossCircleAxial",
+    "WideCircle",
+    "CircleSwapped",
+    "WideCircleSwapped",
 )
 
 
@@ -129,6 +136,8 @@ def _drawing_view(cmds, preset, **options):
         "ColorCube",
         "ColorCornerCube",
         "ColorSphere",
+        "WideCrossLine3Axis",
+        "ColorWideCrossLine3Axis",
     ),
 )
 @pytest.mark.parametrize("mirrored", (False, True))
@@ -239,7 +248,11 @@ def test_thin_fill_remains_visible_from_both_sides(
         ("CrossLineSwapped", 1),
         ("CrossLine3Axis", 0),
         ("ColorCrossLine3Axis", 1),
+        ("Arc", 1),
         ("Circle", 1),
+        ("WideCircle", 0),
+        ("WideCrossLine3Axis", 0),
+        ("ColorWideCrossLine3Axis", 1),
         ("SquareCrossLine", 0),
         ("SquareCrossLineTemplate", 1),
         ("Line", 10),
@@ -316,7 +329,7 @@ def _brightness_near_world(panel, pixels, point):
 
 
 @pytest.mark.parametrize(
-    "preset", ("Line", "Circle", "SquareCrossLine", "SquareCrossLineTemplate")
+    "preset", ("Line", "Arc", "SquareCrossLine", "SquareCrossLineTemplate")
 )
 @pytest.mark.parametrize("part_shape", (0, 1))
 @pytest.mark.parametrize("draw_on_top", (False, True))
@@ -332,7 +345,7 @@ def test_arrow_tip_connection_matches_fill_and_guide_style(
         shapePart=True,
         shapePartShape=part_shape,
         shapePartOffset=0.05,
-        shapeCircleAngle=240,
+        shapeArcAngle=240,
         shapeDrawOnTop=draw_on_top,
     ) as (_, shape, camera, _, panel):
         maya_cmds.setAttr(f"{camera}.translate", 3, 2.5, 4)
@@ -343,7 +356,7 @@ def test_arrow_tip_connection_matches_fill_and_guide_style(
         maya_cmds.delete(constraint, target)
         if preset.startswith("SquareCrossLine"):
             point = (0.645, 0, 0)
-        elif preset == "Circle":
+        elif preset == "Arc":
             angle = -math.pi / 6 + 0.06
             point = (0, 0.5 * math.sin(angle), 0.5 * math.cos(angle))
         else:
@@ -417,6 +430,8 @@ def test_cone_keeps_side_lines_and_cylinder_hides_them_with_fill(
         "Diamond",
         "CrossLine",
         "WideCrossLine",
+        "Circle",
+        "WideCircle",
     ),
 )
 @pytest.mark.parametrize("filled", (False, True))
@@ -497,6 +512,7 @@ def test_arrow3d_raises_only_on_positive_side_and_draws_shoulder_edge(
         ("Cube", True, {}),
         ("ColorCornerCube", True, {}),
         ("ColorCrossLine3Axis", False, {}),
+        ("ColorWideCrossLine3Axis", True, {}),
         ("ColorSphere", True, {}),
         pytest.param(
             "Line",
@@ -516,16 +532,16 @@ def test_arrow3d_raises_only_on_positive_side_and_draws_shoulder_edge(
             id="SquareTemplateArrow3DAtEnds",
         ),
         pytest.param(
-            "WideCircleRadial",
+            "WideArcRadial",
             True,
             {
-                "shapeCircleAngle": 240,
+                "shapeArcAngle": 240,
                 "shapePart": True,
                 "shapePartShape": 0,
                 "shapePartType": 1,
                 "shapePartOffset": 0.2,
             },
-            id="WideCircleRadialArrow2DAtEnds",
+            id="WideArcRadialArrow2DAtEnds",
         ),
         pytest.param(
             "ColorCrossLine3Axis",
@@ -647,7 +663,7 @@ def test_highlighting_off_matches_dormant_display(
         maya_cmds.displayRGBColor("background", *previous_background)
 
 
-@pytest.mark.parametrize("preset", CIRCLE_SHAPES)
+@pytest.mark.parametrize("preset", ARC_SHAPES)
 @pytest.mark.parametrize("filled", (False, True))
 def test_circle_fin_has_no_visible_geometry(
     maya_cmds, new_scene, tmp_path, preset, filled
@@ -658,7 +674,7 @@ def test_circle_fin_has_no_visible_geometry(
         maya_cmds,
         preset,
         shapeFill=filled,
-        shapeCircleAngle=240,
+        shapeArcAngle=240,
         shapePart=True,
         shapePartShape=1,
         shapePartType=1,
@@ -677,7 +693,7 @@ def test_circle_fin_has_no_visible_geometry(
             )
 
 
-@pytest.mark.parametrize("preset", CIRCLE_SHAPES[3:])
+@pytest.mark.parametrize("preset", ARC_SHAPES[3:])
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize("placement", (0, 1, 2))
 def test_cross_circle_part_sites_and_planes(
@@ -689,7 +705,7 @@ def test_cross_circle_part_sites_and_planes(
         maya_cmds,
         preset,
         shapeFill=filled,
-        shapeCircleAngle=180,
+        shapeArcAngle=180,
         shapePart=True,
         shapePartShape=0,
         shapePartType=placement,
@@ -731,7 +747,7 @@ def test_cross_circle_part_sites_and_planes(
 
 @pytest.mark.parametrize(
     "preset",
-    ("Circle", "WideCircleRadial", "CrossCircle", "WideCrossCircleRadial"),
+    ("Arc", "WideArcRadial", "CrossArc", "WideCrossArcRadial"),
 )
 @pytest.mark.parametrize("filled", (False, True))
 def test_radial_circle_long_arrow_follows_the_arc_and_keeps_its_tip(
@@ -743,7 +759,7 @@ def test_radial_circle_long_arrow_follows_the_arc_and_keeps_its_tip(
     with _drawing_view(
         maya_cmds,
         preset,
-        shapeCircleAngle=180,
+        shapeArcAngle=180,
         shapePart=True,
         shapePartShape=0,
         shapePartLengthScale=6.7,
@@ -786,9 +802,7 @@ def test_radial_circle_long_arrow_follows_the_arc_and_keeps_its_tip(
                 ), "円周変形で矢印先端が円弧端点から移動している"
 
 
-@pytest.mark.parametrize(
-    "preset", ("WideCircleRadial", "WideCrossCircleRadial")
-)
+@pytest.mark.parametrize("preset", ("WideArcRadial", "WideCrossArcRadial"))
 @pytest.mark.parametrize("filled", (False, True))
 def test_radial_circle_wrapped_arrow_removes_internal_band_rims(
     maya_cmds, new_scene, tmp_path, preset, filled
@@ -799,7 +813,7 @@ def test_radial_circle_wrapped_arrow_removes_internal_band_rims(
     with _drawing_view(
         maya_cmds,
         preset,
-        shapeCircleAngle=180,
+        shapeArcAngle=180,
         shapeWideWidth=0.05,
         shapePart=True,
         shapePartShape=0,
@@ -852,7 +866,7 @@ def test_radial_circle_wrapped_arrow_removes_internal_band_rims(
             ), "帯の輪郭を除いた位置に、曲がったPartの輪郭がない"
 
 
-@pytest.mark.parametrize("preset", ("Circle", "CrossCircle"))
+@pytest.mark.parametrize("preset", ("Arc", "CrossArc"))
 def test_radial_circle_wrapping_preserves_sector_fill_without_overlap(
     maya_cmds, new_scene, tmp_path, preset
 ):
@@ -861,7 +875,7 @@ def test_radial_circle_wrapping_preserves_sector_fill_without_overlap(
     with _drawing_view(
         maya_cmds,
         preset,
-        shapeCircleAngle=180,
+        shapeArcAngle=180,
         shapePart=True,
         shapePartShape=0,
         shapePartType=1,
@@ -891,8 +905,8 @@ def test_radial_circle_wide_marker_does_not_fold_through_center(
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
     with _drawing_view(
         maya_cmds,
-        "WideCircleRadial",
-        shapeCircleAngle=180,
+        "WideArcRadial",
+        shapeArcAngle=180,
         shapePart=True,
         shapePartShape=3,
         shapePartLengthScale=6.7,
@@ -914,8 +928,8 @@ def test_radial_circle_arrow3d_crest_follows_curve_and_plane_normal(
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
     with _drawing_view(
         maya_cmds,
-        "WideCircleRadial",
-        shapeCircleAngle=180,
+        "WideArcRadial",
+        shapeArcAngle=180,
         shapePart=True,
         shapePartShape=1,
         shapePartLengthScale=6.7,
@@ -940,8 +954,8 @@ def test_radial_circle_multiple_turns_have_one_transparent_fill(
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
     with _drawing_view(
         maya_cmds,
-        "WideCircleRadial",
-        shapeCircleAngle=180,
+        "WideArcRadial",
+        shapeArcAngle=180,
         shapePart=True,
         shapePartShape=3,
         shapePartType=1,
@@ -957,9 +971,9 @@ def test_radial_circle_multiple_turns_have_one_transparent_fill(
         names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
             0
         ].split(":")
-        maya_cmds.setAttr(f"{shape}.shape", names.index("Circle"))
+        maya_cmds.setAttr(f"{shape}.shape", names.index("Arc"))
         maya_cmds.setAttr(f"{shape}.shapePart", False)
-        maya_cmds.setAttr(f"{shape}.shapeCircleAngle", 360)
+        maya_cmds.setAttr(f"{shape}.shapeArcAngle", 360)
         maya_cmds.setAttr(f"{shape}.shapeRootSize", 5)
         reference = _capture_view(panel, tmp_path / "single_disk.png")
         for point in ((0, 0.2, 0.2), (0, -1, 1), (0, 1.5, 0)):
@@ -980,9 +994,9 @@ def test_cross_circle_axial_join_removes_internal_rims_and_keeps_outer_arcs(
 
     with _drawing_view(
         maya_cmds,
-        "WideCrossCircleAxial",
+        "WideCrossArcAxial",
         shapeWideWidth=0.3,
-        shapeCircleAngle=angle,
+        shapeArcAngle=angle,
         shapeFill=filled,
         shapeFillTransparency=0.8,
     ) as (_, _, camera, camera_shape, panel):
@@ -1025,9 +1039,9 @@ def test_cross_circle_axial_join_has_one_transparent_top_face(
 
     with _drawing_view(
         maya_cmds,
-        "WideCrossCircleAxial",
+        "WideCrossArcAxial",
         shapeWideWidth=0.3,
-        shapeCircleAngle=180,
+        shapeArcAngle=180,
         shapeFill=True,
         shapeLineTransparency=1,
         shapeFillTransparency=0.5,
@@ -1063,9 +1077,9 @@ def test_cross_circle_axial_apex_follows_the_joined_top_face(
 
     with _drawing_view(
         maya_cmds,
-        "WideCrossCircleAxial",
+        "WideCrossArcAxial",
         shapeWideWidth=0.6,
-        shapeCircleAngle=180,
+        shapeArcAngle=180,
         shapePart=True,
         shapePartType=2,
         shapePartShape=3,
@@ -1100,9 +1114,9 @@ def test_cross_circle_axial_join_preserves_wrapped_arrow3d_crest(
 
     with _drawing_view(
         maya_cmds,
-        "WideCrossCircleAxial",
+        "WideCrossArcAxial",
         shapeWideWidth=0.3,
-        shapeCircleAngle=90,
+        shapeArcAngle=90,
         shapePart=True,
         shapePartType=0,
         shapePartShape=1,
@@ -1146,7 +1160,7 @@ def test_axial_circle_thin_fill_is_visible_from_outside_and_inside(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
+        "WideArcAxial",
         shapeWideWidth=0.4,
         shapeFill=True,
         shapeLineTransparency=1,
@@ -1171,7 +1185,7 @@ def test_axial_circle_draws_two_rims_without_a_full_circle_seam(
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
 
-    with _drawing_view(maya_cmds, "WideCircleAxial", shapeWideWidth=0.3) as (
+    with _drawing_view(maya_cmds, "WideArcAxial", shapeWideWidth=0.3) as (
         _,
         _,
         _,
@@ -1200,8 +1214,8 @@ def test_axial_circle_arrow3d_raises_radially_outward_at_both_ends(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
-        shapeCircleAngle=180,
+        "WideArcAxial",
+        shapeArcAngle=180,
         shapeFill=True,
         shapePart=True,
         shapePartShape=1,
@@ -1245,8 +1259,8 @@ def test_axial_circle_wrapped_part_ignores_distance_offset(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
-        shapeCircleAngle=180,
+        "WideArcAxial",
+        shapeArcAngle=180,
         shapeWideWidth=0.1,
         shapePart=True,
         shapePartShape=part,
@@ -1287,8 +1301,8 @@ def test_axial_circle_wrapped_part_follows_the_circle(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
-        shapeCircleAngle=180,
+        "WideArcAxial",
+        shapeArcAngle=180,
         shapePart=True,
         shapePartShape=part,
         shapePartType=1,
@@ -1324,8 +1338,8 @@ def test_axial_circle_planar_part_removes_internal_rims(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
-        shapeCircleAngle=180,
+        "WideArcAxial",
+        shapeArcAngle=180,
         shapePart=True,
         shapePartShape=part,
         shapePartType=1,
@@ -1347,8 +1361,8 @@ def test_axial_circle_planar_part_has_no_duplicate_transparent_fill(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
-        shapeCircleAngle=180,
+        "WideArcAxial",
+        shapeArcAngle=180,
         shapePart=True,
         shapePartShape=part,
         shapePartOffset=offset,
@@ -1377,8 +1391,8 @@ def test_axial_circle_large_part_removes_the_tangent_step(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
-        shapeCircleAngle=180,
+        "WideArcAxial",
+        shapeArcAngle=180,
         shapeWideWidth=0.1,
         shapePart=True,
         shapePartShape=part,
@@ -1413,8 +1427,8 @@ def test_axial_circle_large_solid_part_removes_rims_inside_the_volume(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
-        shapeCircleAngle=180,
+        "WideArcAxial",
+        shapeArcAngle=180,
         shapeWideWidth=0.1,
         shapePart=True,
         shapePartShape=part,
@@ -1448,8 +1462,8 @@ def test_axial_circle_pointed_solid_replaces_the_arc_near_its_tip(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
-        shapeCircleAngle=360,
+        "WideArcAxial",
+        shapeArcAngle=360,
         shapeWideWidth=0.1,
         shapePart=True,
         shapePartShape=part,
@@ -1487,7 +1501,7 @@ def test_axial_circle_planar_apex_keeps_the_original_circle(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
+        "WideArcAxial",
         shapeWideWidth=width,
         shapePart=True,
         shapePartShape=part,
@@ -1521,7 +1535,7 @@ def test_axial_circle_long_wrapped_part_has_no_duplicate_periodic_fill(
 
     with _drawing_view(
         maya_cmds,
-        "WideCircleAxial",
+        "WideArcAxial",
         shapePart=True,
         shapePartShape=3,
         shapePartType=int(all_ends),
@@ -1546,3 +1560,358 @@ def test_axial_circle_long_wrapped_part_has_no_duplicate_periodic_fill(
                 actual,
                 expected,
             )
+
+
+@pytest.mark.parametrize("preset", PLANAR_CIRCLE_SHAPES)
+@pytest.mark.parametrize("filled", (False, True))
+def test_planar_circle_ignores_arc_angle_with_parts_and_fin(
+    maya_cmds, new_scene, tmp_path, preset, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeFill=filled,
+        shapeWideWidth=0.2,
+        shapePart=True,
+        shapePartShape=1,
+        shapePartType=1,
+        shapePartOffset=0.12,
+        shapeFin=True,
+        shapeFinHeight=0.3,
+    ) as (_, shape, camera, _, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        reference = _capture_view(panel, tmp_path / "closed_circle.png")
+        assert any(
+            reference[i : i + 4] != reference[:4]
+            for i in range(0, len(reference), 4)
+        )
+        for angle in (0, 110, 270):
+            maya_cmds.setAttr(f"{shape}.shapeArcAngle", angle)
+            assert (
+                _capture_view(panel, tmp_path / f"angle_{angle}.png")
+                == reference
+            ), "閉じたCircleの本体・Part・FinがArcの角度に影響されている"
+
+
+@pytest.mark.parametrize("swapped", (False, True))
+def test_wide_planar_circle_preserves_hole_and_zero_width_outline(
+    maya_cmds, new_scene, tmp_path, swapped
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    preset = "WideCircleSwapped" if swapped else "WideCircle"
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeWideWidth=0.2,
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0.5,
+    ) as (_, shape, camera, _, panel):
+        maya_cmds.setAttr(
+            f"{camera}.translate", *((4, 0, 0) if swapped else (0, 4, 0))
+        )
+        maya_cmds.setAttr(
+            f"{camera}.rotate", *((0, 90, 0) if swapped else (-90, 0, 0))
+        )
+        ring = _capture_view(panel, tmp_path / "ring.png")
+        assert _brightness_near_world(panel, ring, (0, 0, 0)) < 120
+        assert _brightness_near_world(panel, ring, (0, 0, 0.5)) > 120
+        maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0)
+        zero_fill = _capture_view(panel, tmp_path / "zero_fill.png")
+        assert all(
+            zero_fill[i : i + 4] == zero_fill[:4]
+            for i in range(0, len(zero_fill), 4)
+        ), "幅0のWideCircleに塗り面が残っている"
+        maya_cmds.setAttr(f"{shape}.shapeLineTransparency", 0)
+        outline = _capture_view(panel, tmp_path / "zero_outline.png")
+        assert _brightness_near_world(panel, outline, (0, 0, 0.5)) > 600
+        assert _brightness_near_world(panel, outline, (0, 0, 0)) < 120
+
+
+@pytest.mark.parametrize("preset", PLANAR_CIRCLE_SHAPES)
+def test_planar_circle_fin_adds_a_visible_normal_plane(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds, preset, shapeWideWidth=0.2, shapeFinHeight=0.3
+    ) as (_, shape, camera, _, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        baseline = _capture_view(panel, tmp_path / "without_fin.png")
+        maya_cmds.setAttr(f"{shape}.shapeFin", True)
+        with_fin = _capture_view(panel, tmp_path / "with_fin.png")
+        assert with_fin != baseline, "閉じたCircleのFinが表示されていない"
+        tip = (0.3, 0, 0) if preset.endswith("Swapped") else (0, 0.3, 0)
+        assert _brightness_near_world(panel, with_fin, tip) > 600
+        maya_cmds.setAttr(f"{shape}.shapeFinHeight", 0)
+        assert _capture_view(panel, tmp_path / "zero_fin.png") == baseline
+
+
+def _rgb_near_world(panel, pixels, point):
+    from maya.api import OpenMaya as om
+    from maya.api import OpenMayaUI as omui
+
+    view = omui.M3dView.getM3dViewFromModelPanel(panel)
+    x, y, visible = view.worldToView(om.MPoint(*point))
+    assert visible
+    width = view.portWidth()
+    return max(
+        (
+            tuple(
+                pixels[
+                    (row * width + column) * 4 : (row * width + column) * 4 + 3
+                ]
+            )
+            for row in range(y - 1, y + 2)
+            for column in range(x - 1, x + 2)
+        ),
+        key=sum,
+    )
+
+
+def test_color_wide_cross_three_axis_fill_matches_each_arm(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "ColorWideCrossLine3Axis",
+        shapeWideWidth=0.2,
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0,
+    ) as (_, _, _, _, panel):
+        pixels = _capture_view(panel, tmp_path / "axis_fill.png")
+        for axis, point in enumerate(
+            ((0.35, 0, 0.1), (0, 0.35, 0.1), (0, 0, 0.5))
+        ):
+            color = _rgb_near_world(panel, pixels, point)
+            assert color[axis] > 180, (axis, color)
+            assert all(
+                color[other] < 50 for other in range(3) if other != axis
+            ), (axis, color)
+        for point in ((-0.35, 0, 0.1), (0, -0.35, 0.1)):
+            assert min(_rgb_near_world(panel, pixels, point)) > 180
+
+
+@pytest.mark.parametrize("width", (0.2, 1, 1.4))
+def test_wide_cross_three_axis_has_one_transparent_outer_shell(
+    maya_cmds, new_scene, tmp_path, width
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "WideCrossLine3Axis",
+        shapeWideWidth=width,
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0.5,
+    ) as (_, shape, _, _, panel):
+        actual = _capture_view(panel, tmp_path / "cross_shell.png")
+        names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
+            0
+        ].split(":")
+        maya_cmds.setAttr(f"{shape}.shape", names.index("Cube"))
+        maya_cmds.setAttr(f"{shape}.shapeScale", width, width, max(1, width))
+        reference = _capture_view(panel, tmp_path / "single_face.png")
+        point = (0, 0, 0.5 * max(1, width))
+        expected = _brightness_near_world(panel, reference, point)
+        assert expected > 120
+        assert _brightness_near_world(panel, actual, point) == pytest.approx(
+            expected, abs=10
+        ), "3軸が重なる中心で内部面または重複面が塗られている"
+
+
+@pytest.mark.parametrize("part", (7, 8))
+@pytest.mark.parametrize("offset", (-0.1, 0.2))
+def test_wide_cross_three_axis_solid_part_joins_at_the_actual_surface(
+    maya_cmds, new_scene, tmp_path, part, offset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "WideCrossLine3Axis",
+        shapeWideWidth=0.2,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartSize=4,
+        shapePartOffset=offset,
+    ) as (_, shape, camera, camera_shape, panel):
+        center = 0.5 + offset
+        old_stop = center - 0.2
+        maya_cmds.setAttr(f"{camera}.translate", center - 0.1, 0, 4)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.8)
+        wire = _capture_view(panel, tmp_path / "solid_wire_join.png")
+        assert (
+            _brightness_near_world(panel, wire, (old_stop, 0.08, 0.1)) < 120
+        ), "立体Partの最内点に腕の端面の稜線が残っている"
+        maya_cmds.setAttr(f"{shape}.shapeFill", True)
+        maya_cmds.setAttr(f"{shape}.shapeLineTransparency", 1)
+        maya_cmds.setAttr(f"{shape}.shapeFillTransparency", 0)
+        filled = _capture_view(panel, tmp_path / "solid_filled_join.png")
+        assert (
+            _brightness_near_world(
+                panel, filled, (old_stop + 0.015, 0.09, 0.1)
+            )
+            > 600
+        ), "四角断面の腕と立体Partの間に隙間がある"
+
+
+@pytest.mark.parametrize(
+    "preset", ("WideCrossLine3Axis", "ColorWideCrossLine3Axis")
+)
+@pytest.mark.parametrize("fin_type", (0, 1))
+def test_wide_cross_three_axis_fin_height_starts_at_the_center_axis(
+    maya_cmds, new_scene, tmp_path, preset, fin_type
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeFin=True,
+        shapeFinType=fin_type,
+        shapeFinHeight=0.3,
+        shapeFinSize=1.4,
+    ) as (_, shape, _, _, panel):
+        along = -0.3
+        height = 0.3 * 1.4
+        if fin_type == 1:
+            height *= (0.7 - along) / 1.4
+        for width in (0.2, 0.4):
+            maya_cmds.setAttr(f"{shape}.shapeWideWidth", width)
+            pixels = _capture_view(panel, tmp_path / f"fin_{width}.png")
+            assert (
+                _brightness_near_world(panel, pixels, (along, height, 0)) > 600
+            ), "Wide本体の半幅がFinの指定高さへ加算されている"
+            assert (
+                _brightness_near_world(
+                    panel, pixels, (along, height + width / 2, 0)
+                )
+                < 120
+            ), "中心軸基準の高さより上にFinの輪郭が残っている"
+
+
+@pytest.mark.parametrize(
+    "preset", ("WideCrossLine3Axis", "ColorWideCrossLine3Axis")
+)
+@pytest.mark.parametrize("filled", (False, True))
+def test_wide_cross_three_axis_hides_only_the_concave_center_edges(
+    maya_cmds, new_scene, tmp_path, preset, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeWideWidth=0.2,
+        shapeFill=filled,
+        shapeFillTransparency=1,
+    ) as (_, _, camera, _, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        pixels = _capture_view(panel, tmp_path / "center_edges.png")
+        assert (
+            _brightness_near_world(panel, pixels, (0.1, 0.1, 0)) < 120
+        ), "3軸の中央に凹んだ接合線が残っている"
+        for point in ((0.1, 0.1, 0.35), (0.35, 0.1, 0.1)):
+            assert _brightness_near_world(panel, pixels, point) > 180, (
+                "中央の接合線と一緒に腕の外側の稜線が消えている",
+                point,
+            )
+
+
+@pytest.mark.parametrize("preset", PLANAR_CIRCLE_SHAPES)
+@pytest.mark.parametrize("part", (0, 1))
+@pytest.mark.parametrize("filled", (False, True))
+def test_planar_circle_arrow_attaches_to_the_rim_and_replaces_the_arc(
+    maya_cmds, new_scene, tmp_path, preset, part, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    swapped = preset.endswith("Swapped")
+    radius = 0.6 if preset.startswith("Wide") else 0.5
+    size = 3.0
+
+    def point(along, side, direction):
+        first, third = direction
+        x = first * along - third * side
+        z = third * along + first * side
+        return (0, x, -z) if swapped else (x, 0, z)
+
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeWideWidth=0.2,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartType=1,
+        shapePartSize=size,
+        shapePartWidthScale=1.4,
+        shapeFill=filled,
+        shapeFillTransparency=1,
+    ) as (_, shape, camera, camera_shape, panel):
+        maya_cmds.setAttr(
+            f"{camera}.translate", *((4, 0, 0) if swapped else (0, 4, 0))
+        )
+        maya_cmds.setAttr(
+            f"{camera}.rotate", *((0, 90, 0) if swapped else (-90, 0, 0))
+        )
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.4)
+        pixels = _capture_view(panel, tmp_path / "attached_arrows.png")
+        directions = ((1, 0), (-1, 0), (0, 1), (0, -1))
+        for index, direction in enumerate(directions):
+            arrow_size = 1.0 if index == 0 else 0.5
+            side = 0.072 * arrow_size * size * 1.4
+            vertices = [
+                (
+                    radius * math.cos(step * math.pi / 32),
+                    radius * math.sin(step * math.pi / 32),
+                )
+                for step in range(17)
+            ]
+            for (x0, z0), (x1, z1) in zip(vertices, vertices[1:]):
+                if z0 <= side <= z1:
+                    shoulder = x0 + (x1 - x0) * (side - z0) / (z1 - z0)
+                    break
+            else:
+                raise AssertionError(side)
+            tip = radius + 0.125 * arrow_size * size
+            near_root = point(
+                shoulder + 0.08 * (tip - shoulder), side * 0.92, direction
+            )
+            assert _brightness_near_world(panel, pixels, near_root) > 600, (
+                "Circleの円周とArrowの肩が離れている",
+                preset,
+                direction,
+            )
+            under_arrow = point(
+                radius * math.cos(0.1), radius * math.sin(0.1), direction
+            )
+            assert (
+                _brightness_near_world(panel, pixels, under_arrow) < 120
+            ), "Arrowの下に元の円弧が残っている"
+            assert (
+                _brightness_near_world(panel, pixels, point(tip, 0, direction))
+                > 600
+            )
+        for offset in (-0.1, 0.12):
+            maya_cmds.setAttr(f"{shape}.shapePartOffset", offset)
+            shifted = _capture_view(
+                panel, tmp_path / f"arrow_offset_{offset}.png"
+            )
+            for index, direction in enumerate(directions):
+                arrow_size = 1.0 if index == 0 else 0.5
+                tip = radius + 0.125 * arrow_size * size + offset
+                assert (
+                    _brightness_near_world(
+                        panel, shifted, point(tip, 0, direction)
+                    )
+                    > 600
+                ), "円周への密着処理でArrow先端のOffsetが変わっている"
