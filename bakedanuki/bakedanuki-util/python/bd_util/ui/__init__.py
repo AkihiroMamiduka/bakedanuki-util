@@ -1,7 +1,15 @@
 # coding: utf-8
 
 from . import qt
-from .dialog import exec_dialog_near, get_save_file_name_near
+from .dialog_anchor import DialogAnchorTracker
+from .dialog import (
+    place_dialog_near,
+    exec_dialog_near,
+    get_existing_directory_near,
+    get_open_file_names_near,
+    get_save_file_name_near,
+    warning_near,
+)
 from .binding import (
     IntBinding,
     IntLabel,
@@ -80,6 +88,7 @@ from .binding import (
     SetBoolCommand,
 )
 from .settings_path import SettingsPath
+from .path import PathLineEdit, add_path_actions
 from .json_clipboard import JsonClipboard
 from .float_step_profile import FloatStepProfile, FloatStepSetting
 from .int_step_profile import IntStepProfile, IntStepSetting
@@ -94,7 +103,14 @@ from .window_state import (
 )
 
 __all__ = [
+    "PathLineEdit",
+    "add_path_actions",
+    "place_dialog_near",
+    "DialogAnchorTracker",
     "exec_dialog_near",
+    "warning_near",
+    "get_existing_directory_near",
+    "get_open_file_names_near",
     "get_save_file_name_near",
     "IntBinding",
     "IntLabel",

@@ -1658,31 +1658,124 @@ Windows予約名や使用できない文字は拒否されます。
 操作開始時のグローバル座標`anchor`を中心にし、その画面の`availableGeometry()`へ
 タイトルバー・外枠まで収めます。サイズを維持できない場合だけ縮小します。
 モニターが見つからなければWindowの画面・primary screenの順に補完します。
+実行中にそのダイアログ配下へ表示される`QMessageBox`も同じ起点へ配置します。
+保存先選択の標準上書き確認も対象とし、ボタンや確認内容、上書き可否の判断はQtの動作を維持します。
+対象外のWindowに属する確認へは適用せず、実行終了・例外時に共有イベント監視を解除します。
 
 ```python
-from bd_util.ui import exec_dialog_near, get_save_file_name_near, qt
+from bd_util.ui import (
+    DialogAnchorTracker,
+    exec_dialog_near,
+    get_existing_directory_near,
+    get_open_file_names_near,
+    get_save_file_name_near,
+    qt,
+    warning_near,
+)
 
-anchor = qt.QCursor.pos()
+anchor_tracker = DialogAnchorTracker(parent)
+# 操作の入口で起点を記録し、途中の確認を含めて同じ値を引き継ぐ
+anchor = anchor_tracker.position()
 dialog = qt.QDialog(parent)
 # 入力部品とレイアウトを構築する
 result = exec_dialog_near(dialog, anchor)
 dialog.deleteLater()
 
+warning_near(parent, "確認", "未保存の変更があります", anchor)
+directory = get_existing_directory_near(parent, "出力先", "C:/work", anchor)
+paths, selected_filter = get_open_file_names_near(
+    parent, "読込元", "C:/work", "JSON (*.json)", anchor
+)
 path, selected_filter = get_save_file_name_near(
     parent, "保存先", "C:/work", "JSON (*.json)", anchor, "json"
 )
 ```
 
 未保存確認などを挟む場合は、確認前に`anchor`を取得して引き継いでください。
+`DialogAnchorTracker`はツールの入力を追跡し、マウス操作ではカーソル位置、
+キーボード操作では関連するフォーカスWidgetの中心を返します。
+`position(source)`でfocusと最後の入力元が無効なときの補完元Widgetを明示できます。
+入力追跡が不要なら従来どおり
+`qt.QCursor.pos()`でグローバル座標を取得しても構いません。
+trackerはツールの所有Widgetを親とし、明示的に終了する場合は`dispose()`を呼びます。
 表示直後に外枠寸法を再確認し、その後の利用者による移動は追跡しません。
 実行終了・例外時にイベント監視と所有タイマーを解除し、最小寸法・layout制約を戻します。
 `dialog`自体の破棄は呼出し元が行います。配置の永続化やMayaの状態変更は行いません。
 
-`get_save_file_name_near()`は配置を制御できるQt版の`QFileDialog`を使用するため、
+`warning_near()`はQtの警告を表示し、選択された`QMessageBox.StandardButton`を返します。
+既定は`Ok`ボタンで、複数ボタンの組合せと`default_button`も指定できます。
+`get_open_file_names_near()`は既存ファイルの複数選択に対応し、取消時は`([], "")`を返します。
+`get_existing_directory_near()`は既存フォルダーを1件選択し、取消時は空文字を返します。
+ファイルを選択対象から除き、フォルダー間の移動・確定はQt標準の動作を維持します。
+フォルダーやファイルの作成、選択位置の永続化は行いません。
+
+ファイル選択APIは配置を制御できるQt版の`QFileDialog`を使用するため、
 Windows標準の保存画面とは外観が変わります。フォルダーだけならファイル名は未入力、
-ファイル名まで指定した場合はその名前を初期値にします。末尾引数で既定拡張子を指定できます。
+ファイル名まで指定した場合はその名前を初期値にします。
+`get_save_file_name_near()`の末尾引数で既定拡張子を指定できます。
 標準の上書き確認を有効にし、取消時は`("", "")`を返します。実際の保存・上書き可否は呼出し元の責務です。
 ネイティブのファイルダイアログへ`exec_dialog_near()`を適用する使い方は対象外です。
+
+### パスの表示・コピーとExplorer操作
+
+WindowsのExplorer操作は、bakedanuki系の共通仕様として次で統一します。
+
+- ファイル: 親フォルダーを開き、対象ファイルを選択する。関連付けによる実行はしない。
+- ディレクトリ: 対象ディレクトリを開き、中身を表示する。
+
+`bd_util.py.path.open_path_in_explorer(path)`がこの規則を提供します。
+対象が存在しない・アクセスできない・Shell操作に失敗した場合は`OSError`、
+Windows以外では`NotImplementedError`です。ファイル選択はWindowsの
+`SHOpenFolderAndSelectItems`を使用し、COM初期化と項目IDの解放を呼出し内で管理します。
+
+`bd_util.ui.add_path_actions(menu, path, anchor)`は既存メニューの末尾へ、
+「パス」の見出し・区切り線と「エクスプローラで開く」「パスをコピーする」を追加します。
+見出しはMayaのstyleでも文字が表示される操作不能な`QWidgetAction`です。
+対象はメニューを開いた時点のパスで、存在しなくても絶対パスの通常テキストコピーは有効です。
+開く項目は存在しない対象で無効になり、実行直前の消失やShell失敗は`anchor`へ通知します。
+呼出し元がメニューの実行・破棄を所有します。
+
+`PathLineEdit(path, parent)`はフルパス表示用の読み取り専用`QLineEdit`です。
+標準の文字選択・Ctrl+C・コピー・全選択を残し、右クリックの末尾へ同じパスメニューを加えます。
+標準コピーは選択部分、「パスをコピーする」は常に全文を対象とします。
+
+### Maya標準のパス選択
+
+Maya上で表示するbakedanuki系パッケージのパス選択は、編集可能なアドレス欄を持つ
+Maya adapterを標準とします。Mayaに依存しないQt UIには`bd_util.ui`のQt版を使用します。
+
+```python
+from bd_util.maya.ui import get_existing_directory_near
+from bd_util.ui import qt
+
+directory = get_existing_directory_near(
+    parent, "出力先を選択", "C:/work", anchor,
+    initial_size=qt.QSize(1200, 650),
+)
+```
+
+`cmds.fileDialog2(dialogStyle=2, fileMode=3)`でMaya標準画面を開きます。
+今回の呼出し中に表示される、指定タイトルの新しい`QFileDialog`だけを捕捉し、
+Qtの論理ピクセルで指定した初期サイズと操作起点を適用します。
+Maya内部のWidget名は使用せず、既存画面や別タイトルの画面は動かしません。
+表示後の手動リサイズ・移動と、パス欄の操作はMaya標準の動作を使用します。
+取消は空文字を返し、コマンド失敗や対象画面を取得できない場合は`RuntimeError`です。
+このAPIの一時監視は成功・取消・例外のいずれでも解除します。
+
+同じ`bd_util.maya.ui`の`get_open_file_names_near()`は`fileMode=4`で複数の既存ファイルを
+選び、`tuple[list[str], str]`でパス一覧と選択フィルターを返します。取消は`([], "")`です。
+`get_save_file_name_near()`は`fileMode=0`で保存先を選び、`tuple[str, str]`を返します。
+取消は`("", "")`で、`default_suffix`は拡張子が未指定の場合だけ補います。
+両APIとも`(parent, caption, directory, name_filter, anchor, *, initial_size=...)`で呼び、
+保存APIだけ`anchor`の後に任意の`default_suffix`を指定できます。
+`name_filter`は`JSON (*.json);;All (*.*)`形式、保存APIの`directory`には初期ファイル名も指定できます。
+ファイルを書き込まず、上書き確認とアドレス操作はMaya標準画面の動作を使用します。
+寸法・操作起点・画面端補正・監視解除はフォルダー選択と同じです。
+
+外部APIが表示・実行を所有する通常Qt画面には、
+`with place_dialog_near(dialog, anchor):`で共通の配置を適用できます。
+未表示・表示済みの両方を扱い、context終了時に監視と制約を解除します。
+ダイアログの実行・削除はこのcontextでは行いません。
 
 ## UI内部状態の保存
 

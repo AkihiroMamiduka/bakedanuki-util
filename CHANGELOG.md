@@ -23,6 +23,24 @@
   同梱の `config` は標準値とテンプレートの置き場にし、標準値は `Maya2025Plus` とする。
   単一版と `Plus` 範囲の全6プロファイル、プロジェクト用・個人共通の設定手順を用意する。
   明示した `typing_maya_version` を最優先し、実行時の Maya 判定と `bdu.node_types` は維持する。
+- Maya標準のパス選択へ`bd_util.maya.ui.get_open_file_names_near()`と
+  `get_save_file_name_near()`を追加。複数追加・保存先指定をフォルダー選択と同じ
+  初期寸法・操作起点・監視解除で扱う。Maya上のbakedanuki系UIの標準とする。
+  Qt専用の`bd_util.ui`のAPI、JSON・scene・保存設定の形式は維持する。
+- Maya標準のフォルダー選択を操作起点へ配置する
+  `bd_util.maya.ui.get_existing_directory_near()`を追加。
+  `fileDialog2`の表示中だけ対象画面を捕捉し、指定寸法と画面端補正を適用する。
+  外部APIが所有するQt画面向けに`bd_util.ui.place_dialog_near()`も公開する。
+  既存のQt版フォルダー選択APIとJSON・設定の形式は維持する。
+- 操作位置へ表示する既存フォルダー選択API`get_existing_directory_near()`を追加。
+  Qt版のフォルダー選択と通常の移動操作を使用し、取消時は空文字を返す。
+  ファイルやフォルダーの作成は行わない。既存API・scene・保存設定の移行は不要。
+- 操作位置へ表示するQt画面APIへ`warning_near()`と`get_open_file_names_near()`を追加。
+  警告の標準ボタンと、Qt版の既存ファイル複数選択を扱える。
+  `exec_dialog_near()`の実行中に対象ダイアログ配下へ表示されるQt標準確認も、
+  元の操作位置へ配置する。標準の上書き確認と選択結果は維持する。
+  `DialogAnchorTracker`でマウス位置とキーボード操作元の中心を使い分けられる。
+  既存API・scene・保存設定の移行は不要。
 - 共有`bakedanuki`メニューと各categoryを`tearOff=True`で作成するよう変更。
   既存メニュー配下の配置でも、先頭の点線からMaya標準の独立Windowへ切り離せる。
   切り離し側の項目・設定は元メニューに同期し、元メニューの破棄で終了する。
@@ -197,6 +215,10 @@
 
 ### Added
 
+- `bd_util.py.path.open_path_in_explorer()`を追加。bakedanuki系の共通仕様として、
+  ファイルは親フォルダーで選択し、ディレクトリは中身を表示する。
+  「パス」メニューを追加する`bd_util.ui.add_path_actions()`と、
+  標準コピー操作を保持する読み取り専用欄`PathLineEdit`を公開する。
 - Qtモーダル画面を指定したグローバル座標付近へ配置する`exec_dialog_near()`を追加。
   操作したモニターの作業領域へ外枠まで収め、過大な画面だけ縮小する。
   所有タイマーによる表示直後の補正を行い、終了・例外時に監視と制約変更を解除する。
