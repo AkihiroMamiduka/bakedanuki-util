@@ -72,18 +72,25 @@ Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み�
 
 ## Test
 
-初回だけ、Maya Python 用 pytest がない場合は一時ディレクトリへインストールします。
+初回だけ、repository直下で固定versionのpytestを `.test` へ導入します。
+`requirements-test.txt` と共通のsetup scriptを使います。
 
 ```powershell
-& "C:\Program Files\Autodesk\Maya2025\bin\mayapy.exe" -m pip install `
-    --target $env:TEMP\codex-mayapy-pytest pytest
+.\scripts\setup-test.cmd
 ```
+
+既存のテスト環境を明示的に再作成する場合は `-ForceRecreate` を指定します。
+開発中のネイティブテストは、対象versionに対応する入口を使います。
 
 ```powershell
 .\scripts\test-native-maya2025.cmd
 .\scripts\test-native-maya2026.cmd
 .\scripts\test-native-maya2027.cmd
 ```
+
+作業完了前の統一検証は `.\scripts\verify.cmd -IncludeNative` を使います。
+Viewport 2.0の描画・選択は別のMaya GUIでも確認します。
+手順は [Testing And Debugging](docs/testing-debugging.md#viewport-20描画テスト) を参照してください。
 
 テストは各versionのstaged plug-inを対応する`mayapy`へロードし、plug-in / Maya API
 versionの一致、double3 / double版、

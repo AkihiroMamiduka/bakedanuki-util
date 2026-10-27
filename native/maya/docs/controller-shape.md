@@ -11,9 +11,9 @@
 手順、移行用ドキュメントは作成せず、この仕様書とサンプルを現行仕様へ揃えます。
 一度公開した `MTypeId` は変更・再利用しません。
 
-## 今回の開発範囲
+## 現在の実装範囲
 
-2026-10-27時点で、本体41種類、Part11種類、通常平面のCircle系、Arc系・CrossArc系の円周変形と接合、
+2026-10-28時点で、本体41種類、Part11種類、通常平面のCircle系、Arc系・CrossArc系の円周変形と接合、
 Fin、GuideLine、表示・選択・フォーカス範囲・キャッシュを本仕様書の範囲とします。
 Arc系の6種類のPartは円周変形、残る5種類の立体Partは寸法を保つ角度補正を使い、
 AtApexは従来の配置を使います。Arc系・CrossArc系6本体ではFinを生成しません。
@@ -953,6 +953,8 @@ Fillの表示で輪郭が変わる形状は、面を表示しない場合の線�
 Partの対象と配置点・小形状の作成・接合は
 [BdControllerShapeOptions.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeOptions.inc) で共通化し、
 公開enumへ組み合わせごとの項目を追加しません。
+GuideLineの対象・方向・終端も本体ごとに決め、下記の
+[GuideLineの保守と拡張](#guidelineの保守と拡張) の経路へ反映します。
 輪郭番号は enum 値とは別で、輪郭線の組み立ては `appendPresetGeometry()` にあります。
 線ごとの `Normal`・`Template`・軸色の指定もここで行います。
 塗り面を追加するときは `BdControllerShapeNode.cpp` の `makeFillParts()` に面を定義し、
@@ -996,7 +998,7 @@ ArcのAtApexが+Yを向くのは、この例外に含まれます。
 この旧生成座標だけを公開基準面とみなさず、通常2DのXZ面への整列とSwappedの入替を
 含めた最終の基準形状で、輪郭と面の向きを揃えてください。
 `presetOrientedPoint()` は `hasLegacyPlanarOrientation()` と `isSwappedPreset()` の
-判定を使い、本体・Part・Finの接合後、Axis系TRSとAxisOffsetの適用前に整列します。
+判定を使い、本体・Part・Fin・GuideLineの組立後、Axis系TRSとAxisOffsetの適用前に整列します。
 
 骨に沿う３次元形状で `shapeAxisOffsetLength` を骨長として使う場合は、
 伸縮対象の軸の基準範囲を `-0.5` から `+0.5`、長さを `1` にします。
@@ -1068,6 +1070,68 @@ Crossの平面接合はWideCrossArcAxialだけの仕様で、Radialへ自動的�
 統一検証でbatch実行時の描画テストがskipしても、GUIでの成功を意味しません。
 再実行には [Viewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) の手順を使い、
 `build/` 内の一時的な起動スクリプトや画像の存在を前提にしないでください。
+
+### GuideLineの保守と拡張
+
+利用時の対象・例外は [GuideLineとSquareTemplate](#guidelineとsquaretemplate) にまとめています。
+新しい本体を追加するときは、GuideLineの要否、平面内の2軸か立体の3軸か、
+表面までの終端、Arrow先端接続の有無、通常色か軸色かを決めてから実装します。
+
+| 実装の入口 | 責務 |
+| --- | --- |
+| [BdControllerShapeGuide.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeGuide.inc) | `isGuideShape()` の対象判定、`appendShapeGuide()` の方向・終端、`appendGuideSegment()` の重複区間除去 |
+| [BdControllerShapeOptions.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeOptions.inc) | `optionPartSites()` の配置点と向き、`makeOptionHeads()` のArrow形状、`GuideBodyGeometry` の本体情報 |
+| [BdControllerShapeNode.cpp](../plugins/bdUtilNodes/src/nodes/BdControllerShapeNode.cpp) | `makeBaseGeometry()` の合成順、属性読み取り・キャッシュ、線と面の色・選択可否 |
+
+`isGuideShape()` が受け取るのは `outlinePresetIndex()` の内部輪郭番号です。
+公開 `shape` enum の数値と区別し、通常版とSwappedが同じ内部輪郭を共有する関係を保ちます。
+`appendShapeGuide()` は本体・Part・Finの組立後、`presetOrientedPoint()` と共通変形の適用前に呼びます。
+同じ基準座標で加えたGuideLineにも、本体と同じSwapped・軸指定・TRS・入力行列を適用します。
+GuideLineへ新しい調整値を加える場合は、`ShapeSettings`・`ShapeAttributes` へ登録し、
+`readSettings()` で読み取ります。`sameSettings()`、
+`isShapeAttribute()`、`hasConnectedSettingsInput()` のキャッシュ更新経路も揃えます。
+
+`GuideBodyGeometry` はPartを合成する直前、Fin追加前の本体の領域とストロークを保持します。
+WideLine・WideCrossLine系では、その本体内で原点から連続する区間を使い、幅0ではストロークから終端を求めます。
+内向きPartで短縮した腕にも追従させ、本体とPartを含むboundsだけから終端を決めないでください。
+WideLineの本体全体が原点の片側へ移る場合は、Arrow接続線の始点を本体の範囲へ制限し、
+GuideLineだけでフォーカス範囲を広げない規約を維持します。
+
+Arrow先端は `optionPartSites()` と `makeOptionHeads()` の配置に合わせて求めます。
+Square・SquareTemplate・Circleと各Swappedの接続先は、各配置点から `0.125 * arrowSize * partLength(settings)` と
+`shapePartOffset` だけ進んだ位置です。AtEndsでは代表方向以外の `arrowSize=0.5` も反映します。
+WideLine・WideCrossLine・WideCrossLineSwappedは配置点から `shapePartOffset` だけ進んだ位置が先端で、
+Lengthは付け根側を変形します。この違いを保ち、本体の短縮処理の後に先端への接続を追加します。
+接続対象はArrow2D・Arrow3Dのある方向に限定し、WideCircleの内周停止と3軸Wideの表面停止を保ちます。
+Square系の既存の延長は、各方向で本体端の0.5と先端の投影距離の大きい方を使います。
+内向きOffsetでも本体端までの線を残し、Fill表示時の接続も維持します。
+
+既存輪郭との重複は、同一直線上の区間を差し引いて除きます。
+幅0や分割された線でも二重描画を避け、既存の本体・Partの色と選択可否を保ちます。
+Arrow3Dの既存の中心線と重なる区間もPartの通常線として残るため、Templateの選択確認には
+Partの線と重ならない延長区間を使います。新しいColor本体ではGuideLineの軸色とFillの面色を
+それぞれ決め、ColorCubeの正側3面のFillとColorCornerCubeの小四角を混同しないでください。
+
+数値テストは `test_bd_controller_shape.py`、実GUIテストは `test_controller_shape_viewport.py` にあります。
+
+| 確認する契約 | 主なテスト |
+| --- | --- |
+| 本体・Partの範囲、幅0、内向きOffset | `test_wide_guides_follow_retracted_body`、`test_arrow_tip_guides_preserve_shape_bounds` |
+| 値・接続・キー・Undo/Redo・保存 | `test_guide_options_preserve_history_and_scene_values`、`test_guide_option_connected_animation_is_retained` |
+| Arrow先端、矢印のない方向、Fill切替 | `test_guide_line_connects_planar_arrow_tips`、`test_arrow_tip_connection_matches_fill_and_guide_style` |
+| Templateの延長線と本体の選択可否 | `test_guide_line_template_changes_only_guide_selection` |
+| WideCircleの内周停止、対象外の本体 | `test_guide_line_stops_at_wide_circle_inner_rim_with_parts`、`test_guide_line_is_ignored_on_excluded_shapes` |
+
+開発中の数値確認は、repository直下から次のように対象を絞れます。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd tests\maya\node\operator\node\dag\shape\test_bd_controller_shape.py -k "guide or node_type_defaults"
+```
+
+GUIの切り分けと画像の測定点の選び方は
+[Viewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) を参照してください。
+完了時は対象指定の成功に加え、前述の統一検証と、対応3バージョンの実GUI確認を行います。
+テスト件数は今後増減するため、成功は終了コードと実行対象で確認します。
 
 ### 保留中: Arc系の向きの共通化
 
