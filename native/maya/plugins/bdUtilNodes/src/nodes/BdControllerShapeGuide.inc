@@ -125,7 +125,7 @@ void appendShapeGuide(const ShapeSettings& settings, PartGeometry& geometry,
             start.x = std::clamp(0.0, minimum, maximum);
         }
         for (const auto& site : optionPartSites(settings)) {
-            const double tip = site.attached ? 0.125 * site.arrowSize * partLength(settings) : 0.0;
+            const double tip = site.attached ? 0.125 * site.sizeScale * partLength(settings) : 0.0;
             const auto endpoint = site.endpoint + site.along * (tip + settings.partOffset);
             appendGuideSegment(geometry, endpoint,
                 settings.guideLineTemplate ? StrokeStyle::Template : StrokeStyle::Normal, start);
@@ -149,7 +149,7 @@ void appendShapeGuide(const ShapeSettings& settings, PartGeometry& geometry,
             for (const auto& site : sites) {
                 if ((site.along - direction).length() > 1e-10) continue;
                 const double tip = (site.endpoint - MPoint::origin) * direction +
-                    0.125 * site.arrowSize * partLength(settings) + settings.partOffset;
+                    0.125 * site.sizeScale * partLength(settings) + settings.partOffset;
                 extent = std::max(extent, tip);
             }
             addAxis(axis, sign * extent);

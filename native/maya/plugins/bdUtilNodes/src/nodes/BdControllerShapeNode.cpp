@@ -185,6 +185,8 @@ struct ShapeSettings {
     bool guideLineTemplate = false;
     short firstAxis = 0;
     short secondAxis = 2;
+    short attachmentFirstAxis = 0;
+    short attachmentSecondAxis = 2;
     double rootSize = 1.0;
     MVector translate = MVector(0.0, 0.0, 0.0);
     MVector rotateAngles = MVector(0.0, 0.0, 0.0);
@@ -327,6 +329,8 @@ bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
         left.guideLine == right.guideLine && left.guideLineTemplate == right.guideLineTemplate &&
         left.firstAxis == right.firstAxis &&
         left.secondAxis == right.secondAxis &&
+        left.attachmentFirstAxis == right.attachmentFirstAxis &&
+        left.attachmentSecondAxis == right.attachmentSecondAxis &&
         left.rootSize == right.rootSize &&
         sameVector(left.translate, right.translate) &&
         sameVector(left.rotateAngles, right.rotateAngles) &&
@@ -719,8 +723,10 @@ void appendPresetComponent(
 
 void normalizeColorSettings(ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
-    if (!((outline >= 45 && outline <= 51) || (outline >= 74 && outline <= 78) || outline == 119)) return;
+    if (!isColorOutline(outline)) return;
 
+    settings.attachmentFirstAxis = settings.firstAxis;
+    settings.attachmentSecondAxis = settings.secondAxis;
     settings.firstAxis = 0;
     settings.secondAxis = 2;
     settings.rotateAngles = MVector::zero;
@@ -733,6 +739,20 @@ void normalizeColorSettings(ShapeSettings& settings) {
     settings.axisScale = MVector(
         std::abs(settings.axisScale.x), std::abs(settings.axisScale.y), std::abs(settings.axisScale.z)
     );
+}
+
+MVector colorAttachmentVector(const MVector& vector, const ShapeSettings& settings) {
+    if (!isColorOutline(outlinePresetIndex(settings.shape))) return vector;
+    ShapeSettings orientation;
+    orientation.firstAxis = settings.attachmentFirstAxis;
+    orientation.secondAxis = settings.attachmentSecondAxis;
+    const ShapeTransform frame(orientation);
+    // 本体の固定フレーム内で付属形状だけを選択軸へ向ける。
+    return frame.axisX * vector.x + frame.axisY * vector.y + frame.axisZ * vector.z;
+}
+
+MPoint colorAttachmentPoint(const MPoint& point, const ShapeSettings& settings) {
+    return MPoint::origin + colorAttachmentVector(point - MPoint::origin, settings);
 }
 
 void normalizeShapeSettings(ShapeSettings& settings) {

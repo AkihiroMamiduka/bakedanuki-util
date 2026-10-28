@@ -86,7 +86,7 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
         const std::vector<double> heights = tapered ? std::vector<double>{0.5, 0}
             : (pointed ? std::vector<double>{0, 0.5} : std::vector<double>{0.5, 0.5});
         // 線形状と平面形状はFinだけを作り、端形状の内側を後から差し引く。
-        const bool separate = planar || line || optionPartSupported(outline);
+        const bool separate = planar || line || optionPartSupported(outline) || isColorOutline(outline);
         if (!separate) builder.geometry = std::move(geometry);
         const double tip = 0.5 * partLength(settings) + settings.partOffset;
         const auto outer = outline == 25
@@ -99,13 +99,13 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
     PartBuilder mapped(settings.fill);
     for (std::size_t i = 0; i < builder.geometry.strokes.size(); ++i) {
         Stroke stroke;
-        for (const auto& point : builder.geometry.strokes[i]) stroke.append(plane.point(point));
+        for (const auto& point : builder.geometry.strokes[i]) stroke.append(colorAttachmentPoint(plane.point(point), settings));
         mapped.geometry.strokes.push_back(std::move(stroke));
         mapped.geometry.strokeStyles.push_back(StrokeStyle::Normal);
     }
     for (const auto& part : builder.geometry.fillParts) {
         MPointArray points;
-        for (const auto& point : part.triangles) points.append(plane.point(point));
+        for (const auto& point : part.triangles) points.append(colorAttachmentPoint(plane.point(point), settings));
         mapped.geometry.fillParts.push_back({points, StrokeStyle::Normal});
     }
     if (outline == 118 || outline == 119) trimWideCross3AxisFin(settings, mapped.geometry);

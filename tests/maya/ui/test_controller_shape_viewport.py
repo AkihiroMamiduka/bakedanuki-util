@@ -539,8 +539,17 @@ def test_arrow3d_raises_only_on_positive_side_and_draws_shoulder_edge(
         pixels = _capture_view(panel, tmp_path / "side.png")
         depth = 0.1 * math.cos(math.pi / 6)
         for sign in (-1, 1) if all_ends else (1,):
-            shoulder = ((0.5 - depth) * sign, 0.025, 0)
-            negative = ((0.5 - depth * 0.5) * sign, -0.025, 0)
+            size_scale = 1.0 if sign > 0 else 0.5
+            shoulder = (
+                (0.5 - depth * size_scale) * sign,
+                0.025 * size_scale,
+                0,
+            )
+            negative = (
+                (0.5 - depth * 0.5 * size_scale) * sign,
+                -0.025 * size_scale,
+                0,
+            )
             assert _brightness_near_world(panel, pixels, shoulder) > 600
             assert _brightness_near_world(panel, pixels, negative) < 120, (
                 "Arrow3Dが主平面の負側にも作られている",
@@ -1749,6 +1758,173 @@ def test_color_wide_cross_three_axis_fill_matches_each_arm(
             ), (axis, color)
         for point in ((-0.35, 0, 0.1), (0, -0.35, 0.1)):
             assert min(_rgb_near_world(panel, pixels, point)) > 180
+
+
+@pytest.mark.parametrize(
+    "preset",
+    (
+        "ColorCrossLine3Axis",
+        "ColorWideCrossLine3Axis",
+        "ColorCube",
+        "ColorCornerCube",
+        "ColorSphere",
+    ),
+)
+@pytest.mark.parametrize("filled", (False, True))
+def test_color_body_image_keeps_its_axes_without_attachments(
+    maya_cmds, new_scene, tmp_path, preset, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(maya_cmds, preset, shapeFill=filled) as (
+        _,
+        shape,
+        camera,
+        _,
+        panel,
+    ):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        reference = _capture_view(panel, tmp_path / "fixed_body.png")
+        maya_cmds.setAttr(f"{shape}.shape1stAxis", 5)
+        maya_cmds.setAttr(f"{shape}.shape2ndAxis", 0)
+        maya_cmds.setAttr(f"{shape}.shapeRotate", 17, -29, 43)
+        maya_cmds.setAttr(f"{shape}.shapeAxisRotate", -31, 13, 23)
+        assert (
+            _capture_view(panel, tmp_path / "reoriented_axes_body.png")
+            == reference
+        ), "付属形状のないColor本体の形状または配色が軸指定で変わる"
+
+
+@pytest.mark.parametrize(
+    "preset,plain,part",
+    (
+        ("ColorCrossLine3Axis", "CrossLine3Axis", True),
+        ("ColorWideCrossLine3Axis", "WideCrossLine3Axis", True),
+        ("ColorSphere", "Sphere", True),
+        ("ColorCube", "Cube", False),
+        ("ColorCornerCube", "Cube", False),
+    ),
+)
+@pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("first,second", ((2, 0), (5, 1)))
+def test_color_attachments_match_plain_geometry_outside_the_fixed_body(
+    maya_cmds, new_scene, tmp_path, preset, plain, part, filled, first, second
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    from maya.api import OpenMayaUI as omui
+
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeFill=filled,
+        shapeFillTransparency=0.3,
+        shapePart=part,
+        shapePartShape=1,
+        shapePartType=1,
+        shapePartSize=2.5,
+        shapePartOffset=0.15,
+        shapeFin=True,
+        shapeFinType=1,
+        shapeFinHeight=0.9,
+        shape1stAxis=first,
+        shape2ndAxis=second,
+    ) as (_, shape, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.8)
+        actual = _capture_view(panel, tmp_path / "color_attachments.png")
+        maya_cmds.setAttr(f"{shape}.shapePart", False)
+        maya_cmds.setAttr(f"{shape}.shapeFin", False)
+        color_body = _capture_view(panel, tmp_path / "color_body.png")
+        names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
+            0
+        ].split(":")
+        maya_cmds.setAttr(f"{shape}.shape", names.index(plain))
+        plain_body = _capture_view(panel, tmp_path / "plain_body.png")
+        maya_cmds.setAttr(f"{shape}.shapePart", part)
+        maya_cmds.setAttr(f"{shape}.shapeFin", True)
+        expected = _capture_view(panel, tmp_path / "plain_attachments.png")
+        view = omui.M3dView.getM3dViewFromModelPanel(panel)
+        width, height = view.portWidth(), view.portHeight()
+        checked = 0
+        for index in range(0, len(actual), 4):
+            if (
+                max(
+                    sum(color_body[index : index + 3]),
+                    sum(plain_body[index : index + 3]),
+                )
+                > 100
+            ):
+                continue
+            visible = max(expected[index : index + 3]) > 80
+            drawn = max(actual[index : index + 3]) > 80
+            if drawn != visible:
+                # 接合で延長された本体の軸色は輝度で区別せず、1画素の描画差を許容する。
+                other = expected if drawn else actual
+                row, column = divmod(index // 4, width)
+                neighbors = (
+                    (y * width + x) * 4
+                    for y in range(max(0, row - 1), min(height, row + 2))
+                    for x in range(max(0, column - 1), min(width, column + 2))
+                )
+                assert any(
+                    max(other[pos : pos + 3]) > 80
+                    and max(
+                        sum(color_body[pos : pos + 3]),
+                        sum(plain_body[pos : pos + 3]),
+                    )
+                    <= 100
+                    for pos in neighbors
+                ), (preset, first, second, index)
+            checked += visible
+        assert checked > 30, "本体外側の付属形状が十分に描画されていない"
+
+
+@pytest.mark.parametrize("part", range(11))
+@pytest.mark.parametrize("filled", (False, True))
+def test_non_arc_at_ends_draws_one_standard_and_one_half_size_part(
+    maya_cmds, new_scene, tmp_path, part, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    from maya.api import OpenMayaUI as omui
+
+    with _drawing_view(
+        maya_cmds,
+        "Line",
+        shapeFill=filled,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartSize=3.2,
+        shapePartLengthScale=1.4,
+        shapePartWidthScale=1.5,
+        shapePartOffset=0.2,
+    ) as (_, shape, camera, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 0, 4, 0)
+        maya_cmds.setAttr(f"{camera}.rotate", -90, 0, 0)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.6)
+        standard = _capture_view(panel, tmp_path / "standard_at_end.png")
+        maya_cmds.setAttr(f"{shape}.shapePartType", 1)
+        both = _capture_view(panel, tmp_path / "standard_and_half_at_ends.png")
+        maya_cmds.setAttr(f"{shape}.shapePartType", 0)
+        maya_cmds.setAttr(f"{shape}.shapePartSize", 1.6)
+        maya_cmds.setAttr(f"{shape}.shape1stAxis", 1)
+        half = _capture_view(panel, tmp_path / "half_at_opposite_end.png")
+        view = omui.M3dView.getM3dViewFromModelPanel(panel)
+        width, height = view.portWidth(), view.portHeight()
+        for row in range(height):
+            left = row * width * 4
+            middle = left + (width // 2) * 4
+            right = left + width * 4
+            assert both[left : middle - 8] == half[left : middle - 8], (
+                "反対端が半サイズのAtEndと一致しない",
+                part,
+            )
+            assert both[middle + 8 : right] == standard[middle + 8 : right], (
+                "代表端の標準サイズが変わっている",
+                part,
+            )
+        assert both != standard
 
 
 @pytest.mark.parametrize("width", (0.2, 1, 1.4))

@@ -18,6 +18,11 @@
 
 ### Changed
 
+- `bdControllerShape` のColor系本体は向きと軸色を固定したまま、
+  `shape1stAxis` / `shape2ndAxis` にPart・Finの配置姿勢だけを追従させる。
+  回転無視・負スケールの絶対値化など、Color系の他の変形規則とPart・Finの対応本体は維持する。
+  Arc系を除くPart対応本体の `AtEnds` は全11種類のPartで代表1つを標準サイズ、
+  残りを0.5倍にする。配置ピボットとOffsetの距離、Arc系16本体のサイズ規約は維持する。
 - `bdControllerShape` のArc系・CrossArc系をRadial・Axialと各Wide・Swappedの16本体へ整理した。
   通常版の基準円を主軸と第3軸の平面、中央方向を+主軸へ揃え、Cross版は主軸と補助軸の平面を追加する。
   角度は中央方向を固定して両端を対称に動かし、薄線本体のFillはPartだけへ適用する。

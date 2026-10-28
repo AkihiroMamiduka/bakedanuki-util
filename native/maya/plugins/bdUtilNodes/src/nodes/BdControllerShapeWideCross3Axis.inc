@@ -36,7 +36,7 @@ std::vector<WideCross3AxisBox> wideCross3AxisBoxes(
             if (settings.partShape >= 6) {
                 // 尖った最内点ではなく、中心または広い底面まで重ねて実交差で接合する。
                 join = (sites[i].endpoint - MPoint::origin) * direction + settings.partOffset;
-                if (settings.partShape >= 9) join -= 0.1 * partLength(settings);
+                if (settings.partShape >= 9) join -= 0.1 * partLength(settings) * sites[i].sizeScale;
             }
             stop = std::max(0.0, join);
         }

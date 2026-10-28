@@ -139,6 +139,10 @@ bool isArcOutline(short outline) {
     return outline == 27 || (outline >= 111 && outline <= 115) || outline == 120 || outline == 121;
 }
 
+bool isColorOutline(short outline) {
+    return (outline >= 45 && outline <= 51) || (outline >= 74 && outline <= 78) || outline == 119;
+}
+
 short crossCircleBaseOutline(short outline) {
     if (outline == 113) return 27;
     if (outline == 114) return 111;

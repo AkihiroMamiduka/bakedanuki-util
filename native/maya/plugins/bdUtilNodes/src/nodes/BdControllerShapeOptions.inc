@@ -243,7 +243,8 @@ struct OptionSite {
     MVector along;
     MVector side;
     bool attached = false;
-    double arrowSize = 1.0;
+    double sizeScale = 1.0;
+    double upSign = 1.0;
 };
 
 // X/Z方向の部品はXZ平面、Y方向はYZ平面へ置く。
@@ -271,13 +272,13 @@ OptionSite axialCircleEndSite(double angle, bool first) {
         nativeAxis(0) * (first ? 1.0 : -1.0), false};
 }
 
-std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
+std::vector<OptionSite> baseOptionPartSites(const ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!settings.part || !optionPartSupported(outline)) return {};
     const bool all = settings.partType == 1;
     std::vector<OptionSite> sites;
-    const auto add = [&](MVector along, MVector side, bool attached, double arrowSize = 1.0) {
-        sites.push_back({MPoint::origin + along * 0.5, along, side, attached, arrowSize});
+    const auto add = [&](MVector along, MVector side, bool attached) {
+        sites.push_back({MPoint::origin + along * 0.5, along, side, attached});
     };
     if (outline == 27 || outline == 111 || isAxialArcOutline(outline)) {
         const double sweep = std::clamp(settings.circleAngle, 0.0, 2.0 * kPi);
@@ -305,9 +306,9 @@ std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
     if (outline == 8 || outline == 108 || outline == 109 || outline == 110 || isPlanarCircleOutline(outline)) {
         add(nativeAxis(1), nativeAxis(2), true);
         if (all) {
-            add(-nativeAxis(1), -nativeAxis(2), true, 0.5);
-            add(nativeAxis(2), -nativeAxis(1), true, 0.5);
-            add(-nativeAxis(2), nativeAxis(1), true, 0.5);
+            add(-nativeAxis(1), -nativeAxis(2), true);
+            add(nativeAxis(2), -nativeAxis(1), true);
+            add(-nativeAxis(2), nativeAxis(1), true);
         }
         if (outline == 117) {
             for (auto& site : sites) site.endpoint += site.along * (settings.wideWidth * 0.5);
@@ -337,6 +338,21 @@ std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
     return sites;
 }
 
+std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
+    auto sites = baseOptionPartSites(settings);
+    const short outline = outlinePresetIndex(settings.shape);
+    for (std::size_t index = 0; index < sites.size(); ++index) {
+        auto& site = sites[index];
+        if (!isArcOutline(outline) && settings.partType == 1 && index != 0) site.sizeScale = 0.5;
+        const auto up = site.along ^ site.side;
+        if (settings.partShape == 1 && !isAxialArcOutline(outline) && up.x + up.y + up.z < 0) site.upSign = -1.0;
+        site.endpoint = colorAttachmentPoint(site.endpoint, settings);
+        site.along = colorAttachmentVector(site.along, settings);
+        site.side = colorAttachmentVector(site.side, settings);
+    }
+    return sites;
+}
+
 struct OptionHeads {
     PartGeometry geometry;
     std::vector<OptionClipVolume> volumes;
@@ -352,12 +368,12 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
     for (const auto& site : optionPartSites(settings)) {
         PartBuilder head(settings.fill || settings.crossAxialJoinTop || settings.crossAxialJoinBottom);
         const auto volumeStart = result.volumes.size();
-        MVector up = site.along ^ site.side;
-        // 軸方向の帯では各配置点の外側、それ以外では基準軸の正側へ立ち上げる。
-        if (settings.partShape == 1 && !isAxialArcOutline(outline) && up.x + up.y + up.z < 0) up = -up;
+        const MVector up = (site.along ^ site.side) * site.upSign;
+        const double length = partLength(settings) * site.sizeScale;
+        const double widthScale = partWidth(settings) * site.sizeScale;
         const auto point = [&](const MPoint& p) {
-            return site.endpoint + site.along * (p.x * partLength(settings) + settings.partOffset)
-                + site.side * (p.y * partWidth(settings)) + up * (p.z * partWidth(settings));
+            return site.endpoint + site.along * (p.x * length + settings.partOffset)
+                + site.side * (p.y * widthScale) + up * (p.z * widthScale);
         };
         double stop = 1e100;
         const auto remember = [&](const MPoint& p) { stop = std::min(stop, (p - MPoint::origin) * site.along); };
@@ -376,22 +392,22 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
             planarPoints(points, open);
         };
         if (settings.partShape <= 1) {
-            const double depth = (site.attached ? 0.125 * site.arrowSize : 0.1 * std::cos(kPi / 6.0));
-            const double width = site.attached ? (outline == 19 || outline == 8 || (outline >= 108 && outline <= 110) || isPlanarCircleOutline(outline) ? 0.072 : 0.075) * site.arrowSize : 0.05;
-            const double shoulder = site.attached ? (round ? -0.004903810568 * site.arrowSize : 0.0) : -depth;
+            const double depth = (site.attached ? 0.125 : 0.1 * std::cos(kPi / 6.0));
+            const double width = site.attached ? (outline == 19 || outline == 8 || (outline >= 108 && outline <= 110) || isPlanarCircleOutline(outline) ? 0.072 : 0.075) : 0.05;
+            const double shoulder = site.attached ? (round ? -0.004903810568 : 0.0) : -depth;
             const double tip = site.attached ? depth : 0.0;
             if (site.attached) {
                 const bool planarCircle = isPlanarCircleOutline(outline);
                 const double rootLimit = isAxialArcOutline(outline) ? settings.wideWidth * 0.5 :
                     (outline == 117 ? 0.5 + settings.wideWidth * 0.5 : 0.5);
-                const double rootWidth = std::clamp(width * partWidth(settings), -rootLimit, rootLimit);
+                const double rootWidth = std::clamp(width * widthScale, -rootLimit, rootLimit);
                 const double rootY = planarCircle ? planarCircleSurfaceOffset(rootLimit, rootWidth) :
                     (round ? partSurfaceY(partRoundSection(), rootWidth) : 0.0);
                 const auto shoulderPoint = [&](double sign) {
                     return point(MPoint(shoulder, sign * width, 0)) +
                         site.along * (planarCircle ? rootY : 0.0);
                 };
-                if (planarCircle && (settings.partOffset < 0.0 || tip * partLength(settings) < rootY)) {
+                if (planarCircle && (settings.partOffset < 0.0 || tip * length < rootY)) {
                     // 内向きの矢印は固定根元への折り返しを作らず、円との交差で接合する。
                     planarPoints({shoulderPoint(1.0), point(MPoint(tip, 0, 0)), shoulderPoint(-1.0)}, true);
                 } else {
@@ -403,7 +419,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
                     !optionWideOutline(outline) && !isWideArcOutline(outline));
             if (settings.partShape == 1) {
                 if (site.attached) {
-                    planar({MPoint(0, 0, 0), MPoint(0, 0, 0.0625 * site.arrowSize), MPoint(tip, 0, 0)}, true);
+                    planar({MPoint(0, 0, 0), MPoint(0, 0, 0.0625), MPoint(tip, 0, 0)}, true);
                 } else {
                     planar({MPoint(shoulder, 0, 0), MPoint(shoulder, 0, width), MPoint(tip, 0, 0)}, true);
                 }
@@ -417,7 +433,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
             constexpr std::array<short, 5> outlines = {19, 24, 33, 41, 43};
             ShapeSettings component;
             component.shape = partPreset(outlines[settings.partShape - 6]);
-            component.fill = settings.fill && partLength(settings) != 0.0 && partWidth(settings) != 0.0;
+            component.fill = settings.fill && length != 0.0 && widthScale != 0.0;
             std::vector<StrokeStyle> styles;
             const auto strokes = makeStrokes(ShapeTransform(component), styles);
             component.fill = true;
@@ -446,7 +462,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
                 auto b = mapped(part.triangles[i + 1]);
                 auto c = mapped(part.triangles[i + 2]);
                 if (((b - a) ^ (c - a)) * (a - inside) < 0) std::swap(b, c);
-                if (partLength(settings) != 0.0 && partWidth(settings) != 0.0) head.triangle(a, b, c);
+                if (length != 0.0 && widthScale != 0.0) head.triangle(a, b, c);
                 addOptionClipPlane(volume, (b - a) ^ (c - a), a, inside);
             }
             if (volume.size() >= 4) result.volumes.push_back(std::move(volume));
@@ -681,7 +697,7 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
         ((!settings.fill && straight && !optionWideOutline(outline)) || outline == 108 || outline == 109)) {
         for (std::size_t i = 0; i < sites.size(); ++i) {
             const auto& site = sites[i];
-            const double tip = site.attached ? 0.125 * site.arrowSize * partLength(settings) : 0.0;
+            const double tip = site.attached ? 0.125 * site.sizeScale * partLength(settings) : 0.0;
             const auto end = site.endpoint + site.along * (tip + settings.partOffset);
             const double stop = straight && narrow != 1 ? std::max(0.0, heads.stops[i]) : heads.stops[i];
             const auto start = MPoint::origin + site.along * stop;

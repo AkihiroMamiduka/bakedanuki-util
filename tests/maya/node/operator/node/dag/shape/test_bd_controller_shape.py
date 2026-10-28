@@ -430,6 +430,29 @@ def _bounds(maya_om, shape: str) -> tuple[float, ...]:
     )
 
 
+def _three_axis_solid_part_bounds(part, offset=0, length=1, width=1, size=1):
+    # 代表の+X端は等倍、残る5端は半分の寸法で、Offsetの距離は共通にする。
+    points = [(0.0, 0.0, 0.0)]
+    for axis in range(3):
+        for sign in (-1, 1):
+            end_size = size * (1.0 if axis == 0 and sign > 0 else 0.5)
+            center = 0.5 + offset
+            depth = 0.05 * length * end_size
+            along = (center - depth, center + depth)
+            if part in ("Pyramid", "Cone"):
+                along = (center - 2 * depth, center)
+            transverse = 0.05 * abs(width * end_size)
+            for coordinate in along:
+                for first in (-transverse, transverse):
+                    for second in (-transverse, transverse):
+                        point = [first, second]
+                        point.insert(axis, sign * coordinate)
+                        points.append(tuple(point))
+    return tuple(min(point[i] for point in points) for i in range(3)) + tuple(
+        max(point[i] for point in points) for i in range(3)
+    )
+
+
 def test_generated_shape_enum_matches_presets():
     assert ShapeEnumAttrOperator.NAME_MAP == dict(enumerate(SHAPE_NAMES))
     assert all(
@@ -1432,14 +1455,7 @@ def test_end_arrow_extent_and_axis_transform(
 
 
 @pytest.mark.parametrize(
-    ("end_shape", "extent"),
-    (
-        ("Cube", 0.55),
-        ("Octahedron", 0.55),
-        ("Sphere", 0.55),
-        ("Pyramid", 0.5),
-        ("Cone", 0.5),
-    ),
+    "end_shape", ("Cube", "Octahedron", "Sphere", "Pyramid", "Cone")
 )
 @pytest.mark.parametrize("colored", (False, True))
 @pytest.mark.parametrize("filled", (False, True))
@@ -1449,7 +1465,6 @@ def test_crossline_end_solids_extent_and_axis_transform(
     maya_om,
     new_scene,
     end_shape,
-    extent,
     colored,
     filled,
     remap_axes,
@@ -1462,20 +1477,25 @@ def test_crossline_end_solids_extent_and_axis_transform(
         + ("Filled" if filled else "")
     )
     _, shape = _create_controller(maya_cmds, shape_name=shape_name)
-    expected = (-extent, -extent, -extent, extent, extent, extent)
+    expected = _three_axis_solid_part_bounds(end_shape)
     if remap_axes:
         maya_cmds.setAttr(f"{shape}.shape1stAxis", 4)
         maya_cmds.setAttr(f"{shape}.shapeScale", -2.0, 3.0, 4.0)
         maya_cmds.setAttr(f"{shape}.shapeTranslate", 1.0, 2.0, 3.0)
         maya_cmds.setAttr(f"{shape}.shapeRootSize", 1.5)
-        expected = (
-            1.5 * (1.0 - 2.0 * extent),
-            1.5 * (2.0 - 3.0 * extent),
-            1.5 * (3.0 - 4.0 * extent),
-            1.5 * (1.0 + 2.0 * extent),
-            1.5 * (2.0 + 3.0 * extent),
-            1.5 * (3.0 + 4.0 * extent),
-        )
+        corners = [
+            (
+                1.5 * (1 + (2 if colored else -2) * -z),
+                1.5 * (2 + 3 * y),
+                1.5 * (3 + 4 * x),
+            )
+            for x in (expected[0], expected[3])
+            for y in (expected[1], expected[4])
+            for z in (expected[2], expected[5])
+        ]
+        expected = tuple(
+            min(point[i] for point in corners) for i in range(3)
+        ) + tuple(max(point[i] for point in corners) for i in range(3))
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
 
 
@@ -1913,15 +1933,15 @@ def test_animation_matrix_moves_offset_line_endpoint_from_origin(
 @pytest.mark.parametrize("colored", (False, True))
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize(
-    ("offset", "length", "width", "round_extent", "pointed_extent"),
+    ("offset", "length", "width"),
     (
-        (0.1, 2.0, 3.0, 0.7, 0.6),
-        (-0.2, 0.5, 4.0, 0.325, 0.3),
-        (0.0, 2.0, 12.0, 0.6, 0.6),
-        (0.1, -2.0, -3.0, 0.7, 0.8),
-        (-0.6, 1.0, 1.0, 0.15, 0.2),
-        (0.1, 0.0, 1.0, 0.6, 0.6),
-        (0.1, 1.0, 0.0, 0.65, 0.6),
+        (0.1, 2.0, 3.0),
+        (-0.2, 0.5, 4.0),
+        (0.0, 2.0, 12.0),
+        (0.1, -2.0, -3.0),
+        (-0.6, 1.0, 1.0),
+        (0.1, 0.0, 1.0),
+        (0.1, 1.0, 0.0),
     ),
 )
 def test_part_transform_bounds(
@@ -1934,8 +1954,6 @@ def test_part_transform_bounds(
     offset,
     length,
     width,
-    round_extent,
-    pointed_extent,
 ):
     _load_bd_util_nodes(maya_cmds)
     name = (
@@ -1948,26 +1966,22 @@ def test_part_transform_bounds(
     maya_cmds.setAttr(f"{shape}.shapePartOffset", offset)
     maya_cmds.setAttr(f"{shape}.shapePartLengthScale", length)
     maya_cmds.setAttr(f"{shape}.shapePartWidthScale", width)
-    extent = (
-        pointed_extent if end_shape in ("Pyramid", "Cone") else round_extent
-    )
-    assert _bounds(maya_om, shape) == pytest.approx(
-        (-extent, -extent, -extent, extent, extent, extent), abs=1e-9
-    )
+    expected = _three_axis_solid_part_bounds(end_shape, offset, length, width)
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
 
 
 @pytest.mark.parametrize(
-    ("attribute", "value", "extent"),
+    ("attribute", "value"),
     (
-        ("shapePartOffset", 0.2, 0.75),
-        ("shapePartLengthScale", 3.0, 0.65),
-        ("shapePartWidthScale", 14.0, 0.7),
-        ("shapePartSize", 3.0, 0.65),
+        ("shapePartOffset", 0.2),
+        ("shapePartLengthScale", 3.0),
+        ("shapePartWidthScale", 14.0),
+        ("shapePartSize", 3.0),
     ),
 )
 @pytest.mark.parametrize("connected", (False, True))
 def test_part_attribute_invalidates_cached_geometry(
-    maya_cmds, maya_om, new_scene, attribute, value, extent, connected
+    maya_cmds, maya_om, new_scene, attribute, value, connected
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(
@@ -1986,23 +2000,30 @@ def test_part_attribute_invalidates_cached_geometry(
             maya_cmds.setAttr(f"{source}.input2X", 1.0)
             maya_cmds.connectAttr(f"{source}.outputX", f"{shape}.{attribute}")
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.55, -0.55, -0.55, 0.55, 0.55, 0.55)
+        _three_axis_solid_part_bounds("Cube")
     )
     maya_cmds.setAttr(target, value)
+    controls = {"offset": 0, "length": 1, "width": 1, "size": 1}
+    controls[
+        {
+            "shapePartOffset": "offset",
+            "shapePartLengthScale": "length",
+            "shapePartWidthScale": "width",
+            "shapePartSize": "size",
+        }[attribute]
+    ] = value
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-extent, -extent, -extent, extent, extent, extent)
+        _three_axis_solid_part_bounds("Cube", **controls)
     )
     maya_cmds.setAttr(target, 0.0 if attribute == "shapePartOffset" else 1.0)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.55, -0.55, -0.55, 0.55, 0.55, 0.55)
+        _three_axis_solid_part_bounds("Cube")
     )
 
 
-@pytest.mark.parametrize(
-    ("end_shape", "extent"), (("Cube", 0.7), ("Cone", 0.6))
-)
+@pytest.mark.parametrize("end_shape", ("Cube", "Cone"))
 def test_part_animation_updates_bounds(
-    maya_cmds, maya_om, new_scene, end_shape, extent
+    maya_cmds, maya_om, new_scene, end_shape
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(
@@ -2017,12 +2038,11 @@ def test_part_animation_updates_bounds(
         maya_cmds.setKeyframe(shape, attribute=attribute, time=10, value=last)
     maya_cmds.currentTime(10)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-extent, -extent, -extent, extent, extent, extent)
+        _three_axis_solid_part_bounds(end_shape, 0.1, 2, 3)
     )
     maya_cmds.currentTime(1)
-    initial = 0.55 if end_shape == "Cube" else 0.5
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-initial, -initial, -initial, initial, initial, initial)
+        _three_axis_solid_part_bounds(end_shape)
     )
 
 
@@ -2036,7 +2056,7 @@ def test_part_offset_uses_scene_distance_units(maya_cmds, maya_om, new_scene):
         )
         maya_cmds.setAttr(f"{shape}.shapePartOffset", 1.0)
         assert _bounds(maya_om, shape) == pytest.approx(
-            (-0.65, -0.65, -0.65, 0.65, 0.65, 0.65)
+            _three_axis_solid_part_bounds("Cube", 0.1)
         )
         maya_cmds.currentUnit(linear="cm")
         assert maya_cmds.getAttr(f"{shape}.shapePartOffset") == pytest.approx(
@@ -2056,11 +2076,20 @@ def test_part_transform_bounds_modes(maya_cmds, maya_om, new_scene, mode):
     maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.1)
     maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 2.0)
     maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 3.0)
-    center = 2.0 if mode == 0 else 0.0
-    extent = 0.5 if mode == 2 else 0.7
-    assert _bounds(maya_om, shape) == pytest.approx(
-        (center - extent, -extent, -extent, center + extent, extent, extent)
-    )
+    expected = _three_axis_solid_part_bounds("Cube", 0.1, 2, 3)
+    if mode == 0:
+        expected = (
+            expected[0] + 2,
+            *expected[1:3],
+            expected[3] + 2,
+            *expected[4:],
+        )
+    elif mode == 1:
+        half = tuple((expected[i + 3] - expected[i]) / 2 for i in range(3))
+        expected = tuple(-value for value in half) + half
+    else:
+        expected = (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
+    assert _bounds(maya_om, shape) == pytest.approx(expected)
 
 
 def test_part_transform_history_and_scene_reload(
@@ -2290,9 +2319,9 @@ def test_terminal_part_size_multiplies_both_scales(
     maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 2.0)
     maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 3.0)
     maya_cmds.setAttr(f"{shape}.shapePartSize", 2.0)
-    extent = 0.6 if "Pyramid" in shape_name or "Cone" in shape_name else 0.8
+    part = shape_name.split("End", 1)[1].removesuffix("Filled")
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-extent, -extent, -extent, extent, extent, extent)
+        _three_axis_solid_part_bounds(part, 0.1, 2, 3, 2)
     )
 
 
@@ -2439,8 +2468,9 @@ def test_wide_end_arrow_negative_offset_moves_heads_past_origin(
     _, shape = _create_controller(maya_cmds, shape_name=name)
     maya_cmds.setAttr(f"{shape}.shapePartOffset", -0.8)
     extent = 0.3 + 0.1 * math.cos(math.pi / 6)
+    half_extent = 0.3 + 0.05 * math.cos(math.pi / 6)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-extent, 0, -0.05, extent, 0, 0.05)
+        (-extent, 0, -0.05, half_extent, 0, 0.05)
     )
 
 
@@ -3188,10 +3218,10 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
                 7.05,
             ),
         ),
-        ("CrossLine3AxisEndCubeFilled", (-11.2, -0.4, 4.9, 15.2, 8.4, 7.1)),
+        ("CrossLine3AxisEndCubeFilled", (-10.6, -0.2, 4.95, 14.6, 8.2, 7.1)),
         (
             "ColorCrossLine3AxisEndSphereFilled",
-            (-2.4, -0.4, 2.7, 6.4, 8.4, 9.3),
+            (-2.2, -0.2, 2.85, 6.2, 8.2, 9.3),
         ),
         ("CrossLine3AxisEndPyramidFilled", (-10.0, 0.0, 5.0, 14.0, 8.0, 7.0)),
         (
@@ -3267,6 +3297,10 @@ def test_color_shapes_ignore_orientation_attributes(
     maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetDirection", 4)
     maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", 1.6)
+    part_enabled = maya_cmds.getAttr(f"{shape}.shapePart")
+    fin_enabled = maya_cmds.getAttr(f"{shape}.shapeFin")
+    maya_cmds.setAttr(f"{shape}.shapePart", False)
+    maya_cmds.setAttr(f"{shape}.shapeFin", False)
     expected = _bounds(maya_om, shape)
     for first, second in ((5, 1), (4, 4)):
         maya_cmds.setAttr(f"{shape}.shape1stAxis", first)
@@ -3274,6 +3308,9 @@ def test_color_shapes_ignore_orientation_attributes(
         assert _bounds(maya_om, shape) == pytest.approx(expected)
         assert maya_cmds.getAttr(f"{shape}.shape1stAxis") == first
         assert maya_cmds.getAttr(f"{shape}.shape2ndAxis") == second
+    maya_cmds.setAttr(f"{shape}.shapePart", part_enabled)
+    maya_cmds.setAttr(f"{shape}.shapeFin", fin_enabled)
+    expected = _bounds(maya_om, shape)
     for attribute in ("shapeRotate", "shapeAxisRotate"):
         maya_cmds.setAttr(f"{shape}.{attribute}", 23.0, 41.0, -17.0)
         assert _bounds(maya_om, shape) == pytest.approx(expected)
@@ -4136,14 +4173,15 @@ def test_three_axis_end_arrows_use_direction_specific_planes(
     )
     matrix = maya_om.MMatrix(matrix_values)
     points = []
-    shoulder = 0.8 - 0.1 * math.cos(math.pi / 6)
     # 主面はX/Z方向でXZ、Y方向でYZ。追加面はそれぞれ+Y、+Xへ立てる。
     for along, side, up in ((0, 2, 1), (1, 2, 0), (2, 0, 1)):
         for sign in (-1, 1):
+            factor = 1.0 if along == 0 and sign > 0 else 0.5
+            shoulder = 0.8 - 0.1 * math.cos(math.pi / 6) * factor
             tip = [0.0, 0.0, 0.0]
             tip[along] = sign * 0.8
             points.append(maya_om.MPoint(*tip) * matrix)
-            for width in (-0.35, 0.35):
+            for width in (-0.35 * factor, 0.35 * factor):
                 wing = [0.0, 0.0, 0.0]
                 wing[along] = sign * shoulder
                 wing[side] = width
@@ -4151,7 +4189,7 @@ def test_three_axis_end_arrows_use_direction_specific_planes(
             if part == 1:
                 crest = [0.0, 0.0, 0.0]
                 crest[along] = sign * shoulder
-                crest[up] = 0.35
+                crest[up] = 0.35 * factor
                 points.append(maya_om.MPoint(*crest) * matrix)
     expected = tuple(min(p[i] for p in points) for i in range(3)) + tuple(
         max(p[i] for p in points) for i in range(3)
@@ -4210,11 +4248,6 @@ def test_planar_end_shape_bounds_follow_part_controls(
         ("shapePartSize", size),
     ):
         maya_cmds.setAttr(f"{shape}.{attribute}", value)
-    center = 0.5 + offset
-    if part == "Triangle":
-        center -= 0.05 * length * size
-    along = (center - 0.05 * length * size, center + 0.05 * length * size)
-    transverse = 0.05 * abs(width * size)
     points = [] if base == "Line" else [[0.0, 0.0, 0.0]]
     for axis in axes:
         other = (
@@ -4228,6 +4261,16 @@ def test_planar_end_shape_bounds_follow_part_controls(
                 point[axis] = 0.5 * sign
                 points.append(point)
                 continue
+            factor = 0.5 if all_ends and (axis != axes[0] or sign < 0) else 1.0
+            end_size = size * factor
+            center = 0.5 + offset
+            if part == "Triangle":
+                center -= 0.05 * length * end_size
+            along = (
+                center - 0.05 * length * end_size,
+                center + 0.05 * length * end_size,
+            )
+            transverse = 0.05 * abs(width * end_size)
             for coordinate in along:
                 for width_sign in (-1, 1):
                     point = [0.0, 0.0, 0.0]
@@ -4307,7 +4350,7 @@ def test_planar_end_offset_uses_scene_distance_units(
         maya_cmds.setAttr(f"{shape}.shapePartOffset", 2)
         assert _bounds(maya_om, shape) == pytest.approx(
             (
-                -0.5 if placement == "End" else -0.75,
+                -0.5 if placement == "End" else -0.725,
                 0,
                 -0.05,
                 0.75,
@@ -4573,11 +4616,21 @@ def test_fin_option_color_constraints(
     before = _bounds(maya_om, shape)
     maya_cmds.setAttr(f"{shape}.shape1stAxis", 5)
     maya_cmds.setAttr(f"{shape}.shape2ndAxis", 1)
+    # 本体の軸色は固定し、Finだけを主軸-Z・補助軸-Xの基底へ向ける。
+    expected = (
+        -before[4],
+        before[2],
+        -before[3],
+        -before[1],
+        before[5],
+        -before[0],
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(expected)
     maya_cmds.setAttr(f"{shape}.shapeRotate", 30, 60, 90)
     maya_cmds.setAttr(f"{shape}.shapeAxisRotate", 90, 60, 30)
     maya_cmds.setAttr(f"{shape}.shapeScale", -1, -1, -1)
     maya_cmds.setAttr(f"{shape}.shapeAxisScale", -1, -1, -1)
-    assert _bounds(maya_om, shape) == pytest.approx(before)
+    assert _bounds(maya_om, shape) == pytest.approx(expected)
 
 
 def test_fin_option_animation(maya_cmds, maya_om, new_scene):
@@ -4757,7 +4810,7 @@ def test_common_part_controls_update_cached_bounds(
     for enabled, kind, placement, expected in (
         (False, 6, 0, (-0.5, 0, 0, 0.5, 0, 0)),
         (True, 6, 0, (-0.5, -0.05, -0.05, 0.55, 0.05, 0.05)),
-        (True, 6, 1, (-0.55, -0.05, -0.05, 0.55, 0.05, 0.05)),
+        (True, 6, 1, (-0.525, -0.05, -0.05, 0.55, 0.05, 0.05)),
         (True, 1, 0, (-0.5, 0, -0.05, 0.5, 0.05, 0.05)),
         (False, 1, 1, (-0.5, 0, 0, 0.5, 0, 0)),
     ):
@@ -4788,7 +4841,7 @@ def test_common_part_option_animation(maya_cmds, maya_om, new_scene):
                 shape, attribute=attribute, time=frame, value=value
             )
     for frame, expected in (
-        (10, (-0.55, -0.05, -0.05, 0.55, 0.05, 0.05)),
+        (10, (-0.525, -0.05, -0.05, 0.55, 0.05, 0.05)),
         (20, (-0.5, 0, -0.05, 0.5, 0.05, 0.05)),
         (1, (-0.5, 0, 0, 0.5, 0, 0)),
     ):
@@ -4874,9 +4927,9 @@ def test_zero_wide_width_keeps_the_base_outline(
     (
         ("Line", "Cube", 0, (-0.5, -0.05, -0.05, 0.55, 0.05, 0.05)),
         ("Square", "Cube", 0, (-0.5, -0.05, -0.5, 0.55, 0.05, 0.5)),
-        ("Square", "Cube", 1, (-0.55, -0.05, -0.55, 0.55, 0.05, 0.55)),
+        ("Square", "Cube", 1, (-0.525, -0.05, -0.525, 0.55, 0.05, 0.525)),
         ("Cube", "Triangle", 0, (-0.5, -0.5, -0.5, 0.6, 0.5, 0.5)),
-        ("Cube", "Cone", 1, (-0.6, -0.6, -0.6, 0.6, 0.6, 0.6)),
+        ("Cube", "Cone", 1, (-0.55, -0.55, -0.55, 0.6, 0.55, 0.55)),
     ),
 )
 def test_common_parts_combine_planar_and_solid_shapes(
