@@ -18,8 +18,12 @@
 
 ### Changed
 
+- `bdControllerShape` のArc系・CrossArc系をRadial・Axialと各Wide・Swappedの16本体へ整理した。
+  通常版の基準円を主軸と第3軸の平面、中央方向を+主軸へ揃え、Cross版は主軸と補助軸の平面を追加する。
+  角度は中央方向を固定して両端を対称に動かし、薄線本体のFillはPartだけへ適用する。
+  Wideの幅0は対応する薄線本体の線・Part・Boundsと一致させ、Fin・GuideLineは16本体とも対象外とする。
 - `bdControllerShape` の中央ガイドを `shapeGuideLine` / `shapeGuideLineTemplate`
-  に統合し、十字付きの専用本体を整理して `shape` を41種類にした。
+  に統合し、十字付きの専用本体を整理した。Arc系の拡張を含め `shape` は51種類となる。
   ガイドは本体表面までとし、Square系、WideLine、WideCrossLine・Circleと各Swappedの
   Arrow先端接続、WideCircle系の内周停止、
   Color系の正側RGB・負側通常色と、ガイドだけのtemplate表示・選択不可に対応する。
@@ -279,7 +283,7 @@
   実行元の `modules` パスだけを確認後に解除する。共通ルートの同梱packageは
   次回起動からまとめて無効になり、配布ファイル・scene・個人設定は維持する。
 
-- `bdControllerShape.shape` に41種類の本体を定義した。Gearを一覧の先頭、Cubeを
+- `bdControllerShape.shape` に51種類の本体を定義した。Gearを一覧の先頭、Cubeを
   初期値とし、塗り・11種類のPart・Fin・GuideLineを共通オプションで組み合わせる。
   角度固定のCircle系、角度を変更できるArc系、四角断面を接合した3軸Wide本体、
   部分template・軸色を1つのshapeで描画する。Gearの内円は穴として残し、

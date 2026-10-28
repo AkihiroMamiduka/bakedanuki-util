@@ -41,12 +41,22 @@ SHAPE_NAMES = (
     "Cube",
     "Octahedron",
     "OctahedronArrow",
-    "Arc",
+    "ArcRadial",
+    "ArcAxial",
     "WideArcRadial",
     "WideArcAxial",
-    "CrossArc",
+    "ArcRadialSwapped",
+    "ArcAxialSwapped",
+    "WideArcRadialSwapped",
+    "WideArcAxialSwapped",
+    "CrossArcRadial",
+    "CrossArcAxial",
     "WideCrossArcRadial",
     "WideCrossArcAxial",
+    "CrossArcRadialSwapped",
+    "CrossArcAxialSwapped",
+    "WideCrossArcRadialSwapped",
+    "WideCrossArcAxialSwapped",
     "Sphere",
     "Cylinder",
     "Arrow",
@@ -127,14 +137,7 @@ def _circle_arrow_outer_extent(depth, half_width):
     )
 
 
-ARC_SHAPES = (
-    "Arc",
-    "WideArcRadial",
-    "WideArcAxial",
-    "CrossArc",
-    "WideCrossArcRadial",
-    "WideCrossArcAxial",
-)
+ARC_SHAPES = tuple(name for name in SHAPE_NAMES if "Arc" in name)
 
 PART_UNSUPPORTED = (
     "Gear",
@@ -276,6 +279,7 @@ SHAPE_VARIANTS = tuple(
 def _case_settings(case_name):
     # 本体と共通オプションの組合せを、テスト用の短縮名から指定する。
     name = case_name.removesuffix("Filled")
+    name = {"Arc": "ArcRadial", "CrossArc": "CrossArcRadial"}.get(name, name)
     fin = FIN_CASES.get(name)
     base = fin[0] if fin else name
     settings = {
@@ -296,7 +300,7 @@ def _case_settings(case_name):
             if base.endswith(("Arrow2D", "Arrow3D")):
                 settings["shapePartType"] = 2
                 settings["shapePartShape"] = int(base.endswith("Arrow3D"))
-            base = "WideArcRadial" if "Wide" in base else "Arc"
+            base = "WideArcRadial" if "Wide" in base else "ArcRadial"
         elif "CrossLine3AxisEnd" in base:
             prefix, part = base.split("End")
             settings["shapePartType"] = 1
@@ -344,6 +348,11 @@ def _case_settings(case_name):
         base, template = GUIDE_CASES[base]
         settings["shapeGuideLine"] = True
         settings["shapeGuideLineTemplate"] = template
+    base = {"Arc": "ArcRadial", "CrossArc": "CrossArcRadial"}.get(base, base)
+    if "Arc" in base and not base.endswith("Swapped"):
+        # 曲面とPart接合の回帰検証は、明示した軸で従来のYZ基準座標へ戻す。
+        settings["shape1stAxis"] = 2
+        settings["shape2ndAxis"] = 0
     settings["shape"] = SHAPE_NAMES.index(base)
     return settings
 
@@ -1167,9 +1176,9 @@ def test_fill_toggle_invalidates_bounds_and_keeps_transparency(
     for fill in (False, True, False, True):
         maya_cmds.setAttr(target, fill)
         if mode == 0:
-            expected = (0, 0 if fill else 0.25, -z, 0, 0.5, z)
+            expected = (0, 0.25, -z, 0, 0.5, z)
         elif mode == 1:
-            height = 0.25 if fill else 0.125
+            height = 0.125
             expected = (0, -height, -z, 0, height, z)
         else:
             expected = (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
@@ -1189,7 +1198,7 @@ def test_fill_animation_updates_cached_bounds(maya_cmds, maya_om, new_scene):
     maya_cmds.setAttr(f"{shape}.shapeArcAngle", 120)
     maya_cmds.setKeyframe(shape, attribute="shapeFill", time=1, value=0)
     maya_cmds.setKeyframe(shape, attribute="shapeFill", time=10, value=1)
-    for time, minimum in ((1, 0.25), (10, 0), (1, 0.25)):
+    for time, minimum in ((1, 0.25), (10, 0.25), (1, 0.25)):
         maya_cmds.currentTime(time)
         assert _bounds(maya_om, shape)[1] == pytest.approx(minimum)
 
@@ -1210,11 +1219,11 @@ def test_fill_option_connection_history_and_scene_reload(
     shape.shapeFill.connect_from(f"{source}.fill")
     shape.shapeFillTransparency.set(0.37)
     mod.do_it_dg()
-    assert _bounds(maya_om, name)[1] == pytest.approx(0)
+    assert _bounds(maya_om, name)[1] == pytest.approx(0.25)
     mod.undo_it()
     assert _bounds(maya_om, name)[1] == pytest.approx(0.25)
     mod.redo_it()
-    assert _bounds(maya_om, name)[1] == pytest.approx(0)
+    assert _bounds(maya_om, name)[1] == pytest.approx(0.25)
     path = tmp_path / "shape_fill.ma"
     maya_cmds.file(rename=str(path))
     maya_cmds.file(save=True, type="mayaAscii", force=True)
@@ -1225,7 +1234,7 @@ def test_fill_option_connection_history_and_scene_reload(
         0.37
     )
     assert maya_cmds.isConnected(f"{source}.fill", f"{name}.shapeFill")
-    assert _bounds(maya_om, name)[1] == pytest.approx(0)
+    assert _bounds(maya_om, name)[1] == pytest.approx(0.25)
     maya_cmds.setAttr(f"{source}.fill", False)
     assert _bounds(maya_om, name)[1] == pytest.approx(0.25)
 
@@ -1410,6 +1419,15 @@ def test_end_arrow_extent_and_axis_transform(
             1.5 * (2.0 + 3.0 * ymax),
             1.5 * (3.0 + 4.0 * xmax),
         )
+        if base_name == "Semicircle":
+            expected = (
+                1.5 * (1.0 + 2.0 * xmin),
+                1.5 * (2.0 - 3.0 * zmax),
+                1.5 * (3.0 + 4.0 * ymin),
+                1.5 * (1.0 + 2.0 * xmax),
+                1.5 * (2.0 - 3.0 * zmin),
+                1.5 * (3.0 + 4.0 * ymax),
+            )
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1.0e-9)
 
 
@@ -1471,11 +1489,11 @@ def test_crossline_end_solids_extent_and_axis_transform(
         ),
         ("Square", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
         ("SquareFilled", (-0.5, 0.0, -0.5, 0.5, 0.0, 0.5)),
-        ("Arc", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
-        ("ArcFilled", (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)),
+        ("Arc", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
+        ("ArcFilled", (0.0, -0.5, -0.5, 0.0, 0.5, 0.5)),
         (
             "ArcArrow2D",
-            (-0.5, -0.5, 0.0, 0.5, 0.625, 0.0),
+            (0.0, -0.5, -0.5, 0.0, 0.5, 0.625),
         ),
     ),
 )
@@ -2435,8 +2453,6 @@ def test_semicircle_angle_bounds(maya_cmds, maya_om, new_scene, filled, angle):
     maya_cmds.setAttr(f"{shape}.shapeArcAngle", 180 + 2 * angle)
     extent = 0.5 if angle >= 0 else 0.5 * math.cos(math.radians(angle))
     low = -0.5 * math.sin(math.radians(angle))
-    if filled and -90 < angle < 0:
-        low = 0.0
     expected = (
         (0, 0, 0, 0, 0, 0)
         if angle == -90
@@ -2483,14 +2499,7 @@ def test_semicircle_angle_and_part_scales_remain_finite(
     assert all(math.isfinite(value) and abs(value) < 2 for value in bounds)
     maya_cmds.setAttr(f"{shape}.shapeFill", False)
     outline_bounds = _bounds(maya_om, shape)
-    if filled and "Wide" not in base_name and -90 < angle < 0:
-        assert bounds[1] == pytest.approx(0.0)
-        assert outline_bounds[1] > 0.0
-        assert bounds[:1] + bounds[2:] == pytest.approx(
-            outline_bounds[:1] + outline_bounds[2:]
-        )
-    else:
-        assert outline_bounds == pytest.approx(bounds)
+    assert outline_bounds == pytest.approx(bounds)
 
 
 @pytest.mark.parametrize("wide", (False, True))
@@ -2549,7 +2558,7 @@ def test_semicircle_angle_invalidates_cached_geometry(
     maya_cmds.setAttr(target, 120)
     extent = 0.5 * math.cos(math.pi / 6)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0, 0, -extent, 0, 0.5, extent)
+        (0, 0.25, -extent, 0, 0.5, extent)
     )
     if connected:
         # 接続元の角度に制限がなくても、円弧は0–360度の範囲に収める。
@@ -2586,8 +2595,8 @@ def test_semicircle_angle_uses_scene_angle_units(
         (30, (2, -0.25, -0.5, 2, 0.5, 0.5), (0, -0.375, -0.5, 0, 0.375, 0.5)),
         (
             -30,
-            (2, 0, -math.sqrt(3) / 4, 2, 0.5, math.sqrt(3) / 4),
-            (0, -0.25, -math.sqrt(3) / 4, 0, 0.25, math.sqrt(3) / 4),
+            (2, 0.25, -math.sqrt(3) / 4, 2, 0.5, math.sqrt(3) / 4),
+            (0, -0.125, -math.sqrt(3) / 4, 0, 0.125, math.sqrt(3) / 4),
         ),
     ),
 )
@@ -2652,15 +2661,7 @@ def test_semicircle_angle_history_and_scene_reload(
     [
         name
         for name in SHAPE_VARIANTS
-        if _shape_index(name)
-        not in (
-            _shape_index("Arc"),
-            _shape_index("WideArcRadial"),
-            _shape_index("WideArcAxial"),
-            _shape_index("CrossArc"),
-            _shape_index("WideCrossArcRadial"),
-            _shape_index("WideCrossArcAxial"),
-        )
+        if "Arc" not in name and not name.startswith("Semicircle")
     ],
 )
 def test_semicircle_angle_leaves_other_shapes_unchanged(
@@ -2765,10 +2766,12 @@ def test_axis_rotate_x_turns_circle_arrow_around_first_axis(
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
     _set_shape(maya_cmds, shape, "ArcArrow2D")
+    maya_cmds.setAttr(f"{shape}.shape1stAxis", 0)
+    maya_cmds.setAttr(f"{shape}.shape2ndAxis", 2)
     maya_cmds.setAttr(f"{shape}.shapeAxisRotateX", 90.0)
 
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, -0.5, -0.5, 0.0, 0.5, 0.625), abs=1.0e-9
+        (-0.5, -0.5, 0.0, 0.625, 0.5, 0.0), abs=1.0e-9
     )
 
 
@@ -3181,8 +3184,8 @@ def test_shape_offset_line_expands_bounds_and_round_trips(
                 * _circle_arrow_outer_extent(
                     0.1 * math.cos(math.pi / 6), 0.05
                 ),
-                8.2,
-                6.0,
+                4.0,
+                7.05,
             ),
         ),
         ("CrossLine3AxisEndCubeFilled", (-11.2, -0.4, 4.9, 15.2, 8.4, 7.1)),
@@ -3459,7 +3462,7 @@ def test_scene_round_trip_preserves_circle_arrow(
     )
     assert maya_cmds.getAttr(f"{shape}.shapeSize") == pytest.approx(1.5)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0.0, -0.75, 1.75, 0.0, 0.9375, 3.25), abs=1.0e-9
+        (-0.75, 0.0, 1.75, 0.9375, 0.0, 3.25), abs=1.0e-9
     )
 
 
@@ -3500,7 +3503,7 @@ def test_nodes_controller_shape_helper_supports_undo_redo(
         transform.full_path, shapes=True, fullPath=True
     ) == [shape.full_path]
     assert _bounds(maya_om, shape.full_path) == pytest.approx(
-        (0.0, -1.0, 0.0, 0.5, 1.25, 3.0), abs=1.0e-9
+        (-0.5, 0.0, 0.0, 1.75, 0.0, 3.0), abs=1.0e-9
     )
 
     mod.undo_it()
@@ -3596,8 +3599,6 @@ def test_single_end_semicircle_arrow_wraps_on_the_arc_and_ignores_offset(
     points = [(0, 0.5 * math.sin(a), 0.5 * math.cos(a)) for a in arc_angles]
     depth = 0.1 * math.cos(math.pi / 6)
     points.extend(_circle_arrow_profile_points(start, depth, 0.05))
-    if filled:
-        points.append((0, 0, 0))
     expected = tuple(min(p[i] for p in points) for i in range(3)) + tuple(
         max(p[i] for p in points) for i in range(3)
     )
@@ -3980,6 +3981,8 @@ def test_representative_endpoint_follows_axis_reorientation(
     maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.2)
     maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 1.5)
     maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 2)
+    maya_cmds.setAttr(f"{shape}.shape1stAxis", 0)
+    maya_cmds.setAttr(f"{shape}.shape2ndAxis", 2)
     before = _bounds(maya_om, shape)
     maya_cmds.setAttr(f"{shape}.shape1stAxis", first_axis)
     maya_cmds.setAttr(f"{shape}.shape2ndAxis", 0)
@@ -4677,17 +4680,16 @@ def test_circle_total_angle_bounds(
         maya_cmds, shape_name=shape_name, shape_fill=filled
     )
     maya_cmds.setAttr(f"{shape}.shapeArcAngle", angle)
+    shape_name = shape_name.removesuffix("Swapped")
     if angle == 0:
         expected = (0, 0, 0, 0, 0, 0)
     else:
-        wide = shape_name.endswith("Radial")
-        axial = shape_name.endswith("Axial")
+        wide = shape_name.startswith("Wide") and shape_name.endswith("Radial")
+        axial = shape_name.startswith("Wide") and shape_name.endswith("Axial")
         outer = 0.525 if wide else 0.5
         half = math.radians(angle / 2)
         lower_radius = 0.475 if wide and angle < 180 else outer
         minimum = lower_radius * math.cos(half)
-        if filled and not wide and not axial and angle < 180:
-            minimum = 0
         side = outer * math.sin(half) if angle < 180 else outer
         depth = 0.025 if axial else 0
         expected = (-depth, minimum, -side, depth, outer, side)
@@ -4794,7 +4796,7 @@ def test_common_part_option_animation(maya_cmds, maya_om, new_scene):
         assert _bounds(maya_om, shape) == pytest.approx(expected)
 
 
-@pytest.mark.parametrize("shape_name", ARC_SHAPES[1:])
+@pytest.mark.parametrize("shape_name", ARC_SHAPES)
 def test_common_options_history_and_scene_reload(
     maya_cmds, maya_om, new_scene, tmp_path, shape_name
 ):
@@ -4845,10 +4847,10 @@ def test_common_options_history_and_scene_reload(
         ("WideCircleSwapped", "CircleSwapped"),
         ("WideCrossLine3Axis", "CrossLine3Axis"),
         ("ColorWideCrossLine3Axis", "ColorCrossLine3Axis"),
-        ("WideArcRadial", "Arc"),
-        ("WideArcAxial", "Arc"),
-        ("WideCrossArcRadial", "CrossArc"),
-        ("WideCrossArcAxial", "CrossArc"),
+        ("WideArcRadial", "ArcRadial"),
+        ("WideArcAxial", "ArcAxial"),
+        ("WideCrossArcRadial", "CrossArcRadial"),
+        ("WideCrossArcAxial", "CrossArcAxial"),
     ),
 )
 @pytest.mark.parametrize("filled", (False, True))
@@ -5392,7 +5394,17 @@ def test_axial_circle_wrapped_part_is_independent_of_disabled_fin(
 
 
 @pytest.mark.parametrize(
-    "base,cross", tuple(zip(ARC_SHAPES[:3], ARC_SHAPES[3:]))
+    "base,cross",
+    tuple(
+        (base + suffix, cross + suffix)
+        for base, cross in (
+            ("ArcRadial", "CrossArcRadial"),
+            ("ArcAxial", "CrossArcAxial"),
+            ("WideArcRadial", "WideCrossArcRadial"),
+            ("WideArcAxial", "WideCrossArcAxial"),
+        )
+        for suffix in ("", "Swapped")
+    ),
 )
 @pytest.mark.parametrize("placement", (0, 1, 2))
 @pytest.mark.parametrize("part", (0, 1, 3, 6))
@@ -5422,7 +5434,7 @@ def test_cross_circle_matches_perpendicular_circle_components(
             maya_cmds.setAttr(f"{shape}.{name}", value)
     maya_cmds.setAttr(f"{shapes[2]}.shapeRotateY", 90)
     join_height = math.sqrt(0.25 - 0.075**2)
-    if cross == "WideCrossArcAxial" and placement == 2:
+    if cross.removesuffix("Swapped") == "WideCrossArcAxial" and placement == 2:
         maya_cmds.setAttr(
             f"{shapes[1]}.shapePartOffset", 0.2 + join_height - 0.5
         )
@@ -5434,7 +5446,7 @@ def test_cross_circle_matches_perpendicular_circle_components(
             max(first[i], second[i]) for i in range(3, 6)
         )
         actual = _bounds(maya_om, shapes[0])
-        if cross == "WideCrossArcAxial":
+        if cross.removesuffix("Swapped") == "WideCrossArcAxial":
             # 交差部の接合は上下方向だけを変え、各円とPartの横方向寸法を保つ。
             indices = (0, 2, 3, 5)
             assert tuple(actual[i] for i in indices) == pytest.approx(
@@ -6014,7 +6026,7 @@ def test_arc_default_draws_a_half_circle_without_case_overrides(
     maya_cmds.setAttr(f"{shape}.shape", _shape_index("Arc"))
     assert maya_cmds.getAttr(f"{shape}.shapeArcAngle") == pytest.approx(180)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (0, 0, -0.5, 0, 0.5, 0.5), abs=1e-9
+        (0, 0, -0.5, 0.5, 0, 0.5), abs=1e-9
     )
 
 

@@ -737,9 +737,23 @@ void normalizeColorSettings(ShapeSettings& settings) {
 
 void normalizeShapeSettings(ShapeSettings& settings) {
     normalizeColorSettings(settings);
-    if (!isArcOutline(outlinePresetIndex(settings.shape))) {
+    const short outline = outlinePresetIndex(settings.shape);
+    if (!isArcOutline(outline)) {
         settings.circleAngle = 2.0 * kPi;
         settings.partOffsetAngle = kPi / 2.0;
+    } else if (!isWideArcOutline(outline)) {
+        settings.wideWidth = 0.0;
+    } else if (settings.wideWidth <= 1e-12) {
+        // 幅0は薄線版と同じ経路へ揃え、Partの接合と範囲にも幅を残さない。
+        const short narrow = outline == 111 ? 27 : outline == 112 ? 120 : outline == 114 ? 113 : 121;
+        const bool swapped = isSwappedPreset(settings.shape);
+        for (short index = 0; index < static_cast<short>(kPresetInfo.size()); ++index) {
+            if (kPresetInfo[index].outlineIndex == narrow && kPresetInfo[index].swapped == swapped) {
+                settings.shape = index;
+                break;
+            }
+        }
+        settings.wideWidth = 0.0;
     }
 }
 
@@ -1614,7 +1628,8 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const short outline = outlinePresetIndex(settings.shape);
     const bool arrowLines = settings.part && settings.partShape <= 1 &&
         (outline == 1 || outline == 4 || outline == 5 || outline == 45 ||
-         outline == 52 || outline == 53 || outline == 27 || outline == 113 || outline == 108 || outline == 109);
+         outline == 52 || outline == 53 || outline == 108 || outline == 109 ||
+         (isArcOutline(outline) && !isWideArcOutline(outline)));
     if (settings.fill && (arrowLines || outline == 36 || (settings.part && outline == 116))) {
         ShapeSettings wireframe = settings;
         wireframe.fill = false;

@@ -13,10 +13,10 @@ import pytest
 pytestmark = pytest.mark.maya
 
 ARC_SHAPES = (
-    "Arc",
+    "ArcRadial",
     "WideArcRadial",
     "WideArcAxial",
-    "CrossArc",
+    "CrossArcRadial",
     "WideCrossArcRadial",
     "WideCrossArcAxial",
 )
@@ -84,6 +84,10 @@ def _drawing_view(cmds, preset, **options):
         ":"
     )
     cmds.setAttr(f"{shape}.shape", names.index(preset))
+    if "Arc" in preset and not preset.endswith("Swapped"):
+        # 曲面と接合の画像回帰は、明示した軸で従来のYZ基準座標へ戻す。
+        cmds.setAttr(f"{shape}.shape1stAxis", 2)
+        cmds.setAttr(f"{shape}.shape2ndAxis", 0)
     for name, value in options.items():
         cmds.setAttr(f"{shape}.{name}", value)
     cmds.setAttr(f"{shape}.overrideEnabled", True)
@@ -248,7 +252,8 @@ def test_thin_fill_remains_visible_from_both_sides(
         ("CrossLineSwapped", 1, None),
         ("CrossLine3Axis", 0, None),
         ("ColorCrossLine3Axis", 1, None),
-        ("Arc", 1, None),
+        ("ArcRadial", 1, None),
+        ("ArcAxial", 1, None),
         ("Circle", 1, None),
         ("WideCircle", 0, None),
         ("WideCrossLine3Axis", 0, None),
@@ -342,7 +347,8 @@ def _brightness_near_world(panel, pixels, point):
     "preset,guide,guide_template",
     (
         ("Line", False, False),
-        ("Arc", False, False),
+        ("ArcRadial", False, False),
+        ("ArcAxial", False, False),
         ("Square", True, False),
         ("Square", True, True),
         ("SquareTemplate", True, False),
@@ -383,7 +389,7 @@ def test_arrow_tip_connection_matches_fill_and_guide_style(
         maya_cmds.delete(constraint, target)
         if guide:
             point = (0.645, 0, 0)
-        elif preset == "Arc":
+        elif preset in ("ArcRadial", "ArcAxial"):
             angle = -math.pi / 6 + 0.06
             point = (0, 0.5 * math.sin(angle), 0.5 * math.cos(angle))
         else:
@@ -457,6 +463,14 @@ def test_cone_keeps_side_lines_and_cylinder_hides_them_with_fill(
         "WideCrossLine",
         "Circle",
         "WideCircle",
+        "ArcRadial",
+        "ArcAxial",
+        "WideArcRadial",
+        "WideArcAxial",
+        "CrossArcRadial",
+        "CrossArcAxial",
+        "WideCrossArcRadial",
+        "WideCrossArcAxial",
     ),
 )
 @pytest.mark.parametrize("filled", (False, True))
@@ -775,7 +789,7 @@ def test_cross_circle_part_sites_and_planes(
 
 @pytest.mark.parametrize(
     "preset",
-    ("Arc", "WideArcRadial", "CrossArc", "WideCrossArcRadial"),
+    ("ArcRadial", "WideArcRadial", "CrossArcRadial", "WideCrossArcRadial"),
 )
 @pytest.mark.parametrize("filled", (False, True))
 def test_radial_circle_long_arrow_follows_the_arc_and_keeps_its_tip(
@@ -894,8 +908,8 @@ def test_radial_circle_wrapped_arrow_removes_internal_band_rims(
             ), "帯の輪郭を除いた位置に、曲がったPartの輪郭がない"
 
 
-@pytest.mark.parametrize("preset", ("Arc", "CrossArc"))
-def test_radial_circle_wrapping_preserves_sector_fill_without_overlap(
+@pytest.mark.parametrize("preset", ("ArcRadial", "CrossArcRadial"))
+def test_thin_radial_arc_fills_parts_without_sector(
     maya_cmds, new_scene, tmp_path, preset
 ):
     if maya_cmds.about(batch=True):
@@ -913,16 +927,19 @@ def test_radial_circle_wrapping_preserves_sector_fill_without_overlap(
         shapeFillTransparency=0.5,
     ) as (_, shape, camera, _, panel):
         _aim_at_origin(maya_cmds, camera, (4, 0, 0))
-        actual = _capture_view(panel, tmp_path / "wrapped_sector.png")
+        actual = _capture_view(panel, tmp_path / "filled_parts.png")
         maya_cmds.setAttr(f"{shape}.shapePart", False)
-        reference = _capture_view(panel, tmp_path / "plain_sector.png")
+        reference = _capture_view(panel, tmp_path / "unfilled_body.png")
         for angle in (0.12, math.pi / 2):
             point = (0, 0.2 * math.sin(angle), 0.2 * math.cos(angle))
             expected = _brightness_near_world(panel, reference, point)
-            assert expected > 120
+            assert expected < 120
             assert _brightness_near_world(
                 panel, actual, point
             ) == pytest.approx(expected, abs=10)
+        point = (0, 0.5 * math.sin(0.45), 0.5 * math.cos(0.45))
+        assert _brightness_near_world(panel, actual, point) > 120
+        assert _brightness_near_world(panel, reference, point) < 120
 
 
 @pytest.mark.parametrize("filled", (False, True))
@@ -999,7 +1016,7 @@ def test_radial_circle_multiple_turns_have_one_transparent_fill(
         names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
             0
         ].split(":")
-        maya_cmds.setAttr(f"{shape}.shape", names.index("Arc"))
+        maya_cmds.setAttr(f"{shape}.shape", names.index("Circle"))
         maya_cmds.setAttr(f"{shape}.shapePart", False)
         maya_cmds.setAttr(f"{shape}.shapeArcAngle", 360)
         maya_cmds.setAttr(f"{shape}.shapeRootSize", 5)
@@ -1081,6 +1098,8 @@ def test_cross_circle_axial_join_has_one_transparent_top_face(
             0
         ].split(":")
         maya_cmds.setAttr(f"{shape}.shape", names.index("Square"))
+        maya_cmds.setAttr(f"{shape}.shape1stAxis", 0)
+        maya_cmds.setAttr(f"{shape}.shape2ndAxis", 2)
         maya_cmds.setAttr(f"{shape}.shapeRotateZ", 0)
         reference = _capture_view(
             panel, tmp_path / "single_transparent_face.png"
@@ -2113,13 +2132,57 @@ def test_color_cube_fill_colors_follow_the_face_axis(
 def test_arc_initial_angle_is_a_semicircle(maya_cmds, new_scene, tmp_path):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
-    with _drawing_view(maya_cmds, "Arc") as (_, shape, camera, _, panel):
+    with _drawing_view(
+        maya_cmds, "ArcRadial", shape1stAxis=0, shape2ndAxis=2
+    ) as (_, shape, camera, _, panel):
         assert maya_cmds.getAttr(f"{shape}.shapeArcAngle") == 180
-        maya_cmds.setAttr(f"{camera}.translate", 4, 0, 0)
-        maya_cmds.setAttr(f"{camera}.rotate", 0, 90, 0)
+        _aim_at_origin(maya_cmds, camera, (0, 4, 0.2))
         pixels = _capture_view(panel, tmp_path / "initial_arc.png")
-        assert _brightness_near_world(panel, pixels, (0, 0.5, 0)) > 600
-        assert _brightness_near_world(panel, pixels, (0, -0.5, 0)) < 120
+        assert _brightness_near_world(panel, pixels, (0.5, 0, 0)) > 600
+        assert _brightness_near_world(panel, pixels, (-0.5, 0, 0)) < 120
+
+
+@pytest.mark.parametrize(
+    "preset",
+    tuple(
+        base + suffix
+        for base in (
+            "ArcRadial",
+            "ArcAxial",
+            "CrossArcRadial",
+            "CrossArcAxial",
+        )
+        for suffix in ("", "Swapped")
+    ),
+)
+def test_thin_arc_draws_fill_only_on_its_part(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+        shapeArcAngle=90,
+        shapeFillTransparency=0.3,
+    ) as (_, shape, camera, _, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        outline = _capture_view(panel, tmp_path / "body_outline.png")
+        assert (
+            max(sum(outline[i : i + 3]) for i in range(0, len(outline), 4))
+            > 600
+        )
+        maya_cmds.setAttr(f"{shape}.shapeLineTransparency", 1)
+        maya_cmds.setAttr(f"{shape}.shapeFill", True)
+        body = _capture_view(panel, tmp_path / "body_without_fill.png")
+        assert max(sum(body[i : i + 3]) for i in range(0, len(body), 4)) < 120
+        maya_cmds.setAttr(f"{shape}.shapePart", True)
+        maya_cmds.setAttr(f"{shape}.shapePartShape", 3)
+        maya_cmds.setAttr(f"{shape}.shapePartSize", 3)
+        part = _capture_view(panel, tmp_path / "filled_part.png")
+        assert max(sum(part[i : i + 3]) for i in range(0, len(part), 4)) > 150
 
 
 @pytest.mark.parametrize(

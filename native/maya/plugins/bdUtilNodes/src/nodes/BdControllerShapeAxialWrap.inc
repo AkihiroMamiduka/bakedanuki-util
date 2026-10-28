@@ -216,6 +216,8 @@ void appendAxialWrapBoundary(AxialWrapSegments& segments,
     const std::vector<AxialWrapInterval>& intervals,
     const std::vector<AxialWrapSpoke>& spokes, bool crest, const ShapeSettings& settings) {
     if (intervals.empty()) return;
+    const bool openArrow = !crest && !isWideArcOutline(outlinePresetIndex(settings.shape)) &&
+        !settings.fill && settings.partShape <= 1;
     const auto point = [&](double position, double extent) {
         return crest ? axialWrapPoint(position, 0.0, extent, settings) : axialWrapPoint(position, extent, 0.0, settings);
     };
@@ -241,7 +243,7 @@ void appendAxialWrapBoundary(AxialWrapSegments& segments,
         const double before = previous.active ? previous.lastHeight : 0.0;
         const double after = next.active ? next.firstHeight : 0.0;
         const double low = std::min(before, after), high = std::max(before, after);
-        if (high - low > 1e-12) {
+        if (!openArrow && high - low > 1e-12) {
             addAxialWrapSegment(segments, point(next.first, low), point(next.first, high));
             if (!crest) addAxialWrapSegment(segments, point(next.first, -low), point(next.first, -high));
         }
@@ -252,6 +254,13 @@ void appendAxialWrapBoundary(AxialWrapSegments& segments,
         if (spokeHeight - high > 1e-12) {
             addAxialWrapSegment(segments, point(next.first, high), point(next.first, spokeHeight));
             if (!crest) addAxialWrapSegment(segments, point(next.first, -high), point(next.first, -spokeHeight));
+        }
+    }
+    if (openArrow) {
+        // 薄線の矢印は根元を閉じず、円筒面の中央線を円周上の先端まで残す。
+        for (const auto& interval : intervals) if (interval.active) {
+            addAxialWrapSegment(segments, axialWrapPoint(interval.first, 0.0, 0.0, settings),
+                axialWrapPoint(interval.last, 0.0, 0.0, settings));
         }
     }
 }

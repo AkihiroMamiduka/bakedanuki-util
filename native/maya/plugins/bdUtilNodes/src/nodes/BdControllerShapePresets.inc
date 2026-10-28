@@ -1,6 +1,6 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 41> kPresetNames = {
+constexpr std::array<const char*, 51> kPresetNames = {
     "Gear",
     "GearSwapped",
     "Line",
@@ -26,12 +26,22 @@ constexpr std::array<const char*, 41> kPresetNames = {
     "Cube",
     "Octahedron",
     "OctahedronArrow",
-    "Arc",
+    "ArcRadial",
+    "ArcAxial",
     "WideArcRadial",
     "WideArcAxial",
-    "CrossArc",
+    "ArcRadialSwapped",
+    "ArcAxialSwapped",
+    "WideArcRadialSwapped",
+    "WideArcAxialSwapped",
+    "CrossArcRadial",
+    "CrossArcAxial",
     "WideCrossArcRadial",
     "WideCrossArcAxial",
+    "CrossArcRadialSwapped",
+    "CrossArcAxialSwapped",
+    "WideCrossArcRadialSwapped",
+    "WideCrossArcAxialSwapped",
     "Sphere",
     "Cylinder",
     "Arrow",
@@ -53,7 +63,7 @@ struct PresetInfo {
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 41> kPresetInfo = {{
+constexpr std::array<PresetInfo, 51> kPresetInfo = {{
     {0},  // Gear
     {0, true},  // GearSwapped
     {1},  // Line
@@ -79,12 +89,22 @@ constexpr std::array<PresetInfo, 41> kPresetInfo = {{
     {19},  // Cube
     {24},  // Octahedron
     {25},  // OctahedronArrow
-    {27},  // Arc
+    {27},  // ArcRadial
+    {120},  // ArcAxial
     {111},  // WideArcRadial
     {112},  // WideArcAxial
-    {113},  // CrossArc
+    {27, true},  // ArcRadialSwapped
+    {120, true},  // ArcAxialSwapped
+    {111, true},  // WideArcRadialSwapped
+    {112, true},  // WideArcAxialSwapped
+    {113},  // CrossArcRadial
+    {121},  // CrossArcAxial
     {114},  // WideCrossArcRadial
     {115},  // WideCrossArcAxial
+    {113, true},  // CrossArcRadialSwapped
+    {121, true},  // CrossArcAxialSwapped
+    {114, true},  // WideCrossArcRadialSwapped
+    {115, true},  // WideCrossArcAxialSwapped
     {33},  // Sphere
     {36},  // Cylinder
     {39},  // Arrow
@@ -115,26 +135,37 @@ bool isSwappedPreset(short shape) {
     return shape >= 0 && shape < static_cast<short>(kPresetInfo.size()) && kPresetInfo[shape].swapped;
 }
 
-// 旧YZ平面の本体と付属形状は、接合を終えてから主軸を含むXZ平面へ揃える。
-bool hasLegacyPlanarOrientation(short outline) {
-    return outline == 0 || outline == 6 || outline == 8 || outline == 79 ||
-        (outline >= 108 && outline <= 110) || outline == 116 || outline == 117;
-}
-
-MPoint presetOrientedPoint(const MPoint& point, short shape) {
-    const bool exchange = hasLegacyPlanarOrientation(outlinePresetIndex(shape)) != isSwappedPreset(shape);
-    return exchange ? MPoint(point.y, point.x, -point.z) : point;
-}
-
 bool isArcOutline(short outline) {
-    return outline == 27 || (outline >= 111 && outline <= 115);
+    return outline == 27 || (outline >= 111 && outline <= 115) || outline == 120 || outline == 121;
 }
 
 short crossCircleBaseOutline(short outline) {
     if (outline == 113) return 27;
     if (outline == 114) return 111;
     if (outline == 115) return 112;
+    if (outline == 121) return 120;
     return -1;
+}
+
+bool isAxialArcOutline(short outline) {
+    const short base = crossCircleBaseOutline(outline);
+    return outline == 112 || outline == 120 || base == 112 || base == 120;
+}
+
+bool isWideArcOutline(short outline) {
+    const short base = crossCircleBaseOutline(outline);
+    return outline == 111 || outline == 112 || base == 111 || base == 112;
+}
+
+// 旧YZ平面の本体と付属形状は、接合を終えてから主軸を含むXZ平面へ揃える。
+bool hasLegacyPlanarOrientation(short outline) {
+    return outline == 0 || outline == 6 || outline == 8 || outline == 79 ||
+        (outline >= 108 && outline <= 110) || outline == 116 || outline == 117 || isArcOutline(outline);
+}
+
+MPoint presetOrientedPoint(const MPoint& point, short shape) {
+    const bool exchange = hasLegacyPlanarOrientation(outlinePresetIndex(shape)) != isSwappedPreset(shape);
+    return exchange ? MPoint(point.y, point.x, -point.z) : point;
 }
 
 short presetPartAxis(short shape) {
