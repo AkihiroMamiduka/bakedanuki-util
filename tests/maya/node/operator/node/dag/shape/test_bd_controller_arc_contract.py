@@ -5,6 +5,8 @@ import math
 
 import pytest
 
+from controller_shape_cases import set_preset
+
 from test_bd_controller_shape import _bounds, _load_bd_util_nodes
 
 pytestmark = pytest.mark.maya
@@ -31,10 +33,7 @@ def _controller(maya_cmds, name, preset):
     shape = maya_cmds.createNode(
         "bdControllerShape", parent=transform, name=f"{name}Shape"
     )
-    names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
-        0
-    ].split(":")
-    maya_cmds.setAttr(f"{shape}.shape", names.index(preset))
+    set_preset(maya_cmds, shape, preset)
     maya_cmds.setAttr(f"{shape}.boundsMode", 0)
     maya_cmds.setAttr(f"{shape}.shape1stAxis", 0)
     maya_cmds.setAttr(f"{shape}.shape2ndAxis", 2)

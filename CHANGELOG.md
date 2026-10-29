@@ -18,27 +18,37 @@
 
 ### Changed
 
-- `bdControllerShape.shape` は通常向き・Swappedの各Circle系の直後に、単円Arc4系統と
-  CrossArc4系統をRadial・WideRadial・Axial・WideAxialの順で並べるようにした。
-  本体数は51種類、既定の本体は `Cube`（38）とする。
-  Channel Boxは先頭の区切り直後へ軸2属性と本体選択をまとめ、DrawOnTop、Line、Fillの順へ整理した。
-  15区画とし、先頭を含む15本の区切りを置く。AxisOffset・Direction・LengthはOffsetLine後・TRS前に維持する。
+- `bdControllerShape.shape` を24種類の基本本体へ整理し、既定は `Cube`（12）とした。
+  `shapeAxisSwap`、`shapeWide`、`shapeTemplateLine`、`shapeTemplateLineRate`、
+  `shapeTemplateFill` を共通属性として分離する。Wide・Swapped・SquareTemplate専用の公開enumは設けない。
+  全本体でWideを選べ、線と平面は帯、多面体は面内の輪郭、球・円柱・円錐は面上のoffset線を使う。
+  立体の元Fillと稜線、Colorの軸色、ColorCornerCubeの小四角は維持する。
+  AxisSwapは主軸と補助軸を交換し、第3軸を反転する。Color系はPart・Finだけを交換する。
+  軸属性値・AxisOffset・Axis系TRSと独立したCustom Boundsの意味は維持する。
+- `bdControllerShape` の本体線と本体面を独立してTemplate表示にできるようにした。
+  線の割合は既定0.7、0で全線通常、1で全本体線Templateとする。
+  多角形・立体稜線、Line・CrossLine、円・Arcの論理区間ごとの割当てに従い、
+  CrossArcのAtEndでも両円の4端を通常表示にする。
+  Part・Fin・GuideLine・OffsetLineとColorCornerCubeのマーカーを保護し、GuideとOffsetの専用Template設定は維持する。
+  Channel Boxは先頭の区切り直後へ軸2属性・AxisSwap・基本本体をまとめ、
+  Line区画へTemplateLineと割合、Fill区画へTemplateFill、Wide区画へWideと幅を置く。
+  先頭を含む15本の区切り・15区画を維持し、AxisOffset・Direction・LengthはOffsetLine後・TRS前に残す。
 - `bdControllerShape` の非Arc系の `AtEnds` に、代表用の `shapePartPrimarySizeScale` と
   その他用の `shapePartOtherSizeScale` を追加した。共通の `shapePartSize` へ掛け合わせ、
   全11種類のPartの寸法を個別に調整できる。既定値は1と0.5で、両方1なら等サイズ、Otherが0なら代表だけを残す。
   0の配置は省略し、両方0なら本体・Fin・GuideLine・BoundsをPart OFFと同じにする。
-  負値も許容し、配置ピボットとOffsetは維持する。AtEnd・AtApex・Arc系16本体では設定を保持して無視する。
+  負値も許容し、配置ピボットとOffsetは維持する。AtEnd・AtApex・Arc系4基本形状では設定を保持して無視する。
 - `bdControllerShape` のColor系本体は向きと軸色を固定したまま、
-  `shape1stAxis` / `shape2ndAxis` にPart・Finの配置姿勢だけを追従させる。
+  `shape1stAxis` / `shape2ndAxis` と `shapeAxisSwap` にPart・Finの配置姿勢だけを追従させる。
   回転無視・負スケールの絶対値化など、Color系の他の変形規則とPart・Finの対応本体は維持する。
   Arc系を除くPart対応本体の `AtEnds` は全11種類のPartで、追加倍率の既定値なら代表1つを標準サイズ、
-  残りを0.5倍にする。配置ピボットとOffsetの距離、Arc系16本体のサイズ規約は維持する。
-- `bdControllerShape` のArc系・CrossArc系をRadial・Axialと各Wide・Swappedの16本体へ整理した。
+  残りを0.5倍にする。配置ピボットとOffsetの距離、Arc系のサイズ規約は維持する。
+- `bdControllerShape` のArc系をArcRadial・ArcAxial・CrossArcRadial・CrossArcAxialの4基本形状とした。
   通常版の基準円を主軸と第3軸の平面、中央方向を+主軸へ揃え、Cross版は主軸と補助軸の平面を追加する。
   角度は中央方向を固定して両端を対称に動かし、薄線本体のFillはPartだけへ適用する。
-  Wideの幅0は対応する薄線本体の線・Part・Boundsと一致させ、Fin・GuideLineは16本体とも対象外とする。
+  Wideの幅0は対応する薄線本体の線・Part・Boundsと一致させ、Fin・GuideLineは4基本形状とも対象外とする。
 - `bdControllerShape` の中央ガイドを `shapeGuideLine` / `shapeGuideLineTemplate`
-  に統合し、十字付きの専用本体を整理した。Arc系の拡張を含め `shape` は51種類となる。
+  に統合し、十字付きの専用本体を整理した。
   ガイドは本体表面までとし、Square系、WideLine、WideCrossLine・Circleと各Swappedの
   Arrow先端接続、WideCircle系の内周停止、
   Color系の正側RGB・負側通常色と、ガイドだけのtemplate表示・選択不可に対応する。
@@ -205,7 +215,7 @@
 - `bdControllerShape` の選択色をビューポートごとの Selection Highlighting 設定に従わせ、
   オフでは通常色と軸色を保つ。
 - `bdControllerShape` の基準軸を主軸 `+X`・補助軸 `+Y` の右手系へ変更した。
-  通常の `Square`・`Circle` はXZ面、各SwappedとArc系はYZ面を基準とし、
+  通常の `Square`・`Circle`・Arc系はXZ面、AxisSwap状態はYZ面を基準とし、
   `shape1stAxis` / `customBounds1stAxis` の既定値を `+X` に変更した。
   形状と Custom Bounds の Axis 系 X/Y/Z は主軸／補助軸／第３軸に対応し、
   `+3rdAxis` は「主軸 × 補助軸」の正方向とする。旧計算仕様は残さない。
@@ -298,8 +308,8 @@
   実行元の `modules` パスだけを確認後に解除する。共通ルートの同梱packageは
   次回起動からまとめて無効になり、配布ファイル・scene・個人設定は維持する。
 
-- `bdControllerShape.shape` に51種類の本体を定義した。Gearを一覧の先頭、Cubeを
-  初期値とし、塗り・11種類のPart・Fin・GuideLineを共通オプションで組み合わせる。
+- `bdControllerShape.shape` に24基本本体を定義した。Gearを一覧の先頭、Cubeを
+  初期値とし、Wide・AxisSwap・Template表示・塗り・11種類のPart・Fin・GuideLineを共通オプションで組み合わせる。
   角度固定のCircle系、角度を変更できるArc系、四角断面を接合した3軸Wide本体、
   部分template・軸色を1つのshapeで描画する。Gearの内円は穴として残し、
   付属Part・Finにも塗りを適用する。template指定の線と面は選択不可にする。

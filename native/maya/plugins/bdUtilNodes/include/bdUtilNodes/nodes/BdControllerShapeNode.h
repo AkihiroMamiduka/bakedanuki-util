@@ -71,6 +71,11 @@ public:
     static const MString drawRegistrantId;
 
     static MObject shape;
+    static MObject shapeAxisSwap;
+    static MObject shapeWide;
+    static MObject shapeTemplateLine;
+    static MObject shapeTemplateLineRate;
+    static MObject shapeTemplateFill;
     static MObject shapeWideWidth;
     static MObject shapeArcAngle;
     static MObject shapePart;

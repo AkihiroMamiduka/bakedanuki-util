@@ -137,43 +137,17 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.shape, ShapeEnumPlugOperator)
     for preset in (
         ShapeEnumPlugOperator.GEAR,
-        ShapeEnumPlugOperator.GEARSWAPPED,
         ShapeEnumPlugOperator.LINE,
-        ShapeEnumPlugOperator.WIDELINE,
         ShapeEnumPlugOperator.CROSSLINE,
-        ShapeEnumPlugOperator.WIDECROSSLINE,
         ShapeEnumPlugOperator.TRIANGLE,
         ShapeEnumPlugOperator.SQUARE,
-        ShapeEnumPlugOperator.SQUARETEMPLATE,
         ShapeEnumPlugOperator.DIAMOND,
         ShapeEnumPlugOperator.CIRCLE,
-        ShapeEnumPlugOperator.WIDECIRCLE,
         ShapeEnumPlugOperator.ARCRADIAL,
-        ShapeEnumPlugOperator.WIDEARCRADIAL,
         ShapeEnumPlugOperator.ARCAXIAL,
-        ShapeEnumPlugOperator.WIDEARCAXIAL,
         ShapeEnumPlugOperator.CROSSARCRADIAL,
-        ShapeEnumPlugOperator.WIDECROSSARCRADIAL,
         ShapeEnumPlugOperator.CROSSARCAXIAL,
-        ShapeEnumPlugOperator.WIDECROSSARCAXIAL,
-        ShapeEnumPlugOperator.CROSSLINESWAPPED,
-        ShapeEnumPlugOperator.WIDECROSSLINESWAPPED,
-        ShapeEnumPlugOperator.TRIANGLESWAPPED,
-        ShapeEnumPlugOperator.SQUARESWAPPED,
-        ShapeEnumPlugOperator.SQUARETEMPLATESWAPPED,
-        ShapeEnumPlugOperator.DIAMONDSWAPPED,
-        ShapeEnumPlugOperator.CIRCLESWAPPED,
-        ShapeEnumPlugOperator.WIDECIRCLESWAPPED,
-        ShapeEnumPlugOperator.ARCRADIALSWAPPED,
-        ShapeEnumPlugOperator.WIDEARCRADIALSWAPPED,
-        ShapeEnumPlugOperator.ARCAXIALSWAPPED,
-        ShapeEnumPlugOperator.WIDEARCAXIALSWAPPED,
-        ShapeEnumPlugOperator.CROSSARCRADIALSWAPPED,
-        ShapeEnumPlugOperator.WIDECROSSARCRADIALSWAPPED,
-        ShapeEnumPlugOperator.CROSSARCAXIALSWAPPED,
-        ShapeEnumPlugOperator.WIDECROSSARCAXIALSWAPPED,
         ShapeEnumPlugOperator.CROSSLINE3AXIS,
-        ShapeEnumPlugOperator.WIDECROSSLINE3AXIS,
         ShapeEnumPlugOperator.CUBE,
         ShapeEnumPlugOperator.OCTAHEDRON,
         ShapeEnumPlugOperator.OCTAHEDRONARROW,
@@ -183,13 +157,32 @@ def controller_shape_offset_line_contract() -> None:
         ShapeEnumPlugOperator.PYRAMID,
         ShapeEnumPlugOperator.CONE,
         ShapeEnumPlugOperator.COLORCROSSLINE3AXIS,
-        ShapeEnumPlugOperator.COLORWIDECROSSLINE3AXIS,
         ShapeEnumPlugOperator.COLORCUBE,
         ShapeEnumPlugOperator.COLORCORNERCUBE,
         ShapeEnumPlugOperator.COLORSPHERE,
     ):
         shape.shape.set(preset)
     assert_type(shape.shapeFin, BoolPlugOperator)
+    assert_type(shape.shapeAxisSwap, BoolPlugOperator)
+    assert_type(shape.sasw, BoolPlugOperator)
+    assert_type(shape.shapeWide, BoolPlugOperator)
+    assert_type(shape.swd, BoolPlugOperator)
+    assert_type(shape.shapeTemplateLine, BoolPlugOperator)
+    assert_type(shape.stl, BoolPlugOperator)
+    assert_type(shape.shapeTemplateLineRate, DoublePlugOperator)
+    assert_type(shape.stlr, DoublePlugOperator)
+    assert_type(shape.shapeTemplateFill, BoolPlugOperator)
+    assert_type(shape.stf, BoolPlugOperator)
+    shape.shapeAxisSwap.set(True)
+    shape.sasw.set(False)
+    shape.shapeWide.set(True)
+    shape.swd.set(False)
+    shape.shapeTemplateLine.set(True)
+    shape.stl.set(False)
+    shape.shapeTemplateLineRate.set(0.35)
+    shape.stlr.set(0.7)
+    shape.shapeTemplateFill.set(True)
+    shape.stf.set(False)
     assert_type(shape.shapeGuideLine, BoolPlugOperator)
     assert_type(shape.sgl, BoolPlugOperator)
     assert_type(shape.shapeGuideLineTemplate, BoolPlugOperator)

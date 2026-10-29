@@ -38,6 +38,7 @@ $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_arc_contract.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_attachment_contract.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_part_size_scale.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_shape_options.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_delete_with_owner.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_double_linear.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_dbl3_add.py") `

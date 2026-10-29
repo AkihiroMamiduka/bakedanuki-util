@@ -13,18 +13,20 @@
 
 ## 現在の実装範囲
 
-2026-10-29時点で、本体51種類、Part11種類、通常平面のCircle系、Arc系・CrossArc系の円周変形と接合、
-Fin、GuideLine、表示・選択・フォーカス範囲・キャッシュを本仕様書の範囲とします。
+2026-10-29時点で、基本本体24種類、全本体に対応するWide・軸交換・Template表示、Part11種類、
+Arc系の円周変形と接合、Fin、GuideLine、表示・選択・フォーカス範囲・キャッシュを扱います。
 Arc系の6種類のPartは円周変形、残る5種類の立体Partは寸法を保つ角度補正を使い、
-AtApexは共通の中央方向へ配置します。Arc系・CrossArc系16本体ではFinとGuideLineを生成しません。
+AtApexは共通の中央方向へ配置します。Arc系4基本形状ではFinとGuideLineを生成しません。
 
 通常の2D本体・Lineの帯・代表方向のPart矢印の主面を
 主軸と第3軸の平面へ揃え、FinとArrow3Dの追加面を補助軸側へ立ち上げます。
-2D本体には主軸と補助軸を入れ替えた `Swapped` を別の本体名で用意します。
-Circle・WideCircleにも通常版とSwapped版があり、角度固定の閉じた円としてSquare系と同じPart・Finの規約を使います。
-WideCrossLine3AxisとColorWideCrossLine3Axisは、四角い断面の3軸を一体にした立体です。
-Arc系はArcRadial・ArcAxial・WideArcRadial・WideArcAxialと各Cross版・Swapped版を用意し、
-通常版の基準円を主軸と第3軸の平面、中央方向を+主軸へ揃えます。
+`shapeAxisSwap` は全本体の基準主軸と補助軸を交換し、第3軸を反転します。Color系はPart・Finだけに適用します。
+`shapeWide` は本体の帯または面上の追加輪郭を有効にします。
+`shapeTemplateLine` と `shapeTemplateFill` は本体の線と面のTemplate表示を独立して切り替えます。
+いずれも本体選択とは独立した属性で、組合せ専用の公開enumはありません。
+Circleは角度固定の閉じた円としてSquareと同じPart・Finの規約を使います。
+Arc系はArcRadial・ArcAxial・CrossArcRadial・CrossArcAxialの4基本形状とし、
+基準円を主軸と第3軸の平面、中央方向を+主軸へ揃えます。
 薄線のArc本体は塗らず、PartにだけFillを適用します。
 多数配置時の再生性能測定は今後の候補とし、実際の利用で負荷が確認できた際に検討します。
 
@@ -108,14 +110,19 @@ mod.do_it_dg()
 | --- | --- | --- | --- |
 | `shape1stAxis` | enum | `+X` (0) | 基準主軸の行先。Color系ではPart・Finの配置姿勢に適用。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準補助軸の行先。Color系ではPart・Finの配置姿勢に適用。選択肢はshape1stAxisと同じ |
-| `shape` | enum | `Cube` (38) | 下表の51種類の本体。`Gear` を一覧の先頭に配置 |
+| `shapeAxisSwap` | `bool` | `false` | 基準形状の主軸・補助軸を交換し、第3軸を反転。Color系ではPart・Finだけに適用。軸属性値やAxis系TRSの意味は交換しない。`sasw` |
+| `shape` | enum | `Cube` (12) | 下表の24種類の基本本体。組合せは共通属性で選ぶ |
 | `shapeDrawOnTop` | `bool` | `false` | 本体・Part・Fin・GuideLine・OffsetLineを他のシーン形状に隠れないように描画 |
 | `shapeLineWidth` | `float` | `1` | 本体・GuideLine・OffsetLineの画面上の線幅。pixel単位、最小値1 |
 | `shapeLineTransparency` | `float` | `0` | 輪郭・GuideLine・OffsetLine・ColorCornerCubeの小四角の透明度。0は不透明、1は完全透明 |
+| `shapeTemplateLine` | `bool` | `false` | 本体線の指定区間だけをTemplate色・選択不可にする。Part・Fin・GuideLine・OffsetLineには作用しない。`stl` |
+| `shapeTemplateLineRate` | `double` | `0.7` | 各論理区間に占めるTemplate部分の割合。0–1。0で全線通常、1で全本体線Template。`stlr` |
 | `shapeFill` | `bool` | `false` | 本体・Part・Finの面を表示。薄線のArc系・CrossArc系はPartのみ。`sfl` |
 | `shapeFillTransparency` | `float` | `0.85` | 通常の塗り面の透明度。ColorCornerCubeの小四角には適用しない |
-| `shapeWideWidth` | `doubleLinear` | `0.05 cm` | Wide系本体の帯幅、3軸Wide本体の四角断面の一辺。最小値0。薄線Arc系では値と接続を保持して無視。`sww` |
-| `shapeArcAngle` | `doubleAngle` | `180°` | Arc系・CrossArc系16種類の円弧全体の角度。0–360°。Circle系では無視。`saa` |
+| `shapeTemplateFill` | `bool` | `false` | 表示中の通常の本体面だけをTemplate色・選択不可にする。線のTemplate指定・割合から独立。Part・Fin・ColorCornerCubeの小四角には作用しない。`stf` |
+| `shapeWide` | `bool` | `false` | 全24基本本体で帯または面上の追加輪郭を有効にする。`swd` |
+| `shapeWideWidth` | `doubleLinear` | `0.05 cm` | 帯幅、3軸の四角断面の一辺、面上の追加輪郭の基準幅。最小値0。Wide OFFでは保持して無視。`sww` |
+| `shapeArcAngle` | `doubleAngle` | `180°` | Arc系4基本形状の円弧全体の角度。0–360°。他本体では保持して無視。`saa` |
 | `shapePart` | `bool` | `false` | 対象本体へ小形状を追加。`spt` |
 | `shapePartShape` | enum | `Arrow2D` (0) | 小形状の11種類。`spsh` |
 | `shapePartType` | enum | `AtEnd` (0) | `AtEnd` (0)、`AtEnds` (1)、`AtApex` (2)。`sptp` |
@@ -125,7 +132,7 @@ mod.do_it_dg()
 | `shapePartOtherSizeScale` | `double` | `0.5` | Arc系以外のAtEndsで、代表以外へ掛ける追加倍率。0なら該当Partを省略。負値を含め上下限なし。対象外では値と接続を保持して無視。`sposs` |
 | `shapePartLengthScale` | `double` | `1` | Partの長手方向の倍率。Arc系・CrossArc系の円周へ曲げるPartでは半径0.5の中心円弧長の倍率。Arrow・OctahedronArrow本体の調整にも使用 |
 | `shapePartWidthScale` | `double` | `1` | Partの長手方向に直交する2軸の共通倍率。円周変形時はRadialの半径方向幅、Axialの円軸方向幅とArrow3Dの高さへ作用。Arrow・OctahedronArrow本体の調整にも使用 |
-| `shapeFin` | `bool` | `false` | Arc系・CrossArc系16種類を除く35形状へ通常色のFinを1枚追加。対象外では値と接続を保持して無視。`sfn` |
+| `shapeFin` | `bool` | `false` | Arc系4基本形状を除く20本体へ通常色のFinを1枚追加。対象外では値と接続を保持して無視。`sfn` |
 | `shapeFinType` | enum | `Standard` (0) | `Standard` (0)、`Tapered` (1)。`sfnt` |
 | `shapeFinHeight` | `doubleLinear` | `0.5 cm` | Finの張り出す高さ。`shapeFinSize`を掛け、0ならFinのみ省略。`sfnh` |
 | `shapeFinSize` | `double` | `1` | Finの高さと幅の共通倍率。`sfns` |
@@ -151,66 +158,38 @@ mod.do_it_dg()
 
 ### 本体一覧
 
-`Gear` / `GearSwapped` の後に通常向きの本体をまとめ、その後に対応するSwappedを
-同じ順序で並べます。各群ではCircle・WideCircleの後に単円のArc4系統、CrossArc4系統を置きます。
-どちらもRadial・WideRadial・Axial・WideAxialの順です。
-この分類は基準面の向きを揃えた一覧で、円筒面を持つWideArcAxialや直交円を合成するCrossArcも含みます。
-続けて `CrossLine3Axis`・`WideCrossLine3Axis`、`Cube`・`Octahedron`・`OctahedronArrow`、
-`Sphere` 以降の本体を並べます。
+公開する本体は次の24種類です。Wide・Swapped・SquareTemplateを選択するenum定数はありません。
+本書で使う `WideCircle` などの `Wide...` は、その基本形状で `shapeWide=true` とした状態の略記です。
+`...Swapped` または「Swapped」は `shapeAxisSwap=true`、`SquareTemplate` は
+`Square` に `shapeTemplateLine=true`、`shapeTemplateLineRate=0.7`、`shapeTemplateFill=true` を指定した状態を指します。
+APIでは24基本形状の定数と個別の属性を設定し、状態の略記と区別します。
 
 | 値 | 本体 |
 | --- | --- |
 | 0 | `Gear` |
-| 1 | `GearSwapped` |
-| 2 | `Line` |
-| 3 | `WideLine` |
-| 4 | `CrossLine` |
-| 5 | `WideCrossLine` |
-| 6 | `Triangle` |
-| 7 | `Square` |
-| 8 | `SquareTemplate` |
-| 9 | `Diamond` |
-| 10 | `Circle` |
-| 11 | `WideCircle` |
-| 12 | `ArcRadial` |
-| 13 | `WideArcRadial` |
-| 14 | `ArcAxial` |
-| 15 | `WideArcAxial` |
-| 16 | `CrossArcRadial` |
-| 17 | `WideCrossArcRadial` |
-| 18 | `CrossArcAxial` |
-| 19 | `WideCrossArcAxial` |
-| 20 | `CrossLineSwapped` |
-| 21 | `WideCrossLineSwapped` |
-| 22 | `TriangleSwapped` |
-| 23 | `SquareSwapped` |
-| 24 | `SquareTemplateSwapped` |
-| 25 | `DiamondSwapped` |
-| 26 | `CircleSwapped` |
-| 27 | `WideCircleSwapped` |
-| 28 | `ArcRadialSwapped` |
-| 29 | `WideArcRadialSwapped` |
-| 30 | `ArcAxialSwapped` |
-| 31 | `WideArcAxialSwapped` |
-| 32 | `CrossArcRadialSwapped` |
-| 33 | `WideCrossArcRadialSwapped` |
-| 34 | `CrossArcAxialSwapped` |
-| 35 | `WideCrossArcAxialSwapped` |
-| 36 | `CrossLine3Axis` |
-| 37 | `WideCrossLine3Axis` |
-| 38 | `Cube` |
-| 39 | `Octahedron` |
-| 40 | `OctahedronArrow` |
-| 41 | `Sphere` |
-| 42 | `Cylinder` |
-| 43 | `Arrow` |
-| 44 | `Pyramid` |
-| 45 | `Cone` |
-| 46 | `ColorCrossLine3Axis` |
-| 47 | `ColorWideCrossLine3Axis` |
-| 48 | `ColorCube` |
-| 49 | `ColorCornerCube` |
-| 50 | `ColorSphere` |
+| 1 | `Line` |
+| 2 | `CrossLine` |
+| 3 | `Triangle` |
+| 4 | `Square` |
+| 5 | `Diamond` |
+| 6 | `Circle` |
+| 7 | `ArcRadial` |
+| 8 | `ArcAxial` |
+| 9 | `CrossArcRadial` |
+| 10 | `CrossArcAxial` |
+| 11 | `CrossLine3Axis` |
+| 12 | `Cube` |
+| 13 | `Octahedron` |
+| 14 | `OctahedronArrow` |
+| 15 | `Sphere` |
+| 16 | `Cylinder` |
+| 17 | `Arrow` |
+| 18 | `Pyramid` |
+| 19 | `Cone` |
+| 20 | `ColorCrossLine3Axis` |
+| 21 | `ColorCube` |
+| 22 | `ColorCornerCube` |
+| 23 | `ColorSphere` |
 
 基準形状は各軸おおむね `-0.5..+0.5` を使います。矢印・小形状・FinやWideの帯は
 その範囲から張り出すことがあり、形状全体を長さ1へ正規化しません。
@@ -225,18 +204,111 @@ Cross版は通常版でXY平面の円を追加し、共通の中央方向+Xを�
 Cross版のSwappedは基準YZ平面と追加XY平面で、中央方向+Yを共有します。
 DiamondはSquare各辺の中点を結び、縦横の対角線が1となります。
 
-Swappedは通常本体・Part・Fin・GuideLineを組み立てて接合した後、
+`shapeAxisSwap` は全24本体に対応します。Color系を除き、通常本体・Part・Fin・GuideLineを組み立てて接合した後、
 基準座標へ `(x, y, z) → (y, x, -z)` を一括適用します。
 主軸と補助軸の交換に合わせて第3軸も反転し、右手系を維持します。
 その後に適用する `shape1stAxis` / `shape2ndAxis`、AxisOffset、Axis系TRSの
 指定軸の意味や保持値は交換しません。たとえばSwappedでも
 `shapeAxisOffsetDirection=+1stAxis` はノードに指定した主軸方向のままです。
+立体や3軸線で本体の外形が対称な場合も、代表PartやFinの配置は交換します。
+Color系は基準配置の交換をPart・Finへ適用してから選択軸のフレームへ向け、固定本体・軸色・GuideLineを交換しません。
+OffsetLineとCustom Boundsはこの交換から独立しています。
 
 Cylinderは側面と両端、Coneは側面と底面、Pyramidは側面と底面を持ちます。
 ConeはFillのON/OFFにかかわらず、底円と先端を結ぶ補助線を表示します。小形状のConeも同様です。
 CylinderはFillを表示する場合に両端の円だけを残し、円同士を結ぶ補助線を省略します。
 Wireframeや非選択のTemplate・Referenceなど、面を表示しない状態では補助線を表示します。
 円周は64分割の折れ線、Sphereの面は32経度×16緯度で構成します。
+
+### Wideの共通オプション
+
+`shapeWide=true` と `shapeWideWidth` を組み合わせて、全24基本本体のWide表示を選びます。
+幅は共通TRSを適用する前の基準形状上で測ります。以下で `w=shapeWideWidth` とします。
+幅そのものはPart・FinのSizeやWidthへ掛けません。
+Arrow・OctahedronArrowの既存の本体変形は基準輪郭へ反映し、その輪郭からWideを生成します。
+
+| 基本本体 | Wide表示 |
+| --- | --- |
+| `Line`、`CrossLine` | 基準線を中心として±`w/2`の平面帯。Fillは帯を塗る |
+| `Circle` | 中心半径0.5から半径方向へ±`w/2`の環。内半径は0未満にしない |
+| `ArcRadial`、`CrossArcRadial` | 円平面内で半径方向へ幅を持つ帯 |
+| `ArcAxial`、`CrossArcAxial` | 円軸方向へ幅を持つ薄い円筒側面状の帯 |
+| `CrossLine3Axis`、`ColorCrossLine3Axis` | 一辺`w`の四角断面を持つ3軸の外殻。中央で接合し内部面を残さない |
+| `Gear`、`Triangle`、`Square`、`Diamond`、`Arrow` | 基準輪郭から±`w/2`の帯に置き換え、元の平面全体の代わりに帯だけを塗る。角の接合や帯同士の重なりをまとめる |
+| `Cube`、`Octahedron`、`OctahedronArrow`、`Pyramid`、`ColorCube`、`ColorCornerCube` | 元の稜線とFillを保ち、各面の辺から面内へ`w/2`離れた輪郭線を追加 |
+| `Sphere`、`ColorSphere` | 元の3大円とFillを保ち、各大円から球面上の距離`w/2`だけ両側へ離れた小円を追加 |
+| `Cylinder` | 元の円周・表示対象の側線とFillを保ち、側面と蓋に面上距離`w/2`の追加線を生成 |
+| `Cone` | 元の底円・母線とFillを保ち、底面と円錐側面に面上距離`w/2`の追加線を生成。母線のoffsetは展開した円錐面で求める |
+
+立体のWideは外側へ厚みや新しい外殻を加える機能ではありません。
+各面や曲面上に追加線を描き、元のFillを維持します。
+多面体の幅が大きく、内側の輪郭が面積を持たなくなる場合は、その輪郭を省略します。
+球の小円、円柱・円錐の追加線も、対応する面上で成立しないものは省略します。
+Color系の追加線は元の輪郭または面の軸色を維持します。
+ColorCornerCubeでは追加線を小四角の内部へ通さず、マーカーの色と常時表示を保ちます。
+本体の追加線・帯もPartとの接合処理へ渡し、Part内部に本体線を残しません。
+
+Wideの幅0では、平面帯と線の帯は元の輪郭線だけを残し、本体の帯Fillを省略します。
+立体へ追加する面内・面上の線は省略し、元の稜線とFillを維持します。
+Arc系では幅0の本体線・Part・BoundsをWide OFFと一致させます。
+`shapeWide=false` の間は幅を保持して無視し、再びONにすると保持値が作用します。
+Swappedの交換、Template表示、共通TRSはWideの結果へも適用します。
+
+```python
+shape.shape.set(shape.shape.CIRCLE)
+shape.shapeWide.set(True)
+shape.shapeWideWidth.set(0.1)
+shape.shapeAxisSwap.set(True)
+mod.do_it_dg()
+```
+
+### 本体のTemplate表示
+
+`shapeTemplateLine` は本体の線、`shapeTemplateFill` は本体の通常面をそれぞれ
+Template色・クリック選択不可にします。2つは独立したboolで、全24基本本体に対応します。
+Part・Fin・GuideLine・OffsetLineには作用しません。
+GuideLineとOffsetLineは、それぞれ専用のTemplate属性を使います。
+ColorCornerCubeの小四角も本体Templateの対象から除外します。
+
+`shapeTemplateLineRate` は本体の基準輪郭を論理区間へ分けたときのTemplate部分の割合です。
+ここでは通常色・通常の選択可否を保つ部分をN、Template部分をTpl、割合を `r` と書きます。
+辺や円弧はPartの接合・切取り前の区間で分類し、接合後も同じ位置で表示種別を切り替えます。
+Wideの追加輪郭と帯も、この本体の区間へ対応させます。
+
+| 本体・Part配置 | 区間の割り当て |
+| --- | --- |
+| 多角形の各辺、立体の各稜線 | 辺中央がN `1-r`、両端がそれぞれTpl `r/2` |
+| Circle、Sphere、ColorSphereの円 | 平面内の4方向がNの中央となる四分円区間を使い、各区間の中央N `1-r`、両端Tpl `r/2` |
+| Line、Part OFFまたはAtEnds | 線の中央Tpl `r`、両端N `(1-r)/2` |
+| Line、Part ONのAtEndまたはAtApex | 代表端と反対の端からTpl `r`、代表端側N `1-r` |
+| CrossLine、CrossLine3Axis、ColorCrossLine3Axis | 各腕で中心側Tpl `r`、外端側N `1-r`。Partの配置種類では変えない |
+| 単円Arc、Part OFFまたはAtEnds | 円弧中央Tpl `r`、両端N `(1-r)/2` |
+| 単円Arc、Part ONのAtEnd | 代表終端側N `1-r`、反対の始端側Tpl `r` |
+| 単円Arc、Part ONのAtApex | 円弧中央N `1-r`、両端Tpl `r/2` |
+| CrossArc、Part OFF・AtEnd・AtEnds | 両方の円で中央Tpl `r`、両端N `(1-r)/2`。AtEndでも両円の計4端をNにする |
+| CrossArc、Part ONのAtApex | 両方の円で中央N `1-r`、両端Tpl `r/2` |
+
+`r=0` は全本体線がN、`r=1` は全本体線がTplです。入力値は0–1へ制限します。
+既定の `r=0.7` は、各論理区間の70%をTpl、30%をNにします。
+`shapeTemplateLine=false` の間は割合を保持して無視します。
+Partの線・面と重なる部分は通常のPartとして保護し、表示境界をPartの内部へ通しません。
+PartやFinの寸法・配置、GuideLine・OffsetLineの表示と選択可否は変えません。
+
+`shapeTemplateFill` は `shapeFill=true` で生成した通常の本体面をTemplate表示にします。
+Lineの割合とは独立して本体面全体へ作用し、Part・Finの面とColorCornerCubeのマーカーは維持します。
+線だけをTemplateにする場合も、面だけをTemplateにする場合も選べます。
+通常部分や通常のPart・Finが残っていれば、その部分から同じ親transformを選択できます。
+
+SquareTemplateという状態の略記は、次の属性の組合せを表します。
+
+```python
+shape.shape.set(shape.shape.SQUARE)
+shape.shapeTemplateLine.set(True)
+shape.shapeTemplateLineRate.set(0.7)
+shape.shapeFill.set(True)
+shape.shapeTemplateFill.set(True)
+mod.do_it_dg()
+```
 
 ### 小形状の種類と配置
 
@@ -267,14 +339,14 @@ Arrowの底辺の線は追加せず、3D矢印をOffsetで離しても元の付�
 
 | `shapePartType` | 配置 |
 | --- | --- |
-| `AtEnd` (0) | 本体の代表となる1端。Line・通常CrossLine・3軸CrossLine・通常Square系・通常Circle系・Cube・Sphere系は+1st、SwappedのCrossLine・Square系・Circle系は+2nd。Arc系は円弧の1端、CrossArc系は基準円の1端 |
+| `AtEnd` (0) | 本体の代表となる1端。Arc系を除きAxisSwap OFFは+1st、ONは+2nd。Color系も選択軸上の代表配置だけを交換。Arc系は円弧の1端、CrossArc系は基準円の1端 |
 | `AtEnds` (1) | Lineは両端、2軸CrossLineは4端、3軸CrossLine・Cube・Sphere系は6端、Square系・Circle系は4方向、Arc系は円弧両端、CrossArc系は両円の4端 |
-| `AtApex` (2) | Arc系・CrossArc系16種類の中央方向の頂部。CrossArc系は基準円の向きで1つ。その他の対象本体ではAtEndとして扱う |
+| `AtApex` (2) | Arc系4基本形状の中央方向の頂部。CrossArc系は基準円の向きで1つ。その他の対象本体ではAtEndとして扱う |
 
 通常Square系・Circle系の代表方向は+1st、SwappedのSquare系・Circle系は+2ndです。
 AtEndsの各矢印は、それぞれ配置先の端から外向きに進みます。
 主軸方向への先端という規約は代表方向を指し、他端を主軸方向へ揃えません。
-Arc系・CrossArc系16種類を除く全Part対応本体では、AtEndsの代表となる1つへ
+Arc系4基本形状を除く全Part対応本体では、AtEndsの代表となる1つへ
 `shapePartPrimarySizeScale`、残りへ `shapePartOtherSizeScale` を `shapePartSize` と掛け合わせます。
 代表はAtEndで配置するものと同じで、SwappedやColor系の軸指定にも追従します。
 Arrow2D・Arrow3Dだけでなく全11種類のPartに適用し、既定値では代表1倍・残り0.5倍です。
@@ -283,7 +355,7 @@ Arrow2D・Arrow3Dだけでなく全11種類のPartに適用し、既定値では
 `shapePartOtherSizeScale=0` なら代表だけを残します。両方0ではPartを生成せず、
 本体・Fin・GuideLine・BoundsもPart OFFと同じ結果にします。
 両倍率は上下限のない符号付きの値です。負値は `shapePartSize` と同じく、各Partのピボットを基準に反転させます。
-AtEnd・AtApexとArc系・CrossArc系16種類では両倍率を無視し、値・接続・キーを保持します。
+AtEnd・AtApexとArc系4基本形状では両倍率を無視し、値・接続・キーを保持します。
 これらでは従来どおり `shapePartSize` と長さ・幅の倍率を使い、円弧両端や両円の4端も同じサイズ規約を保ちます。
 
 作成例のCircleで全方向を同じ大きさにする場合は、次のように設定します。
@@ -308,11 +380,11 @@ Arc系の360°・AtEndsでは、円周へ曲げるPartの重なる領域をま�
 Arc系のAtApexは通常版の+1st側、Swappedの+2nd側から外向きへ突出する付属Arrowを使います。
 配置は軸指定・全体回転前の基準座標に対して定義し、以後の全体変形へ追従します。
 
-対象外は `Gear`、`GearSwapped`、`Triangle`、`TriangleSwapped`、`Diamond`、
-`DiamondSwapped`、`Octahedron`、`OctahedronArrow`、`Cylinder`、`Arrow`、
-`Pyramid`、`Cone`、`ColorCube`、`ColorCornerCube` の14種類です。
+対象外は `Gear`、`Triangle`、`Diamond`、`Octahedron`、`OctahedronArrow`、
+`Cylinder`、`Arrow`、`Pyramid`、`Cone`、`ColorCube`、`ColorCornerCube` の11基本本体です。
 これらではPartをONにしても本体を変更せず、Partの値を保持します。
-残る37本体がPartに対応し、Part対象外の14形状にもFinを追加できます。
+残る13基本本体がPartに対応し、Part対象外の11本体にもFinを追加できます。
+Wide・AxisSwap・Templateの設定でPartの対応範囲は変わりません。
 
 ### Partの変形と接合
 
@@ -335,7 +407,7 @@ ArcRadial・WideArcRadialとそのCross版・Swapped版は同じ円の平面内�
 ArcAxial・WideArcAxialとそのCross版・Swapped版は円筒面へ巻き付けます。
 立体のPartは中心または先端のOffsetに元の接線方向を使い、
 長手方向を円弧との接合位置に合わせて調整します。詳細は「ArcとWide」を参照してください。
-Radialの8本体のAtEnd・AtEndsでも、
+Radialの2基本本体のAtEnd・AtEndsでも、
 立体のPartはOffsetに元の接線方向を使って先端または中心を固定し、接合位置へ合わせて
 長手方向と幅方向を一緒に回転します。立体の形状・寸法は保ちます。
 
@@ -364,8 +436,9 @@ Width・Sizeは中央断面と、それを共有する反対側の面も変え�
 
 ### CircleとWideCircle
 
-Circle・WideCircle・CircleSwapped・WideCircleSwappedは、角度を変更しない閉じた平面の円です。
-通常版はXZ面、Swapped版はYZ面に置き、Circleの半径は0.5、円周は64分割です。
+`Circle` は角度を変更しない閉じた平面の円です。
+Wide OFFは半径0.5の円、Wide ONは円周に沿う環とし、AxisSwap OFFではXZ面、ONではYZ面へ置きます。
+円周は64分割です。
 `shapeArcAngle` は本体・Part・Fin・GuideLineへ作用せず、値・接続・キーを保持します。
 Arc系の円周変形、接線方向の配置、立体Partの角度補正は使いません。
 
@@ -407,7 +480,7 @@ Part・Finは通常色で、軸指定・回転・負スケールには他のColo
 
 ### ArcとWide
 
-Arc系・CrossArc系16種類の角度はPartのON/OFFから独立しています。
+Arc系4基本形状の角度はPart・Wide・AxisSwapのON/OFFから独立しています。
 `shapeArcAngle` は円弧全体の角度で、既定180°では半円、360°で円になります。
 通常版は中央方向+1st、Swappedは+2ndを保ち、両端が対称に開閉します。
 通常版の既定軸では0°の両端が+Xに一致し、180°で±Z、360°で-Xに一致します。
@@ -416,14 +489,14 @@ Swappedでは0°が+Y、180°が±Z、360°が-Yです。
 接続入力も0–360°に制限します。Circle・WideCircleと各Swapped、Sphereを構成する円、小形状Circleには適用しません。
 円周64分割相当の密度を使い、両端と各軸方向の点を含めます。
 
-| 系統 | 本体 | 円弧端の6種類のPart | Fill |
+| 基本形状とWide | 本体 | 円弧端の6種類のPart | Fill |
 | --- | --- | --- | --- |
-| `ArcRadial` | 円弧線 | 円平面内で曲げ、幅は半径方向 | Partのみ |
-| `ArcAxial` | 円弧線 | 円筒面へ巻き付け、幅は円軸方向 | Partのみ |
-| `WideArcRadial` | 半径方向に幅を持つ帯 | `ArcRadial` と共通 | 帯とPart |
-| `WideArcAxial` | 円軸方向に幅を持つ帯 | `ArcAxial` と共通 | 帯とPart |
+| `ArcRadial`・Wide OFF | 円弧線 | 円平面内で曲げ、幅は半径方向 | Partのみ |
+| `ArcAxial`・Wide OFF | 円弧線 | 円筒面へ巻き付け、幅は円軸方向 | Partのみ |
+| `ArcRadial`・Wide ON | 半径方向に幅を持つ帯 | `ArcRadial`・Wide OFFと共通 | 帯とPart |
+| `ArcAxial`・Wide ON | 円軸方向に幅を持つ帯 | `ArcAxial`・Wide OFFと共通 | 帯とPart |
 
-各系統にCross版とSwapped版を用意し、Partの変形とFillの規約を共通にします。
+`CrossArcRadial`・`CrossArcAxial`でも同じWide規約を使い、AxisSwapのON/OFFから独立させます。
 
 ArcRadial・ArcAxialと各Cross版・Swapped版の本体は円弧線で、FillをONにしても塗りません。
 追加Partだけを塗り、中心へ向かう線や扇形・円板を追加しません。
@@ -576,15 +649,18 @@ Arrow3Dの追加面は、平面化後の根元からの高さと外側へ立ち�
 該当する中央方向または反中央方向の平面化を控えて元の曲面へ戻します。
 中央方向を曲面へ戻す場合は、AtApexも半径0.5の頂部を基準にします。
 
-### GuideLineとSquareTemplate
+### GuideLine
 
 `shapeGuideLine` がONなら、本体中心から表面までガイド線を追加します。
 通常の平面形状は本体平面内の2軸、立体形状は3軸の線を使います。
 Triangle系は原点から各頂点へ3本を結び、WideCircle系は中央の穴の内周まで伸ばします。
 WideCircle系の内半径が0の場合は線を省略します。WideLine・WideCrossLine系も対象です。
-Gear・GearSwapped、Arrow、Line・CrossLine・CrossLineSwapped・CrossLine3Axis・
-ColorCrossLine3Axis、Arc系・CrossArc系16種類では生成せず、属性の値・接続・キーを保持します。
-ガイドの位置・方向は本体と同じ軸指定・Swapped・変形・入力行列へ追従します。
+`Triangle`、`Square`、`Diamond`、`Circle`、`Cube`、`Octahedron`、`OctahedronArrow`、
+`Sphere`、`Cylinder`、`Pyramid`、`Cone`、`ColorCube`、`ColorCornerCube`、`ColorSphere` の14本体に対応します。
+`Line`、`CrossLine`、`CrossLine3Axis`、`ColorCrossLine3Axis` の4本体はWide ONのときだけ対象です。
+Gear、Arrow、Arc系4基本形状では生成せず、属性の値・接続・キーを保持します。
+通常本体のガイドは本体と同じ軸指定・AxisSwap・変形・入力行列へ追従します。
+Color系のガイドは軸色を含む固定本体側の基準を保ち、Part・Finだけの軸交換では回転しません。
 
 長さは本体表面を基準とし、PartやFinへ延長しません。
 Square・SquareTemplateと各Swapped、WideLine、WideCrossLine・Circleと各Swappedは例外で、
@@ -602,16 +678,14 @@ Mayaのtemplate色・選択不可にし、本体・Part・Fin・OffsetLineの表
 線幅・透明度・最前面表示には `shapeLineWidth`・`shapeLineTransparency`・`shapeDrawOnTop` を共用します。
 既存の輪郭と同一直線で重なる区間は追加せず、本体の色と選択可否を保ちます。
 
-SquareTemplateは四隅側をtemplate線、各辺中央の幅0.3を選択可能な通常線にした四角です。
-PartがOFFでも通常線を残し、矢印で突出していた箇所を直線で結びます。
-SquareTemplateの本体面はtemplate色・選択不可、追加Partの線・面は通常色・選択可能です。
-GuideLineはこの本体のTemplate表示とは独立した設定です。
-PartをArrow2D / Arrow3D、AtEndsにすると従来の4方向矢印の構成を表せます。
+GuideLineは本体のTemplate表示とは独立しています。
+SquareにTemplateLine・Rate 0.7・TemplateFillを指定したSquareTemplate状態でも、
+ガイド線は `shapeGuideLineTemplate` の値だけで通常表示またはTemplate表示を選びます。
 
 ### Fin
 
-Arc系・CrossArc系16種類を除く35形状へ、Partとは独立した通常色のFinを1枚追加できます。
-対象外の16種類では、`shapeFin` がONでもFinを生成せず、Fin関連属性の全設定を無視します。
+Arc系4基本形状を除く20本体へ、Partとは独立した通常色のFinを1枚追加できます。
+対象外の4本体では、`shapeFin` がONでもFinを生成せず、Fin関連属性の全設定を無視します。
 描画・クリック選択・Shape / ShapeCenteredの範囲にはFinを含みません。
 属性の値・接続・キーは保持し、Fin対応形状へ切り替えると再び作用します。
 Arrow3Dの追加面はPart自体の形状であり、Finの対象外設定には影響されません。
@@ -622,9 +696,8 @@ Finの基準は矢印や小形状を除いた本体断面です。小形状ご�
 
 | 本体 | Finの幅 | Finの張り出し |
 | --- | --- | --- |
-| 通常のGear / Triangle / Square系 / Diamond / Circle系 / CrossLine系 | 1st | +2nd |
-| 上記のSwapped | 2nd | +1st |
-| Line系 / CrossLine3Axis系 / その他の立体 | 1st | +2nd |
+| 全Fin対応本体、AxisSwap OFF | 1st | +2nd |
+| 同じ本体、AxisSwap ON | 2nd | +1st |
 
 Finは本体中心軸または断面へ接続し、根元を閉じる線を追加しません。
 Circle系にも通常のFinを追加でき、WideCircle系の中央の穴もFinが横断します。
@@ -654,9 +727,11 @@ Color系でもFinは通常色で、`shape1stAxis` / `shape2ndAxis` に配置姿�
 Arrow2DとArrow3Dの主面は同じで、進行方向と、その軸まわりの回転を区別します。
 以下は `shape1stAxis=+X`、`shape2ndAxis=+Y`、回転0、正の寸法倍率・スケールでの基準ローカルXYZです。
 主面は画面やワールド座標に固定した面ではありません。
-Arc系16本体を除く通常本体の代表方向では先端が+主軸を示し、
+Arc系4基本形状を除く通常本体の代表方向では先端が+主軸を示し、
 主面が主軸と第3軸の平面、追加面が+補助軸側となります。
-Swappedでは主軸と補助軸の役割を入れ替えます。
+全基本本体でAxisSwapをONにすると、下表の基準配置へ `(x,y,z)→(y,x,-z)` を適用します。
+3軸線や立体も同じ規約で、代表Partとそのサイズ倍率を一緒に交換します。
+Color系はこの配置交換の後に選択軸を適用し、本体の向きや色を保ちます。
 
 | 本体 | 進行方向 | 主面 | Arrow3Dの追加面が立ち上がる側 |
 | --- | --- | --- | --- |
@@ -689,7 +764,7 @@ Line・3軸CrossLine・Cube・Sphereでは、同じ進行方向の主面と追�
 3軸CrossLine・Cube・Sphereの±Y端では追加面を+Xへ立ち上げます。
 進行方向と補助軸が平行になるため、1枚のFinと全端で同じ立ち上がり方向にはしません。
 通常の2D本体とSwappedでは本体面を優先し、全端のPart主面を本体面に揃えます。
-Arc系・CrossArc系16本体は、基準円と中央方向を通常2Dの軸規約へ揃え、円周に沿うPartの向きはRadial・Axialの規約を使います。
+Arc系4基本形状は、基準円と中央方向を通常2Dの軸規約へ揃え、円周に沿うPartの向きはRadial・Axialの規約を使います。
 
 ArcAxial・WideArcAxialと各Cross版・Swapped版の円弧端のArrow3Dは、曲がった主面から各位置の半径外側へ追加面を立ち上げます。
 ArcRadial・WideArcRadialと各Cross版・Swapped版の円弧端のArrow3Dは、円の平面内で曲がった主面から
@@ -704,7 +779,8 @@ Color系の軸指定・回転・スケールの制約は「塗りとColor」に�
 
 塗りは共通のshapeFillで切り替え、OFFでも透明度やPart・Finの設定を保持します。
 純粋なLine・CrossLineと薄線のArc系・CrossArc系の本体は塗らず、追加Part・Finに面があれば塗ります。
-GearとWideCircle系は外周と内円の間を塗り、穴を残します。
+Wide OFFのGearとWideCircle系は外周と内円の間を塗り、穴を残します。
+Wide ONのGear・Triangle・Square・Diamond・Arrowは、各輪郭に沿う帯だけを塗ります。
 3D矢印は主面に直交する薄い面、Pyramid・Coneなどの立体は底面を含む面を持ちます。
 閉じた立体の本体とPartは外向きの片面だけを描き、内側から裏面は表示しません。
 Color系の立体とColorCornerCubeの小四角も同様です。負のスケールや親transform、
@@ -752,12 +828,13 @@ Part・Finの線と面は通常色です。
 塗りONでは、本体面は既定の透明度85%、小四角は不透明です。これら2種類にもFinオプションを適用できます。
 ColorCornerCubeの小四角は `shapeFill` がOFFでも表示・選択でき、Wireframeでも残ります。
 
-Color系5種類は、シェイプ編集を適用する段階で軸色と親transformのローカルXYZの対応を保ちます。
+Color系4基本本体は、シェイプ編集を適用する段階で軸色と親transformのローカルXYZの対応を保ちます。
 属性値や接続は変更せず、描画用に読み取った設定だけを次のように扱います。
 
 | 属性 | Color系の描画用設定 |
 | --- | --- |
 | `shape1stAxis` / `shape2ndAxis` | 本体の基準は `+X` / `+Y` に固定し、Part・Finの配置姿勢へ選択軸を適用 |
+| `shapeAxisSwap` | Part・Finの基準配置へ交換を適用してから選択軸へ向ける。本体・軸色・GuideLineは交換しない |
 | `shapeRotate` / `shapeAxisRotate` | 各XYZ成分を0として扱う |
 | `shapeScale` / `shapeAxisScale` | 各XYZ成分の絶対値を適用 |
 | `shapeSize` / `shapeRootSize` | 絶対値を適用 |
@@ -765,10 +842,10 @@ Color系5種類は、シェイプ編集を適用する段階で軸色と親trans
 移動、正のスケール、軸オフセット、部品の変形は引き続き適用します。0スケールも0のままです。
 通常の形状へ切り替えると、保持していた軸指定・回転・符号付きスケールが再び作用します。
 本体の輪郭・塗り面・小四角・GuideLine・OffsetLineは、上記の本体用の描画設定を使います。
-Part・Finは通常色のまま、選択した主軸・補助軸に合わせて配置点と姿勢を変え、
+Part・Finは通常色のまま、AxisSwapによる基準配置の交換後に選択した主軸・補助軸へ配置点と姿勢を合わせ、
 本体の向きや軸色は変えません。Part非対応のColorCube・ColorCornerCubeにPartを追加することはありません。
 Partは固定された本体表面との接合を再計算し、Finも配置姿勢を変えてから本体・Part内部を切り取ります。
-FinはColor系5種類とも引き続き対応し、各オプションの対応範囲は変えません。
+FinはColor系4基本本体に対応し、Wide・AxisSwap・Template設定で各オプションの対応範囲は変わりません。
 `shapeRotate` / `shapeAxisRotate` の回転無視はPart・Finにも適用し、軸指定による配置姿勢の変更を反映します。
 軸オフセットとAxis系TRSの基準も従来の固定XYZのままです。
 Shape / ShapeCentered Boundsは、これらを組み立てた実際の本体・Part・Finの頂点から計算します。
@@ -780,6 +857,7 @@ Custom Boundsの独立した軸指定・回転・スケールには、この制�
 
 `Custom` 用の調整属性は `shapeAnimationTransformMatrix` を除き、形状本体から独立しています。
 基準形状は固定の `Cube` で、`shape` と GuideLine・OffsetLine に対応する属性はありません。
+本体のWide・AxisSwap・Template表示もCustom Boundsへ適用しません。
 
 | Custom attribute | Maya の型 | 既定値 | 対応する形状属性 |
 | --- | --- | --- | --- |
@@ -807,11 +885,11 @@ Channel Boxの表示順は次の15区画です。区切りは `_` から `______
 15本の表示専用1値enumで、値は `-----------------------------------` です。
 非keyable・非接続・非保存・ロック済みとし、先頭と各区画の間へ1本ずつ置きます。
 
-1. `shape1stAxis`、`shape2ndAxis`、`shape`
+1. `shape1stAxis`、`shape2ndAxis`、`shapeAxisSwap`、`shape`
 2. `shapeDrawOnTop`
-3. `shapeLineWidth`、`shapeLineTransparency`
-4. `shapeFill`、`shapeFillTransparency`
-5. `shapeWideWidth`
+3. `shapeLineWidth`、`shapeLineTransparency`、`shapeTemplateLine`、`shapeTemplateLineRate`
+4. `shapeFill`、`shapeFillTransparency`、`shapeTemplateFill`
+5. `shapeWide`、`shapeWideWidth`
 6. `shapeArcAngle`
 7. `shapePart`、`shapePartShape`、`shapePartType`、`shapePartOffset`、`shapePartSize`、`shapePartPrimarySizeScale`、`shapePartOtherSizeScale`、`shapePartLengthScale`、`shapePartWidthScale`
 8. `shapeFin`、`shapeFinType`、`shapeFinHeight`、`shapeFinSize`、`shapeFinWidthScale`
@@ -873,9 +951,11 @@ pixel 指定で、シーン単位や `shapeSize` とは独立しています。
 面を含む形状では、Shaded は面と輪郭線、Wireframe は輪郭線、
 Wireframe on Shaded は面と輪郭線を表示します。面内のクリックも選択対象です。
 `ColorCornerCube` の小四角はWireframeでも表示・選択できます。
+`shapeTemplateLine` と `shapeTemplateFill` は線と面の選択可否も変えます。
+これらの本体Templateと、GuideLine・OffsetLineの専用Template指定は独立しています。
 `showBoundsPreview` の確認用の箱は従来の template 色・線幅・選択不可を維持し、
-これらの属性の影響を受けません。描画属性の変更はフォーカス範囲を変えず、
-本体・GuideLine・OffsetLine のクリック選択の可否も変更しません。
+これらの属性の影響を受けません。線幅・透明度・最前面表示の変更はフォーカス範囲と
+クリック選択の可否を変えません。本体のTemplate指定もフォーカス範囲を保ち、対象区間の選択可否だけを変えます。
 
 `shapeFill` は面の生成と選択判定、形状キャッシュ、描画範囲を更新します。
 Sphereの面の頂点などが加わる場合はShape / ShapeCenteredの範囲も変わります。
@@ -912,7 +992,7 @@ ArcRadialへAtApexのPartを追加した非対称な形状でも、行列適用�
 F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform も含むため、
 子の範囲は別途合算されます。Viewport 2.0 の描画 override はカリング用に
 形状本体・表示中の OffsetLine・表示中のフォーカス範囲プレビューを包む範囲を返します。
-クリック選択に使う線は形状本体と、template ではない GuideLine・OffsetLine です。
+クリック選択に使う線は、Templateではない本体線・Part・Finと、templateではないGuideLine・OffsetLineです。
 
 ここで `⊙` は成分ごとの積です。`shapeRootSize` は平行移動と軸オフセットにも影響し、
 `shapeSize` は頂点だけを拡縮します。既定の
@@ -971,7 +1051,8 @@ F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform 
 場合だけです。
 `shapeOffsetLineTemplate` が `true` のときは補助線だけを選択対象から外し、
 Maya の template 表示色で描きます。`false` なら補助線は通常のワイヤーフレーム色で
-クリック選択に使えます。どちらの設定でも形状本体の輪郭線は選択できます。
+クリック選択に使えます。どちらの設定でも本体線の表示種別と選択可否は変えず、
+本体のTemplate指定に従います。
 補助線が形状本体の線と重なる箇所では、本体の線で選択される場合があります。
 
 `Square`・`Circle` とArc系通常版の基準円はXZ面（`y=0`）、各SwappedはYZ面（`x=0`）にあり、
@@ -1019,8 +1100,10 @@ Fillの表示で輪郭が変わる形状は、面を表示しない場合の線�
 ### プリセットを追加するとき
 
 `BdControllerShapePresets.inc` の `kPresetNames` の順序が公開 `shape` enum の数値です。
-同じ順序の `kPresetInfo` で、各選択肢を内部の輪郭番号へ対応付けます。
-塗り、Partの種類・配置、Finの種類は別の設定で保持します。
+`kPresetInfo` の先頭24件は同じ順序で各基本本体を内部の輪郭番号へ対応付けます。
+後ろの9件は既存のWide生成で使う内部prototypeで、公開enumには含めません。
+`baseOutlineIndex()` / `wideOutlineIndex()` と描画用設定の正規化でWideの経路を選び、
+AxisSwap、Template、塗り、Partの種類・配置、Finの種類は別の設定で保持します。
 Partの対象と配置点・小形状の作成・接合は
 [BdControllerShapeOptions.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeOptions.inc) で共通化し、
 公開enumへ組み合わせごとの項目を追加しません。
@@ -1031,8 +1114,8 @@ GuideLineの対象・方向・終端も本体ごとに決め、下記の
 塗り面を追加するときは `BdControllerShapeNode.cpp` の `makeFillParts()` に面を定義し、
 輪郭と同じ変形・外縁になることを確認します。template 面の選択可否も面側で指定します。
 
-形状を追加したら、`kPresetNames` と `kPresetInfo` の件数、仕様書の形状一覧、
-`test_bd_controller_shape.py` の `SHAPE_NAMES` と bounds の期待値を揃えます。
+形状を追加したら、`kPresetNames` の公開件数と `kPresetInfo` の公開部分の対応、
+内部prototypeの対応表、仕様書の形状一覧、共通のテストケースとboundsの期待値を揃えます。
 塗りON/OFFのbounds、Undo/Redo、シーン再読込をテストし、Viewport では
 Wireframe・Shaded の輪郭と面、色、クリック選択、Selection Highlighting を確認します。
 Python の公開 enum は下記の生成手順で更新し、生成ファイルを手編集しません。
@@ -1068,8 +1151,10 @@ Swappedは基準円YZ面・中央方向+Yです。RadialのPartは円平面内�
 面の `appendLegacyTriangle()` なども同じ変換を使います。
 この旧生成座標だけを公開基準面とみなさず、通常2DのXZ面への整列とSwappedの入替を
 含めた最終の基準形状で、輪郭と面の向きを揃えてください。
-`presetOrientedPoint()` は `hasLegacyPlanarOrientation()` と `isSwappedPreset()` の
-判定を使い、本体・Part・Fin・GuideLineの組立後、Axis系TRSとAxisOffsetの適用前に整列します。
+`presetOrientedPoint()` は旧生成座標の標準面への整列と、独立したAxisSwapの指定を使います。
+公開enumからSwappedを判定しません。通常本体・Part・Fin・GuideLineの組立後、
+Axis系TRSとAxisOffsetの適用前に整列します。
+Color系は固定本体へSwapを掛けず、Part・Finの配置点と方向をSwapしてから選択軸へ写します。
 
 骨に沿う３次元形状で `shapeAxisOffsetLength` を骨長として使う場合は、
 伸縮対象の軸の基準範囲を `-0.5` から `+0.5`、長さを `1` にします。
@@ -1115,6 +1200,8 @@ Maya 2025 でその plug-in をロードして `generate_node_class_file()` か�
 | `BdControllerShapeAxialHead.inc` / `BdControllerShapeRadialHead.inc` | 円弧へ曲げない立体Partの固定点・接合位置・向き |
 | `BdControllerShapeAxialCircle.inc` / `BdControllerShapeRadialCircle.inc` | 立体Partと本体の円弧・帯との接合 |
 | `BdControllerShapeCrossCircle.inc` | 直交する2つの円の合成、Part内部の切取り、Axial交差部の平面接合 |
+| `BdControllerShapeWide.inc` | 新しい平面帯、共面三角形から復元した面の内側輪郭、球・円柱・円錐の面上offset線 |
+| `BdControllerShapeTemplate.inc` | 基準輪郭の論理区間、通常・Template線の境界分割、Partとマーカーの保護、本体面のTemplate指定 |
 
 Circle系はSquare系と同じ通常のPart配置・Fin分類を使い、Arc系のWrapや接合補正へ入りません。
 形状を分類する条件を変更するときは、Circle系とArc系の対象が混ざらないことを確認します。
@@ -1143,7 +1230,7 @@ Crossの平面接合はWideCrossArcAxialとそのSwappedの仕様で、薄線Axi
 
 ### GuideLineの保守と拡張
 
-利用時の対象・例外は [GuideLineとSquareTemplate](#guidelineとsquaretemplate) にまとめています。
+利用時の対象・例外は [GuideLine](#guideline) にまとめています。
 新しい本体を追加するときは、GuideLineの要否、平面内の2軸か立体の3軸か、
 表面までの終端、Arrow先端接続の有無、通常色か軸色かを決めてから実装します。
 
@@ -1277,35 +1364,35 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 22. shapeLineWidthを大きくすると本体・Part・Fin・OffsetLineが画面上で太くなり、ズームやシーン単位によらず指定pixel幅を保つ。
 23. shapeLineTransparencyの0・中間値・1を通常色・選択色・template色・軸色で確認し、shapeFillTransparencyとは独立して変わる。
 24. shapeDrawOnTopのON/OFFで隠れた線・面を表示し、形状・クリック選択・Boundsを変えない。透明度・選択色との併用も確認する。
-25. Channel Boxで先頭を含む15本の区切りと15区画の順序を確認する。先頭の区切り直後に1stAxis→2ndAxis→shape、続けてDrawOnTop、Line、Fillの各区画が並ぶ。AxisOffset・Direction・LengthはOffsetLine後・TRS前に残す。Partのサイズ属性はSize→PrimarySizeScale→OtherSizeScale→LengthScale→WidthScaleの順とする。非keyableの調整値・XYZ子属性を編集でき、明示キー・入力接続に対応する。区切りは編集・接続できない。
-26. shapeの51項目、PartShapeの11項目、PartTypeの3項目と、既定shapeがCube（38）であることを確認する。Gear / GearSwappedの後に通常向きの群、対応するSwapped群が並び、各群のCircle・WideCircle直後に単円Arc4系統、CrossArc4系統をRadial→WideRadial→Axial→WideAxialの順で置く。CrossLine3Axis・WideCrossLine3Axis、Cube・Octahedron・OctahedronArrow、Sphere以降が続く。
+25. Channel Boxで先頭を含む15本の区切りと15区画の順序を確認する。先頭は1stAxis→2ndAxis→AxisSwap→shape、続けてDrawOnTop、Line、Fillとする。LineにTemplateLine/Rate、FillにTemplateFill、WideにWide/Widthを置く。AxisOffset区画とPartのSize→Primary→Other→Length→Widthの順を保ち、非keyable属性の編集・明示キー・入力接続と区切りのロックを確認する。
+26. shapeの24項目、PartShapeの11項目、PartTypeの3項目と、既定shapeがCube（12）であることを確認する。Wide/Swapped/SquareTemplate専用のenumを持たず、基本形状と独立した属性で選択する。
 27. 全本体でshapeFillを切り替え、Shadedでは面・輪郭、Wireframeでは輪郭、Wireframe on Shadedでは両方を表示する。ColorCornerCubeの小四角は常に残る。
 28. Triangle・Square・Circle・WideArcRadialの帯・WideArcAxialの側面・Fin・Arrow3Dは両面から見える。閉じた立体の本体・小形状・Color面は外側だけ見え、内側からは見えない。負のスケール・親transform・Animation行列の反転、透視・平行投影でも確認する。
 29. 各塗り面の外縁が輪郭と一致し、非等方・負スケールでも選択できる。Coneと小形状Coneの側線はFill表示時も残る。CylinderのFillは両端の円を残して側線を省略し、面を表示しない場合は側線が戻る。Finの線は維持する。
 30. shapePartのON/OFFで小形状だけが切り替わり、種類・配置・Offset・Size・Length・Widthの値を保持する。
-31. Part対象外14本体ではONでも本体が変わらず、対応37本体へ切り替えると保持していたPart設定が作用する。
-32. Line・CrossLine・CrossLine3AxisでAtEndが+1st、CrossLineSwappedで+2nd、AtEndsが全端となり、各矢印が端の外向きへ進む。小形状のない端は元の±0.5に残る。
+31. Part対象外11基本本体ではONでも本体が変わらず、対応13本体へ切り替えると保持していたPart設定が作用する。Wide/Swap/Templateで対応範囲を変えない。
+32. Line・CrossLine・CrossLine3AxisでAtEndがAxisSwap OFFなら+1st、ONなら+2nd、AtEndsが全端となり、各矢印が端の外向きへ進む。小形状のない端は元の±0.5に残る。
 33. 通常Square系・Circle系でAtEndが+1st、Swappedで+2nd、AtEndsが4方向、AtApexがAtEnd相当となり、全11種類のPartで追加倍率の既定値なら代表方向を標準サイズ、他の3方向を0.5倍にする。
-34. Cube・Sphere・ColorSphere系でAtEndが+1st、AtEndsが6端となる。Arc系を除く全Part対応本体で、追加倍率の既定値ならAtEndsのAtEndと同じ代表1つだけを標準サイズ、残りを0.5倍にする。2D本体へ3DのPart、3D本体へ平面のPartも追加できる。
-35. 全11種類のPartで基準寸法0.1、外向きTriangle/Pyramid/Cone、端点ピボット、Offsetの加算距離、長手方向と横2軸の倍率を確認する。AtEndsの追加倍率を長さ・幅・高さへ掛けても、配置ピボットとOffsetの距離を変えない。AtEnd・AtApexとArc系16本体はPrimary / Otherの値の影響を受けない。
+34. Cube・Sphere・ColorSphereでAtEndがAxisSwap OFFなら+1st、ONなら+2nd、AtEndsが6端となる。Arc系を除く全Part対応本体で、追加倍率の既定値ならAtEndsのAtEndと同じ代表1つだけを標準サイズ、残りを0.5倍にする。2D本体へ3DのPart、3D本体へ平面のPartも追加できる。
+35. 全11種類のPartで基準寸法0.1、外向きTriangle/Pyramid/Cone、端点ピボット、Offsetの加算距離、長手方向と横2軸の倍率を確認する。AtEndsの追加倍率を長さ・幅・高さへ掛けても、配置ピボットとOffsetの距離を変えない。AtEnd・AtApexとArc系4基本形状はPrimary / Otherの値の影響を受けない。
 36. 変形したPartの手前で接続線が止まり、小形状内へ本体・Finの線や塗り面が残らない。Line・CrossLine・薄線Arc系のArrow2D/3Dは面を表示しない場合に先端までつなぐ。Square・SquareTemplateと各Swapped、WideLine、WideCrossLine・Circleと各SwappedのGuideLineは、Fill表示時もArrow2D/3Dの先端までつなぐ。
 37. PartとFinの倍率に負値・ゼロを使い、面積0の面を省略し、輪郭と塗り・選択・Shape / ShapeCenteredの範囲が揃う。
 38. Arrow2DとArrow3Dの主面が一致する。通常2D・Lineの主面はXZ、追加面は+Y、SwappedではYZ・+Xとなる。3軸CrossLine・Cube・Sphere系は±X/±ZでXZ・+Y、±YでYZ・+Xとなり、両端でも同じ側へ立つ。Radialの円弧端では円の法線、Axialでは各位置の半径外側へ立ち、先端へ高さを落とす。Cross版は各円の向きに従う。肩から主面へ戻る辺をFill表示時も描き、調整値へ追従する。
 39. ArrowとOctahedronArrowはPart OFFでも既存の本体調整を適用する。OctahedronArrowは既定でOctahedronと同形、Offset・Lengthで先端だけを直線的に伸ばし、Width・Sizeで共有断面と後側の面も変える。
-40. 作成直後のshapeArcAngleが180°となり、Arc系・CrossArc系16種類が半円になる。0・120・180・240・360°へ変更し、中央方向を通常版+1st・Swapped+2ndに固定して両端が対称に動く。180°では±3rd、360°では反中央方向で両端が一致する。Part OFFでも作用し、Circle・WideCircleと各Swapped、Sphere・小形状Circleには作用しない。
-41. 薄線Arc系8本体は本体を塗らずPartだけを塗り、WideArcRadialの塗りは平面の帯、WideArcAxialの塗りは蓋のない円筒側面となる。各Cross版・Swapped版も同じ規約を使い、0°で円弧・Partの線・面を省略、360°で継ぎ目の不要線を作らない。Part OFFでFillを切り替えても薄線本体のBoundsを変えず、180°未満でも中心点を含む扇形を生成しない。
+40. 作成直後のshapeArcAngleが180°となり、Arc系4基本形状が半円になる。WideとAxisSwapの全組合せで0・120・180・240・360°を確認し、中央方向固定と対称な両端を保つ。Part OFFでも作用し、Circle・Sphere・小形状Circleには作用しない。
+41. Wide OFFのArc系4基本形状は本体を塗らずPartだけを塗り、Wide ONのRadialは平面帯、Axialは円筒側面となる。Swapにも追従し、0°で円弧・Partを省略、360°で不要な継ぎ目線を作らない。薄線本体はFillで扇形や範囲を追加しない。
 42. Arc系のAtEndが180°で通常版-3rd・Swapped+3rdの端、AtEndsが両端となり、6種類のPartがRadialでは円平面内、Axialでは円筒面へ曲がり、5種類の立体Partが接合に合わせて向きを補正する。AtApexは中央方向の頂部、他本体ではAtEnd相当となる。円周へ曲げるPartは重複領域をまとめ、姿勢が異なる立体Partは中心が共通でも別々に残る。
-43. WideLine・WideCrossLineの帯がXZ面、WideCrossLineSwappedがYZ面となる。これらとWideArc系・WideCrossArc系でshapeWideWidthを調整し、PartのSize・Widthを変えても帯幅を保つ。十字中央・頭部との接合・半透明面の重複を確認する。WideのArc系8本体は幅0で対応する薄線本体の線・Part・Boundsと一致する。薄線Arc系はshapeWideWidthを変更しても形状を変えず、値と接続を保持する。
+43. WideのLine・CrossLine・Arc系で幅と接合を確認し、PartのSize・Widthを変えても幅を保つ。Arc系4基本形状はWide幅0でWide OFFの線・Part・Boundsと一致し、Wide OFFでは幅を保持して無視する。
 44. WideArcRadial・WideArcAxialと各Cross版・Swapped版のPartを調整しても接合部以外の帯幅を保ち、帯とPartが離れない。Partのない円弧端は平らに閉じる。AtEnd・AtEndsでは6種類をRadialなら同じ平面の円周、Axialなら円筒面へ曲げてOffsetを無視する。5種類の立体は固定する中心または先端と寸法を保ちながら接合に合わせて向きを補正する。AtApexは中央方向へ向けて配置し、Offsetを適用する。
 45. Square系のGuideLineで通常十字とtemplate十字を切り替え、本体の色と選択可否を保つ。SquareTemplateの四隅template線・辺中央通常線・template面はGuideLineとは独立し、Part OFFでも本体の通常線を残す。
 46. SquareTemplateのPartは線・面とも通常色で選択でき、本体のtemplate線・面だけでは選択できない。Arrow2D/3D・AtEndsで4方向を確認する。
-47. Fin対応35本体を2種類・塗りON/OFFで確認する。OFF・高さ0ではFinだけが消え、設定値を保持する。
+47. Fin対応20基本本体を2種類・塗りON/OFF・Wide・Swapで確認する。OFF・高さ0ではFinだけが消え、設定値を保持する。
 48. Finの高さ・幅はshapeFinSizeとshapeFinWidthScaleで調整し、PartのSize・Widthから独立する。Arrow・OctahedronArrowの付け根だけは本体変形へ追従する。
-49. 対応する通常平面本体のFinが+2ndへ直角に立ち、Swappedでは+1stへ立つ。根元を閉じる線はない。Arc系・CrossArc系16種類ではFinをONにしても描画・選択・範囲が変わらず、値・接続・キーを保持する。対応形状へ切り替えると保持された設定が作用する。
+49. FinはAxisSwap OFFで+2nd、ONで+1stへ立ち、根元を閉じる線を追加しない。Arc系4基本形状ではFinをONにしても描画・選択・範囲を変えず、値・接続・キーを保持する。
 50. 正の寸法倍率ではTaperedの細い側が通常本体の+1st、Swappedの+2ndを示す。ArrowのStandard Finはくぼみから先端までの矩形、Taperedは傾斜した外形となる。Cube・CylinderのTaperedとOctahedronArrowの面の重複も確認する。
 51. ColorCrossLine3Axis・ColorWideCrossLine3AxisとColorSphereの軸色を保ち、追加Part・Finは通常色となる。ColorSphereのGuideLineをONにしても円とガイドの間に橋渡し線がない。
 52. ColorCubeの正側RGB枠・負側通常線、Fillの+X赤・+Y緑・+Z青と負3面の通常色、ColorCornerCubeの小四角・通常面の境界と独立した透明度を確認する。
-53. Color系5本体は軸指定で本体・軸色・GuideLineの向きを変えず、対応するPart・Finの配置姿勢だけを主軸・補助軸へ追従させる。全11種類のPart、AtEnd/AtEnds/AtApex、全Fin、無効な軸の組も確認する。shapeRotate・shapeAxisRotateは本体・Part・Finとも無視し、shapeScale・shapeAxisScale・shapeSize・shapeRootSizeの負値は絶対値になる。軸オフセット・Axis系TRSの固定軸基準を保ち、通常本体へ戻すと保持値が作用する。
+53. Color系4基本本体は軸指定とAxisSwapで本体・軸色・GuideLineを回転せず、対応するPart・Finだけを交換後の選択軸へ追従させる。回転無視、負スケールの絶対値化、固定XYZのAxisOffset/TRSを維持する。Wide追加線も元の面・輪郭の色を保つ。
 54. Color系のCustom Boundsは独立した変形を保ち、入力行列と親transformの回転・シアー・反転はそのまま反映する。
 55. shape・親transform・上位DAG・Display LayerでNormal/Template/Referenceを切り替え、Selection Highlighting OFFなら選択前後の線色・面表示・軸色が一致する。
 56. 複数ViewportでSelection Highlightingを別々に設定し、選択色・軸色・templateの選択不可と通常線のオーバーライド色をそれぞれ確認する。
@@ -1315,15 +1402,15 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 60. ArcAxial・WideArcAxialと各SwappedのAtEnd・AtEndsのArrow3Dは、根元の弧長と半径外側への高さを保ち、先端で高さ0となる。Size・Length・Widthを変えても根元の円筒面から浮かず、曲げに伴って上側の外周辺の長さが変わる。AtApexではXY平面の主面と通常版-Z・Swapped+Zへ立つ追加面を維持する。
 61. 巻き付ける6種類で1周を超える長さ・360°・AtEndsを組み合わせ、周期を跨いでも内部線・二重面が出ない。負の長さは円周方向へ反転し、長さ0・幅0では面積0の面を省く。Size=0で元の円弧へ戻り、短い円弧をPartが覆う場合も隙間なく接合する。
 62. ArcAxial・WideArcAxialと各SwappedのAtApexで6種類のPartが巻き付かず、Offsetの正・負が作用する。Square・Diamond・Circleは本体円弧の輪郭を切らず外向きの平面形状として表示され、AtEnd・AtEndsへ戻すと保持されたOffsetが再び無視される。
-63. CrossArc系8種類が通常版XZ+XY・Swapped版YZ+XYで直交し、中央方向を通常版+1st・Swapped+2ndで共有する。AtEndは基準円の1端、AtEndsは両円の4端、AtApexは基準円の向きで頂部に1つとなる。WideCrossArcAxialとそのSwappedで中央方向の接合が有効な場合はAtApexが接合面中央へ追従する。部分円弧・360°・全Part・塗りON/OFF・半透明・軸変更でも配置と選択範囲を保つ。
+63. CrossArcRadial・CrossArcAxialがAxisSwap OFFでXZ+XY、ONでYZ+XYとなり、中央方向を共有する。Wide・全Part・各配置でも、AtEndは基準円の1端、AtEndsは4端、AtApexは1つの規約と選択範囲を保つ。
 64. WideCrossArcAxialとそのSwappedで円周に沿うPartも交差部の主面だけを平面化し、帯と一体につなぐ。Arrow3Dの立ち上がりは平面化後の根元からの高さと外側への向きを保ち、円弧端のOffsetを無視する。立体Part内部の他方の帯も切り取り、位置と向きが一致する面は二重描画せず、平面接合領域外の異なる曲面同士の交差は保つ。
 65. WideCrossArcAxialとそのSwappedで中央方向の4交点を結ぶ平面正方形を確認し、塗りON/OFF・半透明でも内部線・継ぎ目線・重複面がない。通常版はX=join、SwappedはY=joinへ接合する。接合面外の円弧は保ち、360°では反中央方向も同様に接合する。軸指定・回転・非等方スケール後も接合と範囲が追従する。
 66. WideCrossArcAxialとそのSwappedで帯幅0、0より大きく1未満、1以上を切り替える。0より大きく1未満の幅では円弧角度が2*asin(h/R)以上のときだけ中央方向を接合し、それより短い円弧では元の表示と端点を保つ。部分円弧の反中央方向に接合面を追加せず開口を保ち、帯幅0・1以上でも元の交差方式へ戻る。
 67. WideCrossArcAxialとそのSwappedのAtApexで、中央方向の接合が有効な間は基準位置が接合面中央となり、Offsetの0・正・負がその面から作用する。接合が無効なら半径0.5の頂部へ戻る。全11種類のPartと大きなSizeを試し、交差部へ届く円周変形Partの主面も接合面と一体になり、Arrow3Dの根元からの高さと外向きを保つ。立体Partは形状を変えず、接続が切れる極だけ元の曲面へ戻り、内部線・二重面が残らない。
-68. ArcRadial・WideArcRadialと各Cross版・Swapped版の8本体のAtEnd・AtEndsでArrow2D・Arrow3D・Triangle・Square・Diamond・Circleを試す。LengthScale=6.7など長い設定でも主面が同じ平面の円周へ沿い、Lengthが半径0.5の中心円弧長、Widthが半径方向へ作用する。Arrow3Dは各円の法線へ立ち上がり、根元の高さを保って先端で0となる。薄線本体はPartだけを塗り、元の円弧・Partの内部境界・重複面を残さない。
-69. 上記8本体の円周へ曲げる6種類でOffsetの0・正・負と接続を変えても形状が変わらず、値と接続を保持する。1周超・360°・AtEndsでも周期を跨ぐ重複や内部線を作らない。負のLengthは反転し、0では退化した輪郭を扱い、Size=0では元の本体へ戻る。大きな幅で中心を越える部分は半径0へ制限する。塗りON/OFF・半透明・軸変更・アニメーションとUndo/Redoでも同じ接合を使う。
-70. 上記8本体のCube・Octahedron・Sphere・Pyramid・Coneでは剛体としての角度補正を維持し、Offsetが元の接線方向で中心または先端へ作用する。短い円弧・幅不足・交点がない配置は固定点と寸法を保って元の向きへ戻る。均等倍率のSphereは元の姿勢を保つ。全11種類のAtApexは中央方向の頂部へ向けて配置し、Offsetが作用する。
-71. 通常2D・Arc系と対応するSwappedを切り替え、本体・Part・Fin・GuideLine・template部分・接合面・選択範囲が右手系の `(x,y,z)→(y,x,-z)` へ一括追従する。AxisOffsetとAxis系TRSは指定軸の意味と値を保ち、Swappedの代表方向に合わせて勝手に交換されない。
+68. ArcRadial・CrossArcRadialのWide/AxisSwap全状態で、円周へ曲げる6種類のPartと長いLengthScaleを確認する。長さは中心円弧長、幅は半径方向、Arrow3Dの高さは法線方向とし、内部線・二重面を作らない。
+69. 上記Radial系の円周へ曲げる6種類はOffsetを保持して無視し、複数周・負値・0・大きな幅でも周期合成と接合を保つ。
+70. 上記Radial系の5種類の立体Partは固定点と寸法を保って接合へ向きを補正し、交点がない場合は元の姿勢へ戻る。全11種類のAtApexは円周変形せず、中央方向の頂部とOffsetを使う。
+71. 24基本形状でAxisSwapを切り替え、通常本体では本体・Part・Fin・GuideLine・template部分・接合面・選択範囲が右手系の `(x,y,z)→(y,x,-z)` へ一括追従する。Color系はPart・Finだけが追従する。AxisOffsetとAxis系TRSは指定軸の意味と値を保ち、Swappedの代表方向に合わせて勝手に交換されない。
 72. Circle・WideCircleと各Swappedを切り替え、通常版がXZ、Swapped版がYZの閉じた円となる。shapeArcAngleの直接編集・入力接続・キーを0–360°へ変えても描画・選択・Boundsが変わらず、Arc系へ戻すと保持した角度が作用する。
 73. Circle系の全11種類のPartをAtEnd・AtEnds・AtApexへ配置し、円周変形や立体Partの角度補正がないこと、Offsetの正・負が通常どおり作用することを確認する。Arrowの主面・追加面と、追加倍率の既定値による全11種類のAtEndsの代表方向と他3方向の2:1の寸法比も確認する。
 74. WideCircle系の幅を0・既定値・1・1より大きい値へ変え、幅0の一重線、環の穴、内半径0の円板を確認する。PartのSize・Widthを変えても本体の帯幅を保ち、Finは中央の穴を横断する。Fill・半透明・負スケールでも内部線・重複面を残さない。
@@ -1332,10 +1419,16 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 77. GuideLineの既定値がOFFとなり、通常平面は2軸、立体は3軸、Triangle系は原点から各頂点への3本となる。線が本体表面まで伸び、WideLine・WideCrossLine系にも対応する。既存輪郭と同一直線の重複区間は追加しない。
 78. WideCircle系のGuideLineが中央の穴の内周で止まり、幅1以上で内半径が0になると省略される。通常版・Swapped版、幅0・既定幅・広い幅、塗りON/OFFを確認する。
 79. Square・SquareTemplateと各Swapped、WideLine、WideCrossLine・Circleと各Swappedでは、Arrow2D/3Dを配置した方向のGuideLineを先端へつなぐ。Size・Length・Offset、AtEnd/AtEnds、Fill ON/OFFへ追従し、矢印のない方向や他のPart形状、WideCircle系は本体表面・内周までに留める。Color系は正側RGB・負側通常色で、GuideLineTemplateをONにすると延長部分を含むガイド線だけがtemplate色・選択不可になる。本体・Part・Fin・OffsetLineの選択可否は変わらない。
-80. Gear系、Arrow、細線のLine・CrossLine・CrossLineSwapped・CrossLine3Axis・ColorCrossLine3Axis、Arc系・CrossArc系16種類ではGuideLineのON/OFF・Templateの切替で描画を変えない。値・入力接続・キーを保持し、対応本体へ切り替えると設定が作用する。
-81. GuideLineが本体と同じ軸・Swapped・TRS・Animation行列へ追従し、GuideLineとTemplateのON/OFFでShape / ShapeCentered / Customのフォーカス範囲を変えない。Undo/Redo・保存再読込でも設定と描画を保つ。
+80. Gear・Arrow・Arc系4基本形状と、Wide OFFのLine/CrossLine/CrossLine3Axis/ColorCrossLine3AxisではGuideLineを保持して無視する。対象の14本体とWide ONでのみ対象となる4本体を区別する。
+81. 通常本体のGuideLineは軸・AxisSwap・TRS・Animation行列へ追従し、Color系は固定本体側の基準を保つ。GuideLineとTemplateのON/OFFでShape / ShapeCentered / Customのフォーカス範囲を変えない。Undo/Redo・保存再読込でも設定と描画を保つ。
 82. 非Arc系の全Part対応本体・全11種類のAtEndsでPrimary / Otherを変更し、共通Sizeと長さ・幅の倍率へ掛け合わせる。代表はAtEndの配置点と同じで、SwappedとColor系の軸指定にも追従する。両方1なら等サイズ、Primary=0なら他端だけ、Other=0なら代表だけとなり、他端を代表へ繰り上げない。配置点・ピボットとOffsetの距離は保つ。
-83. Primary / Otherの両方0でPart OFFと本体・Fin・GuideLine・描画・選択・Boundsが一致する。負値で既存Sizeと同じ符号付き拡縮になり、接合線・面が追従する。AtEnd・AtApex・Arc系16本体では0や負値も無視し、値・キー・入力接続を保持する。接続やキーの0との切替、Undo/Redo・保存再読込でも設定と形状を保つ。
+83. Primary / Otherの両方0でPart OFFと本体・Fin・GuideLine・描画・選択・Boundsが一致する。負値で既存Sizeと同じ符号付き拡縮になり、AtEnd・AtApex・Arc系4基本形状では保持して無視する。キー・接続・Undo/Redo・保存再読込も確認する。
+84. 全24基本本体でWide・AxisSwap・TemplateLine・TemplateFillを独立に切り替え、基本shape enumの値と各オプションの保持値を保つ。短名sasw/swd/stl/stlr/stfと既定値を確認する。
+85. Gear/Triangle/Square/Diamond/ArrowのWide帯で角と重なりを確認し、Fillは帯だけを塗る。幅0は元の輪郭線を残し、本体帯面を省略する。
+86. 多面体のWideでは元のFill・稜線と面内輪郭を保つ。球・円柱・円錐の追加線は面上距離w/2へ追従し、幅過大で成立しない輪郭を省略する。Colorの追加線の色とCornerマーカーの保護も確認する。
+87. TemplateLineのRate 0/0.7/1で全通常・区間分割・全Templateとなり、形状やBoundsを変えない。多角形稜線・四分円・Line・CrossLine・単円Arc・CrossArcの論理区間を分けて確認する。
+88. Line/ArcのPart OFF・AtEnd・AtEnds・AtApexでTemplate区間を確認する。CrossArcのAtEndでも両円4端を通常とし、AtApexでは両円中央を通常にする。
+89. TemplateLineとTemplateFillの4組合せで線と面の選択可否を独立に確認し、Part・Fin・GuideLine・OffsetLineとColorCornerCubeのマーカーを変えない。Wideの帯や追加線、Partを移動した接合部も確認する。
 
 実際のViewport 2.0を必要とする画像比較テストは
 `tests/maya/ui/test_controller_shape_viewport.py` にあります。既存作業とは別の

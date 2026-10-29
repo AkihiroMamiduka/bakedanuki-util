@@ -10,6 +10,8 @@ from pathlib import Path
 
 import pytest
 
+from controller_shape_cases import set_preset
+
 pytestmark = pytest.mark.maya
 
 ARC_SHAPES = (
@@ -80,10 +82,7 @@ def _drawing_view(cmds, preset, **options):
     cmds.loadPlugin(str(plugin), quiet=True)
     transform = cmds.createNode("transform")
     shape = cmds.createNode("bdControllerShape", parent=transform)
-    names = cmds.attributeQuery("shape", node=shape, listEnum=True)[0].split(
-        ":"
-    )
-    cmds.setAttr(f"{shape}.shape", names.index(preset))
+    set_preset(cmds, shape, preset)
     if "Arc" in preset and not preset.endswith("Swapped"):
         # 曲面と接合の画像回帰は、明示した軸で従来のYZ基準座標へ戻す。
         cmds.setAttr(f"{shape}.shape1stAxis", 2)
@@ -503,7 +502,7 @@ def test_swapped_shape_matches_complete_axis_exchange(
         names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
             0
         ].split(":")
-        maya_cmds.setAttr(f"{shape}.shape", names.index(base + "Swapped"))
+        set_preset(maya_cmds, shape, base + "Swapped")
         maya_cmds.setAttr(f"{shape}.shape1stAxis", 1)
         maya_cmds.setAttr(f"{shape}.shape2ndAxis", 3)
         actual = _capture_view(panel, tmp_path / "swapped_shape.png")
@@ -637,7 +636,7 @@ def test_highlighting_off_matches_dormant_display(
     names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
         0
     ].split(":")
-    maya_cmds.setAttr(f"{shape}.shape", names.index(preset))
+    set_preset(maya_cmds, shape, preset)
     maya_cmds.setAttr(f"{shape}.shapeFill", fill)
     for attribute, value in part_settings.items():
         maya_cmds.setAttr(f"{shape}.{attribute}", value)
@@ -1025,7 +1024,7 @@ def test_radial_circle_multiple_turns_have_one_transparent_fill(
         names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
             0
         ].split(":")
-        maya_cmds.setAttr(f"{shape}.shape", names.index("Circle"))
+        set_preset(maya_cmds, shape, "Circle")
         maya_cmds.setAttr(f"{shape}.shapePart", False)
         maya_cmds.setAttr(f"{shape}.shapeArcAngle", 360)
         maya_cmds.setAttr(f"{shape}.shapeRootSize", 5)
@@ -1106,7 +1105,7 @@ def test_cross_circle_axial_join_has_one_transparent_top_face(
         names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
             0
         ].split(":")
-        maya_cmds.setAttr(f"{shape}.shape", names.index("Square"))
+        set_preset(maya_cmds, shape, "Square")
         maya_cmds.setAttr(f"{shape}.shape1stAxis", 0)
         maya_cmds.setAttr(f"{shape}.shape2ndAxis", 2)
         maya_cmds.setAttr(f"{shape}.shapeRotateZ", 0)
@@ -1771,12 +1770,21 @@ def test_color_wide_cross_three_axis_fill_matches_each_arm(
     ),
 )
 @pytest.mark.parametrize("filled", (False, True))
+@pytest.mark.parametrize("guide", (False, True))
 def test_color_body_image_keeps_its_axes_without_attachments(
-    maya_cmds, new_scene, tmp_path, preset, filled
+    maya_cmds, new_scene, tmp_path, preset, filled, guide
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
-    with _drawing_view(maya_cmds, preset, shapeFill=filled) as (
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeFill=filled,
+        shapeGuideLine=guide,
+        shapePart=False,
+        shapeFin=False,
+        shapeAxisSwap=False,
+    ) as (
         _,
         shape,
         camera,
@@ -1789,10 +1797,18 @@ def test_color_body_image_keeps_its_axes_without_attachments(
         maya_cmds.setAttr(f"{shape}.shape2ndAxis", 0)
         maya_cmds.setAttr(f"{shape}.shapeRotate", 17, -29, 43)
         maya_cmds.setAttr(f"{shape}.shapeAxisRotate", -31, 13, 23)
-        assert (
-            _capture_view(panel, tmp_path / "reoriented_axes_body.png")
-            == reference
-        ), "付属形状のないColor本体の形状または配色が軸指定で変わる"
+        for swapped in (False, True):
+            maya_cmds.setAttr(f"{shape}.shapeAxisSwap", swapped)
+            assert (
+                _capture_view(
+                    panel, tmp_path / f"reoriented_axes_body_{swapped}.png"
+                )
+                == reference
+            ), (
+                "Color本体またはガイドの形状・配色が軸指定やSwapで変わる",
+                guide,
+                swapped,
+            )
 
 
 @pytest.mark.parametrize(
@@ -1839,7 +1855,7 @@ def test_color_attachments_match_plain_geometry_outside_the_fixed_body(
         names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
             0
         ].split(":")
-        maya_cmds.setAttr(f"{shape}.shape", names.index(plain))
+        set_preset(maya_cmds, shape, plain)
         plain_body = _capture_view(panel, tmp_path / "plain_body.png")
         maya_cmds.setAttr(f"{shape}.shapePart", part)
         maya_cmds.setAttr(f"{shape}.shapeFin", True)
@@ -2046,7 +2062,7 @@ def test_wide_cross_three_axis_has_one_transparent_outer_shell(
         names = maya_cmds.attributeQuery("shape", node=shape, listEnum=True)[
             0
         ].split(":")
-        maya_cmds.setAttr(f"{shape}.shape", names.index("Cube"))
+        set_preset(maya_cmds, shape, "Cube")
         maya_cmds.setAttr(f"{shape}.shapeScale", width, width, max(1, width))
         reference = _capture_view(panel, tmp_path / "single_face.png")
         point = (0, 0, 0.5 * max(1, width))
@@ -2750,3 +2766,557 @@ def test_guide_line_connects_planar_arrow_tips(
                         )
                         < 120
                     ), "矢印のない方向へガイドが延長された"
+
+
+def test_wide_cube_keeps_edges_and_adds_lines_inside_each_face(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds, "Cube", shapeWide=True, shapeWideWidth=0.2
+    ) as (_, shape, _, _, panel):
+        wide = _capture_view(panel, tmp_path / "wide_cube.png")
+        maya_cmds.setAttr(f"{shape}.shapeWide", False)
+        plain = _capture_view(panel, tmp_path / "plain_cube.png")
+        outer = (0.5, 0.2, 0.5)
+        inset = (0.4, 0.0, 0.5)
+        assert _brightness_near_world(panel, wide, outer) > 600
+        assert _brightness_near_world(panel, plain, outer) > 600
+        assert _brightness_near_world(panel, wide, inset) > 600
+        assert _brightness_near_world(panel, plain, inset) < 120
+
+
+@pytest.mark.parametrize("wide", (False, True))
+def test_template_line_rate_changes_only_body_and_wide_lines(
+    maya_cmds, new_scene, tmp_path, wide
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "Cube",
+        shapeWide=wide,
+        shapeWideWidth=0.2,
+        shapePart=True,
+        shapePartShape=6,
+        shapePartSize=3,
+        shapePartOffset=0.2,
+    ) as (_, shape, _, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.2)
+        normal = _capture_view(panel, tmp_path / "normal_lines.png")
+        body = (-0.5, 0.2, 0.5)
+        part = (0.85, 0.1, 0.15)
+        assert _brightness_near_world(panel, normal, body) > 600
+        assert _brightness_near_world(panel, normal, part) > 600
+        maya_cmds.setAttr(f"{shape}.shapeTemplateLine", True)
+        maya_cmds.setAttr(f"{shape}.shapeTemplateLineRate", 0)
+        zero = _capture_view(panel, tmp_path / "zero_template_rate.png")
+        assert zero == normal
+        maya_cmds.setAttr(f"{shape}.shapeTemplateLineRate", 1)
+        template = _capture_view(panel, tmp_path / "template_body_lines.png")
+        assert _rgb_near_world(panel, template, body) != _rgb_near_world(
+            panel, normal, body
+        )
+        assert _brightness_near_world(panel, template, part) > 600
+        assert _rgb_near_world(panel, template, part) == _rgb_near_world(
+            panel, normal, part
+        )
+        if wide:
+            inset = (-0.4, 0, 0.5)
+            assert _brightness_near_world(panel, normal, inset) > 600
+            assert _rgb_near_world(panel, template, inset) != _rgb_near_world(
+                panel, normal, inset
+            )
+
+
+def test_template_fill_changes_body_faces_without_recoloring_parts(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "Square",
+        shapeFill=True,
+        shapeFillTransparency=0,
+        shapeLineTransparency=1,
+        shapePart=True,
+        shapePartShape=6,
+        shapePartSize=3,
+        shapePartOffset=0.2,
+    ) as (_, shape, camera, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.2)
+        maya_cmds.setAttr(f"{camera}.translate", 0, 4, 0)
+        maya_cmds.setAttr(f"{camera}.rotate", -90, 0, 0)
+        normal = _capture_view(panel, tmp_path / "normal_body_fill.png")
+        part = (0.7, 0, 0)
+        assert _brightness_near_world(panel, normal, (0, 0, 0)) > 600
+        assert _brightness_near_world(panel, normal, part) > 600
+        maya_cmds.setAttr(f"{shape}.shapeTemplateFill", True)
+        template = _capture_view(panel, tmp_path / "template_body_fill.png")
+        assert _rgb_near_world(panel, template, (0, 0, 0)) != _rgb_near_world(
+            panel, normal, (0, 0, 0)
+        )
+        assert _brightness_near_world(panel, template, part) > 600
+        assert _rgb_near_world(panel, template, part) == _rgb_near_world(
+            panel, normal, part
+        )
+
+
+def _assert_template_line_partition(
+    cmds,
+    shape,
+    panel,
+    output,
+    normal_points,
+    template_points,
+    name="body",
+    colored=False,
+    rate=0.7,
+):
+    from maya import utils
+    from maya.api import OpenMaya as om
+    from maya.api import OpenMayaUI as omui
+
+    cmds.setAttr(f"{shape}.shapeTemplateLine", False)
+    baseline = _capture_view(panel, output / f"{name}_normal.png")
+    for point in (*normal_points, *template_points):
+        color = _rgb_near_world(panel, baseline, point)
+        assert max(color) > 180 if colored else sum(color) > 600, (
+            "基準輪郭上の検証点に通常線がない",
+            point,
+        )
+    cmds.setAttr(f"{shape}.shapeTemplateLineRate", rate)
+    cmds.setAttr(f"{shape}.shapeTemplateLine", True)
+    pixels = _capture_view(panel, output / f"{name}_template_partition.png")
+    for point in normal_points:
+        assert _rgb_near_world(panel, pixels, point) == _rgb_near_world(
+            panel, baseline, point
+        ), (
+            "通常線として残る区間がTemplateになっている",
+            point,
+        )
+    for point in template_points:
+        if colored:
+            color = _rgb_near_world(panel, pixels, point)
+            assert sum(color) > 60 and max(color) - min(color) < 5, (
+                "Template区間が軸色のままか消えている",
+                point,
+                color,
+            )
+            assert color != _rgb_near_world(panel, baseline, point)
+            continue
+        brightness = _brightness_near_world(panel, pixels, point)
+        assert (
+            60
+            < brightness
+            < _brightness_near_world(panel, baseline, point) - 120
+        ), (
+            "Template区間の線色が変わっていないか消えている",
+            point,
+            brightness,
+        )
+
+    view = omui.M3dView.getM3dViewFromModelPanel(panel)
+    for selectable, points in (
+        (True, normal_points),
+        (False, template_points),
+    ):
+        for point in points:
+            cmds.select(clear=True)
+            cmds.setFocus(panel)
+            utils.processIdleEvents()
+            x, y, visible = view.worldToView(om.MPoint(*point))
+            assert visible
+            om.MGlobal.selectFromScreen(
+                x - 2,
+                y - 2,
+                x + 2,
+                y + 2,
+                om.MGlobal.kReplaceList,
+                om.MGlobal.kWireframeSelectMethod,
+            )
+            assert bool(cmds.ls(selection=True)) == selectable, (
+                "通常線とTemplate線の選択可否が一致しない",
+                point,
+                selectable,
+            )
+    cmds.select(clear=True)
+    return pixels
+
+
+@pytest.mark.parametrize(
+    "part,placement", ((False, 0), (True, 0), (True, 1), (True, 2))
+)
+def test_template_line_partition_keeps_the_active_line_ends_normal(
+    maya_cmds, new_scene, tmp_path, part, placement
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "Line",
+        shapePart=part,
+        shapePartType=placement,
+        shapePartShape=6,
+        shapePartSize=0.2,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, camera, _, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 0, 4, 0)
+        maya_cmds.setAttr(f"{camera}.rotate", -90, 0, 0)
+        both = not part or placement == 1
+        normal = ((-0.44, 0, 0), (0.44, 0, 0)) if both else ((0.4, 0, 0),)
+        template = ((0, 0, 0),) if both else ((-0.4, 0, 0), (0, 0, 0))
+        _assert_template_line_partition(
+            maya_cmds, shape, panel, tmp_path, normal, template
+        )
+
+
+@pytest.mark.parametrize("preset", ("CrossLine", "CrossLine3Axis"))
+@pytest.mark.parametrize(
+    "part,placement", ((False, 0), (True, 0), (True, 1), (True, 2))
+)
+def test_template_cross_line_partition_keeps_every_arm_end_normal(
+    maya_cmds, new_scene, tmp_path, preset, part, placement
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapePart=part,
+        shapePartType=placement,
+        shapePartShape=6,
+        shapePartSize=0.2,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, camera, _, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        axes = (0, 2) if preset == "CrossLine" else (0, 1, 2)
+
+        def points(distance):
+            return tuple(
+                tuple(
+                    sign * distance if coordinate == axis else 0
+                    for coordinate in range(3)
+                )
+                for axis in axes
+                for sign in (-1, 1)
+            )
+
+        _assert_template_line_partition(
+            maya_cmds, shape, panel, tmp_path, points(0.44), points(0.2)
+        )
+
+
+def _template_arc_point(angle, additional=False):
+    radians = math.radians(angle)
+    along = 0.5 * math.cos(radians)
+    side = 0.5 * math.sin(radians)
+    return (along, side, 0) if additional else (along, 0, -side)
+
+
+@pytest.mark.parametrize("preset", ("ArcRadial", "ArcAxial"))
+@pytest.mark.parametrize(
+    "part,placement", ((False, 0), (True, 0), (True, 1), (True, 2))
+)
+def test_template_arc_partition_follows_the_active_part_sites(
+    maya_cmds, new_scene, tmp_path, preset, part, placement
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeArcAngle=180,
+        shapePart=part,
+        shapePartType=placement,
+        shapePartShape=6,
+        shapePartSize=0.2,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, camera, _, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 0, 4, 0)
+        maya_cmds.setAttr(f"{camera}.rotate", -90, 0, 0)
+        if part and placement == 2:
+            normal, template = (-15, 15), (-60, 60)
+        elif part and placement == 0:
+            normal, template = (60,), (-75, 0)
+        else:
+            normal, template = (-75, 75), (-20, 20)
+        _assert_template_line_partition(
+            maya_cmds,
+            shape,
+            panel,
+            tmp_path,
+            tuple(_template_arc_point(angle) for angle in normal),
+            tuple(_template_arc_point(angle) for angle in template),
+        )
+
+
+@pytest.mark.parametrize("preset", ("CrossArcRadial", "CrossArcAxial"))
+@pytest.mark.parametrize("placement", (0, 2))
+def test_template_cross_arc_partition_uses_both_reference_planes(
+    maya_cmds, new_scene, tmp_path, preset, placement
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeArcAngle=180,
+        shapePart=True,
+        shapePartType=placement,
+        shapePartShape=6,
+        shapePartSize=0.2,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, camera, _, panel):
+        normal, template = (
+            ((-15, 15), (-60, 60))
+            if placement == 2
+            else ((-75, 75), (-20, 20))
+        )
+        for additional in (False, True):
+            maya_cmds.setAttr(
+                f"{camera}.translate",
+                *((0, 0, 4) if additional else (0, 4, 0)),
+            )
+            maya_cmds.setAttr(
+                f"{camera}.rotate", *((0, 0, 0) if additional else (-90, 0, 0))
+            )
+            _assert_template_line_partition(
+                maya_cmds,
+                shape,
+                panel,
+                tmp_path,
+                tuple(
+                    _template_arc_point(angle, additional) for angle in normal
+                ),
+                tuple(
+                    _template_arc_point(angle, additional)
+                    for angle in template
+                ),
+                name="xy" if additional else "xz",
+            )
+
+
+def test_template_circle_partition_centers_normal_intervals_on_the_axes(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds, "Circle", shape1stAxis=0, shape2ndAxis=2
+    ) as (_, shape, camera, _, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 0, 4, 0)
+        maya_cmds.setAttr(f"{camera}.rotate", -90, 0, 0)
+        _assert_template_line_partition(
+            maya_cmds,
+            shape,
+            panel,
+            tmp_path,
+            tuple(_template_arc_point(angle) for angle in (0, 90, 180, 270)),
+            tuple(_template_arc_point(angle) for angle in (45, 135, 225, 315)),
+        )
+
+
+@pytest.mark.parametrize("preset", ("Sphere", "ColorSphere"))
+def test_template_wide_sphere_circles_keep_their_parent_plane_intervals(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeWide=True,
+        shapeWideWidth=0.6,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, camera, _, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 0, 4, 0)
+        maya_cmds.setAttr(f"{camera}.rotate", -90, 0, 0)
+        offset, radius = 0.5 * math.sin(0.6), 0.5 * math.cos(0.6)
+
+        def point(angle):
+            radians = math.radians(angle)
+            return (
+                radius * math.cos(radians),
+                offset,
+                radius * math.sin(radians),
+            )
+
+        _assert_template_line_partition(
+            maya_cmds,
+            shape,
+            panel,
+            tmp_path,
+            tuple(point(angle) for angle in (8, 82, 188, 262)),
+            tuple(point(angle) for angle in (40, 130, 220, 310)),
+            colored=preset == "ColorSphere",
+        )
+
+
+def test_template_options_preserve_always_visible_color_corner_markers(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    from maya import utils
+    from maya.api import OpenMaya as om
+    from maya.api import OpenMayaUI as omui
+
+    with _drawing_view(
+        maya_cmds,
+        "ColorCornerCube",
+        shapeFill=False,
+        shapeFillTransparency=1,
+        shapeTemplateLineRate=1,
+    ) as (_, shape, camera, _, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        baseline = _capture_view(panel, tmp_path / "normal_corner_markers.png")
+        points = tuple(
+            tuple(
+                0.5 if coordinate == axis else 0.4 for coordinate in range(3)
+            )
+            for axis in range(3)
+        )
+        for axis, point in enumerate(points):
+            color = _rgb_near_world(panel, baseline, point)
+            assert color[axis] > 180 and all(
+                color[j] < 50 for j in range(3) if j != axis
+            ), (axis, color)
+        view = omui.M3dView.getM3dViewFromModelPanel(panel)
+        for line, fill in ((False, True), (True, False), (True, True)):
+            maya_cmds.select(clear=True)
+            maya_cmds.setAttr(f"{shape}.shapeTemplateLine", line)
+            maya_cmds.setAttr(f"{shape}.shapeTemplateFill", fill)
+            pixels = _capture_view(
+                panel, tmp_path / f"corner_markers_{line}_{fill}.png"
+            )
+            for point in points:
+                assert _rgb_near_world(
+                    panel, pixels, point
+                ) == _rgb_near_world(panel, baseline, point)
+                maya_cmds.select(clear=True)
+                maya_cmds.setFocus(panel)
+                utils.processIdleEvents()
+                x, y, visible = view.worldToView(om.MPoint(*point))
+                assert visible
+                om.MGlobal.selectFromScreen(
+                    x - 2,
+                    y - 2,
+                    x + 2,
+                    y + 2,
+                    om.MGlobal.kReplaceList,
+                    om.MGlobal.kSurfaceSelectMethod,
+                )
+                assert maya_cmds.ls(selection=True), (line, fill, point)
+        maya_cmds.select(clear=True)
+
+
+def test_template_wide_cylinder_generators_keep_their_end_intervals(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "Cylinder",
+        shapeWide=True,
+        shapeWideWidth=0.2,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, _, _, panel):
+        y, z = 0.5 * math.cos(0.2), 0.5 * math.sin(0.2)
+        _assert_template_line_partition(
+            maya_cmds,
+            shape,
+            panel,
+            tmp_path,
+            ((0, y, z),),
+            ((-0.45, y, z), (0.45, y, z)),
+            rate=0.35,
+        )
+
+
+@pytest.mark.parametrize("rate", (0.16, 0.7))
+def test_template_wide_cone_generators_follow_the_unfolded_parent_interval(
+    maya_cmds, new_scene, tmp_path, rate
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "Cone",
+        shapeWide=True,
+        shapeWideWidth=0.2,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, _, _, panel):
+        slant, offset = math.sqrt(1.25), 0.1
+
+        def point(parameter):
+            along = math.sqrt((parameter * slant) ** 2 + offset**2)
+            position = along / slant
+            angle = math.asin(offset / along) / (0.5 / slant)
+            return (
+                0.5 - position,
+                0.5 * position * math.cos(angle),
+                0.5 * position * math.sin(angle),
+            )
+
+        _assert_template_line_partition(
+            maya_cmds,
+            shape,
+            panel,
+            tmp_path,
+            (point(0.5),),
+            (point(0.05), point(0.95)),
+            rate=rate,
+        )
+
+
+def test_template_wide_folded_octahedron_arrow_keeps_the_parallel_parent_edge(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "OctahedronArrow",
+        shapePart=False,
+        shapeFin=False,
+        shapePartLengthScale=-4,
+        shapePartWidthScale=0.5,
+        shapePartOffset=0,
+        shapeWide=True,
+        shapeWideWidth=0.15,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, camera, camera_shape, panel):
+        point = (-0.191133685756, 0.172870123219, 0.053238166061)
+        _aim_at_origin(maya_cmds, camera, (-0.5, 4, 4))
+        maya_cmds.setAttr(
+            f"{camera}.translate", point[0] - 0.5, point[1] + 4, point[2] + 4
+        )
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.6)
+        partial = _assert_template_line_partition(
+            maya_cmds,
+            shape,
+            panel,
+            tmp_path,
+            (),
+            (point,),
+            rate=0.35,
+        )
+        maya_cmds.setAttr(f"{shape}.shapeTemplateLineRate", 1)
+        complete = _capture_view(
+            panel, tmp_path / "all_template_arrow_edge.png"
+        )
+        assert _rgb_near_world(panel, partial, point) == _rgb_near_world(
+            panel, complete, point
+        )

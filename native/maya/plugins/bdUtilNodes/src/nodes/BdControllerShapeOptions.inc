@@ -177,6 +177,7 @@ void trimOptionStrokes(PartGeometry& geometry, const std::vector<OptionClipVolum
     geometry.fillParts = std::move(faces);
 }
 
+#include "BdControllerShapeWide.inc"
 #include "BdControllerShapePlanarCircle.inc"
 
 bool optionPartSupported(short outline) {
@@ -686,6 +687,7 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
         appendOptionCircle(builder, settings, heads, sites, bodyVolumes);
     } else if (outline >= 108 && outline <= 110) appendOptionSquare(builder, outline);
     else builder.body(outline);
+    applyGenericWideBody(settings, builder.geometry, &bodyVolumes);
     if (settings.part && (outline == 19 || outline == 33 || outline == 46 || outline == 47)) {
         PartBuilder body(true);
         body.body(outline);

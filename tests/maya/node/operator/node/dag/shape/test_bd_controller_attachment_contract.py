@@ -5,6 +5,8 @@ import itertools
 
 import pytest
 
+from controller_shape_cases import set_preset
+
 from test_bd_controller_shape import _bounds, _load_bd_util_nodes
 
 pytestmark = pytest.mark.maya
@@ -26,10 +28,7 @@ def _controller(cmds, name, preset, **values):
     shape = cmds.createNode(
         "bdControllerShape", parent=transform, name=f"{name}Shape"
     )
-    names = cmds.attributeQuery("shape", node=shape, listEnum=True)[0].split(
-        ":"
-    )
-    cmds.setAttr(f"{shape}.shape", names.index(preset))
+    set_preset(cmds, shape, preset)
     cmds.setAttr(f"{shape}.boundsMode", 0)
     for attribute, value in values.items():
         cmds.setAttr(f"{shape}.{attribute}", value)

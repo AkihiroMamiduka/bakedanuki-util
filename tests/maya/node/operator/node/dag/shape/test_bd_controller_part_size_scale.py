@@ -10,7 +10,8 @@ from test_bd_controller_attachment_contract import (
     _end_bounds,
     _union_bounds,
 )
-from test_bd_controller_shape import SHAPE_NAMES, _bounds, _load_bd_util_nodes
+from controller_shape_cases import VARIANT_NAMES
+from test_bd_controller_shape import _bounds, _load_bd_util_nodes
 
 pytestmark = pytest.mark.maya
 
@@ -170,7 +171,7 @@ def test_zero_directional_scales_restore_the_body_fin_and_guide_bounds(
     "preset,placement",
     tuple(
         (preset, placement)
-        for preset in SHAPE_NAMES
+        for preset in VARIANT_NAMES
         for placement in range(3)
         if preset not in NON_ARC_PART_SHAPES or placement != 1
     ),
