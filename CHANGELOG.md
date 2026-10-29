@@ -18,10 +18,15 @@
 
 ### Changed
 
+- `bdControllerShape` の非Arc系の `AtEnds` に、代表用の `shapePartPrimarySizeScale` と
+  その他用の `shapePartOtherSizeScale` を追加した。共通の `shapePartSize` へ掛け合わせ、
+  全11種類のPartの寸法を個別に調整できる。既定値は1と0.5で、両方1なら等サイズ、Otherが0なら代表だけを残す。
+  0の配置は省略し、両方0なら本体・Fin・GuideLine・BoundsをPart OFFと同じにする。
+  負値も許容し、配置ピボットとOffsetは維持する。AtEnd・AtApex・Arc系16本体では設定を保持して無視する。
 - `bdControllerShape` のColor系本体は向きと軸色を固定したまま、
   `shape1stAxis` / `shape2ndAxis` にPart・Finの配置姿勢だけを追従させる。
   回転無視・負スケールの絶対値化など、Color系の他の変形規則とPart・Finの対応本体は維持する。
-  Arc系を除くPart対応本体の `AtEnds` は全11種類のPartで代表1つを標準サイズ、
+  Arc系を除くPart対応本体の `AtEnds` は全11種類のPartで、追加倍率の既定値なら代表1つを標準サイズ、
   残りを0.5倍にする。配置ピボットとOffsetの距離、Arc系16本体のサイズ規約は維持する。
 - `bdControllerShape` のArc系・CrossArc系をRadial・Axialと各Wide・Swappedの16本体へ整理した。
   通常版の基準円を主軸と第3軸の平面、中央方向を+主軸へ揃え、Cross版は主軸と補助軸の平面を追加する。

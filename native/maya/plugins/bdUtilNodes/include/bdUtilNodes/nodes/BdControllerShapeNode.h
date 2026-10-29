@@ -127,6 +127,8 @@ public:
     static MObject shapePartLengthScale;
     static MObject shapePartWidthScale;
     static MObject shapePartSize;
+    static MObject shapePartPrimarySizeScale;
+    static MObject shapePartOtherSizeScale;
     static MObject shapeOffsetLine;
     static MObject shapeOffsetLineTemplate;
     static MObject shapeLineWidth;

@@ -343,13 +343,20 @@ std::vector<OptionSite> optionPartSites(const ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
     for (std::size_t index = 0; index < sites.size(); ++index) {
         auto& site = sites[index];
-        if (!isArcOutline(outline) && settings.partType == 1 && index != 0) site.sizeScale = 0.5;
+        if (!isArcOutline(outline) && settings.partType == 1) {
+            site.sizeScale = index == 0 ? settings.partPrimarySizeScale : settings.partOtherSizeScale;
+        }
+        if (site.sizeScale == 0.0) continue;
         const auto up = site.along ^ site.side;
         if (settings.partShape == 1 && !isAxialArcOutline(outline) && up.x + up.y + up.z < 0) site.upSign = -1.0;
         site.endpoint = colorAttachmentPoint(site.endpoint, settings);
         site.along = colorAttachmentVector(site.along, settings);
         site.side = colorAttachmentVector(site.side, settings);
     }
+    // 元の配置順で代表を確定してから省略し、接合側も同じsite列を使う。
+    sites.erase(std::remove_if(sites.begin(), sites.end(), [](const auto& site) {
+        return site.sizeScale == 0.0;
+    }), sites.end());
     return sites;
 }
 

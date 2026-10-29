@@ -101,6 +101,8 @@ MObject BdControllerShapeNode::shapePartOffset;
 MObject BdControllerShapeNode::shapePartLengthScale;
 MObject BdControllerShapeNode::shapePartWidthScale;
 MObject BdControllerShapeNode::shapePartSize;
+MObject BdControllerShapeNode::shapePartPrimarySizeScale;
+MObject BdControllerShapeNode::shapePartOtherSizeScale;
 MObject BdControllerShapeNode::shapeOffsetLine;
 MObject BdControllerShapeNode::shapeOffsetLineTemplate;
 MObject BdControllerShapeNode::shapeLineWidth;
@@ -204,6 +206,8 @@ struct ShapeSettings {
     double partLengthScale = 1.0;
     double partWidthScale = 1.0;
     double partSize = 1.0;
+    double partPrimarySizeScale = 1.0;
+    double partOtherSizeScale = 0.5;
     bool showOffsetLine = false;
     bool offsetLineTemplate = false;
 };
@@ -232,6 +236,8 @@ struct ShapeAttributes {
     MObject partLengthScale;
     MObject partWidthScale;
     MObject partSize;
+    MObject partPrimarySizeScale;
+    MObject partOtherSizeScale;
     MObject showOffsetLine;
     MObject offsetLineTemplate;
     MObject fill;
@@ -269,6 +275,8 @@ ShapeAttributes shapeAttributes() {
         BdControllerShapeNode::shapePartLengthScale,
         BdControllerShapeNode::shapePartWidthScale,
         BdControllerShapeNode::shapePartSize,
+        BdControllerShapeNode::shapePartPrimarySizeScale,
+        BdControllerShapeNode::shapePartOtherSizeScale,
         BdControllerShapeNode::shapeOffsetLine,
         BdControllerShapeNode::shapeOffsetLineTemplate,
         BdControllerShapeNode::shapeFill,
@@ -348,6 +356,8 @@ bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
         left.partLengthScale == right.partLengthScale &&
         left.partWidthScale == right.partWidthScale &&
         left.partSize == right.partSize &&
+        left.partPrimarySizeScale == right.partPrimarySizeScale &&
+        left.partOtherSizeScale == right.partOtherSizeScale &&
         left.showOffsetLine == right.showOffsetLine &&
         left.offsetLineTemplate == right.offsetLineTemplate;
 }
@@ -630,6 +640,10 @@ bool readSettings(
         if (!status) return false;
         settings.partSize = MPlug(node, attributes.partSize).asDouble(&status);
         if (!status) return false;
+        settings.partPrimarySizeScale = MPlug(node, attributes.partPrimarySizeScale).asDouble(&status);
+        if (!status) return false;
+        settings.partOtherSizeScale = MPlug(node, attributes.partOtherSizeScale).asDouble(&status);
+        if (!status) return false;
     }
     if (attributes.showOffsetLine.isNull()) {
         settings.showOffsetLine = false;
@@ -761,6 +775,9 @@ void normalizeShapeSettings(ShapeSettings& settings) {
     if (!isArcOutline(outline)) {
         settings.circleAngle = 2.0 * kPi;
         settings.partOffsetAngle = kPi / 2.0;
+        if (settings.partType == 1 && settings.partPrimarySizeScale == 0.0 && settings.partOtherSizeScale == 0.0) {
+            settings.part = false;
+        }
     } else if (!isWideArcOutline(outline)) {
         settings.wideWidth = 0.0;
     } else if (settings.wideWidth <= 1e-12) {
@@ -1827,6 +1844,8 @@ bool isShapeAttribute(const MObject& attribute) {
              BdControllerShapeNode::shapePartLengthScale,
              BdControllerShapeNode::shapePartWidthScale,
              BdControllerShapeNode::shapePartSize,
+             BdControllerShapeNode::shapePartPrimarySizeScale,
+             BdControllerShapeNode::shapePartOtherSizeScale,
              BdControllerShapeNode::shapeOffsetLine,
              BdControllerShapeNode::shapeOffsetLineTemplate,
          }) {
@@ -1927,6 +1946,8 @@ bool hasConnectedSettingsInput(
              attributes.partLengthScale,
              attributes.partWidthScale,
              attributes.partSize,
+             attributes.partPrimarySizeScale,
+             attributes.partOtherSizeScale,
              attributes.showOffsetLine,
              attributes.offsetLineTemplate,
          }) {
@@ -3009,6 +3030,20 @@ MStatus BdControllerShapeNode::initialize() {
     status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
     if (!status) return status;
 
+    status = bd_util_nodes::createDoubleAttribute(
+        numericAttributeFn, shapePartPrimarySizeScale, "shapePartPrimarySizeScale", "sppss", 1.0
+    );
+    if (!status) return status;
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) return status;
+
+    status = bd_util_nodes::createDoubleAttribute(
+        numericAttributeFn, shapePartOtherSizeScale, "shapePartOtherSizeScale", "sposs", 0.5
+    );
+    if (!status) return status;
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) return status;
+
     status = bd_util_nodes::createBooleanAttribute(
         numericAttributeFn,
         shapeOffsetLine,
@@ -3438,6 +3473,8 @@ MStatus BdControllerShapeNode::initialize() {
              shapePartType,
              shapePartOffset,
              shapePartSize,
+             shapePartPrimarySizeScale,
+             shapePartOtherSizeScale,
              shapePartLengthScale,
              shapePartWidthScale,
              channelBoxSeparator7,
@@ -3557,6 +3594,8 @@ MStatus BdControllerShapeNode::initialize() {
              shapePartType,
              shapePartOffset,
              shapePartSize,
+             shapePartPrimarySizeScale,
+             shapePartOtherSizeScale,
              shapePartLengthScale,
              shapePartWidthScale,
              channelBoxSeparator7,

@@ -558,6 +558,8 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         ("shapeFinSize", "sfns", "double", 1.0),
         ("shapeFinWidthScale", "sfnws", "double", 1.0),
         ("shapePartSize", "sps", "double", 1.0),
+        ("shapePartPrimarySizeScale", "sppss", "double", 1.0),
+        ("shapePartOtherSizeScale", "sposs", "double", 0.5),
         ("shapePartLengthScale", "spls", "double", 1.0),
         ("shapePartWidthScale", "spws", "double", 1.0),
     ):
@@ -775,6 +777,8 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeArcAngle",
         "shapeFinHeight",
         "shapePartSize",
+        "shapePartPrimarySizeScale",
+        "shapePartOtherSizeScale",
         "shapePartLengthScale",
         "shapePartWidthScale",
         "shapeOffsetLine",
@@ -837,6 +841,8 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapePartType",
         "shapePartOffset",
         "shapePartSize",
+        "shapePartPrimarySizeScale",
+        "shapePartOtherSizeScale",
         "shapePartLengthScale",
         "shapePartWidthScale",
         "_______",
@@ -4864,6 +4870,8 @@ def test_common_options_history_and_scene_reload(
         "shapePart": True,
         "shapePartShape": 6,
         "shapePartType": 1,
+        "shapePartPrimarySizeScale": 1.5,
+        "shapePartOtherSizeScale": 0.25,
         "shapeWideWidth": 0.2,
         "shapeArcAngle": 240,
         "shapeFin": True,
@@ -4878,8 +4886,20 @@ def test_common_options_history_and_scene_reload(
     assert after != pytest.approx(before)
     mod.undo_it()
     assert _bounds(maya_om, name) == pytest.approx(before)
+    assert maya_cmds.getAttr(
+        f"{name}.shapePartPrimarySizeScale"
+    ) == pytest.approx(1.0)
+    assert maya_cmds.getAttr(
+        f"{name}.shapePartOtherSizeScale"
+    ) == pytest.approx(0.5)
     mod.redo_it()
     assert _bounds(maya_om, name) == pytest.approx(after)
+    assert maya_cmds.getAttr(
+        f"{name}.shapePartPrimarySizeScale"
+    ) == pytest.approx(1.5)
+    assert maya_cmds.getAttr(
+        f"{name}.shapePartOtherSizeScale"
+    ) == pytest.approx(0.25)
     scene_path = tmp_path / "common_shape_options.ma"
     maya_cmds.file(rename=str(scene_path))
     maya_cmds.file(save=True, type="mayaAscii", force=True)

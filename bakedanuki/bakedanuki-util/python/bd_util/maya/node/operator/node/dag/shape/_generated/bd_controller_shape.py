@@ -815,6 +815,12 @@ class GeneratedBdControllerShape(Shape):
     shapePartSize = DoubleField(default_value=1.0)
     sps = shapePartSize
 
+    shapePartPrimarySizeScale = DoubleField(default_value=1.0)
+    sppss = shapePartPrimarySizeScale
+
+    shapePartOtherSizeScale = DoubleField(default_value=0.5)
+    sposs = shapePartOtherSizeScale
+
     shapePartLengthScale = DoubleField(default_value=1.0)
     spls = shapePartLengthScale
 

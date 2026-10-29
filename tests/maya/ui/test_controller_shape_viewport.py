@@ -1882,8 +1882,12 @@ def test_color_attachments_match_plain_geometry_outside_the_fixed_body(
 
 @pytest.mark.parametrize("part", range(11))
 @pytest.mark.parametrize("filled", (False, True))
-def test_non_arc_at_ends_draws_one_standard_and_one_half_size_part(
-    maya_cmds, new_scene, tmp_path, part, filled
+@pytest.mark.parametrize(
+    "primary_scale,other_scale",
+    ((1, 0.5), (1.6, 0.3), (0, 1), (1, 0), (0, 0), (-1, -0.5)),
+)
+def test_non_arc_at_ends_size_scales_match_independent_at_end_images(
+    maya_cmds, new_scene, tmp_path, part, filled, primary_scale, other_scale
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
@@ -1893,9 +1897,9 @@ def test_non_arc_at_ends_draws_one_standard_and_one_half_size_part(
         maya_cmds,
         "Line",
         shapeFill=filled,
-        shapePart=True,
+        shapePart=primary_scale != 0,
         shapePartShape=part,
-        shapePartSize=3.2,
+        shapePartSize=3.0 * primary_scale,
         shapePartLengthScale=1.4,
         shapePartWidthScale=1.5,
         shapePartOffset=0.2,
@@ -1903,28 +1907,125 @@ def test_non_arc_at_ends_draws_one_standard_and_one_half_size_part(
         maya_cmds.setAttr(f"{camera}.translate", 0, 4, 0)
         maya_cmds.setAttr(f"{camera}.rotate", -90, 0, 0)
         maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.6)
-        standard = _capture_view(panel, tmp_path / "standard_at_end.png")
+        primary = _capture_view(panel, tmp_path / "primary_at_end.png")
+        maya_cmds.setAttr(f"{shape}.shapePart", True)
+        maya_cmds.setAttr(f"{shape}.shapePartSize", 3.0)
+        maya_cmds.setAttr(f"{shape}.shapePartPrimarySizeScale", primary_scale)
+        maya_cmds.setAttr(f"{shape}.shapePartOtherSizeScale", other_scale)
         maya_cmds.setAttr(f"{shape}.shapePartType", 1)
-        both = _capture_view(panel, tmp_path / "standard_and_half_at_ends.png")
+        both = _capture_view(panel, tmp_path / "scaled_at_ends.png")
         maya_cmds.setAttr(f"{shape}.shapePartType", 0)
-        maya_cmds.setAttr(f"{shape}.shapePartSize", 1.6)
+        maya_cmds.setAttr(f"{shape}.shapePart", other_scale != 0)
+        maya_cmds.setAttr(f"{shape}.shapePartSize", 3.0 * other_scale)
         maya_cmds.setAttr(f"{shape}.shape1stAxis", 1)
-        half = _capture_view(panel, tmp_path / "half_at_opposite_end.png")
+        other = _capture_view(panel, tmp_path / "other_at_opposite_end.png")
         view = omui.M3dView.getM3dViewFromModelPanel(panel)
         width, height = view.portWidth(), view.portHeight()
         for row in range(height):
             left = row * width * 4
             middle = left + (width // 2) * 4
             right = left + width * 4
-            assert both[left : middle - 8] == half[left : middle - 8], (
-                "反対端が半サイズのAtEndと一致しない",
+            assert both[left : middle - 8] == other[left : middle - 8], (
+                "反対端が独立したサイズのAtEndと一致しない",
                 part,
             )
-            assert both[middle + 8 : right] == standard[middle + 8 : right], (
-                "代表端の標準サイズが変わっている",
+            assert both[middle + 8 : right] == primary[middle + 8 : right], (
+                "代表端が独立したサイズのAtEndと一致しない",
                 part,
             )
-        assert both != standard
+        assert (both == primary) == (other_scale == 0)
+
+
+@pytest.mark.parametrize(
+    "preset",
+    (
+        "Line",
+        "WideCrossLine",
+        "SquareTemplate",
+        "Circle",
+        "WideCircleSwapped",
+        "ColorWideCrossLine3Axis",
+        "ColorSphere",
+    ),
+)
+@pytest.mark.parametrize("part", (1, 6))
+@pytest.mark.parametrize("filled", (False, True))
+def test_zero_part_size_scales_restore_the_body_fin_and_guide_image(
+    maya_cmds, new_scene, tmp_path, preset, part, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeFill=filled,
+        shapePartShape=part,
+        shapePartType=1,
+        shapePartSize=2.3,
+        shapePartOffset=0.22,
+        shapeFin=True,
+        shapeFinType=1,
+        shapeFinHeight=0.7,
+        shapeGuideLine=True,
+        shape1stAxis=5,
+        shape2ndAxis=0,
+    ) as (_, shape, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.5)
+        reference = _capture_view(panel, tmp_path / "part_off.png")
+        maya_cmds.setAttr(f"{shape}.shapePart", True)
+        maya_cmds.setAttr(f"{shape}.shapePartPrimarySizeScale", 0)
+        maya_cmds.setAttr(f"{shape}.shapePartOtherSizeScale", 0)
+        assert (
+            _capture_view(panel, tmp_path / "zero_part_scales.png")
+            == reference
+        ), "両倍率0でPartまたは接合用の形状が残っている"
+
+
+@pytest.mark.parametrize(
+    "preset",
+    tuple(
+        base + suffix
+        for base in (
+            "ArcRadial",
+            "ArcAxial",
+            "WideArcRadial",
+            "WideArcAxial",
+            "CrossArcRadial",
+            "CrossArcAxial",
+            "WideCrossArcRadial",
+            "WideCrossArcAxial",
+        )
+        for suffix in ("", "Swapped")
+    ),
+)
+@pytest.mark.parametrize("filled", (False, True))
+def test_arc_part_size_scale_attributes_leave_the_image_unchanged(
+    maya_cmds, new_scene, tmp_path, preset, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeFill=filled,
+        shapeArcAngle=240,
+        shapePart=True,
+        shapePartShape=1,
+        shapePartType=1,
+        shapePartSize=2.4,
+    ) as (_, shape, camera, _, panel):
+        _aim_at_origin(maya_cmds, camera, (3, 2, 4))
+        reference = _capture_view(panel, tmp_path / "default_scales.png")
+        for primary, other in ((0, 0), (2, 0.1), (-1, -0.5)):
+            maya_cmds.setAttr(f"{shape}.shapePartPrimarySizeScale", primary)
+            maya_cmds.setAttr(f"{shape}.shapePartOtherSizeScale", other)
+            assert (
+                _capture_view(
+                    panel, tmp_path / f"scales_{primary}_{other}.png"
+                )
+                == reference
+            ), "Arc系で無視するはずの方向別倍率が適用されている"
 
 
 @pytest.mark.parametrize("width", (0.2, 1, 1.4))
