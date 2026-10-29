@@ -106,12 +106,14 @@ mod.do_it_dg()
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
+| `shape1stAxis` | enum | `+X` (0) | 基準主軸の行先。Color系ではPart・Finの配置姿勢に適用。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
+| `shape2ndAxis` | enum | `+Y` (2) | 基準補助軸の行先。Color系ではPart・Finの配置姿勢に適用。選択肢はshape1stAxisと同じ |
+| `shape` | enum | `Cube` (38) | 下表の51種類の本体。`Gear` を一覧の先頭に配置 |
 | `shapeDrawOnTop` | `bool` | `false` | 本体・Part・Fin・GuideLine・OffsetLineを他のシーン形状に隠れないように描画 |
 | `shapeLineWidth` | `float` | `1` | 本体・GuideLine・OffsetLineの画面上の線幅。pixel単位、最小値1 |
 | `shapeLineTransparency` | `float` | `0` | 輪郭・GuideLine・OffsetLine・ColorCornerCubeの小四角の透明度。0は不透明、1は完全透明 |
 | `shapeFill` | `bool` | `false` | 本体・Part・Finの面を表示。薄線のArc系・CrossArc系はPartのみ。`sfl` |
 | `shapeFillTransparency` | `float` | `0.85` | 通常の塗り面の透明度。ColorCornerCubeの小四角には適用しない |
-| `shape` | enum | `Cube` (22) | 下表の51種類の本体。`Gear` を一覧の先頭に配置 |
 | `shapeWideWidth` | `doubleLinear` | `0.05 cm` | Wide系本体の帯幅、3軸Wide本体の四角断面の一辺。最小値0。薄線Arc系では値と接続を保持して無視。`sww` |
 | `shapeArcAngle` | `doubleAngle` | `180°` | Arc系・CrossArc系16種類の円弧全体の角度。0–360°。Circle系では無視。`saa` |
 | `shapePart` | `bool` | `false` | 対象本体へ小形状を追加。`spt` |
@@ -132,8 +134,6 @@ mod.do_it_dg()
 | `shapeGuideLineTemplate` | `bool` | `false` | GuideLineだけをtemplate色・選択不可にする。`sglt` |
 | `shapeOffsetLine` | `bool` | `false` | 親transformのローカル原点から、軸オフセットを除いた形状基準位置へ補助線を描画。`sol` |
 | `shapeOffsetLineTemplate` | `bool` | `false` | OffsetLineだけをtemplate色・選択不可にする |
-| `shape1stAxis` | enum | `+X` (0) | 基準主軸の行先。Color系ではPart・Finの配置姿勢に適用。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
-| `shape2ndAxis` | enum | `+Y` (2) | 基準補助軸の行先。Color系ではPart・Finの配置姿勢に適用。選択肢はshape1stAxisと同じ |
 | `shapeAxisOffset` | `bool` | `false` | 選択軸方向へ基準形状を固定0.5オフセット |
 | `shapeAxisOffsetDirection` | enum | `+1stAxis` (0) | `+1stAxis` (0)、`-1stAxis` (1)、`+2ndAxis` (2)、`-2ndAxis` (3)、`+3rdAxis` (4)、`-3rdAxis` (5) |
 | `shapeAxisOffsetLength` | `doubleLinear` | `1 cm` | AxisOffsetがONのとき選択軸に沿って原点基準で伸縮。最小値0 |
@@ -151,11 +151,12 @@ mod.do_it_dg()
 
 ### 本体一覧
 
-`Gear` / `GearSwapped` の後に通常の2D本体をまとめ、その後に対応するSwappedを
-同じ順序で並べます。Circle・WideCircleは各2D群の末尾、
-続けて `CrossLine3Axis`・`WideCrossLine3Axis` と `Cube` 以降の本体を並べます。
-`OctahedronArrow` の後は単円の4系統と各Swapped、交差円の4系統と各Swappedの16種、
-その後に `Sphere` 以降が続きます。
+`Gear` / `GearSwapped` の後に通常向きの本体をまとめ、その後に対応するSwappedを
+同じ順序で並べます。各群ではCircle・WideCircleの後に単円のArc4系統、CrossArc4系統を置きます。
+どちらもRadial・WideRadial・Axial・WideAxialの順です。
+この分類は基準面の向きを揃えた一覧で、円筒面を持つWideArcAxialや直交円を合成するCrossArcも含みます。
+続けて `CrossLine3Axis`・`WideCrossLine3Axis`、`Cube`・`Octahedron`・`OctahedronArrow`、
+`Sphere` 以降の本体を並べます。
 
 | 値 | 本体 |
 | --- | --- |
@@ -171,35 +172,35 @@ mod.do_it_dg()
 | 9 | `Diamond` |
 | 10 | `Circle` |
 | 11 | `WideCircle` |
-| 12 | `CrossLineSwapped` |
-| 13 | `WideCrossLineSwapped` |
-| 14 | `TriangleSwapped` |
-| 15 | `SquareSwapped` |
-| 16 | `SquareTemplateSwapped` |
-| 17 | `DiamondSwapped` |
-| 18 | `CircleSwapped` |
-| 19 | `WideCircleSwapped` |
-| 20 | `CrossLine3Axis` |
-| 21 | `WideCrossLine3Axis` |
-| 22 | `Cube` |
-| 23 | `Octahedron` |
-| 24 | `OctahedronArrow` |
-| 25 | `ArcRadial` |
-| 26 | `ArcAxial` |
-| 27 | `WideArcRadial` |
-| 28 | `WideArcAxial` |
-| 29 | `ArcRadialSwapped` |
+| 12 | `ArcRadial` |
+| 13 | `WideArcRadial` |
+| 14 | `ArcAxial` |
+| 15 | `WideArcAxial` |
+| 16 | `CrossArcRadial` |
+| 17 | `WideCrossArcRadial` |
+| 18 | `CrossArcAxial` |
+| 19 | `WideCrossArcAxial` |
+| 20 | `CrossLineSwapped` |
+| 21 | `WideCrossLineSwapped` |
+| 22 | `TriangleSwapped` |
+| 23 | `SquareSwapped` |
+| 24 | `SquareTemplateSwapped` |
+| 25 | `DiamondSwapped` |
+| 26 | `CircleSwapped` |
+| 27 | `WideCircleSwapped` |
+| 28 | `ArcRadialSwapped` |
+| 29 | `WideArcRadialSwapped` |
 | 30 | `ArcAxialSwapped` |
-| 31 | `WideArcRadialSwapped` |
-| 32 | `WideArcAxialSwapped` |
-| 33 | `CrossArcRadial` |
-| 34 | `CrossArcAxial` |
-| 35 | `WideCrossArcRadial` |
-| 36 | `WideCrossArcAxial` |
-| 37 | `CrossArcRadialSwapped` |
-| 38 | `CrossArcAxialSwapped` |
-| 39 | `WideCrossArcRadialSwapped` |
-| 40 | `WideCrossArcAxialSwapped` |
+| 31 | `WideArcAxialSwapped` |
+| 32 | `CrossArcRadialSwapped` |
+| 33 | `WideCrossArcRadialSwapped` |
+| 34 | `CrossArcAxialSwapped` |
+| 35 | `WideCrossArcAxialSwapped` |
+| 36 | `CrossLine3Axis` |
+| 37 | `WideCrossLine3Axis` |
+| 38 | `Cube` |
+| 39 | `Octahedron` |
+| 40 | `OctahedronArrow` |
 | 41 | `Sphere` |
 | 42 | `Cylinder` |
 | 43 | `Arrow` |
@@ -802,21 +803,21 @@ enum 値は形状本体と Custom で共通です。
 `shapeAnimationTransformMatrix` は Channel Box に表示せず、接続と
 `ModifierManager` 経由の設定に対応します。
 
-Channel Boxの表示順は次の15区画です。区切りは `_` から `______________` までの
-14本の表示専用1値enumで、値は `-----------------------------------` です。
-非keyable・非接続・非保存・ロック済みとし、各区画の間へ1本ずつ置きます。
+Channel Boxの表示順は次の15区画です。区切りは `_` から `_______________` までの
+15本の表示専用1値enumで、値は `-----------------------------------` です。
+非keyable・非接続・非保存・ロック済みとし、先頭と各区画の間へ1本ずつ置きます。
 
-1. `shapeDrawOnTop`
-2. `shapeLineWidth`、`shapeLineTransparency`
-3. `shapeFill`、`shapeFillTransparency`
-4. `shape`
+1. `shape1stAxis`、`shape2ndAxis`、`shape`
+2. `shapeDrawOnTop`
+3. `shapeLineWidth`、`shapeLineTransparency`
+4. `shapeFill`、`shapeFillTransparency`
 5. `shapeWideWidth`
 6. `shapeArcAngle`
 7. `shapePart`、`shapePartShape`、`shapePartType`、`shapePartOffset`、`shapePartSize`、`shapePartPrimarySizeScale`、`shapePartOtherSizeScale`、`shapePartLengthScale`、`shapePartWidthScale`
 8. `shapeFin`、`shapeFinType`、`shapeFinHeight`、`shapeFinSize`、`shapeFinWidthScale`
 9. `shapeGuideLine`、`shapeGuideLineTemplate`
 10. `shapeOffsetLine`、`shapeOffsetLineTemplate`
-11. `shape1stAxis`、`shape2ndAxis`、`shapeAxisOffset`、`shapeAxisOffsetDirection`、`shapeAxisOffsetLength`
+11. `shapeAxisOffset`、`shapeAxisOffsetDirection`、`shapeAxisOffsetLength`
 12. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
 13. `boundsMode`、`showBoundsPreview`
 14. `customBounds1stAxis`、`customBounds2ndAxis`、`customBoundsAxisOffset`、`customBoundsAxisOffsetDirection`、`customBoundsAxisOffsetLength`
@@ -1276,8 +1277,8 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 22. shapeLineWidthを大きくすると本体・Part・Fin・OffsetLineが画面上で太くなり、ズームやシーン単位によらず指定pixel幅を保つ。
 23. shapeLineTransparencyの0・中間値・1を通常色・選択色・template色・軸色で確認し、shapeFillTransparencyとは独立して変わる。
 24. shapeDrawOnTopのON/OFFで隠れた線・面を表示し、形状・クリック選択・Boundsを変えない。透明度・選択色との併用も確認する。
-25. Channel Boxで14本の区切りと15区画の順序を確認し、Partのサイズ属性がSize→PrimarySizeScale→OtherSizeScale→LengthScale→WidthScaleの順、GuideLine・GuideLineTemplateがFinの後、OffsetLineの前に並ぶ。非keyableの調整値・XYZ子属性を編集でき、明示キー・入力接続に対応する。区切りは編集・接続できない。
-26. shapeの51項目、PartShapeの11項目、PartTypeの3項目と、既定shapeがCube（22）であることを確認する。Gear / GearSwappedの後に通常2D系、同じ順序のSwapped系が並び、Circle・WideCircleは各群の末尾に置く。CrossLine3Axis・WideCrossLine3Axis、Cube以降が続き、OctahedronArrowの後は単円4系統・同順のSwapped・Cross4系統・同順のSwapped、Sphere以降となる。
+25. Channel Boxで先頭を含む15本の区切りと15区画の順序を確認する。先頭の区切り直後に1stAxis→2ndAxis→shape、続けてDrawOnTop、Line、Fillの各区画が並ぶ。AxisOffset・Direction・LengthはOffsetLine後・TRS前に残す。Partのサイズ属性はSize→PrimarySizeScale→OtherSizeScale→LengthScale→WidthScaleの順とする。非keyableの調整値・XYZ子属性を編集でき、明示キー・入力接続に対応する。区切りは編集・接続できない。
+26. shapeの51項目、PartShapeの11項目、PartTypeの3項目と、既定shapeがCube（38）であることを確認する。Gear / GearSwappedの後に通常向きの群、対応するSwapped群が並び、各群のCircle・WideCircle直後に単円Arc4系統、CrossArc4系統をRadial→WideRadial→Axial→WideAxialの順で置く。CrossLine3Axis・WideCrossLine3Axis、Cube・Octahedron・OctahedronArrow、Sphere以降が続く。
 27. 全本体でshapeFillを切り替え、Shadedでは面・輪郭、Wireframeでは輪郭、Wireframe on Shadedでは両方を表示する。ColorCornerCubeの小四角は常に残る。
 28. Triangle・Square・Circle・WideArcRadialの帯・WideArcAxialの側面・Fin・Arrow3Dは両面から見える。閉じた立体の本体・小形状・Color面は外側だけ見え、内側からは見えない。負のスケール・親transform・Animation行列の反転、透視・平行投影でも確認する。
 29. 各塗り面の外縁が輪郭と一致し、非等方・負スケールでも選択できる。Coneと小形状Coneの側線はFill表示時も残る。CylinderのFillは両端の円を残して側線を省略し、面を表示しない場合は側線が戻る。Finの線は維持する。

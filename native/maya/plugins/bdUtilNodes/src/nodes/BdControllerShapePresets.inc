@@ -13,6 +13,14 @@ constexpr std::array<const char*, 51> kPresetNames = {
     "Diamond",
     "Circle",
     "WideCircle",
+    "ArcRadial",
+    "WideArcRadial",
+    "ArcAxial",
+    "WideArcAxial",
+    "CrossArcRadial",
+    "WideCrossArcRadial",
+    "CrossArcAxial",
+    "WideCrossArcAxial",
     "CrossLineSwapped",
     "WideCrossLineSwapped",
     "TriangleSwapped",
@@ -21,27 +29,19 @@ constexpr std::array<const char*, 51> kPresetNames = {
     "DiamondSwapped",
     "CircleSwapped",
     "WideCircleSwapped",
+    "ArcRadialSwapped",
+    "WideArcRadialSwapped",
+    "ArcAxialSwapped",
+    "WideArcAxialSwapped",
+    "CrossArcRadialSwapped",
+    "WideCrossArcRadialSwapped",
+    "CrossArcAxialSwapped",
+    "WideCrossArcAxialSwapped",
     "CrossLine3Axis",
     "WideCrossLine3Axis",
     "Cube",
     "Octahedron",
     "OctahedronArrow",
-    "ArcRadial",
-    "ArcAxial",
-    "WideArcRadial",
-    "WideArcAxial",
-    "ArcRadialSwapped",
-    "ArcAxialSwapped",
-    "WideArcRadialSwapped",
-    "WideArcAxialSwapped",
-    "CrossArcRadial",
-    "CrossArcAxial",
-    "WideCrossArcRadial",
-    "WideCrossArcAxial",
-    "CrossArcRadialSwapped",
-    "CrossArcAxialSwapped",
-    "WideCrossArcRadialSwapped",
-    "WideCrossArcAxialSwapped",
     "Sphere",
     "Cylinder",
     "Arrow",
@@ -76,6 +76,14 @@ constexpr std::array<PresetInfo, 51> kPresetInfo = {{
     {79},  // Diamond
     {116},  // Circle
     {117},  // WideCircle
+    {27},  // ArcRadial
+    {111},  // WideArcRadial
+    {120},  // ArcAxial
+    {112},  // WideArcAxial
+    {113},  // CrossArcRadial
+    {114},  // WideCrossArcRadial
+    {121},  // CrossArcAxial
+    {115},  // WideCrossArcAxial
     {53, true},  // CrossLineSwapped
     {106, true},  // WideCrossLineSwapped
     {6, true},  // TriangleSwapped
@@ -84,27 +92,19 @@ constexpr std::array<PresetInfo, 51> kPresetInfo = {{
     {79, true},  // DiamondSwapped
     {116, true},  // CircleSwapped
     {117, true},  // WideCircleSwapped
+    {27, true},  // ArcRadialSwapped
+    {111, true},  // WideArcRadialSwapped
+    {120, true},  // ArcAxialSwapped
+    {112, true},  // WideArcAxialSwapped
+    {113, true},  // CrossArcRadialSwapped
+    {114, true},  // WideCrossArcRadialSwapped
+    {121, true},  // CrossArcAxialSwapped
+    {115, true},  // WideCrossArcAxialSwapped
     {5},  // CrossLine3Axis
     {118},  // WideCrossLine3Axis
     {19},  // Cube
     {24},  // Octahedron
     {25},  // OctahedronArrow
-    {27},  // ArcRadial
-    {120},  // ArcAxial
-    {111},  // WideArcRadial
-    {112},  // WideArcAxial
-    {27, true},  // ArcRadialSwapped
-    {120, true},  // ArcAxialSwapped
-    {111, true},  // WideArcRadialSwapped
-    {112, true},  // WideArcAxialSwapped
-    {113},  // CrossArcRadial
-    {121},  // CrossArcAxial
-    {114},  // WideCrossArcRadial
-    {115},  // WideCrossArcAxial
-    {113, true},  // CrossArcRadialSwapped
-    {121, true},  // CrossArcAxialSwapped
-    {114, true},  // WideCrossArcRadialSwapped
-    {115, true},  // WideCrossArcAxialSwapped
     {33},  // Sphere
     {36},  // Cylinder
     {39},  // Arrow

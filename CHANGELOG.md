@@ -18,6 +18,11 @@
 
 ### Changed
 
+- `bdControllerShape.shape` は通常向き・Swappedの各Circle系の直後に、単円Arc4系統と
+  CrossArc4系統をRadial・WideRadial・Axial・WideAxialの順で並べるようにした。
+  本体数は51種類、既定の本体は `Cube`（38）とする。
+  Channel Boxは先頭の区切り直後へ軸2属性と本体選択をまとめ、DrawOnTop、Line、Fillの順へ整理した。
+  15区画とし、先頭を含む15本の区切りを置く。AxisOffset・Direction・LengthはOffsetLine後・TRS前に維持する。
 - `bdControllerShape` の非Arc系の `AtEnds` に、代表用の `shapePartPrimarySizeScale` と
   その他用の `shapePartOtherSizeScale` を追加した。共通の `shapePartSize` へ掛け合わせ、
   全11種類のPartの寸法を個別に調整できる。既定値は1と0.5で、両方1なら等サイズ、Otherが0なら代表だけを残す。

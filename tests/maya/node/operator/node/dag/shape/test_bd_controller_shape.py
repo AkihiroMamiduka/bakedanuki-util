@@ -28,6 +28,14 @@ SHAPE_NAMES = (
     "Diamond",
     "Circle",
     "WideCircle",
+    "ArcRadial",
+    "WideArcRadial",
+    "ArcAxial",
+    "WideArcAxial",
+    "CrossArcRadial",
+    "WideCrossArcRadial",
+    "CrossArcAxial",
+    "WideCrossArcAxial",
     "CrossLineSwapped",
     "WideCrossLineSwapped",
     "TriangleSwapped",
@@ -36,27 +44,19 @@ SHAPE_NAMES = (
     "DiamondSwapped",
     "CircleSwapped",
     "WideCircleSwapped",
+    "ArcRadialSwapped",
+    "WideArcRadialSwapped",
+    "ArcAxialSwapped",
+    "WideArcAxialSwapped",
+    "CrossArcRadialSwapped",
+    "WideCrossArcRadialSwapped",
+    "CrossArcAxialSwapped",
+    "WideCrossArcAxialSwapped",
     "CrossLine3Axis",
     "WideCrossLine3Axis",
     "Cube",
     "Octahedron",
     "OctahedronArrow",
-    "ArcRadial",
-    "ArcAxial",
-    "WideArcRadial",
-    "WideArcAxial",
-    "ArcRadialSwapped",
-    "ArcAxialSwapped",
-    "WideArcRadialSwapped",
-    "WideArcAxialSwapped",
-    "CrossArcRadial",
-    "CrossArcAxial",
-    "WideCrossArcRadial",
-    "WideCrossArcAxial",
-    "CrossArcRadialSwapped",
-    "CrossArcAxialSwapped",
-    "WideCrossArcRadialSwapped",
-    "WideCrossArcAxialSwapped",
     "Sphere",
     "Cylinder",
     "Arrow",
@@ -454,6 +454,8 @@ def _three_axis_solid_part_bounds(part, offset=0, length=1, width=1, size=1):
 
 
 def test_generated_shape_enum_matches_presets():
+    assert len(SHAPE_NAMES) == 51
+    assert SHAPE_NAMES.index("Cube") == 38
     assert ShapeEnumAttrOperator.NAME_MAP == dict(enumerate(SHAPE_NAMES))
     assert all(
         getattr(ShapeEnumPlugOperator, name.upper()) == index
@@ -477,6 +479,9 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         ":".join(SHAPE_NAMES)
     ]
     assert maya_cmds.getAttr(f"{shape}.shape") == _shape_index("Cube")
+    assert maya_cmds.attributeQuery("shape", node=shape, listDefault=True) == [
+        38
+    ]
     for attribute, default in (("shape1stAxis", 0), ("shape2ndAxis", 2)):
         assert maya_cmds.attributeQuery(
             attribute, node=shape, listEnum=True
@@ -805,7 +810,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
         assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
 
-    for index in range(1, 15):
+    for index in range(1, 16):
         separator = "_" * index
         assert (
             maya_cmds.attributeQuery(separator, node=shape, shortName=True)
@@ -822,20 +827,23 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
 
     channel_order = maya_cmds.listAttr(shape, channelBox=True)
     ordered_attributes = (
-        "shapeDrawOnTop",
         "_",
+        "shape1stAxis",
+        "shape2ndAxis",
+        "shape",
+        "__",
+        "shapeDrawOnTop",
+        "___",
         "shapeLineWidth",
         "shapeLineTransparency",
-        "__",
+        "____",
         "shapeFill",
         "shapeFillTransparency",
-        "___",
-        "shape",
-        "____",
-        "shapeWideWidth",
         "_____",
-        "shapeArcAngle",
+        "shapeWideWidth",
         "______",
+        "shapeArcAngle",
+        "_______",
         "shapePart",
         "shapePartShape",
         "shapePartType",
@@ -845,25 +853,23 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapePartOtherSizeScale",
         "shapePartLengthScale",
         "shapePartWidthScale",
-        "_______",
+        "________",
         "shapeFin",
         "shapeFinType",
         "shapeFinHeight",
         "shapeFinSize",
         "shapeFinWidthScale",
-        "________",
+        "_________",
         "shapeGuideLine",
         "shapeGuideLineTemplate",
-        "_________",
+        "__________",
         "shapeOffsetLine",
         "shapeOffsetLineTemplate",
-        "__________",
-        "shape1stAxis",
-        "shape2ndAxis",
+        "___________",
         "shapeAxisOffset",
         "shapeAxisOffsetDirection",
         "shapeAxisOffsetLength",
-        "___________",
+        "____________",
         "shapeRootSize",
         "shapeTranslateX",
         "shapeRotateX",
@@ -872,16 +878,16 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeAxisRotateX",
         "shapeAxisScaleX",
         "shapeSize",
-        "____________",
+        "_____________",
         "boundsMode",
         "showBoundsPreview",
-        "_____________",
+        "______________",
         "customBounds1stAxis",
         "customBounds2ndAxis",
         "customBoundsAxisOffset",
         "customBoundsAxisOffsetDirection",
         "customBoundsAxisOffsetLength",
-        "______________",
+        "_______________",
         "customBoundsRootSize",
         "customBoundsTranslateX",
         "customBoundsRotateX",
@@ -891,11 +897,23 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "customBoundsAxisScaleX",
         "customBoundsSize",
     )
-    assert [
-        channel_order.index(attribute) for attribute in ordered_attributes
-    ] == sorted(
-        channel_order.index(attribute) for attribute in ordered_attributes
+    expected_channel_order = tuple(
+        child
+        for attribute in ordered_attributes
+        for child in (
+            tuple(attribute[:-1] + component for component in "XYZ")
+            if attribute.endswith("X")
+            else (attribute,)
+        )
     )
+    visible_channels = tuple(
+        attribute
+        for attribute in channel_order
+        if not maya_cmds.attributeQuery(
+            attribute, node=shape, listChildren=True
+        )
+    )
+    assert visible_channels == expected_channel_order
 
 
 def test_inherited_locator_channels_are_hidden_only_on_controller_shape(

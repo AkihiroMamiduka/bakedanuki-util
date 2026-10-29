@@ -39,6 +39,94 @@ from .....attr.define.std.at.scalar.unit.range.double_linear import (
 from .....attr.define.std.dt.matrix import DataMatrixField
 
 
+class Shape1stAxisEnumPlugOperator(
+    EnumPlugOperator["Shape1stAxisEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+
+class Shape1stAxisEnumAttrOperator(
+    EnumAttrOperator[Shape1stAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+    NAME_MAP = {
+        PLUS_X: "+X",
+        MINUS_X: "-X",
+        PLUS_Y: "+Y",
+        MINUS_Y: "-Y",
+        PLUS_Z: "+Z",
+        MINUS_Z: "-Z",
+    }
+
+
+class Shape1stAxisEnumField(
+    EnumField[Shape1stAxisEnumAttrOperator, Shape1stAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Shape1stAxisEnumAttrOperator
+    PLUG_CLS = Shape1stAxisEnumPlugOperator
+
+
+class Shape2ndAxisEnumPlugOperator(
+    EnumPlugOperator["Shape2ndAxisEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+
+class Shape2ndAxisEnumAttrOperator(
+    EnumAttrOperator[Shape2ndAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+    NAME_MAP = {
+        PLUS_X: "+X",
+        MINUS_X: "-X",
+        PLUS_Y: "+Y",
+        MINUS_Y: "-Y",
+        PLUS_Z: "+Z",
+        MINUS_Z: "-Z",
+    }
+
+
+class Shape2ndAxisEnumField(
+    EnumField[Shape2ndAxisEnumAttrOperator, Shape2ndAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Shape2ndAxisEnumAttrOperator
+    PLUG_CLS = Shape2ndAxisEnumPlugOperator
+
+
 class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     __slots__ = ()
 
@@ -54,35 +142,35 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     DIAMOND = 9
     CIRCLE = 10
     WIDECIRCLE = 11
-    CROSSLINESWAPPED = 12
-    WIDECROSSLINESWAPPED = 13
-    TRIANGLESWAPPED = 14
-    SQUARESWAPPED = 15
-    SQUARETEMPLATESWAPPED = 16
-    DIAMONDSWAPPED = 17
-    CIRCLESWAPPED = 18
-    WIDECIRCLESWAPPED = 19
-    CROSSLINE3AXIS = 20
-    WIDECROSSLINE3AXIS = 21
-    CUBE = 22
-    OCTAHEDRON = 23
-    OCTAHEDRONARROW = 24
-    ARCRADIAL = 25
-    ARCAXIAL = 26
-    WIDEARCRADIAL = 27
-    WIDEARCAXIAL = 28
-    ARCRADIALSWAPPED = 29
+    ARCRADIAL = 12
+    WIDEARCRADIAL = 13
+    ARCAXIAL = 14
+    WIDEARCAXIAL = 15
+    CROSSARCRADIAL = 16
+    WIDECROSSARCRADIAL = 17
+    CROSSARCAXIAL = 18
+    WIDECROSSARCAXIAL = 19
+    CROSSLINESWAPPED = 20
+    WIDECROSSLINESWAPPED = 21
+    TRIANGLESWAPPED = 22
+    SQUARESWAPPED = 23
+    SQUARETEMPLATESWAPPED = 24
+    DIAMONDSWAPPED = 25
+    CIRCLESWAPPED = 26
+    WIDECIRCLESWAPPED = 27
+    ARCRADIALSWAPPED = 28
+    WIDEARCRADIALSWAPPED = 29
     ARCAXIALSWAPPED = 30
-    WIDEARCRADIALSWAPPED = 31
-    WIDEARCAXIALSWAPPED = 32
-    CROSSARCRADIAL = 33
-    CROSSARCAXIAL = 34
-    WIDECROSSARCRADIAL = 35
-    WIDECROSSARCAXIAL = 36
-    CROSSARCRADIALSWAPPED = 37
-    CROSSARCAXIALSWAPPED = 38
-    WIDECROSSARCRADIALSWAPPED = 39
-    WIDECROSSARCAXIALSWAPPED = 40
+    WIDEARCAXIALSWAPPED = 31
+    CROSSARCRADIALSWAPPED = 32
+    WIDECROSSARCRADIALSWAPPED = 33
+    CROSSARCAXIALSWAPPED = 34
+    WIDECROSSARCAXIALSWAPPED = 35
+    CROSSLINE3AXIS = 36
+    WIDECROSSLINE3AXIS = 37
+    CUBE = 38
+    OCTAHEDRON = 39
+    OCTAHEDRONARROW = 40
     SPHERE = 41
     CYLINDER = 42
     ARROW = 43
@@ -110,35 +198,35 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     DIAMOND = 9
     CIRCLE = 10
     WIDECIRCLE = 11
-    CROSSLINESWAPPED = 12
-    WIDECROSSLINESWAPPED = 13
-    TRIANGLESWAPPED = 14
-    SQUARESWAPPED = 15
-    SQUARETEMPLATESWAPPED = 16
-    DIAMONDSWAPPED = 17
-    CIRCLESWAPPED = 18
-    WIDECIRCLESWAPPED = 19
-    CROSSLINE3AXIS = 20
-    WIDECROSSLINE3AXIS = 21
-    CUBE = 22
-    OCTAHEDRON = 23
-    OCTAHEDRONARROW = 24
-    ARCRADIAL = 25
-    ARCAXIAL = 26
-    WIDEARCRADIAL = 27
-    WIDEARCAXIAL = 28
-    ARCRADIALSWAPPED = 29
+    ARCRADIAL = 12
+    WIDEARCRADIAL = 13
+    ARCAXIAL = 14
+    WIDEARCAXIAL = 15
+    CROSSARCRADIAL = 16
+    WIDECROSSARCRADIAL = 17
+    CROSSARCAXIAL = 18
+    WIDECROSSARCAXIAL = 19
+    CROSSLINESWAPPED = 20
+    WIDECROSSLINESWAPPED = 21
+    TRIANGLESWAPPED = 22
+    SQUARESWAPPED = 23
+    SQUARETEMPLATESWAPPED = 24
+    DIAMONDSWAPPED = 25
+    CIRCLESWAPPED = 26
+    WIDECIRCLESWAPPED = 27
+    ARCRADIALSWAPPED = 28
+    WIDEARCRADIALSWAPPED = 29
     ARCAXIALSWAPPED = 30
-    WIDEARCRADIALSWAPPED = 31
-    WIDEARCAXIALSWAPPED = 32
-    CROSSARCRADIAL = 33
-    CROSSARCAXIAL = 34
-    WIDECROSSARCRADIAL = 35
-    WIDECROSSARCAXIAL = 36
-    CROSSARCRADIALSWAPPED = 37
-    CROSSARCAXIALSWAPPED = 38
-    WIDECROSSARCRADIALSWAPPED = 39
-    WIDECROSSARCAXIALSWAPPED = 40
+    WIDEARCAXIALSWAPPED = 31
+    CROSSARCRADIALSWAPPED = 32
+    WIDECROSSARCRADIALSWAPPED = 33
+    CROSSARCAXIALSWAPPED = 34
+    WIDECROSSARCAXIALSWAPPED = 35
+    CROSSLINE3AXIS = 36
+    WIDECROSSLINE3AXIS = 37
+    CUBE = 38
+    OCTAHEDRON = 39
+    OCTAHEDRONARROW = 40
     SPHERE = 41
     CYLINDER = 42
     ARROW = 43
@@ -163,6 +251,14 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         DIAMOND: "Diamond",
         CIRCLE: "Circle",
         WIDECIRCLE: "WideCircle",
+        ARCRADIAL: "ArcRadial",
+        WIDEARCRADIAL: "WideArcRadial",
+        ARCAXIAL: "ArcAxial",
+        WIDEARCAXIAL: "WideArcAxial",
+        CROSSARCRADIAL: "CrossArcRadial",
+        WIDECROSSARCRADIAL: "WideCrossArcRadial",
+        CROSSARCAXIAL: "CrossArcAxial",
+        WIDECROSSARCAXIAL: "WideCrossArcAxial",
         CROSSLINESWAPPED: "CrossLineSwapped",
         WIDECROSSLINESWAPPED: "WideCrossLineSwapped",
         TRIANGLESWAPPED: "TriangleSwapped",
@@ -171,27 +267,19 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         DIAMONDSWAPPED: "DiamondSwapped",
         CIRCLESWAPPED: "CircleSwapped",
         WIDECIRCLESWAPPED: "WideCircleSwapped",
+        ARCRADIALSWAPPED: "ArcRadialSwapped",
+        WIDEARCRADIALSWAPPED: "WideArcRadialSwapped",
+        ARCAXIALSWAPPED: "ArcAxialSwapped",
+        WIDEARCAXIALSWAPPED: "WideArcAxialSwapped",
+        CROSSARCRADIALSWAPPED: "CrossArcRadialSwapped",
+        WIDECROSSARCRADIALSWAPPED: "WideCrossArcRadialSwapped",
+        CROSSARCAXIALSWAPPED: "CrossArcAxialSwapped",
+        WIDECROSSARCAXIALSWAPPED: "WideCrossArcAxialSwapped",
         CROSSLINE3AXIS: "CrossLine3Axis",
         WIDECROSSLINE3AXIS: "WideCrossLine3Axis",
         CUBE: "Cube",
         OCTAHEDRON: "Octahedron",
         OCTAHEDRONARROW: "OctahedronArrow",
-        ARCRADIAL: "ArcRadial",
-        ARCAXIAL: "ArcAxial",
-        WIDEARCRADIAL: "WideArcRadial",
-        WIDEARCAXIAL: "WideArcAxial",
-        ARCRADIALSWAPPED: "ArcRadialSwapped",
-        ARCAXIALSWAPPED: "ArcAxialSwapped",
-        WIDEARCRADIALSWAPPED: "WideArcRadialSwapped",
-        WIDEARCAXIALSWAPPED: "WideArcAxialSwapped",
-        CROSSARCRADIAL: "CrossArcRadial",
-        CROSSARCAXIAL: "CrossArcAxial",
-        WIDECROSSARCRADIAL: "WideCrossArcRadial",
-        WIDECROSSARCAXIAL: "WideCrossArcAxial",
-        CROSSARCRADIALSWAPPED: "CrossArcRadialSwapped",
-        CROSSARCAXIALSWAPPED: "CrossArcAxialSwapped",
-        WIDECROSSARCRADIALSWAPPED: "WideCrossArcRadialSwapped",
-        WIDECROSSARCAXIALSWAPPED: "WideCrossArcAxialSwapped",
         SPHERE: "Sphere",
         CYLINDER: "Cylinder",
         ARROW: "Arrow",
@@ -336,94 +424,6 @@ class ShapeFinTypeEnumField(
 
     ATTR_CLS = ShapeFinTypeEnumAttrOperator
     PLUG_CLS = ShapeFinTypeEnumPlugOperator
-
-
-class Shape1stAxisEnumPlugOperator(
-    EnumPlugOperator["Shape1stAxisEnumAttrOperator"]
-):
-    __slots__ = ()
-
-    PLUS_X = 0
-    MINUS_X = 1
-    PLUS_Y = 2
-    MINUS_Y = 3
-    PLUS_Z = 4
-    MINUS_Z = 5
-
-
-class Shape1stAxisEnumAttrOperator(
-    EnumAttrOperator[Shape1stAxisEnumPlugOperator]
-):
-    __slots__ = ()
-
-    PLUS_X = 0
-    MINUS_X = 1
-    PLUS_Y = 2
-    MINUS_Y = 3
-    PLUS_Z = 4
-    MINUS_Z = 5
-
-    NAME_MAP = {
-        PLUS_X: "+X",
-        MINUS_X: "-X",
-        PLUS_Y: "+Y",
-        MINUS_Y: "-Y",
-        PLUS_Z: "+Z",
-        MINUS_Z: "-Z",
-    }
-
-
-class Shape1stAxisEnumField(
-    EnumField[Shape1stAxisEnumAttrOperator, Shape1stAxisEnumPlugOperator]
-):
-    __slots__ = ()
-
-    ATTR_CLS = Shape1stAxisEnumAttrOperator
-    PLUG_CLS = Shape1stAxisEnumPlugOperator
-
-
-class Shape2ndAxisEnumPlugOperator(
-    EnumPlugOperator["Shape2ndAxisEnumAttrOperator"]
-):
-    __slots__ = ()
-
-    PLUS_X = 0
-    MINUS_X = 1
-    PLUS_Y = 2
-    MINUS_Y = 3
-    PLUS_Z = 4
-    MINUS_Z = 5
-
-
-class Shape2ndAxisEnumAttrOperator(
-    EnumAttrOperator[Shape2ndAxisEnumPlugOperator]
-):
-    __slots__ = ()
-
-    PLUS_X = 0
-    MINUS_X = 1
-    PLUS_Y = 2
-    MINUS_Y = 3
-    PLUS_Z = 4
-    MINUS_Z = 5
-
-    NAME_MAP = {
-        PLUS_X: "+X",
-        MINUS_X: "-X",
-        PLUS_Y: "+Y",
-        MINUS_Y: "-Y",
-        PLUS_Z: "+Z",
-        MINUS_Z: "-Z",
-    }
-
-
-class Shape2ndAxisEnumField(
-    EnumField[Shape2ndAxisEnumAttrOperator, Shape2ndAxisEnumPlugOperator]
-):
-    __slots__ = ()
-
-    ATTR_CLS = Shape2ndAxisEnumAttrOperator
-    PLUG_CLS = Shape2ndAxisEnumPlugOperator
 
 
 class ShapeAxisOffsetDirectionEnumPlugOperator(
@@ -770,6 +770,15 @@ class GeneratedBdControllerShape(Shape):
     shapeAnimationTransformMatrix = DataMatrixField()
     satm = shapeAnimationTransformMatrix
 
+    shape1stAxis = Shape1stAxisEnumField(default_value=0)
+    s1a = shape1stAxis
+
+    shape2ndAxis = Shape2ndAxisEnumField(default_value=2)
+    s2a = shape2ndAxis
+
+    shape = ShapeEnumField(default_value=38)
+    sh = shape
+
     shapeDrawOnTop = BoolField(default_value=False)
     sdot = shapeDrawOnTop
 
@@ -788,9 +797,6 @@ class GeneratedBdControllerShape(Shape):
         default_value=0.8500000238418579, min_value=0.0, max_value=1.0
     )
     sftp = shapeFillTransparency
-
-    shape = ShapeEnumField(default_value=22)
-    sh = shape
 
     shapeWideWidth = DoubleLinearField(default_value=0.05, min_value=0.0)
     sww = shapeWideWidth
@@ -853,12 +859,6 @@ class GeneratedBdControllerShape(Shape):
 
     shapeOffsetLineTemplate = BoolField(default_value=False)
     solt = shapeOffsetLineTemplate
-
-    shape1stAxis = Shape1stAxisEnumField(default_value=0)
-    s1a = shape1stAxis
-
-    shape2ndAxis = Shape2ndAxisEnumField(default_value=2)
-    s2a = shape2ndAxis
 
     shapeAxisOffset = BoolField(default_value=False)
     sao = shapeAxisOffset
