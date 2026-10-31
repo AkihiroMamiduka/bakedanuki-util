@@ -85,6 +85,7 @@ def test_directional_scales_match_independently_sized_at_end_parts(
         shapePartSize=size,
         shapePartLengthScale=1.3,
         shapePartWidthScale=1.8,
+        shapePartHeightScale=1.8,
         shapePartOffset=0.13,
     )
     actual = _controller(maya_cmds, "allEnds", preset, **options)

@@ -5,6 +5,7 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
     const short outline = outlinePresetIndex(settings.shape);
     if (isArcOutline(outline)) return;
     const bool tapered = settings.finType == 1;
+    const auto style = settings.finTemplate ? StrokeStyle::Template : StrokeStyle::Normal;
     PartBuilder builder(settings.fill);
     PartPlane plane{MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0)};
 
@@ -21,8 +22,8 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
             transformed.emplace_back(0.5 + (x - 0.5) * partLength(settings) + settings.partOffset,
                 p.y * 2.0 * partFinHeight(settings), 0);
         }
-        builder.stroke(transformed);
-        builder.polygon(transformed);
+        builder.stroke(transformed, style);
+        builder.polygon(transformed, style);
     } else {
         std::vector<MPoint> section;
         const bool planarCross = outline == 4 || outline == 107 || outline == 59 || outline == 67 ||
@@ -93,7 +94,7 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
             ? std::vector<MPoint>{MPoint(-0.5, 0, 0), MPoint(tip, 0, 0)}
             : std::vector<MPoint>{MPoint(low, 0, 0), MPoint(high, 0, 0)};
         appendFinPart(builder, settings, section, outer, heights,
-            outline == 25 ? (tip - 0.5) * 0.5 : (low + high) * 0.5);
+            outline == 25 ? (tip - 0.5) * 0.5 : (low + high) * 0.5, style);
         if (!separate) { geometry = std::move(builder.geometry); return; }
     }
     PartBuilder mapped(settings.fill);
@@ -101,18 +102,18 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
         Stroke stroke;
         for (const auto& point : builder.geometry.strokes[i]) stroke.append(colorAttachmentPoint(plane.point(point), settings));
         mapped.geometry.strokes.push_back(std::move(stroke));
-        mapped.geometry.strokeStyles.push_back(StrokeStyle::Normal);
+        mapped.geometry.strokeStyles.push_back(builder.geometry.strokeStyles[i]);
     }
     for (const auto& part : builder.geometry.fillParts) {
         MPointArray points;
         for (const auto& point : part.triangles) points.append(colorAttachmentPoint(plane.point(point), settings));
-        mapped.geometry.fillParts.push_back({points, StrokeStyle::Normal});
+        mapped.geometry.fillParts.push_back({points, part.style});
     }
     if (outline == 118 || outline == 119) trimWideCross3AxisFin(settings, mapped.geometry);
     trimFinEndParts(settings, mapped);
-    for (auto& stroke : mapped.geometry.strokes) {
-        geometry.strokes.push_back(std::move(stroke));
-        geometry.strokeStyles.push_back(StrokeStyle::Normal);
+    for (std::size_t i = 0; i < mapped.geometry.strokes.size(); ++i) {
+        geometry.strokes.push_back(std::move(mapped.geometry.strokes[i]));
+        geometry.strokeStyles.push_back(mapped.geometry.strokeStyles[i]);
     }
     for (auto& part : mapped.geometry.fillParts) geometry.fillParts.push_back(std::move(part));
 }
@@ -152,7 +153,7 @@ void removeFinFillOverlaps(PartGeometry& geometry, const std::vector<PartGeometr
                 }
             }
             const PartPlane plane{origin, side, along};
-            for (const auto& piece : pieces) fin.polygon(plane.points(piece));
+            for (const auto& piece : pieces) fin.polygon(plane.points(piece), part.style);
         }
     }
     geometry.fillParts = body;

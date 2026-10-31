@@ -44,8 +44,8 @@ AxialHeadPlacement axialHeadPlacement(
     // 負の長さは接線方向の反転を保つ。円弧内側へ回すと正の長さと同形になる。
     if (site.attached || length <= 1e-12 || end - start <= 1e-12) return result;
     if (settings.partShape >= 3 && settings.wideWidth > 0.1 * std::abs(partWidth(settings)) + 1e-10) return result;
-    // 均等なSphereは中心まわりの回転で形が変わらないため、元の姿勢を保つ。
-    if (settings.partShape == 8 && std::abs(partLength(settings) - std::abs(partWidth(settings))) < 1e-12) return result;
+    // 長さと高さが等しいSphereは幅軸まわりの回転で形が変わらない。
+    if (settings.partShape == 8 && std::abs(partLength(settings) - std::abs(partHeight(settings))) < 1e-12) return result;
 
     constexpr double radius = 0.5;
     const MVector toTip = tip - MPoint::origin;

@@ -57,7 +57,10 @@ MObject BdControllerShapeNode::shapeAxisSwap;
 MObject BdControllerShapeNode::shapeWide;
 MObject BdControllerShapeNode::shapeTemplateLine;
 MObject BdControllerShapeNode::shapeTemplateLineRate;
+MObject BdControllerShapeNode::shapeTemplateLineInvert;
 MObject BdControllerShapeNode::shapeTemplateFill;
+MObject BdControllerShapeNode::shapePartTemplate;
+MObject BdControllerShapeNode::shapeFinTemplate;
 MObject BdControllerShapeNode::shapeWideWidth;
 MObject BdControllerShapeNode::shapeArcAngle;
 MObject BdControllerShapeNode::shapePart;
@@ -105,6 +108,7 @@ MObject BdControllerShapeNode::shapeSize;
 MObject BdControllerShapeNode::shapePartOffset;
 MObject BdControllerShapeNode::shapePartLengthScale;
 MObject BdControllerShapeNode::shapePartWidthScale;
+MObject BdControllerShapeNode::shapePartHeightScale;
 MObject BdControllerShapeNode::shapePartSize;
 MObject BdControllerShapeNode::shapePartPrimarySizeScale;
 MObject BdControllerShapeNode::shapePartOtherSizeScale;
@@ -166,6 +170,7 @@ MObject channelBoxSeparator12;
 MObject channelBoxSeparator13;
 MObject channelBoxSeparator14;
 MObject channelBoxSeparator15;
+MObject channelBoxSeparator16;
 
 constexpr double kPi = 3.14159265358979323846;
 constexpr unsigned int kCircleSegments = 64;
@@ -182,7 +187,10 @@ struct ShapeSettings {
     bool wide = false;
     bool templateLine = false;
     double templateLineRate = 0.7;
+    bool templateLineInvert = false;
     bool templateFill = false;
+    bool partTemplate = false;
+    bool finTemplate = false;
     bool fill = false;
     bool part = false;
     short partShape = 0;
@@ -217,6 +225,7 @@ struct ShapeSettings {
     double partFinHeight = 0.5;
     double partLengthScale = 1.0;
     double partWidthScale = 1.0;
+    double partHeightScale = 1.0;
     double partSize = 1.0;
     double partPrimarySizeScale = 1.0;
     double partOtherSizeScale = 0.5;
@@ -268,6 +277,10 @@ struct ShapeAttributes {
     MObject finWidthScale;
     MObject guideLine;
     MObject guideLineTemplate;
+    MObject templateLineInvert;
+    MObject partTemplate;
+    MObject finTemplate;
+    MObject partHeightScale;
 };
 
 ShapeAttributes shapeAttributes() {
@@ -312,6 +325,10 @@ ShapeAttributes shapeAttributes() {
         BdControllerShapeNode::shapeFinWidthScale,
         BdControllerShapeNode::shapeGuideLine,
         BdControllerShapeNode::shapeGuideLineTemplate,
+        BdControllerShapeNode::shapeTemplateLineInvert,
+        BdControllerShapeNode::shapePartTemplate,
+        BdControllerShapeNode::shapeFinTemplate,
+        BdControllerShapeNode::shapePartHeightScale,
     };
 }
 
@@ -352,6 +369,8 @@ bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
     return left.shape == right.shape &&
         left.axisSwap == right.axisSwap && left.wide == right.wide &&
         left.templateLine == right.templateLine && left.templateLineRate == right.templateLineRate &&
+        left.templateLineInvert == right.templateLineInvert &&
+        left.partTemplate == right.partTemplate && left.finTemplate == right.finTemplate &&
         left.templateFill == right.templateFill &&
         left.fill == right.fill &&
         left.part == right.part && left.partShape == right.partShape &&
@@ -380,6 +399,7 @@ bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
         left.partFinHeight == right.partFinHeight &&
         left.partLengthScale == right.partLengthScale &&
         left.partWidthScale == right.partWidthScale &&
+        left.partHeightScale == right.partHeightScale &&
         left.partSize == right.partSize &&
         left.partPrimarySizeScale == right.partPrimarySizeScale &&
         left.partOtherSizeScale == right.partOtherSizeScale &&
@@ -472,7 +492,11 @@ bool readSettings(
     settings.wide = false;
     settings.templateLine = false;
     settings.templateLineRate = 0.7;
+    settings.templateLineInvert = false;
     settings.templateFill = false;
+    settings.partTemplate = false;
+    settings.finTemplate = false;
+    settings.partHeightScale = 1.0;
     settings.fill = false;
     settings.fin = false;
     settings.finType = 0;
@@ -497,6 +521,14 @@ bool readSettings(
         settings.templateLineRate = std::clamp(MPlug(node, attributes.templateLineRate).asDouble(&status), 0.0, 1.0);
         if (!status) return false;
         settings.templateFill = MPlug(node, attributes.templateFill).asBool(&status);
+        if (!status) return false;
+        settings.templateLineInvert = MPlug(node, attributes.templateLineInvert).asBool(&status);
+        if (!status) return false;
+        settings.partTemplate = MPlug(node, attributes.partTemplate).asBool(&status);
+        if (!status) return false;
+        settings.finTemplate = MPlug(node, attributes.finTemplate).asBool(&status);
+        if (!status) return false;
+        settings.partHeightScale = MPlug(node, attributes.partHeightScale).asDouble(&status);
         if (!status) return false;
     }
     if (!attributes.fin.isNull()) {
@@ -1234,7 +1266,7 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
     if (!transform.settings.fill) return {};
     if (hasCrossLineEndSolids(outline)) {
         if (transform.settings.partLengthScale == 0.0 || transform.settings.partWidthScale == 0.0 ||
-            transform.settings.partSize == 0.0) {
+            transform.settings.partHeightScale == 0.0 || transform.settings.partSize == 0.0) {
             return {};
         }
         ShapeSettings componentSettings;
@@ -1246,7 +1278,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
             for (double sign : {-1.0, 1.0}) {
                 for (const auto& part : componentParts) {
                     for (unsigned int index = 0; index < part.triangles.length(); index += 3) {
-                        const bool reversed = transform.settings.partLengthScale * transform.settings.partSize < 0.0;
+                        const bool reversed = transform.settings.partLengthScale * transform.settings.partWidthScale *
+                            transform.settings.partHeightScale * transform.settings.partSize < 0.0;
                         const unsigned int second = reversed ? 2 : 1;
                         const unsigned int third = reversed ? 1 : 2;
                         appendFillTriangle(triangles, transform,
@@ -1651,6 +1684,7 @@ PartGeometry bodyTemplateReference(const ShapeSettings& settings) {
     ShapeSettings source = settings;
     source.shape = partPreset(baseOutlineIndex(outlinePresetIndex(settings.shape)));
     source.axisSwap = source.wide = source.templateLine = source.templateFill = false;
+    source.fill = false;
     source.part = source.fin = source.guideLine = false;
     const ShapeTransform transform(source);
     PartGeometry reference;
@@ -1665,7 +1699,7 @@ std::vector<OptionClipVolume> templatePartProtection(const ShapeSettings& settin
     const short outline = outlinePresetIndex(settings.shape);
     if (!settings.part || !optionPartSupported(outline)) return {};
     const short base = crossCircleBaseOutline(outline);
-    if (base < 0) return optionPartClipVolumes(settings);
+    if (base < 0) return optionPartClipVolumes(settings, true);
     ShapeSettings first = settings;
     first.shape = partPreset(base);
     ShapeSettings second = first;
@@ -1678,8 +1712,8 @@ std::vector<OptionClipVolume> templatePartProtection(const ShapeSettings& settin
         first.crossAxialJoinBottom = second.crossAxialJoinBottom = sweep >= 2.0 * kPi - 1e-12 &&
             !crossAxialSolidTouchesJoin(first, false) && !crossAxialSolidTouchesJoin(second, false);
     }
-    auto volumes = optionPartClipVolumes(first);
-    auto other = crossCircleClipVolumes(optionPartClipVolumes(second));
+    auto volumes = optionPartClipVolumes(first, true);
+    auto other = crossCircleClipVolumes(optionPartClipVolumes(second, true));
     volumes.insert(volumes.end(), other.begin(), other.end());
     return volumes;
 }
@@ -1720,7 +1754,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
         result->fillParts = makeFillParts(sourceTransform);
     }
     if (!optionGeometry) applyGenericWideBody(source, *result);
-    if (source.templateLine || source.templateFill) {
+    if (source.templateLine || source.templateFill || source.partTemplate) {
         applyBodyTemplate(source, *result, bodyTemplateReference(source), templatePartProtection(source));
     }
     if (withFin) {
@@ -1810,12 +1844,9 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> transformGeometry(
     return result;
 }
 
-MBoundingBox centeredShapeBounds(const ShapeSettings& settings) {
-    ShapeSettings centered = settings;
-    centered.translate = MVector(0.0, 0.0, 0.0);
-    centered.axisTranslate = MVector(0.0, 0.0, 0.0);
-    centered.showOffsetLine = false;
-    const MBoundingBox bounds = makeBaseGeometry(centered)->bounds;
+MBoundingBox centeredShapeBounds(const BdControllerShapeNode::Geometry& geometry) {
+    // 共通の移動は寸法を変えないため、既に生成した本体から中央範囲を求める。
+    const MBoundingBox bounds = boundsForGeometry(geometry.strokes, geometry.fillParts);
     const MPoint minimum = bounds.min();
     const MPoint maximum = bounds.max();
     const MPoint halfSize(
@@ -1894,7 +1925,10 @@ bool isShapeAttribute(const MObject& attribute) {
              BdControllerShapeNode::shapeWide,
              BdControllerShapeNode::shapeTemplateLine,
              BdControllerShapeNode::shapeTemplateLineRate,
+             BdControllerShapeNode::shapeTemplateLineInvert,
              BdControllerShapeNode::shapeTemplateFill,
+             BdControllerShapeNode::shapePartTemplate,
+             BdControllerShapeNode::shapeFinTemplate,
              BdControllerShapeNode::shapeWideWidth,
              BdControllerShapeNode::shapeArcAngle,
              BdControllerShapeNode::shapePart,
@@ -1942,6 +1976,7 @@ bool isShapeAttribute(const MObject& attribute) {
              BdControllerShapeNode::shapeFinHeight,
              BdControllerShapeNode::shapePartLengthScale,
              BdControllerShapeNode::shapePartWidthScale,
+             BdControllerShapeNode::shapePartHeightScale,
              BdControllerShapeNode::shapePartSize,
              BdControllerShapeNode::shapePartPrimarySizeScale,
              BdControllerShapeNode::shapePartOtherSizeScale,
@@ -2019,7 +2054,10 @@ bool hasConnectedSettingsInput(
              attributes.wide,
              attributes.templateLine,
              attributes.templateLineRate,
+             attributes.templateLineInvert,
              attributes.templateFill,
+             attributes.partTemplate,
+             attributes.finTemplate,
              attributes.wideWidth,
              attributes.circleAngle,
              attributes.part,
@@ -2049,6 +2087,7 @@ bool hasConnectedSettingsInput(
              attributes.partFinHeight,
              attributes.partLengthScale,
              attributes.partWidthScale,
+             attributes.partHeightScale,
              attributes.partSize,
              attributes.partPrimarySizeScale,
              attributes.partOtherSizeScale,
@@ -2132,7 +2171,8 @@ MColor dormantWireframeColor(
     MColor color = dagNode.dormantColor(&status);
     if (!status) return fallback;
     MColor overrideColor;
-    if (dagNode.drawOverrideColor(overrideColor, &status) && status) {
+    if (path.getDrawOverrideInfo().fOverrideEnabled &&
+        dagNode.drawOverrideColor(overrideColor, &status) && status) {
         color = overrideColor;
     }
     return color;
@@ -2146,12 +2186,24 @@ MColor axisStyledColor(
         style == StrokeStyle::Template) {
         return color;
     }
+    unsigned int mask = 0;
+    switch (style) {
+        case StrokeStyle::AxisX: mask = 1; break;
+        case StrokeStyle::AxisY: mask = 2; break;
+        case StrokeStyle::AxisZ: mask = 4; break;
+        case StrokeStyle::AxisXY: mask = 3; break;
+        case StrokeStyle::AxisXZ: mask = 5; break;
+        case StrokeStyle::AxisYZ: mask = 6; break;
+        case StrokeStyle::AxisXYZ: mask = 7; break;
+        default: return color;
+    }
+    const bool mixed = (mask & (mask - 1)) != 0;
     const bool normal = displayType == MDAGDrawOverrideInfo::kDisplayTypeNormal;
-    const float value = normal ? 1.0f
+    const float value = normal ? (mixed ? 0.75f : 1.0f)
         : displayType == MDAGDrawOverrideInfo::kDisplayTypeTemplate ? 0.5f : 0.25f;
     const float minimum = normal ? 0.0f : value * 0.75f;
     MColor result(minimum, minimum, minimum);
-    result[style == StrokeStyle::AxisX ? 0 : style == StrokeStyle::AxisY ? 1 : 2] = value;
+    for (unsigned int axis = 0; axis < 3; ++axis) if ((mask & (1u << axis)) != 0) result[axis] = value;
     result.a = color.a;
     return result;
 }
@@ -2401,16 +2453,18 @@ public:
         const auto& onTopSegments = wireframe ? data->wireframeOnTopSegments : data->onTopSegments;
         for (std::size_t index = 0; index < strokeGeometry.strokes.size(); ++index) {
             const StrokeStyle style = strokeGeometry.strokeStyles[index];
-            drawManager.beginDrawable(
-                style == StrokeStyle::Template
-                    ? MHWRender::MUIDrawManager::kNonSelectable
-                    : MHWRender::MUIDrawManager::kSelectable
-            );
             MColor strokeColor = axisStyledColor(style, color,
                 appearance.selected, appearance.axisDisplayType);
             if (style == StrokeStyle::Template) {
                 strokeColor = data->templateStrokeColor;
             }
+            // 透明線も深度へ書かれるため、塗り面を隠さないよう描画自体を省く。
+            if (strokeColor.a <= 0.0f) continue;
+            drawManager.beginDrawable(
+                style == StrokeStyle::Template
+                    ? MHWRender::MUIDrawManager::kNonSelectable
+                    : MHWRender::MUIDrawManager::kSelectable
+            );
             drawManager.setColor(strokeColor);
             if (data->lineWidth > 1.0f) {
                 drawManager.setLineWidth(data->lineWidth);
@@ -2427,17 +2481,14 @@ public:
             }
             drawManager.endDrawable();
         }
-        if (data->geometry->offsetLine.length() == 2) {
+        const auto& offsetColor = data->geometry->offsetLineTemplate ? data->templateStrokeColor : color;
+        if (data->geometry->offsetLine.length() == 2 && offsetColor.a > 0.0f) {
             drawManager.beginDrawable(
                 data->geometry->offsetLineTemplate
                     ? MHWRender::MUIDrawManager::kNonSelectable
                     : MHWRender::MUIDrawManager::kSelectable
             );
-            drawManager.setColor(
-                data->geometry->offsetLineTemplate
-                    ? data->templateStrokeColor
-                    : color
-            );
+            drawManager.setColor(offsetColor);
             if (data->lineWidth > 1.0f) {
                 drawManager.setLineWidth(data->lineWidth);
             }
@@ -2551,7 +2602,7 @@ BdControllerShapeNode::geometry() const {
         );
         if (!cache.base || !sameSettings(settings, cache.settings)) {
             cache.base = makeBaseGeometry(settings);
-            cache.centeredBaseBounds = centeredShapeBounds(settings);
+            cache.centeredBaseBounds = centeredShapeBounds(*cache.base);
             cache.settings = settings;
             baseChanged = true;
         }
@@ -2714,6 +2765,7 @@ void BdControllerShapeNode::postConstructor() {
              channelBoxSeparator13,
              channelBoxSeparator14,
              channelBoxSeparator15,
+             channelBoxSeparator16,
          }) {
         const MStatus status = MPlug(node, attribute).setLocked(true);
         if (!status) {
@@ -2734,6 +2786,9 @@ MStatus BdControllerShapeNode::initialize() {
              {&shapeWide, {"shapeWide", "swd"}},
              {&shapeTemplateLine, {"shapeTemplateLine", "stl"}},
              {&shapeTemplateFill, {"shapeTemplateFill", "stf"}},
+             {&shapeTemplateLineInvert, {"shapeTemplateLineInvert", "stli"}},
+             {&shapePartTemplate, {"shapePartTemplate", "spte"}},
+             {&shapeFinTemplate, {"shapeFinTemplate", "sft"}},
          }) {
         status = bd_util_nodes::createBooleanAttribute(
             numericAttributeFn, *attribute.first, attribute.second.first, attribute.second.second, false);
@@ -3151,6 +3206,13 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) return status;
 
     status = bd_util_nodes::createDoubleAttribute(
+        numericAttributeFn, shapePartHeightScale, "shapePartHeightScale", "sphs", 1.0
+    );
+    if (!status) return status;
+    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+    if (!status) return status;
+
+    status = bd_util_nodes::createDoubleAttribute(
         numericAttributeFn, shapePartSize, "shapePartSize", "sps", 1.0
     );
     if (!status) return status;
@@ -3560,6 +3622,7 @@ MStatus BdControllerShapeNode::initialize() {
              std::pair<MObject*, const char*>{&channelBoxSeparator13, "_____________"},
              std::pair<MObject*, const char*>{&channelBoxSeparator14, "______________"},
              std::pair<MObject*, const char*>{&channelBoxSeparator15, "_______________"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator16, "________________"},
          }) {
         *separator.first = enumAttributeFn.create(
             separator.second, separator.second, 0, &status
@@ -3592,18 +3655,24 @@ MStatus BdControllerShapeNode::initialize() {
              channelBoxSeparator3,
              shapeLineWidth,
              shapeLineTransparency,
-             shapeTemplateLine,
-             shapeTemplateLineRate,
              channelBoxSeparator4,
              shapeFill,
              shapeFillTransparency,
-             shapeTemplateFill,
              channelBoxSeparator5,
+             shapeTemplateLine,
+             shapeTemplateLineRate,
+             shapeTemplateLineInvert,
+             shapeTemplateFill,
+             shapePartTemplate,
+             shapeFinTemplate,
+             shapeGuideLineTemplate,
+             shapeOffsetLineTemplate,
+             channelBoxSeparator6,
              shapeWide,
              shapeWideWidth,
-             channelBoxSeparator6,
-             shapeArcAngle,
              channelBoxSeparator7,
+             shapeArcAngle,
+             channelBoxSeparator8,
              shapePart,
              shapePartShape,
              shapePartType,
@@ -3613,23 +3682,22 @@ MStatus BdControllerShapeNode::initialize() {
              shapePartOtherSizeScale,
              shapePartLengthScale,
              shapePartWidthScale,
-             channelBoxSeparator8,
+             shapePartHeightScale,
+             channelBoxSeparator9,
              shapeFin,
              shapeFinType,
              shapeFinHeight,
              shapeFinSize,
              shapeFinWidthScale,
-             channelBoxSeparator9,
-             shapeGuideLine,
-             shapeGuideLineTemplate,
              channelBoxSeparator10,
-             shapeOffsetLine,
-             shapeOffsetLineTemplate,
+             shapeGuideLine,
              channelBoxSeparator11,
+             shapeOffsetLine,
+             channelBoxSeparator12,
              shapeAxisOffset,
              shapeAxisOffsetDirection,
              shapeAxisOffsetLength,
-             channelBoxSeparator12,
+             channelBoxSeparator13,
              shapeRootSize,
              shapeTranslate,
              shapeRotate,
@@ -3638,16 +3706,16 @@ MStatus BdControllerShapeNode::initialize() {
              shapeAxisRotate,
              shapeAxisScale,
              shapeSize,
-             channelBoxSeparator13,
+             channelBoxSeparator14,
              boundsMode,
              showBoundsPreview,
-             channelBoxSeparator14,
+             channelBoxSeparator15,
              customBounds1stAxis,
              customBounds2ndAxis,
              customBoundsAxisOffset,
              customBoundsAxisOffsetDirection,
              customBoundsAxisOffsetLength,
-             channelBoxSeparator15,
+             channelBoxSeparator16,
              customBoundsRootSize,
              customBoundsTranslate,
              customBoundsRotate,
@@ -3719,18 +3787,24 @@ MStatus BdControllerShapeNode::initialize() {
              channelBoxSeparator3,
              shapeLineWidth,
              shapeLineTransparency,
-             shapeTemplateLine,
-             shapeTemplateLineRate,
              channelBoxSeparator4,
              shapeFill,
              shapeFillTransparency,
-             shapeTemplateFill,
              channelBoxSeparator5,
+             shapeTemplateLine,
+             shapeTemplateLineRate,
+             shapeTemplateLineInvert,
+             shapeTemplateFill,
+             shapePartTemplate,
+             shapeFinTemplate,
+             shapeGuideLineTemplate,
+             shapeOffsetLineTemplate,
+             channelBoxSeparator6,
              shapeWide,
              shapeWideWidth,
-             channelBoxSeparator6,
-             shapeArcAngle,
              channelBoxSeparator7,
+             shapeArcAngle,
+             channelBoxSeparator8,
              shapePart,
              shapePartShape,
              shapePartType,
@@ -3740,23 +3814,22 @@ MStatus BdControllerShapeNode::initialize() {
              shapePartOtherSizeScale,
              shapePartLengthScale,
              shapePartWidthScale,
-             channelBoxSeparator8,
+             shapePartHeightScale,
+             channelBoxSeparator9,
              shapeFin,
              shapeFinType,
              shapeFinHeight,
              shapeFinSize,
              shapeFinWidthScale,
-             channelBoxSeparator9,
-             shapeGuideLine,
-             shapeGuideLineTemplate,
              channelBoxSeparator10,
-             shapeOffsetLine,
-             shapeOffsetLineTemplate,
+             shapeGuideLine,
              channelBoxSeparator11,
+             shapeOffsetLine,
+             channelBoxSeparator12,
              shapeAxisOffset,
              shapeAxisOffsetDirection,
              shapeAxisOffsetLength,
-             channelBoxSeparator12,
+             channelBoxSeparator13,
              shapeRootSize,
              shapeTranslate,
              shapeRotate,
@@ -3765,16 +3838,16 @@ MStatus BdControllerShapeNode::initialize() {
              shapeAxisRotate,
              shapeAxisScale,
              shapeSize,
-             channelBoxSeparator13,
+             channelBoxSeparator14,
              boundsMode,
              showBoundsPreview,
-             channelBoxSeparator14,
+             channelBoxSeparator15,
              customBounds1stAxis,
              customBounds2ndAxis,
              customBoundsAxisOffset,
              customBoundsAxisOffsetDirection,
              customBoundsAxisOffsetLength,
-             channelBoxSeparator15,
+             channelBoxSeparator16,
              customBoundsRootSize,
              customBoundsTranslate,
              customBoundsRotate,

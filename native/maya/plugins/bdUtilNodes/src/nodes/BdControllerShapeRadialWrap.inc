@@ -39,15 +39,16 @@ MPoint radialWrapPoint(double position, double radius, double height = 0.0) {
 }
 
 void appendRadialWrapFaces(PartBuilder& surface,
-    const std::vector<AxialWrapInterval>& intervals, bool crest) {
+    const std::vector<AxialWrapInterval>& intervals, bool crest, const ShapeSettings& settings) {
     for (std::size_t i = 0; i < intervals.size(); ++i) {
         const auto& interval = intervals[i];
         if (!interval.active) continue;
         const auto a = radialWrapPoint(interval.first, 0.5);
         const auto b = radialWrapPoint(interval.last, 0.5);
         if (crest) {
-            surface.quad(a, b, radialWrapPoint(interval.last, 0.5, interval.lastHeight),
-                radialWrapPoint(interval.first, 0.5, interval.firstHeight));
+            const double sign = partHeight(settings) < 0.0 ? -1.0 : 1.0;
+            surface.quad(a, b, radialWrapPoint(interval.last, 0.5, interval.lastHeight * sign),
+                radialWrapPoint(interval.first, 0.5, interval.firstHeight * sign));
         } else {
             const double firstInner = std::max(0.0, 0.5 - interval.firstHeight);
             const double lastInner = std::max(0.0, 0.5 - interval.lastHeight);
@@ -63,10 +64,11 @@ void appendRadialWrapFaces(PartBuilder& surface,
 void appendRadialWrapBoundary(AxialWrapSegments& segments,
     const std::vector<AxialWrapInterval>& intervals,
     const std::vector<AxialWrapSpoke>& spokes,
-    bool crest, bool openArrow) {
+    bool crest, bool openArrow, const ShapeSettings& settings) {
     if (intervals.empty()) return;
+    const double sign = partHeight(settings) < 0.0 ? -1.0 : 1.0;
     const auto point = [&](double position, double extent) {
-        return crest ? radialWrapPoint(position, 0.5, extent)
+        return crest ? radialWrapPoint(position, 0.5, extent * sign)
             : radialWrapPoint(position, 0.5 + extent);
     };
     for (std::size_t i = 0; i < intervals.size(); ++i) {
@@ -123,12 +125,12 @@ PartGeometry makeRadialWrappedGeometry(const ShapeSettings& settings) {
     const auto main = axialWrapIntervals(data.profile.slices, data.profile.main);
     const auto crest = axialWrapIntervals(data.profile.slices, data.profile.crest);
     PartBuilder builder(settings.fill);
-    appendRadialWrapFaces(builder, main, false);
-    appendRadialWrapFaces(builder, crest, true);
+    appendRadialWrapFaces(builder, main, false, settings);
+    appendRadialWrapFaces(builder, crest, true, settings);
     AxialWrapSegments segments;
     const bool openArrow = !radialWrapWide(settings) && !settings.fill && settings.partShape <= 1;
-    appendRadialWrapBoundary(segments, main, data.profile.spokes, false, openArrow);
-    appendRadialWrapBoundary(segments, crest, data.profile.crestSpokes, true, false);
+    appendRadialWrapBoundary(segments, main, data.profile.spokes, false, openArrow, settings);
+    appendRadialWrapBoundary(segments, crest, data.profile.crestSpokes, true, false, settings);
     appendAxialWrapStrokes(builder, std::move(segments));
     return std::move(builder.geometry);
 }
@@ -136,8 +138,8 @@ PartGeometry makeRadialWrappedGeometry(const ShapeSettings& settings) {
 std::vector<OptionClipVolume> radialWrappedPartClipVolumes(const ShapeSettings& settings) {
     const auto data = makeRadialWrapData(settings);
     PartBuilder parts(true);
-    appendRadialWrapFaces(parts, axialWrapIntervals(data.profile.slices, data.profile.heads), false);
-    appendRadialWrapFaces(parts, axialWrapIntervals(data.profile.slices, data.profile.crest), true);
+    appendRadialWrapFaces(parts, axialWrapIntervals(data.profile.slices, data.profile.heads), false, settings);
+    appendRadialWrapFaces(parts, axialWrapIntervals(data.profile.slices, data.profile.crest), true, settings);
     std::vector<OptionClipVolume> volumes;
     for (const auto& part : parts.geometry.fillParts) for (unsigned int i = 0; i < part.triangles.length(); i += 3) {
         auto volume = optionPlanarVolume({part.triangles[i], part.triangles[i + 1], part.triangles[i + 2]});

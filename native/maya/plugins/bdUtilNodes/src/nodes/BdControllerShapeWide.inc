@@ -105,6 +105,8 @@ void appendGenericWideBand(WideEndArrowGeometry& band, const Stroke& source,
     }
 }
 
+#include "BdControllerShapeWidePlanar.inc"
+
 void makeGenericWidePlanarBody(const ShapeSettings& settings, PartGeometry& geometry,
     std::vector<OptionClipVolume>* bodyVolumes) {
     const double halfWidth = settings.wideWidth * 0.5;
@@ -122,6 +124,7 @@ void makeGenericWidePlanarBody(const ShapeSettings& settings, PartGeometry& geom
             return;
         }
     }
+    if (makeSimpleWideGearBody(settings, geometry, plane, normal, halfWidth, bodyVolumes)) return;
     WideEndArrowGeometry band;
     for (const auto& stroke : geometry.strokes) appendGenericWideBand(band, stroke, normal, halfWidth);
     if (band.triangles.empty()) {
@@ -208,153 +211,23 @@ PartGeometry genericWideReferenceFaces(const ShapeSettings& settings) {
     return geometry;
 }
 
-void appendGenericWideFaceInsets(const ShapeSettings& settings, PartGeometry& geometry) {
-    const auto source = genericWideReferenceFaces(settings);
-    std::vector<GenericWideFace> faces;
-    std::vector<OptionClipVolume> markers;
-    for (const auto& part : source.fillParts) for (unsigned int i = 0; i < part.triangles.length(); i += 3) {
-        const auto a = part.triangles[i], b = part.triangles[i + 1], c = part.triangles[i + 2];
-        auto normal = (b - a) ^ (c - a);
-        if (normal.length() <= 1e-12) continue;
-        normal.normalize();
-        const double distance = (a - MPoint::origin) * normal;
-        auto face = std::find_if(faces.begin(), faces.end(), [&](const auto& previous) {
-            return (previous.normal - normal).length() < 1e-9 && std::abs(previous.distance - distance) < 1e-9;
-        });
-        if (face == faces.end()) {
-            faces.push_back({normal, distance, {}, part.style, false});
-            face = faces.end() - 1;
-        }
-        face->vertices.insert(face->vertices.end(), {a, b, c});
-        if (!part.marker) { face->style = part.style; face->body = true; }
-        else {
-            auto volume = optionPlanarVolume({a, b, c});
-            if (!volume.empty()) markers.push_back(std::move(volume));
-        }
-    }
-    PartGeometry added;
-    for (const auto& face : faces) {
-        if (!face.body) continue;
-        const auto origin = face.vertices.front();
-        MVector first;
-        for (const auto& vertex : face.vertices) {
-            if ((vertex - origin).length() > 1e-10) { first = (vertex - origin).normal(); break; }
-        }
-        const auto second = face.normal ^ first;
-        std::vector<MPoint> projected;
-        for (const auto& vertex : face.vertices) {
-            const auto delta = vertex - origin;
-            projected.emplace_back(delta * first, delta * second, 0);
-        }
-        const auto hull = genericWideConvexHull(std::move(projected));
-        if (hull.size() < 3) continue;
-        const auto inset = insetGenericWideFace(hull, settings.wideWidth * 0.5);
-        if (inset.empty()) continue;
-        std::vector<MPoint> points;
-        for (const auto& point : inset) points.push_back(origin + first * point.x + second * point.y);
-        points.push_back(points.front());
-        appendGenericWideStroke(added, points, face.style);
-    }
-    trimOptionStrokes(added, markers);
-    mergeOptionGeometry(geometry, std::move(added));
-}
-
-void appendGenericWideSphere(const ShapeSettings& settings, PartGeometry& geometry) {
-    constexpr double radius = 0.5;
-    const double angle = settings.wideWidth * 0.5 / radius;
-    if (angle >= kPi * 0.5 - 1e-12) return;
-    const double offset = radius * std::sin(angle), circleRadius = radius * std::cos(angle);
-    const auto originals = geometry.strokes;
-    const auto styles = geometry.strokeStyles;
-    for (std::size_t index = 0; index < originals.size(); ++index) {
-        const auto& stroke = originals[index];
-        if (stroke.length() < 4 || (stroke[0] - stroke[stroke.length() - 1]).length() > 1e-9) continue;
-        const auto first = (stroke[0] - MPoint::origin).normal();
-        auto normal = first ^ (stroke[stroke.length() / 4] - MPoint::origin);
-        if (normal.length() <= 1e-12) continue;
-        normal.normalize();
-        const auto second = normal ^ first;
-        for (double sign : {-1.0, 1.0}) appendGenericWideCircle(geometry,
-            MPoint::origin + normal * (offset * sign), first, second, circleRadius, styles[index]);
-    }
-}
-
-struct GenericWideGenerator {
-    double angle;
-    StrokeStyle style;
-};
-
-std::vector<GenericWideGenerator> genericWideGenerators(const PartGeometry& geometry, bool cone) {
-    std::vector<GenericWideGenerator> generators;
-    for (std::size_t index = 0; index < geometry.strokes.size(); ++index) {
-        const auto& stroke = geometry.strokes[index];
-        for (unsigned int i = 1; i < stroke.length(); ++i) {
-            const auto a = stroke[i - 1], b = stroke[i];
-            if (std::abs(a.x - b.x) <= 1e-10) continue;
-            const auto radial = cone && a.y * a.y + a.z * a.z < 1e-12 ? b : a;
-            if (radial.y * radial.y + radial.z * radial.z < 1e-12) continue;
-            const double angle = std::atan2(radial.z, radial.y);
-            if (std::any_of(generators.begin(), generators.end(), [&](const auto& previous) {
-                return std::abs(std::sin((previous.angle - angle) * 0.5)) < 1e-9;
-            })) continue;
-            generators.push_back({angle, geometry.strokeStyles[index]});
-        }
-    }
-    return generators;
-}
-
-void appendGenericWideCylinder(const ShapeSettings& settings, PartGeometry& geometry) {
-    constexpr double radius = 0.5;
-    const double distance = settings.wideWidth * 0.5;
-    const auto generators = genericWideGenerators(geometry, false);
-    for (double sign : {-1.0, 1.0}) {
-        if (distance < 0.5 - 1e-12) appendGenericWideCircle(geometry,
-            MPoint(sign * (0.5 - distance), 0, 0), nativeAxis(1), nativeAxis(2), radius);
-        appendGenericWideCircle(geometry, MPoint(sign * 0.5, 0, 0), nativeAxis(1), nativeAxis(2), radius - distance);
-    }
-    if (distance >= kPi * radius - 1e-12) return;
-    for (const auto& generator : generators) for (double sign : {-1.0, 1.0}) {
-        const double angle = generator.angle + sign * distance / radius;
-        const double y = radius * std::cos(angle), z = radius * std::sin(angle);
-        appendGenericWideStroke(geometry, {MPoint(-0.5, y, z), MPoint(0.5, y, z)}, generator.style);
-    }
-}
-
-void appendGenericWideCone(const ShapeSettings& settings, PartGeometry& geometry) {
-    constexpr double radius = 0.5;
-    const double distance = settings.wideWidth * 0.5;
-    const double slant = std::sqrt(1.0 + radius * radius);
-    const double ratio = radius / slant;
-    const auto generators = genericWideGenerators(geometry, true);
-    appendGenericWideCircle(geometry, MPoint(-0.5, 0, 0), nativeAxis(1), nativeAxis(2), radius - distance);
-    if (distance < slant - 1e-12) appendGenericWideCircle(geometry,
-        MPoint(-0.5 + distance / slant, 0, 0), nativeAxis(1), nativeAxis(2), radius * (1.0 - distance / slant));
-    // 円錐の展開面で母線から一定距離の平行線を取り、最短側の周回だけを戻す。
-    const double maximumAngle = std::min(kPi * 0.5, kPi * ratio);
-    const double firstSlant = distance / std::sin(maximumAngle);
-    if (firstSlant >= slant - 1e-12) return;
-    for (const auto& generator : generators) for (double sign : {-1.0, 1.0}) {
-        std::vector<MPoint> points;
-        for (unsigned int i = 0; i <= kCircleSegments; ++i) {
-            const double along = firstSlant + (slant - firstSlant) * i / kCircleSegments;
-            const double angle = generator.angle + sign * std::asin(std::clamp(distance / along, 0.0, 1.0)) / ratio;
-            const double position = along / slant;
-            points.emplace_back(0.5 - position, radius * position * std::cos(angle), radius * position * std::sin(angle));
-        }
-        appendGenericWideStroke(geometry, points, generator.style);
-    }
-}
+#include "BdControllerShapeWideSolid.inc"
 
 bool applyGenericWideBody(const ShapeSettings& settings, PartGeometry& geometry,
     std::vector<OptionClipVolume>* bodyVolumes = nullptr) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!settings.wide || !genericWideOutline(outline)) return false;
     if (genericWidePlanarOutline(outline)) makeGenericWidePlanarBody(settings, geometry, bodyVolumes);
-    else if (settings.wideWidth > 1e-12) {
-        if (outline == 33 || outline == 46) appendGenericWideSphere(settings, geometry);
-        else if (outline == 36) appendGenericWideCylinder(settings, geometry);
-        else if (outline == 43) appendGenericWideCone(settings, geometry);
-        else appendGenericWideFaceInsets(settings, geometry);
-    }
+    else if (settings.wideWidth <= 1e-12) {
+        clearGenericWideBodyFill(geometry);
+        if (outline == 36) {
+            const auto reference = genericWideReferenceLines(settings);
+            geometry.strokes = reference.strokes;
+            geometry.strokeStyles = reference.strokeStyles;
+        }
+    } else if (outline == 33 || outline == 46) makeGenericWideSphereBands(settings, geometry);
+    else if (outline == 36) makeGenericWideCylinderBands(settings, geometry);
+    else if (outline == 43) makeGenericWideConeBands(settings, geometry);
+    else makeGenericWideSolidFaces(settings, geometry);
     return true;
 }

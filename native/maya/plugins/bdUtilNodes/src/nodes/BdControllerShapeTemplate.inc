@@ -13,6 +13,8 @@ struct BodyTemplateDomain {
     double radius = 0.5;
     double start = -kPi;
     double end = kPi;
+    double parameterFirst = 0.0;
+    double parameterLast = 1.0;
 };
 
 short bodyTemplateBaseOutline(short outline) {
@@ -78,6 +80,12 @@ bool bodyTemplateParameterIsTemplate(double parameter, double rate, BodyTemplate
     return parameter < rate * 0.5 || parameter > 1.0 - rate * 0.5;
 }
 
+std::vector<double> bodyTemplateParameterBoundaries(double rate, BodyTemplatePattern pattern) {
+    if (pattern == BodyTemplatePattern::TemplateStart) return {rate};
+    if (pattern == BodyTemplatePattern::TemplateMiddle) return {(1.0 - rate) * 0.5, (1.0 + rate) * 0.5};
+    return {rate * 0.5, 1.0 - rate * 0.5};
+}
+
 bool bodyTemplateDomainIsTemplate(const BodyTemplateDomain& domain, const MPoint& point, double rate) {
     if (domain.kind == BodyTemplateDomainKind::Circle) {
         const double local = std::remainder(bodyTemplateAngle(domain, point), kPi * 0.5);
@@ -88,7 +96,10 @@ bool bodyTemplateDomainIsTemplate(const BodyTemplateDomain& domain, const MPoint
         parameter = (bodyTemplateArcAngle(domain, point) - domain.start) / (domain.end - domain.start);
     } else {
         const auto direction = domain.last - domain.first;
-        parameter = std::clamp(((point - domain.first) * direction) / (direction * direction), 0.0, 1.0);
+        const double squared = direction * direction;
+        const double local = squared > 1e-20
+            ? std::clamp(((point - domain.first) * direction) / squared, 0.0, 1.0) : 0.0;
+        parameter = domain.parameterFirst + local * (domain.parameterLast - domain.parameterFirst);
     }
     return bodyTemplateParameterIsTemplate(parameter, rate, domain.pattern);
 }
@@ -167,11 +178,41 @@ void mergeBodyTemplateSegments(std::vector<BodyTemplateDomain>& domains) {
     }
 }
 
+bool appendArrowTemplateDomains(const ShapeSettings& settings,
+    const BdControllerShapeNode::Geometry& reference, std::vector<BodyTemplateDomain>& domains) {
+    if (reference.strokes.empty() || reference.strokes.front().length() < 4) return false;
+    MPointArray path;
+    for (const auto& point : reference.strokes.front()) path.append(bodyTemplateReferencePoint(point, settings));
+    const unsigned int last = path.length() - 1;
+    const std::array<std::array<unsigned int, 2>, 3> paths = {{{0, 1}, {1, last - 1}, {last - 1, last}}};
+    // 先端・両肩で区切り、後ろの折れ角とくぼみは弧長を共有する一経路として扱う。
+    for (const auto& interval : paths) {
+        double length = 0.0;
+        for (unsigned int i = interval[0] + 1; i <= interval[1]; ++i) length += (path[i] - path[i - 1]).length();
+        if (length < 1e-10) continue;
+        double position = 0.0;
+        for (unsigned int i = interval[0] + 1; i <= interval[1]; ++i) {
+            const double segment = (path[i] - path[i - 1]).length();
+            if (segment < 1e-10) continue;
+            BodyTemplateDomain domain;
+            domain.pattern = BodyTemplatePattern::TemplateMiddle;
+            domain.first = path[i - 1];
+            domain.last = path[i];
+            domain.parameterFirst = position / length;
+            position += segment;
+            domain.parameterLast = position / length;
+            domains.push_back(domain);
+        }
+    }
+    return true;
+}
+
 std::vector<BodyTemplateDomain> bodyTemplateDomains(
     const ShapeSettings& settings, const BdControllerShapeNode::Geometry& reference
 ) {
     const short outline = bodyTemplateBaseOutline(outlinePresetIndex(settings.shape));
     std::vector<BodyTemplateDomain> domains;
+    if (outline == 39 && appendArrowTemplateDomains(settings, reference, domains)) return domains;
     if (isArcOutline(outline)) {
         const double sweep = std::clamp(settings.circleAngle, 0.0, 2.0 * kPi);
         if (sweep < 1e-12) return domains;
@@ -226,7 +267,10 @@ std::vector<BodyTemplateDomain> bodyTemplateDomains(
     mergeBodyTemplateSegments(domains);
     const bool line = outline == 1;
     const bool cross = outline == 4 || outline == 5 || outline == 45 || outline == 52 || outline == 53;
-    if (line || cross) for (auto& domain : domains) {
+    const bool endNormal = outline == 6 || outline == 79 || outline == 24 || outline == 25 ||
+        outline == 39 || outline == 41 || outline == 36 || outline == 43 ||
+        outline == 19 || outline == 50 || outline == 51;
+    if (line || cross || endNormal) for (auto& domain : domains) {
         if (domain.kind != BodyTemplateDomainKind::Segment) continue;
         domain.pattern = line && settings.part && settings.partType != 1
             ? BodyTemplatePattern::TemplateStart : BodyTemplatePattern::TemplateMiddle;
@@ -358,9 +402,9 @@ void appendBodyTemplateCut(std::vector<double>& cuts, double first, double last)
 }
 
 void appendBodyTemplateConeCuts(std::vector<double>& cuts, const MPoint& first,
-    const MPoint& last, double rate, double offset) {
+    const MPoint& last, double rate, double offset, BodyTemplatePattern pattern) {
     if (rate <= 0.0 || rate >= 1.0) return;
-    for (double parameter : {rate * 0.5, 1.0 - rate * 0.5}) {
+    for (double parameter : bodyTemplateParameterBoundaries(rate, pattern)) {
         const double position = 0.5 - std::sqrt(parameter * parameter + offset * offset / 1.25);
         appendBodyTemplateCut(cuts, first.x - position, last.x - position);
     }
@@ -375,9 +419,7 @@ void appendBodyTemplateDomainCuts(std::vector<double>& cuts, const BodyTemplateD
             boundaries.push_back(quarter * kPi * 0.5 + sign * (1.0 - rate) * kPi * 0.25);
         }
     } else {
-        if (domain.pattern == BodyTemplatePattern::TemplateStart) boundaries = {rate};
-        else if (domain.pattern == BodyTemplatePattern::TemplateMiddle) boundaries = {(1.0 - rate) * 0.5, (1.0 + rate) * 0.5};
-        else boundaries = {rate * 0.5, 1.0 - rate * 0.5};
+        boundaries = bodyTemplateParameterBoundaries(rate, domain.pattern);
         if (domain.kind == BodyTemplateDomainKind::Arc) {
             for (auto& value : boundaries) value = domain.start + value * (domain.end - domain.start);
             boundaries.push_back(domain.start);
@@ -388,9 +430,12 @@ void appendBodyTemplateDomainCuts(std::vector<double>& cuts, const BodyTemplateD
         if (domain.kind == BodyTemplateDomainKind::Segment) {
             const auto direction = domain.last - domain.first;
             const double squared = direction * direction;
+            const double span = domain.parameterLast - domain.parameterFirst;
+            if (squared < 1e-20 || std::abs(span) < 1e-12) continue;
+            const double local = (boundary - domain.parameterFirst) / span;
             appendBodyTemplateCut(cuts,
-                ((first - domain.first) * direction) / squared - boundary,
-                ((last - domain.first) * direction) / squared - boundary);
+                ((first - domain.first) * direction) / squared - local,
+                ((last - domain.first) * direction) / squared - local);
         } else {
             const auto a = first - domain.center;
             const auto b = last - domain.center;
@@ -405,6 +450,25 @@ void appendBodyTemplateDomainCuts(std::vector<double>& cuts, const BodyTemplateD
             if ((relative * domain.u) * cosine + (relative * domain.v) * sine >= -1e-10) cuts.push_back(parameter);
         }
     }
+}
+
+bool bodyTemplateCrossCap(const ShapeSettings& settings, const BdControllerShapeNode::Geometry& geometry,
+    const MPoint& first, const MPoint& last) {
+    const short outline = bodyTemplateBaseOutline(outlinePresetIndex(settings.shape));
+    if (!settings.wide || settings.wideWidth <= 1e-12 ||
+        !(outline == 4 || outline == 5 || outline == 45 || outline == 52 || outline == 53)) return false;
+    for (const auto& cap : geometry.bodyCaps) {
+        const auto endpoint = bodyTemplateReferencePoint(cap.center, settings);
+        const auto along = (bodyTemplateReferencePoint(cap.center + nativeAxis(cap.axis), settings) - endpoint).normal();
+        const auto a = first - endpoint, b = last - endpoint;
+        if (std::abs(a * along) > 1e-8 || std::abs(b * along) > 1e-8) continue;
+        const auto withinWidth = [&](const MVector& delta) {
+            return std::abs(delta.x) <= cap.halfWidth + 1e-8 && std::abs(delta.y) <= cap.halfWidth + 1e-8 &&
+                std::abs(delta.z) <= cap.halfWidth + 1e-8;
+        };
+        if (withinWidth(a) && withinWidth(b)) return true;
+    }
+    return false;
 }
 
 void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode::Geometry& geometry,
@@ -450,6 +514,7 @@ void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode
         for (unsigned int i = 1; i < source.length(); ++i) {
             const auto a = source[i - 1], b = source[i];
             const auto first = referenceStroke[i - 1], last = referenceStroke[i];
+            const bool cap = bodyTemplateCrossCap(settings, geometry, first, last);
             const auto* domain = strokeDomain ? strokeDomain : generator.domain ? generator.domain : segmentDomain;
             double coneOffset = generator.coneOffset;
             // 接合で二点片へ分解された円弧も、平面に平行な弦なら同じ親円へ揃える。
@@ -462,14 +527,23 @@ void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode
                 MPointArray fragment;
                 fragment.append(first);
                 fragment.append(last);
-                const auto mapping = bodyTemplateGeneratorDomain(settings, domains, fragment);
-                domain = mapping.domain ? mapping.domain : bodyTemplateSegmentDomain(domains, fragment);
-                coneOffset = mapping.coneOffset;
+                const short outline = outlinePresetIndex(settings.shape);
+                // 開口の閉輪郭に混ざる円周片も、母線ではなく端面の親円へ固定する。
+                if ((outline == 36 || outline == 43) && std::abs(last.x - first.x) < 1e-8) {
+                    domain = bodyTemplateStrokeDomain(domains, fragment, true);
+                }
+                if (!domain) {
+                    const auto mapping = bodyTemplateGeneratorDomain(settings, domains, fragment);
+                    domain = mapping.domain ? mapping.domain : bodyTemplateSegmentDomain(domains, fragment);
+                    coneOffset = mapping.coneOffset;
+                }
             }
             std::vector<double> cuts = {0.0, 1.0};
-            if (coneOffset >= 0.0) appendBodyTemplateConeCuts(cuts, first, last, rate, coneOffset);
-            else if (domain) appendBodyTemplateDomainCuts(cuts, *domain, first, last, rate);
-            else for (const auto& candidate : domains) appendBodyTemplateDomainCuts(cuts, candidate, first, last, rate);
+            if (settings.templateLine && !cap) {
+                if (coneOffset >= 0.0) appendBodyTemplateConeCuts(cuts, first, last, rate, coneOffset, domain->pattern);
+                else if (domain) appendBodyTemplateDomainCuts(cuts, *domain, first, last, rate);
+                else for (const auto& candidate : domains) appendBodyTemplateDomainCuts(cuts, candidate, first, last, rate);
+            }
             for (const auto& volume : protectedParts) for (const auto& plane : volume) {
                 appendBodyTemplateCut(cuts, plane.value(a), plane.value(b));
             }
@@ -480,9 +554,12 @@ void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode
             for (std::size_t cut = 1; cut < cuts.size(); ++cut) {
                 const double middle = (cuts[cut - 1] + cuts[cut]) * 0.5;
                 const auto point = a + (b - a) * middle;
-                const auto style = bodyTemplateInsidePart(point, protectedParts) ? original
-                    : bodyTemplateIsTemplate(domains, first + (last - first) * middle, rate, domain, coneOffset)
-                        ? StrokeStyle::Template : normal;
+                bool bodyTemplate = settings.templateLine && (rate >= 1.0 ||
+                    (!cap && bodyTemplateIsTemplate(domains, first + (last - first) * middle, rate, domain, coneOffset)));
+                if (settings.templateLine && settings.templateLineInvert) bodyTemplate = !bodyTemplate;
+                const auto style = bodyTemplateInsidePart(point, protectedParts)
+                    ? settings.partTemplate ? StrokeStyle::Template : original
+                    : bodyTemplate ? StrokeStyle::Template : settings.templateLine ? normal : original;
                 if (cut > 1 && style != previous) {
                     append(a + (b - a) * start, a + (b - a) * cuts[cut - 1], previous);
                     start = cuts[cut - 1];
@@ -525,7 +602,7 @@ std::vector<MPoint> bodyTemplateInsidePolygon(std::vector<MPoint> polygon, const
     return polygon;
 }
 
-void applyBodyTemplateFill(BdControllerShapeNode::Geometry& geometry,
+void applyBodyTemplateFill(const ShapeSettings& settings, BdControllerShapeNode::Geometry& geometry,
     const std::vector<OptionClipVolume>& protectedParts) {
     std::vector<BdControllerShapeNode::Geometry::FillPart> result;
     for (const auto& part : geometry.fillParts) {
@@ -541,12 +618,14 @@ void applyBodyTemplateFill(BdControllerShapeNode::Geometry& geometry,
                 PartPolygons outside;
                 for (const auto& piece : pieces) {
                     const auto inside = bodyTemplateInsidePolygon(piece, volume);
-                    if (inside.size() >= 3) protectedFaces.polygon(inside, part.style);
+                    if (inside.size() >= 3) protectedFaces.polygon(inside,
+                        settings.partTemplate ? StrokeStyle::Template : part.style);
                     for (auto& remaining : outsideOptionVolume(piece, volume)) outside.push_back(std::move(remaining));
                 }
                 pieces = std::move(outside);
             }
-            for (const auto& piece : pieces) templateFaces.polygon(piece, StrokeStyle::Template);
+            for (const auto& piece : pieces) templateFaces.polygon(piece,
+                settings.templateFill ? StrokeStyle::Template : part.style);
         }
         for (auto* faces : {&protectedFaces, &templateFaces}) for (auto& face : faces->geometry.fillParts) {
             face.marker = part.marker;
@@ -559,6 +638,6 @@ void applyBodyTemplateFill(BdControllerShapeNode::Geometry& geometry,
 
 void applyBodyTemplate(const ShapeSettings& settings, BdControllerShapeNode::Geometry& geometry,
     const BdControllerShapeNode::Geometry& reference, const std::vector<OptionClipVolume>& protectedParts = {}) {
-    if (settings.templateLine) applyBodyTemplateLines(settings, geometry, reference, protectedParts);
-    if (settings.templateFill) applyBodyTemplateFill(geometry, protectedParts);
+    if (settings.templateLine || settings.partTemplate) applyBodyTemplateLines(settings, geometry, reference, protectedParts);
+    if (settings.templateFill || settings.partTemplate) applyBodyTemplateFill(settings, geometry, protectedParts);
 }

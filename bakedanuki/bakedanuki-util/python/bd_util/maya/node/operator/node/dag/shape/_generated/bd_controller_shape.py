@@ -712,14 +712,6 @@ class GeneratedBdControllerShape(Shape):
     )
     slt = shapeLineTransparency
 
-    shapeTemplateLine = BoolField(default_value=False)
-    stl = shapeTemplateLine
-
-    shapeTemplateLineRate = DoubleField(
-        default_value=0.7, min_value=0.0, max_value=1.0
-    )
-    stlr = shapeTemplateLineRate
-
     shapeFill = BoolField(default_value=False)
     sfl = shapeFill
 
@@ -728,8 +720,31 @@ class GeneratedBdControllerShape(Shape):
     )
     sftp = shapeFillTransparency
 
+    shapeTemplateLine = BoolField(default_value=False)
+    stl = shapeTemplateLine
+
+    shapeTemplateLineRate = DoubleField(
+        default_value=0.7, min_value=0.0, max_value=1.0
+    )
+    stlr = shapeTemplateLineRate
+
+    shapeTemplateLineInvert = BoolField(default_value=False)
+    stli = shapeTemplateLineInvert
+
     shapeTemplateFill = BoolField(default_value=False)
     stf = shapeTemplateFill
+
+    shapePartTemplate = BoolField(default_value=False)
+    spte = shapePartTemplate
+
+    shapeFinTemplate = BoolField(default_value=False)
+    sft = shapeFinTemplate
+
+    shapeGuideLineTemplate = BoolField(default_value=False)
+    sglt = shapeGuideLineTemplate
+
+    shapeOffsetLineTemplate = BoolField(default_value=False)
+    solt = shapeOffsetLineTemplate
 
     shapeWide = BoolField(default_value=False)
     swd = shapeWide
@@ -769,6 +784,9 @@ class GeneratedBdControllerShape(Shape):
     shapePartWidthScale = DoubleField(default_value=1.0)
     spws = shapePartWidthScale
 
+    shapePartHeightScale = DoubleField(default_value=1.0)
+    sphs = shapePartHeightScale
+
     shapeFin = BoolField(default_value=False)
     sfn = shapeFin
 
@@ -787,14 +805,8 @@ class GeneratedBdControllerShape(Shape):
     shapeGuideLine = BoolField(default_value=False)
     sgl = shapeGuideLine
 
-    shapeGuideLineTemplate = BoolField(default_value=False)
-    sglt = shapeGuideLineTemplate
-
     shapeOffsetLine = BoolField(default_value=False)
     sol = shapeOffsetLine
-
-    shapeOffsetLineTemplate = BoolField(default_value=False)
-    solt = shapeOffsetLineTemplate
 
     shapeAxisOffset = BoolField(default_value=False)
     sao = shapeAxisOffset

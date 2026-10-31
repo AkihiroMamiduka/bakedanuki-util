@@ -102,6 +102,7 @@ def test_color_parts_follow_selected_axes_like_the_plain_body(
         shapePartSize=2.1,
         shapePartLengthScale=1.3,
         shapePartWidthScale=1.7,
+        shapePartHeightScale=-0.8,
         shapePartOffset=0.13,
     )
     color = _controller(maya_cmds, "colorPart", preset, **options)
@@ -237,6 +238,7 @@ def test_at_ends_matches_one_standard_and_other_half_size_at_end_parts(
         shapePartSize=1.7,
         shapePartLengthScale=1.3,
         shapePartWidthScale=1.8,
+        shapePartHeightScale=1.8,
         shapePartOffset=0.13,
     )
     actual = _controller(maya_cmds, "allEnds", preset, **options)

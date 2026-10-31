@@ -143,10 +143,12 @@ void trimOptionGeometry(PartGeometry& geometry, const std::vector<OptionClipVolu
             trimmed.geometry.fillParts.push_back(std::move(face));
         }
     }
+    trimmed.geometry.bodyCaps = std::move(geometry.bodyCaps);
     geometry = std::move(trimmed.geometry);
 }
 
 void mergeOptionGeometry(PartGeometry& target, PartGeometry source) {
+    for (auto& cap : source.bodyCaps) target.bodyCaps.push_back(std::move(cap));
     for (std::size_t i = 0; i < source.strokes.size(); ++i) {
         target.strokes.push_back(std::move(source.strokes[i]));
         target.strokeStyles.push_back(source.strokeStyles[i]);
@@ -367,7 +369,69 @@ struct OptionHeads {
     std::vector<double> stops;
 };
 
-OptionHeads makeOptionHeads(const ShapeSettings& settings) {
+OptionClipVolume optionTemplateWireVolume(const std::vector<MPoint>& points) {
+    if (points.empty()) return {};
+    const auto origin = points.front();
+    MVector along = MVector::zero;
+    for (const auto& point : points) {
+        const auto delta = point - origin;
+        if (delta.length() > along.length()) along = delta;
+    }
+    if (along.length() <= 1e-10) along = nativeAxis(0);
+    else along.normalize();
+    MVector normal = MVector::zero;
+    for (const auto& point : points) {
+        const auto candidate = along ^ (point - origin);
+        if (candidate.length() > normal.length()) normal = candidate;
+    }
+    const bool planar = normal.length() > 1e-10;
+    if (!planar) {
+        const auto helper = std::abs(along.x) < 0.9 ? nativeAxis(0) : nativeAxis(1);
+        normal = along ^ helper;
+    }
+    normal.normalize();
+    const auto side = normal ^ along;
+    const bool flat = std::all_of(points.begin(), points.end(), [&](const auto& point) {
+        return std::abs((point - origin) * normal) <= 1e-10;
+    });
+    if (planar && flat) {
+        std::vector<MPoint> projected;
+        for (const auto& point : points) {
+            const auto delta = point - origin;
+            projected.emplace_back(delta * along, delta * side, 0.0);
+        }
+        const auto hull = genericWideConvexHull(std::move(projected));
+        if (hull.size() >= 3) {
+            std::vector<MPoint> boundary;
+            for (const auto& point : hull) boundary.push_back(origin + along * point.x + side * point.y);
+            auto volume = optionPlanarVolume(boundary);
+            for (auto& plane : volume) plane.distance += 1e-10;
+            if (!volume.empty()) return volume;
+        }
+    }
+    OptionClipVolume volume;
+    for (const auto& direction : {along, -along, side, -side, normal, -normal}) {
+        double support = (points.front() - MPoint::origin) * direction;
+        for (const auto& point : points) support = std::max(support, (point - MPoint::origin) * direction);
+        volume.push_back({direction, support + 1e-10});
+    }
+    return volume;
+}
+
+// Templateの分類だけは実線の頂点を包み、物理的な接合用の境界から独立させる。
+OptionClipVolume optionTemplateSolidVolume(const PartGeometry& geometry, OptionClipVolume volume) {
+    std::vector<MPoint> points;
+    for (const auto& stroke : geometry.strokes) for (const auto& point : stroke) points.push_back(point);
+    if (volume.size() < 4) return optionTemplateWireVolume(points);
+    for (auto& plane : volume) {
+        for (const auto& point : points) {
+            plane.distance = std::max(plane.distance, (point - MPoint::origin) * plane.normal);
+        }
+    }
+    return volume;
+}
+
+OptionHeads makeOptionHeads(const ShapeSettings& settings, bool forTemplate = false) {
     OptionHeads result;
     if (optionAxialWrapped(settings) || optionRadialWrapped(settings)) return result;
     std::vector<std::vector<MPoint>> signatures;
@@ -379,9 +443,10 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
         const MVector up = (site.along ^ site.side) * site.upSign;
         const double length = partLength(settings) * site.sizeScale;
         const double widthScale = partWidth(settings) * site.sizeScale;
+        const double heightScale = partHeight(settings) * site.sizeScale;
         const auto point = [&](const MPoint& p) {
             return site.endpoint + site.along * (p.x * length + settings.partOffset)
-                + site.side * (p.y * widthScale) + up * (p.z * widthScale);
+                + site.side * (p.y * widthScale) + up * (p.z * heightScale);
         };
         double stop = 1e100;
         const auto remember = [&](const MPoint& p) { stop = std::min(stop, (p - MPoint::origin) * site.along); };
@@ -392,6 +457,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
             head.stroke(stroke);
             head.polygon(points);
             auto volume = optionPlanarVolume(points);
+            if (forTemplate && volume.empty()) volume = optionTemplateWireVolume(points);
             if (!volume.empty()) result.volumes.push_back(std::move(volume));
         };
         const auto planar = [&](const std::vector<MPoint>& profile, bool open) {
@@ -425,7 +491,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
                 }
             } else planar({MPoint(shoulder, width, 0), MPoint(tip, 0, 0), MPoint(shoulder, -width, 0)},
                     !optionWideOutline(outline) && !isWideArcOutline(outline));
-            if (settings.partShape == 1) {
+            if (settings.partShape == 1 && heightScale != 0.0) {
                 if (site.attached) {
                     planar({MPoint(0, 0, 0), MPoint(0, 0, 0.0625), MPoint(tip, 0, 0)}, true);
                 } else {
@@ -441,7 +507,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
             constexpr std::array<short, 5> outlines = {19, 24, 33, 41, 43};
             ShapeSettings component;
             component.shape = partPreset(outlines[settings.partShape - 6]);
-            component.fill = settings.fill && length != 0.0 && widthScale != 0.0;
+            component.fill = settings.fill && length != 0.0 && widthScale != 0.0 && heightScale != 0.0;
             std::vector<StrokeStyle> styles;
             const auto strokes = makeStrokes(ShapeTransform(component), styles);
             component.fill = true;
@@ -470,9 +536,10 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
                 auto b = mapped(part.triangles[i + 1]);
                 auto c = mapped(part.triangles[i + 2]);
                 if (((b - a) ^ (c - a)) * (a - inside) < 0) std::swap(b, c);
-                if (length != 0.0 && widthScale != 0.0) head.triangle(a, b, c);
+                if (length != 0.0 && widthScale != 0.0 && heightScale != 0.0) head.triangle(a, b, c);
                 addOptionClipPlane(volume, (b - a) ^ (c - a), a, inside);
             }
+            if (forTemplate) volume = optionTemplateSolidVolume(head.geometry, std::move(volume));
             if (volume.size() >= 4) result.volumes.push_back(std::move(volume));
         }
         result.stops.push_back(stop == 1e100 ? 0.5 : stop);
@@ -500,10 +567,10 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings) {
     return result;
 }
 
-std::vector<OptionClipVolume> optionPartClipVolumes(const ShapeSettings& settings) {
+std::vector<OptionClipVolume> optionPartClipVolumes(const ShapeSettings& settings, bool forTemplate = false) {
     if (optionAxialWrapped(settings)) return axialWrappedPartClipVolumes(settings);
     if (optionRadialWrapped(settings)) return radialWrappedPartClipVolumes(settings);
-    return makeOptionHeads(settings).volumes;
+    return makeOptionHeads(settings, forTemplate).volumes;
 }
 
 void appendOptionSquare(PartBuilder& builder, short outline) {
@@ -674,6 +741,7 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
                 const unsigned int other = axes.size() == 2 ? (axis == axes.front() ? axes.back() : axes.front()) : 1;
                 const auto side = nativeAxis(other) * (0.5 * settings.wideWidth);
                 const auto p = MPoint::origin + direction * stop;
+                builder.geometry.bodyCaps.push_back({p, axis, 0.5 * settings.wideWidth});
                 auto volume = optionPlanarVolume({MPoint::origin - side, p - side, p + side, MPoint::origin + side});
                 if (!volume.empty()) bodyVolumes.push_back(std::move(volume));
                 bands.triangles.push_back({MPoint::origin - side, p - side, p + side});

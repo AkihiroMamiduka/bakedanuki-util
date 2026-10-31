@@ -384,7 +384,9 @@ def _bounds(maya_om, shape: str) -> tuple[float, ...]:
     )
 
 
-def _three_axis_solid_part_bounds(part, offset=0, length=1, width=1, size=1):
+def _three_axis_solid_part_bounds(
+    part, offset=0, length=1, width=1, size=1, height=1
+):
     # 代表の+X端は等倍、残る5端は半分の寸法で、Offsetの距離は共通にする。
     points = [(0.0, 0.0, 0.0)]
     for axis in range(3):
@@ -395,12 +397,17 @@ def _three_axis_solid_part_bounds(part, offset=0, length=1, width=1, size=1):
             along = (center - depth, center + depth)
             if part in ("Pyramid", "Cone"):
                 along = (center - 2 * depth, center)
-            transverse = 0.05 * abs(width * end_size)
+            side_axis = 0 if axis == 2 else 2
+            up_axis = next(i for i in range(3) if i not in (axis, side_axis))
+            side_extent = 0.05 * abs(width * end_size)
+            up_extent = 0.05 * abs(height * end_size)
             for coordinate in along:
-                for first in (-transverse, transverse):
-                    for second in (-transverse, transverse):
-                        point = [first, second]
-                        point.insert(axis, sign * coordinate)
+                for first in (-side_extent, side_extent):
+                    for second in (-up_extent, up_extent):
+                        point = [0.0, 0.0, 0.0]
+                        point[axis] = sign * coordinate
+                        point[side_axis] = first
+                        point[up_axis] = second
                         points.append(tuple(point))
     return tuple(min(point[i] for point in points) for i in range(3)) + tuple(
         max(point[i] for point in points) for i in range(3)
@@ -521,6 +528,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         ("shapePartOtherSizeScale", "sposs", "double", 0.5),
         ("shapePartLengthScale", "spls", "double", 1.0),
         ("shapePartWidthScale", "spws", "double", 1.0),
+        ("shapePartHeightScale", "sphs", "double", 1.0),
     ):
         assert maya_cmds.getAttr(f"{shape}.{attribute}") == pytest.approx(
             default
@@ -542,6 +550,9 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         ("shapeWide", "swd"),
         ("shapeTemplateLine", "stl"),
         ("shapeTemplateFill", "stf"),
+        ("shapeTemplateLineInvert", "stli"),
+        ("shapePartTemplate", "spte"),
+        ("shapeFinTemplate", "sft"),
         ("shapeGuideLine", "sgl"),
         ("shapeGuideLineTemplate", "sglt"),
     ):
@@ -788,7 +799,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
         assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
 
-    for index in range(1, 16):
+    for index in range(1, 17):
         separator = "_" * index
         assert (
             maya_cmds.attributeQuery(separator, node=shape, shortName=True)
@@ -815,18 +826,24 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "___",
         "shapeLineWidth",
         "shapeLineTransparency",
-        "shapeTemplateLine",
-        "shapeTemplateLineRate",
         "____",
         "shapeFill",
         "shapeFillTransparency",
-        "shapeTemplateFill",
         "_____",
+        "shapeTemplateLine",
+        "shapeTemplateLineRate",
+        "shapeTemplateLineInvert",
+        "shapeTemplateFill",
+        "shapePartTemplate",
+        "shapeFinTemplate",
+        "shapeGuideLineTemplate",
+        "shapeOffsetLineTemplate",
+        "______",
         "shapeWide",
         "shapeWideWidth",
-        "______",
-        "shapeArcAngle",
         "_______",
+        "shapeArcAngle",
+        "________",
         "shapePart",
         "shapePartShape",
         "shapePartType",
@@ -836,23 +853,22 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapePartOtherSizeScale",
         "shapePartLengthScale",
         "shapePartWidthScale",
-        "________",
+        "shapePartHeightScale",
+        "_________",
         "shapeFin",
         "shapeFinType",
         "shapeFinHeight",
         "shapeFinSize",
         "shapeFinWidthScale",
-        "_________",
-        "shapeGuideLine",
-        "shapeGuideLineTemplate",
         "__________",
-        "shapeOffsetLine",
-        "shapeOffsetLineTemplate",
+        "shapeGuideLine",
         "___________",
+        "shapeOffsetLine",
+        "____________",
         "shapeAxisOffset",
         "shapeAxisOffsetDirection",
         "shapeAxisOffsetLength",
-        "____________",
+        "_____________",
         "shapeRootSize",
         "shapeTranslateX",
         "shapeRotateX",
@@ -861,16 +877,16 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeAxisRotateX",
         "shapeAxisScaleX",
         "shapeSize",
-        "_____________",
+        "______________",
         "boundsMode",
         "showBoundsPreview",
-        "______________",
+        "_______________",
         "customBounds1stAxis",
         "customBounds2ndAxis",
         "customBoundsAxisOffset",
         "customBoundsAxisOffsetDirection",
         "customBoundsAxisOffsetLength",
-        "_______________",
+        "________________",
         "customBoundsRootSize",
         "customBoundsTranslateX",
         "customBoundsRotateX",
@@ -1983,6 +1999,7 @@ def test_part_transform_bounds(
         ("shapePartOffset", 0.2),
         ("shapePartLengthScale", 3.0),
         ("shapePartWidthScale", 14.0),
+        ("shapePartHeightScale", 14.0),
         ("shapePartSize", 3.0),
     ),
 )
@@ -2010,12 +2027,13 @@ def test_part_attribute_invalidates_cached_geometry(
         _three_axis_solid_part_bounds("Cube")
     )
     maya_cmds.setAttr(target, value)
-    controls = {"offset": 0, "length": 1, "width": 1, "size": 1}
+    controls = {"offset": 0, "length": 1, "width": 1, "height": 1, "size": 1}
     controls[
         {
             "shapePartOffset": "offset",
             "shapePartLengthScale": "length",
             "shapePartWidthScale": "width",
+            "shapePartHeightScale": "height",
             "shapePartSize": "size",
         }[attribute]
     ] = value
@@ -2040,12 +2058,13 @@ def test_part_animation_updates_bounds(
         ("shapePartOffset", 0, 0.1),
         ("shapePartLengthScale", 1, 2),
         ("shapePartWidthScale", 1, 3),
+        ("shapePartHeightScale", 1, 2.5),
     ):
         maya_cmds.setKeyframe(shape, attribute=attribute, time=1, value=first)
         maya_cmds.setKeyframe(shape, attribute=attribute, time=10, value=last)
     maya_cmds.currentTime(10)
     assert _bounds(maya_om, shape) == pytest.approx(
-        _three_axis_solid_part_bounds(end_shape, 0.1, 2, 3)
+        _three_axis_solid_part_bounds(end_shape, 0.1, 2, 3, height=2.5)
     )
     maya_cmds.currentTime(1)
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -2111,6 +2130,7 @@ def test_part_transform_history_and_scene_reload(
     shape.shapeFinHeight.set(0.75)
     shape.shapePartLengthScale.set(2.0)
     shape.shapePartWidthScale.set(3.0)
+    shape.shapePartHeightScale.set(3.0)
     shape.shapePartSize.set(2.0)
     shape.shapeSize.set(2.0)
     shape.shapeRootSize.set(2.0)
@@ -2135,6 +2155,7 @@ def test_part_transform_history_and_scene_reload(
         ("shapeFinHeight", 0.75),
         ("shapePartLengthScale", 2),
         ("shapePartWidthScale", 3),
+        ("shapePartHeightScale", 3),
         ("shapePartSize", 2),
     ):
         assert maya_cmds.getAttr(f"{name}.{attribute}") == pytest.approx(value)
@@ -2158,6 +2179,7 @@ def test_part_attributes_leave_plain_shapes_unchanged(
     maya_cmds.setAttr(f"{shape}.shapePartOffset", 2.0)
     maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 3.0)
     maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 4.0)
+    maya_cmds.setAttr(f"{shape}.shapePartHeightScale", -2.0)
     maya_cmds.setAttr(f"{shape}.shapePartSize", 2.0)
     assert _bounds(maya_om, shape) == pytest.approx(before)
 
@@ -2249,6 +2271,7 @@ def test_arrow_and_fin_part_size_bounds(
         ("shapePartOffset", 0.1),
         ("shapePartLengthScale", 1.5),
         ("shapePartWidthScale", 0.75),
+        ("shapePartHeightScale", 0.75),
         ("shapePartSize", 2.0),
     ):
         maya_cmds.setAttr(f"{shape}.{attribute}", value)
@@ -2256,6 +2279,7 @@ def test_arrow_and_fin_part_size_bounds(
     maya_cmds.setAttr(f"{shape}.shapePartSize", 1.0)
     maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 3.0)
     maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 1.5)
+    maya_cmds.setAttr(f"{shape}.shapePartHeightScale", 1.5)
     maya_cmds.setAttr(f"{shape}.shapeFinSize", 1)
     maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 1.5)
     maya_cmds.setAttr(f"{shape}.shapeFinHeight", 1.0)
@@ -2302,6 +2326,7 @@ def test_octahedron_arrow_tip_uses_central_section(
         ("shapePartOffset", offset),
         ("shapePartLengthScale", length),
         ("shapePartWidthScale", width),
+        ("shapePartHeightScale", width),
         ("shapePartSize", size),
     ):
         maya_cmds.setAttr(f"{shape}.{attribute}", value)
@@ -3791,7 +3816,7 @@ def test_radial_circle_wrapped_parts_ignore_offset_and_use_radial_width(
     assert all(-0.7 - 1e-9 <= value <= 0.7 + 1e-9 for value in expected)
     if "Cross" not in preset:
         assert expected[0] == 0
-        assert expected[3] == pytest.approx(0.2 if part == 1 else 0, abs=1e-9)
+        assert expected[3] == pytest.approx(0.05 if part == 1 else 0, abs=1e-9)
     for offset in (-0.4, 0.4):
         maya_cmds.setAttr(f"{shape}.shapePartOffset", offset)
         assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
@@ -4128,6 +4153,7 @@ def test_arrow3d_part_uses_positive_normal_at_every_endpoint(
         ("shapeArcAngle", 240),
         ("shapePartOffset", 0.2),
         ("shapePartWidthScale", 2),
+        ("shapePartHeightScale", 2),
     ):
         maya_cmds.setAttr(f"{shape}.{attribute}", value)
     bounds = _bounds(maya_om, shape)
@@ -4196,7 +4222,7 @@ def test_three_axis_end_arrows_use_direction_specific_planes(
             if part == 1:
                 crest = [0.0, 0.0, 0.0]
                 crest[along] = sign * shoulder
-                crest[up] = 0.35 * factor
+                crest[up] = 0.05 * factor
                 points.append(maya_om.MPoint(*crest) * matrix)
     expected = tuple(min(p[i] for p in points) for i in range(3)) + tuple(
         max(p[i] for p in points) for i in range(3)
@@ -5433,7 +5459,7 @@ def test_axial_circle_wrapped_degenerate_and_periodic_parts_stay_bounded(
             assert (bounds[0], bounds[3]) == pytest.approx(
                 (-half_width, half_width), abs=1e-9
             ), (part, length, width)
-            radius = 0.5 + (0.1 * abs(width) if part == 1 else 0)
+            radius = 0.5 + (0.1 if part == 1 else 0)
             for index in (1, 2, 4, 5):
                 assert abs(bounds[index]) <= radius + 1e-9
         maya_cmds.setAttr(f"{shape}.shapeArcAngle", 0)
@@ -5751,6 +5777,7 @@ def test_cross_circle_axial_solid_preserves_the_lower_curve_and_part(
             ("shapePartSize", size),
             ("shapePartLengthScale", length_scale),
             ("shapePartWidthScale", width_scale),
+            ("shapePartHeightScale", width_scale),
         ):
             maya_cmds.setAttr(f"{shape}.{name}", value)
     maya_cmds.setAttr(f"{shapes[2]}.shapeRotateY", 90)

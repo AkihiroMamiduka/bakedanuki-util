@@ -9,6 +9,9 @@
 
 ### Fixed
 
+- `bdControllerShape` のSelection HighlightingがOFFのとき、選択中も実際の非選択時と同じ色を使うよう修正。
+  実効overrideが無効な場合の通常色と、有効なshape・親・祖先・Display Layerのoverride色を区別する。
+- `bdControllerShape` の完全透明な線を描画・クリック選択から除外し、線の深度書込みで塗り面が欠ける不具合を修正。
 - byteのhard limitで下限0／上限255を個別に未指定扱いにしていた判定を修正。
   型既定の全範囲0～255だけを除外し、`overrideColor`の0～31などは両端を保持する。
   bdChannelBoxの整数Slider選別を修正し、既存の入力制限・設定・sceneの移行は不要。
@@ -21,18 +24,31 @@
 - `bdControllerShape.shape` を24種類の基本本体へ整理し、既定は `Cube`（12）とした。
   `shapeAxisSwap`、`shapeWide`、`shapeTemplateLine`、`shapeTemplateLineRate`、
   `shapeTemplateFill` を共通属性として分離する。Wide・Swapped・SquareTemplate専用の公開enumは設けない。
-  全本体でWideを選べ、線と平面は帯、多面体は面内の輪郭、球・円柱・円錐は面上のoffset線を使う。
-  立体の元Fillと稜線、Colorの軸色、ColorCornerCubeの小四角は維持する。
+  全本体でWideを選べ、線と平面は帯、立体は面・曲面上の厚み0のフレームを両面表示する。
+  本体のFillは帯だけへ適用し、穴は塗りも選択面も持たない。多面体の元稜線とColorCornerCubeの小四角は維持する。
+  Sphereは3大円由来の帯の和集合とし、中央線・交差の継ぎ目・色境界線を消す。
+  ColorSphereの単独帯は軸色、XYの重なりは黄、XZはマゼンタ、YZはシアン、XYZはグレーとし、
+  混色の有効RGB成分は0.75とする。全球面を覆う幅でFill OFFなら通常3円へ戻す。
+  正の幅のWide Cylinderは元の4母線を描かず、端円と帯の輪郭を残す。幅0は通常Cylinderの表示へ戻す。
   AxisSwapは主軸と補助軸を交換し、第3軸を反転する。Color系はPart・Finだけを交換する。
   軸属性値・AxisOffset・Axis系TRSと独立したCustom Boundsの意味は維持する。
 - `bdControllerShape` の本体線と本体面を独立してTemplate表示にできるようにした。
   線の割合は既定0.7、0で全線通常、1で全本体線Templateとする。
+  `shapeTemplateLineInvert` は区間の通常・Templateをそのまま反転し、Rate 0/1も交換する。
   多角形・立体稜線、Line・CrossLine、円・Arcの論理区間ごとの割当てに従い、
   CrossArcのAtEndでも両円の4端を通常表示にする。
-  Part・Fin・GuideLine・OffsetLineとColorCornerCubeのマーカーを保護し、GuideとOffsetの専用Template設定は維持する。
+  Cube・ColorCube・ColorCornerCubeの稜線は保持したRateに従い中央をTemplate、両端を通常表示にする。
+  Wide CrossLine3Axis系へPartを付けた場合は切取り後の本体終端を通常区間の端として扱い、
+  PartTemplateの指定を本体の端へ引き継がない。
+  尖り形状とCylinder・Coneの母線は端を通常、中央をTemplateとし、Arrowは先端・両肩を端点とする3経路の弧長を使う。
+  `shapePartTemplate` と `shapeFinTemplate` で各部品の線・面も個別にTemplate化できる。
+  本体・各部品・GuideLine・OffsetLineの指定を独立させ、ColorCornerCubeのマーカーを保護する。
   Channel Boxは先頭の区切り直後へ軸2属性・AxisSwap・基本本体をまとめ、
-  Line区画へTemplateLineと割合、Fill区画へTemplateFill、Wide区画へWideと幅を置く。
-  先頭を含む15本の区切り・15区画を維持し、AxisOffset・Direction・LengthはOffsetLine後・TRS前に残す。
+  Fillの後へLine・Rate・Invert・Fill・Part・Fin・Guide・OffsetのTemplate8属性をまとめる。
+  先頭を含む16本の区切り・16区画とし、AxisOffset・Direction・LengthはOffsetLine後・TRS前に残す。
+- `bdControllerShape.shapePartHeightScale` を追加し、Length・Width・Heightを独立した局所軸の倍率にした。
+  Heightは符号を保ち、Arrow3Dの追加面と立体Part、OctahedronArrow本体へ適用する。
+  Arrow3DのHeight 0はArrow2Dと一致し、ArcRadialでは法線、ArcAxialでは半径方向の高さを調整する。
 - `bdControllerShape` の非Arc系の `AtEnds` に、代表用の `shapePartPrimarySizeScale` と
   その他用の `shapePartOtherSizeScale` を追加した。共通の `shapePartSize` へ掛け合わせ、
   全11種類のPartの寸法を個別に調整できる。既定値は1と0.5で、両方1なら等サイズ、Otherが0なら代表だけを残す。
@@ -52,7 +68,7 @@
   ガイドは本体表面までとし、Square系、WideLine、WideCrossLine・Circleと各Swappedの
   Arrow先端接続、WideCircle系の内周停止、
   Color系の正側RGB・負側通常色と、ガイドだけのtemplate表示・選択不可に対応する。
-  GuideLineの2属性をFinとOffsetLineの間へ配置し、Channel Boxを15区画にした。
+  GuideLineのON/OFFはFinとOffsetLineの間に置き、Template指定は共通のTemplate区画へまとめる。
   `shapeArcAngle` の既定値を180°に変更し、ColorCubeの正側3面のFillをRGB、負側3面を通常色にした。
 - `Nodes()` の IDE 補完対象を、配布外の `bd_util_typing_config.pyi` で選択可能にした。
   IDE の `stubPath` から参照し、パッケージ更新後も利用者設定を保持する。

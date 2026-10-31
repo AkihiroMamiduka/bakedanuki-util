@@ -1039,7 +1039,7 @@ MPoint crossLineEndSolidPoint(
     const MVector up = direction ^ side;
     return MPoint::origin + direction * crossLineEndSolidAlong(point.x, outline, settings)
         + side * (0.1 * point.y * settings.partWidthScale * settings.partSize)
-        + up * (0.1 * point.z * settings.partWidthScale * settings.partSize);
+        + up * (0.1 * point.z * settings.partHeightScale * settings.partSize);
 }
 
 void appendCrossLineEndSolids(

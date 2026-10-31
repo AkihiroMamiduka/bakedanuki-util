@@ -134,6 +134,11 @@ void appendOptionWideCross3Axis(
     const std::vector<OptionSite>& sites, std::vector<OptionClipVolume>& bodyVolumes
 ) {
     const auto boxes = wideCross3AxisBoxes(settings, heads, sites);
+    for (const auto& box : boxes) {
+        const double end = box.minimum[box.axis] < 0 ? box.minimum[box.axis] : box.maximum[box.axis];
+        builder.geometry.bodyCaps.push_back({MPoint::origin + nativeAxis(box.axis) * end,
+            box.axis, settings.wideWidth * 0.5});
+    }
     if (settings.wideWidth <= 2e-12) {
         for (const auto& box : boxes) {
             const double end = box.minimum[box.axis] < 0 ? box.minimum[box.axis] : box.maximum[box.axis];

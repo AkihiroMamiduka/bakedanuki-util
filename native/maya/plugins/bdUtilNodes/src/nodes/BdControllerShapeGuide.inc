@@ -175,7 +175,7 @@ void appendShapeGuide(const ShapeSettings& settings, PartGeometry& geometry,
     if (outline == 25) {
         addAxis(0, -0.5);
         addAxis(0, 0.5 * partLength(settings) + settings.partOffset);
-        addPair(1, 0.5 * std::abs(partWidth(settings)));
+        addPair(1, 0.5 * std::abs(partHeight(settings)));
         addPair(2, 0.5 * std::abs(partWidth(settings)));
         return;
     }

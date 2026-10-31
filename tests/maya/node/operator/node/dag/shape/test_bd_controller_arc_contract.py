@@ -136,6 +136,7 @@ def test_zero_width_arc_matches_thin_arc_for_every_part_and_placement(
             ("shapePartSize", 1.7),
             ("shapePartLengthScale", 0.8),
             ("shapePartWidthScale", 1.3),
+            ("shapePartHeightScale", -0.7),
             ("shapePartOffset", 0.13),
         ):
             maya_cmds.setAttr(f"{shape}.{attribute}", value)
@@ -210,6 +211,8 @@ def test_arc_swapped_exchanges_the_complete_body_and_parts(
         maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0.13)
         maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.11)
         maya_cmds.setAttr(f"{shape}.shapePartSize", 2)
+        maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 1.4)
+        maya_cmds.setAttr(f"{shape}.shapePartHeightScale", -0.8)
     for part, placement in ((1, 0), (3, 1), (6, 0), (10, 2)):
         for filled in (False, True):
             for shape in (standard, swapped):
