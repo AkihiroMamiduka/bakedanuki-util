@@ -296,11 +296,12 @@ Wideの追加輪郭と帯も、この本体の区間へ対応させます。
 
 | 本体・Part配置 | 区間の割り当て |
 | --- | --- |
-| Gear・Squareの各辺 | 辺中央がN `1-r`、両端がそれぞれTpl `r/2` |
+| Gearの外周 | 歯先中央から次の歯先中央までの輪郭を1区間とし、実長で谷中央Tpl `r`、両端の歯先側N `(1-r)/2` |
+| Squareの各辺 | 辺中央がN `1-r`、両端がそれぞれTpl `r/2` |
 | Cube・ColorCube・ColorCornerCubeの稜線 | 中央Tpl `r`、両端N `(1-r)/2` |
 | Triangle・Diamond・Octahedron・OctahedronArrow・Pyramidの各辺、Cylinder・Coneの母線 | 中央Tpl `r`、両端N `(1-r)/2` |
 | Arrow | 先端から各肩への2経路と、両肩を後ろの2折れ角・くぼみ経由で結ぶ1経路の計3経路。各経路の弧長で中央Tpl `r`、両端N `(1-r)/2` |
-| Circle、Sphere、ColorSphereの円 | 平面内の4方向がNの中央となる四分円区間を使い、各区間の中央N `1-r`、両端Tpl `r/2` |
+| Circle、Sphere、ColorSphereの円、Gearの内円 | 平面内の4方向がNの中央となる四分円区間を使い、各区間の中央N `1-r`、両端Tpl `r/2` |
 | Line、Part OFFまたはAtEnds | 線の中央Tpl `r`、両端N `(1-r)/2` |
 | Line、Part ONのAtEndまたはAtApex | 代表端と反対の端からTpl `r`、代表端側N `1-r` |
 | CrossLine、CrossLine3Axis、ColorCrossLine3Axis | 各腕で中心側Tpl `r`、外端側N `1-r`。Partの配置種類では変えない |
@@ -309,6 +310,13 @@ Wideの追加輪郭と帯も、この本体の区間へ対応させます。
 | 単円Arc、Part ONのAtApex | 円弧中央N `1-r`、両端Tpl `r/2` |
 | CrossArc、Part OFF・AtEnd・AtEnds | 両方の円で中央Tpl `r`、両端N `(1-r)/2`。AtEndでも両円の計4端をNにする |
 | CrossArc、Part ONのAtApex | 両方の円で中央N `1-r`、両端Tpl `r/2` |
+
+Gearの外周は、歯先の平らな辺の中央を区間の始終端にし、谷を通って次の歯先中央へ進む
+輪郭の実長で割合を測ります。既定の `r=0.7` では、谷を中心とする70%がTpl、
+歯先を中心とする残り30%がNです。閉じた外周の始終端でも同じ区間を連続させます。
+Wideの追加輪郭も元の外周へ対応させ、帯幅で区間の位相を変えません。
+内円はCircleと同じ四分円の規約を使います。面のTemplate表示は `shapeTemplateFill` で独立に指定し、
+線の割合やInvertで外周帯・内円帯の面表示を切り替えません。
 
 `r=0` は全本体線がN、`r=1` は全本体線がTplです。入力値は0–1へ制限します。
 既定の `r=0.7` は、各論理区間の70%をTpl、30%をNにします。
@@ -988,6 +996,8 @@ pixel 指定で、シーン単位や `shapeSize` とは独立しています。
 `shapeLineTransparency` は輪郭線・GuideLine・OffsetLine、`shapeFillTransparency` は
 `shapeFill` がON の本体面に適用します。`ColorCornerCube` の小四角だけは
 `shapeLineTransparency` に従います。面と輪郭線は選択状態に応じた色を使います。
+通常描画では、同一面上の不透明なTemplate塗りでも輪郭線の通常色・Template色を保ちます。
+手前にある他のシーン形状による遮蔽は通常どおり維持します。
 `shapeDrawOnTop` は輪郭線・面・GuideLine・OffsetLine を他のシーン形状より前に描きます。
 面を含む形状では、Shaded は面と輪郭線、Wireframe は輪郭線、
 Wireframe on Shaded は面と輪郭線を表示します。面内のクリックも選択対象です。
@@ -1473,7 +1483,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 84. 全24基本本体でWide・AxisSwap・TemplateLine・TemplateFillを独立に切り替え、基本shape enumの値と各オプションの保持値を保つ。短名sasw/swd/stl/stlr/stfと既定値を確認する。
 85. Gear/Triangle/Square/Diamond/ArrowのWide帯で角と重なりを確認し、Fillは帯だけを塗る。幅0は元の輪郭線を残し、本体帯面を省略する。
 86. 立体のWideでは元の全面Fillをフレームの帯へ置き換え、多面体の元稜線を保つ。球・円柱・円錐の帯は面上距離w/2へ追従し、穴が成立しない領域は全面の帯とする。Colorの軸色とCornerマーカーの保護も確認する。
-87. TemplateLineのRate 0/0.7/1で全通常・区間分割・全Templateとなり、Invertでは各ラベルだけを交換する。Cube・ColorCube・ColorCornerCubeも尖り形状と母線と同じく端が通常、中央がTemplateとなり、保持したRateで区切る。Arrowの後ろの折れ角とくぼみは1経路の弧長で区切る。四分円・Line・CrossLine・単円Arc・CrossArcも確認する。
+87. TemplateLineのRate 0/0.7/1で全通常・区間分割・全Templateとなり、Invertでは各ラベルだけを交換する。Cube・ColorCube・ColorCornerCubeも尖り形状と母線と同じく端が通常、中央がTemplateとなり、保持したRateで区切る。Gear外周は歯先中央から次の歯先中央への実長を使い、谷がTemplate中央、歯先が通常中央となる。閉輪郭の始終端・Wideの追加輪郭で位相を保ち、内円はCircle規約を使う。Arrowの後ろの折れ角とくぼみは1経路の弧長で区切る。四分円・Line・CrossLine・単円Arc・CrossArcも確認する。
 88. Line/ArcのPart OFF・AtEnd・AtEnds・AtApexでTemplate区間を確認する。CrossArcのAtEndでも両円4端を通常とし、AtApexでは両円中央を通常にする。
 89. TemplateLineとTemplateFillの4組合せで線と面の選択可否を独立に確認し、Part・Fin・GuideLine・OffsetLineとColorCornerCubeのマーカーを変えない。Wideの帯や追加線、Partを移動した接合部も確認する。
 90. 立体WideのFillは厚み0のフレームを両面から表示し、穴の画素・面選択を残さない。幅0では通常線だけを残し、穴が消える幅では対象領域を全面の帯とする。

@@ -15,6 +15,7 @@ struct BodyTemplateDomain {
     double end = kPi;
     double parameterFirst = 0.0;
     double parameterLast = 1.0;
+    bool periodicParameter = false;
 };
 
 short bodyTemplateBaseOutline(short outline) {
@@ -100,6 +101,7 @@ bool bodyTemplateDomainIsTemplate(const BodyTemplateDomain& domain, const MPoint
         const double local = squared > 1e-20
             ? std::clamp(((point - domain.first) * direction) / squared, 0.0, 1.0) : 0.0;
         parameter = domain.parameterFirst + local * (domain.parameterLast - domain.parameterFirst);
+        if (domain.periodicParameter) parameter -= std::floor(parameter);
     }
     return bodyTemplateParameterIsTemplate(parameter, rate, domain.pattern);
 }
@@ -207,12 +209,67 @@ bool appendArrowTemplateDomains(const ShapeSettings& settings,
     return true;
 }
 
+bool appendGearTemplateDomains(const ShapeSettings& settings,
+    const BdControllerShapeNode::Geometry& reference, std::vector<BodyTemplateDomain>& domains) {
+    const MPointArray* outer = nullptr;
+    double perimeter = 0.0;
+    for (const auto& stroke : reference.strokes) {
+        if (stroke.length() < 4 || (stroke[0] - stroke[stroke.length() - 1]).length() > 1e-8) continue;
+        double length = 0.0;
+        for (unsigned int i = 1; i < stroke.length(); ++i) length += (stroke[i] - stroke[i - 1]).length();
+        if (length > perimeter) {
+            perimeter = length;
+            outer = &stroke;
+        }
+    }
+    if (!outer || perimeter < 1e-10) return false;
+    MPointArray path;
+    double outerRadiusSquared = 0.0;
+    for (unsigned int i = 0; i + 1 < outer->length(); ++i) {
+        const auto point = bodyTemplateReferencePoint((*outer)[i], settings);
+        path.append(point);
+        const auto radius = point - MPoint::origin;
+        outerRadiusSquared = std::max(outerRadiusSquared, radius * radius);
+    }
+    const unsigned int count = path.length();
+    unsigned int firstTip = 0, teeth = 0;
+    for (unsigned int i = 0; i < count; ++i) {
+        const auto first = path[i] - MPoint::origin;
+        const auto last = path[(i + 1) % count] - MPoint::origin;
+        if (std::abs(first * first - outerRadiusSquared) > 1e-10 ||
+            std::abs(last * last - outerRadiusSquared) > 1e-10) continue;
+        if (teeth++ == 0) firstTip = i;
+    }
+    if (teeth < 2) return false;
+    const double pitch = perimeter / teeth;
+    double position = -(path[(firstTip + 1) % count] - path[firstTip]).length() * 0.5;
+    appendBodyTemplateCircle(domains, MPoint::origin, MVector(1, 0, 0), MVector(0, 0, 1), 0.5 * 0.275);
+    // 歯先中央を整数位相に置き、元の短辺を分断せず両側の切替境界を扱う。
+    for (unsigned int i = 0; i < count; ++i) {
+        const auto first = path[(firstTip + i) % count];
+        const auto last = path[(firstTip + i + 1) % count];
+        const double length = (last - first).length();
+        if (length < 1e-10) continue;
+        BodyTemplateDomain domain;
+        domain.pattern = BodyTemplatePattern::TemplateMiddle;
+        domain.first = first;
+        domain.last = last;
+        domain.parameterFirst = position / pitch;
+        position += length;
+        domain.parameterLast = position / pitch;
+        domain.periodicParameter = true;
+        domains.push_back(domain);
+    }
+    return true;
+}
+
 std::vector<BodyTemplateDomain> bodyTemplateDomains(
     const ShapeSettings& settings, const BdControllerShapeNode::Geometry& reference
 ) {
     const short outline = bodyTemplateBaseOutline(outlinePresetIndex(settings.shape));
     std::vector<BodyTemplateDomain> domains;
     if (outline == 39 && appendArrowTemplateDomains(settings, reference, domains)) return domains;
+    if (outline == 0 && appendGearTemplateDomains(settings, reference, domains)) return domains;
     if (isArcOutline(outline)) {
         const double sweep = std::clamp(settings.circleAngle, 0.0, 2.0 * kPi);
         if (sweep < 1e-12) return domains;
@@ -420,6 +477,19 @@ void appendBodyTemplateDomainCuts(std::vector<double>& cuts, const BodyTemplateD
         }
     } else {
         boundaries = bodyTemplateParameterBoundaries(rate, domain.pattern);
+        if (domain.periodicParameter) {
+            const auto periodicBoundaries = std::move(boundaries);
+            boundaries.clear();
+            const double low = std::min(domain.parameterFirst, domain.parameterLast);
+            const double high = std::max(domain.parameterFirst, domain.parameterLast);
+            for (double boundary : periodicBoundaries) {
+                for (int period = static_cast<int>(std::floor(low)) - 1;
+                    period <= static_cast<int>(std::ceil(high)); ++period) {
+                    const double value = boundary + period;
+                    if (value >= low && value <= high) boundaries.push_back(value);
+                }
+            }
+        }
         if (domain.kind == BodyTemplateDomainKind::Arc) {
             for (auto& value : boundaries) value = domain.start + value * (domain.end - domain.start);
             boundaries.push_back(domain.start);

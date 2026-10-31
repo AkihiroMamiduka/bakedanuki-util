@@ -9,6 +9,8 @@
 
 ### Fixed
 
+- `bdControllerShape` の不透明なTemplate塗りに、同一面上の輪郭線が隠れる不具合を修正。
+  通常描画で輪郭の通常色・Template色を保ち、手前にある他のシーン形状による遮蔽は維持する。
 - `bdControllerShape` のSelection HighlightingがOFFのとき、選択中も実際の非選択時と同じ色を使うよう修正。
   実効overrideが無効な場合の通常色と、有効なshape・親・祖先・Display Layerのoverride色を区別する。
 - `bdControllerShape` の完全透明な線を描画・クリック選択から除外し、線の深度書込みで塗り面が欠ける不具合を修正。
@@ -21,6 +23,9 @@
 
 ### Changed
 
+- `bdControllerShape` のGear外周のTemplate区間を、歯先中央から次の歯先中央までの輪郭の実長で決めるよう変更。
+  谷をTemplate区間、歯先を通常区間の中央とし、既定のRate 0.7ではTemplate 70%・通常30%となる。
+  閉輪郭の始終端とWideの追加輪郭でも位相を保ち、内円のCircle規約、Rate 0/1・Invert、面のTemplateFill指定は維持する。
 - `bdControllerShape.shape` を24種類の基本本体へ整理し、既定は `Cube`（12）とした。
   `shapeAxisSwap`、`shapeWide`、`shapeTemplateLine`、`shapeTemplateLineRate`、
   `shapeTemplateFill` を共通属性として分離する。Wide・Swapped・SquareTemplate専用の公開enumは設けない。

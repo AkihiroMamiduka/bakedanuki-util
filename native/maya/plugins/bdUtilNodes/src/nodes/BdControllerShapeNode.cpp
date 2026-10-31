@@ -25,6 +25,7 @@
 #include <maya/MFnTypedAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MFrameContext.h>
+#include <maya/MHWGeometry.h>
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MMessage.h>
 #include <maya/MMatrix.h>
@@ -2430,6 +2431,7 @@ public:
                     ? MHWRender::MUIDrawManager::kNonSelectable
                     : MHWRender::MUIDrawManager::kSelectable
             );
+            drawManager.setDepthPriority(MHWRender::MRenderItem::sDormantFilledDepthPriority);
             MColor fillColor = part.marker ? color : appearance.fillColor;
             if (part.style == StrokeStyle::Template) {
                 fillColor = data->templateStrokeColor;
@@ -2465,6 +2467,8 @@ public:
                     ? MHWRender::MUIDrawManager::kNonSelectable
                     : MHWRender::MUIDrawManager::kSelectable
             );
+            // 同じ面上の塗りより線を手前へ寄せ、通常線とTemplate線をともに残す。
+            drawManager.setDepthPriority(MHWRender::MRenderItem::sDormantWireDepthPriority);
             drawManager.setColor(strokeColor);
             if (data->lineWidth > 1.0f) {
                 drawManager.setLineWidth(data->lineWidth);
@@ -2488,6 +2492,7 @@ public:
                     ? MHWRender::MUIDrawManager::kNonSelectable
                     : MHWRender::MUIDrawManager::kSelectable
             );
+            drawManager.setDepthPriority(MHWRender::MRenderItem::sDormantWireDepthPriority);
             drawManager.setColor(offsetColor);
             if (data->lineWidth > 1.0f) {
                 drawManager.setLineWidth(data->lineWidth);
