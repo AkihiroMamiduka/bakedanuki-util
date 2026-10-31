@@ -23,6 +23,8 @@
   利用側の`setMaxVisibleItems()`は優先する。`qt.QtWidgets.QComboBox`は元クラスを維持し、
   型の同一性を確認していた処理は元クラスへの`isinstance()`／`issubclass()`へ変更する。
   UI再生成で反映され、scene・保存設定の移行は不要。
+  2026-11-01、利用者からbdChannelBox経由の動作確認とcommit／push済みの報告を受け、
+  本拡張を完了とした。利用者の確認Maya versionは未申告（参照commit: `1c3f0b3c`）。
 - `bdControllerShape` の中央ガイドを `shapeGuideLine` / `shapeGuideLineTemplate`
   に統合し、十字付きの専用本体を整理して `shape` を41種類にした。
   ガイドは本体表面までとし、Square系、WideLine、WideCrossLine・Circleと各Swappedの

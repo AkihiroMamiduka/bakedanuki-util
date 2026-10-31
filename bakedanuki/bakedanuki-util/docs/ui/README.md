@@ -562,6 +562,12 @@ WindowsではQt標準に従い、タスクバーの領域もpopup表示に使う
 元クラスを必要とする型検証には`qt.QtWidgets.QComboBox`を使うと、共通サブクラスも
 受け付けられます。既存UIは作り直すと新しい既定値が反映されます。
 
+2026-11-01、共通`qt.QComboBox`の全件表示について、利用者からbdChannelBox経由での
+動作確認とcommit／push済みの報告を受け、本拡張を完了としました。
+利用者が確認したMaya versionは未申告です。参照commitは`1c3f0b3c`です。
+版別の自動テスト結果とMaya 2025 smokeのnative終了待機timeoutは、
+この利用者確認とは別の検証記録として扱います。
+
 ```python
 painter_path = qt.QtGui.QPainterPath()
 ```
