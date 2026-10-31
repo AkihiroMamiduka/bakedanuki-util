@@ -131,7 +131,6 @@ QRadioButton = QtWidgets.QRadioButton
 QLineEdit = QtWidgets.QLineEdit
 QTextEdit = QtWidgets.QTextEdit
 QPlainTextEdit = QtWidgets.QPlainTextEdit
-QComboBox = QtWidgets.QComboBox
 QSpinBox = QtWidgets.QSpinBox
 QDoubleSpinBox = QtWidgets.QDoubleSpinBox
 QSlider = QtWidgets.QSlider
@@ -168,6 +167,23 @@ QSizePolicy = QtWidgets.QSizePolicy
 QSpacerItem = QtWidgets.QSpacerItem
 QAbstractItemView = QtWidgets.QAbstractItemView
 QStyledItemDelegate = QtWidgets.QStyledItemDelegate
+
+
+class QComboBox(QtWidgets.QComboBox):
+    """画面内で可能な限り全候補を表示するコンボボックス。"""
+
+    def __init__(self, parent: QWidget | None = None) -> None:
+        """候補数を制限せず、画面を超える場合はQtのスクロールを使う。
+
+        利用側で`setMaxVisibleItems()`を呼ぶと、その表示件数を優先します。
+
+        Args:
+            parent: Qtの親Widget。
+        """
+        super().__init__(parent)
+        # Qtのint上限を既定にし、モデルの候補増減でも表示件数を制限しない
+        self.setMaxVisibleItems(2_147_483_647)
+
 
 __all__ = [
     "getCppPointer",

@@ -18,6 +18,11 @@
 
 ### Changed
 
+- `bd_util.ui.qt.QComboBox`を、画面内で可能な限り全候補を表示する共通サブクラスへ変更。
+  `EnumComboBox`と`BoolComboBox`にも適用し、画面を超える候補はQt標準でスクロールする。
+  利用側の`setMaxVisibleItems()`は優先する。`qt.QtWidgets.QComboBox`は元クラスを維持し、
+  型の同一性を確認していた処理は元クラスへの`isinstance()`／`issubclass()`へ変更する。
+  UI再生成で反映され、scene・保存設定の移行は不要。
 - `bdControllerShape` の中央ガイドを `shapeGuideLine` / `shapeGuideLineTemplate`
   に統合し、十字付きの専用本体を整理して `shape` を41種類にした。
   ガイドは本体表面までとし、Square系、WideLine、WideCrossLine・Circleと各Swappedの
