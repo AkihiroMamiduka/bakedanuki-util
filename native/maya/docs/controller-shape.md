@@ -13,7 +13,7 @@
 
 ## 現在の実装範囲
 
-2026-10-30時点で、基本本体24種類、全本体に対応するWide・軸交換・Template表示、Part11種類、
+2026-11-01時点で、基本本体24種類、全本体に対応するWide・軸交換・Template表示、Part11種類、
 Arc系の円周変形と接合、Fin、GuideLine、表示・選択・フォーカス範囲・キャッシュを扱います。
 Arc系の6種類のPartは円周変形、残る5種類の立体Partは寸法を保つ角度補正を使い、
 AtApexは共通の中央方向へ配置します。Arc系4基本形状ではFinとGuideLineを生成しません。
@@ -1045,7 +1045,7 @@ ArcRadialへAtApexのPartを追加した非対称な形状でも、行列適用�
 F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform も含むため、
 子の範囲は別途合算されます。Viewport 2.0 の描画 override はカリング用に
 形状本体・表示中の OffsetLine・表示中のフォーカス範囲プレビューを包む範囲を返します。
-クリック選択に使う線は、Templateではない本体線・Part・Finと、templateではないGuideLine・OffsetLineです。
+クリック選択に使うのは、Template指定がなく、完全透明でもない本体・Part・Fin・GuideLine・OffsetLineの線です。
 
 ここで `⊙` は成分ごとの積です。`shapeRootSize` は平行移動と軸オフセットにも影響し、
 `shapeSize` は頂点だけを拡縮します。既定の
@@ -1139,11 +1139,13 @@ Maya 上の挙動テストは [test_bd_controller_shape.py](../../../tests/maya/
 １つの shape に収められます。現在の円は 64 分割の折れ線で、NURBS の
 degree や surface を持つ形状ではありません。
 `shapeFill` がONの面は同じ shape 内で表示種別ごとの三角形列として保持し、線と同じ形状変形と
-`shapeAnimationTransformMatrix` を適用します。Square は２三角形、Circle は64分割の円板、
-WideArc系は円弧角度に応じた帯、Cube は６面の12三角形、Sphere は32経度×16緯度の球面です。
+`shapeAnimationTransformMatrix` を適用します。Wide OFFでは、Square は２三角形、Circle は64分割の円板、
+Cube は６面の12三角形、Sphere は32経度×16緯度の球面です。Wide ONでは帯面を生成し、
+WideArc系は円弧角度に応じた帯となります。
 薄線のArc系本体は面を持たず、FillをONにしたPartにだけ面を生成します。
 面の頂点も描画範囲と `boundsMode=Shape` の算出に含めます。
-立体面は外向きの頂点順序を保持し、現在のビューに向く三角形だけを描画へ渡します。
+閉じた立体の片面表示（`singleSided`）では外向きの頂点順序を保持し、現在のビューに向く三角形だけを描画へ渡します。
+厚み0のWideフレームは両面表示とし、この選別を適用しません。
 選別結果は形状・カメラ・親transformが変わるまで再利用します。
 Fillの表示で輪郭が変わる形状は、面を表示しない場合の線を形状キャッシュに保持します。
 `shapeDrawOnTop` がオンのときは、最前面表示に対応するためストロークを
@@ -1163,7 +1165,8 @@ Partの対象と配置点・小形状の作成・接合は
 GuideLineの対象・方向・終端も本体ごとに決め、下記の
 [GuideLineの保守と拡張](#guidelineの保守と拡張) の経路へ反映します。
 輪郭番号は enum 値とは別で、輪郭線の組み立ては `appendPresetGeometry()` にあります。
-線ごとの `Normal`・`Template`・軸色の指定もここで行います。
+元の線ごとの `Normal`・軸色などもここで指定します。本体のTemplate区間とPartのTemplate指定は
+`BdControllerShapeTemplate.inc` で接合後の形状へ反映し、元の線の指定と分けて保守します。
 塗り面を追加するときは `BdControllerShapeNode.cpp` の `makeFillParts()` に面を定義し、
 輪郭と同じ変形・外縁になることを確認します。template 面の選択可否も面側で指定します。
 
@@ -1275,13 +1278,32 @@ Crossの平面接合はWideCrossArcAxialとそのSwappedの仕様で、薄線Axi
 分割数や交点を変更する場合は、連続した曲線の理論上の極値と、生成頂点から得るboundsを区別してください。
 
 数値の回帰は `tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py`、
-描画の回帰は `tests/maya/ui/test_controller_shape_viewport.py` にあります。
+描画の回帰は [Viewport 2.0描画テストの分担表](testing-debugging.md#viewport-20描画テスト) に示す4ファイルにあります。
 `radial_circle`・`axial_circle`・`cross_circle` のテストを変更対象に応じて確認し、
 長さ6.7、複数周、負値・ゼロ、大きな幅、Offsetの接続保持、AtApexへの切替を含めます。
 数値・履歴・保存再読込の成功と、実GUIでの輪郭・半透明面の成功は別々に確認します。
 統一検証でbatch実行時の描画テストがskipしても、GUIでの成功を意味しません。
 再実行には [Viewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) の手順を使い、
 `build/` 内の一時的な起動スクリプトや画像の存在を前提にしないでください。
+
+### Template・Wide・描画を変更するときの保守規約
+
+- Templateの論理区間は `bodyTemplateReference()` のPart・Fin・Wide・Fill・AxisSwapを除いた基準輪郭から決めます。
+  `applyBodyTemplate()` は本体とPartの接合後、Fin・GuideLineと最終変形の前に適用します。
+  描画ストロークの細分化や切取り後の長さから割合を再計算せず、Wideも元の辺・円へ対応させます。
+- Wide CrossLine系の端を閉じる線のTemplate判定は `Geometry::bodyCaps` の実際の終端・軸・半幅を使います。
+  OptionsとWideCross3Axisの生成、切取り、合成を変更しても、この情報を引き継ぎます。
+  Partの保護領域を広げて端面を代用せず、`templatePartProtection()` とPart内部のTemplate指定を独立させます。
+- Gearは元の32辺に未折返しの弧長位相を保持し、`periodicParameter` の分類時だけ整数周期で折り返します。
+  境界分割では各辺に入る周期境界をすべて列挙し、歯先中央をまたぐ1辺の両側を残します。
+  高いRateとWideの通常幅・帯の和集合を使う幅でも、閉輪郭の継ぎ目と元の位相を確認します。
+- `StrokeStyle` を追加するときは、集約配列を `StrokeStyle::Count` に追従させ、
+  `axisStyledColor()` の軸・混色マスクも更新します。通常色、選択色、Template色への切替を一緒に確認します。
+- 非選択色の復元では `dormantWireframeColor()` の実効 `getDrawOverrideInfo().fOverrideEnabled` 判定を保ちます。
+  shapeの保存値だけで判断せず、親・上位DAG・Display Layerを含む有効なoverrideとobject色を扱います。
+- 面は `sDormantFilledDepthPriority`、通常線・Template線・OffsetLineは `sDormantWireDepthPriority` を使います。
+  描画順だけに依存せず同一面上の線を保ち、alphaが0の線は `beginDrawable()` より前に省略します。
+  通常描画と最前面表示で透明線による塗りの欠けを確認し、通常描画では他形状による遮蔽も保ちます。
 
 ### GuideLineの保守と拡張
 
@@ -1492,8 +1514,9 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 93. Arrow3DのHeight 0がArrow2Dと線・面・選択範囲で一致し、WidthとHeightを独立に変更できる。負のHeightは局所高さの方向だけを反転し、ArcRadialでは法線、ArcAxialでは半径方向へ作用する。
 94. Wide CrossLine3Axis系のPartで腕の終端が切り詰められても、本体の端を閉じる辺は実際の終端の通常区間に属する。Rate 1・Invertの例外規則とPartTemplateを切り替え、PartのTemplate指定が本体の端へ移らないことを確認する。
 
-実際のViewport 2.0を必要とする画像比較テストは
-`tests/maya/ui/test_controller_shape_viewport.py` にあります。既存作業とは別の
-Maya GUIプロセスでpytestから実行します。mayapyのbatch環境では明示的にskipします。
-再実行手順と画像比較の注意点は
+実際のViewport 2.0を必要とする画像比較テストは、`tests/maya/ui` の
+`test_controller_shape_viewport.py`、`test_controller_shape_wide_surfaces.py`、
+`test_controller_shape_display_colors.py`、`test_controller_shape_gear_template.py` の4ファイルです。
+既存作業とは別のMaya GUIプロセスでpytestから実行し、mayapyのbatch環境では明示的にskipします。
+ファイルの分担表・一括実行手順・画像比較の注意点は
 [Testing And DebuggingのViewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) を参照してください。
