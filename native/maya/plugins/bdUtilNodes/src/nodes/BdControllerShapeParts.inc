@@ -9,12 +9,17 @@ double partWidth(const ShapeSettings& settings) {
     return settings.partSize * settings.partWidthScale;
 }
 
+double partHeight(const ShapeSettings& settings) {
+    return settings.partSize * settings.partHeightScale;
+}
+
 double partFinHeight(const ShapeSettings& settings) {
     return settings.partFinHeight * settings.finSize;
 }
 
 bool hasPartAdjustment(const ShapeSettings& settings) {
-    return settings.partOffset != 0.0 || partLength(settings) != 1.0 || partWidth(settings) != 1.0;
+    return settings.partOffset != 0.0 || partLength(settings) != 1.0 ||
+        partWidth(settings) != 1.0 || partHeight(settings) != 1.0;
 }
 
 short partPreset(short outline) {
@@ -147,6 +152,34 @@ struct PartPlane {
 using PartPolygons = std::vector<std::vector<MPoint>>;
 
 PartPolygons outsideConvexPart(std::vector<MPoint> polygon, const std::vector<MPoint>& body) {
+    if (polygon.size() >= 3 && body.size() >= 3) {
+        const auto bounds = [](const std::vector<MPoint>& points) {
+            std::array<double, 4> result = {points[0].x, points[0].y, points[0].x, points[0].y};
+            for (const auto& point : points) {
+                result[0] = std::min(result[0], point.x);
+                result[1] = std::min(result[1], point.y);
+                result[2] = std::max(result[2], point.x);
+                result[3] = std::max(result[3], point.y);
+            }
+            return result;
+        };
+        const auto hasArea = [](const std::vector<MPoint>& points) {
+            double area = 0.0;
+            for (std::size_t i = 0; i < points.size(); ++i) {
+                const auto& a = points[i];
+                const auto& b = points[(i + 1) % points.size()];
+                area += a.x * b.y - a.y * b.x;
+            }
+            return std::abs(area) > 2e-12;
+        };
+        const auto polygonBounds = bounds(polygon);
+        const auto bodyBounds = bounds(body);
+        if (hasArea(polygon) && hasArea(body) &&
+            (polygonBounds[2] < bodyBounds[0] - 1e-10 || bodyBounds[2] < polygonBounds[0] - 1e-10 ||
+             polygonBounds[3] < bodyBounds[1] - 1e-10 || bodyBounds[3] < polygonBounds[1] - 1e-10)) {
+            return {std::move(polygon)};
+        }
+    }
     PartPolygons result;
     for (std::size_t edge = 0; edge < body.size() && !polygon.empty(); ++edge) {
         const auto a = body[edge];
@@ -191,11 +224,11 @@ double partPolygonArea(const std::vector<MPoint>& polygon) {
 // 本体の断面を差し引き、半透明面が本体と二重になるのを避ける。
 void appendOutsidePart(
     PartBuilder& builder, std::vector<MPoint> polygon, const std::vector<MPoint>& body,
-    const PartPlane& plane
+    const PartPlane& plane, StrokeStyle style = StrokeStyle::Normal
 ) {
     if (!builder.filled) return;
     if (body.size() < 3 || std::abs(partPolygonArea(body)) < 1.0e-12) {
-        builder.polygon(plane.points(polygon));
+        builder.polygon(plane.points(polygon), style);
         return;
     }
     bool convex = true;
@@ -224,7 +257,7 @@ void appendOutsidePart(
         }
         pieces = std::move(next);
     }
-    for (const auto& piece : pieces) builder.polygon(plane.points(piece));
+    for (const auto& piece : pieces) builder.polygon(plane.points(piece), style);
 }
 
 MPoint scaledPartPoint(const MPoint& point, const MPoint& pivot, const MVector& direction,
@@ -266,9 +299,9 @@ void appendAttachedPart(
         const MVector up = plane.along ^ plane.side;
         const PartPlane cross{plane.origin, up, plane.along};
         const MPoint base(0.0, settings.partOffset, 0.0);
-        const MPoint arm(crossHeight * partWidth(settings), settings.partOffset, 0.0);
+        const MPoint arm(crossHeight * partHeight(settings), settings.partOffset, 0.0);
         builder.stroke(cross.points({tip, arm, base}));
-        if (partLength(settings) != 0.0 && partWidth(settings) != 0.0) {
+        if (partLength(settings) != 0.0 && partHeight(settings) != 0.0) {
             const std::vector<MPoint> crossSection = {
                 MPoint(-0.5, -1.0, 0.0), MPoint(0.5, -1.0, 0.0),
                 MPoint(0.5, 0.0, 0.0), MPoint(-0.5, 0.0, 0.0),
@@ -346,7 +379,8 @@ double partSurfaceY(const std::vector<MPoint>& section, double x) {
 
 void appendFinPart(PartBuilder& builder, const ShapeSettings& settings,
                    const std::vector<MPoint>& body, const std::vector<MPoint>& outer,
-                   const std::vector<double>& heights, double pivotX) {
+                   const std::vector<double>& heights, double pivotX,
+                   StrokeStyle style = StrokeStyle::Normal) {
     if (partFinHeight(settings) == 0.0) return;
     double minX = body.front().x;
     double maxX = minX;
@@ -365,12 +399,13 @@ void appendFinPart(PartBuilder& builder, const ShapeSettings& settings,
         const auto& stroke = builder.geometry.strokes[i];
         if (stroke.length() == 2 && stroke[0].y == 0.5 && stroke[1].y == 0.5 &&
             stroke[0].z == 0.0 && stroke[1].z == 0.0 && stroke[0].x != stroke[1].x) {
+            const auto bodyStyle = builder.geometry.strokeStyles[i];
             builder.geometry.strokes.erase(builder.geometry.strokes.begin() + i);
             builder.geometry.strokeStyles.erase(builder.geometry.strokeStyles.begin() + i);
             const double low = std::min(firstX, lastX);
             const double high = std::max(firstX, lastX);
-            if (low > minX) builder.stroke({MPoint(minX, 0.5, 0), MPoint(low, 0.5, 0)});
-            if (high < maxX) builder.stroke({MPoint(high, 0.5, 0), MPoint(maxX, 0.5, 0)});
+            if (low > minX) builder.stroke({MPoint(minX, 0.5, 0), MPoint(low, 0.5, 0)}, bodyStyle);
+            if (high < maxX) builder.stroke({MPoint(high, 0.5, 0), MPoint(maxX, 0.5, 0)}, bodyStyle);
             break;
         }
         ++i;
@@ -378,7 +413,7 @@ void appendFinPart(PartBuilder& builder, const ShapeSettings& settings,
     std::vector<MPoint> polygon = {first};
     polygon.insert(polygon.end(), free.begin(), free.end());
     polygon.push_back(last);
-    builder.stroke(polygon);
+    builder.stroke(polygon, style);
     std::vector<MPoint> root;
     for (const auto& p : body) {
         if (p.x > std::min(firstX, lastX) && p.x < std::max(firstX, lastX) &&
@@ -389,7 +424,7 @@ void appendFinPart(PartBuilder& builder, const ShapeSettings& settings,
     });
     polygon.insert(polygon.end(), root.begin(), root.end());
     if (settings.finWidthScale * settings.finSize != 0.0) {
-        appendOutsidePart(builder, polygon, body, {MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0)});
+        appendOutsidePart(builder, polygon, body, {MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0)}, style);
     }
 }
 
@@ -397,19 +432,21 @@ std::vector<MPoint> appendOctahedronPart(PartBuilder& builder, const ShapeSettin
     const bool previousSingleSided = builder.singleSided;
     builder.singleSided = true;
     const double width = 0.5 * partWidth(settings);
-    const std::array<MPoint, 4> equator = {MPoint(0, width, 0), MPoint(0, 0, width),
-        MPoint(0, -width, 0), MPoint(0, 0, -width)};
+    const double height = 0.5 * partHeight(settings);
+    const std::array<MPoint, 4> equator = {MPoint(0, height, 0), MPoint(0, 0, width),
+        MPoint(0, -height, 0), MPoint(0, 0, -width)};
     const MPoint tip = scaledPartPoint(MPoint(0.5, 0, 0), MPoint::origin, MVector(1, 0, 0), settings);
     for (std::size_t i = 0; i < equator.size(); ++i) {
         const auto next = (i + 1) % equator.size();
         builder.stroke({equator[i], tip});
         builder.stroke({equator[i], equator[next]});
         builder.stroke({equator[i], MPoint(-0.5, 0, 0)});
-        builder.triangle(MPoint(-0.5, 0, 0), equator[next], equator[i]);
-        if (tip.x < 0.0) builder.triangle(tip, equator[next], equator[i]);
+        if (width * height < 0.0) builder.triangle(MPoint(-0.5, 0, 0), equator[i], equator[next]);
+        else builder.triangle(MPoint(-0.5, 0, 0), equator[next], equator[i]);
+        if ((tip.x < 0.0) != (width * height < 0.0)) builder.triangle(tip, equator[next], equator[i]);
         else builder.triangle(tip, equator[i], equator[next]);
     }
-    const double extent = std::abs(width);
+    const double extent = std::abs(height);
     builder.singleSided = previousSingleSided;
     return {MPoint(-0.5, 0, 0), MPoint(0, -extent, 0), tip, MPoint(0, extent, 0)};
 }

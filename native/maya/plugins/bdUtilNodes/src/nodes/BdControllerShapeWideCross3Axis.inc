@@ -36,7 +36,7 @@ std::vector<WideCross3AxisBox> wideCross3AxisBoxes(
             if (settings.partShape >= 6) {
                 // 尖った最内点ではなく、中心または広い底面まで重ねて実交差で接合する。
                 join = (sites[i].endpoint - MPoint::origin) * direction + settings.partOffset;
-                if (settings.partShape >= 9) join -= 0.1 * partLength(settings);
+                if (settings.partShape >= 9) join -= 0.1 * partLength(settings) * sites[i].sizeScale;
             }
             stop = std::max(0.0, join);
         }
@@ -134,6 +134,11 @@ void appendOptionWideCross3Axis(
     const std::vector<OptionSite>& sites, std::vector<OptionClipVolume>& bodyVolumes
 ) {
     const auto boxes = wideCross3AxisBoxes(settings, heads, sites);
+    for (const auto& box : boxes) {
+        const double end = box.minimum[box.axis] < 0 ? box.minimum[box.axis] : box.maximum[box.axis];
+        builder.geometry.bodyCaps.push_back({MPoint::origin + nativeAxis(box.axis) * end,
+            box.axis, settings.wideWidth * 0.5});
+    }
     if (settings.wideWidth <= 2e-12) {
         for (const auto& box : boxes) {
             const double end = box.minimum[box.axis] < 0 ? box.minimum[box.axis] : box.maximum[box.axis];

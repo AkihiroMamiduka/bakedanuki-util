@@ -61,7 +61,6 @@ bool appendAdjustedRadialCircle(PartBuilder& builder, const ShapeSettings& setti
     PartBuilder surface(true);
     for (std::size_t index = 1; index < angles.size(); ++index) {
         if (wide) surface.quad(outerPoints[index - 1], outerPoints[index], innerPoints[index], innerPoints[index - 1]);
-        else surface.triangle(MPoint::origin, outerPoints[index - 1], outerPoints[index]);
     }
     trimOptionGeometry(surface.geometry, cuts, true);
     if (wide) {
@@ -75,9 +74,6 @@ bool appendAdjustedRadialCircle(PartBuilder& builder, const ShapeSettings& setti
         line.stroke(outerPoints);
         trimOptionStrokes(line.geometry, cuts);
         mergeOptionGeometry(builder.geometry, std::move(line.geometry));
-        if (!wideBase && builder.filled) {
-            for (const auto& part : surface.geometry.fillParts) builder.geometry.fillParts.push_back(part);
-        }
         if (!settings.fill && !wideBase && settings.partShape <= 1) {
             // 開いたV字の矢印は、円弧から付け根中央を通る軸線でつなぐ。
             for (const auto& placement : placements) if (placement.onArc) {
@@ -86,7 +82,7 @@ bool appendAdjustedRadialCircle(PartBuilder& builder, const ShapeSettings& setti
             }
         }
     }
-    if (wide || (!wideBase && builder.filled)) {
+    if (wide) {
         for (const auto& part : surface.geometry.fillParts) for (unsigned int i = 0; i < part.triangles.length(); i += 3) {
             auto volume = optionPlanarVolume({part.triangles[i], part.triangles[i + 1], part.triangles[i + 2]});
             if (!volume.empty()) bodyVolumes.push_back(std::move(volume));

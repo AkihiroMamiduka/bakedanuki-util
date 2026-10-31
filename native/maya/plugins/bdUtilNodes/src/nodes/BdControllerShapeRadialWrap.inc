@@ -1,7 +1,6 @@
 ﻿// 円周上の弧長と半径方向の幅から主面を作り、立ち上がりを円平面の法線へ向ける。
 struct RadialWrapData {
     AxialWrapData profile;
-    std::vector<AxialWrapEdge> body;
 };
 
 bool radialWrapWide(const ShapeSettings& settings) {
@@ -26,18 +25,6 @@ RadialWrapData makeRadialWrapData(const ShapeSettings& settings) {
     source.wideWidth = wide ? std::max(0.0, settings.wideWidth) : 0.0;
     data.profile = makeAxialWrapData(source);
     if (data.profile.slices.empty()) return data;
-    const auto bodyCount = data.profile.main.size() - data.profile.heads.size();
-    data.body.assign(data.profile.main.begin(), data.profile.main.begin() + bodyCount);
-    if (!wide && settings.fill) {
-        // 扇形の塗りは元の円弧全域を保ち、頭部と半径区間だけを合成する。
-        const double sweep = std::clamp(settings.circleAngle, 0.0, 2.0 * kPi);
-        data.body.clear();
-        std::vector<AxialWrapSpoke> spokes;
-        addAxialWrapEdge(data.body, spokes, (kPi - sweep) * 0.25, (kPi + sweep) * 0.25, 0.0, 0.0);
-        data.profile.main = data.body;
-        data.profile.main.insert(data.profile.main.end(), data.profile.heads.begin(), data.profile.heads.end());
-        appendAxialWrapCuts(data.profile.slices, data.profile.main);
-    }
     // 内周が中心へ達する位置も輪郭と面で共有する。
     appendRadialWrapLevelCuts(data.profile.slices, data.profile.main, 0.5);
     std::sort(data.profile.slices.begin(), data.profile.slices.end());
@@ -52,20 +39,19 @@ MPoint radialWrapPoint(double position, double radius, double height = 0.0) {
 }
 
 void appendRadialWrapFaces(PartBuilder& surface,
-    const std::vector<AxialWrapInterval>& intervals,
-    const std::vector<AxialWrapInterval>& disk, bool crest) {
+    const std::vector<AxialWrapInterval>& intervals, bool crest, const ShapeSettings& settings) {
     for (std::size_t i = 0; i < intervals.size(); ++i) {
         const auto& interval = intervals[i];
         if (!interval.active) continue;
         const auto a = radialWrapPoint(interval.first, 0.5);
         const auto b = radialWrapPoint(interval.last, 0.5);
         if (crest) {
-            surface.quad(a, b, radialWrapPoint(interval.last, 0.5, interval.lastHeight),
-                radialWrapPoint(interval.first, 0.5, interval.firstHeight));
+            const double sign = partHeight(settings) < 0.0 ? -1.0 : 1.0;
+            surface.quad(a, b, radialWrapPoint(interval.last, 0.5, interval.lastHeight * sign),
+                radialWrapPoint(interval.first, 0.5, interval.firstHeight * sign));
         } else {
-            const bool filledBody = !disk.empty() && disk[i].active;
-            const double firstInner = filledBody ? 0.0 : std::max(0.0, 0.5 - interval.firstHeight);
-            const double lastInner = filledBody ? 0.0 : std::max(0.0, 0.5 - interval.lastHeight);
+            const double firstInner = std::max(0.0, 0.5 - interval.firstHeight);
+            const double lastInner = std::max(0.0, 0.5 - interval.lastHeight);
             // 半径0.5を共有辺にし、追加面の根元と主面を同じ頂点でつなぐ。
             surface.quad(radialWrapPoint(interval.first, firstInner),
                 radialWrapPoint(interval.last, lastInner), b, a);
@@ -78,10 +64,11 @@ void appendRadialWrapFaces(PartBuilder& surface,
 void appendRadialWrapBoundary(AxialWrapSegments& segments,
     const std::vector<AxialWrapInterval>& intervals,
     const std::vector<AxialWrapSpoke>& spokes,
-    const std::vector<AxialWrapInterval>& disk, bool crest, bool openArrow) {
+    bool crest, bool openArrow, const ShapeSettings& settings) {
     if (intervals.empty()) return;
+    const double sign = partHeight(settings) < 0.0 ? -1.0 : 1.0;
     const auto point = [&](double position, double extent) {
-        return crest ? radialWrapPoint(position, 0.5, extent)
+        return crest ? radialWrapPoint(position, 0.5, extent * sign)
             : radialWrapPoint(position, 0.5 + extent);
     };
     for (std::size_t i = 0; i < intervals.size(); ++i) {
@@ -95,8 +82,7 @@ void appendRadialWrapBoundary(AxialWrapSegments& segments,
         } else {
             addAxialWrapSegment(segments, point(interval.first, interval.firstHeight),
                 point(interval.last, interval.lastHeight));
-            if ((!disk.empty() && disk[i].active) ||
-                (interval.firstHeight <= 1e-12 && interval.lastHeight <= 1e-12)) continue;
+            if (interval.firstHeight <= 1e-12 && interval.lastHeight <= 1e-12) continue;
             addAxialWrapSegment(segments, point(interval.first, -interval.firstHeight),
                 point(interval.last, -interval.lastHeight));
         }
@@ -108,10 +94,9 @@ void appendRadialWrapBoundary(AxialWrapSegments& segments,
         const double before = previous.active ? previous.lastHeight : 0.0;
         const double after = next.active ? next.firstHeight : 0.0;
         const double low = std::min(before, after), high = std::max(before, after);
-        const bool insideDisk = !disk.empty() && (disk[previousIndex].active || disk[i].active);
         if (!openArrow && high - low > 1e-12) {
             addAxialWrapSegment(segments, point(next.first, low), point(next.first, high));
-            if (!crest && !insideDisk) {
+            if (!crest) {
                 addAxialWrapSegment(segments, point(next.first, -low), point(next.first, -high));
             }
         }
@@ -121,7 +106,7 @@ void appendRadialWrapBoundary(AxialWrapSegments& segments,
         }
         if (spokeHeight - high > 1e-12) {
             addAxialWrapSegment(segments, point(next.first, high), point(next.first, spokeHeight));
-            if (!crest && !insideDisk) {
+            if (!crest) {
                 addAxialWrapSegment(segments, point(next.first, -high), point(next.first, -spokeHeight));
             }
         }
@@ -139,16 +124,13 @@ PartGeometry makeRadialWrappedGeometry(const ShapeSettings& settings) {
     const auto data = makeRadialWrapData(settings);
     const auto main = axialWrapIntervals(data.profile.slices, data.profile.main);
     const auto crest = axialWrapIntervals(data.profile.slices, data.profile.crest);
-    const bool filledCircle = !radialWrapWide(settings) && settings.fill;
-    const auto disk = filledCircle ? axialWrapIntervals(data.profile.slices, data.body)
-        : std::vector<AxialWrapInterval>{};
     PartBuilder builder(settings.fill);
-    appendRadialWrapFaces(builder, main, disk, false);
-    appendRadialWrapFaces(builder, crest, {}, true);
+    appendRadialWrapFaces(builder, main, false, settings);
+    appendRadialWrapFaces(builder, crest, true, settings);
     AxialWrapSegments segments;
     const bool openArrow = !radialWrapWide(settings) && !settings.fill && settings.partShape <= 1;
-    appendRadialWrapBoundary(segments, main, data.profile.spokes, disk, false, openArrow);
-    appendRadialWrapBoundary(segments, crest, data.profile.crestSpokes, {}, true, false);
+    appendRadialWrapBoundary(segments, main, data.profile.spokes, false, openArrow, settings);
+    appendRadialWrapBoundary(segments, crest, data.profile.crestSpokes, true, false, settings);
     appendAxialWrapStrokes(builder, std::move(segments));
     return std::move(builder.geometry);
 }
@@ -156,8 +138,8 @@ PartGeometry makeRadialWrappedGeometry(const ShapeSettings& settings) {
 std::vector<OptionClipVolume> radialWrappedPartClipVolumes(const ShapeSettings& settings) {
     const auto data = makeRadialWrapData(settings);
     PartBuilder parts(true);
-    appendRadialWrapFaces(parts, axialWrapIntervals(data.profile.slices, data.profile.heads), {}, false);
-    appendRadialWrapFaces(parts, axialWrapIntervals(data.profile.slices, data.profile.crest), {}, true);
+    appendRadialWrapFaces(parts, axialWrapIntervals(data.profile.slices, data.profile.heads), false, settings);
+    appendRadialWrapFaces(parts, axialWrapIntervals(data.profile.slices, data.profile.crest), true, settings);
     std::vector<OptionClipVolume> volumes;
     for (const auto& part : parts.geometry.fillParts) for (unsigned int i = 0; i < part.triangles.length(); i += 3) {
         auto volume = optionPlanarVolume({part.triangles[i], part.triangles[i + 1], part.triangles[i + 2]});

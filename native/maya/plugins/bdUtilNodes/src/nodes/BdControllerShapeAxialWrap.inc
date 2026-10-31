@@ -103,6 +103,7 @@ AxialWrapData makeAxialWrapData(const ShapeSettings& settings) {
     const double last = (kPi + sweep) * 0.25;
     const double length = partLength(settings);
     const double width = partWidth(settings);
+    const double height = partHeight(settings);
     const double depth = settings.partShape <= 1 ? 0.1 * std::cos(kPi / 6.0) * length : 0.1 * length;
     const bool both = settings.partType == 1;
     double bodyFirst = first, bodyLast = last;
@@ -133,7 +134,7 @@ AxialWrapData makeAxialWrapData(const ShapeSettings& settings) {
         if (settings.partShape == 1) {
             const double base = anchor - direction * depth;
             addAxialWrapProfile(data.crest, data.crestSpokes,
-                {MPoint(base, 0, 0), MPoint(base, 0.05 * std::abs(width), 0), MPoint(anchor, 0, 0)});
+                {MPoint(base, 0, 0), MPoint(base, 0.05 * std::abs(height), 0), MPoint(anchor, 0, 0)});
         }
     }
     data.main.insert(data.main.end(), data.heads.begin(), data.heads.end());
@@ -189,8 +190,9 @@ void appendAxialWrapFaces(PartBuilder& surface,
         const auto a = axialWrapPoint(interval.first, 0.0, 0.0, settings);
         const auto b = axialWrapPoint(interval.last, 0.0, 0.0, settings);
         if (crest) {
-            surface.quad(a, b, axialWrapPoint(interval.last, 0.0, interval.lastHeight, settings),
-                axialWrapPoint(interval.first, 0.0, interval.firstHeight, settings));
+            const double sign = partHeight(settings) < 0.0 ? -1.0 : 1.0;
+            surface.quad(a, b, axialWrapPoint(interval.last, 0.0, interval.lastHeight * sign, settings),
+                axialWrapPoint(interval.first, 0.0, interval.firstHeight * sign, settings));
         } else {
             const auto firstSide = nativeAxis(0) * interval.firstHeight;
             const auto lastSide = nativeAxis(0) * interval.lastHeight;
@@ -216,8 +218,11 @@ void appendAxialWrapBoundary(AxialWrapSegments& segments,
     const std::vector<AxialWrapInterval>& intervals,
     const std::vector<AxialWrapSpoke>& spokes, bool crest, const ShapeSettings& settings) {
     if (intervals.empty()) return;
+    const bool openArrow = !crest && !isWideArcOutline(outlinePresetIndex(settings.shape)) &&
+        !settings.fill && settings.partShape <= 1;
+    const double sign = partHeight(settings) < 0.0 ? -1.0 : 1.0;
     const auto point = [&](double position, double extent) {
-        return crest ? axialWrapPoint(position, 0.0, extent, settings) : axialWrapPoint(position, extent, 0.0, settings);
+        return crest ? axialWrapPoint(position, 0.0, extent * sign, settings) : axialWrapPoint(position, extent, 0.0, settings);
     };
     for (const auto& interval : intervals) {
         if (!interval.active) continue;
@@ -241,7 +246,7 @@ void appendAxialWrapBoundary(AxialWrapSegments& segments,
         const double before = previous.active ? previous.lastHeight : 0.0;
         const double after = next.active ? next.firstHeight : 0.0;
         const double low = std::min(before, after), high = std::max(before, after);
-        if (high - low > 1e-12) {
+        if (!openArrow && high - low > 1e-12) {
             addAxialWrapSegment(segments, point(next.first, low), point(next.first, high));
             if (!crest) addAxialWrapSegment(segments, point(next.first, -low), point(next.first, -high));
         }
@@ -252,6 +257,13 @@ void appendAxialWrapBoundary(AxialWrapSegments& segments,
         if (spokeHeight - high > 1e-12) {
             addAxialWrapSegment(segments, point(next.first, high), point(next.first, spokeHeight));
             if (!crest) addAxialWrapSegment(segments, point(next.first, -high), point(next.first, -spokeHeight));
+        }
+    }
+    if (openArrow) {
+        // 薄線の矢印は根元を閉じず、円筒面の中央線を円周上の先端まで残す。
+        for (const auto& interval : intervals) if (interval.active) {
+            addAxialWrapSegment(segments, axialWrapPoint(interval.first, 0.0, 0.0, settings),
+                axialWrapPoint(interval.last, 0.0, 0.0, settings));
         }
     }
 }

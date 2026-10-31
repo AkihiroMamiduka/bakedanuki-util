@@ -1,44 +1,27 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 41> kPresetNames = {
+constexpr std::array<const char*, 24> kPresetNames = {
     "Gear",
-    "GearSwapped",
     "Line",
-    "WideLine",
     "CrossLine",
-    "WideCrossLine",
     "Triangle",
     "Square",
-    "SquareTemplate",
     "Diamond",
     "Circle",
-    "WideCircle",
-    "CrossLineSwapped",
-    "WideCrossLineSwapped",
-    "TriangleSwapped",
-    "SquareSwapped",
-    "SquareTemplateSwapped",
-    "DiamondSwapped",
-    "CircleSwapped",
-    "WideCircleSwapped",
+    "ArcRadial",
+    "ArcAxial",
+    "CrossArcRadial",
+    "CrossArcAxial",
     "CrossLine3Axis",
-    "WideCrossLine3Axis",
     "Cube",
     "Octahedron",
     "OctahedronArrow",
-    "Arc",
-    "WideArcRadial",
-    "WideArcAxial",
-    "CrossArc",
-    "WideCrossArcRadial",
-    "WideCrossArcAxial",
     "Sphere",
     "Cylinder",
     "Arrow",
     "Pyramid",
     "Cone",
     "ColorCrossLine3Axis",
-    "ColorWideCrossLine3Axis",
     "ColorCube",
     "ColorCornerCube",
     "ColorSphere",
@@ -48,53 +31,45 @@ enum class PartEnds { Both, End };
 
 struct PresetInfo {
     short outlineIndex;
-    bool swapped = false;
     PartEnds partEnds = PartEnds::Both;
     short partAxis = -1;
 };
 
-constexpr std::array<PresetInfo, 41> kPresetInfo = {{
+// 公開する基本形状の後ろに、既存の帯生成で使う内部形状を置く。
+constexpr std::array<PresetInfo, 33> kPresetInfo = {{
     {0},  // Gear
-    {0, true},  // GearSwapped
     {1},  // Line
-    {104},  // WideLine
     {53},  // CrossLine
-    {106},  // WideCrossLine
     {6},  // Triangle
     {8},  // Square
-    {110},  // SquareTemplate
     {79},  // Diamond
     {116},  // Circle
-    {117},  // WideCircle
-    {53, true},  // CrossLineSwapped
-    {106, true},  // WideCrossLineSwapped
-    {6, true},  // TriangleSwapped
-    {8, true},  // SquareSwapped
-    {110, true},  // SquareTemplateSwapped
-    {79, true},  // DiamondSwapped
-    {116, true},  // CircleSwapped
-    {117, true},  // WideCircleSwapped
+    {27},  // ArcRadial
+    {120},  // ArcAxial
+    {113},  // CrossArcRadial
+    {121},  // CrossArcAxial
     {5},  // CrossLine3Axis
-    {118},  // WideCrossLine3Axis
     {19},  // Cube
     {24},  // Octahedron
     {25},  // OctahedronArrow
-    {27},  // Arc
-    {111},  // WideArcRadial
-    {112},  // WideArcAxial
-    {113},  // CrossArc
-    {114},  // WideCrossArcRadial
-    {115},  // WideCrossArcAxial
     {33},  // Sphere
     {36},  // Cylinder
     {39},  // Arrow
     {41},  // Pyramid
     {43},  // Cone
     {45},  // ColorCrossLine3Axis
-    {119},  // ColorWideCrossLine3Axis
     {50},  // ColorCube
     {51},  // ColorCornerCube
     {46},  // ColorSphere
+    {104},  // WideLine
+    {106},  // WideCrossLine
+    {117},  // WideCircle
+    {111},  // WideArcRadial
+    {112},  // WideArcAxial
+    {114},  // WideCrossArcRadial
+    {115},  // WideCrossArcAxial
+    {118},  // WideCrossLine3Axis
+    {119},  // ColorWideCrossLine3Axis
 }};
 
 constexpr short cubePresetIndex() {
@@ -111,30 +86,71 @@ short outlinePresetIndex(short shape) {
         ? kPresetInfo[shape].outlineIndex : 0;
 }
 
-bool isSwappedPreset(short shape) {
-    return shape >= 0 && shape < static_cast<short>(kPresetInfo.size()) && kPresetInfo[shape].swapped;
+short baseOutlineIndex(short outline) {
+    switch (outline) {
+        case 104: return 1;
+        case 106: return 53;
+        case 117: return 116;
+        case 111: return 27;
+        case 112: return 120;
+        case 114: return 113;
+        case 115: return 121;
+        case 118: return 5;
+        case 119: return 45;
+        default: return outline;
+    }
 }
 
-// 旧YZ平面の本体と付属形状は、接合を終えてから主軸を含むXZ平面へ揃える。
-bool hasLegacyPlanarOrientation(short outline) {
-    return outline == 0 || outline == 6 || outline == 8 || outline == 79 ||
-        (outline >= 108 && outline <= 110) || outline == 116 || outline == 117;
-}
-
-MPoint presetOrientedPoint(const MPoint& point, short shape) {
-    const bool exchange = hasLegacyPlanarOrientation(outlinePresetIndex(shape)) != isSwappedPreset(shape);
-    return exchange ? MPoint(point.y, point.x, -point.z) : point;
+short wideOutlineIndex(short outline) {
+    switch (outline) {
+        case 1: return 104;
+        case 53: return 106;
+        case 116: return 117;
+        case 27: return 111;
+        case 120: return 112;
+        case 113: return 114;
+        case 121: return 115;
+        case 5: return 118;
+        case 45: return 119;
+        default: return outline;
+    }
 }
 
 bool isArcOutline(short outline) {
-    return outline == 27 || (outline >= 111 && outline <= 115);
+    return outline == 27 || (outline >= 111 && outline <= 115) || outline == 120 || outline == 121;
+}
+
+bool isColorOutline(short outline) {
+    return (outline >= 45 && outline <= 51) || (outline >= 74 && outline <= 78) || outline == 119;
 }
 
 short crossCircleBaseOutline(short outline) {
     if (outline == 113) return 27;
     if (outline == 114) return 111;
     if (outline == 115) return 112;
+    if (outline == 121) return 120;
     return -1;
+}
+
+bool isAxialArcOutline(short outline) {
+    const short base = crossCircleBaseOutline(outline);
+    return outline == 112 || outline == 120 || base == 112 || base == 120;
+}
+
+bool isWideArcOutline(short outline) {
+    const short base = crossCircleBaseOutline(outline);
+    return outline == 111 || outline == 112 || base == 111 || base == 112;
+}
+
+// 旧YZ平面の本体と付属形状は、接合を終えてから主軸を含むXZ平面へ揃える。
+bool hasLegacyPlanarOrientation(short outline) {
+    return outline == 0 || outline == 6 || outline == 8 || outline == 79 ||
+        (outline >= 108 && outline <= 110) || outline == 116 || outline == 117 || isArcOutline(outline);
+}
+
+MPoint presetOrientedPoint(const MPoint& point, short shape, bool axisSwap = false) {
+    const bool exchange = hasLegacyPlanarOrientation(outlinePresetIndex(shape)) != axisSwap;
+    return exchange ? MPoint(point.y, point.x, -point.z) : point;
 }
 
 short presetPartAxis(short shape) {
@@ -1023,7 +1039,7 @@ MPoint crossLineEndSolidPoint(
     const MVector up = direction ^ side;
     return MPoint::origin + direction * crossLineEndSolidAlong(point.x, outline, settings)
         + side * (0.1 * point.y * settings.partWidthScale * settings.partSize)
-        + up * (0.1 * point.z * settings.partWidthScale * settings.partSize);
+        + up * (0.1 * point.z * settings.partHeightScale * settings.partSize);
 }
 
 void appendCrossLineEndSolids(

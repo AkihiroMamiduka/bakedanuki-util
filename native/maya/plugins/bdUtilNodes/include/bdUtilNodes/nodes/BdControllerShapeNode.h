@@ -26,6 +26,11 @@ enum class StrokeStyle : unsigned char {
     AxisX,
     AxisY,
     AxisZ,
+    AxisXY,
+    AxisXZ,
+    AxisYZ,
+    AxisXYZ,
+    Count,
 };
 
 class BdControllerShapeNode final : public MPxLocatorNode {
@@ -43,6 +48,11 @@ public:
     bool excludeAsLocator() const override;
 
     struct Geometry {
+        struct BodyCap {
+            MPoint center;
+            unsigned int axis;
+            double halfWidth;
+        };
         struct FillPart {
             MPointArray triangles;
             StrokeStyle style = StrokeStyle::Normal;
@@ -53,6 +63,7 @@ public:
         std::vector<MPointArray> strokes;
         std::vector<StrokeStyle> strokeStyles;
         std::vector<FillPart> fillParts;
+        std::vector<BodyCap> bodyCaps;
         std::shared_ptr<const Geometry> wireframeGeometry;
         std::vector<MPointArray> boundsPreview;
         MPointArray offsetLine;
@@ -71,6 +82,14 @@ public:
     static const MString drawRegistrantId;
 
     static MObject shape;
+    static MObject shapeAxisSwap;
+    static MObject shapeWide;
+    static MObject shapeTemplateLine;
+    static MObject shapeTemplateLineRate;
+    static MObject shapeTemplateLineInvert;
+    static MObject shapeTemplateFill;
+    static MObject shapePartTemplate;
+    static MObject shapeFinTemplate;
     static MObject shapeWideWidth;
     static MObject shapeArcAngle;
     static MObject shapePart;
@@ -126,7 +145,10 @@ public:
     static MObject shapePartOffset;
     static MObject shapePartLengthScale;
     static MObject shapePartWidthScale;
+    static MObject shapePartHeightScale;
     static MObject shapePartSize;
+    static MObject shapePartPrimarySizeScale;
+    static MObject shapePartOtherSizeScale;
     static MObject shapeOffsetLine;
     static MObject shapeOffsetLineTemplate;
     static MObject shapeLineWidth;

@@ -9,6 +9,11 @@
 
 ### Fixed
 
+- `bdControllerShape` の不透明なTemplate塗りに、同一面上の輪郭線が隠れる不具合を修正。
+  通常描画で輪郭の通常色・Template色を保ち、手前にある他のシーン形状による遮蔽は維持する。
+- `bdControllerShape` のSelection HighlightingがOFFのとき、選択中も実際の非選択時と同じ色を使うよう修正。
+  実効overrideが無効な場合の通常色と、有効なshape・親・祖先・Display Layerのoverride色を区別する。
+- `bdControllerShape` の完全透明な線を描画・クリック選択から除外し、線の深度書込みで塗り面が欠ける不具合を修正。
 - byteのhard limitで下限0／上限255を個別に未指定扱いにしていた判定を修正。
   型既定の全範囲0～255だけを除外し、`overrideColor`の0～31などは両端を保持する。
   bdChannelBoxの整数Slider選別を修正し、既存の入力制限・設定・sceneの移行は不要。
@@ -18,6 +23,7 @@
 
 ### Changed
 
+<<<<<<< HEAD
 - `bd_util.ui.qt.QComboBox`を、画面内で可能な限り全候補を表示する共通サブクラスへ変更。
   `EnumComboBox`と`BoolComboBox`にも適用し、画面を超える候補はQt標準でスクロールする。
   利用側の`setMaxVisibleItems()`は優先する。`qt.QtWidgets.QComboBox`は元クラスを維持し、
@@ -25,12 +31,59 @@
   UI再生成で反映され、scene・保存設定の移行は不要。
   2026-11-01、利用者からbdChannelBox経由の動作確認とcommit／push済みの報告を受け、
   本拡張を完了とした。利用者の確認Maya versionは未申告（参照commit: `1c3f0b3c`）。
+=======
+- `bdControllerShape` のGear外周のTemplate区間を、歯先中央から次の歯先中央までの輪郭の実長で決めるよう変更。
+  谷をTemplate区間、歯先を通常区間の中央とし、既定のRate 0.7ではTemplate 70%・通常30%となる。
+  閉輪郭の始終端とWideの追加輪郭でも位相を保ち、内円のCircle規約、Rate 0/1・Invert、面のTemplateFill指定は維持する。
+- `bdControllerShape.shape` を24種類の基本本体へ整理し、既定は `Cube`（12）とした。
+  `shapeAxisSwap`、`shapeWide`、`shapeTemplateLine`、`shapeTemplateLineRate`、
+  `shapeTemplateFill` を共通属性として分離する。Wide・Swapped・SquareTemplate専用の公開enumは設けない。
+  全本体でWideを選べ、線と平面は帯、立体は面・曲面上の厚み0のフレームを両面表示する。
+  本体のFillは帯だけへ適用し、穴は塗りも選択面も持たない。多面体の元稜線とColorCornerCubeの小四角は維持する。
+  Sphereは3大円由来の帯の和集合とし、中央線・交差の継ぎ目・色境界線を消す。
+  ColorSphereの単独帯は軸色、XYの重なりは黄、XZはマゼンタ、YZはシアン、XYZはグレーとし、
+  混色の有効RGB成分は0.75とする。全球面を覆う幅でFill OFFなら通常3円へ戻す。
+  正の幅のWide Cylinderは元の4母線を描かず、端円と帯の輪郭を残す。幅0は通常Cylinderの表示へ戻す。
+  AxisSwapは主軸と補助軸を交換し、第3軸を反転する。Color系はPart・Finだけを交換する。
+  軸属性値・AxisOffset・Axis系TRSと独立したCustom Boundsの意味は維持する。
+- `bdControllerShape` の本体線と本体面を独立してTemplate表示にできるようにした。
+  線の割合は既定0.7、0で全線通常、1で全本体線Templateとする。
+  `shapeTemplateLineInvert` は区間の通常・Templateをそのまま反転し、Rate 0/1も交換する。
+  多角形・立体稜線、Line・CrossLine、円・Arcの論理区間ごとの割当てに従い、
+  CrossArcのAtEndでも両円の4端を通常表示にする。
+  Cube・ColorCube・ColorCornerCubeの稜線は保持したRateに従い中央をTemplate、両端を通常表示にする。
+  Wide CrossLine3Axis系へPartを付けた場合は切取り後の本体終端を通常区間の端として扱い、
+  PartTemplateの指定を本体の端へ引き継がない。
+  尖り形状とCylinder・Coneの母線は端を通常、中央をTemplateとし、Arrowは先端・両肩を端点とする3経路の弧長を使う。
+  `shapePartTemplate` と `shapeFinTemplate` で各部品の線・面も個別にTemplate化できる。
+  本体・各部品・GuideLine・OffsetLineの指定を独立させ、ColorCornerCubeのマーカーを保護する。
+  Channel Boxは先頭の区切り直後へ軸2属性・AxisSwap・基本本体をまとめ、
+  Fillの後へLine・Rate・Invert・Fill・Part・Fin・Guide・OffsetのTemplate8属性をまとめる。
+  先頭を含む16本の区切り・16区画とし、AxisOffset・Direction・LengthはOffsetLine後・TRS前に残す。
+- `bdControllerShape.shapePartHeightScale` を追加し、Length・Width・Heightを独立した局所軸の倍率にした。
+  Heightは符号を保ち、Arrow3Dの追加面と立体Part、OctahedronArrow本体へ適用する。
+  Arrow3DのHeight 0はArrow2Dと一致し、ArcRadialでは法線、ArcAxialでは半径方向の高さを調整する。
+- `bdControllerShape` の非Arc系の `AtEnds` に、代表用の `shapePartPrimarySizeScale` と
+  その他用の `shapePartOtherSizeScale` を追加した。共通の `shapePartSize` へ掛け合わせ、
+  全11種類のPartの寸法を個別に調整できる。既定値は1と0.5で、両方1なら等サイズ、Otherが0なら代表だけを残す。
+  0の配置は省略し、両方0なら本体・Fin・GuideLine・BoundsをPart OFFと同じにする。
+  負値も許容し、配置ピボットとOffsetは維持する。AtEnd・AtApex・Arc系4基本形状では設定を保持して無視する。
+- `bdControllerShape` のColor系本体は向きと軸色を固定したまま、
+  `shape1stAxis` / `shape2ndAxis` と `shapeAxisSwap` にPart・Finの配置姿勢だけを追従させる。
+  回転無視・負スケールの絶対値化など、Color系の他の変形規則とPart・Finの対応本体は維持する。
+  Arc系を除くPart対応本体の `AtEnds` は全11種類のPartで、追加倍率の既定値なら代表1つを標準サイズ、
+  残りを0.5倍にする。配置ピボットとOffsetの距離、Arc系のサイズ規約は維持する。
+- `bdControllerShape` のArc系をArcRadial・ArcAxial・CrossArcRadial・CrossArcAxialの4基本形状とした。
+  通常版の基準円を主軸と第3軸の平面、中央方向を+主軸へ揃え、Cross版は主軸と補助軸の平面を追加する。
+  角度は中央方向を固定して両端を対称に動かし、薄線本体のFillはPartだけへ適用する。
+  Wideの幅0は対応する薄線本体の線・Part・Boundsと一致させ、Fin・GuideLineは4基本形状とも対象外とする。
+>>>>>>> feature/bdControllerShape
 - `bdControllerShape` の中央ガイドを `shapeGuideLine` / `shapeGuideLineTemplate`
-  に統合し、十字付きの専用本体を整理して `shape` を41種類にした。
+  に統合し、十字付きの専用本体を整理した。
   ガイドは本体表面までとし、Square系、WideLine、WideCrossLine・Circleと各Swappedの
   Arrow先端接続、WideCircle系の内周停止、
   Color系の正側RGB・負側通常色と、ガイドだけのtemplate表示・選択不可に対応する。
-  GuideLineの2属性をFinとOffsetLineの間へ配置し、Channel Boxを15区画にした。
+  GuideLineのON/OFFはFinとOffsetLineの間に置き、Template指定は共通のTemplate区画へまとめる。
   `shapeArcAngle` の既定値を180°に変更し、ColorCubeの正側3面のFillをRGB、負側3面を通常色にした。
 - `Nodes()` の IDE 補完対象を、配布外の `bd_util_typing_config.pyi` で選択可能にした。
   IDE の `stubPath` から参照し、パッケージ更新後も利用者設定を保持する。
@@ -193,7 +246,7 @@
 - `bdControllerShape` の選択色をビューポートごとの Selection Highlighting 設定に従わせ、
   オフでは通常色と軸色を保つ。
 - `bdControllerShape` の基準軸を主軸 `+X`・補助軸 `+Y` の右手系へ変更した。
-  通常の `Square`・`Circle` はXZ面、各SwappedとArc系はYZ面を基準とし、
+  通常の `Square`・`Circle`・Arc系はXZ面、AxisSwap状態はYZ面を基準とし、
   `shape1stAxis` / `customBounds1stAxis` の既定値を `+X` に変更した。
   形状と Custom Bounds の Axis 系 X/Y/Z は主軸／補助軸／第３軸に対応し、
   `+3rdAxis` は「主軸 × 補助軸」の正方向とする。旧計算仕様は残さない。
@@ -286,8 +339,8 @@
   実行元の `modules` パスだけを確認後に解除する。共通ルートの同梱packageは
   次回起動からまとめて無効になり、配布ファイル・scene・個人設定は維持する。
 
-- `bdControllerShape.shape` に41種類の本体を定義した。Gearを一覧の先頭、Cubeを
-  初期値とし、塗り・11種類のPart・Fin・GuideLineを共通オプションで組み合わせる。
+- `bdControllerShape.shape` に24基本本体を定義した。Gearを一覧の先頭、Cubeを
+  初期値とし、Wide・AxisSwap・Template表示・塗り・11種類のPart・Fin・GuideLineを共通オプションで組み合わせる。
   角度固定のCircle系、角度を変更できるArc系、四角断面を接合した3軸Wide本体、
   部分template・軸色を1つのshapeで描画する。Gearの内円は穴として残し、
   付属Part・Finにも塗りを適用する。template指定の線と面は選択不可にする。

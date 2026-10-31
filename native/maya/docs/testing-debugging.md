@@ -75,10 +75,15 @@ schedule を検証できません。最終的な correctness test は、Maya に
 
 ## Viewport 2.0描画テスト
 
-`bdControllerShape` の描画比較は
-[test_controller_shape_viewport.py](../../../tests/maya/ui/test_controller_shape_viewport.py) にあります。
-立体の外向きの面、薄い面の両面表示、Fillの表示条件による線の切り替え、
-矢印先端への接続、Arrow3Dの追加面、Selection Highlightingと表示種別の組み合わせを確認します。
+`bdControllerShape` の描画比較は次の4ファイルに分かれています。
+
+| ファイル | 主な確認対象 |
+| --- | --- |
+| [test_controller_shape_viewport.py](../../../tests/maya/ui/test_controller_shape_viewport.py) | 面の表裏、Part・Fin・GuideLineの接合、軸交換、Template区間、選択・表示種別 |
+| [test_controller_shape_wide_surfaces.py](../../../tests/maya/ui/test_controller_shape_wide_surfaces.py) | 立体Wideの帯・開口・選択面、Sphereの混色、幅0、透明線による塗り面の深度欠け |
+| [test_controller_shape_display_colors.py](../../../tests/maya/ui/test_controller_shape_display_colors.py) | 無効なoverrideの保存色と、実際の非選択表示・Selection Highlighting OFFの一致 |
+| [test_controller_shape_gear_template.py](../../../tests/maya/ui/test_controller_shape_gear_template.py) | Gearの実長・周期区間、歯先中央の両側、Wideの位相、線と面の独立した選択、他形状による遮蔽 |
+
 形状の仕様と手動で確認する項目は [Controller Shape](controller-shape.md) を参照してください。
 
 このテストは実際のViewport 2.0を持つMaya GUIで実行します。
@@ -90,6 +95,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 PythonのScript Editorから次を実行します。テストはsceneを新規作成するため、
 必要なsceneや作業状態のない専用プロセスを使用してください。
 `repo_root` は実際のcheckoutへ変更します。pytestは `setup-test.cmd` で用意した `.test` を使います。
+以下の例だけで4ファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
 
 ```python
 import sys
@@ -99,8 +105,12 @@ from pathlib import Path
 from maya import utils
 
 repo_root = Path(r"D:\develop\bakedanuki_dev\bakedanuki-util")
-sys.path.insert(0, str(repo_root / ".test"))
-sys.path.insert(0, str(repo_root / "bakedanuki/bakedanuki-util/python"))
+sys.path[:0] = [
+    str(repo_root / ".test"),
+    str(repo_root / "bakedanuki/bakedanuki-util/python"),
+    str(repo_root / "tests"),
+    str(repo_root / "tests/maya/ui"),
+]
 
 
 def run_controller_viewport_tests():
@@ -115,6 +125,9 @@ def run_controller_viewport_tests():
             "--confcutdir",
             str(repo_root / "tests/maya"),
             str(repo_root / "tests/maya/ui/test_controller_shape_viewport.py"),
+            str(repo_root / "tests/maya/ui/test_controller_shape_wide_surfaces.py"),
+            str(repo_root / "tests/maya/ui/test_controller_shape_display_colors.py"),
+            str(repo_root / "tests/maya/ui/test_controller_shape_gear_template.py"),
             "--basetemp",
             str(output_dir / "pytest"),
             "--junitxml",
@@ -129,13 +142,18 @@ utils.executeDeferred(run_controller_viewport_tests)
 
 `--confcutdir` は `tests/maya/conftest.py` のfixtureを使い、
 上位の `tests/conftest.py` によるstandalone初期化をGUIから呼ばないための指定です。
+`tests` と `tests/maya/ui` のimport pathは、テスト専用の形状設定と共通の画像取得helperに使います。
 GuideLineの変更だけを切り分ける場合は、`pytest.main()` の引数へ
 `"-k", "guide_line or arrow_tip_connection"` を追加できます。
-対象を絞った確認後は、変更範囲に応じた回帰と統一検証も行います。
+対象を絞った確認後は、変更範囲に応じて関連する描画テストを実行します。
+描画・選択・Templateの共通処理を変更した場合はフィルターを外して4ファイルを確認し、
+最終の統一検証も行います。
 
 既定では実行中のMayaバージョンに対応した配布先 `.mll` をロードします。
 別のbinaryを検証する場合は、Mayaを起動する前に `BD_UTIL_NODES_PLUGIN_PATH` へその絶対pathを指定します。
 Maya 2025 / 2026 / 2027の各GUIで同じ手順を使い、pytestの終了コードとJUnit XMLを確認します。
+終了コード0に加え、XMLの実行対象とtests・failures・errors・skippedを照合します。
+件数はテスト追加で変わるため固定値を成功条件にせず、0件や全件skipをGUI成功と扱いません。
 テストのPNGは `output_dir / "pytest"` 以下に残ります。
 検証後は専用Mayaを終了してからstaged binaryを更新してください。
 テスト用Mayaが残っている場合もWindowsのfile lockでstageに失敗します。
@@ -156,6 +174,20 @@ Maya自身のplug-in読み込み確認が表示された場合は、利用者が
 - GuideLineの色・接続を測る点は、本体の辺、Partの中心線、ColorCornerCubeの小四角に
   隠れない位置を選ぶ。GuideLineのON/OFFを比較し、既存の線や面を新しいガイドと誤認しない。
   Templateの選択確認では、ガイドだけをクリックした場合と本体の通常線をクリックした場合を分ける。
+- Normal・Template・穴は画素と選択可否をそれぞれ確認し、線選択と面選択を使い分ける。
+  色を周辺3×3 pixelから採るhelperと、中心から±2 pixelのクリック矩形があるため、
+  境界や別の線をその範囲へ入れない。狭い区間ではズームを上げ、測定点が基準輪郭上にあることも確認する。
+- RGBの数値は色管理・表示変換後のPNGと直接一致するとは限らない。
+  たとえば混色の成分0.75を8 bit値191に固定せず、同じraw RGBをoverrideに指定した通常Shapeの面を
+  同じカメラ・背景・透明度・色管理で撮り、参照色と比較する。
+- Selection Highlighting OFFは、選択前に撮った実際の非選択画像と比較する。
+  shape・親・祖先・Display Layerの有効なoverride継承と、無効なoverrideに保存されたRGB色・index色を分けて確認する。
+  Maya 2025のprobeでは `MFnDagNode::drawOverrideColor()` がoverride無効時にも保存RGB色を返したため、
+  採用前に `MDagPath::getDrawOverrideInfo().fOverrideEnabled` で実効状態を確認する。
+- 不透明なTemplate面に通常線が隠れる場合は、同一深度の競合を確認する。
+  面には `MRenderItem::sDormantFilledDepthPriority`、線には `sDormantWireDepthPriority` を使い、
+  状態がリセットされる各 `beginDrawable()` の後で指定する。
+  `shapeDrawOnTop=false` で前方の不透明な別形状が線と面を遮ることも確認する。
 
 ## DG, Serial, And Parallel
 

@@ -137,49 +137,64 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.shape, ShapeEnumPlugOperator)
     for preset in (
         ShapeEnumPlugOperator.GEAR,
-        ShapeEnumPlugOperator.GEARSWAPPED,
         ShapeEnumPlugOperator.LINE,
-        ShapeEnumPlugOperator.WIDELINE,
         ShapeEnumPlugOperator.CROSSLINE,
-        ShapeEnumPlugOperator.WIDECROSSLINE,
         ShapeEnumPlugOperator.TRIANGLE,
         ShapeEnumPlugOperator.SQUARE,
-        ShapeEnumPlugOperator.SQUARETEMPLATE,
         ShapeEnumPlugOperator.DIAMOND,
         ShapeEnumPlugOperator.CIRCLE,
-        ShapeEnumPlugOperator.WIDECIRCLE,
-        ShapeEnumPlugOperator.CROSSLINESWAPPED,
-        ShapeEnumPlugOperator.WIDECROSSLINESWAPPED,
-        ShapeEnumPlugOperator.TRIANGLESWAPPED,
-        ShapeEnumPlugOperator.SQUARESWAPPED,
-        ShapeEnumPlugOperator.SQUARETEMPLATESWAPPED,
-        ShapeEnumPlugOperator.DIAMONDSWAPPED,
-        ShapeEnumPlugOperator.CIRCLESWAPPED,
-        ShapeEnumPlugOperator.WIDECIRCLESWAPPED,
+        ShapeEnumPlugOperator.ARCRADIAL,
+        ShapeEnumPlugOperator.ARCAXIAL,
+        ShapeEnumPlugOperator.CROSSARCRADIAL,
+        ShapeEnumPlugOperator.CROSSARCAXIAL,
         ShapeEnumPlugOperator.CROSSLINE3AXIS,
-        ShapeEnumPlugOperator.WIDECROSSLINE3AXIS,
         ShapeEnumPlugOperator.CUBE,
         ShapeEnumPlugOperator.OCTAHEDRON,
         ShapeEnumPlugOperator.OCTAHEDRONARROW,
-        ShapeEnumPlugOperator.ARC,
-        ShapeEnumPlugOperator.WIDEARCRADIAL,
-        ShapeEnumPlugOperator.WIDEARCAXIAL,
-        ShapeEnumPlugOperator.CROSSARC,
-        ShapeEnumPlugOperator.WIDECROSSARCRADIAL,
-        ShapeEnumPlugOperator.WIDECROSSARCAXIAL,
         ShapeEnumPlugOperator.SPHERE,
         ShapeEnumPlugOperator.CYLINDER,
         ShapeEnumPlugOperator.ARROW,
         ShapeEnumPlugOperator.PYRAMID,
         ShapeEnumPlugOperator.CONE,
         ShapeEnumPlugOperator.COLORCROSSLINE3AXIS,
-        ShapeEnumPlugOperator.COLORWIDECROSSLINE3AXIS,
         ShapeEnumPlugOperator.COLORCUBE,
         ShapeEnumPlugOperator.COLORCORNERCUBE,
         ShapeEnumPlugOperator.COLORSPHERE,
     ):
         shape.shape.set(preset)
     assert_type(shape.shapeFin, BoolPlugOperator)
+    assert_type(shape.shapeAxisSwap, BoolPlugOperator)
+    assert_type(shape.sasw, BoolPlugOperator)
+    assert_type(shape.shapeWide, BoolPlugOperator)
+    assert_type(shape.swd, BoolPlugOperator)
+    assert_type(shape.shapeTemplateLine, BoolPlugOperator)
+    assert_type(shape.stl, BoolPlugOperator)
+    assert_type(shape.shapeTemplateLineRate, DoublePlugOperator)
+    assert_type(shape.stlr, DoublePlugOperator)
+    assert_type(shape.shapeTemplateFill, BoolPlugOperator)
+    assert_type(shape.stf, BoolPlugOperator)
+    assert_type(shape.shapeTemplateLineInvert, BoolPlugOperator)
+    assert_type(shape.stli, BoolPlugOperator)
+    assert_type(shape.shapePartTemplate, BoolPlugOperator)
+    assert_type(shape.spte, BoolPlugOperator)
+    assert_type(shape.shapeFinTemplate, BoolPlugOperator)
+    assert_type(shape.sft, BoolPlugOperator)
+    shape.shapeTemplateLineInvert.set(True)
+    shape.stli.set(False)
+    shape.shapePartTemplate.set(True)
+    shape.spte.set(False)
+    shape.shapeFinTemplate.set(True)
+    shape.sft.set(False)
+    shape.shapeAxisSwap.set(True)
+    shape.sasw.set(False)
+    shape.shapeWide.set(True)
+    shape.swd.set(False)
+    shape.shapeTemplateLine.set(True)
+    shape.stl.set(False)
+    shape.shapeTemplateLineRate.set(0.35)
+    shape.stlr.set(0.7)
+    shape.shapeTemplateFill.set(True)
+    shape.stf.set(False)
     assert_type(shape.shapeGuideLine, BoolPlugOperator)
     assert_type(shape.sgl, BoolPlugOperator)
     assert_type(shape.shapeGuideLineTemplate, BoolPlugOperator)
@@ -243,16 +258,28 @@ def controller_shape_offset_line_contract() -> None:
     shape.shapeFinSize.set(1.25)
     shape.shapeFinWidthScale.set(0.75)
     assert_type(shape.shapePartSize, DoublePlugOperator)
+    assert_type(shape.shapePartPrimarySizeScale, DoublePlugOperator)
+    assert_type(shape.shapePartOtherSizeScale, DoublePlugOperator)
     assert_type(shape.shapePartLengthScale, DoublePlugOperator)
     assert_type(shape.shapePartWidthScale, DoublePlugOperator)
+    assert_type(shape.shapePartHeightScale, DoublePlugOperator)
+    assert_type(shape.sphs, DoublePlugOperator)
     assert_type(shape.sps, DoublePlugOperator)
+    assert_type(shape.sppss, DoublePlugOperator)
+    assert_type(shape.sposs, DoublePlugOperator)
     shape.shapePartOffset.set(0.1)
     shape.shapeArcAngle.set(240)
     shape.saa.set(180)
     shape.shapeFinHeight.set(0.75)
     shape.shapePartSize.set(2.0)
+    shape.shapePartPrimarySizeScale.set(1.5)
+    shape.shapePartOtherSizeScale.set(0.75)
+    shape.sppss.set(1.0)
+    shape.sposs.set(0.5)
     shape.shapePartLengthScale.set(2.0)
     shape.shapePartWidthScale.set(3.0)
+    shape.shapePartHeightScale.set(0.5)
+    shape.sphs.set(1.0)
     assert_type(shape.shapeAxisOffset, BoolPlugOperator)
     assert_type(
         shape.shapeAxisOffsetDirection,
