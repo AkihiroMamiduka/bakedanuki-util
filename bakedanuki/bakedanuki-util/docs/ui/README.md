@@ -552,6 +552,22 @@ class MyWidget(qt.QWidget):
 頻出classは`qt.QLabel`のような短いaliasで公開します。公開aliasへ含まれないAPIも、元module
 から利用できます。
 
+`qt.QComboBox`は、画面内で可能な限り全候補を表示する共通サブクラスです。
+`EnumComboBox`と`BoolComboBox`も同じ動作を継承します。
+候補の追加・削除やmodelの差し替え後も表示件数を制限せず、画面に収まらない候補は
+Qt標準のスクロールで選択します。表示位置と画面端の調整はQtへ任せます。
+WindowsではQt標準に従い、タスクバーの領域もpopup表示に使う場合があります。
+利用側が`setMaxVisibleItems(12)`などを指定した場合は、その件数を優先します。
+`qt.QtWidgets.QComboBox`はQt本来のクラスのままで、共通サブクラスと同一ではありません。
+元クラスを必要とする型検証には`qt.QtWidgets.QComboBox`を使うと、共通サブクラスも
+受け付けられます。既存UIは作り直すと新しい既定値が反映されます。
+
+2026-11-01、共通`qt.QComboBox`の全件表示について、利用者からbdChannelBox経由での
+動作確認とcommit／push済みの報告を受け、本拡張を完了としました。
+利用者が確認したMaya versionは未申告です。参照commitは`1c3f0b3c`です。
+版別の自動テスト結果とMaya 2025 smokeのnative終了待機timeoutは、
+この利用者確認とは別の検証記録として扱います。
+
 ```python
 painter_path = qt.QtGui.QPainterPath()
 ```

@@ -72,6 +72,11 @@ class SampleWindow(QtWidgets.QDialog):
 assert_type(exec_dialog_near(SampleWindow(), qt.QPoint(100, 100)), int)
 assert_type(PathLineEdit("C:/work").isReadOnly(), bool)
 assert_type(add_path_actions(qt.QMenu(), "C:/work", qt.QPoint()), None)
+facade_combo = qt.QComboBox(parent=None)
+assert_type(facade_combo, qt.QComboBox)
+assert_type(facade_combo.maxVisibleItems(), int)
+assert_type(facade_combo.setMaxVisibleItems(12), None)
+original_combo: QtWidgets.QComboBox = facade_combo
 with place_dialog_near(SampleWindow(), qt.QPoint(100, 100)) as placement:
     assert_type(placement, None)
 assert_type(
@@ -202,6 +207,10 @@ assert_type(
         "input_space",
         QtWidgets.QComboBox(),
     ),
+    None,
+)
+assert_type(
+    ui_state_manager.register_combo_box("facade_space", facade_combo),
     None,
 )
 checkable_action = qt.QAction("Option")
