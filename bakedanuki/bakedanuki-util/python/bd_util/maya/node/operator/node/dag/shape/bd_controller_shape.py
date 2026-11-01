@@ -6,11 +6,25 @@ class BdControllerShape(GeneratedBdControllerShape):
     """リグ用の複数輪郭を表示するコントローラー shape。
 
     `shape` は24種類の基本本体を選び、`shapeWide` は帯や面・曲面上のフレームを有効にする。
-    `shapeWideWidth` は基準形状上の幅で、Part・Finの寸法倍率から独立する。
+    `shapeWideWidth` は基準空間で変形した本体上の実距離で、基準空間の伸縮やPart・Finの倍率から独立する。
     立体Wideは穴のある厚み0の帯だけを両面表示する。Wide Sphereは3帯の和集合の外周だけを描き、
     全被覆時のFill OFFでは通常の3大円へ戻る。
     `shapeAxisSwap` は基準形状の主軸と補助軸を交換し、第3軸を反転する。
     軸属性値やAxis系TRSの意味を変えず、形状・Part・Fin・GuideLineの基準配置へ作用する。
+    `shapeBaseSpace1stAxisMinus` / `shapeBaseSpace1stAxisPlus` は元の主軸両端の行き先を距離で指定する。
+    `shapeBaseSpace2ndAxisMinus` / `shapeBaseSpace2ndAxisPlus` と
+    `shapeBaseSpace3rdAxisMinus` / `shapeBaseSpace3rdAxisPlus` も各軸を同様に調整する。
+    全軸の既定値は `-0.5 cm` / `+0.5 cm`。Swap後の本体を範囲外も線形変換する。
+    Arrow本体の後端部分だけは `0.25 cm`、OctahedronArrow本体では `0.5 cm` に固定する。
+    Minusを後端、Plusを先端として短い長さでも接合位置をクランプせず、Part属性を本体へ適用しない。
+    ArrowのWide先端は帯境界の交点まで延ばし、鋭角でも尖りを保つ。
+    ColorCornerCubeの小四角は基準空間で各辺 `0.2 cm` を保ち、小さい本体では面内へ切り詰める。
+    追加Partは配置点と姿勢だけを追従させ、局所寸法と `shapePartOffset` の距離を保つ。
+    ArcのPartは変形後の曲線上の弧長と局所幅を保ち、Finは付け根と幅へ追従して高さを保つ。
+    `shapeSize`・共通TRS・入力行列は、組立後の本体・Part・Fin・Wideへ共通に作用する。
+    `customBoundsBaseSpaceXPlus` / `customBoundsBaseSpaceXMinus` とY/Zの両端は、
+    親transformのローカルXYZへ固定した独立の箱を距離で指定する。
+    `boundsMode=Custom` のフォーカスとプレビューだけへ使い、共有入力行列と親transformを反映する。
     `shapeTemplateLine` は本体線の区間をTemplate表示にし、
     `shapeTemplateLineRate` はその割合を0から1で指定する。既定値は0.7。
     `shapeTemplateLineInvert` は通常とTemplateの区間をそのまま反転する。

@@ -3294,16 +3294,23 @@ def test_template_wide_folded_octahedron_arrow_keeps_the_parallel_parent_edge(
         "OctahedronArrow",
         shapePart=False,
         shapeFin=False,
-        shapePartLengthScale=-4,
-        shapePartWidthScale=0.5,
-        shapePartHeightScale=0.5,
-        shapePartOffset=0,
+        shapeBaseSpace1stAxisMinus=-0.5,
+        shapeBaseSpace1stAxisPlus=-0.25,
+        shapeBaseSpace2ndAxisMinus=-0.25,
+        shapeBaseSpace2ndAxisPlus=0.25,
+        shapeBaseSpace3rdAxisMinus=-0.25,
+        shapeBaseSpace3rdAxisPlus=0.25,
         shapeWide=True,
-        shapeWideWidth=0.15,
+        shapeWideWidth=0.04,
         shape1stAxis=0,
         shape2ndAxis=2,
     ) as (_, shape, camera, camera_shape, panel):
-        point = (-0.191133685756, 0.172870123219, 0.053238166061)
+        ratio = 1 - 0.02 / (0.25 / math.sqrt(6))
+        point = (
+            -1 / 12 - ratio * 17 / 120,
+            1 / 12 - ratio * 7 / 120,
+            (1 - ratio) / 12,
+        )
         _aim_at_origin(maya_cmds, camera, (-0.5, 4, 4))
         maya_cmds.setAttr(
             f"{camera}.translate", point[0] - 0.5, point[1] + 4, point[2] + 4
@@ -3921,7 +3928,8 @@ def test_template_wide_cylinder_circumference_keeps_its_circle_domain(
         ("CrossLine", True, 1, 0.2, 2, 1, 0.8, False, 0.8, 0.4),
     ),
 )
-def test_template_wide_cross_caps_follow_part_junctions_without_templating_the_head(
+@pytest.mark.parametrize("base_side_span", (1.0, 0.5))
+def test_template_wide_cross_caps_follow_part_junctions_without_templating_the_head_and_base_space_widths(
     maya_cmds,
     new_scene,
     tmp_path,
@@ -3935,6 +3943,7 @@ def test_template_wide_cross_caps_follow_part_junctions_without_templating_the_h
     part_template,
     primary,
     other,
+    base_side_span,
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
@@ -3957,6 +3966,12 @@ def test_template_wide_cross_caps_follow_part_junctions_without_templating_the_h
         shape2ndAxis=2,
     ) as (_, shape, camera, camera_shape, panel):
         maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3)
+        maya_cmds.setAttr(
+            f"{shape}.shapeBaseSpace3rdAxisMinus", -base_side_span * 0.5
+        )
+        maya_cmds.setAttr(
+            f"{shape}.shapeBaseSpace3rdAxisPlus", base_side_span * 0.5
+        )
         maya_cmds.setAttr(
             f"{camera}.translate", *((4, 0, 0) if swapped else (0, 4, 0))
         )
@@ -4053,3 +4068,573 @@ def test_cube_template_keeps_vertices_normal_and_edge_centers_template(
             template,
             colored=preset.startswith("Color"),
         )
+
+
+@pytest.mark.parametrize(
+    "preset,part,filled,template",
+    tuple(
+        (preset, 1, filled, False)
+        for preset in (
+            "Cube",
+            "Circle",
+            "WideCircle",
+            "CrossLine",
+            "WideCrossLine3Axis",
+            "ArcRadial",
+            "WideArcRadial",
+            "ArcAxial",
+            "WideArcAxial",
+            "CrossArcRadial",
+            "WideCrossArcRadial",
+            "CrossArcAxial",
+            "WideCrossArcAxial",
+        )
+        for filled in (False, True)
+    )
+    + (
+        ("Cube", 6, True, True),
+        ("WideCircle", 3, True, True),
+        ("WideCrossArcAxial", 1, True, True),
+        ("WideCircleSwapped", 6, True, False),
+        ("WideCrossArcAxialSwapped", 9, True, False),
+    ),
+)
+def test_base_space_uniform_expansion_matches_existing_size_with_fixed_parts(
+    maya_cmds, new_scene, tmp_path, preset, part, filled, template
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+        shapeFill=filled,
+        shapeFillTransparency=0.5,
+        shapeWideWidth=0.12,
+        shapeArcAngle=240,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartType=1,
+        shapePartSize=1,
+        shapePartOffset=0.08,
+        shapeFin=True,
+        shapeFinHeight=0.2,
+        shapeFinType=1,
+        shapeGuideLine=True,
+        shapeTemplateLine=template,
+        shapeTemplateFill=template,
+        shapeFinTemplate=template,
+    ) as (_, shape, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (4, 3, 5))
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3.4)
+        for axis in ("1st", "2nd", "3rd"):
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -1)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 1)
+        actual = _capture_view(panel, tmp_path / "base_space_expansion.png")
+
+        # 従来の全体Sizeと部品寸法の調整で、同じ本体・Part・Finを作る。
+        for axis in ("1st", "2nd", "3rd"):
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -0.5)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 0.5)
+        maya_cmds.setAttr(f"{shape}.shapeSize", 2)
+        maya_cmds.setAttr(f"{shape}.shapePartSize", 0.5)
+        maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.04)
+        maya_cmds.setAttr(f"{shape}.shapeFinHeight", 0.1)
+        maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0.06)
+        reference = _capture_view(
+            panel, tmp_path / "existing_size_reference.png"
+        )
+
+        _assert_base_space_image_match(
+            actual, reference, (preset, part, filled, template)
+        )
+
+
+@pytest.mark.parametrize("reflected", (False, True))
+def test_base_space_wide_cube_keeps_face_inset_and_inner_line_width(
+    maya_cmds, new_scene, tmp_path, reflected
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "Cube",
+        shapeWide=True,
+        shapeWideWidth=0.2,
+        shapeFill=True,
+        shapeFillTransparency=0,
+        shapeLineTransparency=1,
+        shapeBaseSpace1stAxisMinus=-2,
+        shapeBaseSpace1stAxisPlus=2,
+        shapeBaseSpace2ndAxisMinus=1 if reflected else -1,
+        shapeBaseSpace2ndAxisPlus=-1 if reflected else 1,
+    ) as (_, shape, _, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 5.2)
+        pixels = _capture_view(panel, tmp_path / "constant_face_band.png")
+        assert _brightness_near_world(panel, pixels, (1.95, 0, 0.5)) > 600
+        assert _brightness_near_world(panel, pixels, (1.8, 0, 0.5)) < 120
+        assert _pick_world(maya_cmds, panel, (1.95, 0, 0.5), surface=True)
+        assert not _pick_world(maya_cmds, panel, (1.8, 0, 0.5), surface=True)
+        maya_cmds.setAttr(f"{shape}.shapeFill", False)
+        maya_cmds.setAttr(f"{shape}.shapeLineTransparency", 0)
+        lines = _capture_view(panel, tmp_path / "constant_inner_line.png")
+        assert _brightness_near_world(panel, lines, (1.9, 0, 0.5)) > 600
+        assert _brightness_near_world(panel, lines, (1.6, 0, 0.5)) < 120
+
+
+@pytest.mark.parametrize(
+    "preset",
+    (
+        "Gear",
+        "Triangle",
+        "Square",
+        "Diamond",
+        "Cube",
+        "Octahedron",
+        "Pyramid",
+        "Cone",
+        "CrossLine3Axis",
+    ),
+)
+@pytest.mark.parametrize("filled", (False, True))
+def test_base_space_wide_body_matches_existing_width_in_the_finished_space(
+    maya_cmds, new_scene, tmp_path, preset, filled
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeWide=True,
+        shapeWideWidth=0.12,
+        shapeFill=filled,
+        shapeFillTransparency=0.5,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (4, 3, 5))
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3.4)
+        for axis in ("1st", "2nd", "3rd"):
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -1)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 1)
+        actual = _capture_view(panel, tmp_path / "physical_wide_body.png")
+        for axis in ("1st", "2nd", "3rd"):
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -0.5)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 0.5)
+        maya_cmds.setAttr(f"{shape}.shapeSize", 2)
+        maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0.06)
+        reference = _capture_view(panel, tmp_path / "equivalent_wide_body.png")
+        _assert_base_space_image_match(actual, reference, (preset, filled))
+
+
+def _assert_base_space_image_match(actual, reference, case):
+    background = reference[:3]
+    object_pixels = sum(
+        actual[index : index + 3] != background
+        or reference[index : index + 3] != background
+        for index in range(0, len(reference), 4)
+    )
+    assert object_pixels > 200, "比較対象の本体・Part・Finが描画されていない"
+    different_pixels = sum(
+        max(
+            abs(actual[index + channel] - reference[index + channel])
+            for channel in range(3)
+        )
+        > 8
+        for index in range(0, len(reference), 4)
+    )
+    assert different_pixels <= max(12, object_pixels * 0.02), (
+        case,
+        different_pixels,
+        object_pixels,
+    )
+
+
+@pytest.mark.parametrize(
+    "part,filled,inverted",
+    ((0, False, False), (1, True, True), (6, True, False)),
+)
+def test_base_space_flat_unused_line_axis_keeps_part_fin_and_template_partition(
+    maya_cmds, new_scene, tmp_path, part, filled, inverted
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "Line",
+        shape1stAxis=0,
+        shape2ndAxis=2,
+        shapeFill=filled,
+        shapeFillTransparency=0.5,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartType=0,
+        shapePartSize=2.3,
+        shapePartOffset=0.16,
+        shapeFin=True,
+        shapeFinType=1,
+        shapeFinHeight=0.2,
+        shapeTemplateLine=True,
+        shapeTemplateLineRate=0.6,
+        shapeTemplateLineInvert=inverted,
+    ) as (_, shape, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (4, 3, 5))
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.2)
+        reference = _capture_view(panel, tmp_path / "line_original_axis.png")
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisMinus", 0)
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisPlus", 0)
+        actual = _capture_view(panel, tmp_path / "line_flat_unused_axis.png")
+        _assert_base_space_image_match(
+            actual, reference, (part, filled, inverted)
+        )
+
+
+@pytest.mark.parametrize(
+    "preset,part,filled,template",
+    (("ArcRadial", 1, False, False), ("ArcAxial", 3, True, True)),
+)
+def test_base_space_flat_arc_normal_keeps_wrapped_parts_and_template_display(
+    maya_cmds, new_scene, tmp_path, preset, part, filled, template
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+        shapeArcAngle=240,
+        shapeFill=filled,
+        shapeFillTransparency=0.5,
+        shapePart=True,
+        shapePartShape=part,
+        shapePartType=1,
+        shapePartSize=2,
+        shapeTemplateLine=True,
+        shapeTemplateLineRate=0.6,
+        shapeTemplateFill=template,
+        shapePartTemplate=template,
+    ) as (_, shape, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (4, 3, 5))
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.2)
+        for enabled in (False, True):
+            maya_cmds.setAttr(f"{shape}.shapePart", enabled)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisMinus", -0.5)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisPlus", 0.5)
+            reference = _capture_view(
+                panel, tmp_path / f"arc_original_normal_part_{enabled}.png"
+            )
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisMinus", 0)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisPlus", 0)
+            actual = _capture_view(
+                panel, tmp_path / f"arc_flat_normal_part_{enabled}.png"
+            )
+            _assert_base_space_image_match(
+                actual, reference, (preset, part, enabled, filled, template)
+            )
+
+
+@pytest.mark.parametrize("minus,plus", ((1, 5), (1, -5), (-0.5, -0.25)))
+@pytest.mark.parametrize("front", (False, True))
+def test_base_space_octahedron_arrow_fills_each_half_outward(
+    maya_cmds, new_scene, tmp_path, minus, plus, front
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    direction = 1 if plus >= minus else -1
+    joint = minus + direction * 0.5
+    tip = plus if front else minus
+    distance = tip - joint
+    point = ((tip + 2 * joint) / 3, 1 / 6, 1 / 6)
+    normal = (
+        math.copysign(0.25, distance),
+        abs(distance) * 0.5,
+        abs(distance) * 0.5,
+    )
+    length = math.sqrt(sum(value * value for value in normal))
+    position = tuple(
+        value + component * 0.01 / length
+        for value, component in zip(point, normal)
+    )
+
+    with _drawing_view(
+        maya_cmds,
+        "OctahedronArrow",
+        shapeBaseSpace1stAxisMinus=minus,
+        shapeBaseSpace1stAxisPlus=plus,
+        shapeFill=True,
+        shapeLineTransparency=1,
+        shapeFillTransparency=0.2,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, camera, camera_shape, panel):
+        # 短域の前面は後側のPyramid内に入るため、その面の直前だけを写す。
+        maya_cmds.setAttr(f"{camera}.translate", *position)
+        target = maya_cmds.createNode("transform")
+        maya_cmds.setAttr(f"{target}.translate", *point)
+        constraint = maya_cmds.aimConstraint(
+            target, camera, aimVector=(0, 0, -1), upVector=(0, 1, 0)
+        )
+        maya_cmds.delete(constraint, target)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.08)
+        maya_cmds.setAttr(f"{camera_shape}.farClipPlane", 0.012)
+        filled = _capture_view(panel, tmp_path / "local_arrow_face.png")
+        maya_cmds.setAttr(f"{shape}.shapeFill", False)
+        empty = _capture_view(panel, tmp_path / "local_arrow_face_hidden.png")
+        fill_color = _rgb_near_world(panel, filled, point)
+        background = _rgb_near_world(panel, empty, point)
+        assert max(abs(a - b) for a, b in zip(fill_color, background)) > 40, (
+            minus,
+            plus,
+            "front" if front else "rear",
+            fill_color,
+            background,
+        )
+
+
+@pytest.mark.parametrize(
+    "plus,swapped",
+    (
+        (1.6, False),
+        (1.7, False),
+        (3, False),
+        (10, False),
+        (3, True),
+        (-3, False),
+    ),
+)
+def test_arrow_wide_tip_keeps_the_sharp_offset_intersection_and_is_selectable(
+    maya_cmds, new_scene, tmp_path, plus, swapped
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    minus, half_width, half_height = -0.5, 0.025, 0.5
+    direction = 1 if plus >= minus else -1
+    joint = minus + direction * 0.25
+    length = abs(plus - joint)
+    edge_length = math.hypot(length, half_height)
+    extension = half_width * edge_length / half_height
+
+    def point(along, side):
+        return (0, along, -side) if swapped else (along, 0, side)
+
+    with _drawing_view(
+        maya_cmds,
+        "Arrow",
+        shapeWide=True,
+        shapeWideWidth=half_width * 2,
+        shapeAxisSwap=swapped,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, camera, camera_shape, panel):
+        axis = "2nd" if swapped else "1st"
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", minus)
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", plus)
+        maya_cmds.setAttr(
+            f"{camera_shape}.orthographicWidth", max(0.35, extension * 3)
+        )
+        maya_cmds.setAttr(
+            f"{camera}.translate", *((4, plus, 0) if swapped else (plus, 4, 0))
+        )
+        maya_cmds.setAttr(
+            f"{camera}.rotate", *((0, 90, 0) if swapped else (-90, 0, 0))
+        )
+        pixels = _capture_view(panel, tmp_path / "sharp_arrow_wide_tip.png")
+        outer_tip = point(plus + direction * extension, 0)
+        inner_tip = point(plus - direction * extension, 0)
+        for tip in (outer_tip, inner_tip):
+            assert _brightness_near_world(panel, pixels, tip) > 600, (
+                plus,
+                swapped,
+                tip,
+            )
+            assert _pick_world(maya_cmds, panel, tip), (plus, swapped, tip)
+        maya_cmds.select(clear=True)
+
+        # 元の斜辺から法線方向へ測り、両側が半幅ちょうどの位置を通る。
+        along = plus - direction * extension * 1.1
+        side = half_height * extension * 1.1 / length
+        normal_along = direction * half_height / edge_length
+        normal_side = length / edge_length
+        for sign in (-1, 1):
+            boundary = point(
+                along + sign * half_width * normal_along,
+                side + sign * half_width * normal_side,
+            )
+            assert _brightness_near_world(panel, pixels, boundary) > 600, (
+                plus,
+                swapped,
+                boundary,
+            )
+
+        # 旧miter制限でできた短い縦辺の中央を横切る線は残さない。
+        old_bevel = point(
+            plus + direction * half_width * half_height / edge_length, 0
+        )
+        assert _brightness_near_world(panel, pixels, old_bevel) < 120, (
+            plus,
+            swapped,
+            old_bevel,
+        )
+        maya_cmds.setAttr(f"{shape}.shapeFill", True)
+        filled = _capture_view(
+            panel, tmp_path / "sharp_arrow_wide_tip_fill.png"
+        )
+        assert _brightness_near_world(panel, filled, outer_tip) > 600
+        assert _pick_world(maya_cmds, panel, outer_tip)
+        maya_cmds.select(clear=True)
+
+
+def _assert_corner_marker_color(panel, pixels, point, axis):
+    color = _rgb_near_world(panel, pixels, point)
+    assert color[axis] > 180 and all(
+        color[index] < 60 for index in range(3) if index != axis
+    ), (axis, point, color)
+
+
+@pytest.mark.parametrize(
+    "limits,wide,filled,template",
+    (
+        (((-0.5, 2), (-0.5, 0.75), (-0.5, 0.4)), False, False, False),
+        (((-0.5, 2), (-0.5, 0.75), (-0.5, 0.4)), True, True, True),
+        (((-0.05, 0.05), (-0.075, 0.075), (-0.04, 0.04)), False, False, True),
+        (((-0.5, 1.5), (-0.05, 0.05), (-0.5, 0.5)), True, False, True),
+    ),
+)
+def test_corner_marker_size_keeps_point_two_centimeters_and_clips_to_the_body(
+    maya_cmds, new_scene, tmp_path, limits, wide, filled, template
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    maximum = tuple(pair[1] for pair in limits)
+    spans = tuple(plus - minus for minus, plus in limits)
+    sizes = tuple(min(0.2, span) for span in spans)
+    focus = tuple(plus - size * 0.5 for plus, size in zip(maximum, sizes))
+    with _drawing_view(
+        maya_cmds,
+        "ColorCornerCube",
+        shapeWide=wide,
+        shapeWideWidth=0.06,
+        shapeFill=filled,
+        shapeFillTransparency=0.5,
+        shapeTemplateLineRate=0.6,
+    ) as (_, shape, camera, camera_shape, panel):
+        for axis, (minus, plus) in zip(("1st", "2nd", "3rd"), limits):
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", minus)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", plus)
+        _aim_at_origin(maya_cmds, camera, (4, 3, 5))
+        maya_cmds.setAttr(
+            f"{camera}.translate",
+            *(value + offset for value, offset in zip(focus, (4, 3, 5))),
+        )
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.7)
+        baseline = _capture_view(panel, tmp_path / "fixed_corner_markers.png")
+        centers = []
+        for axis in range(3):
+            center = tuple(
+                (
+                    maximum[index]
+                    if index == axis
+                    else maximum[index] - sizes[index] * 0.5
+                )
+                for index in range(3)
+            )
+            centers.append(center)
+            _assert_corner_marker_color(panel, baseline, center, axis)
+            assert _pick_world(maya_cmds, panel, center, surface=True)
+            maya_cmds.select(clear=True)
+            for other in range(3):
+                if other == axis or spans[other] <= 0.24:
+                    continue
+                inside = list(center)
+                inside[other] = maximum[other] - 0.18
+                _assert_corner_marker_color(panel, baseline, inside, axis)
+                outside = list(center)
+                outside[other] = maximum[other] - 0.24
+                color = _rgb_near_world(panel, baseline, outside)
+                assert (
+                    color[axis]
+                    - max(color[index] for index in range(3) if index != axis)
+                    < 100
+                ), (axis, outside, color)
+            if wide:
+                # 面内のWide輪郭もマーカー内部へ白線を通さない。
+                inside_frame = list(center)
+                other = (axis + 1) % 3
+                inside_frame[other] = maximum[other] - min(
+                    0.03, sizes[other] * 0.5
+                )
+                _assert_corner_marker_color(
+                    panel, baseline, inside_frame, axis
+                )
+
+        # 正側2面が接する稜線は、小四角の範囲だけ通常色の線を止める。
+        corner_edge = (maximum[0], maximum[1], maximum[2] - sizes[2] * 0.5)
+        edge_color = _rgb_near_world(panel, baseline, corner_edge)
+        assert max(edge_color) > 180 and min(edge_color) < 60, edge_color
+        if spans[2] > 0.3:
+            ordinary_edge = (maximum[0], maximum[1], maximum[2] - 0.26)
+            assert _brightness_near_world(panel, baseline, ordinary_edge) > 600
+        if all(span < 0.2 for span in spans):
+            outside_body = (maximum[0], limits[1][0] - 0.04, focus[2])
+            assert not _pick_world(
+                maya_cmds, panel, outside_body, surface=True
+            )
+
+        if template:
+            maya_cmds.setAttr(f"{shape}.shapeTemplateLine", True)
+            maya_cmds.setAttr(f"{shape}.shapeTemplateFill", True)
+            templated = _capture_view(
+                panel, tmp_path / "protected_corner_markers.png"
+            )
+            for axis, center in enumerate(centers):
+                _assert_corner_marker_color(panel, templated, center, axis)
+                assert _rgb_near_world(
+                    panel, templated, center
+                ) == _rgb_near_world(panel, baseline, center)
+                assert _pick_world(maya_cmds, panel, center, surface=True)
+                maya_cmds.select(clear=True)
+
+
+@pytest.mark.parametrize("wide", (False, True))
+def test_corner_marker_size_distinguishes_base_space_from_common_size(
+    maya_cmds, new_scene, tmp_path, wide
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+
+    with _drawing_view(
+        maya_cmds,
+        "ColorCornerCube",
+        shapeWide=wide,
+        shapeWideWidth=0.06,
+    ) as (_, shape, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, (4, 3, 5))
+        maya_cmds.setAttr(f"{camera}.translate", 4.85, 3.85, 5.85)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.75)
+        for axis in ("1st", "2nd", "3rd"):
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -1)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 1)
+        base_space = _capture_view(
+            panel, tmp_path / "base_space_marker_size.png"
+        )
+        _assert_corner_marker_color(panel, base_space, (1, 0.9, 0.9), 0)
+        difference_point = (1, 0.7, 0.9)
+        color = _rgb_near_world(panel, base_space, difference_point)
+        assert color[0] - max(color[1:]) < 100, color
+        for axis in ("1st", "2nd", "3rd"):
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -0.5)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 0.5)
+        maya_cmds.setAttr(f"{shape}.shapeSize", 2)
+        maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0.03)
+        common_size = _capture_view(
+            panel, tmp_path / "common_size_marker_size.png"
+        )
+        _assert_corner_marker_color(panel, common_size, difference_point, 0)

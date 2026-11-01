@@ -52,6 +52,7 @@ public:
             MPoint center;
             unsigned int axis;
             double halfWidth;
+            MVector halfWidths = MVector::zero;
         };
         struct FillPart {
             MPointArray triangles;
@@ -122,10 +123,6 @@ public:
     static MObject shapeScaleY;
     static MObject shapeScaleZ;
 
-    static MObject shapeAxisOffsetLength;
-    static MObject shapeAxisOffset;
-    static MObject shapeAxisOffsetDirection;
-
     static MObject shapeAxisTranslate;
     static MObject shapeAxisTranslateX;
     static MObject shapeAxisTranslateY;
@@ -142,6 +139,12 @@ public:
     static MObject shapeAxisScaleZ;
 
     static MObject shapeSize;
+    static MObject shapeBaseSpace1stAxisMinus;
+    static MObject shapeBaseSpace1stAxisPlus;
+    static MObject shapeBaseSpace2ndAxisMinus;
+    static MObject shapeBaseSpace2ndAxisPlus;
+    static MObject shapeBaseSpace3rdAxisMinus;
+    static MObject shapeBaseSpace3rdAxisPlus;
     static MObject shapePartOffset;
     static MObject shapePartLengthScale;
     static MObject shapePartWidthScale;
@@ -159,37 +162,12 @@ public:
 
     static MObject boundsMode;
     static MObject showBoundsPreview;
-    static MObject customBounds1stAxis;
-    static MObject customBounds2ndAxis;
-    static MObject customBoundsRootSize;
-    static MObject customBoundsTranslate;
-    static MObject customBoundsTranslateX;
-    static MObject customBoundsTranslateY;
-    static MObject customBoundsTranslateZ;
-    static MObject customBoundsRotate;
-    static MObject customBoundsRotateX;
-    static MObject customBoundsRotateY;
-    static MObject customBoundsRotateZ;
-    static MObject customBoundsScale;
-    static MObject customBoundsScaleX;
-    static MObject customBoundsScaleY;
-    static MObject customBoundsScaleZ;
-    static MObject customBoundsAxisOffsetLength;
-    static MObject customBoundsAxisOffset;
-    static MObject customBoundsAxisOffsetDirection;
-    static MObject customBoundsAxisTranslate;
-    static MObject customBoundsAxisTranslateX;
-    static MObject customBoundsAxisTranslateY;
-    static MObject customBoundsAxisTranslateZ;
-    static MObject customBoundsAxisRotate;
-    static MObject customBoundsAxisRotateX;
-    static MObject customBoundsAxisRotateY;
-    static MObject customBoundsAxisRotateZ;
-    static MObject customBoundsAxisScale;
-    static MObject customBoundsAxisScaleX;
-    static MObject customBoundsAxisScaleY;
-    static MObject customBoundsAxisScaleZ;
-    static MObject customBoundsSize;
+    static MObject customBoundsBaseSpaceXPlus;
+    static MObject customBoundsBaseSpaceXMinus;
+    static MObject customBoundsBaseSpaceYPlus;
+    static MObject customBoundsBaseSpaceYMinus;
+    static MObject customBoundsBaseSpaceZPlus;
+    static MObject customBoundsBaseSpaceZMinus;
 
 private:
     static void onAttributeChanged(

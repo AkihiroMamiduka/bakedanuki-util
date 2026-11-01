@@ -150,7 +150,7 @@ def test_color_fin_follows_selected_axes_with_its_body_fixed(
 
 @pytest.mark.parametrize("preset,plain", COLOR_PAIRS)
 @pytest.mark.parametrize("filled", (False, True))
-def test_color_attachments_keep_fixed_xyz_transform_and_offset_meanings(
+def test_color_attachments_keep_fixed_xyz_transform_meanings(
     maya_cmds, maya_om, new_scene, preset, plain, filled
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -188,27 +188,17 @@ def test_color_attachments_keep_fixed_xyz_transform_and_offset_meanings(
     maya_cmds.setAttr(f"{shape}.shapeTranslate", *translate)
     maya_cmds.setAttr(f"{shape}.shapeRotate", 17, -29, 43)
     maya_cmds.setAttr(f"{shape}.shapeAxisRotate", -31, 13, 23)
-    maya_cmds.setAttr(f"{shape}.shapeAxisOffset", True)
-    for direction in range(6):
-        axis, negative = divmod(direction, 2)
-        maya_cmds.setAttr(f"{shape}.shapeAxisOffsetDirection", direction)
-        for length in (0.7, 2.3):
-            maya_cmds.setAttr(f"{shape}.shapeAxisOffsetLength", length)
-            expected = []
-            for index in range(6):
-                component = index % 3
-                local = (
-                    baseline[index] * size * axis_scale[component]
-                    + axis_translate[component]
-                )
-                if component == axis:
-                    local = (local + (-0.5 if negative else 0.5)) * length
-                expected.append(
-                    root * (translate[component] + local * scale[component])
-                )
-            assert _bounds(maya_om, shape) == pytest.approx(
-                expected, abs=1e-9
-            ), (preset, direction, length)
+    expected = []
+    for index in range(6):
+        component = index % 3
+        local = (
+            baseline[index] * size * axis_scale[component]
+            + axis_translate[component]
+        )
+        expected.append(
+            root * (translate[component] + local * scale[component])
+        )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
 
 
 @pytest.mark.parametrize(

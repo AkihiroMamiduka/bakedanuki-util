@@ -8,6 +8,12 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
     const auto style = settings.finTemplate ? StrokeStyle::Template : StrokeStyle::Normal;
     PartBuilder builder(settings.fill);
     PartPlane plane{MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0)};
+    const auto heightSettings = [&] {
+        ShapeSettings adjusted = settings;
+        const double heightScale = baseSpaceDirectionLength(colorAttachmentVector(plane.along, settings), settings);
+        if (heightScale != 0.0) adjusted.partFinHeight /= heightScale;
+        return adjusted;
+    };
 
     // Arrowはくぼみから先端までの矩形と、従来の傾斜した外形を切り替える。
     if (outline == 39) {
@@ -19,8 +25,8 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
         std::vector<MPoint> transformed;
         for (const auto& p : points) {
             const double x = 0.125 + (p.x - 0.125) * settings.finWidthScale * settings.finSize;
-            transformed.emplace_back(0.5 + (x - 0.5) * partLength(settings) + settings.partOffset,
-                p.y * 2.0 * partFinHeight(settings), 0);
+            transformed.emplace_back(x,
+                p.y * 2.0 * partFinHeight(heightSettings()), 0);
         }
         builder.stroke(transformed, style);
         builder.polygon(transformed, style);
@@ -46,8 +52,10 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
             double low = -0.5;
             double high = 0.5;
             if (outline == 117) {
-                low -= settings.wideWidth * 0.5;
-                high += settings.wideWidth * 0.5;
+                const double halfWidth = settings.wideWidth * 0.5 /
+                    std::max(baseSpaceDirectionLength(nativeAxis(1), settings), 1e-12);
+                low -= halfWidth;
+                high += halfWidth;
             }
             if (outline == 6 || outline == 7) low = -0.37;
             if (semicircle) low = 0.0;
@@ -89,11 +97,11 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
         // 線形状と平面形状はFinだけを作り、端形状の内側を後から差し引く。
         const bool separate = planar || line || optionPartSupported(outline) || isColorOutline(outline);
         if (!separate) builder.geometry = std::move(geometry);
-        const double tip = 0.5 * partLength(settings) + settings.partOffset;
+        const double tip = outline == 25 ? 0.5 : 0.5 * partLength(settings) + settings.partOffset;
         const auto outer = outline == 25
             ? std::vector<MPoint>{MPoint(-0.5, 0, 0), MPoint(tip, 0, 0)}
             : std::vector<MPoint>{MPoint(low, 0, 0), MPoint(high, 0, 0)};
-        appendFinPart(builder, settings, section, outer, heights,
+        appendFinPart(builder, heightSettings(), section, outer, heights,
             outline == 25 ? (tip - 0.5) * 0.5 : (low + high) * 0.5, style);
         if (!separate) { geometry = std::move(builder.geometry); return; }
     }

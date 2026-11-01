@@ -20,24 +20,14 @@ from bd_util.maya.node.operator.attr.define.std.dt.matrix import (
     DataMatrixPlugOperator,
 )
 from bd_util.maya.node.operator.attr.define.node_attr.bd_controller_shape import (
-    CustomBoundsAxisRotatePlugOperator,
-    CustomBoundsAxisScalePlugOperator,
-    CustomBoundsAxisTranslatePlugOperator,
-    CustomBoundsRotatePlugOperator,
-    CustomBoundsScalePlugOperator,
-    CustomBoundsTranslatePlugOperator,
     ShapeAxisRotatePlugOperator,
     ShapeAxisScalePlugOperator,
     ShapeAxisTranslatePlugOperator,
 )
 from bd_util.maya.node.operator.node.dag.shape._generated.bd_controller_shape import (
     BoundsModeEnumPlugOperator,
-    CustomBounds1stAxisEnumPlugOperator,
-    CustomBounds2ndAxisEnumPlugOperator,
-    CustomBoundsAxisOffsetDirectionEnumPlugOperator,
     Shape1stAxisEnumPlugOperator,
     Shape2ndAxisEnumPlugOperator,
-    ShapeAxisOffsetDirectionEnumPlugOperator,
     ShapeEnumPlugOperator,
     ShapeFinTypeEnumPlugOperator,
     ShapePartShapeEnumPlugOperator,
@@ -212,7 +202,18 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.shape1stAxis, Shape1stAxisEnumPlugOperator)
     assert_type(shape.shape2ndAxis, Shape2ndAxisEnumPlugOperator)
     assert_type(shape.shapeAnimationTransformMatrix, DataMatrixPlugOperator)
-    assert_type(shape.shapeAxisOffsetLength, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace1stAxisMinus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace1stAxisPlus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace2ndAxisMinus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace2ndAxisPlus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace3rdAxisMinus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace3rdAxisPlus, DoubleLinearPlugOperator)
+    shape.shapeBaseSpace1stAxisMinus.set(1.0)
+    shape.shapeBaseSpace1stAxisPlus.set(2.0)
+    shape.shapeBaseSpace2ndAxisMinus.set(-0.75)
+    shape.shapeBaseSpace2ndAxisPlus.set(0.75)
+    shape.shapeBaseSpace3rdAxisMinus.set(-1.0)
+    shape.shapeBaseSpace3rdAxisPlus.set(1.0)
     assert_type(shape.shapeWideWidth, DoubleLinearPlugOperator)
     assert_type(shape.sww, DoubleLinearPlugOperator)
     assert_type(shape.shapePart, BoolPlugOperator)
@@ -280,11 +281,6 @@ def controller_shape_offset_line_contract() -> None:
     shape.shapePartWidthScale.set(3.0)
     shape.shapePartHeightScale.set(0.5)
     shape.sphs.set(1.0)
-    assert_type(shape.shapeAxisOffset, BoolPlugOperator)
-    assert_type(
-        shape.shapeAxisOffsetDirection,
-        ShapeAxisOffsetDirectionEnumPlugOperator,
-    )
     assert_type(shape.shapeAxisTranslate, ShapeAxisTranslatePlugOperator)
     assert_type(shape.shapeAxisRotate, ShapeAxisRotatePlugOperator)
     assert_type(shape.shapeAxisScale, ShapeAxisScalePlugOperator)
@@ -310,11 +306,6 @@ def controller_shape_offset_line_contract() -> None:
             1.0,
         )
     )
-    shape.shapeAxisOffsetLength.set(5.0)
-    shape.shapeAxisOffset.set(True)
-    shape.shapeAxisOffsetDirection.set(
-        ShapeAxisOffsetDirectionEnumPlugOperator.PLUS_1STAXIS
-    )
     shape.shapeAxisTranslate.set(1.0, 2.0, 3.0)
     shape.shapeAxisRotate.set(0.0, 0.0, 90.0)
     shape.shapeAxisScale.set(2.0, 1.0, 1.0)
@@ -329,39 +320,20 @@ def controller_shape_bounds_contract() -> None:
     _, shape = bdu.Nodes().create.controllerShape()
     assert_type(shape.boundsMode, BoundsModeEnumPlugOperator)
     assert_type(shape.showBoundsPreview, BoolPlugOperator)
-    assert_type(shape.customBounds1stAxis, CustomBounds1stAxisEnumPlugOperator)
-    assert_type(shape.customBounds2ndAxis, CustomBounds2ndAxisEnumPlugOperator)
-    assert_type(shape.customBoundsRootSize, DoublePlugOperator)
-    assert_type(shape.customBoundsTranslate, CustomBoundsTranslatePlugOperator)
-    assert_type(shape.customBoundsRotate, CustomBoundsRotatePlugOperator)
-    assert_type(shape.customBoundsScale, CustomBoundsScalePlugOperator)
-    assert_type(shape.customBoundsAxisOffsetLength, DoubleLinearPlugOperator)
-    assert_type(shape.customBoundsAxisOffset, BoolPlugOperator)
-    assert_type(
-        shape.customBoundsAxisOffsetDirection,
-        CustomBoundsAxisOffsetDirectionEnumPlugOperator,
-    )
-    assert_type(
-        shape.customBoundsAxisTranslate, CustomBoundsAxisTranslatePlugOperator
-    )
-    assert_type(
-        shape.customBoundsAxisRotate, CustomBoundsAxisRotatePlugOperator
-    )
-    assert_type(shape.customBoundsAxisScale, CustomBoundsAxisScalePlugOperator)
-    assert_type(shape.customBoundsSize, DoublePlugOperator)
+    assert_type(shape.customBoundsBaseSpaceXPlus, DoubleLinearPlugOperator)
+    assert_type(shape.customBoundsBaseSpaceXMinus, DoubleLinearPlugOperator)
+    assert_type(shape.customBoundsBaseSpaceYPlus, DoubleLinearPlugOperator)
+    assert_type(shape.customBoundsBaseSpaceYMinus, DoubleLinearPlugOperator)
+    assert_type(shape.customBoundsBaseSpaceZPlus, DoubleLinearPlugOperator)
+    assert_type(shape.customBoundsBaseSpaceZMinus, DoubleLinearPlugOperator)
     shape.boundsMode.set(BoundsModeEnumPlugOperator.CUSTOM)
     shape.showBoundsPreview.set(True)
-    shape.customBounds1stAxis.set(CustomBounds1stAxisEnumPlugOperator.PLUS_X)
-    shape.customBounds2ndAxis.set(CustomBounds2ndAxisEnumPlugOperator.PLUS_Y)
-    shape.customBoundsAxisOffsetDirection.set(
-        CustomBoundsAxisOffsetDirectionEnumPlugOperator.PLUS_1STAXIS
-    )
-    shape.customBoundsTranslate.set(1.0, 2.0, 3.0)
-    shape.customBoundsRotate.set(0.0, 0.0, 45.0)
-    shape.customBoundsScale.set(1.0, 2.0, 3.0)
-    shape.customBoundsAxisTranslate.set(1.0, 2.0, 3.0)
-    shape.customBoundsAxisRotate.set(0.0, 0.0, 45.0)
-    shape.customBoundsAxisScale.set(1.0, 2.0, 3.0)
+    shape.customBoundsBaseSpaceXPlus.set(2.0)
+    shape.customBoundsBaseSpaceXMinus.set(1.0)
+    shape.customBoundsBaseSpaceYPlus.set(3.0)
+    shape.customBoundsBaseSpaceYMinus.set(-1.0)
+    shape.customBoundsBaseSpaceZPlus.set(4.0)
+    shape.customBoundsBaseSpaceZMinus.set(-2.0)
 
 
 def controller_shape_draw_style_contract() -> None:

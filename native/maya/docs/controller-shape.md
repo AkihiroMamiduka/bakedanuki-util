@@ -74,27 +74,28 @@ mod.do_it_dg()
 `shapeAnimationTransformMatrix` 自体には Maya の通常のキーを直接作れません。
 行列の移動・回転・スケールをキー化するときは、接続元の数値属性を使います。
 
-`Cube` の根元を原点に合わせ、主軸方向へ 5 cm 伸ばす場合は、
-`shapeSize=1` として次のように設定します。
+他の共通変形が既定値の場合、`Cube` の根元を原点に合わせて主軸方向へ5 cm伸ばすには、
+基準空間の両端を指定します。
 
 ```python
 shape.shape.set(shape.shape.CUBE)
-shape.shapeSize.set(1.0)
-shape.shapeAxisOffsetLength.set(5.0)
-shape.shapeAxisOffset.set(True)
-shape.shapeAxisOffsetDirection.set(0)  # +1stAxis
+shape.shapeBaseSpace1stAxisMinus.set(0.0)
+shape.shapeBaseSpace1stAxisPlus.set(5.0)
 mod.do_it_dg()
 ```
 
 フォーカス範囲を形状の位置から分離する場合は、`boundsMode` を切り替えます。
-`ShapeCentered` は形状由来の大きさを原点中心で使い、`Custom` は独立した
-Cube の調整値を使います。
+`ShapeCentered` は形状由来の寸法を原点中心で使い、`Custom` は親transformの
+ローカルXYZで指定した独立の箱を使います。
 
 ```python
-shape.boundsMode.set(1)  # ShapeCentered
 shape.boundsMode.set(2)  # Custom
-shape.customBoundsTranslate.set(0.0, 0.0, 2.0)
-shape.customBoundsSize.set(3.0)
+shape.customBoundsBaseSpaceXMinus.set(-1.5)
+shape.customBoundsBaseSpaceXPlus.set(1.5)
+shape.customBoundsBaseSpaceYMinus.set(-1.5)
+shape.customBoundsBaseSpaceYPlus.set(1.5)
+shape.customBoundsBaseSpaceZMinus.set(0.5)
+shape.customBoundsBaseSpaceZPlus.set(3.5)
 shape.showBoundsPreview.set(True)
 mod.do_it_dg()
 ```
@@ -113,11 +114,20 @@ mod.do_it_dg()
 | `shape2ndAxis` | enum | `+Y` (2) | 基準補助軸の行先。Color系ではPart・Finの配置姿勢に適用。選択肢はshape1stAxisと同じ |
 | `shapeAxisSwap` | `bool` | `false` | 基準形状の主軸・補助軸を交換し、第3軸を反転。Color系ではPart・Finだけに適用。軸属性値やAxis系TRSの意味は交換しない。`sasw` |
 | `shape` | enum | `Cube` (12) | 下表の24種類の基本本体。組合せは共通属性で選ぶ |
+| `shapeBaseSpace1stAxisPlus` | `doubleLinear` | `+0.5 cm` | 基準主軸の元の正端 `+0.5` の行き先 |
+| `shapeBaseSpace1stAxisMinus` | `doubleLinear` | `-0.5 cm` | 基準主軸の元の負端 `-0.5` の行き先 |
+| `shapeBaseSpace2ndAxisPlus` | `doubleLinear` | `+0.5 cm` | 基準補助軸の元の正端 `+0.5` の行き先 |
+| `shapeBaseSpace2ndAxisMinus` | `doubleLinear` | `-0.5 cm` | 基準補助軸の元の負端 `-0.5` の行き先 |
+| `shapeBaseSpace3rdAxisPlus` | `doubleLinear` | `+0.5 cm` | 基準第3軸の元の正端 `+0.5` の行き先 |
+| `shapeBaseSpace3rdAxisMinus` | `doubleLinear` | `-0.5 cm` | 基準第3軸の元の負端 `-0.5` の行き先 |
 | `shapeDrawOnTop` | `bool` | `false` | 本体・Part・Fin・GuideLine・OffsetLineを他のシーン形状に隠れないように描画 |
 | `shapeLineWidth` | `float` | `1` | 本体・GuideLine・OffsetLineの画面上の線幅。pixel単位、最小値1 |
 | `shapeLineTransparency` | `float` | `0` | 輪郭・GuideLine・OffsetLine・ColorCornerCubeの小四角の透明度。0は不透明、1は完全透明 |
 | `shapeFill` | `bool` | `false` | 本体・Part・Finの面を表示。薄線のArc系・CrossArc系はPartのみ。`sfl` |
 | `shapeFillTransparency` | `float` | `0.85` | 通常の塗り面の透明度。ColorCornerCubeの小四角には適用しない |
+| `shapeWide` | `bool` | `false` | 全24基本本体で帯または面上の追加輪郭を有効にする。`swd` |
+| `shapeWideWidth` | `doubleLinear` | `0.05 cm` | 帯幅、3軸の四角断面の一辺、変形後の面上の追加輪郭の実距離幅。最小値0。Wide OFFでは保持して無視。`sww` |
+| `shapeArcAngle` | `doubleAngle` | `180°` | Arc系4基本形状の円弧全体の角度。0–360°。他本体では保持して無視。`saa` |
 | `shapeTemplateLine` | `bool` | `false` | 本体線の指定区間だけをTemplate色・選択不可にする。Part・Fin・GuideLine・OffsetLineには作用しない。`stl` |
 | `shapeTemplateLineRate` | `double` | `0.7` | 反転前の各論理区間に占めるTemplate部分の割合。0–1。0で全線通常、1で全本体線Template。`stlr` |
 | `shapeTemplateLineInvert` | `bool` | `false` | TemplateLineがONのとき通常とTemplateの区間を反転。Rate 0は全Template、1は全通常になる。`stli` |
@@ -126,29 +136,23 @@ mod.do_it_dg()
 | `shapeFinTemplate` | `bool` | `false` | 生成したFinの線と面だけをTemplate色・選択不可にする。`sft` |
 | `shapeGuideLineTemplate` | `bool` | `false` | GuideLineだけをTemplate色・選択不可にする。`sglt` |
 | `shapeOffsetLineTemplate` | `bool` | `false` | OffsetLineだけをTemplate色・選択不可にする |
-| `shapeWide` | `bool` | `false` | 全24基本本体で帯または面上の追加輪郭を有効にする。`swd` |
-| `shapeWideWidth` | `doubleLinear` | `0.05 cm` | 帯幅、3軸の四角断面の一辺、面上の追加輪郭の基準幅。最小値0。Wide OFFでは保持して無視。`sww` |
-| `shapeArcAngle` | `doubleAngle` | `180°` | Arc系4基本形状の円弧全体の角度。0–360°。他本体では保持して無視。`saa` |
 | `shapePart` | `bool` | `false` | 対象本体へ小形状を追加。`spt` |
 | `shapePartShape` | enum | `Arrow2D` (0) | 小形状の11種類。`spsh` |
 | `shapePartType` | enum | `AtEnd` (0) | `AtEnd` (0)、`AtEnds` (1)、`AtApex` (2)。`sptp` |
-| `shapePartOffset` | `doubleLinear` | `0 cm` | Partを配置方向へ移動。Arc系・CrossArc系のAtEnd・AtEndsで円周へ曲げる6種類では無視し、値と接続は保持。Arrow・OctahedronArrow本体の先端調整にも使用 |
+| `shapePartOffset` | `doubleLinear` | `0 cm` | Partを配置方向へ移動。Arc系・CrossArc系のAtEnd・AtEndsで円周へ曲げる6種類では無視し、値と接続は保持。追加Part専用 |
 | `shapePartSize` | `double` | `1` | Partの長さ・幅・高さの共通倍率。Arc系以外のPart対応本体のAtEndsではPrimary / Otherの配置倍率も掛ける。`sps` |
 | `shapePartPrimarySizeScale` | `double` | `1` | Arc系以外のAtEndsで、AtEndと同じ代表1つへ掛ける追加倍率。0ならそのPartを省略。負値を含め上下限なし。対象外では値と接続を保持して無視。`sppss` |
 | `shapePartOtherSizeScale` | `double` | `0.5` | Arc系以外のAtEndsで、代表以外へ掛ける追加倍率。0なら該当Partを省略。負値を含め上下限なし。対象外では値と接続を保持して無視。`sposs` |
-| `shapePartLengthScale` | `double` | `1` | Partの長手方向の倍率。Arc系・CrossArc系の円周へ曲げるPartでは半径0.5の中心円弧長の倍率。Arrow・OctahedronArrow本体の調整にも使用 |
-| `shapePartWidthScale` | `double` | `1` | Partの局所幅の倍率。円周変形時はRadialの半径方向、Axialの円軸方向。Arrow・OctahedronArrow本体の幅調整にも使用 |
-| `shapePartHeightScale` | `double` | `1` | Partの局所高さの独立した符号付き倍率。平面Partでは保持して無視し、Arrow3Dの追加面・立体Part・OctahedronArrow本体へ適用する。0ではArrow3Dの追加面を省略しArrow2Dと一致する。`sphs` |
+| `shapePartLengthScale` | `double` | `1` | Partの長手方向の倍率。円周へ曲げるPartでは変形後の曲線上の弧長へ作用 |
+| `shapePartWidthScale` | `double` | `1` | Partの局所幅の倍率。円周変形時はRadialの曲線法線方向、Axialの円軸方向 |
+| `shapePartHeightScale` | `double` | `1` | Partの局所高さの独立した符号付き倍率。平面Partでは保持して無視し、Arrow3Dの追加面と立体Partへ適用する。0ではArrow3Dの追加面を省略しArrow2Dと一致する。`sphs` |
 | `shapeFin` | `bool` | `false` | Arc系4基本形状を除く20本体へ通常色のFinを1枚追加。対象外では値と接続を保持して無視。`sfn` |
 | `shapeFinType` | enum | `Standard` (0) | `Standard` (0)、`Tapered` (1)。`sfnt` |
 | `shapeFinHeight` | `doubleLinear` | `0.5 cm` | Finの張り出す高さ。`shapeFinSize`を掛け、0ならFinのみ省略。`sfnh` |
 | `shapeFinSize` | `double` | `1` | Finの高さと幅の共通倍率。`sfns` |
 | `shapeFinWidthScale` | `double` | `1` | Finの付け根に沿った幅の倍率。`sfnws` |
 | `shapeGuideLine` | `bool` | `false` | 本体中心から表面までガイド線を追加。対象外では設定を保持して無視。`sgl` |
-| `shapeOffsetLine` | `bool` | `false` | 親transformのローカル原点から、軸オフセットを除いた形状基準位置へ補助線を描画。`sol` |
-| `shapeAxisOffset` | `bool` | `false` | 選択軸方向へ基準形状を固定0.5オフセット |
-| `shapeAxisOffsetDirection` | enum | `+1stAxis` (0) | `+1stAxis` (0)、`-1stAxis` (1)、`+2ndAxis` (2)、`-2ndAxis` (3)、`+3rdAxis` (4)、`-3rdAxis` (5) |
-| `shapeAxisOffsetLength` | `doubleLinear` | `1 cm` | AxisOffsetがONのとき選択軸に沿って原点基準で伸縮。最小値0 |
+| `shapeOffsetLine` | `bool` | `false` | 親transformのローカル原点から、共通変形後の基準中心へ補助線を描画。`sol` |
 | `shapeRootSize` | `double` | `1` | 平行移動を含む全体の一律スケール |
 | `shapeTranslate` | `doubleLinear3` | `(0, 0, 0)` | 軸指定の外側で平行移動 |
 | `shapeRotate` | `doubleAngle3` | `(0, 0, 0)` | 軸指定の外側でXYZ固定順に回転 |
@@ -198,6 +202,7 @@ APIでは24基本形状の定数と個別の属性を設定し、状態の略記
 
 基準形状は各軸おおむね `-0.5..+0.5` を使います。矢印・小形状・FinやWideの帯は
 その範囲から張り出すことがあり、形状全体を長さ1へ正規化しません。
+この本体の基準空間は `shapeBaseSpace...AxisMinus` / `shapeBaseSpace...AxisPlus` で調整できます。
 Lineは主軸方向の長さ1、CrossLineは主軸と第3軸、CrossLineSwappedは補助軸と第3軸、
 CrossLine3Axisは3軸の線を使います。既定軸ではそれぞれX、XZ、YZ、XYZです。
 WideLineの帯、Gear・Triangle・Square系・Diamond・Circle系の通常本体は既定軸でXZ平面に置き、
@@ -212,9 +217,8 @@ DiamondはSquare各辺の中点を結び、縦横の対角線が1となります
 `shapeAxisSwap` は全24本体に対応します。Color系を除き、通常本体・Part・Fin・GuideLineを組み立てて接合した後、
 基準座標へ `(x, y, z) → (y, x, -z)` を一括適用します。
 主軸と補助軸の交換に合わせて第3軸も反転し、右手系を維持します。
-その後に適用する `shape1stAxis` / `shape2ndAxis`、AxisOffset、Axis系TRSの
-指定軸の意味や保持値は交換しません。たとえばSwappedでも
-`shapeAxisOffsetDirection=+1stAxis` はノードに指定した主軸方向のままです。
+その後に適用する `shape1stAxis` / `shape2ndAxis` とAxis系TRSの
+指定軸の意味や保持値は交換しません。Swappedでも `shapeAxisTranslateX` は指定した主軸方向への移動です。
 立体や3軸線で本体の外形が対称な場合も、代表PartやFinの配置は交換します。
 Color系は基準配置の交換をPart・Finへ適用してから選択軸のフレームへ向け、固定本体・軸色・GuideLineを交換しません。
 OffsetLineとCustom Boundsはこの交換から独立しています。
@@ -227,12 +231,73 @@ WideのCylinderは正の幅ではFillのON/OFFにかかわらず元の4本の母
 端円と帯の輪郭を表示します。幅0では通常のCylinderと同じ表示へ戻ります。
 円周は64分割の折れ線、Sphereの面は32経度×16緯度で構成します。
 
+### 本体の基準空間
+
+`shapeBaseSpace1stAxisMinus` / `shapeBaseSpace1stAxisPlus` は、
+本体の元の主軸座標 `-0.5` / `+0.5` を置く座標です。
+`shapeBaseSpace2ndAxisMinus` / `shapeBaseSpace2ndAxisPlus` と
+`shapeBaseSpace3rdAxisMinus` / `shapeBaseSpace3rdAxisPlus` も同じ規則で補助軸・第3軸へ作用します。
+値は距離で、`Minus` / `Plus` は元の端を識別します。元の座標からの移動量ではありません。
+既定値は全軸 `-0.5 cm` / `+0.5 cm` で、従来の基準形状を保ちます。
+
+各軸の元の座標を `p`、設定した両端を `minus` / `plus` とすると、
+`Arrow` / `OctahedronArrow` の主軸を除く本体上の座標は次の式で求めます。
+矢印の主軸は後述の固定長の規約を使います。ここで `p` は内部のcm単位の数値です。
+
+```text
+base(p) = (minus + plus) / 2 + p * (plus - minus)
+```
+
+範囲外の頂点も同じ式で外挿し、クランプや本体ごとのBoundsへの正規化を行いません。
+たとえば元の `-0.5 / 0 / +0.5` は、両端を `1 / 2` とすると `1 / 1.5 / 2`、
+両端を `1 / 3` とすると `1 / 2 / 3` になります。後者では元の `+0.75` も `+3.5` へ移ります。
+Triangleの底辺 `-0.37` やArcの角度による部分的な範囲も、そのまま線形変換します。
+
+通常本体では `Minus > Plus` も許容し、その軸を反転します。
+Color系は軸色と固定XYZの対応を保つため、入力した両端の中心を保ち、幅の絶対値を描画へ使います。
+保持している属性値・キー・接続は変更せず、通常本体へ戻すと両端の順序どおりの反転が作用します。
+矢印の主軸を除き、両端が同じ軸は本体をその座標へ潰しますが、
+Partの局所寸法・OffsetやFinの高さは潰しません。
+
+```python
+shape.shapeBaseSpace1stAxisMinus.set(1.0)
+shape.shapeBaseSpace1stAxisPlus.set(2.0)
+mod.do_it_dg()
+```
+
+この調整は、`shapeAxisSwap` を反映した基準姿勢上で、`shape1stAxis` / `shape2ndAxis` と
+共通TRSを適用する前に行います。Swapを切り替えても `1stAxis` / `2ndAxis` / `3rdAxis` の
+設定値や意味は交換しません。Color系本体の基準空間は、固定XYZの各軸に対応します。
+
+追加Partは変形後の本体から配置点と姿勢を求め、長さ・幅・高さと `shapePartOffset` の距離を保って生成します。
+Arcの円周へ沿わせるPartは、変形後の円・楕円上で長さを弧長として測り、局所幅を保ちます。
+曲線面が退化する場合は円周変形と立体の接合姿勢補正を行わず、元の局所姿勢からPartを作ります。
+配置点だけを退化後の本体へ写し、消えた方向には元の軸を使って長さ・幅・高さとOffsetの距離を保ちます。
+曲線面の2軸が残り、法線側の軸だけが潰れた場合は円周変形を保ちます。CrossArcは円ごとに判定します。
+Finは付け根と幅を本体へ追従させ、`shapeFinHeight * shapeFinSize` の張り出し量を保ちます。
+GuideLineの中心は変形後の基準中心へ移り、Part先端へ延長する規則も完成したPartへ追従します。
+`OctahedronArrow` のGuideLineは、固定長の後部と先端をつなぐ中央断面から各頂点へ伸びます。
+
+Wideは基準空間を適用した本体の表面から生成し、`shapeWideWidth` の実距離を保ちます。
+`Arrow` と `OctahedronArrow` の主軸は、後端の固定長を保つ例外を使います。
+この規約は「ArrowとOctahedronArrowの本体」を参照してください。
+
+組み立てた後の `shapeSize`・`shapeAxisScale`・`shapeScale`・`shapeRootSize` と
+`shapeAnimationTransformMatrix` は、本体・Part・Fin・Wideを共通に変形します。
+基準空間による伸縮から独立したPart寸法・Fin高さ・Wide幅も、これらの共通スケールでは変化します。
+
+`shapeOffsetLine` は親transformのローカル原点から、共通変形後の基準中心へ描きます。
+`boundsMode=Shape` は完成形状の範囲、`ShapeCentered` はその寸法を原点中心へ置いた範囲を使い、
+独立した `Custom` の基準空間へは作用しません。
+
 ### Wideの共通オプション
 
 `shapeWide=true` と `shapeWideWidth` を組み合わせて、全24基本本体のWide表示を選びます。
-幅は共通TRSを適用する前の基準形状上で測ります。以下で `w=shapeWideWidth` とします。
-幅そのものはPart・FinのSizeやWidthへ掛けません。
-Arrow・OctahedronArrowの既存の本体変形は基準輪郭へ反映し、その輪郭からWideを生成します。
+幅は基準空間の適用後、共通TRSの適用前の実距離で測ります。以下で `w=shapeWideWidth` とします。
+非等方な基準空間でも、線に垂直な平面距離または変形後の面上の距離を保ちます。
+Part・FinのSizeやWidthを幅へ掛けません。共通TRSや入力行列では、帯も本体と一緒に伸縮します。
+後端が固定長のArrow系も、本体の輪郭・表面を確定してからWideを生成します。
+以下の半径0.5や座標値は、基準空間と共通TRSが既定値の場合を示します。
 
 | 基本本体 | Wide表示 |
 | --- | --- |
@@ -458,9 +523,9 @@ Triangle・Pyramid・Coneと線・円弧端のArrowは先端がピボットで�
 表面から突出するTriangle・Pyramid・Coneも底面を基準にします。
 SizeやAtEndsの配置倍率を変えても、Offsetの距離自体は変わりません。
 Partの変形後に、shapeSize・軸指定・回転・animation matrixなどの全体変形を適用します。
+`shapeBaseSpace...` はPartの配置点と本体側の接合位置に反映し、Partの局所寸法へ掛けません。
 WidthとHeightは独立した局所軸の倍率で、Heightの負値は高さ側だけを反転します。
 Arrow3Dは主面の幅をWidth、追加面の高さをHeightで調整し、Height 0では追加面を省いてArrow2Dと一致します。
-OctahedronArrow本体は標準配置でWidthがZ、HeightがYに作用します。
 
 接続線は変形後の小形状の手前で止め、内部へ通しません。
 CrossLineでは手前の表面が原点へ達する・越える場合、反対側へ線を延長しません。
@@ -470,13 +535,30 @@ Finと本体の線・塗りも、変形後の小形状内部を差し引きま�
 重なる面の二重描画と内部線を避け、半透明でも境界を揃えます。
 倍率は負値・ゼロ値にも対応し、面積0の塗り面は省略します。
 
-Arrow・OctahedronArrowは本体自身が矢印のため、PartがOFFでも
-Offset・Size・Length・Widthの調整を適用します。
-OctahedronArrowの既定形状はOctahedronと同じ±0.5の八面体です。
-Offset・Lengthでは先端だけを動かし、中央断面から先端までを直線で結びます。
-Lengthは中央断面基準で、1なら先端+0.5、2なら+1.0です。
-Width・Sizeは中央断面と、それを共有する反対側の面も変え、後端を固定します。
-これらの本体へ付けたFinの付け根は本体変形へ追従します。
+### ArrowとOctahedronArrowの本体
+
+`Arrow` と `OctahedronArrow` は、主軸のMinusを後端、Plusを先端として使います。
+AxisSwapがOFFなら1st軸、ONなら2nd軸の両端です。
+後端から接合断面までの長さは、`Arrow` が `0.25 cm`、
+`OctahedronArrow` が `0.5 cm` に固定します。先端側だけを指定したPlusへ伸ばします。
+
+```text
+direction = +1 if plus >= minus else -1
+rear = minus
+joint = rear + direction * rear_depth
+tip = plus
+```
+
+MinusとPlusを逆転すると向きも反転し、後端側の固定長を保ちます。
+両端間が固定長より短い場合も `joint` をクランプせず、接合断面と先端の位置をそのまま使います。
+幅・高さは他の基準空間の2軸で調整し、共通TRSは完成した本体全体へ作用します。
+`shapePartOffset`・`shapePartSize`・各Part倍率はこの本体へ作用しません。
+後端の固定長と前側の接合面、Wide・Fin・GuideLineも同じ本体の座標へ揃えます。
+
+`Arrow` のWideは、先端に接続する2辺の帯境界を交点まで延ばし、長く鋭くしても面取りへ切り替えません。
+辺から測る帯幅を保つため、外側の先端は本体のPlus座標より先へ張り出します。
+帯が頭部より太く、内側の交点が付け根を越える場合は、付け根で内側の穴を閉じます。
+先端の幅が0など交点を定義できない場合は、退化後の帯として扱います。
 
 ### CircleとWideCircle
 
@@ -758,6 +840,7 @@ width = shapeFinWidthScale * shapeFinSize
 ```
 
 PartのSize・Width・Offset・LengthをFinの寸法へ掛けません。
+`shapeBaseSpace...` では付け根と幅だけを本体へ追従させ、高さを伸縮しません。
 Arrow・OctahedronArrow本体に追従する付け根だけは、本体側の変形を反映します。
 高さ0またはFin OFFではFinの線・面だけを省略し、本体・Partを残します。
 負の高さは自由頂点の張り出す向きを反転し、付け根を移し替えません。
@@ -864,9 +947,13 @@ Part・Finの線と面は通常色です。
 `shapeFill` がONなら、`ColorCube` は同じ輪郭を保ち、正側の3面全体を法線に対応する
 軸色で塗ります。`+X` 面は赤、`+Y` 面は緑、`+Z` 面は青、負側の3面は通常色です。
 
-`ColorCornerCube` は通常色のCube輪郭と、正側の角 `(+0.5, +0.5, +0.5)` に
-接する軸色の小四角3枚から構成します。小四角は各正側面の面内座標 `0.3` から
-`0.5` にあり、一辺は基準Cubeの一辺1に対して `0.2` です。小四角はWireframeでも
+`ColorCornerCube` は通常色のCube輪郭と、基準空間を適用した本体の正側XYZ角に
+接する軸色の小四角3枚から構成します。小四角は角から内側へ各辺 `0.2 cm` とし、
+基準空間の各軸を伸縮してもこの寸法を保ちます。基準空間の幅が `0.2 cm` 未満の軸は
+本体の幅で切り取り、小四角を本体の外へ出しません。このため長方形や退化した面に
+なることがあります。基準空間が既定値なら、各正側面の面内座標 `0.3` から `0.5` です。
+共通のSize・TRS、`shapeAnimationTransformMatrix` と親transformでは本体と一緒に拡縮します。
+小四角はWireframeでも
 塗り面として表示し、面内のクリックで選択できます。小四角に接する輪郭線3本は
 その境界で止め、色面上に通常色の線を重ねません。小四角もColor系の描画規則に従い、
 軸色と選択色の扱いは他のColor系と共通です。
@@ -887,7 +974,7 @@ Color系4基本本体は、シェイプ編集を適用する段階で軸色と�
 | `shapeScale` / `shapeAxisScale` | 各XYZ成分の絶対値を適用 |
 | `shapeSize` / `shapeRootSize` | 絶対値を適用 |
 
-移動、正のスケール、軸オフセット、部品の変形は引き続き適用します。0スケールも0のままです。
+移動、正のスケール、基準空間と部品の変形は引き続き適用します。0スケールも0のままです。
 通常の形状へ切り替えると、保持していた軸指定・回転・符号付きスケールが再び作用します。
 本体の輪郭・塗り面・小四角・GuideLine・OffsetLineは、上記の本体用の描画設定を使います。
 Part・Finは通常色のまま、AxisSwapによる基準配置の交換後に選択した主軸・補助軸へ配置点と姿勢を合わせ、
@@ -895,98 +982,77 @@ Part・Finは通常色のまま、AxisSwapによる基準配置の交換後に�
 Partは固定された本体表面との接合を再計算し、Finも配置姿勢を変えてから本体・Part内部を切り取ります。
 FinはColor系4基本本体に対応し、Wide・AxisSwap・Template設定で各オプションの対応範囲は変わりません。
 `shapeRotate` / `shapeAxisRotate` の回転無視はPart・Finにも適用し、軸指定による配置姿勢の変更を反映します。
-軸オフセットとAxis系TRSの基準も従来の固定XYZのままです。
+基準空間とAxis系TRSの基準は親transformのローカルXYZに固定します。
 Shape / ShapeCentered Boundsは、これらを組み立てた実際の本体・Part・Finの頂点から計算します。
-Custom Boundsの独立した軸指定・回転・スケールには、この制約を適用しません。
+Custom Boundsの専用XYZ両端座標には、本体の軸指定やColorの特殊な描画設定を適用しません。
 
 `shapeAnimationTransformMatrix` はColor系でも分解・加工せず、そのまま適用します。
 行列や親transformに回転・シアー・反転が含まれる場合、色付き部位もその変換に追従します。
 これらは利用者が与える変換として扱い、シェイプ編集の制約とは分けます。
 
-`Custom` 用の調整属性は `shapeAnimationTransformMatrix` を除き、形状本体から独立しています。
-基準形状は固定の `Cube` で、`shape` と GuideLine・OffsetLine に対応する属性はありません。
-本体のWide・AxisSwap・Template表示もCustom Boundsへ適用しません。
+`Custom` は親transformのローカルXYZに固定した独立の箱です。
+次の6つの距離属性で各軸の両端を指定し、`boundsMode=Custom` のフォーカス範囲と
+プレビューにだけ使います。本体の軸指定・基準空間・TRS・Wide・Template表示は作用しません。
 
-| Custom attribute | Maya の型 | 既定値 | 対応する形状属性 |
+| Custom attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `customBounds1stAxis` / `customBounds2ndAxis` | enum | `+X` / `+Y` | `shape1stAxis` / `shape2ndAxis` |
-| `customBoundsRootSize` | `double` | `1` | `shapeRootSize` |
-| `customBoundsTranslate` | `doubleLinear3` | `(0, 0, 0)` | `shapeTranslate` |
-| `customBoundsRotate` | `doubleAngle3` | `(0, 0, 0)` | `shapeRotate` |
-| `customBoundsScale` | `double3` | `(1, 1, 1)` | `shapeScale` |
-| `customBoundsAxisOffsetLength` | `doubleLinear` | `1 cm` | `customBoundsAxisOffset=true` のときだけ作用する `shapeAxisOffsetLength` 相当の長さ。最小値 `0` |
-| `customBoundsAxisOffset` | `bool` | `false` | `shapeAxisOffset` |
-| `customBoundsAxisOffsetDirection` | enum | `+1stAxis` | `shapeAxisOffsetDirection` |
-| `customBoundsAxisTranslate` | `doubleLinear3` | `(0, 0, 0)` | `shapeAxisTranslate` |
-| `customBoundsAxisRotate` | `doubleAngle3` | `(0, 0, 0)` | `shapeAxisRotate` |
-| `customBoundsAxisScale` | `double3` | `(1, 1, 1)` | `shapeAxisScale` |
-| `customBoundsSize` | `double` | `1` | `shapeSize` |
+| `customBoundsBaseSpaceXPlus` / `customBoundsBaseSpaceXMinus` | `doubleLinear` | `+0.5 cm` / `-0.5 cm` | ローカルXの両端 |
+| `customBoundsBaseSpaceYPlus` / `customBoundsBaseSpaceYMinus` | `doubleLinear` | `+0.5 cm` / `-0.5 cm` | ローカルYの両端 |
+| `customBoundsBaseSpaceZPlus` / `customBoundsBaseSpaceZMinus` | `doubleLinear` | `+0.5 cm` / `-0.5 cm` | ローカルZの両端 |
 
-表示する調整属性は、複合属性の X/Y/Z 子属性も含めて非 keyable・Channel Box 表示です。
-Channel Box から値を編集でき、DG 接続や属性を明示したキー設定も可能です。
-通常の一括キー操作では対象になりません。２つの軸指定と軸オフセット方向の
-enum 値は形状本体と Custom で共通です。
-`shapeAnimationTransformMatrix` は Channel Box に表示せず、接続と
-`ModifierManager` 経由の設定に対応します。
+両端の大小が逆でも同じ箱とし、保持値・キー・接続は変更しません。両端一致による退化も許容します。
+指定した箱の8角へ共有の `shapeAnimationTransformMatrix` を適用してから、最終の軸平行範囲を求めます。
+親transformの変換も従来どおり反映します。Custom以外のモードでは6値を保持して無視します。
 
-Channel Boxの表示順は次の16区画です。区切りは `_` から `________________` までの
-16本の表示専用1値enumで、値は `-----------------------------------` です。
+表示する調整属性は、形状側の複合属性のX/Y/Z子属性も含めて非keyable・Channel Box表示です。
+Channel Box編集、DG接続、属性を明示したキー設定に対応し、通常の一括キー操作には含めません。
+`shapeAnimationTransformMatrix` はChannel Boxに表示せず、接続と `ModifierManager` 経由の設定に対応します。
+
+Channel Boxの表示順は次の12区画です。区切りは `_` から `____________` までの
+12本の表示専用1値enumで、値は `-----------------------------------` です。
 非keyable・非接続・非保存・ロック済みとし、先頭と各区画の間へ1本ずつ置きます。
 
-1. `shape1stAxis`、`shape2ndAxis`、`shapeAxisSwap`、`shape`
-2. `shapeDrawOnTop`
-3. `shapeLineWidth`、`shapeLineTransparency`
-4. `shapeFill`、`shapeFillTransparency`
+1. `shape1stAxis`、`shape2ndAxis`、`shapeAxisSwap`、`shape`、`shapeBaseSpace1stAxisPlus` / `Minus`、`shapeBaseSpace2ndAxisPlus` / `Minus`、`shapeBaseSpace3rdAxisPlus` / `Minus`
+2. `shapeDrawOnTop`、`shapeLineWidth`、`shapeLineTransparency`、`shapeFill`、`shapeFillTransparency`
+3. `shapeWide`、`shapeWideWidth`
+4. `shapeArcAngle`
 5. `shapeTemplateLine`、`shapeTemplateLineRate`、`shapeTemplateLineInvert`、`shapeTemplateFill`、`shapePartTemplate`、`shapeFinTemplate`、`shapeGuideLineTemplate`、`shapeOffsetLineTemplate`
-6. `shapeWide`、`shapeWideWidth`
-7. `shapeArcAngle`
-8. `shapePart`、`shapePartShape`、`shapePartType`、`shapePartOffset`、`shapePartSize`、`shapePartPrimarySizeScale`、`shapePartOtherSizeScale`、`shapePartLengthScale`、`shapePartWidthScale`、`shapePartHeightScale`
-9. `shapeFin`、`shapeFinType`、`shapeFinHeight`、`shapeFinSize`、`shapeFinWidthScale`
-10. `shapeGuideLine`
-11. `shapeOffsetLine`
-12. `shapeAxisOffset`、`shapeAxisOffsetDirection`、`shapeAxisOffsetLength`
-13. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
-14. `boundsMode`、`showBoundsPreview`
-15. `customBounds1stAxis`、`customBounds2ndAxis`、`customBoundsAxisOffset`、`customBoundsAxisOffsetDirection`、`customBoundsAxisOffsetLength`
-16. `customBoundsRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`customBoundsSize`
+6. `shapePart`、`shapePartShape`、`shapePartType`、`shapePartOffset`、`shapePartSize`、`shapePartPrimarySizeScale`、`shapePartOtherSizeScale`、`shapePartLengthScale`、`shapePartWidthScale`、`shapePartHeightScale`
+7. `shapeFin`、`shapeFinType`、`shapeFinHeight`、`shapeFinSize`、`shapeFinWidthScale`
+8. `shapeGuideLine`
+9. `shapeOffsetLine`
+10. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
+11. `boundsMode`、`showBoundsPreview`
+12. `customBoundsBaseSpaceXPlus` / `Minus`、`customBoundsBaseSpaceYPlus` / `Minus`、`customBoundsBaseSpaceZPlus` / `Minus`
 
-区切りは Python の生成 NodeOperator API から除外します。
-`MPxLocatorNode` から継承する `localPositionX/Y/Z` と `localScaleX/Y/Z` は
-描画に使わないため、`bdControllerShape` では Channel Box の既定表示から外します。
-標準の locator の表示設定には影響しません。
+区切りはPythonの生成NodeOperator APIから除外します。
+継承する `localPositionX/Y/Z` と `localScaleX/Y/Z` は描画に使わないためChannel Boxの既定表示から外し、
+標準locatorの表示設定には影響しません。
 
 点 `p` に適用する階層は `shapeAnimationTransformMatrix > shapeRootSize > shapeTranslate > shapeRotate >
-shapeScale > 軸指定 > shapeAxisOffsetLength > shapeAxisOffset > shapeAxisTranslate >
-shapeAxisRotate > shapeAxisScale > shapeSize > p` です。
-ここで `p` は部品の変形と接続線の追従、およびSwappedの入替を反映した基準形状の頂点です。
-Swappedの入替はこの階層の内側で完了し、AxisOffsetとAxis系TRSの指定軸を変更しません。
-外側・内側の XYZ 回転をそれぞれ `R`・`R_axis`、軸指定から作る回転を `A`、
-軸オフセットを `O_axis`、選択軸だけを伸縮する変換を `S_axis` とすると、
-計算結果は次のとおりです。
+shapeScale > 軸指定 > shapeAxisTranslate > shapeAxisRotate > shapeAxisScale > shapeSize > p` です。
+`p` は基準空間での本体変形、後端固定長の矢印、Wide、寸法を保つPart・Fin、GuideLineと
+Swappedの入替を反映して組み立てた頂点です。軸指定から作る回転を `A` とすると次の式になります。
 
 ```text
 p_out = shapeRootSize * (
     shapeTranslate + R_XYZ(
-        shapeScale ⊙ A(S_axis(
-            O_axis + shapeAxisTranslate + R_axis_XYZ(
+        shapeScale ⊙ A(
+            shapeAxisTranslate + R_axis_XYZ(
                 shapeAxisScale ⊙ (shapeSize * p)
             )
-        ))
+        )
     )
 )
 p_local = p_out * shapeAnimationTransformMatrix
 ```
 
-行列の積は Maya の行ベクトル規約で表しています。行列は親 `transform` の
-ローカル空間で適用し、その後の親 DAG 変換は Maya に任せます。
-ワールド空間の行列を使う場合は、親の `worldInverseMatrix` でローカル空間へ
-変換してから接続します。行ベクトル規約では、別ノードの `worldMatrix` を
-`W`、shape の親の `worldInverseMatrix` を `P⁻¹` とすると、入力行列は
-`W * P⁻¹` の順です。このとき shape の頂点は、親の変換を経た後に
-`p_out * W` の位置になります。`W` をそのまま接続すると親の変換が重複します。
+行列の積はMayaの行ベクトル規約です。行列は親transformのローカル空間で適用し、
+その後の親DAG変換はMayaに任せます。
+別ノードのワールド行列 `W` を使う場合、親の `worldInverseMatrix` を `P⁻¹` として
+`W * P⁻¹` を接続します。`W` をそのまま接続すると親の変換が重複します。
 行列の平行移動は `shapeRootSize` の影響を受けません。
-非等方スケールやシアーも、行列を分解せず頂点へ適用します。
-Color系は上記の描画用設定で `p_out` を計算し、入力行列と親DAG変換はそのまま適用します。
+非等方スケールやシアーも行列を分解せず適用し、Color系も入力行列と親DAG変換には同じ規則を使います。
 
 ### 描画属性
 
@@ -1020,23 +1086,17 @@ Custom Boundsは塗りのON/OFFから独立しています。接続・明示的�
 `boundsMode=Shape` は変形済みの形状本体と表示中の OffsetLine を
 含む範囲を返します。
 
-`boundsMode=ShapeCentered` は形状の種類・軸指定・回転・スケール・サイズを使い、
-既定のフォーカス範囲を求めます。
-`shapeTranslate`、`shapeAxisTranslate`、`shapeAxisOffset` による位置ずれと
-OffsetLine を除外します。`shapeAxisOffset=true` のときは
-`shapeAxisOffsetLength` と `shapeAxisOffsetDirection` による伸縮を保持します。
-この調整値で求めた形状の軸平行範囲を、まず親 `transform` のローカル原点を
-中心とする箱に置き直します。その８角へ `shapeAnimationTransformMatrix` を
-そのまま適用し、最終的な軸平行範囲を求めます。
-したがって行列の平行移動もフォーカス範囲へ反映されます。
-例えば他の変形が既定値の `Cube` で `shapeAxisOffset=true`、
-`shapeAxisOffsetLength=5 cm` なら、
-行列適用前の伸縮方向の範囲は `-2.5 cm` から `+2.5 cm` です。
-ArcRadialへAtApexのPartを追加した非対称な形状でも、行列適用前の範囲の中心は原点です。
+`boundsMode=ShapeCentered` は完成形状の寸法を使い、`shapeTranslate`・`shapeAxisTranslate`・
+基準空間の中心移動とOffsetLineによる位置ずれを除きます。
+形状の軸平行範囲を親transformのローカル原点中心へ置き直し、
+その8角へ `shapeAnimationTransformMatrix` を適用して最終の範囲を求めます。
+行列の移動もフォーカス範囲へ反映します。
+例えばCubeの主軸両端を `0 cm` / `5 cm` とし、他の変形が既定値なら、
+行列適用前の主軸範囲は `-2.5 cm` / `+2.5 cm` です。
 
-`boundsMode=Custom` は独立した調整属性で固定の `Cube` の８角を変形し、
-さらに共有の `shapeAnimationTransformMatrix` を適用してから軸平行範囲を
-求めます。Custom の箱は形状本体より小さくも大きくもできます。
+`boundsMode=Custom` は専用のローカルXYZ両端座標から箱を作り、
+共有の `shapeAnimationTransformMatrix` を8角へ適用して軸平行範囲を求めます。
+Customの箱は本体より小さくも大きくもできます。
 `showBoundsPreview` は選択中の `boundsMode` の最終範囲を表示するだけで、
 フォーカス範囲を変更しません。`Shape` では表示中の OffsetLine も範囲へ含みます。
 
@@ -1047,7 +1107,7 @@ F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform 
 形状本体・表示中の OffsetLine・表示中のフォーカス範囲プレビューを包む範囲を返します。
 クリック選択に使うのは、Template指定がなく、完全透明でもない本体・Part・Fin・GuideLine・OffsetLineの線です。
 
-ここで `⊙` は成分ごとの積です。`shapeRootSize` は平行移動と軸オフセットにも影響し、
+ここで `⊙` は成分ごとの積です。`shapeRootSize` は平行移動を含む全体へ作用し、
 `shapeSize` は頂点だけを拡縮します。既定の
 `shape1stAxis=+X`・`shape2ndAxis=+Y` では `A` は恒等回転です。
 `shape1stAxis` は基準の `+X`、`shape2ndAxis` は基準の `+Y` の行先です。
@@ -1060,46 +1120,13 @@ F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform 
 `+Y` を使います。主軸が `+Y` または `-Y` の場合だけ `+Z` を使います。
 これらは親 `transform` のアニメーション用 TRS とは別です。
 
-`shapeAxisOffset` が `false` のときは `O_axis=(0, 0, 0)` です。
-`true` のときは、`shapeAxisOffsetDirection` に応じて次の値を使います。
-
-| 方向 | 軸指定前の `O_axis` |
-| --- | --- |
-| `+1stAxis` / `-1stAxis` | `(+0.5, 0, 0)` / `(-0.5, 0, 0)` |
-| `+2ndAxis` / `-2ndAxis` | `(0, +0.5, 0)` / `(0, -0.5, 0)` |
-| `+3rdAxis` / `-3rdAxis` | `(0, 0, +0.5)` / `(0, 0, -0.5)` |
-
-`1stAxis` は主軸、`2ndAxis` は補助軸、`3rdAxis` は「主軸 × 補助軸」の方向です。
-無効な軸の組では、形状と同じ補正後の補助軸と第３軸を使います。
-主軸が `-X` なら `+1stAxis` は `-X` 方向、`-1stAxis` は `+X` 方向です。
-`S_axis` は `shapeAxisOffset=true` のとき、方向の正負にかかわらず選択軸の１成分だけを
-`shapeAxisOffsetLength / 1 cm` 倍します。オフのときは恒等変換です。
-基準形状の長さは内部座標で `1 cm` なので、
-他の変形が既定値の `Cube` では、軸オフセットをオンにすると正方向は
-`0` から指定長、負方向は `-指定長` から `0` まで伸びます。
-軸オフセットがオフなら、長さと方向の値を変えても形状は伸縮しません。
-オンで `0 cm` にすると選択軸方向に潰れます。接続から負値が入った場合も、形状の計算では
-`0 cm` として扱います。`shapeAxisTranslate` の選択軸成分も
-この長さで伸縮します。`shapeSize`、`shapeAxisScale`、内側の回転、外側のスケールなどを
-変更した場合、形状の端や実際の長さは指定長と一致するとは限りません。
-固定 `0.5` は `shapeSize`、`shapeAxisScale`、`shapeAxisRotate` の影響を受けず、
-`shapeAxisOffsetLength`、外側の `shapeScale`、`shapeRotate`、`shapeRootSize` の影響を受けます。
-`shapeAxisTranslate` には加算して使えます。`shapeAxisOffset` をオフにすると
-`shapeAxisOffsetDirection` も変形に作用しません。
-その他の変形が既定値の `Cube` は、`+1stAxis` へのオフセットで主軸方向の範囲が
-`0` から `1` になります。`shapeSize` だけを `2` にすると `-0.5` から `1.5` です。
-
-補助線の始点は親 `transform` のローカル原点 `(0, 0, 0)`、終点は上記の式に
-`p=(0, 0, 0)` と `O_axis=(0, 0, 0)` を代入し、
-`shapeAnimationTransformMatrix` を適用した形状基準位置です。
-`shapeTranslate` と `shapeAxisTranslate` の移動を反映し、軸オフセットを除外します。
-`shapeAxisOffset=true` なら `shapeAxisOffsetLength` は
-`shapeAxisTranslate` の選択軸成分を伸縮するため、終点にも反映します。
-`shapeAxisOffset` の固定位置成分、`shapeAxisRotate`、`shapeAxisScale`、
-`shapeSize` は終点を動かしません。行列が単位行列のとき、軸オフセットだけを
-オンにした場合は補助線を描きません。
+補助線の始点は親transformのローカル原点 `(0, 0, 0)`、
+終点は `p=base(0, 0, 0)` を共通変形の式へ代入して求める基準中心です。
+`shapeTranslate` と `shapeAxisTranslate`、共有の `shapeAnimationTransformMatrix` の移動を反映します。
+基準中心が原点なら `shapeAxisRotate`・`shapeAxisScale`・`shapeSize` は終点を動かしません。
+基準中心が原点から離れる場合は、その中心へこれらの回転と拡縮も作用します。
 始点と終点が重なる場合は線を描きません。
-形状本体の描画範囲には、軸オフセット後の形状本体と、表示中の補助線の
+形状本体の描画範囲には、共通変形後の形状本体と、表示中の補助線の
 両方を含めます。フォーカス範囲へ補助線を含めるのは `boundsMode=Shape` の
 場合だけです。
 `shapeOffsetLineTemplate` が `true` のときは補助線だけを選択対象から外し、
@@ -1179,7 +1206,7 @@ Python の公開 enum は下記の生成手順で更新し、生成ファイル�
 ### 調整属性を追加するとき
 
 `BdControllerShapeNode::initialize()` の `addAttribute()` の順序が Channel Box の
-16区画の表示順になります。新しい調整属性は該当区画へ登録し、非 keyable・
+12区画の表示順になります。新しい調整属性は該当区画へ登録し、非 keyable・
 Channel Box 表示を設定します。複合属性では X/Y/Z 子属性にも同じ設定が必要です。
 `shapeAnimationTransformMatrix` は表示しない例外です。区画を増やす場合は
 新しい区切り属性も追加し、表示専用・非接続・非保存・ロック済みとします。
@@ -1209,16 +1236,13 @@ Swappedは基準円YZ面・中央方向+Yです。RadialのPartは円平面内�
 含めた最終の基準形状で、輪郭と面の向きを揃えてください。
 `presetOrientedPoint()` は旧生成座標の標準面への整列と、独立したAxisSwapの指定を使います。
 公開enumからSwappedを判定しません。通常本体・Part・Fin・GuideLineの組立後、
-Axis系TRSとAxisOffsetの適用前に整列します。
+基準空間とAxis系TRSの適用前に整列します。
 Color系は固定本体へSwapを掛けず、Part・Finの配置点と方向をSwapしてから選択軸へ写します。
 
-骨に沿う３次元形状で `shapeAxisOffsetLength` を骨長として使う場合は、
-伸縮対象の軸の基準範囲を `-0.5` から `+0.5`、長さを `1` にします。
-`shapeAxisOffset` は選択方向へ固定 `0.5` を加え、長さ属性は同じ軸を
-伸縮するため、他の変形が既定値なら端を原点に揃えつつ指定長まで伸ばせます。
-基準範囲が異なる形状では、この原点合わせと長さの一致を前提にしません。
-形状を追加するときはストロークの区切り、基準 bounds、軸指定・オフセット・
-行列適用後の bounds と選択範囲を確認します。
+骨に沿う形状で根元を原点、先端を指定長へ置く場合は、基準空間の主軸両端を
+`0` と指定長に設定します。Arrow系は後端の固定長を保ち、前側だけを先端へ伸ばします。
+形状を追加するときはストロークの区切り、基準範囲、軸指定・共通TRS・
+行列適用後の範囲と選択範囲を確認します。
 
 基準形状と行列適用後の形状、および Custom の基準箱と行列適用後の箱を
 同じ node 内で別々にキャッシュします。
@@ -1429,21 +1453,21 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 8. shapeOffsetLineTemplateをONにすると補助線だけがtemplate色・選択不可になる。本体の通常線は引き続き選択できる。
 9. 軸指定と内側のTRSを変更して本体・Part・Fin・OffsetLine・選択範囲が追従し、無効な軸の組では主軸を保つ。
 10. 親transformをアニメーションしても形状が追従し、ローカル形状の調整値は変化しない。
-11. CubeのshapeAxisOffsetを6方向へ切り替える。既定サイズでは片面が原点に揃い、shapeSize=2でも固定移動量0.5を維持する。
-12. shapeOffsetLineをONにしてAxisOffsetを切り替えても補助線の終点は動かない。AxisOffsetだけをONにしても補助線は出ない。
-13. AxisOffsetがONならshapeAxisOffsetLengthは指定軸だけを伸縮し、OFFなら長さ・方向の変更で伸縮しない。距離入力の接続とシーン単位変更も確認する。
-14. AxisOffsetがONでshapeAxisTranslateの選択軸成分がある場合、長さの変更をOffsetLineの終点にも反映する。
+11. Cubeの基準空間の主軸両端を0/5へ変更し、根元と先端が0/5になる。Partの局所寸法・OffsetとFin高さを保ち、共通スケールでは全体が伸縮する。
+12. 基準空間の中心を移しshapeOffsetLineをONにすると、共通変形後の基準中心へ補助線が伸びる。両端を対称に保った伸縮では中心が移らない。
+13. 基準空間の距離入力の接続・キーとシーン単位変更を確認し、通常本体の反転、Colorの実効絶対幅、両端一致の退化を保つ。
+14. shapeAxisTranslateは基準空間の後で加算し、基準空間の幅では伸縮しない。回転・共通スケール・行列をOffsetLineの終点にも反映する。
 15. shapeAnimationTransformMatrixへcomposeMatrix出力を接続し、移動・回転・非等方スケール・シアーに本体・Part・Fin・範囲が追従する。
 16. 行列の移動で形状基準位置が原点から離れるとOffsetLineが出て、戻すと消える。行列の移動量はshapeRootSizeに掛からない。
 17. boundsModeの3値でF / Ctrl+Fの範囲が追従し、Ctrl+Fでは子transformも含まれる。
-18. ShapeCenteredは形状の移動・AxisOffset・OffsetLineによる中心の変化を除き、AxisOffsetLengthの大きさと入力行列の移動を反映する。
+18. ShapeCenteredは形状の寸法を保ち、基準中心・共通移動・OffsetLineによる位置ずれを除いて原点中心へ戻す。入力行列の移動は反映する。
 19. Customの箱を本体より小さく・大きくしても本体を描画・クリック選択できる。カメラを動かしてカリングも確認する。
 20. showBoundsPreviewは各モードの最終範囲をtemplate色・選択不可で表示し、ON/OFFでフォーカス範囲を変えない。
 21. Custom属性の直接編集・接続・キー・Undo/Redo・保存・再読込で範囲を更新し、Part・Fin・Circleの変更から独立する。
 22. shapeLineWidthを大きくすると本体・Part・Fin・OffsetLineが画面上で太くなり、ズームやシーン単位によらず指定pixel幅を保つ。
 23. shapeLineTransparencyの0・中間値・1を通常色・選択色・template色・軸色で確認し、shapeFillTransparencyとは独立して変わる。
 24. shapeDrawOnTopのON/OFFで隠れた線・面を表示し、形状・クリック選択・Boundsを変えない。透明度・選択色との併用も確認する。
-25. Channel Boxで先頭を含む16本の区切りと16区画の順序を確認する。先頭は1stAxis→2ndAxis→AxisSwap→shape、続けてDrawOnTop、Line、Fill、Templateの8属性とする。AxisOffset区画とPartのSize→Primary→Other→Length→Width→Heightの順を保ち、非keyable属性の編集・明示キー・入力接続と区切りのロックを確認する。
+25. Channel Boxの12本の区切りと12区画の順序を確認する。shape直後に基準空間の1st Plus/Minus→2nd Plus/Minus→3rd Plus/Minus、表示5属性→Wide→Arc→Templateの順とする。PartのSize→Primary→Other→Length→Width→Height、末尾のCustom XYZ Plus/Minusも保ち、明示キー・接続と区切りのロックを確認する。
 26. shapeの24項目、PartShapeの11項目、PartTypeの3項目と、既定shapeがCube（12）であることを確認する。Wide/Swapped/SquareTemplate専用のenumを持たず、基本形状と独立した属性で選択する。
 27. 全本体でshapeFillを切り替え、Shadedでは面・輪郭、Wireframeでは輪郭、Wireframe on Shadedでは両方を表示する。ColorCornerCubeの小四角は常に残る。
 28. Triangle・Square・Circle・WideArcRadialの帯・WideArcAxialの側面・Fin・Arrow3Dは両面から見える。閉じた立体の本体・小形状・Color面は外側だけ見え、内側からは見えない。負のスケール・親transform・Animation行列の反転、透視・平行投影でも確認する。
@@ -1457,7 +1481,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 36. 変形したPartの手前で接続線が止まり、小形状内へ本体・Finの線や塗り面が残らない。Line・CrossLine・薄線Arc系のArrow2D/3Dは面を表示しない場合に先端までつなぐ。Square・SquareTemplateと各Swapped、WideLine、WideCrossLine・Circleと各SwappedのGuideLineは、Fill表示時もArrow2D/3Dの先端までつなぐ。
 37. PartとFinの倍率に負値・ゼロを使い、面積0の面を省略し、輪郭と塗り・選択・Shape / ShapeCenteredの範囲が揃う。
 38. Arrow2DとArrow3Dの主面が一致する。通常2D・Lineの主面はXZ、追加面は+Y、SwappedではYZ・+Xとなる。3軸CrossLine・Cube・Sphere系は±X/±ZでXZ・+Y、±YでYZ・+Xとなり、両端でも同じ側へ立つ。Radialの円弧端では円の法線、Axialでは各位置の半径外側へ立ち、先端へ高さを落とす。Cross版は各円の向きに従う。肩から主面へ戻る辺をFill表示時も描き、調整値へ追従する。
-39. ArrowとOctahedronArrowはPart OFFでも既存の本体調整を適用する。OctahedronArrowは既定でOctahedronと同形、Offset・Lengthで先端だけを直線的に伸ばし、Width・Sizeで共有断面と後側の面も変える。
+39. Arrowの後端から接合位置まで0.25 cm、OctahedronArrowでは0.5 cmを保つ。Minusが後端、Plusが先端となり、短い長さ・逆転でも接合位置をクランプしない。Part属性を変えても本体・Wide・Fin・GuideLineが変わらない。
 40. 作成直後のshapeArcAngleが180°となり、Arc系4基本形状が半円になる。WideとAxisSwapの全組合せで0・120・180・240・360°を確認し、中央方向固定と対称な両端を保つ。Part OFFでも作用し、Circle・Sphere・小形状Circleには作用しない。
 41. Wide OFFのArc系4基本形状は本体を塗らずPartだけを塗り、Wide ONのRadialは平面帯、Axialは円筒側面となる。Swapにも追従し、0°で円弧・Partを省略、360°で不要な継ぎ目線を作らない。薄線本体はFillで扇形や範囲を追加しない。
 42. Arc系のAtEndが180°で通常版-3rd・Swapped+3rdの端、AtEndsが両端となり、6種類のPartがRadialでは円平面内、Axialでは円筒面へ曲がり、5種類の立体Partが接合に合わせて向きを補正する。AtApexは中央方向の頂部、他本体ではAtEnd相当となる。円周へ曲げるPartは重複領域をまとめ、姿勢が異なる立体Partは中心が共通でも別々に残る。
@@ -1471,8 +1495,8 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 50. 正の寸法倍率ではTaperedの細い側が通常本体の+1st、Swappedの+2ndを示す。ArrowのStandard Finはくぼみから先端までの矩形、Taperedは傾斜した外形となる。Cube・CylinderのTaperedとOctahedronArrowの面の重複も確認する。
 51. ColorCrossLine3Axis・ColorWideCrossLine3AxisとColorSphereの軸色を保ち、追加Part・Finは通常色となる。ColorSphereのGuideLineをONにしても円とガイドの間に橋渡し線がない。
 52. ColorCubeの正側RGB枠・負側通常線、Fillの+X赤・+Y緑・+Z青と負3面の通常色、ColorCornerCubeの小四角・通常面の境界と独立した透明度を確認する。
-53. Color系4基本本体は軸指定とAxisSwapで本体・軸色・GuideLineを回転せず、対応するPart・Finだけを交換後の選択軸へ追従させる。回転無視、負スケールの絶対値化、固定XYZのAxisOffset/TRSを維持する。Wide追加線も元の面・輪郭の色を保つ。
-54. Color系のCustom Boundsは独立した変形を保ち、入力行列と親transformの回転・シアー・反転はそのまま反映する。
+53. Color系4基本本体は軸指定とAxisSwapで本体・軸色・GuideLineを回転せず、対応するPart・Finだけを交換後の選択軸へ追従させる。回転無視、負スケールの絶対値化、固定XYZの基準空間とTRSを維持する。Wide追加線も元の面・輪郭の色を保つ。
+54. Color系でもCustom Boundsは専用の親ローカルXYZ両端で指定し、共有入力行列と親transformの回転・シアー・反転をそのまま反映する。
 55. shape・親transform・上位DAG・Display LayerでNormal/Template/Referenceを切り替え、Selection Highlighting OFFなら選択前後の線色・面表示・軸色が一致する。実効overrideがすべて無効な場合と、object色・有効な継承overrideがある場合を区別して確認する。
 56. 複数ViewportでSelection Highlightingを別々に設定し、選択色・軸色・templateの選択不可と通常線のオーバーライド色をそれぞれ確認する。
 57. ArcAxial・WideArcAxialと各SwappedのArrow2D・Arrow3D・Triangle・Square・Diamond・CircleをAtEnd・AtEndsに付け、主面が半径0.5の円筒面に沿う。Lengthは円周方向の弧長、Widthは円の軸方向へ作用し、ArcAngleで動く端点へ追従する。Offsetを0・正・負へ変えても形状と範囲が変わらず、値と接続は保持する。帯とPartの内部境界・重複した塗り面・接合の段差がない。
@@ -1489,7 +1513,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 68. ArcRadial・CrossArcRadialのWide/AxisSwap全状態で、円周へ曲げる6種類のPartと長いLengthScaleを確認する。長さは中心円弧長、幅は半径方向、Arrow3Dの高さは法線方向とし、内部線・二重面を作らない。
 69. 上記Radial系の円周へ曲げる6種類はOffsetを保持して無視し、複数周・負値・0・大きな幅でも周期合成と接合を保つ。
 70. 上記Radial系の5種類の立体Partは固定点と寸法を保って接合へ向きを補正し、交点がない場合は元の姿勢へ戻る。全11種類のAtApexは円周変形せず、中央方向の頂部とOffsetを使う。
-71. 24基本形状でAxisSwapを切り替え、通常本体では本体・Part・Fin・GuideLine・template部分・接合面・選択範囲が右手系の `(x,y,z)→(y,x,-z)` へ一括追従する。Color系はPart・Finだけが追従する。AxisOffsetとAxis系TRSは指定軸の意味と値を保ち、Swappedの代表方向に合わせて勝手に交換されない。
+71. 24基本形状でAxisSwapを切り替え、通常本体では本体・Part・Fin・GuideLine・template部分・接合面・選択範囲が右手系の `(x,y,z)→(y,x,-z)` へ一括追従する。Color系はPart・Finだけが追従する。基準空間とAxis系TRSは指定軸の意味と値を保ち、Swappedの代表方向に合わせて勝手に交換されない。
 72. Circle・WideCircleと各Swappedを切り替え、通常版がXZ、Swapped版がYZの閉じた円となる。shapeArcAngleの直接編集・入力接続・キーを0–360°へ変えても描画・選択・Boundsが変わらず、Arc系へ戻すと保持した角度が作用する。
 73. Circle系の全11種類のPartをAtEnd・AtEnds・AtApexへ配置し、円周変形や立体Partの角度補正がないこと、Offsetの正・負が通常どおり作用することを確認する。Arrowの主面・追加面と、追加倍率の既定値による全11種類のAtEndsの代表方向と他3方向の2:1の寸法比も確認する。
 74. WideCircle系の幅を0・既定値・1・1より大きい値へ変え、幅0の一重線、環の穴、内半径0の円板を確認する。PartのSize・Widthを変えても本体の帯幅を保ち、Finは中央の穴を横断する。Fill・半透明・負スケールでも内部線・重複面を残さない。

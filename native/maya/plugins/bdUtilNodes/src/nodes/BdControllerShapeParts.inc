@@ -428,23 +428,21 @@ void appendFinPart(PartBuilder& builder, const ShapeSettings& settings,
     }
 }
 
-std::vector<MPoint> appendOctahedronPart(PartBuilder& builder, const ShapeSettings& settings) {
+std::vector<MPoint> appendOctahedronPart(PartBuilder& builder, const ShapeSettings&) {
     const bool previousSingleSided = builder.singleSided;
     builder.singleSided = true;
-    const double width = 0.5 * partWidth(settings);
-    const double height = 0.5 * partHeight(settings);
+    const double width = 0.5;
+    const double height = 0.5;
     const std::array<MPoint, 4> equator = {MPoint(0, height, 0), MPoint(0, 0, width),
         MPoint(0, -height, 0), MPoint(0, 0, -width)};
-    const MPoint tip = scaledPartPoint(MPoint(0.5, 0, 0), MPoint::origin, MVector(1, 0, 0), settings);
+    const MPoint tip(0.5, 0, 0);
     for (std::size_t i = 0; i < equator.size(); ++i) {
         const auto next = (i + 1) % equator.size();
         builder.stroke({equator[i], tip});
         builder.stroke({equator[i], equator[next]});
         builder.stroke({equator[i], MPoint(-0.5, 0, 0)});
-        if (width * height < 0.0) builder.triangle(MPoint(-0.5, 0, 0), equator[i], equator[next]);
-        else builder.triangle(MPoint(-0.5, 0, 0), equator[next], equator[i]);
-        if ((tip.x < 0.0) != (width * height < 0.0)) builder.triangle(tip, equator[next], equator[i]);
-        else builder.triangle(tip, equator[i], equator[next]);
+        builder.triangle(MPoint(-0.5, 0, 0), equator[next], equator[i]);
+        builder.triangle(tip, equator[i], equator[next]);
     }
     const double extent = std::abs(height);
     builder.singleSided = previousSingleSided;
@@ -523,6 +521,7 @@ void appendWidePartUnion(PartBuilder& builder, short outline, const ShapeSetting
 #include "BdControllerShapeEndPlanar.inc"
 
 bool makeAdjustedPartGeometry(const ShapeSettings& settings, PartGeometry& geometry) {
+    if (isArrowBody(settings)) return false;
     if (makePlanarEndGeometry(settings, geometry)) return true;
     const short outline = outlinePresetIndex(settings.shape);
     const bool semicircle = outline == 30 || outline == 31 || outline == 32 || outline == 61 || outline == 68;

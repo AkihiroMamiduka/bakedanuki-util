@@ -3,12 +3,6 @@ from .._core import Shape
 from .....attr.define.node_attr.bd_controller_shape import (
     CompInstObjGroupsField,
     ComponentTagsField,
-    CustomBoundsAxisRotateField,
-    CustomBoundsAxisScaleField,
-    CustomBoundsAxisTranslateField,
-    CustomBoundsRotateField,
-    CustomBoundsScaleField,
-    CustomBoundsTranslateField,
     LocalPositionField,
     LocalScaleField,
     ShapeAxisRotateField,
@@ -345,53 +339,6 @@ class ShapeFinTypeEnumField(
     PLUG_CLS = ShapeFinTypeEnumPlugOperator
 
 
-class ShapeAxisOffsetDirectionEnumPlugOperator(
-    EnumPlugOperator["ShapeAxisOffsetDirectionEnumAttrOperator"]
-):
-    __slots__ = ()
-
-    PLUS_1STAXIS = 0
-    MINUS_1STAXIS = 1
-    PLUS_2NDAXIS = 2
-    MINUS_2NDAXIS = 3
-    PLUS_3RDAXIS = 4
-    MINUS_3RDAXIS = 5
-
-
-class ShapeAxisOffsetDirectionEnumAttrOperator(
-    EnumAttrOperator[ShapeAxisOffsetDirectionEnumPlugOperator]
-):
-    __slots__ = ()
-
-    PLUS_1STAXIS = 0
-    MINUS_1STAXIS = 1
-    PLUS_2NDAXIS = 2
-    MINUS_2NDAXIS = 3
-    PLUS_3RDAXIS = 4
-    MINUS_3RDAXIS = 5
-
-    NAME_MAP = {
-        PLUS_1STAXIS: "+1stAxis",
-        MINUS_1STAXIS: "-1stAxis",
-        PLUS_2NDAXIS: "+2ndAxis",
-        MINUS_2NDAXIS: "-2ndAxis",
-        PLUS_3RDAXIS: "+3rdAxis",
-        MINUS_3RDAXIS: "-3rdAxis",
-    }
-
-
-class ShapeAxisOffsetDirectionEnumField(
-    EnumField[
-        ShapeAxisOffsetDirectionEnumAttrOperator,
-        ShapeAxisOffsetDirectionEnumPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = ShapeAxisOffsetDirectionEnumAttrOperator
-    PLUG_CLS = ShapeAxisOffsetDirectionEnumPlugOperator
-
-
 class BoundsModeEnumPlugOperator(
     EnumPlugOperator["BoundsModeEnumAttrOperator"]
 ):
@@ -423,147 +370,6 @@ class BoundsModeEnumField(
 
     ATTR_CLS = BoundsModeEnumAttrOperator
     PLUG_CLS = BoundsModeEnumPlugOperator
-
-
-class CustomBounds1stAxisEnumPlugOperator(
-    EnumPlugOperator["CustomBounds1stAxisEnumAttrOperator"]
-):
-    __slots__ = ()
-
-    PLUS_X = 0
-    MINUS_X = 1
-    PLUS_Y = 2
-    MINUS_Y = 3
-    PLUS_Z = 4
-    MINUS_Z = 5
-
-
-class CustomBounds1stAxisEnumAttrOperator(
-    EnumAttrOperator[CustomBounds1stAxisEnumPlugOperator]
-):
-    __slots__ = ()
-
-    PLUS_X = 0
-    MINUS_X = 1
-    PLUS_Y = 2
-    MINUS_Y = 3
-    PLUS_Z = 4
-    MINUS_Z = 5
-
-    NAME_MAP = {
-        PLUS_X: "+X",
-        MINUS_X: "-X",
-        PLUS_Y: "+Y",
-        MINUS_Y: "-Y",
-        PLUS_Z: "+Z",
-        MINUS_Z: "-Z",
-    }
-
-
-class CustomBounds1stAxisEnumField(
-    EnumField[
-        CustomBounds1stAxisEnumAttrOperator,
-        CustomBounds1stAxisEnumPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = CustomBounds1stAxisEnumAttrOperator
-    PLUG_CLS = CustomBounds1stAxisEnumPlugOperator
-
-
-class CustomBounds2ndAxisEnumPlugOperator(
-    EnumPlugOperator["CustomBounds2ndAxisEnumAttrOperator"]
-):
-    __slots__ = ()
-
-    PLUS_X = 0
-    MINUS_X = 1
-    PLUS_Y = 2
-    MINUS_Y = 3
-    PLUS_Z = 4
-    MINUS_Z = 5
-
-
-class CustomBounds2ndAxisEnumAttrOperator(
-    EnumAttrOperator[CustomBounds2ndAxisEnumPlugOperator]
-):
-    __slots__ = ()
-
-    PLUS_X = 0
-    MINUS_X = 1
-    PLUS_Y = 2
-    MINUS_Y = 3
-    PLUS_Z = 4
-    MINUS_Z = 5
-
-    NAME_MAP = {
-        PLUS_X: "+X",
-        MINUS_X: "-X",
-        PLUS_Y: "+Y",
-        MINUS_Y: "-Y",
-        PLUS_Z: "+Z",
-        MINUS_Z: "-Z",
-    }
-
-
-class CustomBounds2ndAxisEnumField(
-    EnumField[
-        CustomBounds2ndAxisEnumAttrOperator,
-        CustomBounds2ndAxisEnumPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = CustomBounds2ndAxisEnumAttrOperator
-    PLUG_CLS = CustomBounds2ndAxisEnumPlugOperator
-
-
-class CustomBoundsAxisOffsetDirectionEnumPlugOperator(
-    EnumPlugOperator["CustomBoundsAxisOffsetDirectionEnumAttrOperator"]
-):
-    __slots__ = ()
-
-    PLUS_1STAXIS = 0
-    MINUS_1STAXIS = 1
-    PLUS_2NDAXIS = 2
-    MINUS_2NDAXIS = 3
-    PLUS_3RDAXIS = 4
-    MINUS_3RDAXIS = 5
-
-
-class CustomBoundsAxisOffsetDirectionEnumAttrOperator(
-    EnumAttrOperator[CustomBoundsAxisOffsetDirectionEnumPlugOperator]
-):
-    __slots__ = ()
-
-    PLUS_1STAXIS = 0
-    MINUS_1STAXIS = 1
-    PLUS_2NDAXIS = 2
-    MINUS_2NDAXIS = 3
-    PLUS_3RDAXIS = 4
-    MINUS_3RDAXIS = 5
-
-    NAME_MAP = {
-        PLUS_1STAXIS: "+1stAxis",
-        MINUS_1STAXIS: "-1stAxis",
-        PLUS_2NDAXIS: "+2ndAxis",
-        MINUS_2NDAXIS: "-2ndAxis",
-        PLUS_3RDAXIS: "+3rdAxis",
-        MINUS_3RDAXIS: "-3rdAxis",
-    }
-
-
-class CustomBoundsAxisOffsetDirectionEnumField(
-    EnumField[
-        CustomBoundsAxisOffsetDirectionEnumAttrOperator,
-        CustomBoundsAxisOffsetDirectionEnumPlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = CustomBoundsAxisOffsetDirectionEnumAttrOperator
-    PLUG_CLS = CustomBoundsAxisOffsetDirectionEnumPlugOperator
 
 
 class GeneratedBdControllerShape(Shape):
@@ -701,6 +507,24 @@ class GeneratedBdControllerShape(Shape):
     shape = ShapeEnumField(default_value=12)
     sh = shape
 
+    shapeBaseSpace1stAxisPlus = DoubleLinearField(default_value=0.5)
+    sbsp1p = shapeBaseSpace1stAxisPlus
+
+    shapeBaseSpace1stAxisMinus = DoubleLinearField(default_value=-0.5)
+    sbsp1m = shapeBaseSpace1stAxisMinus
+
+    shapeBaseSpace2ndAxisPlus = DoubleLinearField(default_value=0.5)
+    sbsp2p = shapeBaseSpace2ndAxisPlus
+
+    shapeBaseSpace2ndAxisMinus = DoubleLinearField(default_value=-0.5)
+    sbsp2m = shapeBaseSpace2ndAxisMinus
+
+    shapeBaseSpace3rdAxisPlus = DoubleLinearField(default_value=0.5)
+    sbsp3p = shapeBaseSpace3rdAxisPlus
+
+    shapeBaseSpace3rdAxisMinus = DoubleLinearField(default_value=-0.5)
+    sbsp3m = shapeBaseSpace3rdAxisMinus
+
     shapeDrawOnTop = BoolField(default_value=False)
     sdot = shapeDrawOnTop
 
@@ -719,6 +543,17 @@ class GeneratedBdControllerShape(Shape):
         default_value=0.8500000238418579, min_value=0.0, max_value=1.0
     )
     sftp = shapeFillTransparency
+
+    shapeWide = BoolField(default_value=False)
+    swd = shapeWide
+
+    shapeWideWidth = DoubleLinearField(default_value=0.05, min_value=0.0)
+    sww = shapeWideWidth
+
+    shapeArcAngle = DoubleAngleField(
+        default_value=180.0, min_value=0.0, max_value=360.0
+    )
+    saa = shapeArcAngle
 
     shapeTemplateLine = BoolField(default_value=False)
     stl = shapeTemplateLine
@@ -745,17 +580,6 @@ class GeneratedBdControllerShape(Shape):
 
     shapeOffsetLineTemplate = BoolField(default_value=False)
     solt = shapeOffsetLineTemplate
-
-    shapeWide = BoolField(default_value=False)
-    swd = shapeWide
-
-    shapeWideWidth = DoubleLinearField(default_value=0.05, min_value=0.0)
-    sww = shapeWideWidth
-
-    shapeArcAngle = DoubleAngleField(
-        default_value=180.0, min_value=0.0, max_value=360.0
-    )
-    saa = shapeArcAngle
 
     shapePart = BoolField(default_value=False)
     spt = shapePart
@@ -807,17 +631,6 @@ class GeneratedBdControllerShape(Shape):
 
     shapeOffsetLine = BoolField(default_value=False)
     sol = shapeOffsetLine
-
-    shapeAxisOffset = BoolField(default_value=False)
-    sao = shapeAxisOffset
-
-    shapeAxisOffsetDirection = ShapeAxisOffsetDirectionEnumField(
-        default_value=0
-    )
-    saod = shapeAxisOffsetDirection
-
-    shapeAxisOffsetLength = DoubleLinearField(default_value=1.0, min_value=0.0)
-    saol = shapeAxisOffsetLength
 
     shapeRootSize = DoubleField(default_value=1.0)
     srs = shapeRootSize
@@ -885,95 +698,20 @@ class GeneratedBdControllerShape(Shape):
     showBoundsPreview = BoolField(default_value=False)
     sbp = showBoundsPreview
 
-    customBounds1stAxis = CustomBounds1stAxisEnumField(default_value=0)
-    cb1a = customBounds1stAxis
+    customBoundsBaseSpaceXPlus = DoubleLinearField(default_value=0.5)
+    cbbsxp = customBoundsBaseSpaceXPlus
 
-    customBounds2ndAxis = CustomBounds2ndAxisEnumField(default_value=2)
-    cb2a = customBounds2ndAxis
+    customBoundsBaseSpaceXMinus = DoubleLinearField(default_value=-0.5)
+    cbbsxm = customBoundsBaseSpaceXMinus
 
-    customBoundsAxisOffset = BoolField(default_value=False)
-    cbao = customBoundsAxisOffset
+    customBoundsBaseSpaceYPlus = DoubleLinearField(default_value=0.5)
+    cbbsyp = customBoundsBaseSpaceYPlus
 
-    customBoundsAxisOffsetDirection = CustomBoundsAxisOffsetDirectionEnumField(
-        default_value=0
-    )
-    cbaod = customBoundsAxisOffsetDirection
+    customBoundsBaseSpaceYMinus = DoubleLinearField(default_value=-0.5)
+    cbbsym = customBoundsBaseSpaceYMinus
 
-    customBoundsAxisOffsetLength = DoubleLinearField(
-        default_value=1.0, min_value=0.0
-    )
-    cbaol = customBoundsAxisOffsetLength
+    customBoundsBaseSpaceZPlus = DoubleLinearField(default_value=0.5)
+    cbbszp = customBoundsBaseSpaceZPlus
 
-    customBoundsRootSize = DoubleField(default_value=1.0)
-    cbrs = customBoundsRootSize
-
-    customBoundsTranslate = CustomBoundsTranslateField(
-        default_value=(0.0, 0.0, 0.0)
-    )
-    cbt = customBoundsTranslate
-    customBoundsTranslateX = customBoundsTranslate.customBoundsTranslateX
-    cbtx = customBoundsTranslateX
-    customBoundsTranslateY = customBoundsTranslate.customBoundsTranslateY
-    cbty = customBoundsTranslateY
-    customBoundsTranslateZ = customBoundsTranslate.customBoundsTranslateZ
-    cbtz = customBoundsTranslateZ
-
-    customBoundsRotate = CustomBoundsRotateField(default_value=(0.0, 0.0, 0.0))
-    cbr = customBoundsRotate
-    customBoundsRotateX = customBoundsRotate.customBoundsRotateX
-    cbrx = customBoundsRotateX
-    customBoundsRotateY = customBoundsRotate.customBoundsRotateY
-    cbry = customBoundsRotateY
-    customBoundsRotateZ = customBoundsRotate.customBoundsRotateZ
-    cbrz = customBoundsRotateZ
-
-    customBoundsScale = CustomBoundsScaleField(default_value=(1.0, 1.0, 1.0))
-    cbsc = customBoundsScale
-    customBoundsScaleX = customBoundsScale.customBoundsScaleX
-    cbscx = customBoundsScaleX
-    customBoundsScaleY = customBoundsScale.customBoundsScaleY
-    cbscy = customBoundsScaleY
-    customBoundsScaleZ = customBoundsScale.customBoundsScaleZ
-    cbscz = customBoundsScaleZ
-
-    customBoundsAxisTranslate = CustomBoundsAxisTranslateField(
-        default_value=(0.0, 0.0, 0.0)
-    )
-    cbat = customBoundsAxisTranslate
-    customBoundsAxisTranslateX = (
-        customBoundsAxisTranslate.customBoundsAxisTranslateX
-    )
-    cbatx = customBoundsAxisTranslateX
-    customBoundsAxisTranslateY = (
-        customBoundsAxisTranslate.customBoundsAxisTranslateY
-    )
-    cbaty = customBoundsAxisTranslateY
-    customBoundsAxisTranslateZ = (
-        customBoundsAxisTranslate.customBoundsAxisTranslateZ
-    )
-    cbatz = customBoundsAxisTranslateZ
-
-    customBoundsAxisRotate = CustomBoundsAxisRotateField(
-        default_value=(0.0, 0.0, 0.0)
-    )
-    cbar = customBoundsAxisRotate
-    customBoundsAxisRotateX = customBoundsAxisRotate.customBoundsAxisRotateX
-    cbarx = customBoundsAxisRotateX
-    customBoundsAxisRotateY = customBoundsAxisRotate.customBoundsAxisRotateY
-    cbary = customBoundsAxisRotateY
-    customBoundsAxisRotateZ = customBoundsAxisRotate.customBoundsAxisRotateZ
-    cbarz = customBoundsAxisRotateZ
-
-    customBoundsAxisScale = CustomBoundsAxisScaleField(
-        default_value=(1.0, 1.0, 1.0)
-    )
-    cbasc = customBoundsAxisScale
-    customBoundsAxisScaleX = customBoundsAxisScale.customBoundsAxisScaleX
-    cbascx = customBoundsAxisScaleX
-    customBoundsAxisScaleY = customBoundsAxisScale.customBoundsAxisScaleY
-    cbascy = customBoundsAxisScaleY
-    customBoundsAxisScaleZ = customBoundsAxisScale.customBoundsAxisScaleZ
-    cbascz = customBoundsAxisScaleZ
-
-    customBoundsSize = DoubleField(default_value=1.0)
-    cbs = customBoundsSize
+    customBoundsBaseSpaceZMinus = DoubleLinearField(default_value=-0.5)
+    cbbszm = customBoundsBaseSpaceZMinus
