@@ -1269,7 +1269,9 @@ Python の公開 enum は下記の生成手順で更新し、生成ファイル�
 
 `BdControllerShapeNode::initialize()` の `addAttribute()` の順序が Channel Box の
 14区画の表示順になります。新しい調整属性は該当区画へ登録し、非 keyable・
-Channel Box 表示を設定します。複合属性では X/Y/Z 子属性にも同じ設定が必要です。
+Channel Box 表示を設定します。複合属性では、TRSのX/Y/Z子と面内Scaleの各2子にも
+同じ設定が必要です。親への `setKeyable()` / `setChannelBox()` が子へ伝播する前提にせず、
+親と各子へ明示的に設定します。`addAttribute()` は親へ行い、子は親に含めて登録します。
 `shapeAnimationTransformMatrix` は表示しない例外です。区画を増やす場合は
 新しい区切り属性も追加し、表示専用・非接続・非保存・ロック済みとします。
 区切り名を変更したときは、Python 生成器の除外条件も確認してください。
@@ -1278,6 +1280,52 @@ Channel Box 表示を設定します。複合属性では X/Y/Z 子属性にも�
 対応する基準形状・変換後のキャッシュの無効化、描画範囲まで確認します。
 属性定義の変更後は下記の生成ファイルを更新し、Channel Box の順序・表示状態と
 値変更後の描画・`boundingBox()` を自動テストと GUI の両方で確認します。
+
+### 基準空間の面内Scaleを保守するとき
+
+面内Scaleによる変形は、`makeBaseGeometry()` から `makeCageGeometry()` へ入る経路で扱います。
+担当ファイルは次のとおりです。
+
+| ファイル | 担当 |
+| --- | --- |
+| [BdControllerShapeCage.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeCage.inc) | 面倍率の補間、点・接線・法線の変換 |
+| [BdControllerShapeCageBody.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeCageBody.inc) | 原型の取得、変形した本体の線・三角面、面向き、両端座標の経路への集約 |
+| [BdControllerShapeCageArc.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeCageArc.inc) | 変形した円周の物理弧長と局所姿勢 |
+| [BdControllerShapeCageWide.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeCageWide.inc) | 変形後の実距離を使うWide帯とCornerマーカー |
+| [BdControllerShapeCageAttachments.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeCageAttachments.inc) | Partの寸法と接合、Finの高さ、GuideLine、円周に沿うPart |
+| [BdControllerShapeCageTemplate.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeCageTemplate.inc) | 元のTemplate区間の対応付け、区間探索とPartの保護 |
+| [BdControllerShapeCageGeometry.inc](../plugins/bdUtilNodes/src/nodes/BdControllerShapeCageGeometry.inc) | 全体の組立、Fill/Wireframe用の本体共有、共通変形 |
+
+原型の点は `bodyBaseSpacePoint()` で基準姿勢・両端座標・Arrowの後端規約を反映し、
+`cagePoint()` で面内Scaleを反映します。その本体を使って、寸法を保つWide・Corner・Part・Finと
+GuideLineを組み立て、共通TRSを一度だけ適用します。入力行列は、その後の行列変換経路で扱います。
+新しい形状を追加するときも、本体の変形と、寸法を保つ要素の生成位置をこの順序へ揃えます。
+
+全ての面倍率が1なら従来の両端座標の経路を使います。向かい合う面の倍率が各成分で等しい場合は、
+`cageAffineSettings()` が両端座標へ集約します。Arrow系は固定した後端へ面倍率を適用する順序を
+保つため、この集約の対象外です。最適化時も、既定値・集約可能な倍率・非一様な倍率を分けて確認します。
+
+Fill用とWireframe用では、Cylinderの母線やArrow Partの開いた線などに差があります。
+原型と変形前後の本体は共有し、完成した描画形状は表示ごとに組み立てます。
+キャッシュの共有範囲を広げるときは、Fill ON/OFFとWireframe表示の差を確認します。
+
+公開基準軸の幅は `baseSpacePlus - baseSpaceMinus` で求めます。`baseSpaceScale()` は
+原型の座標規約とAxisSwapを反映した倍率を返すため、面向きの計算で軸交換を重ねないようにします。
+反転とAxisSwapを組み合わせたArrow系は、後端側と先端側の面が外向きに残ることをGUIで確認します。
+
+6つの `double2` 親は `MFnNumericAttribute` で既存の `double` 子2つをまとめるnumeric compoundです。
+親と子を登録・変更するときは、次の変更通知と接続判定を保ちます。
+
+- 親へ直接 `setAttr(..., type="double2")` した変更通知は、親だけに届く場合があります。
+  `isShapeAttribute()` では6親と12子の両方を形状変更として扱います。
+- 親同士の接続では、親の `MPlug::isDestination()` がtrueでも子はfalseになる場合があります。
+  `hasConnectedSettingsInput()` は6親から `hasIncomingConnection()` で子を再帰的に調べます。
+- 接続元の値変更では、接続先のattribute callbackが発火する前提を置きません。
+  入力接続がある形状は設定値を再読込・比較し、キャッシュ済みの形状と描画範囲を更新します。
+
+Maya 2025での実測を踏まえた経路です。Maya versionや通知の扱いを変更するときは、
+[Dirty Propagation Tests](testing-debugging.md#dirty-propagation-tests) の親設定・親接続・子接続を
+別々に通し、GUIでもアニメーションと巻き戻しを確認します。
 
 ### 基準形状を追加する際の座標規約
 
