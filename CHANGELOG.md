@@ -7,6 +7,13 @@
 
 ## [Unreleased]
 
+### Added
+
+- `bd_util.ui.MiddleDragReorderListWidget`と`ListReorderRequest`を追加。
+  左ドラッグの複数選択を保ち、中ドラッグの挿入先を行間線・端スクロール付きで通知する。
+  項目の変更と保存は利用側が所有し、Esc・表示切替・項目変更では操作を取り消す。
+  既存のAPI・scene・保存設定の移行は不要。
+
 ### Fixed
 
 - `bdControllerShape` の不透明なTemplate塗りに、同一面上の輪郭線が隠れる不具合を修正。

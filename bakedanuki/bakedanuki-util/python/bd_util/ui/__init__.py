@@ -94,6 +94,10 @@ from .float_step_profile import FloatStepProfile, FloatStepSetting
 from .int_step_profile import IntStepProfile, IntStepSetting
 from .radio_button_sweep import RadioButtonSweep
 from .check_box_sweep import CheckBoxSweep
+from .middle_drag_reorder_list import (
+    ListReorderRequest,
+    MiddleDragReorderListWidget,
+)
 from .ui_state import UiStateManager
 from .window import WindowController
 from .window_state import (
@@ -144,6 +148,8 @@ __all__ = [
     "FloatStepSetting",
     "CheckBoxSweep",
     "RadioButtonSweep",
+    "ListReorderRequest",
+    "MiddleDragReorderListWidget",
     "EnumBinding",
     "EnumComboBox",
     "EnumDefinition",
