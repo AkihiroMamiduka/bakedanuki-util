@@ -59,7 +59,8 @@ bool genericWidePlane(const PartGeometry& geometry, PartPlane& plane, MVector& n
 }
 
 void appendGenericWideBand(WideEndArrowGeometry& band, const Stroke& source,
-    const MVector& normal, double halfWidth, bool sharpFirstCorner = false) {
+    const MVector& normal, double halfWidth, bool sharpFirstCorner = false,
+    const MPoint* sharpJoint = nullptr) {
     std::vector<MPoint> points;
     for (const auto& point : source) {
         if (points.empty() || (point - points.back()).length() > 1e-10) points.push_back(point);
@@ -105,7 +106,7 @@ void appendGenericWideBand(WideEndArrowGeometry& band, const Stroke& source,
     }
     auto oppositeOffsets = offsets;
     if (sharpFirstCorner && closed && count > 2 && !bevels[0]) {
-        const auto joint = points[1] + (points.back() - points[1]) * 0.5;
+        const auto joint = sharpJoint ? *sharpJoint : points[1] + (points.back() - points[1]) * 0.5;
         const auto along = baseSpaceNormalized(points[0] - joint);
         // 頭部より太い帯で内側の穴が消えたときは、交点を後方へ突き出さない。
         if ((points[0] + offsets[0] - joint) * along < 0.0) offsets[0] = joint - points[0];

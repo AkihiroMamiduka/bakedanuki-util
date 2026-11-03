@@ -8,6 +8,12 @@ from .....attr.define.node_attr.bd_controller_shape import (
     ShapeAxisRotateField,
     ShapeAxisScaleField,
     ShapeAxisTranslateField,
+    ShapeBaseSpace1stAxisMinusScaleField,
+    ShapeBaseSpace1stAxisPlusScaleField,
+    ShapeBaseSpace2ndAxisMinusScaleField,
+    ShapeBaseSpace2ndAxisPlusScaleField,
+    ShapeBaseSpace3rdAxisMinusScaleField,
+    ShapeBaseSpace3rdAxisPlusScaleField,
     ShapeRotateField,
     ShapeScaleField,
     ShapeTranslateField,
@@ -524,6 +530,84 @@ class GeneratedBdControllerShape(Shape):
 
     shapeBaseSpace3rdAxisMinus = DoubleLinearField(default_value=-0.5)
     sbsp3m = shapeBaseSpace3rdAxisMinus
+
+    shapeBaseSpace1stAxisPlusScale = ShapeBaseSpace1stAxisPlusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp1ps = shapeBaseSpace1stAxisPlusScale
+    shapeBaseSpace1stAxisPlusScale2ndAxis = (
+        shapeBaseSpace1stAxisPlusScale.shapeBaseSpace1stAxisPlusScale2ndAxis
+    )
+    sbsp1ps2 = shapeBaseSpace1stAxisPlusScale2ndAxis
+    shapeBaseSpace1stAxisPlusScale3rdAxis = (
+        shapeBaseSpace1stAxisPlusScale.shapeBaseSpace1stAxisPlusScale3rdAxis
+    )
+    sbsp1ps3 = shapeBaseSpace1stAxisPlusScale3rdAxis
+
+    shapeBaseSpace1stAxisMinusScale = ShapeBaseSpace1stAxisMinusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp1ms = shapeBaseSpace1stAxisMinusScale
+    shapeBaseSpace1stAxisMinusScale2ndAxis = (
+        shapeBaseSpace1stAxisMinusScale.shapeBaseSpace1stAxisMinusScale2ndAxis
+    )
+    sbsp1ms2 = shapeBaseSpace1stAxisMinusScale2ndAxis
+    shapeBaseSpace1stAxisMinusScale3rdAxis = (
+        shapeBaseSpace1stAxisMinusScale.shapeBaseSpace1stAxisMinusScale3rdAxis
+    )
+    sbsp1ms3 = shapeBaseSpace1stAxisMinusScale3rdAxis
+
+    shapeBaseSpace2ndAxisPlusScale = ShapeBaseSpace2ndAxisPlusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp2ps = shapeBaseSpace2ndAxisPlusScale
+    shapeBaseSpace2ndAxisPlusScale1stAxis = (
+        shapeBaseSpace2ndAxisPlusScale.shapeBaseSpace2ndAxisPlusScale1stAxis
+    )
+    sbsp2ps1 = shapeBaseSpace2ndAxisPlusScale1stAxis
+    shapeBaseSpace2ndAxisPlusScale3rdAxis = (
+        shapeBaseSpace2ndAxisPlusScale.shapeBaseSpace2ndAxisPlusScale3rdAxis
+    )
+    sbsp2ps3 = shapeBaseSpace2ndAxisPlusScale3rdAxis
+
+    shapeBaseSpace2ndAxisMinusScale = ShapeBaseSpace2ndAxisMinusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp2ms = shapeBaseSpace2ndAxisMinusScale
+    shapeBaseSpace2ndAxisMinusScale1stAxis = (
+        shapeBaseSpace2ndAxisMinusScale.shapeBaseSpace2ndAxisMinusScale1stAxis
+    )
+    sbsp2ms1 = shapeBaseSpace2ndAxisMinusScale1stAxis
+    shapeBaseSpace2ndAxisMinusScale3rdAxis = (
+        shapeBaseSpace2ndAxisMinusScale.shapeBaseSpace2ndAxisMinusScale3rdAxis
+    )
+    sbsp2ms3 = shapeBaseSpace2ndAxisMinusScale3rdAxis
+
+    shapeBaseSpace3rdAxisPlusScale = ShapeBaseSpace3rdAxisPlusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp3ps = shapeBaseSpace3rdAxisPlusScale
+    shapeBaseSpace3rdAxisPlusScale1stAxis = (
+        shapeBaseSpace3rdAxisPlusScale.shapeBaseSpace3rdAxisPlusScale1stAxis
+    )
+    sbsp3ps1 = shapeBaseSpace3rdAxisPlusScale1stAxis
+    shapeBaseSpace3rdAxisPlusScale2ndAxis = (
+        shapeBaseSpace3rdAxisPlusScale.shapeBaseSpace3rdAxisPlusScale2ndAxis
+    )
+    sbsp3ps2 = shapeBaseSpace3rdAxisPlusScale2ndAxis
+
+    shapeBaseSpace3rdAxisMinusScale = ShapeBaseSpace3rdAxisMinusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp3ms = shapeBaseSpace3rdAxisMinusScale
+    shapeBaseSpace3rdAxisMinusScale1stAxis = (
+        shapeBaseSpace3rdAxisMinusScale.shapeBaseSpace3rdAxisMinusScale1stAxis
+    )
+    sbsp3ms1 = shapeBaseSpace3rdAxisMinusScale1stAxis
+    shapeBaseSpace3rdAxisMinusScale2ndAxis = (
+        shapeBaseSpace3rdAxisMinusScale.shapeBaseSpace3rdAxisMinusScale2ndAxis
+    )
+    sbsp3ms2 = shapeBaseSpace3rdAxisMinusScale2ndAxis
 
     shapeDrawOnTop = BoolField(default_value=False)
     sdot = shapeDrawOnTop

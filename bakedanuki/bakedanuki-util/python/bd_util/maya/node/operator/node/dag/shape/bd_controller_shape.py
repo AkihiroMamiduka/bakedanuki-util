@@ -14,8 +14,14 @@ class BdControllerShape(GeneratedBdControllerShape):
     `shapeBaseSpace1stAxisMinus` / `shapeBaseSpace1stAxisPlus` は元の主軸両端の行き先を距離で指定する。
     `shapeBaseSpace2ndAxisMinus` / `shapeBaseSpace2ndAxisPlus` と
     `shapeBaseSpace3rdAxisMinus` / `shapeBaseSpace3rdAxisPlus` も各軸を同様に調整する。
-    全軸の既定値は `-0.5 cm` / `+0.5 cm`。Swap後の本体を範囲外も線形変換する。
+    全軸の既定値は `-0.5 cm` / `+0.5 cm`。
+    `shapeBaseSpace1stAxisPlusScale2ndAxis` など12個の面内倍率は、6面の各2軸を独立して拡縮する。
+    `shapeBaseSpace1stAxisPlusScale` など6個の `double2` 親へ各面の2軸をまとめ、既定値は `(1, 1)`。
+    親の `.set(0.5, 1.5)` で一括設定でき、`.get()` は `Double2` を返す。子への直接アクセスも維持する。
+    面内倍率の既定値は1で、隣接面の影響を乗算し、8頂点から補間した基準空間で本体を変形する。
+    面のねじれや範囲外の点への外挿も許容し、Partの寸法・OffsetとFinの高さを保つ。
     Arrow本体の後端部分だけは `0.25 cm`、OctahedronArrow本体では `0.5 cm` に固定する。
+    その本体を構成してから面内倍率で変形する。
     Minusを後端、Plusを先端として短い長さでも接合位置をクランプせず、Part属性を本体へ適用しない。
     ArrowのWide先端は帯境界の交点まで延ばし、鋭角でも尖りを保つ。
     ColorCornerCubeの小四角は基準空間で各辺 `0.2 cm` を保ち、小さい本体では面内へ切り詰める。
@@ -45,6 +51,7 @@ class BdControllerShape(GeneratedBdControllerShape):
     Color 系は本体の向きと軸色を固定し、`shapeAxisSwap` と
     `shape1stAxis` / `shape2ndAxis` を Part・Fin の配置姿勢にだけ適用する。
     Color 系の `shapeRotate` / `shapeAxisRotate` は引き続き無視する。
+    Color 系の面内倍率は、属性の符号を保持したまま描画時だけ絶対値を使う。
     """
 
     __slots__ = ()

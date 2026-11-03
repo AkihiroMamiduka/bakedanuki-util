@@ -742,6 +742,12 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeBaseSpace2ndAxisPlus",
         "shapeBaseSpace3rdAxisMinus",
         "shapeBaseSpace3rdAxisPlus",
+        "shapeBaseSpace1stAxisPlusScale",
+        "shapeBaseSpace1stAxisMinusScale",
+        "shapeBaseSpace2ndAxisPlusScale",
+        "shapeBaseSpace2ndAxisMinusScale",
+        "shapeBaseSpace3rdAxisPlusScale",
+        "shapeBaseSpace3rdAxisMinusScale",
         "shapePartOffset",
         "shapeArcAngle",
         "shapeFinHeight",
@@ -775,7 +781,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
         assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
 
-    for index in range(1, 13):
+    for index in range(1, 15):
         separator = "_" * index
         assert (
             maya_cmds.attributeQuery(separator, node=shape, shortName=True)
@@ -797,24 +803,32 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shape2ndAxis",
         "shapeAxisSwap",
         "shape",
+        "__",
         "shapeBaseSpace1stAxisPlus",
         "shapeBaseSpace1stAxisMinus",
         "shapeBaseSpace2ndAxisPlus",
         "shapeBaseSpace2ndAxisMinus",
         "shapeBaseSpace3rdAxisPlus",
         "shapeBaseSpace3rdAxisMinus",
-        "__",
+        "___",
+        "shapeBaseSpace1stAxisPlusScale",
+        "shapeBaseSpace1stAxisMinusScale",
+        "shapeBaseSpace2ndAxisPlusScale",
+        "shapeBaseSpace2ndAxisMinusScale",
+        "shapeBaseSpace3rdAxisPlusScale",
+        "shapeBaseSpace3rdAxisMinusScale",
+        "____",
         "shapeDrawOnTop",
         "shapeLineWidth",
         "shapeLineTransparency",
         "shapeFill",
         "shapeFillTransparency",
-        "___",
+        "_____",
         "shapeWide",
         "shapeWideWidth",
-        "____",
+        "______",
         "shapeArcAngle",
-        "_____",
+        "_______",
         "shapeTemplateLine",
         "shapeTemplateLineRate",
         "shapeTemplateLineInvert",
@@ -823,7 +837,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeFinTemplate",
         "shapeGuideLineTemplate",
         "shapeOffsetLineTemplate",
-        "______",
+        "________",
         "shapePart",
         "shapePartShape",
         "shapePartType",
@@ -834,17 +848,17 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapePartLengthScale",
         "shapePartWidthScale",
         "shapePartHeightScale",
-        "_______",
+        "_________",
         "shapeFin",
         "shapeFinType",
         "shapeFinHeight",
         "shapeFinSize",
         "shapeFinWidthScale",
-        "________",
-        "shapeGuideLine",
-        "_________",
-        "shapeOffsetLine",
         "__________",
+        "shapeGuideLine",
+        "___________",
+        "shapeOffsetLine",
+        "____________",
         "shapeRootSize",
         "shapeTranslateX",
         "shapeRotateX",
@@ -853,10 +867,10 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeAxisRotateX",
         "shapeAxisScaleX",
         "shapeSize",
-        "___________",
+        "_____________",
         "boundsMode",
         "showBoundsPreview",
-        "____________",
+        "______________",
         "customBoundsBaseSpaceXPlus",
         "customBoundsBaseSpaceXMinus",
         "customBoundsBaseSpaceYPlus",
@@ -864,13 +878,25 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "customBoundsBaseSpaceZPlus",
         "customBoundsBaseSpaceZMinus",
     )
+    face_scale_children = {
+        f"shapeBaseSpace{axis}Axis{side}Scale": tuple(
+            f"shapeBaseSpace{axis}Axis{side}Scale{other}Axis"
+            for other in ("1st", "2nd", "3rd")
+            if other != axis
+        )
+        for axis in ("1st", "2nd", "3rd")
+        for side in ("Plus", "Minus")
+    }
     expected_channel_order = tuple(
         child
         for attribute in ordered_attributes
-        for child in (
-            tuple(attribute[:-1] + component for component in "XYZ")
-            if attribute.endswith("X")
-            else (attribute,)
+        for child in face_scale_children.get(
+            attribute,
+            (
+                tuple(attribute[:-1] + component for component in "XYZ")
+                if attribute.endswith("X")
+                else (attribute,)
+            ),
         )
     )
     visible_channels = tuple(

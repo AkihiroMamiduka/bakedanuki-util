@@ -75,7 +75,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 
 ## Viewport 2.0描画テスト
 
-`bdControllerShape` の描画比較は次の4ファイルに分かれています。
+`bdControllerShape` の描画比較は次の5ファイルに分かれています。
 
 | ファイル | 主な確認対象 |
 | --- | --- |
@@ -83,6 +83,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 | [test_controller_shape_wide_surfaces.py](../../../tests/maya/ui/test_controller_shape_wide_surfaces.py) | 立体Wideの帯・開口・選択面、Sphereの混色、幅0、透明線による塗り面の深度欠け |
 | [test_controller_shape_display_colors.py](../../../tests/maya/ui/test_controller_shape_display_colors.py) | 無効なoverrideの保存色と、実際の非選択表示・Selection Highlighting OFFの一致 |
 | [test_controller_shape_gear_template.py](../../../tests/maya/ui/test_controller_shape_gear_template.py) | Gearの実長・周期区間、歯先中央の両側、Wideの位相、線と面の独立した選択、他形状による遮蔽 |
+| [test_controller_shape_cage_attachments.py](../../../tests/maya/ui/test_controller_shape_cage_attachments.py) | 面倍率で変形した本体とPart・Fin・GuideLineの接合、局所寸法、巻き付けPartとCrossの境界 |
 
 形状の仕様と手動で確認する項目は [Controller Shape](controller-shape.md) を参照してください。
 
@@ -95,7 +96,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 PythonのScript Editorから次を実行します。テストはsceneを新規作成するため、
 必要なsceneや作業状態のない専用プロセスを使用してください。
 `repo_root` は実際のcheckoutへ変更します。pytestは `setup-test.cmd` で用意した `.test` を使います。
-以下の例だけで4ファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
+以下の例だけで5ファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
 
 ```python
 import sys
@@ -128,6 +129,7 @@ def run_controller_viewport_tests():
             str(repo_root / "tests/maya/ui/test_controller_shape_wide_surfaces.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_display_colors.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_gear_template.py"),
+            str(repo_root / "tests/maya/ui/test_controller_shape_cage_attachments.py"),
             "--basetemp",
             str(output_dir / "pytest"),
             "--junitxml",
@@ -146,7 +148,7 @@ utils.executeDeferred(run_controller_viewport_tests)
 GuideLineの変更だけを切り分ける場合は、`pytest.main()` の引数へ
 `"-k", "guide_line or arrow_tip_connection"` を追加できます。
 対象を絞った確認後は、変更範囲に応じて関連する描画テストを実行します。
-描画・選択・Templateの共通処理を変更した場合はフィルターを外して4ファイルを確認し、
+描画・選択・Templateの共通処理を変更した場合はフィルターを外して5ファイルを確認し、
 最終の統一検証も行います。
 
 既定では実行中のMayaバージョンに対応した配布先 `.mll` をロードします。

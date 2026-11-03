@@ -120,6 +120,24 @@ mod.do_it_dg()
 | `shapeBaseSpace2ndAxisMinus` | `doubleLinear` | `-0.5 cm` | 基準補助軸の元の負端 `-0.5` の行き先 |
 | `shapeBaseSpace3rdAxisPlus` | `doubleLinear` | `+0.5 cm` | 基準第3軸の元の正端 `+0.5` の行き先 |
 | `shapeBaseSpace3rdAxisMinus` | `doubleLinear` | `-0.5 cm` | 基準第3軸の元の負端 `-0.5` の行き先 |
+| `shapeBaseSpace1stAxisPlusScale` | `double2` | `(1, 1)` | 1st正面の(2nd, 3rd)倍率をまとめるnumeric compound。`sbsp1ps` |
+| `shapeBaseSpace1stAxisPlusScale2ndAxis` | `double` | `1` | 1st正面の2nd方向の倍率。`sbsp1ps2` |
+| `shapeBaseSpace1stAxisPlusScale3rdAxis` | `double` | `1` | 1st正面の3rd方向の倍率。`sbsp1ps3` |
+| `shapeBaseSpace1stAxisMinusScale` | `double2` | `(1, 1)` | 1st負面の(2nd, 3rd)倍率をまとめるnumeric compound。`sbsp1ms` |
+| `shapeBaseSpace1stAxisMinusScale2ndAxis` | `double` | `1` | 1st負面の2nd方向の倍率。`sbsp1ms2` |
+| `shapeBaseSpace1stAxisMinusScale3rdAxis` | `double` | `1` | 1st負面の3rd方向の倍率。`sbsp1ms3` |
+| `shapeBaseSpace2ndAxisPlusScale` | `double2` | `(1, 1)` | 2nd正面の(1st, 3rd)倍率をまとめるnumeric compound。`sbsp2ps` |
+| `shapeBaseSpace2ndAxisPlusScale1stAxis` | `double` | `1` | 2nd正面の1st方向の倍率。`sbsp2ps1` |
+| `shapeBaseSpace2ndAxisPlusScale3rdAxis` | `double` | `1` | 2nd正面の3rd方向の倍率。`sbsp2ps3` |
+| `shapeBaseSpace2ndAxisMinusScale` | `double2` | `(1, 1)` | 2nd負面の(1st, 3rd)倍率をまとめるnumeric compound。`sbsp2ms` |
+| `shapeBaseSpace2ndAxisMinusScale1stAxis` | `double` | `1` | 2nd負面の1st方向の倍率。`sbsp2ms1` |
+| `shapeBaseSpace2ndAxisMinusScale3rdAxis` | `double` | `1` | 2nd負面の3rd方向の倍率。`sbsp2ms3` |
+| `shapeBaseSpace3rdAxisPlusScale` | `double2` | `(1, 1)` | 3rd正面の(1st, 2nd)倍率をまとめるnumeric compound。`sbsp3ps` |
+| `shapeBaseSpace3rdAxisPlusScale1stAxis` | `double` | `1` | 3rd正面の1st方向の倍率。`sbsp3ps1` |
+| `shapeBaseSpace3rdAxisPlusScale2ndAxis` | `double` | `1` | 3rd正面の2nd方向の倍率。`sbsp3ps2` |
+| `shapeBaseSpace3rdAxisMinusScale` | `double2` | `(1, 1)` | 3rd負面の(1st, 2nd)倍率をまとめるnumeric compound。`sbsp3ms` |
+| `shapeBaseSpace3rdAxisMinusScale1stAxis` | `double` | `1` | 3rd負面の1st方向の倍率。`sbsp3ms1` |
+| `shapeBaseSpace3rdAxisMinusScale2ndAxis` | `double` | `1` | 3rd負面の2nd方向の倍率。`sbsp3ms2` |
 | `shapeDrawOnTop` | `bool` | `false` | 本体・Part・Fin・GuideLine・OffsetLineを他のシーン形状に隠れないように描画 |
 | `shapeLineWidth` | `float` | `1` | 本体・GuideLine・OffsetLineの画面上の線幅。pixel単位、最小値1 |
 | `shapeLineTransparency` | `float` | `0` | 輪郭・GuideLine・OffsetLine・ColorCornerCubeの小四角の透明度。0は不透明、1は完全透明 |
@@ -238,10 +256,10 @@ WideのCylinderは正の幅ではFillのON/OFFにかかわらず元の4本の母
 `shapeBaseSpace2ndAxisMinus` / `shapeBaseSpace2ndAxisPlus` と
 `shapeBaseSpace3rdAxisMinus` / `shapeBaseSpace3rdAxisPlus` も同じ規則で補助軸・第3軸へ作用します。
 値は距離で、`Minus` / `Plus` は元の端を識別します。元の座標からの移動量ではありません。
-既定値は全軸 `-0.5 cm` / `+0.5 cm` で、従来の基準形状を保ちます。
+既定値は全軸 `-0.5 cm` / `+0.5 cm` で、後述の面内Scaleも全て1なら従来の基準形状を保ちます。
 
 各軸の元の座標を `p`、設定した両端を `minus` / `plus` とすると、
-`Arrow` / `OctahedronArrow` の主軸を除く本体上の座標は次の式で求めます。
+面内Scaleが全て1のとき、`Arrow` / `OctahedronArrow` の主軸を除く本体上の座標は次の式で求めます。
 矢印の主軸は後述の固定長の規約を使います。ここで `p` は内部のcm単位の数値です。
 
 ```text
@@ -252,6 +270,35 @@ base(p) = (minus + plus) / 2 + p * (plus - minus)
 たとえば元の `-0.5 / 0 / +0.5` は、両端を `1 / 2` とすると `1 / 1.5 / 2`、
 両端を `1 / 3` とすると `1 / 2 / 3` になります。後者では元の `+0.75` も `+3.5` へ移ります。
 Triangleの底辺 `-0.37` やArcの角度による部分的な範囲も、そのまま線形変換します。
+
+基準空間の6面には、それぞれ面内2軸の倍率を指定できます。たとえば
+`shapeBaseSpace1stAxisPlusScale2ndAxis` は正の1st面の2nd方向、
+`shapeBaseSpace1stAxisPlusScale3rdAxis` は同じ面の3rd方向を調整します。
+面の法線軸を除く2軸を指定し、計12属性です。全て単位なしの `double`、既定値1で、
+0や負値も保持します。各面の2成分は `shapeBaseSpace1stAxisPlusScale` など6個の
+numeric compound親にまとめます。親の型は `double2`、既定値は `(1, 1)` です。
+成分の順序は法線軸を除いた軸番号順で、1st面は `(2nd, 3rd)`、2nd面は `(1st, 3rd)`、
+3rd面は `(1st, 2nd)` です。端座標6個と面内Scale親6個は別区画へ表示します。
+
+各面の中心から面内2軸を拡縮し、隣接面から同じ頂点へ作用する倍率は乗算します。
+たとえば正の1st面の2nd倍率が2、正の3rd面の2nd倍率が3なら、
+両面が接する頂点の2nd成分には6を掛けます。8頂点から三線形補間した基準空間で
+本体の点を変形し、元の範囲外の点もそのまま外挿します。独立した面内倍率による
+ねじれや、同一面の4頂点が同じ平面に収まらない形状も許容します。
+両端座標は面内Scaleが1の基準枠を定めます。隣接面の倍率によって頂点はその端座標の外にも
+移るため、完成形状の軸平行範囲の上下限を固定する値ではありません。
+
+```python
+shape.shapeBaseSpace1stAxisPlusScale.set(0.5, 1.5)
+mod.do_it_dg()
+```
+
+この例は正の1st面の2nd方向を半分、3rd方向を1.5倍にし、反対面側は既定倍率に保ちます。
+他面の倍率も変更すると、隣接面の影響を乗算した結果になります。
+親は `.set((0.5, 1.5))` の形式でも設定でき、`.get()` は `bdu.Double2` を返します。
+親のshort名は `sbsp1ps` / `sbsp1ms`、`sbsp2ps` / `sbsp2ms`、`sbsp3ps` / `sbsp3ms` です。
+子の名前は維持し、`shape.shapeBaseSpace1stAxisPlusScale2ndAxis` の直接アクセスと、
+`shape.sbsp1ps.sbsp1ps2` の親経由アクセスの両方で型付き補完を使えます。
 
 通常本体では `Minus > Plus` も許容し、その軸を反転します。
 Color系は軸色と固定XYZの対応を保つため、入力した両端の中心を保ち、幅の絶対値を描画へ使います。
@@ -270,7 +317,10 @@ mod.do_it_dg()
 設定値や意味は交換しません。Color系本体の基準空間は、固定XYZの各軸に対応します。
 
 追加Partは変形後の本体から配置点と姿勢を求め、長さ・幅・高さと `shapePartOffset` の距離を保って生成します。
-Arcの円周へ沿わせるPartは、変形後の円・楕円上で長さを弧長として測り、局所幅を保ちます。
+Arcの円周へ沿わせるPartは、変形後の曲線上で長さを弧長として測り、局所幅を保ちます。
+面内Scaleで本体を変形しても、Part自身の長さ・幅・高さ、OffsetとFinの高さは拡縮しません。
+接合位置は変形後の本体の三角面から求め直します。局所の接線・法線を決められない退化では、
+両端座標だけを適用した姿勢、元の基準姿勢の順に戻し、Partの物理寸法を保ちます。
 曲線面が退化する場合は円周変形と立体の接合姿勢補正を行わず、元の局所姿勢からPartを作ります。
 配置点だけを退化後の本体へ写し、消えた方向には元の軸を使って長さ・幅・高さとOffsetの距離を保ちます。
 曲線面の2軸が残り、法線側の軸だけが潰れた場合は円周変形を保ちます。CrossArcは円ごとに判定します。
@@ -295,6 +345,10 @@ Wideは基準空間を適用した本体の表面から生成し、`shapeWideWid
 `shapeWide=true` と `shapeWideWidth` を組み合わせて、全24基本本体のWide表示を選びます。
 幅は基準空間の適用後、共通TRSの適用前の実距離で測ります。以下で `w=shapeWideWidth` とします。
 非等方な基準空間でも、線に垂直な平面距離または変形後の面上の距離を保ちます。
+面内Scaleで変形した立体表面の帯は、細分した三角面上の表面距離で幅を求めます。
+この距離と帯境界の精度は面の分割解像度に依存し、曲がった面上では近似になります。
+帯が表面全体を覆う幅では穴を残しません。局所的な潰れや折り返しでも元の面のつながりを保ち、
+長さ0の辺は距離0として扱います。
 Part・FinのSizeやWidthを幅へ掛けません。共通TRSや入力行列では、帯も本体と一緒に伸縮します。
 後端が固定長のArrow系も、本体の輪郭・表面を確定してからWideを生成します。
 以下の半径0.5や座標値は、基準空間と共通TRSが既定値の場合を示します。
@@ -541,6 +595,8 @@ Finと本体の線・塗りも、変形後の小形状内部を差し引きま�
 AxisSwapがOFFなら1st軸、ONなら2nd軸の両端です。
 後端から接合断面までの長さは、`Arrow` が `0.25 cm`、
 `OctahedronArrow` が `0.5 cm` に固定します。先端側だけを指定したPlusへ伸ばします。
+これは面内Scaleを適用する前の本体構成です。面内Scaleはこの完成した本体へ作用するため、
+他面の主軸方向の倍率によって後端部分や先端も変形します。
 
 ```text
 direction = +1 if plus >= minus else -1
@@ -952,6 +1008,9 @@ Part・Finの線と面は通常色です。
 基準空間の各軸を伸縮してもこの寸法を保ちます。基準空間の幅が `0.2 cm` 未満の軸は
 本体の幅で切り取り、小四角を本体の外へ出しません。このため長方形や退化した面に
 なることがあります。基準空間が既定値なら、各正側面の面内座標 `0.3` から `0.5` です。
+面内Scaleで正側面がねじれる場合は、その面の正側2辺から表面距離 `0.2 cm` 以内の
+領域の交差を色面とします。細分した三角面で距離を近似し、本体面・通常線・Wide追加線も
+同じ境界で切り取ります。
 共通のSize・TRS、`shapeAnimationTransformMatrix` と親transformでは本体と一緒に拡縮します。
 小四角はWireframeでも
 塗り面として表示し、面内のクリックで選択できます。小四角に接する輪郭線3本は
@@ -972,6 +1031,7 @@ Color系4基本本体は、シェイプ編集を適用する段階で軸色と�
 | `shapeAxisSwap` | Part・Finの基準配置へ交換を適用してから選択軸へ向ける。本体・軸色・GuideLineは交換しない |
 | `shapeRotate` / `shapeAxisRotate` | 各XYZ成分を0として扱う |
 | `shapeScale` / `shapeAxisScale` | 各XYZ成分の絶対値を適用 |
+| `shapeBaseSpace...Scale...Axis` | 12属性それぞれの絶対値を描画用の面内倍率へ適用 |
 | `shapeSize` / `shapeRootSize` | 絶対値を適用 |
 
 移動、正のスケール、基準空間と部品の変形は引き続き適用します。0スケールも0のままです。
@@ -1008,22 +1068,24 @@ Custom Boundsの専用XYZ両端座標には、本体の軸指定やColorの特�
 Channel Box編集、DG接続、属性を明示したキー設定に対応し、通常の一括キー操作には含めません。
 `shapeAnimationTransformMatrix` はChannel Boxに表示せず、接続と `ModifierManager` 経由の設定に対応します。
 
-Channel Boxの表示順は次の12区画です。区切りは `_` から `____________` までの
-12本の表示専用1値enumで、値は `-----------------------------------` です。
+Channel Boxの表示順は次の14区画です。区切りは `_` から `______________` までの
+14本の表示専用1値enumで、値は `-----------------------------------` です。
 非keyable・非接続・非保存・ロック済みとし、先頭と各区画の間へ1本ずつ置きます。
 
-1. `shape1stAxis`、`shape2ndAxis`、`shapeAxisSwap`、`shape`、`shapeBaseSpace1stAxisPlus` / `Minus`、`shapeBaseSpace2ndAxisPlus` / `Minus`、`shapeBaseSpace3rdAxisPlus` / `Minus`
-2. `shapeDrawOnTop`、`shapeLineWidth`、`shapeLineTransparency`、`shapeFill`、`shapeFillTransparency`
-3. `shapeWide`、`shapeWideWidth`
-4. `shapeArcAngle`
-5. `shapeTemplateLine`、`shapeTemplateLineRate`、`shapeTemplateLineInvert`、`shapeTemplateFill`、`shapePartTemplate`、`shapeFinTemplate`、`shapeGuideLineTemplate`、`shapeOffsetLineTemplate`
-6. `shapePart`、`shapePartShape`、`shapePartType`、`shapePartOffset`、`shapePartSize`、`shapePartPrimarySizeScale`、`shapePartOtherSizeScale`、`shapePartLengthScale`、`shapePartWidthScale`、`shapePartHeightScale`
-7. `shapeFin`、`shapeFinType`、`shapeFinHeight`、`shapeFinSize`、`shapeFinWidthScale`
-8. `shapeGuideLine`
-9. `shapeOffsetLine`
-10. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
-11. `boundsMode`、`showBoundsPreview`
-12. `customBoundsBaseSpaceXPlus` / `Minus`、`customBoundsBaseSpaceYPlus` / `Minus`、`customBoundsBaseSpaceZPlus` / `Minus`
+1. `shape1stAxis`、`shape2ndAxis`、`shapeAxisSwap`、`shape`
+2. 基準空間の端座標6個。1st Plus/Minus→2nd Plus/Minus→3rd Plus/Minus
+3. 基準空間の面内Scale親6個。1st Plus/Minus→2nd Plus/Minus→3rd Plus/Minus。各親に面内2軸の子を軸番号順でまとめる
+4. `shapeDrawOnTop`、`shapeLineWidth`、`shapeLineTransparency`、`shapeFill`、`shapeFillTransparency`
+5. `shapeWide`、`shapeWideWidth`
+6. `shapeArcAngle`
+7. `shapeTemplateLine`、`shapeTemplateLineRate`、`shapeTemplateLineInvert`、`shapeTemplateFill`、`shapePartTemplate`、`shapeFinTemplate`、`shapeGuideLineTemplate`、`shapeOffsetLineTemplate`
+8. `shapePart`、`shapePartShape`、`shapePartType`、`shapePartOffset`、`shapePartSize`、`shapePartPrimarySizeScale`、`shapePartOtherSizeScale`、`shapePartLengthScale`、`shapePartWidthScale`、`shapePartHeightScale`
+9. `shapeFin`、`shapeFinType`、`shapeFinHeight`、`shapeFinSize`、`shapeFinWidthScale`
+10. `shapeGuideLine`
+11. `shapeOffsetLine`
+12. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
+13. `boundsMode`、`showBoundsPreview`
+14. `customBoundsBaseSpaceXPlus` / `Minus`、`customBoundsBaseSpaceYPlus` / `Minus`、`customBoundsBaseSpaceZPlus` / `Minus`
 
 区切りはPythonの生成NodeOperator APIから除外します。
 継承する `localPositionX/Y/Z` と `localScaleX/Y/Z` は描画に使わないためChannel Boxの既定表示から外し、
@@ -1031,7 +1093,7 @@ Channel Boxの表示順は次の12区画です。区切りは `_` から `______
 
 点 `p` に適用する階層は `shapeAnimationTransformMatrix > shapeRootSize > shapeTranslate > shapeRotate >
 shapeScale > 軸指定 > shapeAxisTranslate > shapeAxisRotate > shapeAxisScale > shapeSize > p` です。
-`p` は基準空間での本体変形、後端固定長の矢印、Wide、寸法を保つPart・Fin、GuideLineと
+`p` は端座標と面内Scaleによる本体変形、後端固定長から構成した矢印、Wide、寸法を保つPart・Fin、GuideLineと
 Swappedの入替を反映して組み立てた頂点です。軸指定から作る回転を `A` とすると次の式になります。
 
 ```text
@@ -1206,7 +1268,7 @@ Python の公開 enum は下記の生成手順で更新し、生成ファイル�
 ### 調整属性を追加するとき
 
 `BdControllerShapeNode::initialize()` の `addAttribute()` の順序が Channel Box の
-12区画の表示順になります。新しい調整属性は該当区画へ登録し、非 keyable・
+14区画の表示順になります。新しい調整属性は該当区画へ登録し、非 keyable・
 Channel Box 表示を設定します。複合属性では X/Y/Z 子属性にも同じ設定が必要です。
 `shapeAnimationTransformMatrix` は表示しない例外です。区画を増やす場合は
 新しい区切り属性も追加し、表示専用・非接続・非保存・ロック済みとします。
@@ -1467,7 +1529,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 22. shapeLineWidthを大きくすると本体・Part・Fin・OffsetLineが画面上で太くなり、ズームやシーン単位によらず指定pixel幅を保つ。
 23. shapeLineTransparencyの0・中間値・1を通常色・選択色・template色・軸色で確認し、shapeFillTransparencyとは独立して変わる。
 24. shapeDrawOnTopのON/OFFで隠れた線・面を表示し、形状・クリック選択・Boundsを変えない。透明度・選択色との併用も確認する。
-25. Channel Boxの12本の区切りと12区画の順序を確認する。shape直後に基準空間の1st Plus/Minus→2nd Plus/Minus→3rd Plus/Minus、表示5属性→Wide→Arc→Templateの順とする。PartのSize→Primary→Other→Length→Width→Height、末尾のCustom XYZ Plus/Minusも保ち、明示キー・接続と区切りのロックを確認する。
+25. Channel Boxの14本の区切りと14区画の順序を確認する。shape直後の区切りから基準空間の端座標6個、次の区切りから面内Scale親6個を置き、各親に面内2軸の子をまとめる。各区画内は1st Plus/Minus→2nd Plus/Minus→3rd Plus/Minusの順とする。次の区切りから表示5属性→Wide→Arc→Template、PartのSize→Primary→Other→Length→Width→Height、末尾のCustom XYZ Plus/Minusも保ち、親子の明示キー・接続と区切りのロックを確認する。
 26. shapeの24項目、PartShapeの11項目、PartTypeの3項目と、既定shapeがCube（12）であることを確認する。Wide/Swapped/SquareTemplate専用のenumを持たず、基本形状と独立した属性で選択する。
 27. 全本体でshapeFillを切り替え、Shadedでは面・輪郭、Wireframeでは輪郭、Wireframe on Shadedでは両方を表示する。ColorCornerCubeの小四角は常に残る。
 28. Triangle・Square・Circle・WideArcRadialの帯・WideArcAxialの側面・Fin・Arrow3Dは両面から見える。閉じた立体の本体・小形状・Color面は外側だけ見え、内側からは見えない。負のスケール・親transform・Animation行列の反転、透視・平行投影でも確認する。
@@ -1540,7 +1602,8 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 
 実際のViewport 2.0を必要とする画像比較テストは、`tests/maya/ui` の
 `test_controller_shape_viewport.py`、`test_controller_shape_wide_surfaces.py`、
-`test_controller_shape_display_colors.py`、`test_controller_shape_gear_template.py` の4ファイルです。
+`test_controller_shape_display_colors.py`、`test_controller_shape_gear_template.py`、
+`test_controller_shape_cage_attachments.py` の5ファイルです。
 既存作業とは別のMaya GUIプロセスでpytestから実行し、mayapyのbatch環境では明示的にskipします。
 ファイルの分担表・一括実行手順・画像比較の注意点は
 [Testing And DebuggingのViewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) を参照してください。

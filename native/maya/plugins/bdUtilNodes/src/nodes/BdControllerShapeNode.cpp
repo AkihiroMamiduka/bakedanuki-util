@@ -109,6 +109,24 @@ MObject BdControllerShapeNode::shapeBaseSpace2ndAxisMinus;
 MObject BdControllerShapeNode::shapeBaseSpace2ndAxisPlus;
 MObject BdControllerShapeNode::shapeBaseSpace3rdAxisMinus;
 MObject BdControllerShapeNode::shapeBaseSpace3rdAxisPlus;
+MObject BdControllerShapeNode::shapeBaseSpace1stAxisPlusScale;
+MObject BdControllerShapeNode::shapeBaseSpace1stAxisMinusScale;
+MObject BdControllerShapeNode::shapeBaseSpace2ndAxisPlusScale;
+MObject BdControllerShapeNode::shapeBaseSpace2ndAxisMinusScale;
+MObject BdControllerShapeNode::shapeBaseSpace3rdAxisPlusScale;
+MObject BdControllerShapeNode::shapeBaseSpace3rdAxisMinusScale;
+MObject BdControllerShapeNode::shapeBaseSpace1stAxisPlusScale2ndAxis;
+MObject BdControllerShapeNode::shapeBaseSpace1stAxisPlusScale3rdAxis;
+MObject BdControllerShapeNode::shapeBaseSpace1stAxisMinusScale2ndAxis;
+MObject BdControllerShapeNode::shapeBaseSpace1stAxisMinusScale3rdAxis;
+MObject BdControllerShapeNode::shapeBaseSpace2ndAxisPlusScale1stAxis;
+MObject BdControllerShapeNode::shapeBaseSpace2ndAxisPlusScale3rdAxis;
+MObject BdControllerShapeNode::shapeBaseSpace2ndAxisMinusScale1stAxis;
+MObject BdControllerShapeNode::shapeBaseSpace2ndAxisMinusScale3rdAxis;
+MObject BdControllerShapeNode::shapeBaseSpace3rdAxisPlusScale1stAxis;
+MObject BdControllerShapeNode::shapeBaseSpace3rdAxisPlusScale2ndAxis;
+MObject BdControllerShapeNode::shapeBaseSpace3rdAxisMinusScale1stAxis;
+MObject BdControllerShapeNode::shapeBaseSpace3rdAxisMinusScale2ndAxis;
 MObject BdControllerShapeNode::shapePartOffset;
 MObject BdControllerShapeNode::shapePartLengthScale;
 MObject BdControllerShapeNode::shapePartWidthScale;
@@ -146,6 +164,8 @@ MObject channelBoxSeparator9;
 MObject channelBoxSeparator10;
 MObject channelBoxSeparator11;
 MObject channelBoxSeparator12;
+MObject channelBoxSeparator13;
+MObject channelBoxSeparator14;
 
 constexpr double kPi = 3.14159265358979323846;
 constexpr unsigned int kCircleSegments = 64;
@@ -196,6 +216,10 @@ struct ShapeSettings {
     double size = 1.0;
     MVector baseSpaceMinus = MVector(-0.5, -0.5, -0.5);
     MVector baseSpacePlus = MVector(0.5, 0.5, 0.5);
+    std::array<double, 12> baseSpaceFaceScale = {
+        1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+        1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+    };
     double partOffset = 0.0;
     double partOffsetAngle = kPi / 2.0;
     double partFinHeight = 0.5;
@@ -260,6 +284,8 @@ struct ShapeAttributes {
     MObject baseSpace2ndAxisPlus;
     MObject baseSpace3rdAxisMinus;
     MObject baseSpace3rdAxisPlus;
+    std::array<MObject, 12> baseSpaceFaceScale;
+    std::array<MObject, 6> baseSpaceFaceScaleParents;
 };
 
 ShapeAttributes shapeAttributes() {
@@ -311,6 +337,28 @@ ShapeAttributes shapeAttributes() {
         BdControllerShapeNode::shapeBaseSpace2ndAxisPlus,
         BdControllerShapeNode::shapeBaseSpace3rdAxisMinus,
         BdControllerShapeNode::shapeBaseSpace3rdAxisPlus,
+        {
+            BdControllerShapeNode::shapeBaseSpace1stAxisPlusScale2ndAxis,
+            BdControllerShapeNode::shapeBaseSpace1stAxisPlusScale3rdAxis,
+            BdControllerShapeNode::shapeBaseSpace1stAxisMinusScale2ndAxis,
+            BdControllerShapeNode::shapeBaseSpace1stAxisMinusScale3rdAxis,
+            BdControllerShapeNode::shapeBaseSpace2ndAxisPlusScale1stAxis,
+            BdControllerShapeNode::shapeBaseSpace2ndAxisPlusScale3rdAxis,
+            BdControllerShapeNode::shapeBaseSpace2ndAxisMinusScale1stAxis,
+            BdControllerShapeNode::shapeBaseSpace2ndAxisMinusScale3rdAxis,
+            BdControllerShapeNode::shapeBaseSpace3rdAxisPlusScale1stAxis,
+            BdControllerShapeNode::shapeBaseSpace3rdAxisPlusScale2ndAxis,
+            BdControllerShapeNode::shapeBaseSpace3rdAxisMinusScale1stAxis,
+            BdControllerShapeNode::shapeBaseSpace3rdAxisMinusScale2ndAxis,
+        },
+        {
+            BdControllerShapeNode::shapeBaseSpace1stAxisPlusScale,
+            BdControllerShapeNode::shapeBaseSpace1stAxisMinusScale,
+            BdControllerShapeNode::shapeBaseSpace2ndAxisPlusScale,
+            BdControllerShapeNode::shapeBaseSpace2ndAxisMinusScale,
+            BdControllerShapeNode::shapeBaseSpace3rdAxisPlusScale,
+            BdControllerShapeNode::shapeBaseSpace3rdAxisMinusScale,
+        },
     };
 }
 
@@ -385,6 +433,7 @@ bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
         left.size == right.size &&
         sameVector(left.baseSpaceMinus, right.baseSpaceMinus) &&
         sameVector(left.baseSpacePlus, right.baseSpacePlus) &&
+        left.baseSpaceFaceScale == right.baseSpaceFaceScale &&
         left.partOffset == right.partOffset &&
         left.partOffsetAngle == right.partOffsetAngle &&
         left.partFinHeight == right.partFinHeight &&
@@ -486,6 +535,13 @@ bool readSettings(
         settings.baseSpaceMinus.z = MPlug(node, attributes.baseSpace3rdAxisMinus).asMDistance(&status).asCentimeters();
         if (!status) return false;
         settings.baseSpacePlus.z = MPlug(node, attributes.baseSpace3rdAxisPlus).asMDistance(&status).asCentimeters();
+        if (!status) return false;
+    }
+    settings.baseSpaceFaceScale.fill(1.0);
+    for (std::size_t index = 0; index < settings.baseSpaceFaceScale.size(); ++index) {
+        const auto& attribute = attributes.baseSpaceFaceScale[index];
+        if (attribute.isNull()) continue;
+        settings.baseSpaceFaceScale[index] = MPlug(node, attribute).asDouble(&status);
         if (!status) return false;
     }
     if (!attributes.axisSwap.isNull()) {
@@ -765,6 +821,7 @@ void normalizeColorSettings(ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!isColorOutline(outline)) return;
 
+    for (auto& scale : settings.baseSpaceFaceScale) scale = std::abs(scale);
     settings.attachmentFirstAxis = settings.firstAxis;
     settings.attachmentSecondAxis = settings.secondAxis;
     settings.firstAxis = 0;
@@ -832,6 +889,7 @@ void normalizeShapeSettings(ShapeSettings& settings) {
 
 #include "BdControllerShapeBaseSpace.inc"
 #include "BdControllerShapeArrowBaseSpace.inc"
+#include "BdControllerShapeCage.inc"
 
 void appendPresetComponent(
     int primitive,
@@ -1753,10 +1811,17 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeSingularBaseGeometry(
 }
 
 #include "BdControllerShapeArrowGeometry.inc"
+#include "BdControllerShapeCageBody.inc"
+#include "BdControllerShapeCageArc.inc"
+#include "BdControllerShapeCageWide.inc"
+#include "BdControllerShapeCageTemplate.inc"
+#include "BdControllerShapeCageAttachments.inc"
+#include "BdControllerShapeCageGeometry.inc"
 
 std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const ShapeSettings& settings
 ) {
+    if (hasCageMapping(settings)) return makeCageGeometry(settings);
     if (isArrowBody(settings)) return makeArrowBaseGeometry(settings);
     if (settings.wide && hasSingularBaseSpace(settings)) {
         ShapeSettings effective = settings;
@@ -1966,6 +2031,9 @@ Strokes boundsStrokes(const MBoundingBox& bounds) {
 }
 
 bool isShapeAttribute(const MObject& attribute) {
+    const auto attributes = shapeAttributes();
+    for (const auto& parent : attributes.baseSpaceFaceScaleParents) if (parent == attribute) return true;
+    for (const auto& child : attributes.baseSpaceFaceScale) if (child == attribute) return true;
     for (const MObject& shapeAttribute : {
              BdControllerShapeNode::shape,
              BdControllerShapeNode::shapeAxisSwap,
@@ -2062,6 +2130,9 @@ bool hasIncomingConnection(const MPlug& plug) {
 bool hasConnectedSettingsInput(
     const MObject& node, const ShapeAttributes& attributes
 ) {
+    for (const auto& attribute : attributes.baseSpaceFaceScaleParents) {
+        if (!attribute.isNull() && hasIncomingConnection(MPlug(node, attribute))) return true;
+    }
     for (const MObject& attribute : {
              attributes.shape,
              attributes.axisSwap,
@@ -2782,6 +2853,8 @@ void BdControllerShapeNode::postConstructor() {
              channelBoxSeparator10,
              channelBoxSeparator11,
              channelBoxSeparator12,
+             channelBoxSeparator13,
+             channelBoxSeparator14,
          }) {
         const MStatus status = MPlug(node, attribute).setLocked(true);
         if (!status) {
@@ -3152,6 +3225,51 @@ MStatus BdControllerShapeNode::initialize() {
         if (!status) return status;
     }
 
+    for (const auto& attribute : {
+             BaseSpaceAttribute{&shapeBaseSpace1stAxisPlusScale2ndAxis, "shapeBaseSpace1stAxisPlusScale2ndAxis", "sbsp1ps2", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace1stAxisPlusScale3rdAxis, "shapeBaseSpace1stAxisPlusScale3rdAxis", "sbsp1ps3", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace1stAxisMinusScale2ndAxis, "shapeBaseSpace1stAxisMinusScale2ndAxis", "sbsp1ms2", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace1stAxisMinusScale3rdAxis, "shapeBaseSpace1stAxisMinusScale3rdAxis", "sbsp1ms3", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace2ndAxisPlusScale1stAxis, "shapeBaseSpace2ndAxisPlusScale1stAxis", "sbsp2ps1", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace2ndAxisPlusScale3rdAxis, "shapeBaseSpace2ndAxisPlusScale3rdAxis", "sbsp2ps3", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace2ndAxisMinusScale1stAxis, "shapeBaseSpace2ndAxisMinusScale1stAxis", "sbsp2ms1", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace2ndAxisMinusScale3rdAxis, "shapeBaseSpace2ndAxisMinusScale3rdAxis", "sbsp2ms3", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace3rdAxisPlusScale1stAxis, "shapeBaseSpace3rdAxisPlusScale1stAxis", "sbsp3ps1", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace3rdAxisPlusScale2ndAxis, "shapeBaseSpace3rdAxisPlusScale2ndAxis", "sbsp3ps2", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace3rdAxisMinusScale1stAxis, "shapeBaseSpace3rdAxisMinusScale1stAxis", "sbsp3ms1", 1.0},
+             BaseSpaceAttribute{&shapeBaseSpace3rdAxisMinusScale2ndAxis, "shapeBaseSpace3rdAxisMinusScale2ndAxis", "sbsp3ms2", 1.0},
+         }) {
+        status = bd_util_nodes::createDoubleAttribute(
+            numericAttributeFn, *attribute.object, attribute.longName,
+            attribute.shortName, attribute.defaultValue
+        );
+        if (!status) return status;
+        status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+        if (!status) return status;
+    }
+
+    struct BaseSpaceFaceScaleAttribute {
+        MObject* parent;
+        const char* longName;
+        const char* shortName;
+        MObject* first;
+        MObject* second;
+    };
+    for (const auto& attribute : {
+             BaseSpaceFaceScaleAttribute{&shapeBaseSpace1stAxisPlusScale, "shapeBaseSpace1stAxisPlusScale", "sbsp1ps", &shapeBaseSpace1stAxisPlusScale2ndAxis, &shapeBaseSpace1stAxisPlusScale3rdAxis},
+             BaseSpaceFaceScaleAttribute{&shapeBaseSpace1stAxisMinusScale, "shapeBaseSpace1stAxisMinusScale", "sbsp1ms", &shapeBaseSpace1stAxisMinusScale2ndAxis, &shapeBaseSpace1stAxisMinusScale3rdAxis},
+             BaseSpaceFaceScaleAttribute{&shapeBaseSpace2ndAxisPlusScale, "shapeBaseSpace2ndAxisPlusScale", "sbsp2ps", &shapeBaseSpace2ndAxisPlusScale1stAxis, &shapeBaseSpace2ndAxisPlusScale3rdAxis},
+             BaseSpaceFaceScaleAttribute{&shapeBaseSpace2ndAxisMinusScale, "shapeBaseSpace2ndAxisMinusScale", "sbsp2ms", &shapeBaseSpace2ndAxisMinusScale1stAxis, &shapeBaseSpace2ndAxisMinusScale3rdAxis},
+             BaseSpaceFaceScaleAttribute{&shapeBaseSpace3rdAxisPlusScale, "shapeBaseSpace3rdAxisPlusScale", "sbsp3ps", &shapeBaseSpace3rdAxisPlusScale1stAxis, &shapeBaseSpace3rdAxisPlusScale2ndAxis},
+             BaseSpaceFaceScaleAttribute{&shapeBaseSpace3rdAxisMinusScale, "shapeBaseSpace3rdAxisMinusScale", "sbsp3ms", &shapeBaseSpace3rdAxisMinusScale1stAxis, &shapeBaseSpace3rdAxisMinusScale2ndAxis},
+         }) {
+        *attribute.parent = numericAttributeFn.create(attribute.longName, attribute.shortName,
+            *attribute.first, *attribute.second, MObject::kNullObj, &status);
+        if (!status) return status;
+        status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
+        if (!status) return status;
+    }
+
     status = bd_util_nodes::createDoubleLinearAttribute(
         unitAttributeFn, shapePartOffset, "shapePartOffset", "spo", 0.0
     );
@@ -3384,6 +3502,8 @@ MStatus BdControllerShapeNode::initialize() {
              std::pair<MObject*, const char*>{&channelBoxSeparator10, "__________"},
              std::pair<MObject*, const char*>{&channelBoxSeparator11, "___________"},
              std::pair<MObject*, const char*>{&channelBoxSeparator12, "____________"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator13, "_____________"},
+             std::pair<MObject*, const char*>{&channelBoxSeparator14, "______________"},
          }) {
         *separator.first = enumAttributeFn.create(
             separator.second, separator.second, 0, &status
@@ -3405,24 +3525,32 @@ MStatus BdControllerShapeNode::initialize() {
              shape2ndAxis,
              shapeAxisSwap,
              shape,
+             channelBoxSeparator2,
              shapeBaseSpace1stAxisPlus,
              shapeBaseSpace1stAxisMinus,
              shapeBaseSpace2ndAxisPlus,
              shapeBaseSpace2ndAxisMinus,
              shapeBaseSpace3rdAxisPlus,
              shapeBaseSpace3rdAxisMinus,
-             channelBoxSeparator2,
+             channelBoxSeparator3,
+             shapeBaseSpace1stAxisPlusScale,
+             shapeBaseSpace1stAxisMinusScale,
+             shapeBaseSpace2ndAxisPlusScale,
+             shapeBaseSpace2ndAxisMinusScale,
+             shapeBaseSpace3rdAxisPlusScale,
+             shapeBaseSpace3rdAxisMinusScale,
+             channelBoxSeparator4,
              shapeDrawOnTop,
              shapeLineWidth,
              shapeLineTransparency,
              shapeFill,
              shapeFillTransparency,
-             channelBoxSeparator3,
+             channelBoxSeparator5,
              shapeWide,
              shapeWideWidth,
-             channelBoxSeparator4,
+             channelBoxSeparator6,
              shapeArcAngle,
-             channelBoxSeparator5,
+             channelBoxSeparator7,
              shapeTemplateLine,
              shapeTemplateLineRate,
              shapeTemplateLineInvert,
@@ -3431,7 +3559,7 @@ MStatus BdControllerShapeNode::initialize() {
              shapeFinTemplate,
              shapeGuideLineTemplate,
              shapeOffsetLineTemplate,
-             channelBoxSeparator6,
+             channelBoxSeparator8,
              shapePart,
              shapePartShape,
              shapePartType,
@@ -3442,17 +3570,17 @@ MStatus BdControllerShapeNode::initialize() {
              shapePartLengthScale,
              shapePartWidthScale,
              shapePartHeightScale,
-             channelBoxSeparator7,
+             channelBoxSeparator9,
              shapeFin,
              shapeFinType,
              shapeFinHeight,
              shapeFinSize,
              shapeFinWidthScale,
-             channelBoxSeparator8,
-             shapeGuideLine,
-             channelBoxSeparator9,
-             shapeOffsetLine,
              channelBoxSeparator10,
+             shapeGuideLine,
+             channelBoxSeparator11,
+             shapeOffsetLine,
+             channelBoxSeparator12,
              shapeRootSize,
              shapeTranslate,
              shapeRotate,
@@ -3461,10 +3589,10 @@ MStatus BdControllerShapeNode::initialize() {
              shapeAxisRotate,
              shapeAxisScale,
              shapeSize,
-             channelBoxSeparator11,
+             channelBoxSeparator13,
              boundsMode,
              showBoundsPreview,
-             channelBoxSeparator12,
+             channelBoxSeparator14,
              customBoundsBaseSpaceXPlus,
              customBoundsBaseSpaceXMinus,
              customBoundsBaseSpaceYPlus,
@@ -3482,6 +3610,18 @@ MStatus BdControllerShapeNode::initialize() {
         if (!status) return status;
     }
     for (const MObject& attribute : {
+             shapeBaseSpace1stAxisPlusScale2ndAxis,
+             shapeBaseSpace1stAxisPlusScale3rdAxis,
+             shapeBaseSpace1stAxisMinusScale2ndAxis,
+             shapeBaseSpace1stAxisMinusScale3rdAxis,
+             shapeBaseSpace2ndAxisPlusScale1stAxis,
+             shapeBaseSpace2ndAxisPlusScale3rdAxis,
+             shapeBaseSpace2ndAxisMinusScale1stAxis,
+             shapeBaseSpace2ndAxisMinusScale3rdAxis,
+             shapeBaseSpace3rdAxisPlusScale1stAxis,
+             shapeBaseSpace3rdAxisPlusScale2ndAxis,
+             shapeBaseSpace3rdAxisMinusScale1stAxis,
+             shapeBaseSpace3rdAxisMinusScale2ndAxis,
              shapeTranslateX,
              shapeTranslateY,
              shapeTranslateZ,

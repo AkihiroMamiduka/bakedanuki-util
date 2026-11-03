@@ -4638,3 +4638,201 @@ def test_corner_marker_size_distinguishes_base_space_from_common_size(
             panel, tmp_path / "common_size_marker_size.png"
         )
         _assert_corner_marker_color(panel, common_size, difference_point, 0)
+
+
+def test_cage_wide_cube_insets_the_stretched_face_by_a_fixed_physical_width(
+    maya_cmds, new_scene, tmp_path
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "Cube",
+        shapeWide=True,
+        shapeWideWidth=0.1,
+        shapeBaseSpace1stAxisPlusScale2ndAxis=2,
+    ) as (_, shape, camera, camera_shape, panel):
+        maya_cmds.setAttr(f"{camera}.translate", 4, 0, 0)
+        maya_cmds.setAttr(f"{camera}.rotate", 0, 90, 0)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.4)
+        pixels = _capture_view(panel, tmp_path / "cage_wide_fixed_inset.png")
+        inner = (0.5, 0.95, 0)
+        assert _brightness_near_world(panel, pixels, inner) > 600
+        assert _brightness_near_world(panel, pixels, (0.5, 0.9, 0)) < 120
+        assert _pick_world(maya_cmds, panel, inner)
+        maya_cmds.select(clear=True)
+        maya_cmds.setAttr(f"{shape}.shapeTemplateLine", True)
+        template = _capture_view(
+            panel, tmp_path / "cage_wide_template_inset.png"
+        )
+        assert 80 < _brightness_near_world(panel, template, inner) < 500
+        assert not _pick_world(maya_cmds, panel, inner)
+
+
+@pytest.mark.parametrize("preset", ("Sphere", "Cylinder", "Cone"))
+def test_cage_wide_curved_surface_keeps_real_open_holes(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    if preset == "Sphere":
+        coordinate = 0.5 / math.sqrt(3)
+        source = (coordinate,) * 3
+        original_normal = source
+    elif preset == "Cylinder":
+        coordinate = 0.5 / math.sqrt(2)
+        source = (0, coordinate, coordinate)
+        original_normal = (0, coordinate, coordinate)
+    else:
+        coordinate = 0.25 / math.sqrt(2)
+        source = (0, coordinate, coordinate)
+        original_normal = (0.5, 1 / math.sqrt(2), 1 / math.sqrt(2))
+    scale = 1.5 + source[0]
+    point = (source[0], source[1] * scale, source[2])
+    normal = (
+        original_normal[0] - source[1] * original_normal[1] / scale,
+        original_normal[1] / scale,
+        original_normal[2],
+    )
+    length = math.sqrt(sum(value * value for value in normal))
+    normal = tuple(value / length for value in normal)
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeWide=True,
+        shapeWideWidth=0.1,
+        shapeFill=True,
+        shapeFillTransparency=0,
+        shapeLineTransparency=1,
+        shapeBaseSpace1stAxisPlusScale2ndAxis=2,
+    ) as (_, shape, camera, camera_shape, panel):
+        _aim_at_origin(maya_cmds, camera, tuple(value * 4 for value in normal))
+        maya_cmds.setAttr(
+            f"{camera}.translate",
+            *(
+                value + direction * 0.08
+                for value, direction in zip(point, normal)
+            ),
+        )
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.18)
+        maya_cmds.setAttr(f"{camera_shape}.farClipPlane", 0.18)
+        opened = _capture_view(panel, tmp_path / "cage_curved_wide_hole.png")
+        assert _brightness_near_world(panel, opened, point) < 120
+        assert not _pick_world(maya_cmds, panel, point, surface=True)
+        maya_cmds.setAttr(f"{shape}.shapeWide", False)
+        closed = _capture_view(
+            panel, tmp_path / "cage_curved_full_surface.png"
+        )
+        assert _brightness_near_world(panel, closed, point) > 600
+        assert _pick_world(maya_cmds, panel, point, surface=True)
+        maya_cmds.select(clear=True)
+
+
+@pytest.mark.parametrize("small", (False, True))
+def test_cage_corner_marker_keeps_surface_size_color_and_template_protection(
+    maya_cmds, new_scene, tmp_path, small
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        "ColorCornerCube",
+        shapeWide=True,
+        shapeWideWidth=0.06,
+        shapeBaseSpace1stAxisPlusScale2ndAxis=2,
+        shapeTemplateLineRate=0.6,
+    ) as (_, shape, camera, camera_shape, panel):
+        if small:
+            for axis in ("1st", "2nd", "3rd"):
+                maya_cmds.setAttr(
+                    f"{shape}.shapeBaseSpace{axis}AxisMinus", -0.05
+                )
+                maya_cmds.setAttr(
+                    f"{shape}.shapeBaseSpace{axis}AxisPlus", 0.05
+                )
+            points = ((0.05, 0, 0), (0, 0.075, 0), (0, 0, 0.05))
+            focus = (0, 0, 0)
+        else:
+            points = (
+                (0.5, 0.9, 0.4),
+                (0.5 - 0.1 / math.sqrt(1.25), 1 - 0.05 / math.sqrt(1.25), 0.4),
+                (0.4, 0.85, 0.5),
+            )
+            focus = (0.4, 0.8, 0.4)
+        _aim_at_origin(maya_cmds, camera, (4, 3, 5))
+        maya_cmds.setAttr(
+            f"{camera}.translate",
+            *(value + offset for value, offset in zip(focus, (4, 3, 5))),
+        )
+        maya_cmds.setAttr(
+            f"{camera_shape}.orthographicWidth", 0.4 if small else 0.7
+        )
+        baseline = _capture_view(panel, tmp_path / "cage_corner_markers.png")
+        for axis, point in enumerate(points):
+            _assert_corner_marker_color(panel, baseline, point, axis)
+            assert _pick_world(maya_cmds, panel, point, surface=True)
+            maya_cmds.select(clear=True)
+        if not small:
+            _assert_corner_marker_color(panel, baseline, (0.5, 0.82, 0.4), 0)
+            outside = _rgb_near_world(panel, baseline, (0.5, 0.7, 0.4))
+            assert outside[0] - max(outside[1:]) < 100, outside
+            _assert_corner_marker_color(panel, baseline, (0.5, 0.97, 0.4), 0)
+        maya_cmds.setAttr(f"{shape}.shapeTemplateLine", True)
+        maya_cmds.setAttr(f"{shape}.shapeTemplateFill", True)
+        templated = _capture_view(
+            panel, tmp_path / "cage_corner_markers_template.png"
+        )
+        for axis, point in enumerate(points):
+            _assert_corner_marker_color(panel, templated, point, axis)
+            assert _pick_world(maya_cmds, panel, point, surface=True)
+            maya_cmds.select(clear=True)
+
+
+@pytest.mark.parametrize("front", (False, True))
+def test_cage_swapped_octahedron_arrow_keeps_reflected_faces_outward(
+    maya_cmds, new_scene, tmp_path, front
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    along = (1 if front else -1) / 6
+    scale = 1.5 + along
+    point = (-scale / 6, along, -1 / 6)
+    normal = (-1 / scale, (1 if front else -1) - 1 / (6 * scale), -1)
+    length = math.sqrt(sum(value * value for value in normal))
+    normal = tuple(value / length for value in normal)
+    with _drawing_view(
+        maya_cmds,
+        "OctahedronArrow",
+        shapeAxisSwap=True,
+        shapeBaseSpace1stAxisMinus=0.5,
+        shapeBaseSpace1stAxisPlus=-0.5,
+        shapeBaseSpace2ndAxisPlusScale1stAxis=2,
+        shapeFill=True,
+        shapeFillTransparency=0,
+        shapeLineTransparency=1,
+        shape1stAxis=0,
+        shape2ndAxis=2,
+    ) as (_, shape, camera, camera_shape, panel):
+        # 反転した公開X軸とSwap後のY主軸では、幅軸の符号だけが負になる。
+        _aim_at_origin(maya_cmds, camera, tuple(value * 4 for value in normal))
+        maya_cmds.setAttr(
+            f"{camera}.translate",
+            *(
+                value + direction * 2
+                for value, direction in zip(point, normal)
+            ),
+        )
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.3)
+        maya_cmds.setAttr(f"{camera_shape}.farClipPlane", 2.05)
+        filled = _capture_view(panel, tmp_path / "cage_swapped_arrow_face.png")
+        maya_cmds.setAttr(f"{shape}.shapeFill", False)
+        empty = _capture_view(
+            panel, tmp_path / "cage_swapped_arrow_face_hidden.png"
+        )
+        fill_color = _rgb_near_world(panel, filled, point)
+        background = _rgb_near_world(panel, empty, point)
+        assert max(abs(a - b) for a, b in zip(fill_color, background)) > 40, (
+            front,
+            fill_color,
+            background,
+        )

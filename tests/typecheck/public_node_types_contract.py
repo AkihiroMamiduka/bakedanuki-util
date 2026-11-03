@@ -20,6 +20,12 @@ from bd_util.maya.node.operator.attr.define.std.dt.matrix import (
     DataMatrixPlugOperator,
 )
 from bd_util.maya.node.operator.attr.define.node_attr.bd_controller_shape import (
+    ShapeBaseSpace1stAxisPlusScalePlugOperator,
+    ShapeBaseSpace1stAxisMinusScalePlugOperator,
+    ShapeBaseSpace2ndAxisPlusScalePlugOperator,
+    ShapeBaseSpace2ndAxisMinusScalePlugOperator,
+    ShapeBaseSpace3rdAxisPlusScalePlugOperator,
+    ShapeBaseSpace3rdAxisMinusScalePlugOperator,
     ShapeAxisRotatePlugOperator,
     ShapeAxisScalePlugOperator,
     ShapeAxisTranslatePlugOperator,
@@ -34,6 +40,154 @@ from bd_util.maya.node.operator.node.dag.shape._generated.bd_controller_shape im
     ShapePartTypeEnumPlugOperator,
 )
 from bd_util.maya.node.operator.node.dag.transform.joint import Joint
+
+
+def controller_shape_face_scale_compound_contract() -> None:
+    _, shape = bdu.Nodes().create.controllerShape()
+    assert_type(
+        shape.shapeBaseSpace1stAxisPlusScale,
+        ShapeBaseSpace1stAxisPlusScalePlugOperator,
+    )
+    assert_type(shape.sbsp1ps, ShapeBaseSpace1stAxisPlusScalePlugOperator)
+    assert_type(shape.shapeBaseSpace1stAxisPlusScale.get(), bdu.Double2)
+    shape.shapeBaseSpace1stAxisPlusScale.set(0.5, 1.5)
+    shape.sbsp1ps.set((1.0, 1.0))
+    assert_type(
+        shape.shapeBaseSpace1stAxisPlusScale.shapeBaseSpace1stAxisPlusScale2ndAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp1ps.sbsp1ps2, DoublePlugOperator)
+    shape.shapeBaseSpace1stAxisPlusScale.shapeBaseSpace1stAxisPlusScale2ndAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace1stAxisPlusScale.shapeBaseSpace1stAxisPlusScale3rdAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp1ps.sbsp1ps3, DoublePlugOperator)
+    shape.shapeBaseSpace1stAxisPlusScale.shapeBaseSpace1stAxisPlusScale3rdAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace1stAxisMinusScale,
+        ShapeBaseSpace1stAxisMinusScalePlugOperator,
+    )
+    assert_type(shape.sbsp1ms, ShapeBaseSpace1stAxisMinusScalePlugOperator)
+    assert_type(shape.shapeBaseSpace1stAxisMinusScale.get(), bdu.Double2)
+    shape.shapeBaseSpace1stAxisMinusScale.set(0.5, 1.5)
+    shape.sbsp1ms.set((1.0, 1.0))
+    assert_type(
+        shape.shapeBaseSpace1stAxisMinusScale.shapeBaseSpace1stAxisMinusScale2ndAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp1ms.sbsp1ms2, DoublePlugOperator)
+    shape.shapeBaseSpace1stAxisMinusScale.shapeBaseSpace1stAxisMinusScale2ndAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace1stAxisMinusScale.shapeBaseSpace1stAxisMinusScale3rdAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp1ms.sbsp1ms3, DoublePlugOperator)
+    shape.shapeBaseSpace1stAxisMinusScale.shapeBaseSpace1stAxisMinusScale3rdAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace2ndAxisPlusScale,
+        ShapeBaseSpace2ndAxisPlusScalePlugOperator,
+    )
+    assert_type(shape.sbsp2ps, ShapeBaseSpace2ndAxisPlusScalePlugOperator)
+    assert_type(shape.shapeBaseSpace2ndAxisPlusScale.get(), bdu.Double2)
+    shape.shapeBaseSpace2ndAxisPlusScale.set(0.5, 1.5)
+    shape.sbsp2ps.set((1.0, 1.0))
+    assert_type(
+        shape.shapeBaseSpace2ndAxisPlusScale.shapeBaseSpace2ndAxisPlusScale1stAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp2ps.sbsp2ps1, DoublePlugOperator)
+    shape.shapeBaseSpace2ndAxisPlusScale.shapeBaseSpace2ndAxisPlusScale1stAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace2ndAxisPlusScale.shapeBaseSpace2ndAxisPlusScale3rdAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp2ps.sbsp2ps3, DoublePlugOperator)
+    shape.shapeBaseSpace2ndAxisPlusScale.shapeBaseSpace2ndAxisPlusScale3rdAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace2ndAxisMinusScale,
+        ShapeBaseSpace2ndAxisMinusScalePlugOperator,
+    )
+    assert_type(shape.sbsp2ms, ShapeBaseSpace2ndAxisMinusScalePlugOperator)
+    assert_type(shape.shapeBaseSpace2ndAxisMinusScale.get(), bdu.Double2)
+    shape.shapeBaseSpace2ndAxisMinusScale.set(0.5, 1.5)
+    shape.sbsp2ms.set((1.0, 1.0))
+    assert_type(
+        shape.shapeBaseSpace2ndAxisMinusScale.shapeBaseSpace2ndAxisMinusScale1stAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp2ms.sbsp2ms1, DoublePlugOperator)
+    shape.shapeBaseSpace2ndAxisMinusScale.shapeBaseSpace2ndAxisMinusScale1stAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace2ndAxisMinusScale.shapeBaseSpace2ndAxisMinusScale3rdAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp2ms.sbsp2ms3, DoublePlugOperator)
+    shape.shapeBaseSpace2ndAxisMinusScale.shapeBaseSpace2ndAxisMinusScale3rdAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace3rdAxisPlusScale,
+        ShapeBaseSpace3rdAxisPlusScalePlugOperator,
+    )
+    assert_type(shape.sbsp3ps, ShapeBaseSpace3rdAxisPlusScalePlugOperator)
+    assert_type(shape.shapeBaseSpace3rdAxisPlusScale.get(), bdu.Double2)
+    shape.shapeBaseSpace3rdAxisPlusScale.set(0.5, 1.5)
+    shape.sbsp3ps.set((1.0, 1.0))
+    assert_type(
+        shape.shapeBaseSpace3rdAxisPlusScale.shapeBaseSpace3rdAxisPlusScale1stAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp3ps.sbsp3ps1, DoublePlugOperator)
+    shape.shapeBaseSpace3rdAxisPlusScale.shapeBaseSpace3rdAxisPlusScale1stAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace3rdAxisPlusScale.shapeBaseSpace3rdAxisPlusScale2ndAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp3ps.sbsp3ps2, DoublePlugOperator)
+    shape.shapeBaseSpace3rdAxisPlusScale.shapeBaseSpace3rdAxisPlusScale2ndAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace3rdAxisMinusScale,
+        ShapeBaseSpace3rdAxisMinusScalePlugOperator,
+    )
+    assert_type(shape.sbsp3ms, ShapeBaseSpace3rdAxisMinusScalePlugOperator)
+    assert_type(shape.shapeBaseSpace3rdAxisMinusScale.get(), bdu.Double2)
+    shape.shapeBaseSpace3rdAxisMinusScale.set(0.5, 1.5)
+    shape.sbsp3ms.set((1.0, 1.0))
+    assert_type(
+        shape.shapeBaseSpace3rdAxisMinusScale.shapeBaseSpace3rdAxisMinusScale1stAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp3ms.sbsp3ms1, DoublePlugOperator)
+    shape.shapeBaseSpace3rdAxisMinusScale.shapeBaseSpace3rdAxisMinusScale1stAxis.set(
+        1.25
+    )
+    assert_type(
+        shape.shapeBaseSpace3rdAxisMinusScale.shapeBaseSpace3rdAxisMinusScale2ndAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp3ms.sbsp3ms2, DoublePlugOperator)
+    shape.shapeBaseSpace3rdAxisMinusScale.shapeBaseSpace3rdAxisMinusScale2ndAxis.set(
+        1.25
+    )
 
 
 def joint_list_contract() -> None:
@@ -208,12 +362,84 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.shapeBaseSpace2ndAxisPlus, DoubleLinearPlugOperator)
     assert_type(shape.shapeBaseSpace3rdAxisMinus, DoubleLinearPlugOperator)
     assert_type(shape.shapeBaseSpace3rdAxisPlus, DoubleLinearPlugOperator)
+    assert_type(
+        shape.shapeBaseSpace1stAxisPlusScale2ndAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp1ps2, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace1stAxisPlusScale3rdAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp1ps3, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace1stAxisMinusScale2ndAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp1ms2, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace1stAxisMinusScale3rdAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp1ms3, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace2ndAxisPlusScale1stAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp2ps1, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace2ndAxisPlusScale3rdAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp2ps3, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace2ndAxisMinusScale1stAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp2ms1, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace2ndAxisMinusScale3rdAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp2ms3, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace3rdAxisPlusScale1stAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp3ps1, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace3rdAxisPlusScale2ndAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp3ps2, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace3rdAxisMinusScale1stAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp3ms1, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace3rdAxisMinusScale2ndAxis, DoublePlugOperator
+    )
+    assert_type(shape.sbsp3ms2, DoublePlugOperator)
     shape.shapeBaseSpace1stAxisMinus.set(1.0)
     shape.shapeBaseSpace1stAxisPlus.set(2.0)
     shape.shapeBaseSpace2ndAxisMinus.set(-0.75)
     shape.shapeBaseSpace2ndAxisPlus.set(0.75)
     shape.shapeBaseSpace3rdAxisMinus.set(-1.0)
     shape.shapeBaseSpace3rdAxisPlus.set(1.0)
+    shape.shapeBaseSpace1stAxisPlusScale2ndAxis.set(0.75)
+    shape.sbsp1ps2.set(1.0)
+    shape.shapeBaseSpace1stAxisPlusScale3rdAxis.set(0.75)
+    shape.sbsp1ps3.set(1.0)
+    shape.shapeBaseSpace1stAxisMinusScale2ndAxis.set(0.75)
+    shape.sbsp1ms2.set(1.0)
+    shape.shapeBaseSpace1stAxisMinusScale3rdAxis.set(0.75)
+    shape.sbsp1ms3.set(1.0)
+    shape.shapeBaseSpace2ndAxisPlusScale1stAxis.set(0.75)
+    shape.sbsp2ps1.set(1.0)
+    shape.shapeBaseSpace2ndAxisPlusScale3rdAxis.set(0.75)
+    shape.sbsp2ps3.set(1.0)
+    shape.shapeBaseSpace2ndAxisMinusScale1stAxis.set(0.75)
+    shape.sbsp2ms1.set(1.0)
+    shape.shapeBaseSpace2ndAxisMinusScale3rdAxis.set(0.75)
+    shape.sbsp2ms3.set(1.0)
+    shape.shapeBaseSpace3rdAxisPlusScale1stAxis.set(0.75)
+    shape.sbsp3ps1.set(1.0)
+    shape.shapeBaseSpace3rdAxisPlusScale2ndAxis.set(0.75)
+    shape.sbsp3ps2.set(1.0)
+    shape.shapeBaseSpace3rdAxisMinusScale1stAxis.set(0.75)
+    shape.sbsp3ms1.set(1.0)
+    shape.shapeBaseSpace3rdAxisMinusScale2ndAxis.set(0.75)
+    shape.sbsp3ms2.set(1.0)
     assert_type(shape.shapeWideWidth, DoubleLinearPlugOperator)
     assert_type(shape.sww, DoubleLinearPlugOperator)
     assert_type(shape.shapePart, BoolPlugOperator)
