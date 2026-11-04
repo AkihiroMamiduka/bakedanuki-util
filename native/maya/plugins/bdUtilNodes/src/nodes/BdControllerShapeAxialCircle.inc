@@ -80,7 +80,8 @@ void appendOptionAxialCircle(PartBuilder& builder, const ShapeSettings& settings
     if (sweep < 1e-12) return;
     const double start = (kPi - sweep) * 0.5;
     const double end = (kPi + sweep) * 0.5;
-    const double halfWidth = settings.wideWidth * 0.5;
+    const double halfWidth = settings.wideWidth * 0.5 /
+        std::max(std::abs(baseSpaceScale(settings).x), 1e-12);
     const auto at = [&](double angle) {
         const auto point = kSemicirclePlane.point(MPoint::origin + semicircleRadial(angle) * 0.5);
         return axialJoinedPoint(point, point.y, settings);

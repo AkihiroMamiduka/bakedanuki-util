@@ -31,7 +31,7 @@ bool crossAxialSolidTouchesJoin(const ShapeSettings& settings, bool top) {
         hasPoints = true;
     }
     if (!hasPoints) return false;
-    const double halfWidth = settings.wideWidth * 0.5;
+    const double halfWidth = crossAxialHalfWidth(settings);
     const double height = crossAxialJoinHeight(settings);
     return bounds.max().x >= -halfWidth && bounds.min().x <= halfWidth &&
         bounds.max().z >= -halfWidth && bounds.min().z <= halfWidth &&
@@ -88,11 +88,12 @@ bool makeCrossCircleGeometry(const ShapeSettings& settings, PartGeometry& geomet
     ShapeSettings first = settings;
     first.shape = partPreset(crossCircleBaseOutline(outlinePresetIndex(settings.shape)));
     ShapeSettings second = first;
+    second.baseSpaceCrossPlane = !first.baseSpaceCrossPlane;
     // AtEndとAtApexは代表円だけに付け、AtEndsは両方の円弧端へ付ける。
     second.part = settings.part && settings.partType == 1;
-    if (outlinePresetIndex(settings.shape) == 115 && settings.wideWidth > 1e-12 && settings.wideWidth < 1.0 - 1e-12) {
+    if (outlinePresetIndex(settings.shape) == 115 && settings.wideWidth > 1e-12 && crossAxialHalfWidth(settings) < 0.5 - 1e-12) {
         const double sweep = std::clamp(settings.circleAngle, 0.0, 2.0 * kPi);
-        const double alpha = std::asin(settings.wideWidth);
+        const double alpha = std::asin(crossAxialHalfWidth(settings) * 2.0);
         first.crossAxialJoinTop = second.crossAxialJoinTop = sweep >= 2.0 * alpha - 1e-12 &&
             !crossAxialSolidTouchesJoin(first, true) && !crossAxialSolidTouchesJoin(second, true);
         first.crossAxialJoinBottom = second.crossAxialJoinBottom = sweep >= 2.0 * kPi - 1e-12 &&

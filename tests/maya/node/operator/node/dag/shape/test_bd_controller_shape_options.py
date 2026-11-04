@@ -176,7 +176,7 @@ def test_shape_options_keep_values_connections_and_history_across_presets(
         (-100, -0.001),
     ),
 )
-def test_wide_arrow_degenerate_and_sharp_profiles_keep_bounded_bands(
+def test_wide_arrow_ignores_extreme_part_scales_and_preserves_bounded_bands(
     maya_cmds, maya_om, new_scene, filled, length, width
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -194,6 +194,16 @@ def test_wide_arrow_degenerate_and_sharp_profiles_keep_bounded_bands(
     )
     reference = _bounds(maya_om, plain)
     actual = _bounds(maya_om, wide)
+    assert reference == pytest.approx((-0.5, 0, -0.5, 0.5, 0, 0.5), abs=1e-9)
+    baseline = _controller(
+        maya_cmds,
+        "defaultWideArrow",
+        "Arrow",
+        shapeWide=True,
+        shapeFill=filled,
+        shapeWideWidth=wide_width,
+    )
+    assert actual == pytest.approx(_bounds(maya_om, baseline), abs=1e-9)
     assert all(math.isfinite(value) for value in actual)
     reach = 4 * wide_width / 2
     for axis in range(3):
@@ -209,22 +219,22 @@ def test_wide_arrow_degenerate_and_sharp_profiles_keep_bounded_bands(
         )
     assert actual[1] == pytest.approx(0, abs=1e-9)
     assert actual[4] == pytest.approx(0, abs=1e-9)
-    if length == 0:
-        assert actual[3] - actual[0] >= 0.9 * wide_width
-    if width == 0:
-        assert actual[5] - actual[2] >= 0.9 * wide_width
+    assert actual[3] - actual[0] >= 1
+    assert actual[5] - actual[2] >= 1
+    assert maya_cmds.getAttr(f"{wide}.shapePartLengthScale") == length
+    assert maya_cmds.getAttr(f"{wide}.shapePartWidthScale") == width
 
 
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize("swapped", (False, True))
 @pytest.mark.parametrize("offset", (0.37, -0.71))
-def test_wide_arrow_collapsed_point_keeps_its_offset_position(
+def test_wide_arrow_ignores_zero_part_dimensions_and_part_offset(
     maya_cmds, maya_om, new_scene, filled, swapped, offset
 ):
     _load_bd_util_nodes(maya_cmds)
     shape = _controller(
         maya_cmds,
-        "pointArrow",
+        "independentWideArrow",
         "Arrow",
         shapeWide=True,
         shapeFill=filled,
@@ -233,10 +243,27 @@ def test_wide_arrow_collapsed_point_keeps_its_offset_position(
         shapePartWidthScale=0,
         shapePartOffset=offset,
     )
-    position = (0, 0.5 + offset, 0) if swapped else (0.5 + offset, 0, 0)
-    assert _bounds(maya_om, shape) == pytest.approx(
-        (*position, *position), abs=1e-9
+    reference = _controller(
+        maya_cmds,
+        "referenceWideArrow",
+        "Arrow",
+        shapeWide=True,
+        shapeFill=filled,
+        shapeAxisSwap=swapped,
     )
+    actual = _bounds(maya_om, shape)
+    assert actual == pytest.approx(_bounds(maya_om, reference), abs=1e-9)
+    axis = int(swapped)
+    assert actual[axis + 3] - actual[axis] >= 1
+    assert actual[5] - actual[2] >= 1
+    for attribute, value in (
+        ("shapePartLengthScale", 0),
+        ("shapePartWidthScale", 0),
+        ("shapePartOffset", offset),
+    ):
+        assert maya_cmds.getAttr(f"{shape}.{attribute}") == pytest.approx(
+            value
+        )
 
 
 @pytest.mark.parametrize("preset", ("Line", "ArcRadial", "ArcAxial"))
@@ -446,7 +473,7 @@ def test_axial_arrow3d_height_offsets_the_radius_with_its_sign(
 
 @pytest.mark.parametrize("height", (-2, 0, 0.4, 3))
 @pytest.mark.parametrize("filled", (False, True))
-def test_octahedron_arrow_height_controls_y_and_its_fin_section(
+def test_octahedron_arrow_ignores_part_height_and_uses_independent_fin_height(
     maya_cmds, maya_om, new_scene, height, filled
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -463,12 +490,14 @@ def test_octahedron_arrow_height_controls_y_and_its_fin_section(
         shapeGuideLine=True,
         shapeFinHeight=0.6,
     )
-    extent_y = 0.65 * abs(height)
-    expected = (-0.5, -extent_y, -1.365, 1.275, extent_y, 1.365)
+    expected = (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
     maya_cmds.setAttr(f"{shape}.shapeFin", True)
-    expected = (*expected[:4], max(extent_y, 0.6), expected[5])
-    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+    for fin_height in (0.6, 1.2, 0):
+        maya_cmds.setAttr(f"{shape}.shapeFinHeight", fin_height)
+        with_fin = (*expected[:4], max(0.5, fin_height), expected[5])
+        assert _bounds(maya_om, shape) == pytest.approx(with_fin, abs=1e-9)
+        assert maya_cmds.getAttr(f"{shape}.shapePartHeightScale") == height
 
 
 @pytest.mark.parametrize("filled", (False, True))

@@ -38,6 +38,17 @@ $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_arc_contract.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_attachment_contract.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_part_size_scale.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_base_space.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_base_space_arc.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_base_space_degenerate.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_arrow_base_space.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_custom_bounds.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_color_corner_base_space.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_base_space_face_scale.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_cage_geometry.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_cage_attachments.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_cage_wide.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_wide_base_space.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_shape_options.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_delete_with_owner.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_double_linear.py") `

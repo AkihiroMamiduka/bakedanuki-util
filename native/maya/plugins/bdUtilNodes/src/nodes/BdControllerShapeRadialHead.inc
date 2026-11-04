@@ -1,6 +1,38 @@
 ﻿// 元の先端または中心を固定し、平面内の直交する二軸を接合点へ向ける。
 AxialHeadPlacement radialHeadAtDepth(const ShapeSettings& settings, const OptionSite& original,
     double start, double end, bool first, double depth) {
+    if (hasBaseSpaceScale(settings)) {
+        const auto originalAlong = baseSpaceNormalized(baseSpaceVector(original.along, settings));
+        const auto originalSide = baseSpaceVector(original.side, settings);
+        const auto normal = baseSpaceNormalized(originalAlong ^ originalSide);
+        const auto anchorVector = baseSpaceVector(original.endpoint - MPoint::origin, settings) +
+            originalAlong * settings.partOffset;
+        const auto anchor = MPoint::origin + inverseBaseSpaceVector(anchorVector, settings);
+        const bool centered = settings.partShape >= 3 && settings.partShape <= 8;
+        AxialHeadPlacement result{original, centered ? anchor :
+            anchor - inverseBaseSpaceVector(originalAlong * depth, settings), first ? start : end, false};
+        if (depth <= 1e-12) return result;
+        double nearest = 1e100;
+        for (double angle : baseArcIntersectionAngles(anchorVector, depth, start, end, settings)) {
+            const auto base = baseArcPoint(angle);
+            const auto baseVector = baseSpaceVector(base - MPoint::origin, settings);
+            const auto aim = anchorVector - baseVector;
+            if (aim.length() < 1e-12) continue;
+            const auto direction = baseSpaceNormalized(aim);
+            const auto side = baseSpaceNormalized(normal ^ direction);
+            if (direction * originalAlong < -1e-10 || side * baseVector < -1e-10) continue;
+            const double inward = first ? angle - start : end - angle;
+            if (inward > kPi + 1e-10 || inward >= nearest) continue;
+            nearest = inward;
+            result.site.along = baseSpaceNormalized(inverseBaseSpaceVector(direction, settings));
+            result.site.side = baseSpaceNormalized(inverseBaseSpaceVector(side, settings));
+            result.site.endpoint = anchor - inverseBaseSpaceVector(direction * settings.partOffset, settings);
+            result.base = base;
+            result.angle = angle;
+            result.onArc = true;
+        }
+        return result;
+    }
     const auto anchor = original.endpoint + original.along * settings.partOffset;
     const bool centered = settings.partShape >= 3 && settings.partShape <= 8;
     AxialHeadPlacement result{original, centered ? anchor : anchor - original.along * depth,
@@ -47,8 +79,45 @@ AxialHeadPlacement radialHeadAtDepth(const ShapeSettings& settings, const Option
     return result;
 }
 
-double radialHeadBandExtent(const AxialHeadPlacement& placement, double halfWidth) {
+double radialHeadBandExtent(const AxialHeadPlacement& placement, double halfWidth,
+    const ShapeSettings& settings) {
     if (halfWidth <= 1e-12) return 0.0;
+    if (hasBaseSpaceScale(settings)) {
+        const auto side = baseSpaceNormalized(baseSpaceVector(placement.site.side, settings));
+        const auto along = baseSpaceNormalized(baseSpaceVector(placement.site.along, settings));
+        const auto base = baseSpaceVector(placement.base - MPoint::origin, settings);
+        const auto roots = [&](double offset) {
+            std::vector<double> values;
+            const auto point = [&](double angle) {
+                return baseSpaceVector(baseSpaceCircleOffsetPoint(baseArcPoint(angle), offset, settings) - MPoint::origin, settings);
+            };
+            const auto value = [&](double angle) { return (point(angle) - base) * along; };
+            double first = 0.0, firstValue = value(first);
+            for (unsigned int i = 1; i <= 256; ++i) {
+                const double last = 2.0 * kPi * i / 256, lastValue = value(last);
+                if (std::abs(firstValue) < 1e-12) values.push_back((point(first) - base) * side);
+                if ((firstValue < 0.0) != (lastValue < 0.0)) {
+                    double low = first, high = last;
+                    for (unsigned int step = 0; step < 40; ++step) {
+                        const double middle = (low + high) * 0.5;
+                        if ((value(middle) < 0.0) == (firstValue < 0.0)) low = middle;
+                        else high = middle;
+                    }
+                    values.push_back((point((low + high) * 0.5) - base) * side);
+                }
+                first = last;
+                firstValue = lastValue;
+            }
+            std::sort(values.begin(), values.end());
+            return values;
+        };
+        const auto outer = roots(halfWidth), inner = roots(-halfWidth);
+        const auto positive = std::find_if(outer.begin(), outer.end(), [](double value) { return value >= -1e-10; });
+        if (positive == outer.end()) return 1e100;
+        const auto negative = std::find_if(inner.rbegin(), inner.rend(), [](double value) { return value <= 1e-10; });
+        if (negative == inner.rend()) return std::max(*positive, -outer.front());
+        return std::max(*positive, -*negative);
+    }
     const auto radial = placement.base - MPoint::origin;
     const double projected = radial * placement.site.side;
     const double outer = 0.5 + halfWidth;
@@ -91,8 +160,10 @@ AxialHeadPlacement radialHeadPlacement(const ShapeSettings& settings, const Opti
     const bool centered = settings.partShape >= 3 && settings.partShape <= 8;
     const double maximum = (settings.partShape <= 1 ? 0.1 * std::cos(kPi / 6.0)
         : centered ? 0.05 : 0.1) * length;
-    const auto anchor = original.endpoint + original.along * settings.partOffset;
-    AxialHeadPlacement fallback{original, centered ? anchor : anchor - original.along * maximum,
+    const auto along = hasBaseSpaceScale(settings)
+        ? baseSpacePartDirection(original.along, settings) : original.along;
+    const auto anchor = original.endpoint + along * settings.partOffset;
+    AxialHeadPlacement fallback{original, centered ? anchor : anchor - along * maximum,
         first ? start : end, false};
     if (original.attached || maximum <= 1e-12 || end - start <= 1e-12 || !std::isfinite(maximum)) return fallback;
     if (settings.partShape == 8 && std::abs(length - std::abs(partWidth(settings))) < 1e-12) return fallback;
@@ -104,7 +175,7 @@ AxialHeadPlacement radialHeadPlacement(const ShapeSettings& settings, const Opti
         ? std::max(0.0, settings.wideWidth) * 0.5 : 0.0;
     if (halfWidth <= 1e-12) return candidate;
     const auto fits = [&](const AxialHeadPlacement& placement, double depth) {
-        return placement.onArc && radialHeadBandExtent(placement, halfWidth) <=
+        return placement.onArc && radialHeadBandExtent(placement, halfWidth, settings) <=
             radialHeadSectionExtent(settings, depth, maximum) + 1e-10;
     };
     if (fits(candidate, maximum)) return candidate;

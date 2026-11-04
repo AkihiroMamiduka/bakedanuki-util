@@ -16,8 +16,11 @@ PartGeometry genericWideReferenceLines(const ShapeSettings& settings) {
     return geometry;
 }
 
-void makeGenericWideSolidFaces(const ShapeSettings& settings, PartGeometry& geometry) {
-    const auto source = genericWideReferenceFaces(settings);
+void makeGenericWideSolidFaces(const ShapeSettings& settings, PartGeometry& geometry,
+    const PartGeometry* reference = nullptr) {
+    auto source = reference ? *reference : genericWideReferenceFaces(settings);
+    const bool metric = hasBaseSpaceScale(settings);
+    if (metric) mapBaseSpaceMetricGeometry(source, settings);
     std::vector<GenericWideFace> faces;
     std::vector<OptionClipVolume> markers;
     for (const auto& part : source.fillParts) for (unsigned int i = 0; i < part.triangles.length(); i += 3) {
@@ -82,6 +85,10 @@ void makeGenericWideSolidFaces(const ShapeSettings& settings, PartGeometry& geom
         }
     }
     trimOptionStrokes(lines, markers);
+    if (metric) {
+        mapBaseSpaceMetricGeometry(lines, settings, true);
+        mapBaseSpaceMetricGeometry(bands.geometry, settings, true);
+    }
     mergeOptionGeometry(geometry, std::move(lines));
     mergeOptionGeometry(geometry, std::move(bands.geometry));
 }
@@ -201,7 +208,12 @@ void appendGenericWideSphereTriangle(PartBuilder& bands, const std::array<MPoint
     }
 }
 
+bool makeMetricWideSphereBands(const ShapeSettings& settings, PartGeometry& geometry);
+bool makeMetricWideCylinderBands(const ShapeSettings& settings, PartGeometry& geometry);
+bool makeMetricWideConeBands(const ShapeSettings& settings, PartGeometry& geometry);
+
 void makeGenericWideSphereBands(const ShapeSettings& settings, PartGeometry& geometry) {
+    if (hasBaseSpaceScale(settings) && makeMetricWideSphereBands(settings, geometry)) return;
     const double angle = std::min(settings.wideWidth, kPi * 0.5);
     const double halfBand = 0.5 * std::sin(angle);
     const bool covered = halfBand >= 0.5 / std::sqrt(3.0) - 1e-12;
@@ -295,6 +307,7 @@ void appendGenericWideMappedLine(PartGeometry& geometry, const std::vector<MPoin
 }
 
 void makeGenericWideCylinderBands(const ShapeSettings& settings, PartGeometry& geometry) {
+    if (hasBaseSpaceScale(settings) && makeMetricWideCylinderBands(settings, geometry)) return;
     const double halfWidth = settings.wideWidth * 0.5;
     const auto reference = genericWideReferenceLines(settings);
     geometry.strokes.clear();
@@ -343,6 +356,7 @@ void makeGenericWideCylinderBands(const ShapeSettings& settings, PartGeometry& g
 }
 
 void makeGenericWideConeBands(const ShapeSettings& settings, PartGeometry& geometry) {
+    if (hasBaseSpaceScale(settings) && makeMetricWideConeBands(settings, geometry)) return;
     const double halfWidth = settings.wideWidth * 0.5;
     const double slant = std::sqrt(1.25), ratio = 0.5 / slant;
     const double sector = ratio * kPi * 0.5, outer = std::max(0.0, slant - halfWidth);
@@ -392,3 +406,5 @@ void makeGenericWideConeBands(const ShapeSettings& settings, PartGeometry& geome
     appendGenericWideCapBand(bands, -0.5, halfWidth);
     mergeOptionGeometry(geometry, std::move(bands.geometry));
 }
+
+#include "BdControllerShapeWideMetric.inc"

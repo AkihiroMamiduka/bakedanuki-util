@@ -99,10 +99,12 @@ AxialWrapData makeAxialWrapData(const ShapeSettings& settings) {
     AxialWrapData data;
     const double sweep = std::clamp(settings.circleAngle, 0.0, 2.0 * kPi);
     if (sweep < 1e-12) return data;
-    const double first = (kPi - sweep) * 0.25;
-    const double last = (kPi + sweep) * 0.25;
-    const double length = partLength(settings);
-    const double width = partWidth(settings);
+    const auto& metric = baseArcMetric(settings);
+    const double first = metric.position((kPi - sweep) * 0.5);
+    const double last = metric.position((kPi + sweep) * 0.5);
+    const double length = partLength(settings) / metric.periodScale();
+    const double width = partWidth(settings) / (isAxialArcOutline(outlinePresetIndex(settings.shape))
+        ? std::max(std::abs(baseSpaceScale(settings).x), 1e-12) : 1.0);
     const double height = partHeight(settings);
     const double depth = settings.partShape <= 1 ? 0.1 * std::cos(kPi / 6.0) * length : 0.1 * length;
     const bool both = settings.partType == 1;
@@ -114,7 +116,10 @@ AxialWrapData makeAxialWrapData(const ShapeSettings& settings) {
     std::vector<AxialWrapSpoke> bodySpokes;
     if (bodyLast - bodyFirst > 1e-12) {
         addAxialWrapEdge(data.main, bodySpokes, bodyFirst, bodyLast,
-            settings.wideWidth * 0.5, settings.wideWidth * 0.5);
+            settings.wideWidth * 0.5 / (isAxialArcOutline(outlinePresetIndex(settings.shape))
+                ? std::max(std::abs(baseSpaceScale(settings).x), 1e-12) : 1.0),
+            settings.wideWidth * 0.5 / (isAxialArcOutline(outlinePresetIndex(settings.shape))
+                ? std::max(std::abs(baseSpaceScale(settings).x), 1e-12) : 1.0));
     }
     for (int index = 0; index < (both ? 2 : 1); ++index) {
         const double anchor = index == 0 ? first : last;
@@ -138,12 +143,16 @@ AxialWrapData makeAxialWrapData(const ShapeSettings& settings) {
         }
     }
     data.main.insert(data.main.end(), data.heads.begin(), data.heads.end());
-    for (unsigned int i = 0; i <= kCircleSegments; ++i) data.slices.push_back(kPi * i / kCircleSegments);
+    for (unsigned int i = 0; i <= kCircleSegments; ++i) {
+        data.slices.push_back(metric.position(2.0 * kPi * i / kCircleSegments));
+    }
     appendAxialWrapCuts(data.slices, data.main);
     appendAxialWrapCuts(data.slices, data.crest);
     for (const auto& spoke : data.spokes) data.slices.push_back(spoke.position);
     for (const auto& spoke : data.crestSpokes) data.slices.push_back(spoke.position);
-    appendAxialJoinAngles(data.slices, settings, 0.0, kPi, 0.5);
+    std::vector<double> joinAngles;
+    appendAxialJoinAngles(joinAngles, settings, 0.0, 2.0 * kPi);
+    for (double angle : joinAngles) data.slices.push_back(metric.position(angle));
     std::sort(data.slices.begin(), data.slices.end());
     data.slices.erase(std::unique(data.slices.begin(), data.slices.end(), [](double a, double b) {
         return std::abs(a - b) < 1e-12;
@@ -178,9 +187,11 @@ std::vector<AxialWrapInterval> axialWrapIntervals(
 }
 
 MPoint axialWrapPoint(double position, double width, double height, const ShapeSettings& settings) {
-    const auto radial = semicircleRadial(position * 2.0);
-    return axialJoinedPoint(MPoint(width, radial.y * (0.5 + height), radial.x * (0.5 + height)),
-        radial.y * 0.5, settings);
+    const double angle = baseArcMetric(settings).angle(position);
+    auto point = baseArcPoint(angle);
+    point.x = width;
+    point = axialJoinedPoint(point, point.y, settings);
+    return point + inverseBaseSpaceVector(baseArcNormal(angle, settings) * height, settings);
 }
 
 void appendAxialWrapFaces(PartBuilder& surface,

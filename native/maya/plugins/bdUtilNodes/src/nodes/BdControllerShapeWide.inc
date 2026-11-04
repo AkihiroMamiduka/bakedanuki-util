@@ -49,8 +49,8 @@ bool genericWidePlane(const PartGeometry& geometry, PartPlane& plane, MVector& n
             const auto second = stroke[i + 1] - stroke[0];
             normal = first ^ second;
             if (normal.length() <= 1e-12) continue;
-            normal.normalize();
-            const auto side = first.normal();
+            normal = baseSpaceNormalized(normal);
+            const auto side = baseSpaceNormalized(first);
             plane = {MPoint::origin, side, normal ^ side};
             return true;
         }
@@ -59,7 +59,8 @@ bool genericWidePlane(const PartGeometry& geometry, PartPlane& plane, MVector& n
 }
 
 void appendGenericWideBand(WideEndArrowGeometry& band, const Stroke& source,
-    const MVector& normal, double halfWidth) {
+    const MVector& normal, double halfWidth, bool sharpFirstCorner = false,
+    const MPoint* sharpJoint = nullptr) {
     std::vector<MPoint> points;
     for (const auto& point : source) {
         if (points.empty() || (point - points.back()).length() > 1e-10) points.push_back(point);
@@ -68,6 +69,8 @@ void appendGenericWideBand(WideEndArrowGeometry& band, const Stroke& source,
     if (closed) points.pop_back();
     if (points.size() < 2) return;
     const std::size_t count = points.size();
+    sharpFirstCorner = sharpFirstCorner && closed && count > 2 && source.length() > 3 &&
+        points[1] == source[1] && points.back() == source[source.length() - 2];
     std::vector<MVector> offsets;
     std::vector<MVector> previousOffsets, nextOffsets;
     std::vector<bool> bevels;
@@ -82,19 +85,41 @@ void appendGenericWideBand(WideEndArrowGeometry& band, const Stroke& source,
         else {
             const auto first = normal ^ before, second = normal ^ after;
             const double denominator = 1.0 + first * second;
-            const auto miter = denominator > 1e-10 ? (first + second) * (halfWidth / denominator)
+            auto miter = denominator > 1e-10 ? (first + second) * (halfWidth / denominator)
                 : second * halfWidth;
             bevel = denominator <= 1e-10 || miter.length() > halfWidth * 4.0;
+            if (sharpFirstCorner && i == 0) {
+                // 矢印の先端は辺の平行線の交点を使い、角度による面取りの切替を避ける。
+                const double turn = (before ^ after) * normal;
+                if (turn != 0.0) {
+                    const auto intersection = previousOffsets.back() + before *
+                        (((nextOffsets.back() - previousOffsets.back()) ^ after) * normal / turn);
+                    if (std::isfinite(intersection.x) && std::isfinite(intersection.y) && std::isfinite(intersection.z)) {
+                        miter = intersection;
+                        bevel = false;
+                    }
+                }
+            }
             offsets.push_back(miter);
         }
         bevels.push_back(bevel);
+    }
+    auto oppositeOffsets = offsets;
+    if (sharpFirstCorner && closed && count > 2 && !bevels[0]) {
+        const auto joint = sharpJoint ? *sharpJoint : points[1] + (points.back() - points[1]) * 0.5;
+        const auto along = baseSpaceNormalized(points[0] - joint);
+        // 頭部より太い帯で内側の穴が消えたときは、交点を後方へ突き出さない。
+        if ((points[0] + offsets[0] - joint) * along < 0.0) offsets[0] = joint - points[0];
+        if ((points[0] - oppositeOffsets[0] - joint) * along < 0.0) oppositeOffsets[0] = points[0] - joint;
     }
     for (std::size_t i = 0; i < (closed ? count : count - 1); ++i) {
         const std::size_t next = (i + 1) % count;
         const auto start = bevels[i] ? nextOffsets[i] : offsets[i];
         const auto end = bevels[next] ? previousOffsets[next] : offsets[next];
+        const auto oppositeStart = bevels[i] ? nextOffsets[i] : oppositeOffsets[i];
+        const auto oppositeEnd = bevels[next] ? previousOffsets[next] : oppositeOffsets[next];
         const auto a = points[i] + start, b = points[next] + end;
-        const auto c = points[next] - end, d = points[i] - start;
+        const auto c = points[next] - oppositeEnd, d = points[i] - oppositeStart;
         band.triangles.push_back({a, b, c});
         band.triangles.push_back({a, c, d});
     }
@@ -114,21 +139,47 @@ void makeGenericWidePlanarBody(const ShapeSettings& settings, PartGeometry& geom
         geometry.fillParts.clear();
         return;
     }
+    const auto volumeStart = bodyVolumes ? bodyVolumes->size() : 0;
+    const bool metric = hasBaseSpaceScale(settings);
+    PartPlane originalPlane;
+    MVector originalNormal;
+    const bool originalPlanar = genericWidePlane(geometry, originalPlane, originalNormal);
+    if (metric) mapBaseSpaceMetricGeometry(geometry, settings);
+    const auto finish = [&] {
+        if (!metric) return;
+        mapBaseSpaceMetricGeometry(geometry, settings, true);
+        if (bodyVolumes) for (std::size_t i = volumeStart; i < bodyVolumes->size(); ++i) {
+            for (auto& boundary : (*bodyVolumes)[i]) {
+                boundary.normal = baseSpaceVector(boundary.normal, settings);
+                const double length = std::hypot(boundary.normal.x, boundary.normal.y, boundary.normal.z);
+                if (length > 0.0) { boundary.normal /= length; boundary.distance /= length; }
+            }
+        }
+    };
     PartPlane plane;
     MVector normal;
     if (!genericWidePlane(geometry, plane, normal)) {
         PartGeometry reference;
         reference.strokes = makeStrokes(ShapeTransform(settings), reference.strokeStyles);
+        if (metric) mapBaseSpaceMetricGeometry(reference, settings);
         if (!genericWidePlane(reference, plane, normal)) {
-            geometry.fillParts.clear();
-            return;
+            if (!originalPlanar) { geometry.fillParts.clear(); finish(); return; }
+            normal = baseSpaceNormalized(inverseBaseSpaceVector(originalNormal, settings));
+            if (normal.length() == 0.0) normal = originalNormal;
+            auto side = std::abs(normal.x) < 0.9 ? MVector(1, 0, 0) : MVector(0, 1, 0);
+            side = baseSpaceNormalized(side - normal * (normal * side));
+            plane = {MPoint::origin, side, normal ^ side};
         }
     }
-    if (makeSimpleWideGearBody(settings, geometry, plane, normal, halfWidth, bodyVolumes)) return;
+    if (makeSimpleWideGearBody(settings, geometry, plane, normal, halfWidth, bodyVolumes)) { finish(); return; }
     WideEndArrowGeometry band;
-    for (const auto& stroke : geometry.strokes) appendGenericWideBand(band, stroke, normal, halfWidth);
+    for (std::size_t i = 0; i < geometry.strokes.size(); ++i) {
+        appendGenericWideBand(band, geometry.strokes[i], normal, halfWidth,
+            outlinePresetIndex(settings.shape) == 39 && i == 0);
+    }
     if (band.triangles.empty()) {
         geometry.fillParts.clear();
+        finish();
         return;
     }
     PartBuilder result(true);
@@ -141,6 +192,7 @@ void makeGenericWidePlanarBody(const ShapeSettings& settings, PartGeometry& geom
     }
     if (!settings.fill) result.geometry.fillParts.clear();
     geometry = std::move(result.geometry);
+    finish();
 }
 
 struct GenericWideFace {
@@ -214,20 +266,20 @@ PartGeometry genericWideReferenceFaces(const ShapeSettings& settings) {
 #include "BdControllerShapeWideSolid.inc"
 
 bool applyGenericWideBody(const ShapeSettings& settings, PartGeometry& geometry,
-    std::vector<OptionClipVolume>* bodyVolumes = nullptr) {
+    std::vector<OptionClipVolume>* bodyVolumes = nullptr, const PartGeometry* reference = nullptr) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!settings.wide || !genericWideOutline(outline)) return false;
     if (genericWidePlanarOutline(outline)) makeGenericWidePlanarBody(settings, geometry, bodyVolumes);
     else if (settings.wideWidth <= 1e-12) {
         clearGenericWideBodyFill(geometry);
         if (outline == 36) {
-            const auto reference = genericWideReferenceLines(settings);
-            geometry.strokes = reference.strokes;
-            geometry.strokeStyles = reference.strokeStyles;
+            const auto lines = genericWideReferenceLines(settings);
+            geometry.strokes = lines.strokes;
+            geometry.strokeStyles = lines.strokeStyles;
         }
     } else if (outline == 33 || outline == 46) makeGenericWideSphereBands(settings, geometry);
     else if (outline == 36) makeGenericWideCylinderBands(settings, geometry);
     else if (outline == 43) makeGenericWideConeBands(settings, geometry);
-    else makeGenericWideSolidFaces(settings, geometry);
+    else makeGenericWideSolidFaces(settings, geometry, reference);
     return true;
 }

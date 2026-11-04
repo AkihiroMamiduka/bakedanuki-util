@@ -33,9 +33,13 @@ RadialWrapData makeRadialWrapData(const ShapeSettings& settings) {
     return data;
 }
 
-MPoint radialWrapPoint(double position, double radius, double height = 0.0) {
-    const auto radial = semicircleRadial(position * 2.0);
-    return MPoint(height, radial.y * std::max(0.0, radius), radial.x * std::max(0.0, radius));
+MPoint radialWrapPoint(double position, double radius, const ShapeSettings& settings, double height = 0.0) {
+    const double angle = baseArcMetric(settings).angle(position);
+    const auto point = baseArcPoint(angle);
+    const auto normal = baseArcNormal(angle, settings);
+    const double limit = baseSpaceVector(point - MPoint::origin, settings) * normal;
+    const double extent = std::max(radius - 0.5, -limit);
+    return point + inverseBaseSpaceVector(normal * extent + nativeAxis(0) * height, settings);
 }
 
 void appendRadialWrapFaces(PartBuilder& surface,
@@ -43,20 +47,20 @@ void appendRadialWrapFaces(PartBuilder& surface,
     for (std::size_t i = 0; i < intervals.size(); ++i) {
         const auto& interval = intervals[i];
         if (!interval.active) continue;
-        const auto a = radialWrapPoint(interval.first, 0.5);
-        const auto b = radialWrapPoint(interval.last, 0.5);
+        const auto a = radialWrapPoint(interval.first, 0.5, settings);
+        const auto b = radialWrapPoint(interval.last, 0.5, settings);
         if (crest) {
             const double sign = partHeight(settings) < 0.0 ? -1.0 : 1.0;
-            surface.quad(a, b, radialWrapPoint(interval.last, 0.5, interval.lastHeight * sign),
-                radialWrapPoint(interval.first, 0.5, interval.firstHeight * sign));
+            surface.quad(a, b, radialWrapPoint(interval.last, 0.5, settings, interval.lastHeight * sign),
+                radialWrapPoint(interval.first, 0.5, settings, interval.firstHeight * sign));
         } else {
-            const double firstInner = std::max(0.0, 0.5 - interval.firstHeight);
-            const double lastInner = std::max(0.0, 0.5 - interval.lastHeight);
+            const double firstInner = 0.5 - interval.firstHeight;
+            const double lastInner = 0.5 - interval.lastHeight;
             // 半径0.5を共有辺にし、追加面の根元と主面を同じ頂点でつなぐ。
-            surface.quad(radialWrapPoint(interval.first, firstInner),
-                radialWrapPoint(interval.last, lastInner), b, a);
-            surface.quad(a, b, radialWrapPoint(interval.last, 0.5 + interval.lastHeight),
-                radialWrapPoint(interval.first, 0.5 + interval.firstHeight));
+            surface.quad(radialWrapPoint(interval.first, firstInner, settings),
+                radialWrapPoint(interval.last, lastInner, settings), b, a);
+            surface.quad(a, b, radialWrapPoint(interval.last, 0.5 + interval.lastHeight, settings),
+                radialWrapPoint(interval.first, 0.5 + interval.firstHeight, settings));
         }
     }
 }
@@ -68,8 +72,8 @@ void appendRadialWrapBoundary(AxialWrapSegments& segments,
     if (intervals.empty()) return;
     const double sign = partHeight(settings) < 0.0 ? -1.0 : 1.0;
     const auto point = [&](double position, double extent) {
-        return crest ? radialWrapPoint(position, 0.5, extent * sign)
-            : radialWrapPoint(position, 0.5 + extent);
+        return crest ? radialWrapPoint(position, 0.5, settings, extent * sign)
+            : radialWrapPoint(position, 0.5 + extent, settings);
     };
     for (std::size_t i = 0; i < intervals.size(); ++i) {
         const auto& interval = intervals[i];
@@ -114,8 +118,8 @@ void appendRadialWrapBoundary(AxialWrapSegments& segments,
     if (openArrow) {
         // 開いた矢印の軸線も直線へ戻さず、同じ円周の弧として先端まで残す。
         for (const auto& interval : intervals) if (interval.active) {
-            addAxialWrapSegment(segments, radialWrapPoint(interval.first, 0.5),
-                radialWrapPoint(interval.last, 0.5));
+            addAxialWrapSegment(segments, radialWrapPoint(interval.first, 0.5, settings),
+                radialWrapPoint(interval.last, 0.5, settings));
         }
     }
 }

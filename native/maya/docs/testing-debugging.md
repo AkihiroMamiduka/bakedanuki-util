@@ -75,7 +75,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 
 ## Viewport 2.0描画テスト
 
-`bdControllerShape` の描画比較は次の4ファイルに分かれています。
+`bdControllerShape` の描画比較は次の5ファイルに分かれています。
 
 | ファイル | 主な確認対象 |
 | --- | --- |
@@ -83,6 +83,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 | [test_controller_shape_wide_surfaces.py](../../../tests/maya/ui/test_controller_shape_wide_surfaces.py) | 立体Wideの帯・開口・選択面、Sphereの混色、幅0、透明線による塗り面の深度欠け |
 | [test_controller_shape_display_colors.py](../../../tests/maya/ui/test_controller_shape_display_colors.py) | 無効なoverrideの保存色と、実際の非選択表示・Selection Highlighting OFFの一致 |
 | [test_controller_shape_gear_template.py](../../../tests/maya/ui/test_controller_shape_gear_template.py) | Gearの実長・周期区間、歯先中央の両側、Wideの位相、線と面の独立した選択、他形状による遮蔽 |
+| [test_controller_shape_cage_attachments.py](../../../tests/maya/ui/test_controller_shape_cage_attachments.py) | 面倍率で変形した本体とPart・Fin・GuideLineの接合、局所寸法、巻き付けPartとCrossの境界 |
 
 形状の仕様と手動で確認する項目は [Controller Shape](controller-shape.md) を参照してください。
 
@@ -95,7 +96,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 PythonのScript Editorから次を実行します。テストはsceneを新規作成するため、
 必要なsceneや作業状態のない専用プロセスを使用してください。
 `repo_root` は実際のcheckoutへ変更します。pytestは `setup-test.cmd` で用意した `.test` を使います。
-以下の例だけで4ファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
+以下の例だけで5ファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
 
 ```python
 import sys
@@ -128,6 +129,7 @@ def run_controller_viewport_tests():
             str(repo_root / "tests/maya/ui/test_controller_shape_wide_surfaces.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_display_colors.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_gear_template.py"),
+            str(repo_root / "tests/maya/ui/test_controller_shape_cage_attachments.py"),
             "--basetemp",
             str(output_dir / "pytest"),
             "--junitxml",
@@ -146,7 +148,7 @@ utils.executeDeferred(run_controller_viewport_tests)
 GuideLineの変更だけを切り分ける場合は、`pytest.main()` の引数へ
 `"-k", "guide_line or arrow_tip_connection"` を追加できます。
 対象を絞った確認後は、変更範囲に応じて関連する描画テストを実行します。
-描画・選択・Templateの共通処理を変更した場合はフィルターを外して4ファイルを確認し、
+描画・選択・Templateの共通処理を変更した場合はフィルターを外して5ファイルを確認し、
 最終の統一検証も行います。
 
 既定では実行中のMayaバージョンに対応した配布先 `.mll` をロードします。
@@ -171,6 +173,9 @@ Maya自身のplug-in読み込み確認が表示された場合は、利用者が
   線が見えることを先に確認し、空の画像同士の一致を成功と扱わない。
 - カメラ・ズーム・背景・アンチエイリアス・表示種別を固定する。
   矢印内部の線を判定するときは、Arrow3Dの別の面や辺が同じpixelへ投影されない視点を使う。
+- 片面表示の向きを検証するときは、カメラを対象面の外側へ置き、必要に応じてfar clipで反対側の面を除く。
+  反転した裏側の面が同じpixelへ映り込むと、面向きの誤りを見逃す場合がある。
+  Fill ON/OFFの差と、反転・AxisSwapを組み合わせた両側の面を確認する。
 - GuideLineの色・接続を測る点は、本体の辺、Partの中心線、ColorCornerCubeの小四角に
   隠れない位置を選ぶ。GuideLineのON/OFFを比較し、既存の線や面を新しいガイドと誤認しない。
   Templateの選択確認では、ガイドだけをクリックした場合と本体の通常線をクリックした場合を分ける。
@@ -288,6 +293,32 @@ assert cmds.getAttr(f"{node}.outputX") == 40.0
 3. `compute()` がその要求 plug を受け付けているか。
 4. output handle へ書き込み、要求 plug を clean にしているか。
 5. Maya 外部の状態を入力として暗黙に参照していないか。
+
+### bdControllerShapeの面内Scaleと描画キャッシュ
+
+`bdControllerShape` では、親・子の変更通知と入力接続の判定による描画キャッシュの更新も確認します。
+`MNodeMessage` は親への直接設定を親だけに通知する場合があり、親接続は子の
+`MPlug::isDestination()` だけでは検出できません。実装上の経路は
+[面内Scaleの保守](controller-shape.md#基準空間の面内scaleを保守するとき) を参照してください。
+
+`shape.shapeBaseSpace1stAxisPlusScale.set(0.5, 1.5)` は現在の共通PlugOperatorで子ごとの
+modifier操作を積みます。この経路と、Mayaの `setAttr(..., type="double2")` による
+親への直接設定は分けて検証します。
+
+1. `boundingBox()` を一度取得してキャッシュを作る。範囲が変わる値を使い、親の一括設定では両成分、
+   子の単独設定では対象成分だけが更新され、もう一方が保持されることを確認する。
+2. 親同士の接続、子だけの接続で接続元を変更し、切断・Undo/Redo・保存再読込後も値と範囲を確認する。
+3. 親へのキー設定と子ごとのキー設定を通し、前進・巻き戻しの両方で確認する。
+4. Maya GUIで接続先へ直接設定せずにdriverを変え、画素と必要な選択範囲が更新されるか確認する。
+
+テスト用のdynamic `double2` は、親と両子の `addAttr()` を完了してから子へ値・キー・接続を設定します。
+子を1つだけ追加した途中状態で操作すると、属性が見つからないことがあります。
+
+属性構造・API・キャッシュは
+[test_bd_controller_base_space_face_scale.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_base_space_face_scale.py)、
+実描画での親設定・driverアニメーションは
+[test_controller_shape_cage_attachments.py](../../../tests/maya/ui/test_controller_shape_cage_attachments.py)
+で確認します。これらの入力経路がテストで実際に実行されていることを確認してください。
 
 ## Sparse Multi Tests
 

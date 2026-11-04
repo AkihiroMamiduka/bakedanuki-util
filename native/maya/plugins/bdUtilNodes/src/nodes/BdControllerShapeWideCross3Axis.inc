@@ -26,6 +26,11 @@ std::vector<WideCross3AxisBox> wideCross3AxisBoxes(
 ) {
     const bool colored = outlinePresetIndex(settings.shape) == 119;
     const double halfWidth = settings.wideWidth * 0.5;
+    MVector halfWidths;
+    for (unsigned int axis = 0; axis < 3; ++axis) {
+        const double length = baseSpaceDirectionLength(nativeAxis(axis), settings);
+        halfWidths[axis] = halfWidth / (length == 0.0 ? 1.0 : length);
+    }
     std::vector<WideCross3AxisBox> boxes;
     for (unsigned int axis = 0; axis < 3; ++axis) for (double sign : {-1.0, 1.0}) {
         const auto direction = nativeAxis(axis) * sign;
@@ -35,14 +40,16 @@ std::vector<WideCross3AxisBox> wideCross3AxisBoxes(
             double join = heads.stops[i];
             if (settings.partShape >= 6) {
                 // 尖った最内点ではなく、中心または広い底面まで重ねて実交差で接合する。
-                join = (sites[i].endpoint - MPoint::origin) * direction + settings.partOffset;
-                if (settings.partShape >= 9) join -= 0.1 * partLength(settings) * sites[i].sizeScale;
+                join = (sites[i].endpoint - MPoint::origin) * direction +
+                    settings.partOffset * (optionPartAlong(sites[i], settings) * direction);
+                if (settings.partShape >= 9) join -= 0.1 * partLength(settings) * sites[i].sizeScale /
+                    std::max(baseSpaceDirectionLength(direction, settings), 1e-12);
             }
             stop = std::max(0.0, join);
         }
         if (stop <= 1e-12) continue;
-        WideCross3AxisBox box = {{-halfWidth, -halfWidth, -halfWidth},
-            {halfWidth, halfWidth, halfWidth}, axis,
+        WideCross3AxisBox box = {{-halfWidths.x, -halfWidths.y, -halfWidths.z},
+            {halfWidths.x, halfWidths.y, halfWidths.z}, axis,
             colored && sign > 0 ? kAxisStyles[axis] : StrokeStyle::Normal};
         box.minimum[axis] = sign < 0 ? -stop : 0.0;
         box.maximum[axis] = sign > 0 ? stop : 0.0;
@@ -137,7 +144,10 @@ void appendOptionWideCross3Axis(
     for (const auto& box : boxes) {
         const double end = box.minimum[box.axis] < 0 ? box.minimum[box.axis] : box.maximum[box.axis];
         builder.geometry.bodyCaps.push_back({MPoint::origin + nativeAxis(box.axis) * end,
-            box.axis, settings.wideWidth * 0.5});
+            box.axis, settings.wideWidth * 0.5,
+            MVector((box.maximum[0] - box.minimum[0]) * 0.5,
+                (box.maximum[1] - box.minimum[1]) * 0.5,
+                (box.maximum[2] - box.minimum[2]) * 0.5)});
     }
     if (settings.wideWidth <= 2e-12) {
         for (const auto& box : boxes) {

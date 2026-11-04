@@ -658,10 +658,15 @@ constexpr std::array<RawPoint, 3> kPrimitive47 = {{
 }};
 
 constexpr double kColorCubeInset = 0.005;
-constexpr double kCornerSquareMin = 0.3;
+constexpr double kCornerSquareSize = 0.2;
 constexpr std::array<StrokeStyle, 3> kAxisStyles = {
     StrokeStyle::AxisX, StrokeStyle::AxisY, StrokeStyle::AxisZ,
 };
+
+double colorCornerMinimum(unsigned int axis, const ShapeSettings& settings) {
+    const double span = std::abs(settings.baseSpacePlus[axis] - settings.baseSpaceMinus[axis]);
+    return span <= kCornerSquareSize ? -0.5 : 0.5 - kCornerSquareSize / span;
+}
 
 MPoint cubeFacePoint(unsigned int axis, double position, double u, double v) {
     switch (axis) {
@@ -694,7 +699,7 @@ void appendColorCubeGeometry(
                 for (double v : {-0.5, 0.5}) {
                     // Stop the three corner edges at the marker boundary.
                     const double end = u == 0.5 && v == 0.5
-                        ? kCornerSquareMin : 0.5;
+                        ? colorCornerMinimum(axis, transform.settings) : 0.5;
                     appendNativeStroke({
                         cubeFacePoint(axis, -0.5, u, v),
                         cubeFacePoint(axis, end, u, v),

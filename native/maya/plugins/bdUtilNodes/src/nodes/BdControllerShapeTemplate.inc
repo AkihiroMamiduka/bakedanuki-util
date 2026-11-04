@@ -34,7 +34,34 @@ short bodyTemplateBaseOutline(short outline) {
 }
 
 MPoint bodyTemplateReferencePoint(const MPoint& point, const ShapeSettings& settings) {
-    return presetOrientedPoint(point, settings.shape, false);
+    auto projected = point;
+    const short outline = outlinePresetIndex(settings.shape);
+    if (hasBaseSpaceScale(settings) && (outline == 117 || outline == 111 || outline == 114)) {
+        auto source = settings;
+        const bool second = outline == 114 && std::abs(point.z) < 1e-10 && std::abs(point.x) > 1e-10;
+        if (second) {
+            source.baseSpaceCrossPlane = !source.baseSpaceCrossPlane;
+            projected = MPoint(-point.z, point.y, point.x);
+        }
+        const auto scale = baseSpaceScale(source);
+        if (std::hypot(projected.y, projected.z) > 1e-12 && scale.y != 0.0 && scale.z != 0.0) {
+            double angle = std::atan2(projected.y, projected.z);
+            for (unsigned int i = 0; i < 12; ++i) {
+                const double sine = std::sin(angle), cosine = std::cos(angle);
+                const double y = scale.y * scale.y * (0.5 * sine - projected.y);
+                const double z = scale.z * scale.z * (0.5 * cosine - projected.z);
+                const double derivative = y * 0.5 * cosine - z * 0.5 * sine;
+                const double secondDerivative = 0.25 * (scale.y * scale.y * cosine * cosine +
+                    scale.z * scale.z * sine * sine) - y * 0.5 * sine - z * 0.5 * cosine;
+                if (std::abs(secondDerivative) < 1e-14) break;
+                angle -= std::clamp(derivative / secondDerivative, -0.25, 0.25);
+            }
+            projected.y = 0.5 * std::sin(angle);
+            projected.z = 0.5 * std::cos(angle);
+        }
+        if (second) projected = crossCirclePoint(projected);
+    }
+    return presetOrientedPoint(projected, settings.shape, false);
 }
 
 bool bodyTemplateInsidePart(const MPoint& point, const std::vector<OptionClipVolume>& volumes) {
@@ -110,6 +137,12 @@ double bodyTemplateConeParameter(const MPoint& point, double offset) {
     constexpr double slantSquared = 1.25;
     const double position = 0.5 - point.x;
     return std::sqrt(std::max(0.0, position * position - offset * offset / slantSquared));
+}
+
+double bodyTemplateMetricConeParameter(const MPoint& point, const BodyTemplateDomain& domain,
+    const ShapeSettings& settings) {
+    const auto base = domain.first.x < domain.last.x ? domain.first : domain.last;
+    return metricWideConeProjection(point, std::atan2(base.z, base.y), settings).first;
 }
 
 bool bodyTemplateIsTemplate(const std::vector<BodyTemplateDomain>& domains, const MPoint& point, double rate,
@@ -418,6 +451,14 @@ BodyTemplateGeneratorMapping bodyTemplateGeneratorDomain(const ShapeSettings& se
     };
     for (const auto& domain : domains) {
         if (domain.kind != BodyTemplateDomainKind::Segment || std::abs(domain.last.x - domain.first.x) < 1e-10) continue;
+        if (outline == 43 && settings.wide && hasBaseSpaceScale(settings)) {
+            const auto base = domain.first.x < domain.last.x ? domain.first : domain.last;
+            double squared = 0.0;
+            for (const auto& point : stroke) squared += metricWideConeProjection(
+                point, std::atan2(base.z, base.y), settings).second;
+            remember(squared, domain, -2.0);
+            continue;
+        }
         const auto direction = (domain.last - domain.first).normal();
         if (outline == 36 && !std::all_of(stroke.begin(), stroke.end(), [&](const auto& point) {
             return ((point - stroke[0]) ^ direction).length() < 1e-8;
@@ -533,8 +574,15 @@ bool bodyTemplateCrossCap(const ShapeSettings& settings, const BdControllerShape
         const auto a = first - endpoint, b = last - endpoint;
         if (std::abs(a * along) > 1e-8 || std::abs(b * along) > 1e-8) continue;
         const auto withinWidth = [&](const MVector& delta) {
-            return std::abs(delta.x) <= cap.halfWidth + 1e-8 && std::abs(delta.y) <= cap.halfWidth + 1e-8 &&
-                std::abs(delta.z) <= cap.halfWidth + 1e-8;
+            for (unsigned int axis = 0; axis < 3; ++axis) {
+                if (axis == cap.axis) continue;
+                const auto direction = bodyTemplateReferencePoint(cap.center + nativeAxis(axis), settings) - endpoint;
+                const double length = baseSpaceDirectionLength(nativeAxis(axis), settings);
+                const double limit = cap.halfWidths == MVector::zero
+                    ? cap.halfWidth / (length == 0.0 ? 1.0 : length) : cap.halfWidths[axis];
+                if (std::abs(delta * direction) > limit + 1e-8) return false;
+            }
+            return true;
         };
         if (withinWidth(a) && withinWidth(b)) return true;
     }
@@ -556,6 +604,20 @@ void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode
         for (const auto& point : source) referenceStroke.append(bodyTemplateReferencePoint(point, settings));
         // 追加した小円も元の円平面へ固定し、交差する別の大円へ区間が移るのを防ぐ。
         const auto* strokeDomain = bodyTemplateStrokeDomain(domains, referenceStroke, onlyCurves);
+        const short sourceOutline = outlinePresetIndex(settings.shape);
+        if (!strokeDomain && referenceStroke.length() >= 2 && settings.wide &&
+            hasBaseSpaceScale(settings) && !hasSingularBaseSpace(settings) &&
+            (sourceOutline == 33 || sourceOutline == 46)) {
+            const auto center = referenceStroke[0] +
+                (referenceStroke[referenceStroke.length() - 1] - referenceStroke[0]) * 0.5;
+            const auto axis = metricWideSphereParentAxis(center, settings);
+            for (auto& point : referenceStroke) point = metricWideSphereTemplatePoint(point, axis, settings);
+            const auto found = std::find_if(domains.begin(), domains.end(), [&](const auto& domain) {
+                return domain.kind == BodyTemplateDomainKind::Circle &&
+                    std::abs((domain.u ^ domain.v) * nativeAxis(axis)) > 0.9;
+            });
+            if (found != domains.end()) strokeDomain = &*found;
+        }
         const auto generator = strokeDomain ? BodyTemplateGeneratorMapping{}
             : bodyTemplateGeneratorDomain(settings, domains, referenceStroke);
         const auto* segmentDomain = !strokeDomain && !generator.domain
@@ -610,7 +672,21 @@ void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode
             }
             std::vector<double> cuts = {0.0, 1.0};
             if (settings.templateLine && !cap) {
-                if (coneOffset >= 0.0) appendBodyTemplateConeCuts(cuts, first, last, rate, coneOffset, domain->pattern);
+                if (coneOffset == -2.0) {
+                    for (double boundary : bodyTemplateParameterBoundaries(rate, domain->pattern)) {
+                        const double a = bodyTemplateMetricConeParameter(first, *domain, settings) - boundary;
+                        const double b = bodyTemplateMetricConeParameter(last, *domain, settings) - boundary;
+                        if ((a < 0.0) == (b < 0.0)) continue;
+                        double low = 0.0, high = 1.0;
+                        for (unsigned int step = 0; step < 24; ++step) {
+                            const double t = (low + high) * 0.5;
+                            const double value = bodyTemplateMetricConeParameter(first + (last - first) * t, *domain, settings) - boundary;
+                            if ((value < 0.0) == (a < 0.0)) low = t;
+                            else high = t;
+                        }
+                        cuts.push_back((low + high) * 0.5);
+                    }
+                } else if (coneOffset >= 0.0) appendBodyTemplateConeCuts(cuts, first, last, rate, coneOffset, domain->pattern);
                 else if (domain) appendBodyTemplateDomainCuts(cuts, *domain, first, last, rate);
                 else for (const auto& candidate : domains) appendBodyTemplateDomainCuts(cuts, candidate, first, last, rate);
             }
@@ -624,8 +700,10 @@ void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode
             for (std::size_t cut = 1; cut < cuts.size(); ++cut) {
                 const double middle = (cuts[cut - 1] + cuts[cut]) * 0.5;
                 const auto point = a + (b - a) * middle;
-                bool bodyTemplate = settings.templateLine && (rate >= 1.0 ||
-                    (!cap && bodyTemplateIsTemplate(domains, first + (last - first) * middle, rate, domain, coneOffset)));
+                bool bodyTemplate = settings.templateLine && (rate >= 1.0 || (!cap &&
+                    (coneOffset == -2.0 ? bodyTemplateParameterIsTemplate(bodyTemplateMetricConeParameter(
+                        first + (last - first) * middle, *domain, settings), rate, domain->pattern) :
+                    bodyTemplateIsTemplate(domains, first + (last - first) * middle, rate, domain, coneOffset))));
                 if (settings.templateLine && settings.templateLineInvert) bodyTemplate = !bodyTemplate;
                 const auto style = bodyTemplateInsidePart(point, protectedParts)
                     ? settings.partTemplate ? StrokeStyle::Template : original

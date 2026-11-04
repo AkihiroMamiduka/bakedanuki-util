@@ -125,8 +125,7 @@ void appendShapeGuide(const ShapeSettings& settings, PartGeometry& geometry,
             start.x = std::clamp(0.0, minimum, maximum);
         }
         for (const auto& site : optionPartSites(settings)) {
-            const double tip = site.attached ? 0.125 * site.sizeScale * partLength(settings) : 0.0;
-            const auto endpoint = site.endpoint + site.along * (tip + settings.partOffset);
+            const auto endpoint = optionPartTip(site, settings);
             appendGuideSegment(geometry, endpoint,
                 settings.guideLineTemplate ? StrokeStyle::Template : StrokeStyle::Normal, start);
         }
@@ -148,8 +147,7 @@ void appendShapeGuide(const ShapeSettings& settings, PartGeometry& geometry,
             double extent = 0.5;
             for (const auto& site : sites) {
                 if ((site.along - direction).length() > 1e-10) continue;
-                const double tip = (site.endpoint - MPoint::origin) * direction +
-                    0.125 * site.sizeScale * partLength(settings) + settings.partOffset;
+                const double tip = (optionPartTip(site, settings) - MPoint::origin) * direction;
                 extent = std::max(extent, tip);
             }
             addAxis(axis, sign * extent);
@@ -157,10 +155,14 @@ void appendShapeGuide(const ShapeSettings& settings, PartGeometry& geometry,
         return;
     }
     if (outline == 79 || outline == 116 || outline == 117) {
-        const double extent = outline == 117
-            ? std::max(0.0, 0.5 - settings.wideWidth * 0.5) : 0.5;
-        addPair(1, extent);
-        addPair(2, extent);
+        const auto span = baseSpaceScale(settings);
+        const double halfWidth = outline == 117 ? settings.wideWidth * 0.5 : 0.0;
+        if (outline == 117 && std::min(std::abs(span.y), std::abs(span.z)) * 0.5 <= halfWidth) return;
+        for (unsigned int axis : {1u, 2u}) {
+            const double extent = std::max(0.0, 0.5 - halfWidth /
+                std::max(baseSpaceDirectionLength(nativeAxis(axis), settings), 1e-12));
+            addPair(axis, extent);
+        }
         if (outline == 116) addArrowTips();
         return;
     }
@@ -174,9 +176,9 @@ void appendShapeGuide(const ShapeSettings& settings, PartGeometry& geometry,
     }
     if (outline == 25) {
         addAxis(0, -0.5);
-        addAxis(0, 0.5 * partLength(settings) + settings.partOffset);
-        addPair(1, 0.5 * std::abs(partHeight(settings)));
-        addPair(2, 0.5 * std::abs(partWidth(settings)));
+        addAxis(0, 0.5);
+        addPair(1, 0.5);
+        addPair(2, 0.5);
         return;
     }
     const double extent = outline == 118 || outline == 119

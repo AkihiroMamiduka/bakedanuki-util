@@ -12,6 +12,29 @@ void appendRadialCirclePlaneAngles(std::vector<double>& angles, const OptionClip
     }
 }
 
+void appendMetricRadialPlaneAngles(std::vector<double>& angles, const OptionClipPlane& plane,
+    double offset, double first, double last, const ShapeSettings& settings) {
+    const auto value = [&](double angle) {
+        return plane.value(baseSpaceCircleOffsetPoint(baseArcPoint(angle), offset, settings));
+    };
+    double a = first, va = value(first);
+    for (unsigned int i = 1; i <= 256; ++i) {
+        const double b = first + (last - first) * i / 256, vb = value(b);
+        if (std::abs(va) < 1e-12) angles.push_back(a);
+        if ((va < 0.0) != (vb < 0.0)) {
+            double low = a, high = b;
+            for (unsigned int step = 0; step < 40; ++step) {
+                const double middle = (low + high) * 0.5;
+                if ((value(middle) < 0.0) == (va < 0.0)) low = middle;
+                else high = middle;
+            }
+            angles.push_back((low + high) * 0.5);
+        }
+        a = b;
+        va = vb;
+    }
+}
+
 bool appendAdjustedRadialCircle(PartBuilder& builder, const ShapeSettings& settings,
     std::vector<OptionClipVolume>& bodyVolumes) {
     if (!settings.part || settings.partType == 2) return false;
@@ -40,12 +63,19 @@ bool appendAdjustedRadialCircle(PartBuilder& builder, const ShapeSettings& setti
         const auto original = radialCircleEndSite(endpointAngle, index == 0);
         const auto middle = kSemicirclePlane.point(MPoint::origin +
             semicircleRadial((endpointAngle + placement.angle) * 0.5)) - MPoint::origin;
-        cuts.push_back({{-placement.site.along,
-            -(placement.base - MPoint::origin) * placement.site.along}, {-middle, 0.0},
+        const auto cutNormal = hasBaseSpaceScale(settings)
+            ? baseSpaceVector(baseSpaceVector(placement.site.along, settings), settings) : placement.site.along;
+        cuts.push_back({{-cutNormal,
+            -(placement.base - MPoint::origin) * cutNormal}, {-middle, 0.0},
             {original.along, 0.0}});
         for (const auto& plane : cuts.back()) {
-            appendRadialCirclePlaneAngles(angles, plane, outer, first, last);
-            if (wide) appendRadialCirclePlaneAngles(angles, plane, inner, first, last);
+            if (hasBaseSpaceScale(settings)) {
+                appendMetricRadialPlaneAngles(angles, plane, wide ? settings.wideWidth * 0.5 : 0.0, first, last, settings);
+                if (wide) appendMetricRadialPlaneAngles(angles, plane, -settings.wideWidth * 0.5, first, last, settings);
+            } else {
+                appendRadialCirclePlaneAngles(angles, plane, outer, first, last);
+                if (wide) appendRadialCirclePlaneAngles(angles, plane, inner, first, last);
+            }
         }
     }
     std::sort(angles.begin(), angles.end());
@@ -55,8 +85,9 @@ bool appendAdjustedRadialCircle(PartBuilder& builder, const ShapeSettings& setti
     std::vector<MPoint> outerPoints, innerPoints;
     for (double angle : angles) {
         const auto radial = semicircleRadial(angle);
-        outerPoints.push_back(kSemicirclePlane.point(MPoint::origin + radial * outer));
-        innerPoints.push_back(kSemicirclePlane.point(MPoint::origin + radial * inner));
+        const auto center = kSemicirclePlane.point(MPoint::origin + radial * 0.5);
+        outerPoints.push_back(baseSpaceCircleOffsetPoint(center, wide ? settings.wideWidth * 0.5 : 0.0, settings));
+        innerPoints.push_back(baseSpaceCircleOffsetPoint(center, wide ? -settings.wideWidth * 0.5 : -0.5, settings));
     }
     PartBuilder surface(true);
     for (std::size_t index = 1; index < angles.size(); ++index) {
@@ -77,7 +108,8 @@ bool appendAdjustedRadialCircle(PartBuilder& builder, const ShapeSettings& setti
         if (!settings.fill && !wideBase && settings.partShape <= 1) {
             // 開いたV字の矢印は、円弧から付け根中央を通る軸線でつなぐ。
             for (const auto& placement : placements) if (placement.onArc) {
-                const auto tip = placement.site.endpoint + placement.site.along * settings.partOffset;
+                const auto tip = placement.site.endpoint +
+                    baseSpacePartDirection(placement.site.along, settings) * settings.partOffset;
                 builder.stroke({placement.base, tip});
             }
         }

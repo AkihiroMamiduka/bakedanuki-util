@@ -15,6 +15,9 @@ from ..custom import (
     DoubleLinear3CompoundBaseAttrOperator,
     DoubleLinear3CompoundBasePlugOperator,
     DoubleLinear3CompoundBaseField,
+    Double2CompoundBaseAttrOperator,
+    Double2CompoundBasePlugOperator,
+    Double2CompoundBaseField,
     DoubleAngle3CompoundBaseAttrOperator,
     DoubleAngle3CompoundBasePlugOperator,
     DoubleAngle3CompoundBaseField,
@@ -283,6 +286,300 @@ class LocalScaleField(
 
     localScaleZ = DoubleLinearField(default_value=1.0)
     lsz = localScaleZ
+
+
+class ShapeBaseSpace1stAxisPlusScalePlugOperator(
+    Double2CompoundBasePlugOperator[
+        "ShapeBaseSpace1stAxisPlusScaleAttrOperator"
+    ]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("shapeBaseSpace1stAxisPlusScale2ndAxis", "sbsp1ps2"),
+        ("shapeBaseSpace1stAxisPlusScale3rdAxis", "sbsp1ps3"),
+    )
+
+    shapeBaseSpace1stAxisPlusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp1ps2 = shapeBaseSpace1stAxisPlusScale2ndAxis
+
+    shapeBaseSpace1stAxisPlusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp1ps3 = shapeBaseSpace1stAxisPlusScale3rdAxis
+
+
+class ShapeBaseSpace1stAxisPlusScaleAttrOperator(
+    Double2CompoundBaseAttrOperator[ShapeBaseSpace1stAxisPlusScalePlugOperator]
+):
+    __slots__ = ()
+
+    shapeBaseSpace1stAxisPlusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp1ps2 = shapeBaseSpace1stAxisPlusScale2ndAxis
+
+    shapeBaseSpace1stAxisPlusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp1ps3 = shapeBaseSpace1stAxisPlusScale3rdAxis
+
+
+class ShapeBaseSpace1stAxisPlusScaleField(
+    Double2CompoundBaseField[
+        ShapeBaseSpace1stAxisPlusScaleAttrOperator,
+        ShapeBaseSpace1stAxisPlusScalePlugOperator,
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeBaseSpace1stAxisPlusScaleAttrOperator
+    PLUG_CLS = ShapeBaseSpace1stAxisPlusScalePlugOperator
+
+    shapeBaseSpace1stAxisPlusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp1ps2 = shapeBaseSpace1stAxisPlusScale2ndAxis
+
+    shapeBaseSpace1stAxisPlusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp1ps3 = shapeBaseSpace1stAxisPlusScale3rdAxis
+
+
+class ShapeBaseSpace1stAxisMinusScalePlugOperator(
+    Double2CompoundBasePlugOperator[
+        "ShapeBaseSpace1stAxisMinusScaleAttrOperator"
+    ]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("shapeBaseSpace1stAxisMinusScale2ndAxis", "sbsp1ms2"),
+        ("shapeBaseSpace1stAxisMinusScale3rdAxis", "sbsp1ms3"),
+    )
+
+    shapeBaseSpace1stAxisMinusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp1ms2 = shapeBaseSpace1stAxisMinusScale2ndAxis
+
+    shapeBaseSpace1stAxisMinusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp1ms3 = shapeBaseSpace1stAxisMinusScale3rdAxis
+
+
+class ShapeBaseSpace1stAxisMinusScaleAttrOperator(
+    Double2CompoundBaseAttrOperator[
+        ShapeBaseSpace1stAxisMinusScalePlugOperator
+    ]
+):
+    __slots__ = ()
+
+    shapeBaseSpace1stAxisMinusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp1ms2 = shapeBaseSpace1stAxisMinusScale2ndAxis
+
+    shapeBaseSpace1stAxisMinusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp1ms3 = shapeBaseSpace1stAxisMinusScale3rdAxis
+
+
+class ShapeBaseSpace1stAxisMinusScaleField(
+    Double2CompoundBaseField[
+        ShapeBaseSpace1stAxisMinusScaleAttrOperator,
+        ShapeBaseSpace1stAxisMinusScalePlugOperator,
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeBaseSpace1stAxisMinusScaleAttrOperator
+    PLUG_CLS = ShapeBaseSpace1stAxisMinusScalePlugOperator
+
+    shapeBaseSpace1stAxisMinusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp1ms2 = shapeBaseSpace1stAxisMinusScale2ndAxis
+
+    shapeBaseSpace1stAxisMinusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp1ms3 = shapeBaseSpace1stAxisMinusScale3rdAxis
+
+
+class ShapeBaseSpace2ndAxisPlusScalePlugOperator(
+    Double2CompoundBasePlugOperator[
+        "ShapeBaseSpace2ndAxisPlusScaleAttrOperator"
+    ]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("shapeBaseSpace2ndAxisPlusScale1stAxis", "sbsp2ps1"),
+        ("shapeBaseSpace2ndAxisPlusScale3rdAxis", "sbsp2ps3"),
+    )
+
+    shapeBaseSpace2ndAxisPlusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp2ps1 = shapeBaseSpace2ndAxisPlusScale1stAxis
+
+    shapeBaseSpace2ndAxisPlusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp2ps3 = shapeBaseSpace2ndAxisPlusScale3rdAxis
+
+
+class ShapeBaseSpace2ndAxisPlusScaleAttrOperator(
+    Double2CompoundBaseAttrOperator[ShapeBaseSpace2ndAxisPlusScalePlugOperator]
+):
+    __slots__ = ()
+
+    shapeBaseSpace2ndAxisPlusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp2ps1 = shapeBaseSpace2ndAxisPlusScale1stAxis
+
+    shapeBaseSpace2ndAxisPlusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp2ps3 = shapeBaseSpace2ndAxisPlusScale3rdAxis
+
+
+class ShapeBaseSpace2ndAxisPlusScaleField(
+    Double2CompoundBaseField[
+        ShapeBaseSpace2ndAxisPlusScaleAttrOperator,
+        ShapeBaseSpace2ndAxisPlusScalePlugOperator,
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeBaseSpace2ndAxisPlusScaleAttrOperator
+    PLUG_CLS = ShapeBaseSpace2ndAxisPlusScalePlugOperator
+
+    shapeBaseSpace2ndAxisPlusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp2ps1 = shapeBaseSpace2ndAxisPlusScale1stAxis
+
+    shapeBaseSpace2ndAxisPlusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp2ps3 = shapeBaseSpace2ndAxisPlusScale3rdAxis
+
+
+class ShapeBaseSpace2ndAxisMinusScalePlugOperator(
+    Double2CompoundBasePlugOperator[
+        "ShapeBaseSpace2ndAxisMinusScaleAttrOperator"
+    ]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("shapeBaseSpace2ndAxisMinusScale1stAxis", "sbsp2ms1"),
+        ("shapeBaseSpace2ndAxisMinusScale3rdAxis", "sbsp2ms3"),
+    )
+
+    shapeBaseSpace2ndAxisMinusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp2ms1 = shapeBaseSpace2ndAxisMinusScale1stAxis
+
+    shapeBaseSpace2ndAxisMinusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp2ms3 = shapeBaseSpace2ndAxisMinusScale3rdAxis
+
+
+class ShapeBaseSpace2ndAxisMinusScaleAttrOperator(
+    Double2CompoundBaseAttrOperator[
+        ShapeBaseSpace2ndAxisMinusScalePlugOperator
+    ]
+):
+    __slots__ = ()
+
+    shapeBaseSpace2ndAxisMinusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp2ms1 = shapeBaseSpace2ndAxisMinusScale1stAxis
+
+    shapeBaseSpace2ndAxisMinusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp2ms3 = shapeBaseSpace2ndAxisMinusScale3rdAxis
+
+
+class ShapeBaseSpace2ndAxisMinusScaleField(
+    Double2CompoundBaseField[
+        ShapeBaseSpace2ndAxisMinusScaleAttrOperator,
+        ShapeBaseSpace2ndAxisMinusScalePlugOperator,
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeBaseSpace2ndAxisMinusScaleAttrOperator
+    PLUG_CLS = ShapeBaseSpace2ndAxisMinusScalePlugOperator
+
+    shapeBaseSpace2ndAxisMinusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp2ms1 = shapeBaseSpace2ndAxisMinusScale1stAxis
+
+    shapeBaseSpace2ndAxisMinusScale3rdAxis = DoubleField(default_value=1.0)
+    sbsp2ms3 = shapeBaseSpace2ndAxisMinusScale3rdAxis
+
+
+class ShapeBaseSpace3rdAxisPlusScalePlugOperator(
+    Double2CompoundBasePlugOperator[
+        "ShapeBaseSpace3rdAxisPlusScaleAttrOperator"
+    ]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("shapeBaseSpace3rdAxisPlusScale1stAxis", "sbsp3ps1"),
+        ("shapeBaseSpace3rdAxisPlusScale2ndAxis", "sbsp3ps2"),
+    )
+
+    shapeBaseSpace3rdAxisPlusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp3ps1 = shapeBaseSpace3rdAxisPlusScale1stAxis
+
+    shapeBaseSpace3rdAxisPlusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp3ps2 = shapeBaseSpace3rdAxisPlusScale2ndAxis
+
+
+class ShapeBaseSpace3rdAxisPlusScaleAttrOperator(
+    Double2CompoundBaseAttrOperator[ShapeBaseSpace3rdAxisPlusScalePlugOperator]
+):
+    __slots__ = ()
+
+    shapeBaseSpace3rdAxisPlusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp3ps1 = shapeBaseSpace3rdAxisPlusScale1stAxis
+
+    shapeBaseSpace3rdAxisPlusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp3ps2 = shapeBaseSpace3rdAxisPlusScale2ndAxis
+
+
+class ShapeBaseSpace3rdAxisPlusScaleField(
+    Double2CompoundBaseField[
+        ShapeBaseSpace3rdAxisPlusScaleAttrOperator,
+        ShapeBaseSpace3rdAxisPlusScalePlugOperator,
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeBaseSpace3rdAxisPlusScaleAttrOperator
+    PLUG_CLS = ShapeBaseSpace3rdAxisPlusScalePlugOperator
+
+    shapeBaseSpace3rdAxisPlusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp3ps1 = shapeBaseSpace3rdAxisPlusScale1stAxis
+
+    shapeBaseSpace3rdAxisPlusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp3ps2 = shapeBaseSpace3rdAxisPlusScale2ndAxis
+
+
+class ShapeBaseSpace3rdAxisMinusScalePlugOperator(
+    Double2CompoundBasePlugOperator[
+        "ShapeBaseSpace3rdAxisMinusScaleAttrOperator"
+    ]
+):
+    __slots__ = ()
+    CHILD_ATTR_NAMES = (
+        ("shapeBaseSpace3rdAxisMinusScale1stAxis", "sbsp3ms1"),
+        ("shapeBaseSpace3rdAxisMinusScale2ndAxis", "sbsp3ms2"),
+    )
+
+    shapeBaseSpace3rdAxisMinusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp3ms1 = shapeBaseSpace3rdAxisMinusScale1stAxis
+
+    shapeBaseSpace3rdAxisMinusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp3ms2 = shapeBaseSpace3rdAxisMinusScale2ndAxis
+
+
+class ShapeBaseSpace3rdAxisMinusScaleAttrOperator(
+    Double2CompoundBaseAttrOperator[
+        ShapeBaseSpace3rdAxisMinusScalePlugOperator
+    ]
+):
+    __slots__ = ()
+
+    shapeBaseSpace3rdAxisMinusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp3ms1 = shapeBaseSpace3rdAxisMinusScale1stAxis
+
+    shapeBaseSpace3rdAxisMinusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp3ms2 = shapeBaseSpace3rdAxisMinusScale2ndAxis
+
+
+class ShapeBaseSpace3rdAxisMinusScaleField(
+    Double2CompoundBaseField[
+        ShapeBaseSpace3rdAxisMinusScaleAttrOperator,
+        ShapeBaseSpace3rdAxisMinusScalePlugOperator,
+    ]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeBaseSpace3rdAxisMinusScaleAttrOperator
+    PLUG_CLS = ShapeBaseSpace3rdAxisMinusScalePlugOperator
+
+    shapeBaseSpace3rdAxisMinusScale1stAxis = DoubleField(default_value=1.0)
+    sbsp3ms1 = shapeBaseSpace3rdAxisMinusScale1stAxis
+
+    shapeBaseSpace3rdAxisMinusScale2ndAxis = DoubleField(default_value=1.0)
+    sbsp3ms2 = shapeBaseSpace3rdAxisMinusScale2ndAxis
 
 
 class ShapeTranslatePlugOperator(
@@ -611,338 +908,3 @@ class ShapeAxisScaleField(
 
     shapeAxisScaleZ = DoubleField(default_value=1.0)
     sascz = shapeAxisScaleZ
-
-
-class CustomBoundsTranslatePlugOperator(
-    DoubleLinear3CompoundBasePlugOperator["CustomBoundsTranslateAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("customBoundsTranslateX", "cbtx"),
-        ("customBoundsTranslateY", "cbty"),
-        ("customBoundsTranslateZ", "cbtz"),
-    )
-
-    customBoundsTranslateX = DoubleLinearField(default_value=0.0)
-    cbtx = customBoundsTranslateX
-
-    customBoundsTranslateY = DoubleLinearField(default_value=0.0)
-    cbty = customBoundsTranslateY
-
-    customBoundsTranslateZ = DoubleLinearField(default_value=0.0)
-    cbtz = customBoundsTranslateZ
-
-
-class CustomBoundsTranslateAttrOperator(
-    DoubleLinear3CompoundBaseAttrOperator[CustomBoundsTranslatePlugOperator]
-):
-    __slots__ = ()
-
-    customBoundsTranslateX = DoubleLinearField(default_value=0.0)
-    cbtx = customBoundsTranslateX
-
-    customBoundsTranslateY = DoubleLinearField(default_value=0.0)
-    cbty = customBoundsTranslateY
-
-    customBoundsTranslateZ = DoubleLinearField(default_value=0.0)
-    cbtz = customBoundsTranslateZ
-
-
-class CustomBoundsTranslateField(
-    DoubleLinear3CompoundBaseField[
-        CustomBoundsTranslateAttrOperator, CustomBoundsTranslatePlugOperator
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = CustomBoundsTranslateAttrOperator
-    PLUG_CLS = CustomBoundsTranslatePlugOperator
-
-    customBoundsTranslateX = DoubleLinearField(default_value=0.0)
-    cbtx = customBoundsTranslateX
-
-    customBoundsTranslateY = DoubleLinearField(default_value=0.0)
-    cbty = customBoundsTranslateY
-
-    customBoundsTranslateZ = DoubleLinearField(default_value=0.0)
-    cbtz = customBoundsTranslateZ
-
-
-class CustomBoundsRotatePlugOperator(
-    DoubleAngle3CompoundBasePlugOperator["CustomBoundsRotateAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("customBoundsRotateX", "cbrx"),
-        ("customBoundsRotateY", "cbry"),
-        ("customBoundsRotateZ", "cbrz"),
-    )
-
-    customBoundsRotateX = DoubleAngleField(default_value=0.0)
-    cbrx = customBoundsRotateX
-
-    customBoundsRotateY = DoubleAngleField(default_value=0.0)
-    cbry = customBoundsRotateY
-
-    customBoundsRotateZ = DoubleAngleField(default_value=0.0)
-    cbrz = customBoundsRotateZ
-
-
-class CustomBoundsRotateAttrOperator(
-    DoubleAngle3CompoundBaseAttrOperator[CustomBoundsRotatePlugOperator]
-):
-    __slots__ = ()
-
-    customBoundsRotateX = DoubleAngleField(default_value=0.0)
-    cbrx = customBoundsRotateX
-
-    customBoundsRotateY = DoubleAngleField(default_value=0.0)
-    cbry = customBoundsRotateY
-
-    customBoundsRotateZ = DoubleAngleField(default_value=0.0)
-    cbrz = customBoundsRotateZ
-
-
-class CustomBoundsRotateField(
-    DoubleAngle3CompoundBaseField[
-        CustomBoundsRotateAttrOperator, CustomBoundsRotatePlugOperator
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = CustomBoundsRotateAttrOperator
-    PLUG_CLS = CustomBoundsRotatePlugOperator
-
-    customBoundsRotateX = DoubleAngleField(default_value=0.0)
-    cbrx = customBoundsRotateX
-
-    customBoundsRotateY = DoubleAngleField(default_value=0.0)
-    cbry = customBoundsRotateY
-
-    customBoundsRotateZ = DoubleAngleField(default_value=0.0)
-    cbrz = customBoundsRotateZ
-
-
-class CustomBoundsScalePlugOperator(
-    Double3CompoundBasePlugOperator["CustomBoundsScaleAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("customBoundsScaleX", "cbscx"),
-        ("customBoundsScaleY", "cbscy"),
-        ("customBoundsScaleZ", "cbscz"),
-    )
-
-    customBoundsScaleX = DoubleField(default_value=1.0)
-    cbscx = customBoundsScaleX
-
-    customBoundsScaleY = DoubleField(default_value=1.0)
-    cbscy = customBoundsScaleY
-
-    customBoundsScaleZ = DoubleField(default_value=1.0)
-    cbscz = customBoundsScaleZ
-
-
-class CustomBoundsScaleAttrOperator(
-    Double3CompoundBaseAttrOperator[CustomBoundsScalePlugOperator]
-):
-    __slots__ = ()
-
-    customBoundsScaleX = DoubleField(default_value=1.0)
-    cbscx = customBoundsScaleX
-
-    customBoundsScaleY = DoubleField(default_value=1.0)
-    cbscy = customBoundsScaleY
-
-    customBoundsScaleZ = DoubleField(default_value=1.0)
-    cbscz = customBoundsScaleZ
-
-
-class CustomBoundsScaleField(
-    Double3CompoundBaseField[
-        CustomBoundsScaleAttrOperator, CustomBoundsScalePlugOperator
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = CustomBoundsScaleAttrOperator
-    PLUG_CLS = CustomBoundsScalePlugOperator
-
-    customBoundsScaleX = DoubleField(default_value=1.0)
-    cbscx = customBoundsScaleX
-
-    customBoundsScaleY = DoubleField(default_value=1.0)
-    cbscy = customBoundsScaleY
-
-    customBoundsScaleZ = DoubleField(default_value=1.0)
-    cbscz = customBoundsScaleZ
-
-
-class CustomBoundsAxisTranslatePlugOperator(
-    DoubleLinear3CompoundBasePlugOperator[
-        "CustomBoundsAxisTranslateAttrOperator"
-    ]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("customBoundsAxisTranslateX", "cbatx"),
-        ("customBoundsAxisTranslateY", "cbaty"),
-        ("customBoundsAxisTranslateZ", "cbatz"),
-    )
-
-    customBoundsAxisTranslateX = DoubleLinearField(default_value=0.0)
-    cbatx = customBoundsAxisTranslateX
-
-    customBoundsAxisTranslateY = DoubleLinearField(default_value=0.0)
-    cbaty = customBoundsAxisTranslateY
-
-    customBoundsAxisTranslateZ = DoubleLinearField(default_value=0.0)
-    cbatz = customBoundsAxisTranslateZ
-
-
-class CustomBoundsAxisTranslateAttrOperator(
-    DoubleLinear3CompoundBaseAttrOperator[
-        CustomBoundsAxisTranslatePlugOperator
-    ]
-):
-    __slots__ = ()
-
-    customBoundsAxisTranslateX = DoubleLinearField(default_value=0.0)
-    cbatx = customBoundsAxisTranslateX
-
-    customBoundsAxisTranslateY = DoubleLinearField(default_value=0.0)
-    cbaty = customBoundsAxisTranslateY
-
-    customBoundsAxisTranslateZ = DoubleLinearField(default_value=0.0)
-    cbatz = customBoundsAxisTranslateZ
-
-
-class CustomBoundsAxisTranslateField(
-    DoubleLinear3CompoundBaseField[
-        CustomBoundsAxisTranslateAttrOperator,
-        CustomBoundsAxisTranslatePlugOperator,
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = CustomBoundsAxisTranslateAttrOperator
-    PLUG_CLS = CustomBoundsAxisTranslatePlugOperator
-
-    customBoundsAxisTranslateX = DoubleLinearField(default_value=0.0)
-    cbatx = customBoundsAxisTranslateX
-
-    customBoundsAxisTranslateY = DoubleLinearField(default_value=0.0)
-    cbaty = customBoundsAxisTranslateY
-
-    customBoundsAxisTranslateZ = DoubleLinearField(default_value=0.0)
-    cbatz = customBoundsAxisTranslateZ
-
-
-class CustomBoundsAxisRotatePlugOperator(
-    DoubleAngle3CompoundBasePlugOperator["CustomBoundsAxisRotateAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("customBoundsAxisRotateX", "cbarx"),
-        ("customBoundsAxisRotateY", "cbary"),
-        ("customBoundsAxisRotateZ", "cbarz"),
-    )
-
-    customBoundsAxisRotateX = DoubleAngleField(default_value=0.0)
-    cbarx = customBoundsAxisRotateX
-
-    customBoundsAxisRotateY = DoubleAngleField(default_value=0.0)
-    cbary = customBoundsAxisRotateY
-
-    customBoundsAxisRotateZ = DoubleAngleField(default_value=0.0)
-    cbarz = customBoundsAxisRotateZ
-
-
-class CustomBoundsAxisRotateAttrOperator(
-    DoubleAngle3CompoundBaseAttrOperator[CustomBoundsAxisRotatePlugOperator]
-):
-    __slots__ = ()
-
-    customBoundsAxisRotateX = DoubleAngleField(default_value=0.0)
-    cbarx = customBoundsAxisRotateX
-
-    customBoundsAxisRotateY = DoubleAngleField(default_value=0.0)
-    cbary = customBoundsAxisRotateY
-
-    customBoundsAxisRotateZ = DoubleAngleField(default_value=0.0)
-    cbarz = customBoundsAxisRotateZ
-
-
-class CustomBoundsAxisRotateField(
-    DoubleAngle3CompoundBaseField[
-        CustomBoundsAxisRotateAttrOperator, CustomBoundsAxisRotatePlugOperator
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = CustomBoundsAxisRotateAttrOperator
-    PLUG_CLS = CustomBoundsAxisRotatePlugOperator
-
-    customBoundsAxisRotateX = DoubleAngleField(default_value=0.0)
-    cbarx = customBoundsAxisRotateX
-
-    customBoundsAxisRotateY = DoubleAngleField(default_value=0.0)
-    cbary = customBoundsAxisRotateY
-
-    customBoundsAxisRotateZ = DoubleAngleField(default_value=0.0)
-    cbarz = customBoundsAxisRotateZ
-
-
-class CustomBoundsAxisScalePlugOperator(
-    Double3CompoundBasePlugOperator["CustomBoundsAxisScaleAttrOperator"]
-):
-    __slots__ = ()
-    CHILD_ATTR_NAMES = (
-        ("customBoundsAxisScaleX", "cbascx"),
-        ("customBoundsAxisScaleY", "cbascy"),
-        ("customBoundsAxisScaleZ", "cbascz"),
-    )
-
-    customBoundsAxisScaleX = DoubleField(default_value=1.0)
-    cbascx = customBoundsAxisScaleX
-
-    customBoundsAxisScaleY = DoubleField(default_value=1.0)
-    cbascy = customBoundsAxisScaleY
-
-    customBoundsAxisScaleZ = DoubleField(default_value=1.0)
-    cbascz = customBoundsAxisScaleZ
-
-
-class CustomBoundsAxisScaleAttrOperator(
-    Double3CompoundBaseAttrOperator[CustomBoundsAxisScalePlugOperator]
-):
-    __slots__ = ()
-
-    customBoundsAxisScaleX = DoubleField(default_value=1.0)
-    cbascx = customBoundsAxisScaleX
-
-    customBoundsAxisScaleY = DoubleField(default_value=1.0)
-    cbascy = customBoundsAxisScaleY
-
-    customBoundsAxisScaleZ = DoubleField(default_value=1.0)
-    cbascz = customBoundsAxisScaleZ
-
-
-class CustomBoundsAxisScaleField(
-    Double3CompoundBaseField[
-        CustomBoundsAxisScaleAttrOperator, CustomBoundsAxisScalePlugOperator
-    ]
-):
-    __slots__ = ()
-
-    ATTR_CLS = CustomBoundsAxisScaleAttrOperator
-    PLUG_CLS = CustomBoundsAxisScalePlugOperator
-
-    customBoundsAxisScaleX = DoubleField(default_value=1.0)
-    cbascx = customBoundsAxisScaleX
-
-    customBoundsAxisScaleY = DoubleField(default_value=1.0)
-    cbascy = customBoundsAxisScaleY
-
-    customBoundsAxisScaleZ = DoubleField(default_value=1.0)
-    cbascz = customBoundsAxisScaleZ
