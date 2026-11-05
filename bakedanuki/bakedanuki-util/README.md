@@ -373,14 +373,26 @@ bakedanuki/
         bdUtilNodes.mll
     python/
       bd_util/
+    templates/
+      node_editor/
+        NEbdControllerShapeTemplate.xml
 ```
 
-`bakedanuki/modules/bd_util.mod` には、`bakedanuki-util/python` を Python path に追加する設定が入っています。
+`bakedanuki/modules/bd_util.mod` には、Python path、Maya version別のplug-in path、
+共通のNode Editorテンプレート検索パスを追加する設定が入っています。
+Maya 2025のブロックは次のとおりです。2026 / 2027も対応するplug-in pathと同じテンプレート検索パスを使います。
 
 ```text
-+ bd_util 0.2.0 ../bakedanuki-util
++ MAYAVERSION:2025 PLATFORM:win64 bd_util 0.2.0 ../bakedanuki-util
 PYTHONPATH+:=python
+MAYA_CUSTOM_TEMPLATE_PATH+:=templates/node_editor
+plug-ins: plug-ins/maya2025
 ```
+
+Node Editorで `bdControllerShape` をCustom Modeへ切り替えると、`Visibility` と
+追加属性を表示します。区切りenumは表示リストへ含めず、複合属性の子は親から展開します。
+ユーザーの `prefs` に同名のテンプレートがある場合はそちらを優先し、
+テンプレート保存先と既定表示モードのpreferenceは変更しません。
 
 そのため、Maya から使う場合は `bakedanuki/modules` を `MAYA_MODULE_PATH` に追加してください。
 

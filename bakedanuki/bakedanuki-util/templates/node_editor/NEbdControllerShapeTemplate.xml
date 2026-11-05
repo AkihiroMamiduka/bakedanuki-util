@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <using package="maya"/>
+    <template name="NEbdControllerShape">
+        <attribute name="visibility" type="maya.bool">
+            <label>Visibility</label>
+        </attribute>
+        <attribute name="shapeAnimationTransformMatrix" type="maya.matrix">
+            <label>Shape Animation Transform Matrix</label>
+        </attribute>
+        <attribute name="shape1stAxis" type="maya.enum">
+            <label>Shape 1st Axis</label>
+        </attribute>
+        <attribute name="shape2ndAxis" type="maya.enum">
+            <label>Shape 2nd Axis</label>
+        </attribute>
+        <attribute name="shapeAxisSwap" type="maya.bool">
+            <label>Shape Axis Swap</label>
+        </attribute>
+        <attribute name="shape" type="maya.enum">
+            <label>Shape</label>
+        </attribute>
+        <attribute name="shapeBaseSpace1stAxisPlus" type="maya.doubleLinear">
+            <label>Shape Base Space 1st Axis Plus</label>
+        </attribute>
+        <attribute name="shapeBaseSpace1stAxisMinus" type="maya.doubleLinear">
+            <label>Shape Base Space 1st Axis Minus</label>
+        </attribute>
+        <attribute name="shapeBaseSpace2ndAxisPlus" type="maya.doubleLinear">
+            <label>Shape Base Space 2nd Axis Plus</label>
+        </attribute>
+        <attribute name="shapeBaseSpace2ndAxisMinus" type="maya.doubleLinear">
+            <label>Shape Base Space 2nd Axis Minus</label>
+        </attribute>
+        <attribute name="shapeBaseSpace3rdAxisPlus" type="maya.doubleLinear">
+            <label>Shape Base Space 3rd Axis Plus</label>
+        </attribute>
+        <attribute name="shapeBaseSpace3rdAxisMinus" type="maya.doubleLinear">
+            <label>Shape Base Space 3rd Axis Minus</label>
+        </attribute>
+        <attribute name="shapeBaseSpace1stAxisPlusScale" type="maya.double2">
+            <label>Shape Base Space 1st Axis Plus Scale</label>
+        </attribute>
+        <attribute name="shapeBaseSpace1stAxisMinusScale" type="maya.double2">
+            <label>Shape Base Space 1st Axis Minus Scale</label>
+        </attribute>
+        <attribute name="shapeBaseSpace2ndAxisPlusScale" type="maya.double2">
+            <label>Shape Base Space 2nd Axis Plus Scale</label>
+        </attribute>
+        <attribute name="shapeBaseSpace2ndAxisMinusScale" type="maya.double2">
+            <label>Shape Base Space 2nd Axis Minus Scale</label>
+        </attribute>
+        <attribute name="shapeBaseSpace3rdAxisPlusScale" type="maya.double2">
+            <label>Shape Base Space 3rd Axis Plus Scale</label>
+        </attribute>
+        <attribute name="shapeBaseSpace3rdAxisMinusScale" type="maya.double2">
+            <label>Shape Base Space 3rd Axis Minus Scale</label>
+        </attribute>
+        <attribute name="shapeDrawOnTop" type="maya.bool">
+            <label>Shape Draw On Top</label>
+        </attribute>
+        <attribute name="shapeLineWidth" type="maya.float">
+            <label>Shape Line Width</label>
+        </attribute>
+        <attribute name="shapeLineTransparency" type="maya.float">
+            <label>Shape Line Transparency</label>
+        </attribute>
+        <attribute name="shapeFill" type="maya.bool">
+            <label>Shape Fill</label>
+        </attribute>
+        <attribute name="shapeFillTransparency" type="maya.float">
+            <label>Shape Fill Transparency</label>
+        </attribute>
+        <attribute name="shapeWide" type="maya.bool">
+            <label>Shape Wide</label>
+        </attribute>
+        <attribute name="shapeWideWidth" type="maya.doubleLinear">
+            <label>Shape Wide Width</label>
+        </attribute>
+        <attribute name="shapeArcAngle" type="maya.doubleAngle">
+            <label>Shape Arc Angle</label>
+        </attribute>
+        <attribute name="shapeTemplateLine" type="maya.bool">
+            <label>Shape Template Line</label>
+        </attribute>
+        <attribute name="shapeTemplateLineRate" type="maya.double">
+            <label>Shape Template Line Rate</label>
+        </attribute>
+        <attribute name="shapeTemplateLineInvert" type="maya.bool">
+            <label>Shape Template Line Invert</label>
+        </attribute>
+        <attribute name="shapeTemplateFill" type="maya.bool">
+            <label>Shape Template Fill</label>
+        </attribute>
+        <attribute name="shapePartTemplate" type="maya.bool">
+            <label>Shape Part Template</label>
+        </attribute>
+        <attribute name="shapeFinTemplate" type="maya.bool">
+            <label>Shape Fin Template</label>
+        </attribute>
+        <attribute name="shapeGuideLineTemplate" type="maya.bool">
+            <label>Shape Guide Line Template</label>
+        </attribute>
+        <attribute name="shapeOffsetLineTemplate" type="maya.bool">
+            <label>Shape Offset Line Template</label>
+        </attribute>
+        <attribute name="shapePart" type="maya.bool">
+            <label>Shape Part</label>
+        </attribute>
+        <attribute name="shapePartShape" type="maya.enum">
+            <label>Shape Part Shape</label>
+        </attribute>
+        <attribute name="shapePartType" type="maya.enum">
+            <label>Shape Part Type</label>
+        </attribute>
+        <attribute name="shapePartOffset" type="maya.doubleLinear">
+            <label>Shape Part Offset</label>
+        </attribute>
+        <attribute name="shapePartSize" type="maya.double">
+            <label>Shape Part Size</label>
+        </attribute>
+        <attribute name="shapePartPrimarySizeScale" type="maya.double">
+            <label>Shape Part Primary Size Scale</label>
+        </attribute>
+        <attribute name="shapePartOtherSizeScale" type="maya.double">
+            <label>Shape Part Other Size Scale</label>
+        </attribute>
+        <attribute name="shapePartLengthScale" type="maya.double">
+            <label>Shape Part Length Scale</label>
+        </attribute>
+        <attribute name="shapePartWidthScale" type="maya.double">
+            <label>Shape Part Width Scale</label>
+        </attribute>
+        <attribute name="shapePartHeightScale" type="maya.double">
+            <label>Shape Part Height Scale</label>
+        </attribute>
+        <attribute name="shapeFin" type="maya.bool">
+            <label>Shape Fin</label>
+        </attribute>
+        <attribute name="shapeFinType" type="maya.enum">
+            <label>Shape Fin Type</label>
+        </attribute>
+        <attribute name="shapeFinHeight" type="maya.doubleLinear">
+            <label>Shape Fin Height</label>
+        </attribute>
+        <attribute name="shapeFinSize" type="maya.double">
+            <label>Shape Fin Size</label>
+        </attribute>
+        <attribute name="shapeFinWidthScale" type="maya.double">
+            <label>Shape Fin Width Scale</label>
+        </attribute>
+        <attribute name="shapeGuideLine" type="maya.bool">
+            <label>Shape Guide Line</label>
+        </attribute>
+        <attribute name="shapeOffsetLine" type="maya.bool">
+            <label>Shape Offset Line</label>
+        </attribute>
+        <attribute name="shapeRootSize" type="maya.double">
+            <label>Shape Root Size</label>
+        </attribute>
+        <attribute name="shapeTranslate" type="maya.double3">
+            <label>Shape Translate</label>
+        </attribute>
+        <attribute name="shapeRotate" type="maya.double3">
+            <label>Shape Rotate</label>
+        </attribute>
+        <attribute name="shapeScale" type="maya.double3">
+            <label>Shape Scale</label>
+        </attribute>
+        <attribute name="shapeAxisTranslate" type="maya.double3">
+            <label>Shape Axis Translate</label>
+        </attribute>
+        <attribute name="shapeAxisRotate" type="maya.double3">
+            <label>Shape Axis Rotate</label>
+        </attribute>
+        <attribute name="shapeAxisScale" type="maya.double3">
+            <label>Shape Axis Scale</label>
+        </attribute>
+        <attribute name="shapeSize" type="maya.double">
+            <label>Shape Size</label>
+        </attribute>
+        <attribute name="boundsMode" type="maya.enum">
+            <label>Bounds Mode</label>
+        </attribute>
+        <attribute name="showBoundsPreview" type="maya.bool">
+            <label>Show Bounds Preview</label>
+        </attribute>
+        <attribute name="customBoundsBaseSpaceXPlus" type="maya.doubleLinear">
+            <label>Custom Bounds Base Space XPlus</label>
+        </attribute>
+        <attribute name="customBoundsBaseSpaceXMinus" type="maya.doubleLinear">
+            <label>Custom Bounds Base Space XMinus</label>
+        </attribute>
+        <attribute name="customBoundsBaseSpaceYPlus" type="maya.doubleLinear">
+            <label>Custom Bounds Base Space YPlus</label>
+        </attribute>
+        <attribute name="customBoundsBaseSpaceYMinus" type="maya.doubleLinear">
+            <label>Custom Bounds Base Space YMinus</label>
+        </attribute>
+        <attribute name="customBoundsBaseSpaceZPlus" type="maya.doubleLinear">
+            <label>Custom Bounds Base Space ZPlus</label>
+        </attribute>
+        <attribute name="customBoundsBaseSpaceZMinus" type="maya.doubleLinear">
+            <label>Custom Bounds Base Space ZMinus</label>
+        </attribute>
+    </template>
+    <view name="NEDefault" template="NEbdControllerShape">
+        <property name="visibility"/>
+        <property name="shapeAnimationTransformMatrix"/>
+        <property name="shape1stAxis"/>
+        <property name="shape2ndAxis"/>
+        <property name="shapeAxisSwap"/>
+        <property name="shape"/>
+        <property name="shapeBaseSpace1stAxisPlus"/>
+        <property name="shapeBaseSpace1stAxisMinus"/>
+        <property name="shapeBaseSpace2ndAxisPlus"/>
+        <property name="shapeBaseSpace2ndAxisMinus"/>
+        <property name="shapeBaseSpace3rdAxisPlus"/>
+        <property name="shapeBaseSpace3rdAxisMinus"/>
+        <property name="shapeBaseSpace1stAxisPlusScale"/>
+        <property name="shapeBaseSpace1stAxisMinusScale"/>
+        <property name="shapeBaseSpace2ndAxisPlusScale"/>
+        <property name="shapeBaseSpace2ndAxisMinusScale"/>
+        <property name="shapeBaseSpace3rdAxisPlusScale"/>
+        <property name="shapeBaseSpace3rdAxisMinusScale"/>
+        <property name="shapeDrawOnTop"/>
+        <property name="shapeLineWidth"/>
+        <property name="shapeLineTransparency"/>
+        <property name="shapeFill"/>
+        <property name="shapeFillTransparency"/>
+        <property name="shapeWide"/>
+        <property name="shapeWideWidth"/>
+        <property name="shapeArcAngle"/>
+        <property name="shapeTemplateLine"/>
+        <property name="shapeTemplateLineRate"/>
+        <property name="shapeTemplateLineInvert"/>
+        <property name="shapeTemplateFill"/>
+        <property name="shapePartTemplate"/>
+        <property name="shapeFinTemplate"/>
+        <property name="shapeGuideLineTemplate"/>
+        <property name="shapeOffsetLineTemplate"/>
+        <property name="shapePart"/>
+        <property name="shapePartShape"/>
+        <property name="shapePartType"/>
+        <property name="shapePartOffset"/>
+        <property name="shapePartSize"/>
+        <property name="shapePartPrimarySizeScale"/>
+        <property name="shapePartOtherSizeScale"/>
+        <property name="shapePartLengthScale"/>
+        <property name="shapePartWidthScale"/>
+        <property name="shapePartHeightScale"/>
+        <property name="shapeFin"/>
+        <property name="shapeFinType"/>
+        <property name="shapeFinHeight"/>
+        <property name="shapeFinSize"/>
+        <property name="shapeFinWidthScale"/>
+        <property name="shapeGuideLine"/>
+        <property name="shapeOffsetLine"/>
+        <property name="shapeRootSize"/>
+        <property name="shapeTranslate"/>
+        <property name="shapeRotate"/>
+        <property name="shapeScale"/>
+        <property name="shapeAxisTranslate"/>
+        <property name="shapeAxisRotate"/>
+        <property name="shapeAxisScale"/>
+        <property name="shapeSize"/>
+        <property name="boundsMode"/>
+        <property name="showBoundsPreview"/>
+        <property name="customBoundsBaseSpaceXPlus"/>
+        <property name="customBoundsBaseSpaceXMinus"/>
+        <property name="customBoundsBaseSpaceYPlus"/>
+        <property name="customBoundsBaseSpaceYMinus"/>
+        <property name="customBoundsBaseSpaceZPlus"/>
+        <property name="customBoundsBaseSpaceZMinus"/>
+    </view>
+</templates>

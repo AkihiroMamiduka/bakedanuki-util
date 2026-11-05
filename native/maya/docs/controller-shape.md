@@ -1116,6 +1116,30 @@ p_local = p_out * shapeAnimationTransformMatrix
 行列の平行移動は `shapeRootSize` の影響を受けません。
 非等方スケールやシアーも行列を分解せず適用し、Color系も入力行列と親DAG変換には同じ規則を使います。
 
+### Node Editorの属性表示
+
+Node Editorでは、`bdControllerShape` を `Custom Mode`（表示モード4）へ切り替えると、
+同梱の `NEbdControllerShapeTemplate.xml` で指定した属性を表示します。
+導入・更新後にMayaを再起動し、Node Editor上のノードを選択して `4` キーを押します。
+`Show Primary Attributes`（表示モード3）はMaya標準の表示判定を使います。
+
+Custom Modeの表示対象と順序は次のとおりです。
+
+1. 継承属性の `visibility`。
+2. 接続用の `shapeAnimationTransformMatrix`。
+3. 上記のChannel Boxの14区画から区切りenumを除いた順で、追加属性の親65個。
+
+合計67個を表示対象とし、TRSのXYZ子と面内Scaleの2子はそれぞれの親から展開します。
+区切りenum14本と、`visibility` 以外の継承属性はテンプレートの表示リストへ含めません。
+Channel Boxの表示、keyable、接続可否などは各属性の既存設定を使います。
+
+テンプレートはMaya 2025 / 2026 / 2027で共通の
+`bakedanuki/bakedanuki-util/templates/node_editor/NEbdControllerShapeTemplate.xml` に置き、
+`bd_util.mod` の各Maya versionのブロックから
+`MAYA_CUSTOM_TEMPLATE_PATH+:=templates/node_editor` で検索パスへ追加します。
+ユーザーの `prefs` に同名のテンプレートがある場合は、そちらが優先されます。
+Mayaのテンプレート保存先と、Node Editorの既定表示モードのpreferenceは変更しません。
+
 ### 描画属性
 
 `shapeLineWidth`、`shapeLineTransparency`、`shapeFillTransparency`、
@@ -1275,6 +1299,12 @@ Channel Box 表示を設定します。複合属性では、TRSのX/Y/Z子と面
 `shapeAnimationTransformMatrix` は表示しない例外です。区画を増やす場合は
 新しい区切り属性も追加し、表示専用・非接続・非保存・ロック済みとします。
 区切り名を変更したときは、Python 生成器の除外条件も確認してください。
+
+Node Editorに表示する属性を追加・変更したときは、共通の
+`NEbdControllerShapeTemplate.xml` も更新します。表示するのは親属性とし、
+子は親から展開できる構成を保ちます。行列の後にChannel Boxと同じ順で並べ、
+区切りenumは追加しません。Maya 2025 / 2026 / 2027のGUIでCustom Modeの属性順、
+親子の展開と接続、Primary表示への切替、ユーザーテンプレートの優先を確認します。
 
 形状、フォーカス範囲、プレビューに作用する属性では、値の読み取り、
 対応する基準形状・変換後のキャッシュの無効化、描画範囲まで確認します。
