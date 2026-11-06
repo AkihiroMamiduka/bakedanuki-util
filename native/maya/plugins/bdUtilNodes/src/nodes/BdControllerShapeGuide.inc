@@ -131,9 +131,7 @@ void appendShapeGuide(const ShapeSettings& settings, PartGeometry& geometry,
         }
     };
     if (outline == 6) {
-        if (geometry.strokes.empty()) return;
-        const Stroke triangle = geometry.strokes.front();
-        for (const auto& vertex : triangle) {
+        for (const auto& vertex : optionPlanarVertexPoints(outline)) {
             appendGuideSegment(geometry, vertex,
                 settings.guideLineTemplate ? StrokeStyle::Template : StrokeStyle::Normal);
         }

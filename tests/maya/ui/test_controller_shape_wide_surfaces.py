@@ -6,6 +6,8 @@ import math
 
 import pytest
 
+from controller_shape_cases import SHAPE_NAMES
+
 from test_controller_shape_viewport import (
     _aim_at_origin,
     _brightness_near_world,
@@ -163,7 +165,7 @@ def _assert_sphere_palette_matches_rgb_override(
     actual = [
         _rgb_near_world(panel, colored_pixels, point) for point, _ in samples
     ]
-    cmds.setAttr(f"{shape}.shape", 15)
+    cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Sphere"))
     for index, ((point, expected), color) in enumerate(zip(samples, actual)):
         cmds.setAttr(f"{shape}.overrideColorRGB", *expected)
         reference = _capture_view(panel, output / f"rgb_reference_{index}.png")
@@ -261,7 +263,7 @@ def test_color_sphere_mixes_keep_template_fill_and_selection_priority(
             maya_cmds.select(transform, replace=True)
         colored = _capture_view(panel, tmp_path / f"mixed_{mode}.png")
         # 混色も単色Sphereと同じ本体Template色または選択色へ上書きする。
-        maya_cmds.setAttr(f"{shape}.shape", 15)
+        maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Sphere"))
         plain = _capture_view(panel, tmp_path / f"plain_{mode}.png")
         for point in (
             (_DIAGONAL, _DIAGONAL, _DIAGONAL),

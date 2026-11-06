@@ -91,11 +91,12 @@ PartGeometry cageMappedBodyGeometry(const PartGeometry& canonical, const ShapeSe
         const auto& stroke = canonical.strokes[index];
         if (stroke.length() < 2) continue;
         MPointArray points;
+        const unsigned int steps = hasCageMapping(settings) ? 8 : 1;
         for (unsigned int segment = 1; segment < stroke.length(); ++segment) {
             const bool curved = outline == 36 || outline == 43;
-            for (unsigned int step = 0; step < 8; ++step) {
+            for (unsigned int step = 0; step < steps; ++step) {
                 auto point = stroke[segment - 1] + (stroke[segment] - stroke[segment - 1]) *
-                    (static_cast<double>(step) / 8.0);
+                    (static_cast<double>(step) / steps);
                 point = cageProjectedPoint(point, settings, curved, true);
                 points.append(deformed ? cageBodyPoint(point, settings) : cageBaseBodyPoint(point, settings));
             }
@@ -114,7 +115,7 @@ PartGeometry cageMappedBodyGeometry(const PartGeometry& canonical, const ShapeSe
                 ((outline == 36 || outline == 43) &&
                     !(triangle[0].x == triangle[1].x && triangle[0].x == triangle[2].x));
             appendCageBodyTriangle(part, triangle, settings, deformed, curvedSurface,
-                cageCurvedSolid(outline) ? 1 : 2);
+                hasCageMapping(settings) ? (cageCurvedSolid(outline) ? 1 : 2) : 0);
         }
         result.fillParts.push_back(std::move(part));
     }
@@ -138,5 +139,21 @@ bool cageAffineSettings(const ShapeSettings& settings, ShapeSettings& result) {
         result.baseSpacePlus[axis] = center[axis] + (settings.baseSpacePlus[axis] - center[axis]) * scale[axis];
     }
     result.baseSpaceFaceScale.fill(1.0);
+    return true;
+}
+
+bool makeAffineCageWideBody(const ShapeSettings& settings, PartGeometry& geometry) {
+    if (!settings.wide) return false;
+    auto body = untransformedShapeSettings(settings);
+    if (hasCageMapping(body)) {
+        ShapeSettings affine;
+        if (!cageAffineSettings(body, affine)) return false;
+        body = affine;
+    }
+    // Partの有無で本体の角や穴が変わらないよう、既存の正確な帯生成を使う。
+    body.part = body.fin = body.guideLine = body.showOffsetLine = false;
+    body.templateLine = body.templateFill = body.partTemplate = false;
+    body.baseSpaceBodyPart = false;
+    geometry = *makeBaseGeometry(body);
     return true;
 }

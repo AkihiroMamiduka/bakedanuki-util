@@ -3,12 +3,14 @@ std::shared_ptr<BdControllerShapeNode::Geometry> assembleCageGeometry(const Shap
     const PartGeometry& canonical, const PartGeometry& baseBody, const PartGeometry& actualBody) {
     const auto source = untransformedShapeSettings(settings);
     auto result = std::make_shared<BdControllerShapeNode::Geometry>(actualBody);
-    if (!source.fill) result->fillParts.clear();
-    if (outlinePresetIndex(source.shape) == 36 && source.fill && !source.wide) {
-        result->strokes.resize(std::min<std::size_t>(2, result->strokes.size()));
-        result->strokeStyles.resize(result->strokes.size());
+    if (!makeAffineCageWideBody(source, *result)) {
+        if (!source.fill) result->fillParts.clear();
+        if (outlinePresetIndex(source.shape) == 36 && source.fill && !source.wide) {
+            result->strokes.resize(std::min<std::size_t>(2, result->strokes.size()));
+            result->strokeStyles.resize(result->strokes.size());
+        }
+        makeCageWideBody(source, canonical, baseBody, actualBody, *result);
     }
-    makeCageWideBody(source, canonical, baseBody, actualBody, *result);
     appendCageAttachments(source, *result, baseBody, actualBody);
     const ShapeTransform transform(settings);
     for (auto& stroke : result->strokes) for (auto& point : stroke) point = transformPoint(point, transform);
@@ -28,7 +30,7 @@ std::shared_ptr<BdControllerShapeNode::Geometry> assembleCageGeometry(const Shap
 
 std::shared_ptr<const BdControllerShapeNode::Geometry> makeCageGeometry(const ShapeSettings& settings) {
     ShapeSettings affine;
-    if (cageAffineSettings(settings, affine)) return makeBaseGeometry(affine);
+    if (!useCagePartGeometry(settings) && cageAffineSettings(settings, affine)) return makeBaseGeometry(affine);
     const auto source = untransformedShapeSettings(settings);
     const auto canonical = cageCanonicalBodyGeometry(source);
     const auto baseBody = cageMappedBodyGeometry(canonical, source, false);

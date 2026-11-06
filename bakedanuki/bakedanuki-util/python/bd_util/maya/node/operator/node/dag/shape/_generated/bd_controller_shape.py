@@ -131,61 +131,65 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     __slots__ = ()
 
     GEAR = 0
-    LINE = 1
-    CROSSLINE = 2
-    TRIANGLE = 3
-    SQUARE = 4
-    DIAMOND = 5
-    CIRCLE = 6
-    ARCRADIAL = 7
-    ARCAXIAL = 8
-    CROSSARCRADIAL = 9
-    CROSSARCAXIAL = 10
-    CROSSLINE3AXIS = 11
-    CUBE = 12
-    OCTAHEDRON = 13
-    OCTAHEDRONARROW = 14
-    SPHERE = 15
-    CYLINDER = 16
-    ARROW = 17
-    PYRAMID = 18
-    CONE = 19
-    COLORCROSSLINE3AXIS = 20
-    COLORCUBE = 21
-    COLORCORNERCUBE = 22
-    COLORSPHERE = 23
+    COLORCROSSLINE3AXIS = 1
+    COLORCUBE = 2
+    COLORCORNERCUBE = 3
+    COLORSPHERE = 4
+    LINE = 5
+    CROSSLINE = 6
+    TRIANGLE = 7
+    SQUARE = 8
+    DIAMOND = 9
+    CIRCLE = 10
+    ARCRADIAL = 11
+    ARCAXIAL = 12
+    CROSSARCRADIAL = 13
+    CROSSARCAXIAL = 14
+    CROSSLINE3AXIS = 15
+    CUBE = 16
+    OCTAHEDRON = 17
+    SPHERE = 18
+    CYLINDER = 19
+    ARROW = 20
+    OCTAHEDRONARROW = 21
+    PYRAMID = 22
+    CONE = 23
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     __slots__ = ()
 
     GEAR = 0
-    LINE = 1
-    CROSSLINE = 2
-    TRIANGLE = 3
-    SQUARE = 4
-    DIAMOND = 5
-    CIRCLE = 6
-    ARCRADIAL = 7
-    ARCAXIAL = 8
-    CROSSARCRADIAL = 9
-    CROSSARCAXIAL = 10
-    CROSSLINE3AXIS = 11
-    CUBE = 12
-    OCTAHEDRON = 13
-    OCTAHEDRONARROW = 14
-    SPHERE = 15
-    CYLINDER = 16
-    ARROW = 17
-    PYRAMID = 18
-    CONE = 19
-    COLORCROSSLINE3AXIS = 20
-    COLORCUBE = 21
-    COLORCORNERCUBE = 22
-    COLORSPHERE = 23
+    COLORCROSSLINE3AXIS = 1
+    COLORCUBE = 2
+    COLORCORNERCUBE = 3
+    COLORSPHERE = 4
+    LINE = 5
+    CROSSLINE = 6
+    TRIANGLE = 7
+    SQUARE = 8
+    DIAMOND = 9
+    CIRCLE = 10
+    ARCRADIAL = 11
+    ARCAXIAL = 12
+    CROSSARCRADIAL = 13
+    CROSSARCAXIAL = 14
+    CROSSLINE3AXIS = 15
+    CUBE = 16
+    OCTAHEDRON = 17
+    SPHERE = 18
+    CYLINDER = 19
+    ARROW = 20
+    OCTAHEDRONARROW = 21
+    PYRAMID = 22
+    CONE = 23
 
     NAME_MAP = {
         GEAR: "Gear",
+        COLORCROSSLINE3AXIS: "ColorCrossLine3Axis",
+        COLORCUBE: "ColorCube",
+        COLORCORNERCUBE: "ColorCornerCube",
+        COLORSPHERE: "ColorSphere",
         LINE: "Line",
         CROSSLINE: "CrossLine",
         TRIANGLE: "Triangle",
@@ -199,16 +203,12 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         CROSSLINE3AXIS: "CrossLine3Axis",
         CUBE: "Cube",
         OCTAHEDRON: "Octahedron",
-        OCTAHEDRONARROW: "OctahedronArrow",
         SPHERE: "Sphere",
         CYLINDER: "Cylinder",
         ARROW: "Arrow",
+        OCTAHEDRONARROW: "OctahedronArrow",
         PYRAMID: "Pyramid",
         CONE: "Cone",
-        COLORCROSSLINE3AXIS: "ColorCrossLine3Axis",
-        COLORCUBE: "ColorCube",
-        COLORCORNERCUBE: "ColorCornerCube",
-        COLORSPHERE: "ColorSphere",
     }
 
 
@@ -510,7 +510,7 @@ class GeneratedBdControllerShape(Shape):
     shapeAxisSwap = BoolField(default_value=False)
     sasw = shapeAxisSwap
 
-    shape = ShapeEnumField(default_value=12)
+    shape = ShapeEnumField(default_value=16)
     sh = shape
 
     shapeBaseSpace1stAxisPlus = DoubleLinearField(default_value=0.5)

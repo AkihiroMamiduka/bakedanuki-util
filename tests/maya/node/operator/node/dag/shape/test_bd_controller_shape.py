@@ -96,18 +96,6 @@ ARC_SHAPES = tuple(name for name in VARIANT_NAMES if "Arc" in name)
 PART_UNSUPPORTED = (
     "Gear",
     "GearSwapped",
-    "Triangle",
-    "TriangleSwapped",
-    "Diamond",
-    "DiamondSwapped",
-    "Octahedron",
-    "OctahedronArrow",
-    "Cylinder",
-    "Arrow",
-    "Pyramid",
-    "Cone",
-    "ColorCube",
-    "ColorCornerCube",
 )
 
 OPTION_CASE_NAMES = (
@@ -422,7 +410,7 @@ def _three_axis_solid_part_bounds(
 
 def test_generated_shape_enum_matches_presets():
     assert len(SHAPE_NAMES) == 24
-    assert SHAPE_NAMES.index("Cube") == 12
+    assert SHAPE_NAMES.index("Cube") == 16
     assert ShapeEnumAttrOperator.NAME_MAP == dict(enumerate(SHAPE_NAMES))
     assert all(
         getattr(ShapeEnumPlugOperator, name.upper()) == index
@@ -447,7 +435,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
     ]
     assert maya_cmds.getAttr(f"{shape}.shape") == _shape_index("Cube")
     assert maya_cmds.attributeQuery("shape", node=shape, listDefault=True) == [
-        12
+        16
     ]
     for attribute, default in (("shape1stAxis", 0), ("shape2ndAxis", 2)):
         assert maya_cmds.attributeQuery(

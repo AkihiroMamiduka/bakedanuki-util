@@ -1820,8 +1820,8 @@ def test_color_body_image_keeps_its_axes_without_attachments(
         ("ColorCrossLine3Axis", "CrossLine3Axis", True),
         ("ColorWideCrossLine3Axis", "WideCrossLine3Axis", True),
         ("ColorSphere", "Sphere", True),
-        ("ColorCube", "Cube", False),
-        ("ColorCornerCube", "Cube", False),
+        ("ColorCube", "Cube", True),
+        ("ColorCornerCube", "Cube", True),
     ),
 )
 @pytest.mark.parametrize("filled", (False, True))
@@ -1865,15 +1865,27 @@ def test_color_attachments_match_plain_geometry_outside_the_fixed_body(
         expected = _capture_view(panel, tmp_path / "plain_attachments.png")
         view = omui.M3dView.getM3dViewFromModelPanel(panel)
         width, height = view.portWidth(), view.portHeight()
+        body_pixels = {
+            index // 4
+            for index in range(0, len(actual), 4)
+            if max(
+                sum(color_body[index : index + 3]),
+                sum(plain_body[index : index + 3]),
+            )
+            > 100
+        }
+        # 本体辺の1画素の描画差が、付属形状の比較範囲へ漏れないようにする。
+        excluded_pixels = set(body_pixels)
+        for pixel in body_pixels:
+            row, column = divmod(pixel, width)
+            excluded_pixels.update(
+                y * width + x
+                for y in range(max(0, row - 1), min(height, row + 2))
+                for x in range(max(0, column - 1), min(width, column + 2))
+            )
         checked = 0
         for index in range(0, len(actual), 4):
-            if (
-                max(
-                    sum(color_body[index : index + 3]),
-                    sum(plain_body[index : index + 3]),
-                )
-                > 100
-            ):
+            if index // 4 in excluded_pixels:
                 continue
             visible = max(expected[index : index + 3]) > 80
             drawn = max(actual[index : index + 3]) > 80
@@ -1897,6 +1909,76 @@ def test_color_attachments_match_plain_geometry_outside_the_fixed_body(
                 ), (preset, first, second, index)
             checked += visible
         assert checked > 30, "本体外側の付属形状が十分に描画されていない"
+
+
+@pytest.mark.parametrize("preset", ("Cube", "ColorCube", "ColorCornerCube"))
+def test_displaced_part_preserves_wide_cube_body_surface_bands(
+    maya_cmds, new_scene, tmp_path, preset
+):
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds,
+        preset,
+        shapeWide=True,
+        shapeWideWidth=0.12,
+        shapeFill=True,
+        shapeFillTransparency=0,
+        shapeLineTransparency=1,
+        shapePart=False,
+        shapePartShape=6,
+        shapePartType=0,
+        shapePartOffset=4,
+    ) as (_, shape, _, _, panel):
+        points = (
+            (0.47, 0, 0.5),
+            (-0.47, 0, 0.5),
+            (0, 0.47, 0.5),
+            (0, -0.47, 0.5),
+        )
+        baseline = _capture_view(
+            panel, tmp_path / "wide_cube_without_part.png"
+        )
+        expected = tuple(
+            _rgb_near_world(panel, baseline, point) for point in points
+        )
+        for point, color in zip(points, expected):
+            assert max(color) > 180, (
+                "比較元の帯面が描画されていない",
+                preset,
+                point,
+                color,
+            )
+        hole_points = tuple(
+            (x, y, 0.5) for x in (-0.43, 0.43) for y in (-0.43, 0.43)
+        )
+        hole_colors = tuple(
+            _rgb_near_world(panel, baseline, point) for point in hole_points
+        )
+        for point, color in zip(hole_points, hole_colors):
+            assert sum(color) < 120, (
+                "比較元の穴の角が塗られている",
+                preset,
+                point,
+                color,
+            )
+        for enabled in (True, False):
+            maya_cmds.setAttr(f"{shape}.shapePart", enabled)
+            actual = _capture_view(
+                panel, tmp_path / f"wide_cube_part_{enabled}.png"
+            )
+            for point, color in zip(
+                points + hole_points, expected + hole_colors
+            ):
+                assert _rgb_near_world(panel, actual, point) == pytest.approx(
+                    color, abs=8
+                ), (
+                    "Part切替で本体の帯面・穴の角・配色が変わる",
+                    preset,
+                    enabled,
+                    point,
+                )
+            assert _brightness_near_world(panel, actual, (0, 0, 0.5)) < 120
 
 
 @pytest.mark.parametrize("part", range(11))

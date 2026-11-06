@@ -105,7 +105,7 @@ def test_arrow_body_keeps_its_rear_section_and_uses_exact_endpoint_coordinates(
 @pytest.mark.parametrize("preset", ("Arrow", "OctahedronArrow"))
 @pytest.mark.parametrize("fin", (False, True))
 @pytest.mark.parametrize("filled", (False, True))
-def test_part_controls_are_retained_and_do_not_deform_arrow_bodies_or_fins(
+def test_disabled_part_controls_are_retained_without_deforming_arrow_bodies_or_fins(
     maya_cmds, maya_om, new_scene, preset, fin, filled
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -116,12 +116,12 @@ def test_part_controls_are_retained_and_do_not_deform_arrow_bodies_or_fins(
         shapeFin=fin,
         shapeFill=filled,
         shapeGuideLine=True,
+        shapePart=False,
     )
     _set_base_space(maya_cmds, shape, ((1, 3), (-0.5, 0.5), (-1.5, 1.5)))
     maya_cmds.setAttr(f"{shape}.shapeRotate", 17, -29, 37)
     expected = _bounds(maya_om, shape)
     values = {
-        "shapePart": True,
         "shapePartShape": 10,
         "shapePartType": 2,
         "shapePartOffset": -4.0,
@@ -136,6 +136,25 @@ def test_part_controls_are_retained_and_do_not_deform_arrow_bodies_or_fins(
     for attribute, value in values.items():
         maya_cmds.setAttr(f"{shape}.{attribute}", value)
         assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+    for attribute, value in values.items():
+        assert maya_cmds.getAttr(f"{shape}.{attribute}") == pytest.approx(
+            value
+        )
+    # 有効な寸法でPartを表示してから戻しても、本体の固定長とFinは変えない。
+    active_sizes = {
+        "shapePartSize": 1.7,
+        "shapePartLengthScale": 1.3,
+        "shapePartWidthScale": 0.8,
+        "shapePartHeightScale": 1.2,
+    }
+    for attribute, value in active_sizes.items():
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
+    values.update(active_sizes)
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+    maya_cmds.setAttr(f"{shape}.shapePart", True)
+    assert _bounds(maya_om, shape) != pytest.approx(expected, abs=1e-9)
+    maya_cmds.setAttr(f"{shape}.shapePart", False)
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
     for attribute, value in values.items():
         assert maya_cmds.getAttr(f"{shape}.{attribute}") == pytest.approx(
             value

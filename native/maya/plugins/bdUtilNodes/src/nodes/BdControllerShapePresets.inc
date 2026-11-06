@@ -2,6 +2,10 @@
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
 constexpr std::array<const char*, 24> kPresetNames = {
     "Gear",
+    "ColorCrossLine3Axis",
+    "ColorCube",
+    "ColorCornerCube",
+    "ColorSphere",
     "Line",
     "CrossLine",
     "Triangle",
@@ -15,16 +19,12 @@ constexpr std::array<const char*, 24> kPresetNames = {
     "CrossLine3Axis",
     "Cube",
     "Octahedron",
-    "OctahedronArrow",
     "Sphere",
     "Cylinder",
     "Arrow",
+    "OctahedronArrow",
     "Pyramid",
     "Cone",
-    "ColorCrossLine3Axis",
-    "ColorCube",
-    "ColorCornerCube",
-    "ColorSphere",
 };
 
 enum class PartEnds { Both, End };
@@ -38,6 +38,10 @@ struct PresetInfo {
 // 公開する基本形状の後ろに、既存の帯生成で使う内部形状を置く。
 constexpr std::array<PresetInfo, 33> kPresetInfo = {{
     {0},  // Gear
+    {45},  // ColorCrossLine3Axis
+    {50},  // ColorCube
+    {51},  // ColorCornerCube
+    {46},  // ColorSphere
     {1},  // Line
     {53},  // CrossLine
     {6},  // Triangle
@@ -51,16 +55,12 @@ constexpr std::array<PresetInfo, 33> kPresetInfo = {{
     {5},  // CrossLine3Axis
     {19},  // Cube
     {24},  // Octahedron
-    {25},  // OctahedronArrow
     {33},  // Sphere
     {36},  // Cylinder
     {39},  // Arrow
+    {25},  // OctahedronArrow
     {41},  // Pyramid
     {43},  // Cone
-    {45},  // ColorCrossLine3Axis
-    {50},  // ColorCube
-    {51},  // ColorCornerCube
-    {46},  // ColorSphere
     {104},  // WideLine
     {106},  // WideCrossLine
     {117},  // WideCircle

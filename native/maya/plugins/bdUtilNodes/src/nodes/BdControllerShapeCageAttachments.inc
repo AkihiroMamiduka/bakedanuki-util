@@ -26,7 +26,7 @@ BaseSpacePartFrame cageAttachmentFrame(const MPoint& basePoint, const MVector& a
 
 // 変形後の三角面または輪郭へ射線を当て、近い交点で接合する。
 bool cageAttachmentSurfacePoint(const MPoint& point, const MVector& direction,
-    const PartGeometry& body, MPoint& result, bool highest = false) {
+    const PartGeometry& body, MPoint& result, bool highest = false, bool includeStrokes = false) {
     bool found = false;
     double best = highest ? -1e100 : 1e100;
     const auto remember = [&](double distance) {
@@ -49,7 +49,7 @@ bool cageAttachmentSurfacePoint(const MPoint& point, const MVector& direction,
         const double v = ((first ^ (hit - a)) * normal) / squared;
         if (u >= -1e-9 && v >= -1e-9 && u + v <= 1.0 + 1e-9) remember(distance);
     }
-    if (found || highest) return found;
+    if (found || (highest && !includeStrokes)) return found;
     for (const auto& stroke : body.strokes) for (unsigned int i = 1; i < stroke.length(); ++i) {
         const auto edge = stroke[i] - stroke[i - 1], delta = stroke[i - 1] - point;
         const auto cross = direction ^ edge;
@@ -106,7 +106,8 @@ std::vector<OptionSite> cageAttachmentNativeSites(const ShapeSettings& settings)
 
 bool cageAttachmentSolidBody(const ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
-    return outline == 19 || outline == 33 || outline == 46 || outline == 47;
+    return outline == 19 || outline == 24 || outline == 25 || outline == 33 || outline == 36 ||
+        outline == 41 || outline == 43 || outline == 46 || outline == 47 || outline == 50 || outline == 51;
 }
 
 std::vector<OptionSite> cageArcAttachmentSites(const ShapeSettings& settings) {
@@ -182,16 +183,21 @@ OptionHeads makeCageAttachmentHeads(const ShapeSettings& settings, const PartGeo
     physical.baseSpacePlus = MVector(0.5, 0.5, 0.5);
     physical.axisSwap = physical.baseSpaceCrossPlane = false;
     const bool physicalArcSites = isArcOutline(outlinePresetIndex(settings.shape)) && settings.partType != 2;
+    const bool outermost = settings.wide && optionVertexPartOutline(outlinePresetIndex(settings.shape)) &&
+        !cageAttachmentSolidBody(settings);
     const auto sites = physicalArcSites ? cageArcAttachmentSites(settings) : cageAttachmentNativeSites(settings);
     for (auto site : sites) {
         if (!physicalArcSites) {
+            const auto nativeEndpoint = site.endpoint;
+            const short outline = outlinePresetIndex(settings.shape);
             const auto basePoint = cageBaseBodyPoint(site.endpoint, settings);
             const auto baseAlong = cageAttachmentBaseVector(site.along, settings);
             const auto baseSide = cageAttachmentBaseVector(site.side, settings);
             const auto frame = cageAttachmentFrame(basePoint,
                 cageAttachmentUnit(baseAlong, singularBaseSpaceVector(site.along, settings)),
                 cageAttachmentUnit(baseSide, singularBaseSpaceVector(site.side, settings)), settings,
-                site.attached && cageAttachmentSolidBody(settings));
+                site.attached && cageAttachmentSolidBody(settings) &&
+                    (!optionVertexPartOutline(outline) || outline == 36));
             site.endpoint = cagePoint(basePoint, settings);
             site.along = frame.along;
             site.side = frame.side;
@@ -201,10 +207,22 @@ OptionHeads makeCageAttachmentHeads(const ShapeSettings& settings, const PartGeo
                 site.along = cageAttachmentUnit(site.side ^ normal, frame.along);
                 if (site.along * frame.along < 0.0) site.along = -site.along;
             }
+            const auto vertices = optionPlanarVertexPoints(outline);
+            for (std::size_t index = 0; index < vertices.size(); ++index) {
+                if ((vertices[index] - nativeEndpoint).length() > 1e-10) continue;
+                const auto before = site.endpoint - cageBodyPoint(vertices[(index + vertices.size() - 1) % vertices.size()], settings);
+                const auto after = site.endpoint - cageBodyPoint(vertices[(index + 1) % vertices.size()], settings);
+                site.along = cageAttachmentUnit(baseSpaceNormalized(before) + baseSpaceNormalized(after), frame.along);
+                auto normal = cageAttachmentUnit(before ^ after, frame.up);
+                if (normal * frame.up < 0.0) normal = -normal;
+                site.side = cageAttachmentUnit(normal ^ site.along, frame.side);
+                break;
+            }
         }
         if (site.attached) {
             MPoint surface;
-            if (cageAttachmentSurfacePoint(site.endpoint, site.along, actualBody, surface)) site.endpoint = surface;
+            // Wide頂点では内外の等距離判定を避け、外向きの輪郭へ接合する。
+            if (cageAttachmentSurfacePoint(site.endpoint, site.along, actualBody, surface, outermost, outermost)) site.endpoint = surface;
         }
         physicalSites.push_back(site);
         const std::vector<OptionSite> oneSite{site};
@@ -217,7 +235,7 @@ OptionHeads makeCageAttachmentHeads(const ShapeSettings& settings, const PartGeo
                 const auto delta = point - site.endpoint;
                 if (std::abs(delta * site.along) > 1e-9 || std::abs(delta * (site.along ^ site.side)) > 1e-9) return;
                 MPoint surface;
-                if (cageAttachmentSurfacePoint(point, site.along, actualBody, surface)) point = surface;
+                if (cageAttachmentSurfacePoint(point, site.along, actualBody, surface, outermost, outermost)) point = surface;
             };
             for (auto& stroke : head.geometry.strokes) for (auto& point : stroke) root(point);
             for (auto& part : head.geometry.fillParts) for (auto& point : part.triangles) root(point);
@@ -404,6 +422,24 @@ void appendCageAttachmentGuides(const ShapeSettings& settings, PartGeometry& geo
         for (const auto& site : physicalSites) appendGuideSegment(geometry, optionPartTip(site, physical),
             settings.guideLineTemplate ? StrokeStyle::Template : StrokeStyle::Normal, center);
     }
+    if (settings.part && settings.partShape <= 1 && settings.partSize != 0.0 &&
+        (outline == 79 || outline == 24 || outline == 25)) {
+        auto physical = settings;
+        physical.baseSpaceMinus = MVector(-0.5, -0.5, -0.5);
+        physical.baseSpacePlus = MVector(0.5, 0.5, 0.5);
+        const auto nativeSites = cageAttachmentNativeSites(settings);
+        const auto style = settings.guideLineTemplate ? StrokeStyle::Template : StrokeStyle::Normal;
+        // 肩の接合で切り取られた本体のガイドを戻し、実際の肩と先端へつなぐ。
+        for (std::size_t index = 0; index < std::min(nativeSites.size(), physicalSites.size()); ++index) {
+            const auto& site = physicalSites[index];
+            const auto bodyEndpoint = cageBodyPoint(nativeSites[index].endpoint, settings);
+            const auto shoulder = site.endpoint + optionPartAlong(site, physical) * physical.partOffset;
+            appendGuideSegment(geometry, bodyEndpoint, style, center);
+            appendGuideSegment(geometry, site.endpoint, style, bodyEndpoint);
+            appendGuideSegment(geometry, shoulder, style, site.endpoint);
+            appendGuideSegment(geometry, optionPartTip(site, physical), style, shoulder);
+        }
+    }
 }
 
 bool appendCageWrappedAttachments(const ShapeSettings& settings, PartGeometry& geometry,
@@ -423,8 +459,10 @@ void appendCageAttachments(const ShapeSettings& settings, PartGeometry& geometry
         else {
             auto filled = settings;
             filled.fill = true;
-            const auto canonical = cageCanonicalBodyGeometry(filled);
-            makeCageWideBody(filled, canonical, baseBodyPhysical, actualBodyPhysical, contactBody);
+            if (!makeAffineCageWideBody(filled, contactBody)) {
+                const auto canonical = cageCanonicalBodyGeometry(filled);
+                makeCageWideBody(filled, canonical, baseBodyPhysical, actualBodyPhysical, contactBody);
+            }
         }
     }
     std::vector<OptionSite> physicalSites;

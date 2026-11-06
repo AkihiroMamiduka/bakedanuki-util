@@ -2,6 +2,10 @@
 
 SHAPE_NAMES = (
     "Gear",
+    "ColorCrossLine3Axis",
+    "ColorCube",
+    "ColorCornerCube",
+    "ColorSphere",
     "Line",
     "CrossLine",
     "Triangle",
@@ -15,16 +19,12 @@ SHAPE_NAMES = (
     "CrossLine3Axis",
     "Cube",
     "Octahedron",
-    "OctahedronArrow",
     "Sphere",
     "Cylinder",
     "Arrow",
+    "OctahedronArrow",
     "Pyramid",
     "Cone",
-    "ColorCrossLine3Axis",
-    "ColorCube",
-    "ColorCornerCube",
-    "ColorSphere",
 )
 
 VARIANT_NAMES = (

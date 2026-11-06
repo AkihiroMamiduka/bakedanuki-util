@@ -135,9 +135,9 @@ struct CageWidePath {
     double first = 0.0;
     double last = 0.0;
 
-    explicit CageWidePath(const MPointArray& source, StrokeStyle sourceStyle) : style(sourceStyle) {
+    CageWidePath(const MPointArray& source, StrokeStyle sourceStyle, bool curved) : style(sourceStyle) {
         for (const auto& point : source) points.push_back(point);
-        if (points.size() < 5) return;
+        if (!curved || points.size() < 5) return;
         const auto a = points.front(), b = points[points.size() / 3], c = points[2 * points.size() / 3];
         const auto firstEdge = b - a, lastEdge = c - a;
         const auto cross = firstEdge ^ lastEdge;
@@ -605,6 +605,14 @@ void makeCageSurfaceWide(const ShapeSettings& settings, const PartGeometry& cano
     std::vector<std::vector<double>> fields;
     for (const auto& group : pathGroups) fields.push_back(cageWideDistances(mesh,
         [&](const MPoint& point) {
+            if (outline == 50) {
+                // 色付き表示線の微小な内寄せではなく、本体の稜線から帯幅を測る。
+                unsigned int boundaries = 0;
+                for (unsigned int axis = 0; axis < 3; ++axis) {
+                    if (std::abs(std::abs(point[axis]) - 0.5) < 1e-8) ++boundaries;
+                }
+                return boundaries >= 2;
+            }
             return std::any_of(group.begin(), group.end(), [&](auto index) { return paths[index].contains(point); });
         }, [](const CageWideTriangle&) { return true; }));
     const auto groups = fields.size();
@@ -686,9 +694,12 @@ void makeCageWideBody(const ShapeSettings& settings, const PartGeometry& canonic
     const short outline = baseOutlineIndex(outlinePresetIndex(settings.shape));
     const bool corner = outline == 51;
     if (!settings.wide && !corner) return;
+    // 四角形の4頂点も同一円周に乗るため、曲線を持つ本体だけで円弧を推定する。
+    const bool curved = outline == 0 || outline == 33 || outline == 36 || outline == 43 ||
+        outline == 46 || isPlanarCircleOutline(outline) || isArcOutline(outline);
     std::vector<CageWidePath> paths;
     for (std::size_t i = 0; i < canonicalFullGeometry.strokes.size(); ++i) paths.emplace_back(
-        canonicalFullGeometry.strokes[i], canonicalFullGeometry.strokeStyles[i]);
+        canonicalFullGeometry.strokes[i], canonicalFullGeometry.strokeStyles[i], curved);
     if (outline == 5 || outline == 45) { makeCageCross3AxisWide(settings, geometry); return; }
     if (isArcOutline(outline)) { makeCageArcWide(settings, geometry); return; }
     if (genericWidePlanarOutline(outline) || outline == 1 || outline == 4 || outline == 52 || outline == 53 || outline == 116) {

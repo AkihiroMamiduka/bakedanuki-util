@@ -15,28 +15,10 @@ from test_bd_controller_shape import _bounds, _load_bd_util_nodes
 
 pytestmark = pytest.mark.maya
 
-NON_ARC_PART_SHAPES = (
-    "Line",
-    "WideLine",
-    "CrossLine",
-    "WideCrossLine",
-    "CrossLineSwapped",
-    "WideCrossLineSwapped",
-    "CrossLine3Axis",
-    "WideCrossLine3Axis",
-    "Square",
-    "SquareTemplate",
-    "SquareSwapped",
-    "SquareTemplateSwapped",
-    "Circle",
-    "WideCircle",
-    "CircleSwapped",
-    "WideCircleSwapped",
-    "Cube",
-    "Sphere",
-    "ColorCrossLine3Axis",
-    "ColorWideCrossLine3Axis",
-    "ColorSphere",
+NON_ARC_PART_SHAPES = tuple(
+    preset
+    for preset in VARIANT_NAMES
+    if "Arc" not in preset and not preset.startswith("Gear")
 )
 SCALE_PAIRS = (
     (1.0, 0.5),

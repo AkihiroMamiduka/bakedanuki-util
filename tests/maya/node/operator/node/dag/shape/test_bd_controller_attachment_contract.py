@@ -18,7 +18,6 @@ COLOR_PAIRS = (
     ("ColorCornerCube", "Cube"),
     ("ColorSphere", "Sphere"),
 )
-COLOR_PART_PAIRS = (COLOR_PAIRS[0], COLOR_PAIRS[1], COLOR_PAIRS[4])
 AXIS_PAIRS = tuple(itertools.product(range(6), repeat=2))
 PART_AXIS_PAIRS = ((0, 2), (2, 0), (5, 1), (3, 4), (4, 5))
 
@@ -88,7 +87,7 @@ def test_color_body_keeps_fixed_axes_without_attachments(
         assert maya_cmds.getAttr(f"{shape}.shape2ndAxis") == second
 
 
-@pytest.mark.parametrize("preset,plain", COLOR_PART_PAIRS)
+@pytest.mark.parametrize("preset,plain", COLOR_PAIRS)
 @pytest.mark.parametrize("part", range(11))
 @pytest.mark.parametrize("filled", (False, True))
 def test_color_parts_follow_selected_axes_like_the_plain_body(

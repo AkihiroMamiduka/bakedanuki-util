@@ -1821,7 +1821,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeSingularBaseGeometry(
 std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const ShapeSettings& settings
 ) {
-    if (hasCageMapping(settings)) return makeCageGeometry(settings);
+    if (hasCageMapping(settings) || useCagePartGeometry(settings)) return makeCageGeometry(settings);
     if (isArrowBody(settings)) return makeArrowBaseGeometry(settings);
     if (settings.wide && hasSingularBaseSpace(settings)) {
         ShapeSettings effective = settings;
