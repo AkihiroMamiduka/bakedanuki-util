@@ -272,7 +272,9 @@ void appendCageWideBoundary(PartGeometry& geometry, const CageWideClipPoint& a, 
 }
 
 MPoint cageWideSurfacePoint(const MPoint& point, const MPoint& a, const MPoint& b,
-    const MPoint& c, short outline) {
+    const MPoint& c, short outline, const ShapeSettings& settings) {
+    if (outline == kCapsuleOutline) return capsuleProjectedPoint(point);
+    if (isBulkArrowBody(settings)) return bulkArrowProjectedPoint(point, settings);
     if (outline == 33 || outline == 46) return genericWideSpherePoint(point - MPoint::origin);
     if (outline != 36 && outline != 43) return point;
     if (std::abs(a.x - b.x) < 1e-10 && std::abs(a.x - c.x) < 1e-10) {
@@ -305,7 +307,8 @@ MPoint cageWidePathPoint(const CageWidePath& path, std::size_t segment, double t
 
 void appendCageWideReference(PartGeometry& geometry, const std::vector<CageWidePath>& paths,
     const ShapeSettings& settings, short outline, bool corner) {
-    if (settings.wide && settings.wideWidth > 1e-12 && (outline == 33 || outline == 46)) return;
+    if (settings.wide && settings.wideWidth > 1e-12 &&
+        (outline == 33 || outline == 46 || outline == kCapsuleOutline || outline == kSphereArrowOutline)) return;
     for (const auto& path : paths) {
         if (settings.wide && settings.wideWidth > 1e-12 && outline == 36 &&
             !std::all_of(path.points.begin(), path.points.end(), [&](const auto& point) {
@@ -591,7 +594,7 @@ void makeCageSurfaceWide(const ShapeSettings& settings, const PartGeometry& cano
     const auto mesh = makeCageWideMesh(canonical,
         [&](const MPoint& point) { return cageBodyPoint(point, settings); },
         [&](const MPoint& point, const MPoint& a, const MPoint& b, const MPoint& c) {
-            return cageWideSurfacePoint(point, a, b, c, outline);
+            return cageWideSurfacePoint(point, a, b, c, outline, settings);
         });
     std::vector<std::vector<std::size_t>> pathGroups(outline == 46 ? 3 : 1);
     for (std::size_t i = 0; i < paths.size(); ++i) {
@@ -605,6 +608,14 @@ void makeCageSurfaceWide(const ShapeSettings& settings, const PartGeometry& cano
     std::vector<std::vector<double>> fields;
     for (const auto& group : pathGroups) fields.push_back(cageWideDistances(mesh,
         [&](const MPoint& point) {
+            if (outline == kCapsuleOutline) {
+                return std::abs(std::abs(point.x) - 0.5) < 1e-8 ||
+                    std::abs(point.y) < 1e-8 || std::abs(point.z) < 1e-8;
+            }
+            if (outline == kSphereArrowOutline) {
+                return std::abs(point.x) < 1e-8 ||
+                    std::abs(point.y) < 1e-8 || std::abs(point.z) < 1e-8;
+            }
             if (outline == 50) {
                 // 色付き表示線の微小な内寄せではなく、本体の稜線から帯幅を測る。
                 unsigned int boundaries = 0;
@@ -693,6 +704,10 @@ void makeCageWideBody(const ShapeSettings& settings, const PartGeometry& canonic
     static_cast<void>(actualBodyPhysical);
     const short outline = baseOutlineIndex(outlinePresetIndex(settings.shape));
     const bool corner = outline == 51;
+    if (outline == kCapsuleOutline && (settings.wideWidth <= 1e-12 ||
+        (bodyAxisRadius(settings, false) == 0.0 && bodyAxisRadius(settings, true) == 0.0))) return;
+    if (isCenteredArrowBody(settings) && settings.wideWidth <= 1e-12) return;
+    if (isBulkArrowBody(settings) && bulkArrowRearRadius(settings) == 0.0 && bulkArrowFrontRadius(settings) == 0.0) return;
     if (!settings.wide && !corner) return;
     // 四角形の4頂点も同一円周に乗るため、曲線を持つ本体だけで円弧を推定する。
     const bool curved = outline == 0 || outline == 33 || outline == 36 || outline == 43 ||
@@ -710,4 +725,9 @@ void makeCageWideBody(const ShapeSettings& settings, const PartGeometry& canonic
         return;
     }
     makeCageSurfaceWide(settings, canonicalFullGeometry, paths, geometry, corner);
+    if (outline == kSphereArrowOutline && !settings.fill && geometry.strokes.empty()) {
+        // 全被覆では帯の外周が消えるため、球と同じく通常の輪郭を残す。
+        geometry.strokes = actualBodyPhysical.strokes;
+        geometry.strokeStyles = actualBodyPhysical.strokeStyles;
+    }
 }

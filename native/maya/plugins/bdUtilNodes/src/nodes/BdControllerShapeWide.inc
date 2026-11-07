@@ -1,6 +1,7 @@
 ﻿// 本体の帯と面上の補助輪郭を、PartやFinの寸法から独立して作る。
 bool genericWidePlanarOutline(short outline) {
-    return outline == 0 || outline == 6 || outline == 8 || outline == 79 || outline == 39;
+    return outline == 0 || outline == 6 || outline == 8 || outline == 79 || outline == 39 ||
+        outline == kDiamondArrowOutline;
 }
 
 bool genericWideOutline(short outline) {

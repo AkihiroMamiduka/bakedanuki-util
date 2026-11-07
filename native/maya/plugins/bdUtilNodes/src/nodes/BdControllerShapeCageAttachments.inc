@@ -107,7 +107,8 @@ std::vector<OptionSite> cageAttachmentNativeSites(const ShapeSettings& settings)
 bool cageAttachmentSolidBody(const ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
     return outline == 19 || outline == 24 || outline == 25 || outline == 33 || outline == 36 ||
-        outline == 41 || outline == 43 || outline == 46 || outline == 47 || outline == 50 || outline == 51;
+        outline == 41 || outline == 43 || outline == 46 || outline == 47 || outline == 50 || outline == 51 ||
+        outline == kCapsuleOutline || isBulkArrowBody(settings);
 }
 
 std::vector<OptionSite> cageArcAttachmentSites(const ShapeSettings& settings) {
@@ -191,13 +192,18 @@ OptionHeads makeCageAttachmentHeads(const ShapeSettings& settings, const PartGeo
             const auto nativeEndpoint = site.endpoint;
             const short outline = outlinePresetIndex(settings.shape);
             const auto basePoint = cageBaseBodyPoint(site.endpoint, settings);
-            const auto baseAlong = cageAttachmentBaseVector(site.along, settings);
-            const auto baseSide = cageAttachmentBaseVector(site.side, settings);
+            const auto baseAlong = isCenteredArrowBody(settings)
+                ? singularBaseSpaceDirection(singularBaseSpaceVector(site.along, settings), settings)
+                : cageAttachmentBaseVector(site.along, settings);
+            const auto baseSide = isCenteredArrowBody(settings)
+                ? singularBaseSpaceDirection(singularBaseSpaceVector(site.side, settings), settings)
+                : cageAttachmentBaseVector(site.side, settings);
             const auto frame = cageAttachmentFrame(basePoint,
                 cageAttachmentUnit(baseAlong, singularBaseSpaceVector(site.along, settings)),
                 cageAttachmentUnit(baseSide, singularBaseSpaceVector(site.side, settings)), settings,
                 site.attached && cageAttachmentSolidBody(settings) &&
-                    (!optionVertexPartOutline(outline) || outline == 36));
+                    (!optionVertexPartOutline(outline) || outline == 36 || outline == kCapsuleOutline ||
+                        isBulkArrowBody(settings)));
             site.endpoint = cagePoint(basePoint, settings);
             site.along = frame.along;
             site.side = frame.side;
@@ -207,7 +213,7 @@ OptionHeads makeCageAttachmentHeads(const ShapeSettings& settings, const PartGeo
                 site.along = cageAttachmentUnit(site.side ^ normal, frame.along);
                 if (site.along * frame.along < 0.0) site.along = -site.along;
             }
-            const auto vertices = optionPlanarVertexPoints(outline);
+            const auto vertices = outline == kDiamondArrowOutline ? std::vector<MPoint>{} : optionPlanarVertexPoints(outline);
             for (std::size_t index = 0; index < vertices.size(); ++index) {
                 if ((vertices[index] - nativeEndpoint).length() > 1e-10) continue;
                 const auto before = site.endpoint - cageBodyPoint(vertices[(index + vertices.size() - 1) % vertices.size()], settings);
@@ -258,21 +264,28 @@ PartGeometry makeCageAttachmentFin(const ShapeSettings& settings, const PartGeom
     auto source = untransformedShapeSettings(settings);
     source.part = source.guideLine = false;
     PartGeometry fin;
-    if (isArrowBody(settings)) {
+    if (isCenteredArrowBody(settings)) {
+        fin = makeExtendedArrowFinGeometry(source);
+    } else if (isArrowBody(settings)) {
         auto raw = source;
         raw.baseSpaceMinus = MVector(-0.5, -0.5, -0.5);
         raw.baseSpacePlus = MVector(0.5, 0.5, 0.5);
         raw.axisSwap = false;
         fin = makeArrowFinGeometry(source, raw);
-    } else fin = singularBaseSpaceFin(source);
+    } else if (isCapsuleBody(settings)) fin = makeCapsuleFinGeometry(source);
+    else fin = singularBaseSpaceFin(source);
     const short outline = outlinePresetIndex(source.shape);
     const bool planar = hasLegacyPlanarOrientation(outline);
     auto nativeHeight = colorAttachmentVector(planar ? MVector(1, 0, 0) : MVector(0, 1, 0), source);
     if (outline == 52 || outline == 105 || outline == 57 || outline == 65 || (outline >= 92 && outline <= 95)) {
         nativeHeight = colorAttachmentVector(MVector(0, 0, 1), source);
     }
-    const auto height = cageAttachmentUnit(cageAttachmentBaseVector(nativeHeight, settings),
-        singularBaseSpaceVector(nativeHeight, settings));
+    auto heightFallback = singularBaseSpaceVector(nativeHeight, settings);
+    if (isCenteredArrowBody(settings) && heightFallback.length() == 0.0) {
+        heightFallback = presetOrientedPoint(MPoint::origin + nativeHeight, settings.shape,
+            settings.axisSwap) - MPoint::origin;
+    }
+    const auto height = cageAttachmentUnit(cageAttachmentBaseVector(nativeHeight, settings), heightFallback);
     const auto bounds = boundsForGeometry(baseBody.strokes, baseBody.fillParts);
     const auto mapped = [&](const MPoint& point) {
         MPoint root = point;
@@ -372,7 +385,15 @@ void appendCageAttachmentGuides(const ShapeSettings& settings, PartGeometry& geo
     raw.axisSwap = raw.part = raw.fin = false;
     PartGeometry guides;
     const short outline = outlinePresetIndex(settings.shape);
-    if (outline == 104 || outline == 106 || outline == 118 || outline == 119) {
+    if (isCenteredArrowBody(settings)) {
+        const auto style = settings.guideLineTemplate ? StrokeStyle::Template : StrokeStyle::Normal;
+        const auto origin = bodyNativeCenter(settings);
+        auto all = settings;
+        all.part = true;
+        all.partType = 1;
+        all.partPrimarySizeScale = all.partOtherSizeScale = 1.0;
+        for (const auto& site : optionPartSites(all)) appendGuideSegment(guides, site.endpoint, style, origin);
+    } else if (outline == 104 || outline == 106 || outline == 118 || outline == 119) {
         const auto axes = outline == 118 || outline == 119 ? std::vector<unsigned int>{0, 1, 2}
             : straightLineAxes(optionNarrowOutline(outline));
         for (auto axis : axes) for (double sign : {-1.0, 1.0}) {
@@ -382,7 +403,7 @@ void appendCageAttachmentGuides(const ShapeSettings& settings, PartGeometry& geo
         }
     } else appendShapeGuide(raw, guides, GuideBodyGeometry{});
     PartGeometry physicalGuides;
-    const auto center = cageBodyPoint(MPoint::origin, settings);
+    const auto center = cageBodyPoint(bodyNativeCenter(settings), settings);
     const auto mapped = [&](const MPoint& point) {
         auto result = cageBodyPoint(point, settings);
         if (settings.wide && (result - center).length() > 1e-12 &&
@@ -423,7 +444,8 @@ void appendCageAttachmentGuides(const ShapeSettings& settings, PartGeometry& geo
             settings.guideLineTemplate ? StrokeStyle::Template : StrokeStyle::Normal, center);
     }
     if (settings.part && settings.partShape <= 1 && settings.partSize != 0.0 &&
-        (outline == 79 || outline == 24 || outline == 25)) {
+        (outline == 6 || outline == 79 || outline == 24 || outline == 25 || outline == kCapsuleOutline ||
+         outline == kDiamondArrowOutline || outline == kCubeArrowOutline || outline == kSphereArrowOutline)) {
         auto physical = settings;
         physical.baseSpaceMinus = MVector(-0.5, -0.5, -0.5);
         physical.baseSpacePlus = MVector(0.5, 0.5, 0.5);
@@ -475,7 +497,7 @@ void appendCageAttachments(const ShapeSettings& settings, PartGeometry& geometry
             filled.fill = true;
             makeCageStraightPartBody(filled, heads, physicalSites, contactBody);
         }
-        const auto center = cageBodyPoint(MPoint::origin, settings);
+        const auto center = cageBodyPoint(bodyNativeCenter(settings), settings);
         auto bodyVolumes = cageAttachmentBodyVolumes(cageAttachmentSolidBody(settings) ? actualBodyPhysical : contactBody,
             cageAttachmentSolidBody(settings), center);
         if (cageAttachmentSolidBody(settings)) trimOptionGeometry(heads.geometry, bodyVolumes, settings.fill, settings.partShape >= 6);

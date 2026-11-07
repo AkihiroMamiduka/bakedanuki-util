@@ -28,7 +28,7 @@ def _body_points(preset, swapped, limits):
     axis = int(swapped)
     minus, plus = limits[axis]
     direction = 1 if plus >= minus else -1
-    joint = minus + direction * (0.25 if preset == "Arrow" else 0.5)
+    joint = minus + direction * 0.25 if preset == "Arrow" else minus
     if preset == "Arrow":
         vertices = (
             (plus, 0, 0),
@@ -39,9 +39,13 @@ def _body_points(preset, swapped, limits):
             (joint, 0, 0.5),
         )
     else:
+        radius = (
+            abs(limits[1 - axis][1] - limits[1 - axis][0])
+            + abs(limits[2][1] - limits[2][0])
+        ) / 4
         vertices = (
-            (minus, 0, 0),
-            (plus, 0, 0),
+            (minus - direction * radius, 0, 0),
+            (minus + direction * max(abs(plus - minus), radius), 0, 0),
             (joint, -0.5, 0),
             (joint, 0.5, 0),
             (joint, 0, -0.5),
@@ -196,7 +200,7 @@ def test_fixed_rear_length_is_a_scene_distance_in_centimeters(
     try:
         maya_cmds.currentUnit(linear="mm")
         shape = _controller(maya_cmds, "millimeterRear", preset)
-        maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", 10)
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", -10)
         maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisPlus", 11)
         expected = _point_bounds(
             _body_points(preset, False, ((1, 1.1), (-0.5, 0.5), (-0.5, 0.5)))

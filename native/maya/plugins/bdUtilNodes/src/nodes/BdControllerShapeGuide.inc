@@ -4,7 +4,8 @@ bool isGuideShape(short outline) {
         case 6: case 8: case 19: case 24: case 25: case 33:
         case 36: case 41: case 43: case 46: case 50: case 51:
         case 79: case 104: case 106: case 110: case 116:
-        case 117: case 118: case 119:
+        case 117: case 118: case 119: case kCapsuleOutline:
+        case kDiamondArrowOutline: case kCubeArrowOutline: case kSphereArrowOutline:
             return true;
         default:
             return false;
@@ -181,7 +182,7 @@ void appendShapeGuide(const ShapeSettings& settings, PartGeometry& geometry,
     }
     const double extent = outline == 118 || outline == 119
         ? std::max(0.5, settings.wideWidth * 0.5) : 0.5;
-    addPair(0, extent);
+    addPair(0, outline == kCapsuleOutline ? 1.0 : extent);
     addPair(1, outline == 41 || outline == 43 ? 0.25 : extent);
     addPair(2, outline == 41 || outline == 43 ? 0.25 : extent);
 }

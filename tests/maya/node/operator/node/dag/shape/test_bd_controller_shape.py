@@ -373,8 +373,9 @@ def _bounds(maya_om, shape: str) -> tuple[float, ...]:
 
 
 def _set_custom_bounds(cmds, shape, bounds):
+    """物理端座標をCustom Boundsの符号付き方向距離として設定する。"""
     for axis, minus, plus in zip("XYZ", bounds[:3], bounds[3:]):
-        cmds.setAttr(f"{shape}.customBoundsBaseSpace{axis}Minus", minus)
+        cmds.setAttr(f"{shape}.customBoundsBaseSpace{axis}Minus", -minus)
         cmds.setAttr(f"{shape}.customBoundsBaseSpace{axis}Plus", plus)
 
 
@@ -409,8 +410,15 @@ def _three_axis_solid_part_bounds(
 
 
 def test_generated_shape_enum_matches_presets():
-    assert len(SHAPE_NAMES) == 24
+    assert len(SHAPE_NAMES) == 28
     assert SHAPE_NAMES.index("Cube") == 16
+    assert SHAPE_NAMES.index("Capsule") == 20
+    assert SHAPE_NAMES.index("Arrow") == 21
+    assert SHAPE_NAMES.index("DiamondArrow") == 22
+    assert SHAPE_NAMES.index("OctahedronArrow") == 23
+    assert SHAPE_NAMES.index("CubeArrow") == 24
+    assert SHAPE_NAMES.index("SphereArrow") == 25
+    assert SHAPE_NAMES.index("Cone") == 27
     assert ShapeEnumAttrOperator.NAME_MAP == dict(enumerate(SHAPE_NAMES))
     assert all(
         getattr(ShapeEnumPlugOperator, name.upper()) == index
@@ -493,11 +501,11 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         ("shapePartLengthScale", "spls", "double", 1.0),
         ("shapePartWidthScale", "spws", "double", 1.0),
         ("shapePartHeightScale", "sphs", "double", 1.0),
-        ("shapeBaseSpace1stAxisMinus", "sbsp1m", "doubleLinear", -0.5),
+        ("shapeBaseSpace1stAxisMinus", "sbsp1m", "doubleLinear", 0.5),
         ("shapeBaseSpace1stAxisPlus", "sbsp1p", "doubleLinear", 0.5),
-        ("shapeBaseSpace2ndAxisMinus", "sbsp2m", "doubleLinear", -0.5),
+        ("shapeBaseSpace2ndAxisMinus", "sbsp2m", "doubleLinear", 0.5),
         ("shapeBaseSpace2ndAxisPlus", "sbsp2p", "doubleLinear", 0.5),
-        ("shapeBaseSpace3rdAxisMinus", "sbsp3m", "doubleLinear", -0.5),
+        ("shapeBaseSpace3rdAxisMinus", "sbsp3m", "doubleLinear", 0.5),
         ("shapeBaseSpace3rdAxisPlus", "sbsp3p", "doubleLinear", 0.5),
     ):
         assert maya_cmds.getAttr(f"{shape}.{attribute}") == pytest.approx(
@@ -1285,7 +1293,7 @@ def test_fill_option_connection_history_and_scene_reload(
         ),  # CubeFinArrow
         (
             "OctahedronArrow",
-            (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
+            (-1.0, -0.5, -0.5, 0.5, 0.5, 0.5),
         ),  # OctahedronArrow
         (
             "ArcArrow3D",
@@ -1621,7 +1629,7 @@ def test_bounds_modes_and_custom_attribute_defaults(
         == "sbp"
     )
     for axis in "XYZ":
-        for side, default in (("Plus", 0.5), ("Minus", -0.5)):
+        for side, default in (("Plus", 0.5), ("Minus", 0.5)):
             attribute = f"customBoundsBaseSpace{axis}{side}"
             assert maya_cmds.getAttr(f"{shape}.{attribute}") == default
             assert (
@@ -1770,7 +1778,7 @@ def test_connected_custom_bounds_input_updates_at_keyframes(
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds)
     maya_cmds.setAttr(f"{shape}.boundsMode", 2)
-    for side, initial, moved in (("Minus", -0.5, 4.5), ("Plus", 0.5, 5.5)):
+    for side, initial, moved in (("Minus", 0.5, -4.5), ("Plus", 0.5, 5.5)):
         attribute = f"customBoundsBaseSpaceX{side}"
         maya_cmds.setKeyframe(
             shape, attribute=attribute, time=1, value=initial
@@ -2178,8 +2186,8 @@ def test_part_attributes_leave_plain_shapes_unchanged(
         ("ConeFin", (-0.75, -0.5, -0.5, 0.75, 1.0, 0.5)),
         ("Arrow", (-0.5, 0, -0.5, 0.5, 0, 0.5)),
         ("ArrowFin", (-0.8125, 0, -0.5, 0.6875, 1.0, 0.5)),
-        ("OctahedronArrow", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        ("OctahedronArrowFin", (-0.75, -0.5, -0.5, 0.75, 1.0, 0.5)),
+        ("OctahedronArrow", (-1.0, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        ("OctahedronArrowFin", (-1.25, -0.5, -0.5, 1.0, 1.0, 0.5)),
         ("LineArrowAtEnds", (-0.6, 0, -0.075, 0.6, 0, 0.075)),
         ("CrossLineArrowAtEnds", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
         ("CrossLineSwappedArrowAtEnds", (0, -0.6, -0.6, 0, 0.6, 0.6)),
@@ -2285,7 +2293,7 @@ def test_octahedron_arrow_retains_part_controls_without_deforming_body(
         ("shapePartSize", size),
     ):
         maya_cmds.setAttr(f"{shape}.{attribute}", value)
-    expected = (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
+    expected = (-1.0, -0.5, -0.5, 0.5, 0.5, 0.5)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
     maya_cmds.setAttr(f"{shape}.boundsMode", 1)
     half_size = tuple((expected[i + 3] - expected[i]) * 0.5 for i in range(3))
@@ -4057,7 +4065,7 @@ def test_custom_bounds_node_operator_history_and_scene_reload(
     shape = bdu.Nodes(modifier_manager=mod).existing(shape_name)
     shape.boundsMode.set(2)
     for axis, minus, plus in zip("XYZ", (0, -2, -2), (4, 2, 2)):
-        getattr(shape, f"customBoundsBaseSpace{axis}Minus").set(minus)
+        getattr(shape, f"customBoundsBaseSpace{axis}Minus").set(-minus)
         getattr(shape, f"customBoundsBaseSpace{axis}Plus").set(plus)
     shape.showBoundsPreview.set(True)
     mod.do_it_dg()

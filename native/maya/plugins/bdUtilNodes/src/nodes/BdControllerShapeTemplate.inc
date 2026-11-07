@@ -36,6 +36,10 @@ short bodyTemplateBaseOutline(short outline) {
 MPoint bodyTemplateReferencePoint(const MPoint& point, const ShapeSettings& settings) {
     auto projected = point;
     const short outline = outlinePresetIndex(settings.shape);
+    if (isBulkArrowBody(settings)) {
+        const double radius = point.x < 0.0 ? bulkArrowRearRadius(settings) : bulkArrowFrontRadius(settings);
+        projected.x = radius > 0.0 ? point.x / (2.0 * radius) : point.x;
+    }
     if (hasBaseSpaceScale(settings) && (outline == 117 || outline == 111 || outline == 114)) {
         auto source = settings;
         const bool second = outline == 114 && std::abs(point.z) < 1e-10 && std::abs(point.x) > 1e-10;
@@ -301,6 +305,54 @@ std::vector<BodyTemplateDomain> bodyTemplateDomains(
 ) {
     const short outline = bodyTemplateBaseOutline(outlinePresetIndex(settings.shape));
     std::vector<BodyTemplateDomain> domains;
+    if (outline == kSphereArrowOutline && bulkArrowRearRadius(settings) > 0.0 &&
+        bulkArrowFrontRadius(settings) > 0.0) {
+        appendBodyTemplateCircle(domains, MPoint::origin, MVector(1, 0, 0), MVector(0, 0, 1));
+        appendBodyTemplateCircle(domains, MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0));
+        appendBodyTemplateCircle(domains, MPoint::origin, MVector(0, 1, 0), MVector(0, 0, 1));
+        if (bulkArrowHasHead(settings)) {
+            const double radius = bulkArrowFrontRadius(settings);
+            const double distance = bulkArrowFront(settings);
+            const double ratio = radius / distance;
+            const double joint = ratio * 0.5;
+            const double crossRadius = 0.5 * std::sqrt(std::max(0.0, 1.0 - ratio * ratio));
+            for (unsigned int i = 0; i < 4; ++i) {
+                const double angle = kPi * i * 0.5;
+                BodyTemplateDomain domain;
+                domain.pattern = BodyTemplatePattern::TemplateMiddle;
+                domain.first = MPoint(joint, crossRadius * std::cos(angle), crossRadius * std::sin(angle));
+                domain.last = MPoint(distance / (2.0 * radius), 0, 0);
+                domains.push_back(domain);
+            }
+        }
+        return domains;
+    }
+    if (outline == kCapsuleOutline) {
+        for (double center : {-0.5, 0.5}) {
+            appendBodyTemplateCircle(domains, MPoint(center, 0, 0), MVector(0, 1, 0), MVector(0, 0, 1));
+        }
+        for (const auto& radial : {MVector(0, 1, 0), MVector(0, 0, 1)}) {
+            for (double sign : {1.0, -1.0}) {
+                for (double start : {-kPi * 0.5, 0.0}) {
+                    BodyTemplateDomain domain;
+                    domain.kind = BodyTemplateDomainKind::Arc;
+                    domain.pattern = BodyTemplatePattern::TemplateMiddle;
+                    domain.center = MPoint(sign * 0.5, 0, 0);
+                    domain.u = MVector(sign, 0, 0);
+                    domain.v = radial;
+                    domain.start = start;
+                    domain.end = start + kPi * 0.5;
+                    domains.push_back(domain);
+                }
+                BodyTemplateDomain domain;
+                domain.pattern = BodyTemplatePattern::TemplateMiddle;
+                domain.first = MPoint(-0.5, 0, 0) + radial * (sign * 0.5);
+                domain.last = MPoint(0.5, 0, 0) + radial * (sign * 0.5);
+                domains.push_back(domain);
+            }
+        }
+        return domains;
+    }
     if (outline == 39 && appendArrowTemplateDomains(settings, reference, domains)) return domains;
     if (outline == 0 && appendGearTemplateDomains(settings, reference, domains)) return domains;
     if (isArcOutline(outline)) {
@@ -359,7 +411,8 @@ std::vector<BodyTemplateDomain> bodyTemplateDomains(
     const bool cross = outline == 4 || outline == 5 || outline == 45 || outline == 52 || outline == 53;
     const bool endNormal = outline == 6 || outline == 79 || outline == 24 || outline == 25 ||
         outline == 39 || outline == 41 || outline == 36 || outline == 43 ||
-        outline == 19 || outline == 50 || outline == 51;
+        outline == 19 || outline == 50 || outline == 51 || outline == kDiamondArrowOutline ||
+        outline == kCubeArrowOutline || outline == kSphereArrowOutline;
     if (line || cross || endNormal) for (auto& domain : domains) {
         if (domain.kind != BodyTemplateDomainKind::Segment) continue;
         domain.pattern = line && settings.part && settings.partType != 1
@@ -605,6 +658,10 @@ void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode
         // 追加した小円も元の円平面へ固定し、交差する別の大円へ区間が移るのを防ぐ。
         const auto* strokeDomain = bodyTemplateStrokeDomain(domains, referenceStroke, onlyCurves);
         const short sourceOutline = outlinePresetIndex(settings.shape);
+        if (sourceOutline == kSphereArrowOutline && strokeDomain &&
+            !std::all_of(referenceStroke.begin(), referenceStroke.end(), [&](const auto& point) {
+                return bodyTemplateOnCircle(point, *strokeDomain);
+            })) strokeDomain = nullptr;
         if (!strokeDomain && referenceStroke.length() >= 2 && settings.wide &&
             hasBaseSpaceScale(settings) && !hasSingularBaseSpace(settings) &&
             (sourceOutline == 33 || sourceOutline == 46)) {
@@ -661,7 +718,14 @@ void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode
                 fragment.append(last);
                 const short outline = outlinePresetIndex(settings.shape);
                 // 開口の閉輪郭に混ざる円周片も、母線ではなく端面の親円へ固定する。
-                if ((outline == 36 || outline == 43) && std::abs(last.x - first.x) < 1e-8) {
+                if (outline == kSphereArrowOutline) {
+                    for (const auto& candidate : domains) {
+                        if (bodyTemplateOnCircle(first, candidate) && bodyTemplateOnCircle(last, candidate)) {
+                            domain = &candidate;
+                            break;
+                        }
+                    }
+                } else if ((outline == 36 || outline == 43) && std::abs(last.x - first.x) < 1e-8) {
                     domain = bodyTemplateStrokeDomain(domains, fragment, true);
                 }
                 if (!domain) {

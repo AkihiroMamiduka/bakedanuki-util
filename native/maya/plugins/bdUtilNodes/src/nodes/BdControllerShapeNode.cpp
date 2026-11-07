@@ -169,7 +169,11 @@ MObject channelBoxSeparator14;
 
 constexpr double kPi = 3.14159265358979323846;
 constexpr unsigned int kCircleSegments = 64;
-constexpr short kPublicShapeCount = 24;
+constexpr short kPublicShapeCount = 28;
+constexpr short kCapsuleOutline = 122;
+constexpr short kDiamondArrowOutline = 123;
+constexpr short kCubeArrowOutline = 124;
+constexpr short kSphereArrowOutline = 125;
 
 using Stroke = MPointArray;
 using Strokes = std::vector<Stroke>;
@@ -381,7 +385,7 @@ bool readCustomBounds(const MObject& node, MBoundingBox& bounds) {
         MStatus status;
         const double plus = MPlug(node, attributes[axis * 2]).asMDistance(&status).asCentimeters();
         if (!status) return false;
-        const double minus = MPlug(node, attributes[axis * 2 + 1]).asMDistance(&status).asCentimeters();
+        const double minus = -MPlug(node, attributes[axis * 2 + 1]).asMDistance(&status).asCentimeters();
         if (!status) return false;
         minimum[axis] = std::min(minus, plus);
         maximum[axis] = std::max(minus, plus);
@@ -524,15 +528,16 @@ bool readSettings(
     settings.baseSpaceMinus = MVector(-0.5, -0.5, -0.5);
     settings.baseSpacePlus = MVector(0.5, 0.5, 0.5);
     if (!attributes.baseSpace1stAxisMinus.isNull()) {
-        settings.baseSpaceMinus.x = MPlug(node, attributes.baseSpace1stAxisMinus).asMDistance(&status).asCentimeters();
+        // 公開Minusの方向距離を座標へ変換し、内部の原型は符号付き座標のまま扱う。
+        settings.baseSpaceMinus.x = -MPlug(node, attributes.baseSpace1stAxisMinus).asMDistance(&status).asCentimeters();
         if (!status) return false;
         settings.baseSpacePlus.x = MPlug(node, attributes.baseSpace1stAxisPlus).asMDistance(&status).asCentimeters();
         if (!status) return false;
-        settings.baseSpaceMinus.y = MPlug(node, attributes.baseSpace2ndAxisMinus).asMDistance(&status).asCentimeters();
+        settings.baseSpaceMinus.y = -MPlug(node, attributes.baseSpace2ndAxisMinus).asMDistance(&status).asCentimeters();
         if (!status) return false;
         settings.baseSpacePlus.y = MPlug(node, attributes.baseSpace2ndAxisPlus).asMDistance(&status).asCentimeters();
         if (!status) return false;
-        settings.baseSpaceMinus.z = MPlug(node, attributes.baseSpace3rdAxisMinus).asMDistance(&status).asCentimeters();
+        settings.baseSpaceMinus.z = -MPlug(node, attributes.baseSpace3rdAxisMinus).asMDistance(&status).asCentimeters();
         if (!status) return false;
         settings.baseSpacePlus.z = MPlug(node, attributes.baseSpace3rdAxisPlus).asMDistance(&status).asCentimeters();
         if (!status) return false;
@@ -888,6 +893,8 @@ void normalizeShapeSettings(ShapeSettings& settings) {
 }
 
 #include "BdControllerShapeBaseSpace.inc"
+#include "BdControllerShapeCapsuleBaseSpace.inc"
+#include "BdControllerShapeBulkArrowBaseSpace.inc"
 #include "BdControllerShapeArrowBaseSpace.inc"
 #include "BdControllerShapeCage.inc"
 
@@ -1669,6 +1676,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
 }
 
 #include "BdControllerShapeParts.inc"
+#include "BdControllerShapeCapsule.inc"
+#include "BdControllerShapeBulkArrow.inc"
 
 MBoundingBox boundsForGeometry(
     const Strokes& strokes,
@@ -1695,6 +1704,7 @@ MBoundingBox boundsForGeometry(
 }
 
 #include "BdControllerShapeOptions.inc"
+#include "BdControllerShapeArrowOptions.inc"
 #include "BdControllerShapeTemplate.inc"
 #include "BdControllerShapeFin.inc"
 #include "BdControllerShapeGuide.inc"
@@ -1821,7 +1831,8 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeSingularBaseGeometry(
 std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const ShapeSettings& settings
 ) {
-    if (hasCageMapping(settings) || useCagePartGeometry(settings)) return makeCageGeometry(settings);
+    if (isCapsuleBody(settings) || isCenteredArrowBody(settings) ||
+        hasCageMapping(settings) || useCagePartGeometry(settings)) return makeCageGeometry(settings);
     if (isArrowBody(settings)) return makeArrowBaseGeometry(settings);
     if (settings.wide && hasSingularBaseSpace(settings)) {
         ShapeSettings effective = settings;
@@ -3209,11 +3220,11 @@ MStatus BdControllerShapeNode::initialize() {
         double defaultValue;
     };
     for (const auto& attribute : {
-             BaseSpaceAttribute{&shapeBaseSpace1stAxisMinus, "shapeBaseSpace1stAxisMinus", "sbsp1m", -0.5},
+             BaseSpaceAttribute{&shapeBaseSpace1stAxisMinus, "shapeBaseSpace1stAxisMinus", "sbsp1m", 0.5},
              BaseSpaceAttribute{&shapeBaseSpace1stAxisPlus, "shapeBaseSpace1stAxisPlus", "sbsp1p", 0.5},
-             BaseSpaceAttribute{&shapeBaseSpace2ndAxisMinus, "shapeBaseSpace2ndAxisMinus", "sbsp2m", -0.5},
+             BaseSpaceAttribute{&shapeBaseSpace2ndAxisMinus, "shapeBaseSpace2ndAxisMinus", "sbsp2m", 0.5},
              BaseSpaceAttribute{&shapeBaseSpace2ndAxisPlus, "shapeBaseSpace2ndAxisPlus", "sbsp2p", 0.5},
-             BaseSpaceAttribute{&shapeBaseSpace3rdAxisMinus, "shapeBaseSpace3rdAxisMinus", "sbsp3m", -0.5},
+             BaseSpaceAttribute{&shapeBaseSpace3rdAxisMinus, "shapeBaseSpace3rdAxisMinus", "sbsp3m", 0.5},
              BaseSpaceAttribute{&shapeBaseSpace3rdAxisPlus, "shapeBaseSpace3rdAxisPlus", "sbsp3p", 0.5},
          }) {
         status = bd_util_nodes::createDoubleLinearAttribute(
@@ -3474,11 +3485,11 @@ MStatus BdControllerShapeNode::initialize() {
 
     for (const auto& attribute : {
              BaseSpaceAttribute{&customBoundsBaseSpaceXPlus, "customBoundsBaseSpaceXPlus", "cbbsxp", 0.5},
-             BaseSpaceAttribute{&customBoundsBaseSpaceXMinus, "customBoundsBaseSpaceXMinus", "cbbsxm", -0.5},
+             BaseSpaceAttribute{&customBoundsBaseSpaceXMinus, "customBoundsBaseSpaceXMinus", "cbbsxm", 0.5},
              BaseSpaceAttribute{&customBoundsBaseSpaceYPlus, "customBoundsBaseSpaceYPlus", "cbbsyp", 0.5},
-             BaseSpaceAttribute{&customBoundsBaseSpaceYMinus, "customBoundsBaseSpaceYMinus", "cbbsym", -0.5},
+             BaseSpaceAttribute{&customBoundsBaseSpaceYMinus, "customBoundsBaseSpaceYMinus", "cbbsym", 0.5},
              BaseSpaceAttribute{&customBoundsBaseSpaceZPlus, "customBoundsBaseSpaceZPlus", "cbbszp", 0.5},
-             BaseSpaceAttribute{&customBoundsBaseSpaceZMinus, "customBoundsBaseSpaceZMinus", "cbbszm", -0.5},
+             BaseSpaceAttribute{&customBoundsBaseSpaceZMinus, "customBoundsBaseSpaceZMinus", "cbbszm", 0.5},
          }) {
         status = bd_util_nodes::createDoubleLinearAttribute(
             unitAttributeFn, *attribute.object, attribute.longName,

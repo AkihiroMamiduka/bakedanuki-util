@@ -1,7 +1,7 @@
 ﻿// 矢印本体の後端部分を一定長に保ち、前側だけを指定した先端へ伸ばす。
 bool isArrowBody(const ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
-    return outline == 25 || outline == 39;
+    return outline == 25 || outline == 39 || outline == kDiamondArrowOutline;
 }
 
 double arrowBodyFixedLength(const ShapeSettings& settings) {
@@ -13,6 +13,10 @@ double arrowBodyCoordinate(double coordinate, const ShapeSettings& settings) {
     const double minus = settings.baseSpaceMinus[axis];
     const double plus = settings.baseSpacePlus[axis];
     const double direction = plus >= minus ? 1.0 : -1.0;
+    if (isCenteredArrowBody(settings)) {
+        const double depth = coordinate < 0.0 ? bodyAxisRadius(settings, false) : bulkArrowFront(settings);
+        return minus + direction * coordinate * (2.0 * depth);
+    }
     const double fixedLength = arrowBodyFixedLength(settings);
     const double shoulder = -0.5 + fixedLength;
     if (coordinate <= shoulder) return minus + direction * (coordinate + 0.5);
@@ -24,5 +28,7 @@ MPoint bodyBaseSpacePoint(const MPoint& point, const ShapeSettings& settings) {
     const bool swap = settings.axisSwap && !isColorOutline(outlinePresetIndex(settings.shape));
     auto result = baseSpacePoint(presetOrientedPoint(point, settings.shape, swap), settings);
     if (isArrowBody(settings)) result[settings.axisSwap ? 1 : 0] = arrowBodyCoordinate(point.x, settings);
+    if (isCapsuleBody(settings)) result[settings.axisSwap ? 1 : 0] = capsuleBodyCoordinate(point.x, settings);
+    if (isBulkArrowBody(settings)) result[settings.axisSwap ? 1 : 0] = bulkArrowBodyCoordinate(point.x, settings);
     return result;
 }

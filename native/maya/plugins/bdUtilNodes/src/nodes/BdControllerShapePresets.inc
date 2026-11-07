@@ -1,6 +1,6 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 24> kPresetNames = {
+constexpr std::array<const char*, 28> kPresetNames = {
     "Gear",
     "ColorCrossLine3Axis",
     "ColorCube",
@@ -21,8 +21,12 @@ constexpr std::array<const char*, 24> kPresetNames = {
     "Octahedron",
     "Sphere",
     "Cylinder",
+    "Capsule",
     "Arrow",
+    "DiamondArrow",
     "OctahedronArrow",
+    "CubeArrow",
+    "SphereArrow",
     "Pyramid",
     "Cone",
 };
@@ -36,7 +40,7 @@ struct PresetInfo {
 };
 
 // 公開する基本形状の後ろに、既存の帯生成で使う内部形状を置く。
-constexpr std::array<PresetInfo, 33> kPresetInfo = {{
+constexpr std::array<PresetInfo, 37> kPresetInfo = {{
     {0},  // Gear
     {45},  // ColorCrossLine3Axis
     {50},  // ColorCube
@@ -57,8 +61,12 @@ constexpr std::array<PresetInfo, 33> kPresetInfo = {{
     {24},  // Octahedron
     {33},  // Sphere
     {36},  // Cylinder
+    {kCapsuleOutline},  // Capsule
     {39},  // Arrow
+    {kDiamondArrowOutline},  // DiamondArrow
     {25},  // OctahedronArrow
+    {kCubeArrowOutline},  // CubeArrow
+    {kSphereArrowOutline},  // SphereArrow
     {41},  // Pyramid
     {43},  // Cone
     {104},  // WideLine

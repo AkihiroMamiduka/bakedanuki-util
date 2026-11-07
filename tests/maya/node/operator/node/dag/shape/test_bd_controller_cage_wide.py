@@ -145,7 +145,7 @@ def test_cage_wide_small_radial_arc_stops_the_inner_band_at_the_center(
         shapeFill=filled,
     )
     for axis in ("1st", "2nd", "3rd"):
-        maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -0.05)
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", 0.05)
         maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 0.05)
     # 全体としては非線形だが、中央XZ面は半径0.075の円になる。
     maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisPlusScale1stAxis", 2)

@@ -118,7 +118,7 @@ def test_reversed_base_coordinates_keep_color_effective_width_positive(
         else (1, -2.7, 4, 3, 4, 7)
     )
     assert box == pytest.approx(expected, abs=1e-9)
-    assert maya_cmds.getAttr(f"{shape}.shapeBaseSpace1stAxisMinus") == 3
+    assert maya_cmds.getAttr(f"{shape}.shapeBaseSpace1stAxisMinus") == -3
     assert maya_cmds.getAttr(f"{shape}.shapeBaseSpace1stAxisPlus") == 1
 
 

@@ -490,7 +490,7 @@ def test_octahedron_arrow_ignores_part_height_and_uses_independent_fin_height(
         shapeGuideLine=True,
         shapeFinHeight=0.6,
     )
-    expected = (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
+    expected = (-1.0, -0.5, -0.5, 0.5, 0.5, 0.5)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
     maya_cmds.setAttr(f"{shape}.shapeFin", True)
     for fin_height in (0.6, 1.2, 0):

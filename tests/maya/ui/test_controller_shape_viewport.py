@@ -83,6 +83,19 @@ def _drawing_view(cmds, preset, **options):
     transform = cmds.createNode("transform")
     shape = cmds.createNode("bdControllerShape", parent=transform)
     set_preset(cmds, shape, preset)
+    if preset.removeprefix("Wide").removesuffix("Swapped") in (
+        "DiamondArrow",
+        "OctahedronArrow",
+        "CubeArrow",
+        "SphereArrow",
+    ):
+        # 中心基準の矢印は比較図の中心を原点へ揃え、公開既定値は独立して確認する。
+        axis = (
+            "2nd"
+            if options.get("shapeAxisSwap", preset.endswith("Swapped"))
+            else "1st"
+        )
+        cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", 0)
     if "Arc" in preset and not preset.endswith("Swapped"):
         # 曲面と接合の画像回帰は、明示した軸で従来のYZ基準座標へ戻す。
         cmds.setAttr(f"{shape}.shape1stAxis", 2)
@@ -132,8 +145,11 @@ def _drawing_view(cmds, preset, **options):
         "Cube",
         "Octahedron",
         "OctahedronArrow",
+        "CubeArrow",
+        "SphereArrow",
         "Sphere",
         "Cylinder",
+        "Capsule",
         "Pyramid",
         "Cone",
         "ColorCube",
@@ -3366,7 +3382,7 @@ def test_template_wide_cone_generators_follow_the_unfolded_parent_interval(
         )
 
 
-def test_template_wide_folded_octahedron_arrow_keeps_the_parallel_parent_edge(
+def test_template_wide_short_octahedron_arrow_keeps_the_parent_edge(
     maya_cmds, new_scene, tmp_path
 ):
     if maya_cmds.about(batch=True):
@@ -3376,23 +3392,18 @@ def test_template_wide_folded_octahedron_arrow_keeps_the_parallel_parent_edge(
         "OctahedronArrow",
         shapePart=False,
         shapeFin=False,
-        shapeBaseSpace1stAxisMinus=-0.5,
-        shapeBaseSpace1stAxisPlus=-0.25,
-        shapeBaseSpace2ndAxisMinus=-0.25,
+        shapeBaseSpace1stAxisMinus=0,
+        shapeBaseSpace1stAxisPlus=-0.125,
+        shapeBaseSpace2ndAxisMinus=0.25,
         shapeBaseSpace2ndAxisPlus=0.25,
-        shapeBaseSpace3rdAxisMinus=-0.25,
+        shapeBaseSpace3rdAxisMinus=0.25,
         shapeBaseSpace3rdAxisPlus=0.25,
         shapeWide=True,
         shapeWideWidth=0.04,
         shape1stAxis=0,
         shape2ndAxis=2,
     ) as (_, shape, camera, camera_shape, panel):
-        ratio = 1 - 0.02 / (0.25 / math.sqrt(6))
-        point = (
-            -1 / 12 - ratio * 17 / 120,
-            1 / 12 - ratio * 7 / 120,
-            (1 - ratio) / 12,
-        )
+        point = (0.225, 0.025, 0)
         _aim_at_origin(maya_cmds, camera, (-0.5, 4, 4))
         maya_cmds.setAttr(
             f"{camera}.translate", point[0] - 0.5, point[1] + 4, point[2] + 4
@@ -4049,7 +4060,7 @@ def test_template_wide_cross_caps_follow_part_junctions_without_templating_the_h
     ) as (_, shape, camera, camera_shape, panel):
         maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3)
         maya_cmds.setAttr(
-            f"{shape}.shapeBaseSpace3rdAxisMinus", -base_side_span * 0.5
+            f"{shape}.shapeBaseSpace3rdAxisMinus", base_side_span * 0.5
         )
         maya_cmds.setAttr(
             f"{shape}.shapeBaseSpace3rdAxisPlus", base_side_span * 0.5
@@ -4212,13 +4223,13 @@ def test_base_space_uniform_expansion_matches_existing_size_with_fixed_parts(
         _aim_at_origin(maya_cmds, camera, (4, 3, 5))
         maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3.4)
         for axis in ("1st", "2nd", "3rd"):
-            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -1)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", 1)
             maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 1)
         actual = _capture_view(panel, tmp_path / "base_space_expansion.png")
 
         # 従来の全体Sizeと部品寸法の調整で、同じ本体・Part・Finを作る。
         for axis in ("1st", "2nd", "3rd"):
-            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -0.5)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", 0.5)
             maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 0.5)
         maya_cmds.setAttr(f"{shape}.shapeSize", 2)
         maya_cmds.setAttr(f"{shape}.shapePartSize", 0.5)
@@ -4248,9 +4259,9 @@ def test_base_space_wide_cube_keeps_face_inset_and_inner_line_width(
         shapeFill=True,
         shapeFillTransparency=0,
         shapeLineTransparency=1,
-        shapeBaseSpace1stAxisMinus=-2,
+        shapeBaseSpace1stAxisMinus=2,
         shapeBaseSpace1stAxisPlus=2,
-        shapeBaseSpace2ndAxisMinus=1 if reflected else -1,
+        shapeBaseSpace2ndAxisMinus=-1 if reflected else 1,
         shapeBaseSpace2ndAxisPlus=-1 if reflected else 1,
     ) as (_, shape, _, camera_shape, panel):
         maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 5.2)
@@ -4299,11 +4310,11 @@ def test_base_space_wide_body_matches_existing_width_in_the_finished_space(
         _aim_at_origin(maya_cmds, camera, (4, 3, 5))
         maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3.4)
         for axis in ("1st", "2nd", "3rd"):
-            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -1)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", 1)
             maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 1)
         actual = _capture_view(panel, tmp_path / "physical_wide_body.png")
         for axis in ("1st", "2nd", "3rd"):
-            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -0.5)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", 0.5)
             maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 0.5)
         maya_cmds.setAttr(f"{shape}.shapeSize", 2)
         maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0.06)
@@ -4405,7 +4416,7 @@ def test_base_space_flat_arc_normal_keeps_wrapped_parts_and_template_display(
         maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.2)
         for enabled in (False, True):
             maya_cmds.setAttr(f"{shape}.shapePart", enabled)
-            maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisMinus", -0.5)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisMinus", 0.5)
             maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisPlus", 0.5)
             reference = _capture_view(
                 panel, tmp_path / f"arc_original_normal_part_{enabled}.png"
@@ -4429,8 +4440,12 @@ def test_base_space_octahedron_arrow_fills_each_half_outward(
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
 
     direction = 1 if plus >= minus else -1
-    joint = minus + direction * 0.5
-    tip = plus if front else minus
+    joint = minus
+    tip = (
+        joint + direction * max(abs(plus - minus), 0.5)
+        if front
+        else joint - direction * 0.5
+    )
     distance = tip - joint
     point = ((tip + 2 * joint) / 3, 1 / 6, 1 / 6)
     normal = (
@@ -4447,7 +4462,7 @@ def test_base_space_octahedron_arrow_fills_each_half_outward(
     with _drawing_view(
         maya_cmds,
         "OctahedronArrow",
-        shapeBaseSpace1stAxisMinus=minus,
+        shapeBaseSpace1stAxisMinus=-minus,
         shapeBaseSpace1stAxisPlus=plus,
         shapeFill=True,
         shapeLineTransparency=1,
@@ -4455,7 +4470,7 @@ def test_base_space_octahedron_arrow_fills_each_half_outward(
         shape1stAxis=0,
         shape2ndAxis=2,
     ) as (_, shape, camera, camera_shape, panel):
-        # 短域の前面は後側のPyramid内に入るため、その面の直前だけを写す。
+        # 短域で保持した母体の面も、面の直前から局所的に確認する。
         maya_cmds.setAttr(f"{camera}.translate", *position)
         target = maya_cmds.createNode("transform")
         maya_cmds.setAttr(f"{target}.translate", *point)
@@ -4516,7 +4531,7 @@ def test_arrow_wide_tip_keeps_the_sharp_offset_intersection_and_is_selectable(
         shape2ndAxis=2,
     ) as (_, shape, camera, camera_shape, panel):
         axis = "2nd" if swapped else "1st"
-        maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", minus)
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -minus)
         maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", plus)
         maya_cmds.setAttr(
             f"{camera_shape}.orthographicWidth", max(0.35, extension * 3)
@@ -4609,7 +4624,7 @@ def test_corner_marker_size_keeps_point_two_centimeters_and_clips_to_the_body(
         shapeTemplateLineRate=0.6,
     ) as (_, shape, camera, camera_shape, panel):
         for axis, (minus, plus) in zip(("1st", "2nd", "3rd"), limits):
-            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", minus)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -minus)
             maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", plus)
         _aim_at_origin(maya_cmds, camera, (4, 3, 5))
         maya_cmds.setAttr(
@@ -4702,7 +4717,7 @@ def test_corner_marker_size_distinguishes_base_space_from_common_size(
         maya_cmds.setAttr(f"{camera}.translate", 4.85, 3.85, 5.85)
         maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 0.75)
         for axis in ("1st", "2nd", "3rd"):
-            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -1)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", 1)
             maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 1)
         base_space = _capture_view(
             panel, tmp_path / "base_space_marker_size.png"
@@ -4712,7 +4727,7 @@ def test_corner_marker_size_distinguishes_base_space_from_common_size(
         color = _rgb_near_world(panel, base_space, difference_point)
         assert color[0] - max(color[1:]) < 100, color
         for axis in ("1st", "2nd", "3rd"):
-            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -0.5)
+            maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", 0.5)
             maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 0.5)
         maya_cmds.setAttr(f"{shape}.shapeSize", 2)
         maya_cmds.setAttr(f"{shape}.shapeWideWidth", 0.03)
@@ -4827,7 +4842,7 @@ def test_cage_corner_marker_keeps_surface_size_color_and_template_protection(
         if small:
             for axis in ("1st", "2nd", "3rd"):
                 maya_cmds.setAttr(
-                    f"{shape}.shapeBaseSpace{axis}AxisMinus", -0.05
+                    f"{shape}.shapeBaseSpace{axis}AxisMinus", 0.05
                 )
                 maya_cmds.setAttr(
                     f"{shape}.shapeBaseSpace{axis}AxisPlus", 0.05
@@ -4876,17 +4891,22 @@ def test_cage_swapped_octahedron_arrow_keeps_reflected_faces_outward(
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
-    along = (1 if front else -1) / 6
-    scale = 1.5 + along
+    extent = 0.75 if front else 0.5
+    along = (1 if front else -1) * extent / 3
+    scale = 1.4 + 0.8 * along
     point = (-scale / 6, along, -1 / 6)
-    normal = (-1 / scale, (1 if front else -1) - 1 / (6 * scale), -1)
+    normal = (
+        -1 / scale,
+        (1 if front else -1) / (2 * extent) - 0.8 / (6 * scale),
+        -1,
+    )
     length = math.sqrt(sum(value * value for value in normal))
     normal = tuple(value / length for value in normal)
     with _drawing_view(
         maya_cmds,
         "OctahedronArrow",
         shapeAxisSwap=True,
-        shapeBaseSpace1stAxisMinus=0.5,
+        shapeBaseSpace1stAxisMinus=-0.5,
         shapeBaseSpace1stAxisPlus=-0.5,
         shapeBaseSpace2ndAxisPlusScale1stAxis=2,
         shapeFill=True,

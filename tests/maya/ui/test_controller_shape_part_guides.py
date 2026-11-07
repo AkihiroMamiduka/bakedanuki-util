@@ -1,6 +1,8 @@
 # coding: utf-8
 from __future__ import annotations
 
+import math
+
 import pytest
 
 from test_controller_shape_viewport import (
@@ -38,6 +40,33 @@ def _directions(preset):
     if preset != "Diamond":
         directions += ((0, 1, 0), (0, -1, 0))
     return directions
+
+
+def _triangle_sites():
+    half_angle = math.atan2(0.87, 0.5) * 0.5
+    return (
+        ((0.5, 0, 0), (1, 0, 0), math.atan2(0.5, 0.87)),
+        (
+            (-0.37, 0, 0.5),
+            (-math.sin(half_angle), 0, math.cos(half_angle)),
+            half_angle,
+        ),
+        (
+            (-0.37, 0, -0.5),
+            (-math.sin(half_angle), 0, -math.cos(half_angle)),
+            half_angle,
+        ),
+    )
+
+
+def _triangle_part_point(vertex, along, distance, swapped=False):
+    return _point(
+        tuple(
+            position + axis * distance for position, axis in zip(vertex, along)
+        ),
+        1,
+        swapped,
+    )
 
 
 def _guide_camera(cmds, preset, swapped, camera, camera_shape):
@@ -143,6 +172,164 @@ def test_triangle_keeps_all_three_guides_with_parts(
             assert _rgb_near_world(panel, after, sample) == pytest.approx(
                 _rgb_near_world(panel, baseline, sample), abs=8
             ), ("Part切替でTriangleのガイドが変わる", sample)
+
+
+@pytest.mark.parametrize("part_shape", (0, 1))
+@pytest.mark.parametrize("filled,wide,swapped,template", DISPLAY_CASES)
+def test_triangle_arrow_guides_follow_the_vertex_bisectors_to_the_tips(
+    maya_cmds, new_scene, tmp_path, part_shape, filled, wide, swapped, template
+):
+    _require_viewport(maya_cmds)
+    with _drawing_view(
+        maya_cmds,
+        "Triangle",
+        shapeAxisSwap=swapped,
+        shapeWide=wide,
+        shapeWideWidth=0.08,
+        shapeFill=filled,
+        shapeFillTransparency=0.85,
+        shapeDrawOnTop=True,
+        shapePart=True,
+        shapePartShape=part_shape,
+        shapePartSize=1.4,
+        shapePartLengthScale=1.6,
+        shapePartWidthScale=1.2,
+        shapePartOffset=0.45,
+        shapePartPrimarySizeScale=1,
+        shapePartOtherSizeScale=1,
+        shapeGuideLineTemplate=template,
+    ) as (_, shape, camera, camera_shape, panel):
+        _guide_camera(maya_cmds, "Triangle", swapped, camera, camera_shape)
+        for placement in (0, 1, 2):
+            maya_cmds.setAttr(f"{shape}.shapePartType", placement)
+            maya_cmds.setAttr(f"{shape}.shapeGuideLine", False)
+            before = _capture_view(
+                panel, tmp_path / f"triangle_arrow_off_{placement}.png"
+            )
+            maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
+            after = _capture_view(
+                panel, tmp_path / f"triangle_arrow_on_{placement}.png"
+            )
+            for index, (vertex, along, half_angle) in enumerate(
+                _triangle_sites()
+            ):
+                active = placement == 1 or index == 0
+                gap = _triangle_part_point(vertex, along, 0.25, swapped)
+                if active:
+                    # 下2頂点は原点からの放射線とは異なる角二等分線へ折れる。
+                    _assert_added_guide(panel, before, after, gap)
+                    for fraction in (0.55, 0.85):
+                        _assert_added_guide(
+                            panel,
+                            before,
+                            after,
+                            _point(vertex, fraction, swapped),
+                        )
+                    tip_distance = 0.45 + 0.125 * 1.4 * 1.6
+                    if wide:
+                        tip_distance += 0.04 / math.sin(half_angle)
+                    sample = _triangle_part_point(
+                        vertex, along, tip_distance - 0.08, swapped
+                    )
+                    if part_shape == 0:
+                        _assert_added_guide(panel, before, after, sample)
+                    else:
+                        assert (
+                            _brightness_near_world(panel, after, sample) > 100
+                        )
+                    assert (
+                        _brightness_near_world(
+                            panel,
+                            after,
+                            _triangle_part_point(
+                                vertex, along, tip_distance + 0.1, swapped
+                            ),
+                        )
+                        < 120
+                    )
+                else:
+                    assert _brightness_near_world(panel, after, gap) < 120
+            sample = _triangle_part_point(
+                (0.5, 0, 0), (1, 0, 0), 0.25, swapped
+            )
+            if filled:
+                maya_cmds.setAttr(f"{shape}.shapeFill", False)
+                _capture_view(
+                    panel, tmp_path / f"triangle_arrow_pick_{placement}.png"
+                )
+            assert _pick_world(maya_cmds, panel, sample) == (not template)
+            maya_cmds.select(clear=True)
+            if filled:
+                maya_cmds.setAttr(f"{shape}.shapeFill", True)
+
+
+@pytest.mark.parametrize(
+    "mode", ("part_off", "zero_primary", "zero_other", "non_arrow")
+)
+def test_triangle_guides_skip_absent_or_non_arrow_heads(
+    maya_cmds, new_scene, tmp_path, mode
+):
+    _require_viewport(maya_cmds)
+    with _drawing_view(
+        maya_cmds,
+        "Triangle",
+        shapeDrawOnTop=True,
+        shapeGuideLine=True,
+        shapePart=mode != "part_off",
+        shapePartShape=6 if mode == "non_arrow" else 0,
+        shapePartType=1,
+        shapePartOffset=0.45,
+        shapePartPrimarySizeScale=0 if mode == "zero_primary" else 1,
+        shapePartOtherSizeScale=0 if mode == "zero_other" else 1,
+    ) as (_, _, camera, camera_shape, panel):
+        _guide_camera(maya_cmds, "Triangle", False, camera, camera_shape)
+        image = _capture_view(panel, tmp_path / f"triangle_omitted_{mode}.png")
+        for index, (vertex, along, _) in enumerate(_triangle_sites()):
+            extended = (
+                mode == "zero_primary"
+                and index != 0
+                or mode == "zero_other"
+                and index == 0
+            )
+            brightness = _brightness_near_world(
+                panel, image, _triangle_part_point(vertex, along, 0.25)
+            )
+            assert (brightness > 200) if extended else (brightness < 120), (
+                mode,
+                index,
+                brightness,
+            )
+
+
+@pytest.mark.parametrize("length", (1, -1))
+@pytest.mark.parametrize("swapped", (False, True))
+def test_triangle_inward_offset_keeps_the_bent_arrow_axis_continuous(
+    maya_cmds, new_scene, tmp_path, length, swapped
+):
+    _require_viewport(maya_cmds)
+    with _drawing_view(
+        maya_cmds,
+        "Triangle",
+        shapeAxisSwap=swapped,
+        shapePart=True,
+        shapePartShape=0,
+        shapePartType=1,
+        shapePartOffset=-0.3,
+        shapePartLengthScale=length,
+        shapePartPrimarySizeScale=1,
+        shapePartOtherSizeScale=1,
+        shapeDrawOnTop=True,
+    ) as (_, shape, camera, camera_shape, panel):
+        _guide_camera(maya_cmds, "Triangle", swapped, camera, camera_shape)
+        before = _capture_view(panel, tmp_path / "triangle_inward_off.png")
+        maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
+        after = _capture_view(panel, tmp_path / "triangle_inward_on.png")
+        for vertex, along, _ in _triangle_sites():
+            # 肩から先端までを内向きにも通し、下2頂点を放射線へ置き換えない。
+            sample = _triangle_part_point(
+                vertex, along, -0.3 + 0.0625 * length, swapped
+            )
+            _assert_added_guide(panel, before, after, sample)
 
 
 @pytest.mark.parametrize("preset", GUIDE_BODIES)
@@ -346,8 +533,10 @@ def test_oct_arrow_guides_keep_the_stretched_joint_origin(
 ):
     _require_viewport(maya_cmds)
     options = {
-        f"shapeBaseSpace{'2nd' if swapped else '1st'}Axis{end}": value
-        for end, value in (("Minus", 1), ("Plus", 3))
+        f"shapeBaseSpace{'2nd' if swapped else '1st'}Axis{end}": (
+            -value if end == "Minus" else value
+        )
+        for end, value in (("Minus", 1.5), ("Plus", 3))
     }
     with _drawing_view(
         maya_cmds,
@@ -386,7 +575,7 @@ def test_oct_arrow_guides_keep_the_stretched_joint_origin(
             _assert_added_guide(
                 panel, before, after, _point(point, 1, swapped)
             )
-        # 基準空間の中点(2, 0, 0)から負Z頂点へ結ぶ誤った線上の点。
+        # 完成本体のbounds中点(2,0,0)から負Z頂点へ結ぶ誤った線上の点。
         wrong_origin = _point((1.75, 0, -0.25), 1, swapped)
         assert _brightness_near_world(panel, before, wrong_origin) < 120
         assert _brightness_near_world(panel, after, wrong_origin) < 120

@@ -181,6 +181,10 @@ std::vector<CageTemplatePath> cageTemplatePaths(const ShapeSettings& settings) {
     auto canonical = cageCanonicalBodyGeometry(settings);
     const auto reference = canonical;
     auto source = cageCanonicalSettings(settings);
+    if (isBulkArrowBody(settings)) {
+        source = settings;
+        source.templateFill = source.fin = source.guideLine = false;
+    }
     source.part = settings.part;
     source.partType = settings.partType;
     source.templateLine = true;

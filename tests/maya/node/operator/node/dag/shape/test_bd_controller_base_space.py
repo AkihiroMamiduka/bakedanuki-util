@@ -18,8 +18,9 @@ AXES = ("1st", "2nd", "3rd")
 
 
 def _set_base_space(cmds, shape, limits=BASE_LIMITS):
+    """物理端座標を公開属性の符号付き方向距離へ変換して設定する。"""
     for axis, (minus, plus) in zip(AXES, limits):
-        cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", minus)
+        cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -minus)
         cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", plus)
 
 
@@ -31,12 +32,52 @@ def _mapped_bounds(bounds, limits=BASE_LIMITS):
     )
 
 
+@pytest.mark.parametrize("preset", ("Cube", "ColorCube"))
+@pytest.mark.parametrize("swapped", (False, True))
+def test_shared_signed_distance_driver_expands_shape_and_custom_bounds_symmetrically(
+    maya_cmds, maya_om, new_scene, preset, swapped
+):
+    _load_bd_util_nodes(maya_cmds)
+    shape = _controller(
+        maya_cmds, "sharedDirectionalDistance", preset, shapeAxisSwap=swapped
+    )
+    driver = maya_cmds.createNode("network", name="directionalDistanceDriver")
+    maya_cmds.addAttr(
+        driver,
+        longName="distance",
+        attributeType="doubleLinear",
+        defaultValue=0.5,
+        keyable=True,
+    )
+    for axis, custom_axis in zip(AXES, "XYZ"):
+        for side in ("Minus", "Plus"):
+            maya_cmds.connectAttr(
+                f"{driver}.distance", f"{shape}.shapeBaseSpace{axis}Axis{side}"
+            )
+            maya_cmds.connectAttr(
+                f"{driver}.distance",
+                f"{shape}.customBoundsBaseSpace{custom_axis}{side}",
+            )
+    for value in (0.5, 2, -0.4, 0):
+        maya_cmds.setAttr(f"{driver}.distance", value)
+        expected = (-abs(value),) * 3 + (abs(value),) * 3
+        for mode in (0, 2):
+            maya_cmds.setAttr(f"{shape}.boundsMode", mode)
+            assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+        assert (
+            maya_cmds.getAttr(f"{shape}.shapeBaseSpace1stAxisMinus") == value
+        )
+        assert (
+            maya_cmds.getAttr(f"{shape}.customBoundsBaseSpaceXMinus") == value
+        )
+
+
 @pytest.mark.parametrize(
     "preset",
     tuple(
         name
         for name in SHAPE_NAMES
-        if name not in ("Arrow", "OctahedronArrow")
+        if name not in ("Arrow", "DiamondArrow", "OctahedronArrow")
     ),
 )
 @pytest.mark.parametrize("filled", (False, True))
@@ -54,7 +95,7 @@ def test_base_space_maps_all_body_shapes_without_normalizing_their_bounds(
     )
     original = _bounds(maya_om, shape)
     for axis in AXES:
-        for side, expected in (("Minus", -0.5), ("Plus", 0.5)):
+        for side, expected in (("Minus", 0.5), ("Plus", 0.5)):
             attribute = f"shapeBaseSpace{axis}Axis{side}"
             assert (
                 maya_cmds.getAttr(f"{shape}.{attribute}", type=True)
@@ -64,9 +105,14 @@ def test_base_space_maps_all_body_shapes_without_normalizing_their_bounds(
                 expected
             )
     _set_base_space(maya_cmds, shape)
-    assert _bounds(maya_om, shape) == pytest.approx(
-        _mapped_bounds(original), abs=1e-9
-    )
+    if preset == "Capsule":
+        expected = (-1.25, -2, 4, 5.25, 4, 7)
+    elif preset in ("CubeArrow", "SphereArrow"):
+        # Minus=1を中心に横半径3と1.5の平均R=2.25を保ち、長さ2では錐を出さない。
+        expected = (-1.25, -2, 4, 3.25, 4, 7)
+    else:
+        expected = _mapped_bounds(original)
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
 
 
 def test_base_space_endpoints_are_coordinates_and_move_the_original_center(
@@ -74,7 +120,7 @@ def test_base_space_endpoints_are_coordinates_and_move_the_original_center(
 ):
     _load_bd_util_nodes(maya_cmds)
     shape = _controller(maya_cmds, "translatedCube", "Cube")
-    maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", 1)
+    maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", -1)
     maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisPlus", 2)
     assert _bounds(maya_om, shape) == pytest.approx(
         (1, -0.5, -0.5, 2, 0.5, 0.5), abs=1e-9
@@ -365,14 +411,14 @@ def test_base_space_distances_follow_scene_units_without_changing_geometry(
     try:
         maya_cmds.currentUnit(linear="mm")
         shape = _controller(maya_cmds, "unitSpace", "Cube")
-        maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", 10)
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", -10)
         maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisPlus", 20)
         expected = (1, -0.5, -0.5, 2, 0.5, 0.5)
         assert _bounds(maya_om, shape) == pytest.approx(expected)
         maya_cmds.currentUnit(linear="cm")
         assert maya_cmds.getAttr(
             f"{shape}.shapeBaseSpace1stAxisMinus"
-        ) == pytest.approx(1)
+        ) == pytest.approx(-1)
         assert maya_cmds.getAttr(
             f"{shape}.shapeBaseSpace1stAxisPlus"
         ) == pytest.approx(2)
@@ -390,7 +436,7 @@ def test_base_space_api_history_connections_animation_and_scene_reload(
     bd_nodes = bdu.Nodes(modifier_manager=mod)
     node = bd_nodes.existing(shape)
     original = _bounds(maya_om, shape)
-    node.shapeBaseSpace1stAxisMinus.set(1)
+    node.shapeBaseSpace1stAxisMinus.set(-1)
     node.shapeBaseSpace1stAxisPlus.set(2)
     mod.do_it_dg()
     expected = (1, -0.5, -0.5, 2, 0.5, 0.5)
@@ -409,7 +455,7 @@ def test_base_space_api_history_connections_animation_and_scene_reload(
     mod.do_it_dg()
     values = ((1, 2), (-2, 1), (3, 5))
     for time, (minus, plus) in enumerate(values, 1):
-        maya_cmds.setKeyframe(f"{driver}.minus", time=time, value=minus)
+        maya_cmds.setKeyframe(f"{driver}.minus", time=time, value=-minus)
         maya_cmds.setKeyframe(f"{driver}.plus", time=time, value=plus)
     boxes = []
     for time, (minus, plus) in enumerate(values, 1):

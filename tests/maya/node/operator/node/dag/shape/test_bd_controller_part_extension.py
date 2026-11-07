@@ -67,6 +67,15 @@ def _sites(preset):
         )
     if preset in ("Pyramid", "Cone"):
         return (((0.5, 0, 0), (1, 0, 0)),)
+    if preset == "OctahedronArrow":
+        return (
+            ((0.5, 0, 0), (1, 0, 0)),
+            ((-1, 0, 0), (-1, 0, 0)),
+            ((-0.5, 0.5, 0), (0, 1, 0)),
+            ((-0.5, -0.5, 0), (0, -1, 0)),
+            ((-0.5, 0, 0.5), (0, 0, 1)),
+            ((-0.5, 0, -0.5), (0, 0, -1)),
+        )
     directions = ((1, 0, 0), (-1, 0, 0))
     if preset != "Cylinder":
         directions += ((0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1))
@@ -76,6 +85,8 @@ def _sites(preset):
 
 
 def _body_bounds(preset):
+    if preset == "OctahedronArrow":
+        return (-1, -0.5, -0.5, 0.5, 0.5, 0.5)
     if preset == "Triangle":
         return -0.37, 0, -0.5, 0.5, 0, 0.5
     if preset in PLANAR_BODIES:
@@ -139,9 +150,9 @@ def test_new_part_sites_match_body_vertices_and_cap_centers(
     (
         (
             {
-                "shapeBaseSpace1stAxisMinus": -1.0,
+                "shapeBaseSpace1stAxisMinus": 1.0,
                 "shapeBaseSpace1stAxisPlus": 2.0,
-                "shapeBaseSpace3rdAxisMinus": -0.25,
+                "shapeBaseSpace3rdAxisMinus": 0.25,
                 "shapeBaseSpace3rdAxisPlus": 0.75,
             },
             ((2.0, 0, 0.25), (-0.61, 0, 0.75), (-0.61, 0, -0.25)),
@@ -363,10 +374,10 @@ def test_arrow_part_vertices_follow_the_fixed_rear_section(
         shapePartOtherSizeScale=1.0,
     )
     axis = "2nd" if swapped else "1st"
-    maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -2.0)
+    maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", 2.0)
     maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 6.0)
     expected = (
-        (-2.5, -1.0, -1.0, 6.0, 1.0, 1.0)
+        (-3.0, -1.0, -1.0, 6.0, 1.0, 1.0)
         if preset == "OctahedronArrow"
         else (-2.75, -0.05, -1.0, 6.05, 0.05, 1.0)
     )

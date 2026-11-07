@@ -15,6 +15,9 @@ ShapeSettings cageCanonicalSettings(const ShapeSettings& settings) {
 }
 
 PartGeometry cageCanonicalBodyGeometry(const ShapeSettings& settings) {
+    if (isCapsuleBody(settings)) return capsuleCanonicalBodyGeometry(settings);
+    if (isBulkArrowBody(settings)) return bulkArrowCanonicalBodyGeometry(settings);
+    if (outlinePresetIndex(settings.shape) == kDiamondArrowOutline) return diamondArrowCanonicalBodyGeometry();
     auto source = cageCanonicalSettings(settings);
     PartGeometry result;
     if (!makeOptionShapeGeometry(source, result) && !makeAdjustedPartGeometry(source, result)) {
@@ -31,11 +34,14 @@ PartGeometry cageCanonicalBodyGeometry(const ShapeSettings& settings) {
 }
 
 bool cageCurvedSolid(short outline) {
-    return outline == 33 || outline == 46 || outline == 36 || outline == 43;
+    return outline == 33 || outline == 46 || outline == 36 || outline == 43 ||
+        outline == kCapsuleOutline || outline == kSphereArrowOutline;
 }
 
 MPoint cageProjectedPoint(MPoint point, const ShapeSettings& settings, bool curvedSurface, bool stroke = false) {
     const short outline = outlinePresetIndex(settings.shape);
+    if (outline == kCapsuleOutline) return capsuleProjectedPoint(point);
+    if (isBulkArrowBody(settings)) return bulkArrowProjectedPoint(point, settings);
     if (outline == 33 || outline == 46 || (stroke &&
         (isPlanarCircleOutline(outline) || isArcOutline(outline)))) {
         const double length = std::hypot(point.x, point.y, point.z);
@@ -50,6 +56,10 @@ MPoint cageProjectedPoint(MPoint point, const ShapeSettings& settings, bool curv
 
 bool cageBaseReverses(const MPoint& canonical, const ShapeSettings& settings) {
     const auto span = settings.baseSpacePlus - settings.baseSpaceMinus;
+    if (isCapsuleBody(settings) || isCenteredArrowBody(settings)) {
+        const unsigned int axis = settings.axisSwap ? 1 : 0;
+        return (span[axis] >= 0.0 ? 1.0 : -1.0) * span[settings.axisSwap ? 0 : 1] * span.z < 0.0;
+    }
     if (!isArrowBody(settings)) return span.x * span.y * span.z < 0.0;
     const unsigned int axis = settings.axisSwap ? 1 : 0;
     const double minus = settings.baseSpaceMinus[axis], plus = settings.baseSpacePlus[axis];
@@ -124,7 +134,7 @@ PartGeometry cageMappedBodyGeometry(const PartGeometry& canonical, const ShapeSe
 }
 
 bool cageAffineSettings(const ShapeSettings& settings, ShapeSettings& result) {
-    if (isArrowBody(settings)) return false;
+    if (isArrowBody(settings) || isCapsuleBody(settings) || isBulkArrowBody(settings)) return false;
     MVector scale(1, 1, 1);
     for (unsigned int normal = 0; normal < 3; ++normal) for (unsigned int axis = 0; axis < 3; ++axis) {
         if (axis == normal) continue;
@@ -143,6 +153,7 @@ bool cageAffineSettings(const ShapeSettings& settings, ShapeSettings& result) {
 }
 
 bool makeAffineCageWideBody(const ShapeSettings& settings, PartGeometry& geometry) {
+    if (isCapsuleBody(settings) || isCenteredArrowBody(settings)) return false;
     if (!settings.wide) return false;
     auto body = untransformedShapeSettings(settings);
     if (hasCageMapping(body)) {

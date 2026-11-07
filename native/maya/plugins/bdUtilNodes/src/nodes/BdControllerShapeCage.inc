@@ -11,9 +11,41 @@ double cageFaceScale(unsigned int normal, unsigned int component, bool plus,
     return settings.baseSpaceFaceScale[normal * 4 + (plus ? 0 : 2) + ordinal];
 }
 
+MVector cageSpan(const ShapeSettings& settings) {
+    auto span = settings.baseSpacePlus - settings.baseSpaceMinus;
+    if (isCapsuleBody(settings)) {
+        // 中心間が0でも残る半球を含め、主軸の倍率面を完成した本体の外端へ置く。
+        const unsigned int axis = settings.axisSwap ? 1 : 0;
+        span[axis] = (span[axis] >= 0.0 ? 1.0 : -1.0) *
+            (std::abs(span[axis]) + bodyAxisRadius(settings, false) + bodyAxisRadius(settings, true));
+    }
+    if (isCenteredArrowBody(settings)) {
+        const unsigned int axis = settings.axisSwap ? 1 : 0;
+        span[axis] = (span[axis] >= 0.0 ? 1.0 : -1.0) *
+            (bodyAxisRadius(settings, false) + bulkArrowFront(settings));
+    }
+    return span;
+}
+
+MVector cageCenter(const ShapeSettings& settings) {
+    auto center = (settings.baseSpaceMinus + settings.baseSpacePlus) * 0.5;
+    if (isCapsuleBody(settings)) {
+        const unsigned int axis = settings.axisSwap ? 1 : 0;
+        const double direction = settings.baseSpacePlus[axis] >= settings.baseSpaceMinus[axis] ? 1.0 : -1.0;
+        center[axis] += direction * (bodyAxisRadius(settings, true) - bodyAxisRadius(settings, false)) * 0.5;
+    }
+    if (isCenteredArrowBody(settings)) {
+        const unsigned int axis = settings.axisSwap ? 1 : 0;
+        const double direction = settings.baseSpacePlus[axis] >= settings.baseSpaceMinus[axis] ? 1.0 : -1.0;
+        center[axis] = settings.baseSpaceMinus[axis] +
+            direction * (bulkArrowFront(settings) - bodyAxisRadius(settings, false)) * 0.5;
+    }
+    return center;
+}
+
 MVector cageCoordinates(const MPoint& point, const ShapeSettings& settings) {
-    const auto center = (settings.baseSpaceMinus + settings.baseSpacePlus) * 0.5;
-    const auto span = settings.baseSpacePlus - settings.baseSpaceMinus;
+    const auto center = cageCenter(settings);
+    const auto span = cageSpan(settings);
     MVector result;
     for (unsigned int axis = 0; axis < 3; ++axis) {
         result[axis] = (point[axis] - center[axis]) / (span[axis] == 0.0 ? 1.0 : span[axis]);
@@ -29,7 +61,7 @@ double cageInterpolatedScale(unsigned int normal, unsigned int component, double
 
 MPoint cagePoint(const MPoint& point, const ShapeSettings& settings) {
     if (!hasCageMapping(settings)) return point;
-    const auto center = (settings.baseSpaceMinus + settings.baseSpacePlus) * 0.5;
+    const auto center = cageCenter(settings);
     const auto coordinate = cageCoordinates(point, settings);
     auto result = point;
     for (unsigned int axis = 0; axis < 3; ++axis) {
@@ -44,8 +76,8 @@ MPoint cagePoint(const MPoint& point, const ShapeSettings& settings) {
 
 MVector cageVector(const MPoint& point, const MVector& vector, const ShapeSettings& settings) {
     if (!hasCageMapping(settings)) return vector;
-    const auto center = (settings.baseSpaceMinus + settings.baseSpacePlus) * 0.5;
-    const auto span = settings.baseSpacePlus - settings.baseSpaceMinus;
+    const auto center = cageCenter(settings);
+    const auto span = cageSpan(settings);
     const auto coordinate = cageCoordinates(point, settings);
     MVector result;
     for (unsigned int axis = 0; axis < 3; ++axis) {

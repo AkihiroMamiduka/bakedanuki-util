@@ -150,10 +150,14 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     OCTAHEDRON = 17
     SPHERE = 18
     CYLINDER = 19
-    ARROW = 20
-    OCTAHEDRONARROW = 21
-    PYRAMID = 22
-    CONE = 23
+    CAPSULE = 20
+    ARROW = 21
+    DIAMONDARROW = 22
+    OCTAHEDRONARROW = 23
+    CUBEARROW = 24
+    SPHEREARROW = 25
+    PYRAMID = 26
+    CONE = 27
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
@@ -179,10 +183,14 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     OCTAHEDRON = 17
     SPHERE = 18
     CYLINDER = 19
-    ARROW = 20
-    OCTAHEDRONARROW = 21
-    PYRAMID = 22
-    CONE = 23
+    CAPSULE = 20
+    ARROW = 21
+    DIAMONDARROW = 22
+    OCTAHEDRONARROW = 23
+    CUBEARROW = 24
+    SPHEREARROW = 25
+    PYRAMID = 26
+    CONE = 27
 
     NAME_MAP = {
         GEAR: "Gear",
@@ -205,8 +213,12 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         OCTAHEDRON: "Octahedron",
         SPHERE: "Sphere",
         CYLINDER: "Cylinder",
+        CAPSULE: "Capsule",
         ARROW: "Arrow",
+        DIAMONDARROW: "DiamondArrow",
         OCTAHEDRONARROW: "OctahedronArrow",
+        CUBEARROW: "CubeArrow",
+        SPHEREARROW: "SphereArrow",
         PYRAMID: "Pyramid",
         CONE: "Cone",
     }
@@ -516,19 +528,19 @@ class GeneratedBdControllerShape(Shape):
     shapeBaseSpace1stAxisPlus = DoubleLinearField(default_value=0.5)
     sbsp1p = shapeBaseSpace1stAxisPlus
 
-    shapeBaseSpace1stAxisMinus = DoubleLinearField(default_value=-0.5)
+    shapeBaseSpace1stAxisMinus = DoubleLinearField(default_value=0.5)
     sbsp1m = shapeBaseSpace1stAxisMinus
 
     shapeBaseSpace2ndAxisPlus = DoubleLinearField(default_value=0.5)
     sbsp2p = shapeBaseSpace2ndAxisPlus
 
-    shapeBaseSpace2ndAxisMinus = DoubleLinearField(default_value=-0.5)
+    shapeBaseSpace2ndAxisMinus = DoubleLinearField(default_value=0.5)
     sbsp2m = shapeBaseSpace2ndAxisMinus
 
     shapeBaseSpace3rdAxisPlus = DoubleLinearField(default_value=0.5)
     sbsp3p = shapeBaseSpace3rdAxisPlus
 
-    shapeBaseSpace3rdAxisMinus = DoubleLinearField(default_value=-0.5)
+    shapeBaseSpace3rdAxisMinus = DoubleLinearField(default_value=0.5)
     sbsp3m = shapeBaseSpace3rdAxisMinus
 
     shapeBaseSpace1stAxisPlusScale = ShapeBaseSpace1stAxisPlusScaleField(
@@ -785,17 +797,17 @@ class GeneratedBdControllerShape(Shape):
     customBoundsBaseSpaceXPlus = DoubleLinearField(default_value=0.5)
     cbbsxp = customBoundsBaseSpaceXPlus
 
-    customBoundsBaseSpaceXMinus = DoubleLinearField(default_value=-0.5)
+    customBoundsBaseSpaceXMinus = DoubleLinearField(default_value=0.5)
     cbbsxm = customBoundsBaseSpaceXMinus
 
     customBoundsBaseSpaceYPlus = DoubleLinearField(default_value=0.5)
     cbbsyp = customBoundsBaseSpaceYPlus
 
-    customBoundsBaseSpaceYMinus = DoubleLinearField(default_value=-0.5)
+    customBoundsBaseSpaceYMinus = DoubleLinearField(default_value=0.5)
     cbbsym = customBoundsBaseSpaceYMinus
 
     customBoundsBaseSpaceZPlus = DoubleLinearField(default_value=0.5)
     cbbszp = customBoundsBaseSpaceZPlus
 
-    customBoundsBaseSpaceZMinus = DoubleLinearField(default_value=-0.5)
+    customBoundsBaseSpaceZMinus = DoubleLinearField(default_value=0.5)
     cbbszm = customBoundsBaseSpaceZMinus
