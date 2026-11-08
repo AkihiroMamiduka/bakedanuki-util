@@ -59,6 +59,11 @@
   - `bdu.json_file.write(path, data)` / `read(path)`で設定やプリセットをUTF-8 JSONへ保存・読込できます。
   - 親フォルダは既定で作成します。`AnimationClip`と`AttrSnapshot`には専用の`save()` / `load()`もあります。
   - 詳細は[JSONファイル入出力](docs/py/json_file.md)を参照してください。
+- Site information / Web browser
+  - `bd_util.site.SITE_BASE_URL`と`build_url()`で共通サイトURLを扱います。
+  - `bd_util.py.web.open_url()`でHTTP/HTTPSのURLを既定ブラウザーへ渡します。
+  - JSONは初回読込後に保持し、変更は正規reloadまたはMaya再起動で反映します。
+    詳細は[サイト情報とブラウザー起動](docs/site.md)を参照してください。
 - Node class generator
   - Maya の DG ノード情報から `NodeOperator` 定義を生成する開発用ジェネレーターがあります。
   - Maya 2025を基準に、固定plugin profileからMaya 2026 / 2027のschema差分だけを
@@ -491,6 +496,7 @@ print(bdu.__file__)
 - [Maya Version Support](docs/maya/node_operator/maya_versions.md)
 - [Generator](docs/maya/node_operator/generator.md)
 - [Testing](docs/maya/node_operator/testing.md)
+- [サイト情報とブラウザー起動](docs/site.md)
 - [Roadmap](docs/maya/node_operator/roadmap.md)
 
 ## Current Notes

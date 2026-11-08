@@ -179,6 +179,8 @@ Generatorを実行した後は、生成差分を確認する前に`format.cmd`�
   - 利用例、導入手順、詳細ドキュメントへのリンクを置いています。
 - [bakedanuki/bakedanuki-util/docs/](bakedanuki/bakedanuki-util/docs/)
   - `NodeOperator` などの設計メモです。
+- [サイト情報とブラウザー起動](bakedanuki/bakedanuki-util/docs/site.md)
+  - 同梱JSON、公開定数、URL生成と開発時のreloadを説明しています。
 - [AGENTS.md](AGENTS.md)
   - 開発者および AI Agent 向けの開発環境、テスト手順、作業方針です。
 

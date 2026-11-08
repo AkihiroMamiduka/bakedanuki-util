@@ -9,6 +9,15 @@
 
 ### Added
 
+- `bd_util.site.SITE_BASE_URL`と`build_url()`を追加。同梱`site/site.json`を
+  初回読込時に検証して公開定数へ保持し、サイトの共通パスを保ってURLを生成する。
+  汎用の`bd_util.py.web.open_url()`はHTTP/HTTPS URLを既定ブラウザーへ渡し、
+  起動依頼の成否を返す。`py/web/`の`__init__.py`で公開APIを取りまとめ、
+  `browser.py`に起動処理、`_url.py`に共通URL検証を置く。
+  配布時は新しいPythonファイルと`site.json`を同梱する。開発中の旧配置
+  `py/web.py`・`py/_url.py`は削除し、Maya再起動でパッケージ配置の変更を反映する。
+  tools使用中の開発更新は`bd_tools.reload_package(reload_util=True)`または
+  Maya再起動で反映する。既存設定・sceneの移行は不要。
 - `bd_util.ui.MiddleDragReorderListWidget`と`ListReorderRequest`を追加。
   左ドラッグの複数選択を保ち、中ドラッグの挿入先を行間線・端スクロール付きで通知する。
   項目の変更と保存は利用側が所有し、Esc・表示切替・項目変更では操作を取り消す。
@@ -30,7 +39,6 @@
 
 ### Changed
 
-<<<<<<< HEAD
 - `bd_util.ui.qt.QComboBox`を、画面内で可能な限り全候補を表示する共通サブクラスへ変更。
   `EnumComboBox`と`BoolComboBox`にも適用し、画面を超える候補はQt標準でスクロールする。
   利用側の`setMaxVisibleItems()`は優先する。`qt.QtWidgets.QComboBox`は元クラスを維持し、
@@ -38,7 +46,6 @@
   UI再生成で反映され、scene・保存設定の移行は不要。
   2026-11-01、利用者からbdChannelBox経由の動作確認とcommit／push済みの報告を受け、
   本拡張を完了とした。利用者の確認Maya versionは未申告（参照commit: `1c3f0b3c`）。
-=======
 - `bdControllerShape` のGear外周のTemplate区間を、歯先中央から次の歯先中央までの輪郭の実長で決めるよう変更。
   谷をTemplate区間、歯先を通常区間の中央とし、既定のRate 0.7ではTemplate 70%・通常30%となる。
   閉輪郭の始終端とWideの追加輪郭でも位相を保ち、内円のCircle規約、Rate 0/1・Invert、面のTemplateFill指定は維持する。
@@ -84,7 +91,6 @@
   通常版の基準円を主軸と第3軸の平面、中央方向を+主軸へ揃え、Cross版は主軸と補助軸の平面を追加する。
   角度は中央方向を固定して両端を対称に動かし、薄線本体のFillはPartだけへ適用する。
   Wideの幅0は対応する薄線本体の線・Part・Boundsと一致させ、Fin・GuideLineは4基本形状とも対象外とする。
->>>>>>> feature/bdControllerShape
 - `bdControllerShape` の中央ガイドを `shapeGuideLine` / `shapeGuideLineTemplate`
   に統合し、十字付きの専用本体を整理した。
   ガイドは本体表面までとし、Square系、WideLine、WideCrossLine・Circleと各Swappedの
