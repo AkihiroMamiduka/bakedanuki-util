@@ -24,7 +24,7 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry, bool 
                                  MPoint(0.5, 0.5, 0), MPoint(0.5, 0, 0)};
         std::vector<MPoint> transformed;
         for (const auto& p : points) {
-            const double x = 0.125 + (p.x - 0.125) * settings.finWidthScale * settings.finSize;
+            const double x = 0.125 + (p.x - 0.125) * settings.finWidthScale;
             transformed.emplace_back(x,
                 p.y * 2.0 * partFinHeight(heightSettings()), 0);
         }

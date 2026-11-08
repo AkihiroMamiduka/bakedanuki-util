@@ -70,7 +70,6 @@ MObject BdControllerShapeNode::shapePartType;
 MObject BdControllerShapeNode::shapeFin;
 MObject BdControllerShapeNode::shapeFinType;
 MObject BdControllerShapeNode::shapeFinHeight;
-MObject BdControllerShapeNode::shapeFinSize;
 MObject BdControllerShapeNode::shapeFinWidthScale;
 MObject BdControllerShapeNode::shapeGuideLine;
 MObject BdControllerShapeNode::shapeGuideLineTemplate;
@@ -206,7 +205,6 @@ struct ShapeSettings {
     bool baseSpaceBodyPart = false;
     bool fin = false;
     short finType = 0;
-    double finSize = 1.0;
     double finWidthScale = 1.0;
     bool guideLine = false;
     bool guideLineTemplate = false;
@@ -278,7 +276,6 @@ struct ShapeAttributes {
     MObject part;
     MObject partShape;
     MObject partType;
-    MObject finSize;
     MObject finWidthScale;
     MObject guideLine;
     MObject guideLineTemplate;
@@ -331,7 +328,6 @@ ShapeAttributes shapeAttributes() {
         BdControllerShapeNode::shapePart,
         BdControllerShapeNode::shapePartShape,
         BdControllerShapeNode::shapePartType,
-        BdControllerShapeNode::shapeFinSize,
         BdControllerShapeNode::shapeFinWidthScale,
         BdControllerShapeNode::shapeGuideLine,
         BdControllerShapeNode::shapeGuideLineTemplate,
@@ -425,7 +421,7 @@ bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
         left.partType == right.partType && left.wideWidth == right.wideWidth &&
         left.circleAngle == right.circleAngle &&
         left.fin == right.fin && left.finType == right.finType &&
-        left.finSize == right.finSize && left.finWidthScale == right.finWidthScale &&
+        left.finWidthScale == right.finWidthScale &&
         left.guideLine == right.guideLine && left.guideLineTemplate == right.guideLineTemplate &&
         left.firstAxis == right.firstAxis &&
         left.secondAxis == right.secondAxis &&
@@ -518,7 +514,6 @@ bool readSettings(
     settings.fill = false;
     settings.fin = false;
     settings.finType = 0;
-    settings.finSize = 1.0;
     settings.finWidthScale = 1.0;
     settings.guideLine = false;
     settings.guideLineTemplate = false;
@@ -580,8 +575,6 @@ bool readSettings(
         if (!status) return false;
         settings.finType = std::clamp<short>(settings.finType, 0, 1);
         settings.partFinHeight = MPlug(node, attributes.partFinHeight).asMDistance(&status).asCentimeters();
-        if (!status) return false;
-        settings.finSize = MPlug(node, attributes.finSize).asDouble(&status);
         if (!status) return false;
         settings.finWidthScale = MPlug(node, attributes.finWidthScale).asDouble(&status);
         if (!status) return false;
@@ -2068,7 +2061,6 @@ bool isShapeAttribute(const MObject& attribute) {
              BdControllerShapeNode::shapeFill,
              BdControllerShapeNode::shapeFin,
              BdControllerShapeNode::shapeFinType,
-             BdControllerShapeNode::shapeFinSize,
              BdControllerShapeNode::shapeFinWidthScale,
              BdControllerShapeNode::shapeGuideLine,
              BdControllerShapeNode::shapeGuideLineTemplate,
@@ -2167,7 +2159,6 @@ bool hasConnectedSettingsInput(
              attributes.fill,
              attributes.fin,
              attributes.finType,
-             attributes.finSize,
              attributes.finWidthScale,
              attributes.guideLine,
              attributes.guideLineTemplate,
@@ -2973,12 +2964,6 @@ MStatus BdControllerShapeNode::initialize() {
     status = enumAttributeFn.addField("Tapered", 1);
     if (!status) return status;
     status = bd_util_nodes::createDoubleAttribute(
-        numericAttributeFn, shapeFinSize, "shapeFinSize", "sfns", 1.0
-    );
-    if (!status) return status;
-    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
-    if (!status) return status;
-    status = bd_util_nodes::createDoubleAttribute(
         numericAttributeFn, shapeFinWidthScale, "shapeFinWidthScale", "sfnws", 1.0
     );
     if (!status) return status;
@@ -3458,7 +3443,7 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
 
-    boundsMode = enumAttributeFn.create("boundsMode", "bdm", 1, &status);
+    boundsMode = enumAttributeFn.create("boundsMode", "bdm", 0, &status);
     if (!status) {
         return status;
     }
@@ -3590,7 +3575,6 @@ MStatus BdControllerShapeNode::initialize() {
              shapeFin,
              shapeFinType,
              shapeFinHeight,
-             shapeFinSize,
              shapeFinWidthScale,
              channelBoxSeparator10,
              shapeGuideLine,

@@ -99,7 +99,6 @@ public:
     static MObject shapeFin;
     static MObject shapeFinType;
     static MObject shapeFinHeight;
-    static MObject shapeFinSize;
     static MObject shapeFinWidthScale;
     static MObject shapeGuideLine;
     static MObject shapeGuideLineTemplate;

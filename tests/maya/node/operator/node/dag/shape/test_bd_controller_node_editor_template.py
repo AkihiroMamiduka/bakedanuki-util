@@ -73,6 +73,7 @@ def test_template_covers_controller_attributes_without_inherited_extras(
     attribute_names = [attribute.attrib["name"] for attribute in attributes]
     property_names = [prop.attrib["name"] for prop in view.findall("property")]
 
+    assert len(attribute_names) == 66
     assert len(attribute_names) == len(set(attribute_names))
     assert set(attribute_names) == controller_attributes | {"visibility"}
     assert property_names == attribute_names
@@ -104,6 +105,14 @@ def test_template_keeps_channel_box_order_and_compound_parents(
         "visibility",
         "shapeAnimationTransformMatrix",
         *channel_attributes,
+    ]
+    fin_start = property_names.index("shapeFin")
+    assert property_names[fin_start : fin_start + 5] == [
+        "shapeFin",
+        "shapeFinType",
+        "shapeFinHeight",
+        "shapeFinWidthScale",
+        "shapeGuideLine",
     ]
     assert all(not list(prop) for prop in view.findall("property"))
 

@@ -728,9 +728,6 @@ class GeneratedBdControllerShape(Shape):
     shapeFinHeight = DoubleLinearField(default_value=0.5)
     sfnh = shapeFinHeight
 
-    shapeFinSize = DoubleField(default_value=1.0)
-    sfns = shapeFinSize
-
     shapeFinWidthScale = DoubleField(default_value=1.0)
     sfnws = shapeFinWidthScale
 
@@ -800,7 +797,7 @@ class GeneratedBdControllerShape(Shape):
     shapeSize = DoubleField(default_value=1.0)
     ss = shapeSize
 
-    boundsMode = BoundsModeEnumField(default_value=1)
+    boundsMode = BoundsModeEnumField(default_value=0)
     bdm = boundsMode
 
     showBoundsPreview = BoolField(default_value=False)

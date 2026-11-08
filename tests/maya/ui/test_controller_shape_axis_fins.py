@@ -309,3 +309,68 @@ def test_wide_three_axis_standard_fin_keeps_its_center_height_and_parallel_top(
             )
             < 180
         )
+
+
+def test_fin_height_and_width_control_the_visible_geometry_independently(
+    maya_cmds, new_scene, tmp_path
+):
+    _require_viewport(maya_cmds)
+    with _drawing_view(
+        maya_cmds, "Cube", shapeFinHeight=0.4, shapeFinWidthScale=0.7
+    ) as (_, shape, camera, camera_shape, panel):
+        assert not maya_cmds.attributeQuery(
+            "shapeFinSize", node=shape, exists=True
+        )
+        assert not maya_cmds.attributeQuery("sfns", node=shape, exists=True)
+        maya_cmds.setAttr(f"{camera}.translate", 0, 0.6, 4)
+        maya_cmds.setAttr(f"{camera}.rotate", 0, 0, 0)
+        maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.5)
+        body = _capture_view(panel, tmp_path / "fin_controls_body.png")
+        maya_cmds.setAttr(f"{shape}.shapeFin", True)
+        initial = _capture_view(panel, tmp_path / "fin_controls_initial.png")
+        for point in ((0.1, 0.9, 0), (-0.35, 0.7, 0)):
+            assert _brightness_near_world(panel, initial, point) > 600
+        maya_cmds.setAttr(f"{shape}.shapeFinHeight", 0.8)
+        taller = _capture_view(panel, tmp_path / "fin_controls_taller.png")
+        for point in ((0.1, 1.3, 0), (-0.35, 0.7, 0)):
+            assert _brightness_near_world(panel, taller, point) > 600
+        assert _brightness_near_world(panel, taller, (0.1, 0.9, 0)) < 120
+        maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 1.4)
+        wider = _capture_view(panel, tmp_path / "fin_controls_wider.png")
+        for point in ((0.55, 1.3, 0), (0.7, 0.9, 0)):
+            assert _brightness_near_world(panel, wider, point) > 600
+        maya_cmds.setAttr(f"{shape}.shapeFinHeight", 0)
+        assert _capture_view(panel, tmp_path / "fin_controls_zero.png") == body
+
+
+def test_default_shape_bounds_frame_the_visible_position_and_offset_line(
+    maya_cmds, new_scene, tmp_path
+):
+    _require_viewport(maya_cmds)
+    with _drawing_view(maya_cmds, "Cube", shapeTranslateX=3) as (
+        transform,
+        shape,
+        camera,
+        camera_shape,
+        panel,
+    ):
+        assert maya_cmds.getAttr(f"{shape}.boundsMode") == 0
+        maya_cmds.setAttr(f"{camera}.translate", 0, 0, 4)
+        maya_cmds.setAttr(f"{camera}.rotate", 0, 0, 0)
+        maya_cmds.select(transform, replace=True)
+        maya_cmds.viewFit(camera_shape, animate=False, noChildren=True)
+        assert maya_cmds.xform(
+            camera, query=True, translation=True, worldSpace=True
+        )[0] == pytest.approx(3, abs=1e-6)
+        _capture_view(panel, tmp_path / "default_shape_focus.png")
+        maya_cmds.setAttr(f"{shape}.shapeOffsetLine", True)
+        maya_cmds.viewFit(camera_shape, animate=False, noChildren=True)
+        assert maya_cmds.xform(
+            camera, query=True, translation=True, worldSpace=True
+        )[0] == pytest.approx(1.75, abs=1e-6)
+        _capture_view(panel, tmp_path / "default_offset_line_focus.png")
+        maya_cmds.setAttr(f"{shape}.boundsMode", 1)
+        maya_cmds.viewFit(camera_shape, animate=False, noChildren=True)
+        assert maya_cmds.xform(
+            camera, query=True, translation=True, worldSpace=True
+        )[0] == pytest.approx(0, abs=1e-6)

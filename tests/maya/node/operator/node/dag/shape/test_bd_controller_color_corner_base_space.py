@@ -111,9 +111,8 @@ def test_color_corner_keeps_fixed_xyz_body_and_fin_placement_after_clipping(
         shapeWideWidth=0.12,
         shapeFin=True,
         shapeFinType=fin_type,
-        shapeFinHeight=0.7,
-        shapeFinSize=1.2,
-        shapeFinWidthScale=0.8,
+        shapeFinHeight=0.84,
+        shapeFinWidthScale=0.96,
     )
     corner = _controller(maya_cmds, "cornerFin", "ColorCornerCube", **options)
     reference = _controller(maya_cmds, "cubeFin", "ColorCube", **options)

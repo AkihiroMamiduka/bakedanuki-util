@@ -166,8 +166,7 @@ mod.do_it_dg()
 | `shapePartHeightScale` | `double` | `1` | Partの局所高さの独立した符号付き倍率。平面Partでは保持して無視し、Arrow3Dの追加面と立体Partへ適用する。0ではArrow3Dの追加面を省略しArrow2Dと一致する。`sphs` |
 | `shapeFin` | `bool` | `false` | Arc系4基本形状を除く28本体へ通常色のFinを1枚追加。対象外では値と接続を保持して無視。`sfn` |
 | `shapeFinType` | enum | `Standard` (0) | `Standard` (0)、`Tapered` (1)。`sfnt` |
-| `shapeFinHeight` | `doubleLinear` | `0.5 cm` | Finの張り出す高さ。`shapeFinSize`を掛け、0ならFinのみ省略。`sfnh` |
-| `shapeFinSize` | `double` | `1` | Finの高さと幅の共通倍率。`sfns` |
+| `shapeFinHeight` | `doubleLinear` | `0.5 cm` | Finの張り出す高さ。0ならFinのみ省略。`sfnh` |
 | `shapeFinWidthScale` | `double` | `1` | Finの付け根に沿った幅の倍率。`sfnws` |
 | `shapeGuideLine` | `bool` | `false` | 本体中心から表面までガイド線を追加。対象外では設定を保持して無視。`sgl` |
 | `shapeOffsetLine` | `bool` | `false` | 親transformのローカル原点から、共通変形後の基準中心へ補助線を描画。`sol` |
@@ -180,7 +179,7 @@ mod.do_it_dg()
 | `shapeAxisScale` | `double3` | `(1, 1, 1)` | 指定軸を基準に、shapeAxisRotateの内側で拡縮 |
 | `shapeSize` | `double` | `1` | 組み立てた形状の頂点を一律スケール |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状完成後、親transformの変換前に適用。Channel Boxには非表示 |
-| `boundsMode` | enum | `ShapeCentered` (1) | `Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
+| `boundsMode` | enum | `Shape` (0) | `Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
 | `showBoundsPreview` | `bool` | `false` | 選択中の最終フォーカス範囲をtemplate色・選択不可で表示 |
 
 ### 本体一覧
@@ -341,7 +340,7 @@ Arcの円周へ沿わせるPartは、変形後の曲線上で長さを弧長と�
 曲線面が退化する場合は円周変形と立体の接合姿勢補正を行わず、元の局所姿勢からPartを作ります。
 配置点だけを退化後の本体へ写し、消えた方向には元の軸を使って長さ・幅・高さとOffsetの距離を保ちます。
 曲線面の2軸が残り、法線側の軸だけが潰れた場合は円周変形を保ちます。CrossArcは円ごとに判定します。
-Finは付け根と幅を本体へ追従させ、`shapeFinHeight * shapeFinSize` の張り出し量を保ちます。
+Finは付け根と幅を本体へ追従させ、`shapeFinHeight` の張り出し量を保ちます。
 Standardは面内Scale後も立ち上がりを補助軸、上辺を主軸へ平行に保ちます。
 GuideLineの中心は変形後の基準中心へ移り、Part先端へ延長する規則も完成したPartへ追従します。
 `DiamondArrowPlanar` / `DiamondArrowSpatial` のGuideLineは、内部主軸Minus座標に置く肩中心から各頂点へ伸びます。
@@ -805,7 +804,7 @@ WideCrossLine3AxisとColorWideCrossLine3Axisは、3軸の線を四角断面の�
 幅0では元の3軸の線へ戻り、本体のFillを省略します。
 PartのAtEndは+1st、AtEndsは6方向、AtApexはAtEndとして扱い、Finも3軸本体の規約を使います。
 本体の断面幅はPartのSize・Widthから独立します。
-Finの高さは本体中心軸から `shapeFinHeight * shapeFinSize` で測り、断面の半幅を加算しません。
+Finの高さは本体中心軸から `shapeFinHeight` で測り、断面の半幅を加算しません。
 本体の内側へ入るFinの根元を切り取り、幅を変えても指定した到達高さを保ちます。
 
 ColorWideCrossLine3Axisは正側のX・Y・Zの腕を赤・緑・青にし、各腕の輪郭とFillへ同じ軸色を使います。
@@ -1053,8 +1052,8 @@ Cube・CylinderのTaperedは負側の高い位置から正側の本体上端へ�
 TriangleにTapered Finを追加すると、本体のXZ面から+Yへ立つ薄い面になります。
 
 ```text
-height = shapeFinHeight * shapeFinSize
-width = shapeFinWidthScale * shapeFinSize
+height = shapeFinHeight
+width = shapeFinWidthScale
 ```
 
 PartのSize・Width・Offset・LengthをFinの寸法へ掛けません。
@@ -1247,7 +1246,7 @@ Channel Boxの表示順は次の14区画です。区切りは `_` から `______
 6. `shapeArcAngle`
 7. `shapeTemplateLine`、`shapeTemplateLineRate`、`shapeTemplateLineInvert`、`shapeTemplateFill`、`shapePartTemplate`、`shapeFinTemplate`、`shapeGuideLineTemplate`、`shapeOffsetLineTemplate`
 8. `shapePart`、`shapePartShape`、`shapePartType`、`shapePartOffset`、`shapePartSize`、`shapePartPrimarySizeScale`、`shapePartOtherSizeScale`、`shapePartLengthScale`、`shapePartWidthScale`、`shapePartHeightScale`
-9. `shapeFin`、`shapeFinType`、`shapeFinHeight`、`shapeFinSize`、`shapeFinWidthScale`
+9. `shapeFin`、`shapeFinType`、`shapeFinHeight`、`shapeFinWidthScale`
 10. `shapeGuideLine`
 11. `shapeOffsetLine`
 12. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
@@ -1294,9 +1293,9 @@ Custom Modeの表示対象と順序は次のとおりです。
 
 1. 継承属性の `visibility`。
 2. 接続用の `shapeAnimationTransformMatrix`。
-3. 上記のChannel Boxの14区画から区切りenumを除いた順で、追加属性の親65個。
+3. 上記のChannel Boxの14区画から区切りenumを除いた順で、追加属性の親64個。
 
-合計67個を表示対象とし、TRSのXYZ子と面内Scaleの2子はそれぞれの親から展開します。
+合計66個を表示対象とし、TRSのXYZ子と面内Scaleの2子はそれぞれの親から展開します。
 区切りenum14本と、`visibility` 以外の継承属性はテンプレートの表示リストへ含めません。
 Channel Boxの表示、keyable、接続可否などは各属性の既存設定を使います。
 
@@ -1336,7 +1335,7 @@ Custom Boundsは塗りのON/OFFから独立しています。接続・明示的�
 
 ### フォーカス範囲
 
-`boundsMode=Shape` は変形済みの形状本体と表示中の OffsetLine を
+既定の `boundsMode=Shape` は変形済みの形状本体と表示中の OffsetLine を
 含む範囲を返します。
 
 `boundsMode=ShapeCentered` は完成形状の寸法を使い、`shapeTranslate`・`shapeAxisTranslate`・
@@ -1812,7 +1811,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 45. Square系のGuideLineで通常十字とtemplate十字を切り替え、本体の色と選択可否を保つ。SquareTemplateの四隅template線・辺中央通常線・template面はGuideLineとは独立し、Part OFFでも本体の通常線を残す。
 46. SquareTemplateのPartは線・面とも通常色で選択でき、本体のtemplate線・面だけでは選択できない。Arrow2D/3D・AtEndsで4方向を確認する。
 47. Fin対応28基本本体を2種類・塗りON/OFF・Wide・Swapで確認する。OFF・高さ0ではFinだけが消え、設定値を保持する。
-48. Finの高さ・幅はshapeFinSizeとshapeFinWidthScaleで調整し、PartのSize・Widthから独立する。Arrow系の付け根は本体変形へ追従する。
+48. Finの高さ・幅はshapeFinHeightとshapeFinWidthScaleで独立して調整し、PartのSize・Widthから独立する。Arrow系の付け根は本体変形へ追従する。
 49. FinはAxisSwap OFFで+2nd、ONで+1stへ立ち、根元を閉じる線を追加しない。Arc系4基本形状ではFinをONにしても描画・選択・範囲を変えず、値・接続・キーを保持する。
 50. 正の寸法倍率ではTaperedの細い側が通常本体の+1st、Swappedの+2ndを示す。ArrowPlanarのStandard FinはMinusのくぼみから先端まで、ArrowSpatialは同じFin平面の本体外周を根元にする。Standardは面Scale後も上辺が主軸、立ち上がりが補助軸へ平行で、下向きの辺も残す。Taperedの傾斜、Cube・CylinderのTaperedとDiamondArrowSpatialの面の重複も確認する。
 51. ColorCrossLine3Axis・ColorWideCrossLine3AxisとColorSphereの軸色を保ち、追加Part・Finは通常色となる。ColorSphereのGuideLineをONにしても円とガイドの間に橋渡し線がない。

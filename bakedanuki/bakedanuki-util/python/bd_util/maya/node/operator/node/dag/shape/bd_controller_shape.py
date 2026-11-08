@@ -35,9 +35,11 @@ class BdControllerShape(GeneratedBdControllerShape):
     ColorCornerCubeの小四角は基準空間で各辺 `0.2 cm` を保ち、小さい本体では面内へ切り詰める。
     追加Partは配置点と姿勢だけを追従させ、局所寸法と `shapePartOffset` の距離を保つ。
     ArcのPartは変形後の曲線上の弧長と局所幅を保ち、Finは付け根と幅へ追従して高さを保つ。
+    Finの高さは `shapeFinHeight`、幅の倍率は `shapeFinWidthScale` で独立して調整する。
     Standard Finは面Scale後も上辺を主軸、立ち上がりを補助軸へ平行に保ち、下向きの辺も表示する。
     AxialのGuideLineは内部Minusの底面中心を起点にする。
     `shapeSize`・共通TRS・入力行列は、組立後の本体・Part・Fin・Wideへ共通に作用する。
+    `boundsMode` の既定値は `Shape` (0) で、完成形状と表示中のOffsetLineをフォーカス範囲にする。
     `customBoundsBaseSpaceXPlus` / `customBoundsBaseSpaceXMinus` とY/Zの両端は、
     親transformのローカルXYZへ固定した独立の箱を距離で指定する。
     Custom BoundsのMinusも入力の符号を反転し、両端の既定値はともに `+0.5 cm`。

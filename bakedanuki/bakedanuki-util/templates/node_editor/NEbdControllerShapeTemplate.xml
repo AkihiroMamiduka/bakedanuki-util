@@ -143,9 +143,6 @@
         <attribute name="shapeFinHeight" type="maya.doubleLinear">
             <label>Shape Fin Height</label>
         </attribute>
-        <attribute name="shapeFinSize" type="maya.double">
-            <label>Shape Fin Size</label>
-        </attribute>
         <attribute name="shapeFinWidthScale" type="maya.double">
             <label>Shape Fin Width Scale</label>
         </attribute>
@@ -252,7 +249,6 @@
         <property name="shapeFin"/>
         <property name="shapeFinType"/>
         <property name="shapeFinHeight"/>
-        <property name="shapeFinSize"/>
         <property name="shapeFinWidthScale"/>
         <property name="shapeGuideLine"/>
         <property name="shapeOffsetLine"/>

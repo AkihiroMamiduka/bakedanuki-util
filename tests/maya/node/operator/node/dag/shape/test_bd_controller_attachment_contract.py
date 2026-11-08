@@ -133,9 +133,8 @@ def test_color_fin_follows_selected_axes_with_its_body_fixed(
         shapeFill=filled,
         shapeFin=True,
         shapeFinType=fin_type,
-        shapeFinHeight=0.9,
-        shapeFinSize=1.3,
-        shapeFinWidthScale=1.2,
+        shapeFinHeight=1.17,
+        shapeFinWidthScale=1.56,
     )
     color = _controller(maya_cmds, "colorFin", preset, **options)
     reference = _controller(maya_cmds, "plainFin", plain, **options)

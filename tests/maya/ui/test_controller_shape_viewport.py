@@ -757,9 +757,8 @@ def test_circle_fin_has_no_visible_geometry(
         _aim_at_origin(maya_cmds, camera, (3, 2, 4))
         baseline = _capture_view(panel, tmp_path / "without_fin.png")
         maya_cmds.setAttr(f"{shape}.shapeFin", True)
-        maya_cmds.setAttr(f"{shape}.shapeFinSize", 2)
-        maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 3)
-        for kind, height in ((0, 2), (1, -2)):
+        maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 6)
+        for kind, height in ((0, 4), (1, -4)):
             maya_cmds.setAttr(f"{shape}.shapeFinType", kind)
             maya_cmds.setAttr(f"{shape}.shapeFinHeight", height)
             assert (
@@ -2229,11 +2228,11 @@ def test_wide_cross_three_axis_fin_height_starts_at_the_center_axis(
         preset,
         shapeFin=True,
         shapeFinType=fin_type,
-        shapeFinHeight=0.3,
-        shapeFinSize=1.4,
+        shapeFinHeight=0.42,
+        shapeFinWidthScale=1.4,
     ) as (_, shape, _, _, panel):
         along = -0.3
-        height = 0.3 * 1.4
+        height = 0.42
         if fin_type == 1:
             height *= (0.7 - along) / 1.4
         for width in (0.2, 0.4):

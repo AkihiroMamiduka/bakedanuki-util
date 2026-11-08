@@ -512,7 +512,6 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
     for attribute, short_name, kind, default in (
         ("shapePartOffset", "spo", "doubleLinear", 0.0),
         ("shapeFinHeight", "sfnh", "doubleLinear", 0.5),
-        ("shapeFinSize", "sfns", "double", 1.0),
         ("shapeFinWidthScale", "sfnws", "double", 1.0),
         ("shapePartSize", "sps", "double", 1.0),
         ("shapePartPrimarySizeScale", "sppss", "double", 1.0),
@@ -790,7 +789,6 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeWideWidth",
         "shapeFin",
         "shapeFinType",
-        "shapeFinSize",
         "shapeFinWidthScale",
     ):
         assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
@@ -867,7 +865,6 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         "shapeFin",
         "shapeFinType",
         "shapeFinHeight",
-        "shapeFinSize",
         "shapeFinWidthScale",
         "__________",
         "shapeGuideLine",
@@ -1639,7 +1636,7 @@ def test_bounds_modes_and_custom_attribute_defaults(
     assert maya_cmds.attributeQuery(
         "boundsMode", node=shape, listEnum=True
     ) == ["Shape:ShapeCentered:Custom"]
-    assert maya_cmds.getAttr(f"{shape}.boundsMode") == 1
+    assert maya_cmds.getAttr(f"{shape}.boundsMode") == 0
     assert not maya_cmds.getAttr(f"{shape}.showBoundsPreview")
     assert (
         maya_cmds.attributeQuery(
@@ -2247,9 +2244,9 @@ def test_arrow_and_fin_part_size_bounds(
     _load_bd_util_nodes(maya_cmds)
     name = shape_name + ("Filled" if filled else "")
     _, shape = _create_controller(maya_cmds, shape_name=name)
-    # PartとFinの倍率をそれぞれ指定し、同じ積となる設定を比較する。
-    maya_cmds.setAttr(f"{shape}.shapeFinSize", 2)
-    maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 0.75)
+    # Partの各倍率を同じ積に変えても、Finの高さと幅を独立して保つ。
+    maya_cmds.setAttr(f"{shape}.shapeFinHeight", 1.0)
+    maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 1.5)
     for attribute, value in (
         ("shapePartOffset", 0.1),
         ("shapePartLengthScale", 1.5),
@@ -2263,7 +2260,6 @@ def test_arrow_and_fin_part_size_bounds(
     maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 3.0)
     maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 1.5)
     maya_cmds.setAttr(f"{shape}.shapePartHeightScale", 1.5)
-    maya_cmds.setAttr(f"{shape}.shapeFinSize", 1)
     maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 1.5)
     maya_cmds.setAttr(f"{shape}.shapeFinHeight", 1.0)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
@@ -2392,13 +2388,13 @@ def test_fin_height_invalidates_cached_geometry(
         assert _bounds(maya_om, shape)[4] == pytest.approx(0.5 + height)
 
 
-def test_fin_height_size_survives_other_scale_cancellation(
+def test_fin_height_and_width_survive_part_scale_cancellation(
     maya_cmds, maya_om, new_scene
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds, shape_name="CubeFinFilled")
-    maya_cmds.setAttr(f"{shape}.shapeFinSize", 2)
-    maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 0.5)
+    maya_cmds.setAttr(f"{shape}.shapeFinHeight", 1.0)
+    maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 1.0)
     maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 0.5)
     maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 0.5)
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -2431,13 +2427,18 @@ def test_fin_height_animation_updates_bounds(maya_cmds, maya_om, new_scene):
         assert _bounds(maya_om, shape)[4] == pytest.approx(max_y)
 
 
-def test_fin_part_size_animation_and_bounds_modes(
+def test_fin_height_and_width_animation_and_bounds_modes(
     maya_cmds, maya_om, new_scene
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds, shape_name="CubeFinFilled")
-    maya_cmds.setKeyframe(shape, attribute="shapeFinSize", time=1, value=1)
-    maya_cmds.setKeyframe(shape, attribute="shapeFinSize", time=10, value=2)
+    for time, height, width in ((1, 0.5, 1), (10, 1, 2)):
+        maya_cmds.setKeyframe(
+            shape, attribute="shapeFinHeight", time=time, value=height
+        )
+        maya_cmds.setKeyframe(
+            shape, attribute="shapeFinWidthScale", time=time, value=width
+        )
     maya_cmds.setAttr(f"{shape}.shapeTranslateX", 2)
     maya_cmds.currentTime(10)
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -4092,7 +4093,7 @@ def test_custom_bounds_node_operator_history_and_scene_reload(
     expected = (0.0, -2.0, -2.0, 4.0, 2.0, 2.0)
     assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)
     mod.undo_it()
-    assert maya_cmds.getAttr(f"{shape_name}.boundsMode") == 1
+    assert maya_cmds.getAttr(f"{shape_name}.boundsMode") == 0
     assert not maya_cmds.getAttr(f"{shape_name}.showBoundsPreview")
     mod.redo_it()
     assert _bounds(maya_om, shape_name) == pytest.approx(expected, abs=1.0e-9)
@@ -4246,9 +4247,8 @@ def test_circle_fin_controls_are_ignored_and_retained(
     values = {
         "shapeFin": True,
         "shapeFinType": 1,
-        "shapeFinHeight": 3.0,
-        "shapeFinSize": 2.0,
-        "shapeFinWidthScale": -4.0,
+        "shapeFinHeight": 6.0,
+        "shapeFinWidthScale": -8.0,
     }
     source = maya_cmds.createNode("network")
     for name, value in values.items():
@@ -4490,8 +4490,8 @@ def test_fin_scales_are_independent_of_part_scales(
     ):
         maya_cmds.setAttr(f"{shape}.{attribute}", value)
     assert _bounds(maya_om, shape) == pytest.approx(baseline)
-    maya_cmds.setAttr(f"{shape}.shapeFinSize", 2)
-    maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 3)
+    maya_cmds.setAttr(f"{shape}.shapeFinHeight", 1.0)
+    maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", 6)
     assert _bounds(maya_om, shape) == pytest.approx((-3, 0, 0, 3, 1, 0))
 
 
@@ -4580,9 +4580,8 @@ def test_common_options_history_and_scene_reload(
         "shapeWideWidth": 0.2,
         "shapeArcAngle": 240,
         "shapeFin": True,
-        "shapeFinSize": 1.5,
-        "shapeFinWidthScale": 2,
-        "shapeFinHeight": 0.75,
+        "shapeFinWidthScale": 3,
+        "shapeFinHeight": 1.125,
     }
     for attribute, value in values.items():
         getattr(shape, attribute).set(value)
@@ -4783,8 +4782,8 @@ def test_axial_circle_fin_does_not_change_width_or_apex(
         ("shapeWideWidth", 0.2),
         ("shapeFin", True),
         ("shapeFinType", fin_type),
-        ("shapeFinSize", 2),
-        ("shapeFinWidthScale", 3),
+        ("shapeFinHeight", 1.0),
+        ("shapeFinWidthScale", 6),
     ):
         maya_cmds.setAttr(f"{shape}.{attribute}", value)
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -5638,7 +5637,7 @@ def test_wide_three_axis_width_preserves_solid_extent(
 def test_wide_three_axis_fin_reaches_the_same_height_as_cross_line(
     maya_cmds, maya_om, new_scene, preset, reference_preset, fin_type
 ):
-    """断面幅をFinの到達高さへ加算せず、正負の高さとSizeを維持する。"""
+    """断面幅をFinの到達高さへ加算せず、正負の高さと幅を維持する。"""
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(maya_cmds, shape_name=preset)
     _, reference = _create_controller(
@@ -5650,21 +5649,21 @@ def test_wide_three_axis_fin_reaches_the_same_height_as_cross_line(
     for target in (shape, reference):
         maya_cmds.setAttr(f"{target}.shapeFin", True)
         maya_cmds.setAttr(f"{target}.shapeFinType", fin_type)
-    for width, height, size in (
-        (0, 1, 0.75),
-        (0.2, 0.8, 1.5),
-        (0.2, -0.8, 1.5),
-        (1.25, 0.8, -1.5),
-        (1.25, -0.8, -1.5),
-        (-0.2, 1, 0.75),
+    for width, fin_height, fin_width in (
+        (0, 0.75, 0.75),
+        (0.2, 1.2, 1.5),
+        (0.2, -1.2, 1.5),
+        (1.25, -1.2, -1.5),
+        (1.25, 1.2, -1.5),
+        (-0.2, 0.75, 0.75),
     ):
         maya_cmds.setAttr(f"{source}.width", width)
         for filled in (False, True):
             for target in (shape, reference):
-                maya_cmds.setAttr(f"{target}.shapeFinHeight", height)
-                maya_cmds.setAttr(f"{target}.shapeFinSize", size)
+                maya_cmds.setAttr(f"{target}.shapeFinHeight", fin_height)
+                maya_cmds.setAttr(f"{target}.shapeFinWidthScale", fin_width)
                 maya_cmds.setAttr(f"{target}.shapeFill", filled)
-            reach = height * size
+            reach = fin_height
             extent = max(0.5, max(0, width) * 0.5)
             actual = _bounds(maya_om, shape)
             expected = _bounds(maya_om, reference)
