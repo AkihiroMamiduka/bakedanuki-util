@@ -96,7 +96,14 @@ def test_cage_arc_width_follows_the_new_curve_normal_in_physical_space(
 
 @pytest.mark.parametrize(
     "preset",
-    ("Cube", "ColorCornerCube", "Sphere", "Cylinder", "Cone", "CrossArcAxial"),
+    (
+        "Cube",
+        "ColorCornerCube",
+        "Sphere",
+        "Cylinder",
+        "CircleArrowAxial",
+        "CrossArcAxial",
+    ),
 )
 @pytest.mark.parametrize("value", (0.0, -1.0, 0.1))
 def test_cage_wide_and_corner_fields_remain_finite_when_faces_fold_or_collapse(

@@ -2,6 +2,8 @@
     switch (outline) {
         case 6: case 79: case 24: case 25: case 36: case 39: case 41: case 43: case kCapsuleOutline:
         case kDiamondArrowOutline: case kCubeArrowOutline: case kSphereArrowOutline:
+        case kSquareArrowPlanarOutline: case kCircleArrowPlanarOutline:
+        case kDiamondArrowAxialOutline: case kArrowSpatialOutline:
             return true;
         default:
             return false;
@@ -51,7 +53,8 @@ std::vector<OptionSite> optionVertexPartSites(const ShapeSettings& settings) {
         if (isBulkArrowBody(settings)) {
             add(0, 1.0, MPoint(bulkArrowFront(settings), 0, 0));
             add(0, -1.0, MPoint(-bulkArrowRearRadius(settings), 0, 0));
-            for (unsigned int axis : {1u, 2u}) for (double sign : {1.0, -1.0}) {
+            const auto axes = isPlanarArrowBody(settings) ? std::vector<unsigned int>{2} : std::vector<unsigned int>{1, 2};
+            for (unsigned int axis : axes) for (double sign : {1.0, -1.0}) {
                 add(axis, sign, MPoint::origin + nativeAxis(axis) * (0.5 * sign));
             }
         } else if (outline == 24 || outline == 25) {
@@ -64,11 +67,15 @@ std::vector<OptionSite> optionVertexPartSites(const ShapeSettings& settings) {
             const double extent = outline == kCapsuleOutline ? 1.0 : 0.5;
             add(0, 1.0, MPoint(extent, 0, 0));
             add(0, -1.0, MPoint(-extent, 0, 0));
-        } else if (outline == 39) {
+        } else if (isNotchedArrowBody(settings)) {
             add(0, 1.0, MPoint(0.5, 0, 0));
             add(2, 1.0, MPoint(-0.25, 0, 0.5));
             add(2, -1.0, MPoint(-0.25, 0, -0.5));
-        } else if (outline == 41 || outline == 43) {
+            if (isSpatialArrowBody(settings)) {
+                add(1, 1.0, MPoint(-0.25, 0.5, 0));
+                add(1, -1.0, MPoint(-0.25, -0.5, 0));
+            }
+        } else if (outline == 41 || outline == 43 || outline == kDiamondArrowAxialOutline) {
             add(0, 1.0, MPoint(0.5, 0, 0));
         }
     }

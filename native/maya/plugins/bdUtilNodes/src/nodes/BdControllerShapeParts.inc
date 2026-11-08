@@ -391,10 +391,12 @@ void appendFinPart(PartBuilder& builder, const ShapeSettings& settings,
         const double surfaceX = std::clamp(x, minX, maxX);
         free.emplace_back(x, partSurfaceY(body, surfaceX) + heights[i] * 2.0 * partFinHeight(settings), 0);
     }
-    const double firstX = std::clamp(free.front().x, minX, maxX);
-    const double lastX = std::clamp(free.back().x, minX, maxX);
-    const MPoint first(firstX, partSurfaceY(body, firstX), 0);
-    const MPoint last(lastX, partSurfaceY(body, lastX), 0);
+    const bool standard = settings.finType == 0;
+    if (standard) for (auto& point : free) point.y = free.back().y;
+    const double firstX = standard ? free.front().x : std::clamp(free.front().x, minX, maxX);
+    const double lastX = standard ? free.back().x : std::clamp(free.back().x, minX, maxX);
+    const MPoint first(firstX, partSurfaceY(body, std::clamp(firstX, minX, maxX)), 0);
+    const MPoint last(lastX, partSurfaceY(body, std::clamp(lastX, minX, maxX)), 0);
     for (std::size_t i = 0; i < builder.geometry.strokes.size();) {
         const auto& stroke = builder.geometry.strokes[i];
         if (stroke.length() == 2 && stroke[0].y == 0.5 && stroke[1].y == 0.5 &&
@@ -414,6 +416,20 @@ void appendFinPart(PartBuilder& builder, const ShapeSettings& settings,
     polygon.insert(polygon.end(), free.begin(), free.end());
     polygon.push_back(last);
     builder.stroke(polygon, style);
+    if (standard) {
+        if (settings.finWidthScale * settings.finSize == 0.0) return;
+        const auto append = [&](const std::vector<MPoint>& points) {
+            appendOutsidePart(builder, points, body,
+                {MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0)}, style);
+        };
+        const double firstHeight = free.front().y - first.y, lastHeight = free.back().y - last.y;
+        if (firstHeight * lastHeight < 0.0) {
+            const auto crossing = first + (last - first) * (firstHeight / (firstHeight - lastHeight));
+            append({first, free.front(), crossing});
+            append({crossing, free.back(), last});
+        } else append(polygon);
+        return;
+    }
     std::vector<MPoint> root;
     for (const auto& p : body) {
         if (p.x > std::min(firstX, lastX) && p.x < std::max(firstX, lastX) &&

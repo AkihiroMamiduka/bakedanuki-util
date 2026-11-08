@@ -1,7 +1,7 @@
 ﻿// 矢印本体の後端部分を一定長に保ち、前側だけを指定した先端へ伸ばす。
 bool isArrowBody(const ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
-    return outline == 25 || outline == 39 || outline == kDiamondArrowOutline;
+    return outline == 25 || outline == 39 || outline == kDiamondArrowOutline || outline == kArrowSpatialOutline;
 }
 
 double arrowBodyFixedLength(const ShapeSettings& settings) {
@@ -13,6 +13,11 @@ double arrowBodyCoordinate(double coordinate, const ShapeSettings& settings) {
     const double minus = settings.baseSpaceMinus[axis];
     const double plus = settings.baseSpacePlus[axis];
     const double direction = plus >= minus ? 1.0 : -1.0;
+    if (isNotchedArrowBody(settings)) {
+        const double relative = coordinate + 0.25;
+        const double scale = relative < 0.0 ? arrowRearDepth(settings) / 0.25 : bulkArrowFront(settings) / 0.75;
+        return minus + direction * relative * scale;
+    }
     if (isCenteredArrowBody(settings)) {
         const double depth = coordinate < 0.0 ? bodyAxisRadius(settings, false) : bulkArrowFront(settings);
         return minus + direction * coordinate * (2.0 * depth);

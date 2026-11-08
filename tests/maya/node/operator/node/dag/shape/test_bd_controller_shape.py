@@ -162,7 +162,7 @@ OPTION_CASE_NAMES = (
     "CubeArrow2D",
     "CubeArrow3D",
     "Octahedron",
-    "OctahedronArrow",
+    "DiamondArrowSpatial",
     "Arc",
     "ArcArrow2D",
     "ArcArrow3D",
@@ -177,9 +177,9 @@ OPTION_CASE_NAMES = (
     "SphereArrow2D",
     "SphereArrow3D",
     "Cylinder",
-    "Arrow",
-    "Pyramid",
-    "Cone",
+    "ArrowPlanar",
+    "SquareArrowAxial",
+    "CircleArrowAxial",
     "ColorCrossLine3Axis",
     "ColorCrossLine3AxisEndCube",
     "ColorCrossLine3AxisEndOctahedron",
@@ -201,10 +201,10 @@ FIN_CASES = {
     "CubeFinArrow": ("Cube", 1),
     "CylinderFin": ("Cylinder", 0),
     "CylinderFinArrow": ("Cylinder", 1),
-    "OctahedronArrowFin": ("OctahedronArrow", 0),
-    "ArrowFin": ("Arrow", 1),
-    "PyramidFin": ("Pyramid", 0),
-    "ConeFin": ("Cone", 0),
+    "DiamondArrowSpatialFin": ("DiamondArrowSpatial", 0),
+    "ArrowPlanarFin": ("ArrowPlanar", 1),
+    "SquareArrowAxialFin": ("SquareArrowAxial", 0),
+    "CircleArrowAxialFin": ("CircleArrowAxial", 0),
 }
 
 
@@ -410,16 +410,35 @@ def _three_axis_solid_part_bounds(
 
 
 def test_generated_shape_enum_matches_presets():
-    assert len(SHAPE_NAMES) == 28
+    assert len(SHAPE_NAMES) == 32
     assert SHAPE_NAMES.index("Cube") == 16
     assert SHAPE_NAMES.index("Capsule") == 20
-    assert SHAPE_NAMES.index("Arrow") == 21
-    assert SHAPE_NAMES.index("DiamondArrow") == 22
-    assert SHAPE_NAMES.index("OctahedronArrow") == 23
-    assert SHAPE_NAMES.index("CubeArrow") == 24
-    assert SHAPE_NAMES.index("SphereArrow") == 25
-    assert SHAPE_NAMES.index("Cone") == 27
+    assert SHAPE_NAMES.index("ArrowPlanar") == 21
+    assert SHAPE_NAMES[21:] == (
+        "ArrowPlanar",
+        "SquareArrowPlanar",
+        "DiamondArrowPlanar",
+        "CircleArrowPlanar",
+        "SquareArrowAxial",
+        "DiamondArrowAxial",
+        "CircleArrowAxial",
+        "ArrowSpatial",
+        "SquareArrowSpatial",
+        "DiamondArrowSpatial",
+        "CircleArrowSpatial",
+    )
     assert ShapeEnumAttrOperator.NAME_MAP == dict(enumerate(SHAPE_NAMES))
+    for removed in (
+        "ARROW",
+        "DIAMONDARROW",
+        "OCTAHEDRONARROW",
+        "CUBEARROW",
+        "SPHEREARROW",
+        "PYRAMID",
+        "CONE",
+    ):
+        assert not hasattr(ShapeEnumPlugOperator, removed)
+        assert not hasattr(ShapeEnumAttrOperator, removed)
     assert all(
         getattr(ShapeEnumPlugOperator, name.upper()) == index
         for index, name in enumerate(SHAPE_NAMES)
@@ -973,13 +992,13 @@ def test_inherited_locator_channels_are_hidden_only_on_controller_shape(
             "CylinderFilled",
             (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
         ),
-        ("Pyramid", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        ("SquareArrowAxial", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
         (
-            "PyramidFilled",
+            "SquareArrowAxialFilled",
             (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5),
         ),
-        ("Cone", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        ("ConeFilled", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        ("CircleArrowAxial", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        ("CircleArrowAxialFilled", (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)),
     ),
 )
 def test_shape_bounds(
@@ -1292,7 +1311,7 @@ def test_fill_option_connection_history_and_scene_reload(
             (-0.5, -0.5, -0.5, 0.5, 1.0, 0.5),
         ),  # CubeFinArrow
         (
-            "OctahedronArrow",
+            "DiamondArrowSpatial",
             (-1.0, -0.5, -0.5, 0.5, 0.5, 0.5),
         ),  # OctahedronArrow
         (
@@ -2182,12 +2201,12 @@ def test_part_attributes_leave_plain_shapes_unchanged(
         ("CubeFinArrow", (-0.75, -0.5, -0.5, 0.75, 1.5, 0.5)),
         ("CylinderFin", (-0.75, -0.5, -0.5, 0.75, 1.5, 0.5)),
         ("CylinderFinArrow", (-0.75, -0.5, -0.5, 0.75, 1.5, 0.5)),
-        ("PyramidFin", (-0.75, -0.5, -0.5, 0.75, 1.0, 0.5)),
-        ("ConeFin", (-0.75, -0.5, -0.5, 0.75, 1.0, 0.5)),
-        ("Arrow", (-0.5, 0, -0.5, 0.5, 0, 0.5)),
-        ("ArrowFin", (-0.8125, 0, -0.5, 0.6875, 1.0, 0.5)),
-        ("OctahedronArrow", (-1.0, -0.5, -0.5, 0.5, 0.5, 0.5)),
-        ("OctahedronArrowFin", (-1.25, -0.5, -0.5, 1.0, 1.0, 0.5)),
+        ("SquareArrowAxialFin", (-0.75, -0.5, -0.5, 0.75, 1.0, 0.5)),
+        ("CircleArrowAxialFin", (-0.75, -0.5, -0.5, 0.75, 1.0, 0.5)),
+        ("ArrowPlanar", (-0.75, 0, -0.5, 0.5, 0, 0.5)),
+        ("ArrowPlanarFin", (-0.875, 0, -0.5, 1.0, 1.0, 0.5)),
+        ("DiamondArrowSpatial", (-1.0, -0.5, -0.5, 0.5, 0.5, 0.5)),
+        ("DiamondArrowSpatialFin", (-1.25, -0.5, -0.5, 1.0, 1.0, 0.5)),
         ("LineArrowAtEnds", (-0.6, 0, -0.075, 0.6, 0, 0.075)),
         ("CrossLineArrowAtEnds", (-0.6, 0, -0.6, 0.6, 0, 0.6)),
         ("CrossLineSwappedArrowAtEnds", (0, -0.6, -0.6, 0, 0.6, 0.6)),
@@ -2278,7 +2297,7 @@ def test_octahedron_arrow_retains_part_controls_without_deforming_body(
 ):
     _load_bd_util_nodes(maya_cmds)
     name = (
-        "OctahedronArrow"
+        "DiamondArrowSpatial"
         + ("Fin" if fin else "")
         + ("Filled" if filled else "")
     )
@@ -2329,10 +2348,10 @@ def test_terminal_part_size_multiplies_both_scales(
         ("CubeFinArrow", "Cube", 1.75),
         ("CylinderFin", "Cylinder", 1.75),
         ("CylinderFinArrow", "Cylinder", 1.75),
-        ("PyramidFin", "Pyramid", 1.25),
-        ("ConeFin", "Cone", 1.25),
-        ("OctahedronArrowFin", "OctahedronArrow", 1.25),
-        ("ArrowFin", "Arrow", 1.25),
+        ("SquareArrowAxialFin", "SquareArrowAxial", 1.25),
+        ("CircleArrowAxialFin", "CircleArrowAxial", 1.25),
+        ("DiamondArrowSpatialFin", "DiamondArrowSpatial", 1.25),
+        ("ArrowPlanarFin", "ArrowPlanar", 1.25),
     ),
 )
 def test_fin_height_is_independent_and_zero_keeps_body(
@@ -4128,7 +4147,7 @@ def test_fin_option_updates_bounds(
 ):
     _load_bd_util_nodes(maya_cmds)
     _, shape = _create_controller(
-        maya_cmds, shape_name="Pyramid", bounds_mode=bounds_mode
+        maya_cmds, shape_name="SquareArrowAxial", bounds_mode=bounds_mode
     )
     maya_cmds.setAttr(f"{shape}.shapeFinHeight", 0.75)
     base = _bounds(maya_om, shape)
@@ -4271,14 +4290,14 @@ def test_arrow_fin_type_and_body_following(
     maya_cmds, maya_om, new_scene, fin_type
 ):
     _load_bd_util_nodes(maya_cmds)
-    _, shape = _create_controller(maya_cmds, shape_name="Arrow")
+    _, shape = _create_controller(maya_cmds, shape_name="ArrowPlanar")
     maya_cmds.setAttr(f"{shape}.shapeFin", True)
     maya_cmds.setAttr(f"{shape}.shapeFinType", fin_type)
     maya_cmds.setAttr(f"{shape}.shapePartOffset", 0.2)
     maya_cmds.setAttr(f"{shape}.shapePartLengthScale", 2)
     maya_cmds.setAttr(f"{shape}.shapePartWidthScale", 0)
     assert _bounds(maya_om, shape) == pytest.approx(
-        (-0.5, 0, -0.5, 0.5, 0.5, 0.5)
+        (-0.75, 0, -0.5, 0.5, 0.5, 0.5)
     )
 
 
@@ -4327,7 +4346,7 @@ def test_fin_option_color_constraints(
 
 def test_fin_option_animation(maya_cmds, maya_om, new_scene):
     _load_bd_util_nodes(maya_cmds)
-    _, shape = _create_controller(maya_cmds, shape_name="Pyramid")
+    _, shape = _create_controller(maya_cmds, shape_name="SquareArrowAxial")
     maya_cmds.setAttr(f"{shape}.shapeFinHeight", 0.75)
     for frame, enabled, fin_type in (
         (1, False, 0),
@@ -4349,7 +4368,7 @@ def test_fin_option_history_and_scene_reload(
     maya_cmds, maya_om, new_scene, tmp_path
 ):
     _load_bd_util_nodes(maya_cmds)
-    _, name = _create_controller(maya_cmds, shape_name="Pyramid")
+    _, name = _create_controller(maya_cmds, shape_name="SquareArrowAxial")
     source = maya_cmds.createNode("network")
     maya_cmds.addAttr(
         source, longName="kind", attributeType="long", defaultValue=1

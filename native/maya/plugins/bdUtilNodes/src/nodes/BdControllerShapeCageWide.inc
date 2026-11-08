@@ -16,14 +16,15 @@ struct CageWideMesh {
     std::vector<CageWideTriangle> triangles;
 };
 
-template<typename Mapper, typename Projector>
+template<typename Mapper>
 CageWideMesh makeCageWideMesh(const PartGeometry& surface, const Mapper& map,
-    const Projector& project, unsigned int divisions = 8) {
+    unsigned int divisions = 8) {
     CageWideMesh result;
     for (const auto& part : surface.fillParts) {
         if (part.marker) continue;
         for (unsigned int index = 0; index + 2 < part.triangles.length(); index += 3) {
             const auto a = part.triangles[index], b = part.triangles[index + 1], c = part.triangles[index + 2];
+            const auto mappedA = map(a), mappedB = map(b), mappedC = map(c);
             int face = -1;
             for (unsigned int axis = 0; axis < 3; ++axis) {
                 if (std::abs(a[axis] - b[axis]) > 1e-10 || std::abs(a[axis] - c[axis]) > 1e-10) continue;
@@ -33,10 +34,13 @@ CageWideMesh makeCageWideMesh(const PartGeometry& surface, const Mapper& map,
             for (unsigned int i = 0; i <= divisions; ++i) {
                 indices[i].resize(divisions + 1 - i);
                 for (unsigned int j = 0; j <= divisions - i; ++j) {
-                    const auto source = project(a + (b - a) * (static_cast<double>(i) / divisions) +
-                        (c - a) * (static_cast<double>(j) / divisions), a, b, c);
+                    const double u = static_cast<double>(i) / divisions;
+                    const double v = static_cast<double>(j) / divisions;
+                    const auto source = a + (b - a) * u + (c - a) * v;
+                    // 帯幅の計算用分割も、完成した元三角面の内部へ置く。
+                    const auto point = mappedA + (mappedB - mappedA) * u + (mappedC - mappedA) * v;
                     indices[i][j] = result.vertices.size();
-                    result.vertices.push_back({source, map(source), {}});
+                    result.vertices.push_back({source, point, {}});
                 }
             }
             for (unsigned int i = 0; i < divisions; ++i) for (unsigned int j = 0; j < divisions - i; ++j) {
@@ -50,12 +54,14 @@ CageWideMesh makeCageWideMesh(const PartGeometry& surface, const Mapper& map,
     for (std::size_t i = 0; i < order.size(); ++i) order[i] = i;
     const auto key = [&](std::size_t index) {
         const auto& point = result.vertices[index].source;
-        return std::array<double, 3>{std::round(point.x * 1e10), std::round(point.y * 1e10), std::round(point.z * 1e10)};
+        const auto& mapped = result.vertices[index].point;
+        return std::array<double, 6>{std::round(point.x * 1e10), std::round(point.y * 1e10), std::round(point.z * 1e10),
+            std::round(mapped.x * 1e10), std::round(mapped.y * 1e10), std::round(mapped.z * 1e10)};
     };
     std::sort(order.begin(), order.end(), [&](auto a, auto b) { return key(a) < key(b); });
     std::vector<CageWideVertex> vertices;
     std::vector<std::size_t> remap(order.size());
-    std::array<double, 3> previous{};
+    std::array<double, 6> previous{};
     for (const auto index : order) {
         const auto next = key(index);
         if (vertices.empty() || next != previous) {
@@ -127,49 +133,12 @@ std::vector<double> cageWideDistances(const CageWideMesh& mesh, const Seed& seed
 struct CageWidePath {
     std::vector<MPoint> points;
     StrokeStyle style = StrokeStyle::Normal;
-    MPoint center;
-    MVector u;
-    MVector v;
-    MVector normal;
-    double radius = 0.0;
-    double first = 0.0;
-    double last = 0.0;
 
-    CageWidePath(const MPointArray& source, StrokeStyle sourceStyle, bool curved) : style(sourceStyle) {
+    CageWidePath(const MPointArray& source, StrokeStyle sourceStyle) : style(sourceStyle) {
         for (const auto& point : source) points.push_back(point);
-        if (!curved || points.size() < 5) return;
-        const auto a = points.front(), b = points[points.size() / 3], c = points[2 * points.size() / 3];
-        const auto firstEdge = b - a, lastEdge = c - a;
-        const auto cross = firstEdge ^ lastEdge;
-        const double squared = cross * cross;
-        if (squared < 1e-18) return;
-        center = a + ((cross ^ firstEdge) * (lastEdge * lastEdge) +
-            (lastEdge ^ cross) * (firstEdge * firstEdge)) / (2.0 * squared);
-        radius = (a - center).length();
-        normal = baseSpaceNormalized(cross);
-        u = baseSpaceNormalized(a - center);
-        v = normal ^ u;
-        for (const auto& point : points) if (std::abs((point - center).length() - radius) > 1e-7 ||
-            std::abs((point - center) * normal) > 1e-7) { radius = 0.0; return; }
-        double previous = 0.0;
-        for (std::size_t i = 1; i < points.size(); ++i) {
-            const auto delta = points[i] - center;
-            const double angle = std::atan2(delta * v, delta * u);
-            last += std::remainder(angle - previous, 2.0 * kPi);
-            previous = angle;
-        }
-        if (last < first) std::swap(first, last);
     }
 
     bool contains(const MPoint& point) const {
-        if (radius > 0.0) {
-            const auto delta = point - center;
-            if (std::abs(delta * normal) > 1e-8 || std::abs(delta.length() - radius) > 1e-8) return false;
-            const double angle = std::atan2(delta * v, delta * u);
-            for (int turn = -2; turn <= 2; ++turn) if (angle + turn * 2.0 * kPi >= first - 1e-8 &&
-                angle + turn * 2.0 * kPi <= last + 1e-8) return true;
-            return false;
-        }
         for (std::size_t i = 1; i < points.size(); ++i) {
             const auto edge = points[i] - points[i - 1];
             const double squared = edge * edge;
@@ -227,12 +196,7 @@ void appendCageWidePolygon(PartBuilder& builder, const std::vector<CageWideClipP
         if (builder.singleSided) {
             const auto source = polygon[0].source + ((polygon[i].source - polygon[0].source) +
                 (polygon[i + 1].source - polygon[0].source)) / 3.0;
-            constexpr double epsilon = 1e-5;
-            const auto origin = cageBodyPoint(source, settings);
-            const auto x = cageBodyPoint(source + nativeAxis(0) * epsilon, settings) - origin;
-            const auto y = cageBodyPoint(source + nativeAxis(1) * epsilon, settings) - origin;
-            const auto z = cageBodyPoint(source + nativeAxis(2) * epsilon, settings) - origin;
-            if ((x ^ y) * z < 0.0) std::swap(b, c);
+            if (cageBaseReverses(source, settings) != (cageBodyDeformationDeterminant(source, settings) < 0.0)) std::swap(b, c);
         }
         const auto start = builder.geometry.fillParts.size();
         builder.triangle(polygon[0].point, b, c, style);
@@ -271,40 +235,6 @@ void appendCageWideBoundary(PartGeometry& geometry, const CageWideClipPoint& a, 
     }
 }
 
-MPoint cageWideSurfacePoint(const MPoint& point, const MPoint& a, const MPoint& b,
-    const MPoint& c, short outline, const ShapeSettings& settings) {
-    if (outline == kCapsuleOutline) return capsuleProjectedPoint(point);
-    if (isBulkArrowBody(settings)) return bulkArrowProjectedPoint(point, settings);
-    if (outline == 33 || outline == 46) return genericWideSpherePoint(point - MPoint::origin);
-    if (outline != 36 && outline != 43) return point;
-    if (std::abs(a.x - b.x) < 1e-10 && std::abs(a.x - c.x) < 1e-10) {
-        bool rim = false;
-        const std::array<MPoint, 3> vertices = {a, b, c};
-        for (unsigned int i = 0; i < 3; ++i) {
-            const auto first = vertices[i], last = vertices[(i + 1) % 3];
-            if (std::abs(std::hypot(first.y, first.z) - 0.5) > 1e-10 ||
-                std::abs(std::hypot(last.y, last.z) - 0.5) > 1e-10) continue;
-            const auto edge = last - first;
-            const double squared = edge * edge;
-            const double t = squared <= 1e-24 ? 0.0 : std::clamp(((point - first) * edge) / squared, 0.0, 1.0);
-            if ((point - (first + edge * t)).length() < 1e-10) rim = true;
-        }
-        if (!rim) return point;
-    }
-    const double radius = outline == 36 ? 0.5 : std::max(0.0, 0.5 - point.x) * 0.5;
-    const double current = std::hypot(point.y, point.z);
-    return current <= 1e-14 ? point : MPoint(point.x, point.y * radius / current, point.z * radius / current);
-}
-
-MPoint cageWidePathPoint(const CageWidePath& path, std::size_t segment, double t) {
-    const auto a = path.points[segment - 1], b = path.points[segment];
-    if (path.radius <= 0.0) return a + (b - a) * t;
-    const auto first = a - path.center, last = b - path.center;
-    const double angle = std::atan2(first * path.v, first * path.u);
-    const double delta = std::remainder(std::atan2(last * path.v, last * path.u) - angle, 2.0 * kPi);
-    return path.center + (path.u * std::cos(angle + delta * t) + path.v * std::sin(angle + delta * t)) * path.radius;
-}
-
 void appendCageWideReference(PartGeometry& geometry, const std::vector<CageWidePath>& paths,
     const ShapeSettings& settings, short outline, bool corner) {
     if (settings.wide && settings.wideWidth > 1e-12 &&
@@ -316,6 +246,7 @@ void appendCageWideReference(PartGeometry& geometry, const std::vector<CageWideP
             })) continue;
         for (std::size_t segment = 1; segment < path.points.size(); ++segment) {
             const auto a = path.points[segment - 1], b = path.points[segment];
+            const auto mappedA = cageBodyPoint(a, settings), mappedB = cageBodyPoint(b, settings);
             unsigned int along = 0;
             while (along < 2 && std::abs(a[along] - b[along]) < 1e-10) ++along;
             bool cornerEdge = corner;
@@ -324,34 +255,13 @@ void appendCageWideReference(PartGeometry& geometry, const std::vector<CageWideP
             double limit = 0.0;
             const bool aPositive = a[along] >= b[along];
             if (cornerEdge) {
-                double distance = 0.0;
-                auto previous = cageBodyPoint(aPositive ? a : b, settings);
-                for (unsigned int step = 1; step <= 64; ++step) {
-                    const double t = static_cast<double>(step) / 64;
-                    const auto next = cageBodyPoint(a + (b - a) * (aPositive ? t : 1.0 - t), settings);
-                    const double length = (next - previous).length();
-                    if (distance + length >= kCornerSquareSize && length > 1e-14) {
-                        limit = (step - 1 + (kCornerSquareSize - distance) / length) / 64.0;
-                        break;
-                    }
-                    distance += length;
-                    previous = next;
-                    limit = 1.0;
-                }
+                const double length = (mappedB - mappedA).length();
+                limit = length <= 1e-14 ? 1.0 : std::min(1.0, kCornerSquareSize / length);
             }
             if (cornerEdge && limit >= 1.0 - 1e-12) continue;
             Stroke stroke;
-            for (unsigned int step = 0; step <= 16; ++step) {
-                const double t = static_cast<double>(step) / 16;
-                if (cornerEdge && (aPositive ? t < limit : t > 1.0 - limit)) continue;
-                if (stroke.length() == 0 && cornerEdge) {
-                    const double boundary = aPositive ? limit : 0.0;
-                    stroke.append(cageBodyPoint(cageWidePathPoint(path, segment, boundary), settings));
-                }
-                stroke.append(cageBodyPoint(cageWidePathPoint(path, segment, t), settings));
-            }
-            if (cornerEdge && !aPositive && limit < 1.0) stroke.append(cageBodyPoint(
-                cageWidePathPoint(path, segment, 1.0 - limit), settings));
+            stroke.append(mappedA + (mappedB - mappedA) * (cornerEdge && aPositive ? limit : 0.0));
+            stroke.append(mappedA + (mappedB - mappedA) * (cornerEdge && !aPositive ? 1.0 - limit : 1.0));
             if (stroke.length() >= 2) {
                 geometry.strokes.push_back(std::move(stroke));
                 geometry.strokeStyles.push_back(path.style);
@@ -365,11 +275,7 @@ void makeCagePlanarWide(const ShapeSettings& settings, const std::vector<CageWid
     PartGeometry lines;
     for (const auto& path : paths) {
         Stroke stroke;
-        for (std::size_t segment = 1; segment < path.points.size(); ++segment) {
-            for (unsigned int step = 0; step < 8; ++step) stroke.append(cageBodyPoint(
-                cageWidePathPoint(path, segment, static_cast<double>(step) / 8), settings));
-        }
-        if (!path.points.empty()) stroke.append(cageBodyPoint(path.points.back(), settings));
+        for (const auto& point : path.points) stroke.append(cageBodyPoint(point, settings));
         if (stroke.length() >= 2) { lines.strokes.push_back(std::move(stroke)); lines.strokeStyles.push_back(path.style); }
     }
     PartPlane plane;
@@ -379,7 +285,19 @@ void makeCagePlanarWide(const ShapeSettings& settings, const std::vector<CageWid
         const auto first = cageBodyPoint(MPoint(0.5, 0, 0), settings) - center;
         const auto second = cageBodyPoint(MPoint(0, 0, 0.5), settings) - center;
         normal = baseSpaceNormalized(first ^ second);
-        if (normal.length() == 0.0) normal = MVector(0, 1, 0);
+        if (normal.length() == 0.0) {
+            // 線へ潰れても原型の面法線を残し、Swap後の主軸と平行にしない。
+            for (const auto& path : paths) {
+                for (std::size_t i = 1; i + 1 < path.points.size(); ++i) {
+                    const auto nativeNormal = (path.points[i] - path.points[0]) ^ (path.points[i + 1] - path.points[0]);
+                    if (nativeNormal.length() <= 1e-12) continue;
+                    normal = baseSpaceNormalized(singularBaseSpaceVector(nativeNormal, settings));
+                    break;
+                }
+                if (normal.length() != 0.0) break;
+            }
+            if (normal.length() == 0.0) normal = MVector(0, 1, 0);
+        }
         plane = {center, baseSpaceNormalized(first.length() > 0.0 ? first : MVector(1, 0, 0)),
             baseSpaceNormalized(normal ^ (first.length() > 0.0 ? first : MVector(1, 0, 0)))};
     }
@@ -387,12 +305,11 @@ void makeCagePlanarWide(const ShapeSettings& settings, const std::vector<CageWid
     for (auto& stroke : lines.strokes) for (auto& point : stroke) point -= center - MPoint::origin;
     plane.origin = MPoint::origin;
     WideEndArrowGeometry band;
-    const short outline = baseOutlineIndex(outlinePresetIndex(settings.shape));
     const auto joint = (cageBodyPoint(MPoint(-0.25, 0, -0.5), settings) +
         (cageBodyPoint(MPoint(-0.25, 0, 0.5), settings) - cageBodyPoint(MPoint(-0.25, 0, -0.5), settings)) * 0.5) -
         (center - MPoint::origin);
     for (const auto& stroke : lines.strokes) appendGenericWideBand(band, stroke, normal,
-        settings.wideWidth * 0.5, outline == 39, outline == 39 ? &joint : nullptr);
+        settings.wideWidth * 0.5, isNotchedArrowBody(settings), isNotchedArrowBody(settings) ? &joint : nullptr);
     PartBuilder builder(settings.fill);
     appendPartTriangleUnion(builder, band, plane);
     geometry = std::move(builder.geometry);
@@ -592,10 +509,7 @@ void makeCageSurfaceWide(const ShapeSettings& settings, const PartGeometry& cano
     const std::vector<CageWidePath>& paths, PartGeometry& geometry, bool corner) {
     const short outline = baseOutlineIndex(outlinePresetIndex(settings.shape));
     const auto mesh = makeCageWideMesh(canonical,
-        [&](const MPoint& point) { return cageBodyPoint(point, settings); },
-        [&](const MPoint& point, const MPoint& a, const MPoint& b, const MPoint& c) {
-            return cageWideSurfacePoint(point, a, b, c, outline, settings);
-        });
+        [&](const MPoint& point) { return cageBodyPoint(point, settings); });
     std::vector<std::vector<std::size_t>> pathGroups(outline == 46 ? 3 : 1);
     for (std::size_t i = 0; i < paths.size(); ++i) {
         std::size_t group = 0;
@@ -608,6 +522,16 @@ void makeCageSurfaceWide(const ShapeSettings& settings, const PartGeometry& cano
     std::vector<std::vector<double>> fields;
     for (const auto& group : pathGroups) fields.push_back(cageWideDistances(mesh,
         [&](const MPoint& point) {
+            if (outline == 33 || outline == 46) {
+                for (const auto index : group) {
+                    const auto& vertices = paths[index].points;
+                    if (vertices.size() < 3) continue;
+                    const auto normal = (vertices[1] - vertices[0]) ^ (vertices[2] - vertices[0]);
+                    const double length = normal.length();
+                    if (length > 1e-14 && std::abs((point - vertices[0]) * normal) < length * 1e-8) return true;
+                }
+                return false;
+            }
             if (outline == kCapsuleOutline) {
                 return std::abs(std::abs(point.x) - 0.5) < 1e-8 ||
                     std::abs(point.y) < 1e-8 || std::abs(point.z) < 1e-8;
@@ -706,17 +630,65 @@ void makeCageWideBody(const ShapeSettings& settings, const PartGeometry& canonic
     const bool corner = outline == 51;
     if (outline == kCapsuleOutline && (settings.wideWidth <= 1e-12 ||
         (bodyAxisRadius(settings, false) == 0.0 && bodyAxisRadius(settings, true) == 0.0))) return;
-    if (isCenteredArrowBody(settings) && settings.wideWidth <= 1e-12) return;
+    if ((isCenteredArrowBody(settings) || outline == kDiamondArrowAxialOutline) && settings.wideWidth <= 1e-12) return;
     if (isBulkArrowBody(settings) && bulkArrowRearRadius(settings) == 0.0 && bulkArrowFrontRadius(settings) == 0.0) return;
     if (!settings.wide && !corner) return;
-    // 四角形の4頂点も同一円周に乗るため、曲線を持つ本体だけで円弧を推定する。
-    const bool curved = outline == 0 || outline == 33 || outline == 36 || outline == 43 ||
-        outline == 46 || isPlanarCircleOutline(outline) || isArcOutline(outline);
     std::vector<CageWidePath> paths;
     for (std::size_t i = 0; i < canonicalFullGeometry.strokes.size(); ++i) paths.emplace_back(
-        canonicalFullGeometry.strokes[i], canonicalFullGeometry.strokeStyles[i], curved);
+        canonicalFullGeometry.strokes[i], canonicalFullGeometry.strokeStyles[i]);
     if (outline == 5 || outline == 45) { makeCageCross3AxisWide(settings, geometry); return; }
     if (isArcOutline(outline)) { makeCageArcWide(settings, geometry); return; }
+    if (outline == kArrowSpatialOutline) {
+        std::vector<PartGeometry> planes;
+        for (const auto& path : paths) {
+            PartGeometry plane;
+            makeCagePlanarWide(settings, std::vector<CageWidePath>{path}, plane);
+            planes.push_back(std::move(plane));
+        }
+        const unsigned int axis = settings.axisSwap ? 1 : 0;
+        const double direction = settings.baseSpacePlus[axis] >= settings.baseSpaceMinus[axis] ? 1.0 : -1.0;
+        const auto rawTip = cageBodyPoint(MPoint(0.5, 0, 0), settings);
+        const auto center = cageBodyPoint(bodyNativeCenter(settings), settings);
+        bool align = planes.size() == 2 && settings.part && settings.partSize != 0.0 && settings.partOffset == 0.0 &&
+            (settings.partType != 1 || settings.partPrimarySizeScale != 0.0) &&
+            (rawTip[axis] - center[axis]) * direction > 1e-10;
+        std::vector<MPoint> tips;
+        auto sharedTip = rawTip;
+        if (align) for (const auto& plane : planes) {
+            bool found = false;
+            MPoint tip;
+            for (const auto& stroke : plane.strokes) for (const auto& point : stroke) {
+                if (!std::isfinite(point.x) || !std::isfinite(point.y) || !std::isfinite(point.z)) continue;
+                if (!found || point[axis] * direction > tip[axis] * direction) {
+                    tip = point;
+                    found = true;
+                }
+            }
+            auto across = tip - rawTip;
+            across[axis] = 0.0;
+            if (!found || (tip[axis] - rawTip[axis]) * direction < -1e-9 || across.length() > 1e-8) {
+                align = false;
+                break;
+            }
+            tips.push_back(tip);
+            if ((tip[axis] - sharedTip[axis]) * direction > 0.0) sharedTip[axis] = tip[axis];
+        }
+        if (align) {
+            // 非等方な2面の外miter終端だけを揃え、単一の前Partへ接合する。
+            const double tolerance = std::min(1e-9, settings.wideWidth * 1e-3);
+            for (std::size_t i = 0; i < planes.size(); ++i) {
+                const auto replace = [&](MPoint& point) {
+                    if ((point - tips[i]).length() <= tolerance) point = sharedTip;
+                };
+                for (auto& stroke : planes[i].strokes) for (auto& point : stroke) replace(point);
+                for (auto& part : planes[i].fillParts) for (auto& point : part.triangles) replace(point);
+            }
+        }
+        PartGeometry result;
+        for (auto& plane : planes) mergeOptionGeometry(result, std::move(plane));
+        geometry = std::move(result);
+        return;
+    }
     if (genericWidePlanarOutline(outline) || outline == 1 || outline == 4 || outline == 52 || outline == 53 || outline == 116) {
         if (settings.wideWidth <= 1e-12) {
             geometry = {};

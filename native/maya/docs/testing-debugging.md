@@ -75,7 +75,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 
 ## Viewport 2.0描画テスト
 
-`bdControllerShape` の描画比較は次の8ファイルに分かれています。
+`bdControllerShape` の描画比較は次の9ファイルに分かれています。
 
 | ファイル | 主な確認対象 |
 | --- | --- |
@@ -85,8 +85,9 @@ schedule を検証できません。最終的な correctness test は、Maya に
 | [test_controller_shape_gear_template.py](../../../tests/maya/ui/test_controller_shape_gear_template.py) | Gearの実長・周期区間、歯先中央の両側、Wideの位相、線と面の独立した選択、他形状による遮蔽 |
 | [test_controller_shape_cage_attachments.py](../../../tests/maya/ui/test_controller_shape_cage_attachments.py) | 面倍率で変形した本体とPart・Fin・GuideLineの接合、局所寸法、巻き付けPartとCrossの境界 |
 | [test_controller_shape_part_guides.py](../../../tests/maya/ui/test_controller_shape_part_guides.py) | 頂点からArrow先端へつなぐGuideLine、Triangleの折れ線、Partの欠落方向、色付きコーナーの保持 |
-| [test_controller_shape_capsule.py](../../../tests/maya/ui/test_controller_shape_capsule.py) | Capsuleの端別キャップ半径・円筒・宣言面倍率、等半径の円筒長0でのSphere一致、Wide・Template・Wireframe、両端PartとGuideLine |
-| [test_controller_shape_arrow_shapes.py](../../../tests/maya/ui/test_controller_shape_arrow_shapes.py) | DiamondArrow・OctahedronArrow・CubeArrow・SphereArrowの肩・本体中心と端別宣言半径、母体維持と伸長、接線接合と不要な接合円の省略、面の表裏、Part・Fin・GuideLine・Wide・Template |
+| [test_controller_shape_capsule.py](../../../tests/maya/ui/test_controller_shape_capsule.py) | Capsuleの横径由来のキャップ半径・円筒・面倍率、円筒長0でのSphere一致、Wide・Template・Wireframe、両端PartとGuideLine |
+| [test_controller_shape_arrow_shapes.py](../../../tests/maya/ui/test_controller_shape_arrow_shapes.py) | Planar・Axial・Spatialの11本体の肩・本体中心と基準半径、母体維持と伸長、接線接合と不要な接合円の省略、面の表裏、Part・Fin・GuideLine・Wide・Template |
+| [test_controller_shape_axis_fins.py](../../../tests/maya/ui/test_controller_shape_axis_fins.py) | 元の直線を保つ面変形・Wide・Template、Capsuleの左右独立半球、AxialのMinus起点Guide、Standard Finの軸平行と下降線 |
 
 形状の仕様と手動で確認する項目は [Controller Shape](controller-shape.md) を参照してください。
 

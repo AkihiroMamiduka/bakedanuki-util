@@ -1,6 +1,14 @@
 ﻿// 新しい矢印本体の断面から、Finの幅と物理距離の高さを組み立てる。
 PartGeometry makeExtendedArrowFinGeometry(const ShapeSettings& settings) {
-    const bool diamond = outlinePresetIndex(settings.shape) == kDiamondArrowOutline;
+    const short outline = outlinePresetIndex(settings.shape);
+    const auto profile = isNotchedArrowBody(settings) ? notchedArrowProfilePoints()
+        : outline == kDiamondArrowOutline || outline == 25
+            ? std::vector<MPoint>{MPoint(0.5, 0, 0), MPoint(0, 0.5, 0),
+                MPoint(-0.5, 0, 0), MPoint(0, -0.5, 0), MPoint(0.5, 0, 0)}
+        : outline == kDiamondArrowAxialOutline
+            ? std::vector<MPoint>{MPoint(-0.5, -0.5, 0), MPoint(0.5, 0, 0),
+                MPoint(-0.5, 0.5, 0), MPoint(-0.5, -0.5, 0)}
+        : bulkArrowProfilePoints(settings);
     PartBuilder builder(settings.fill);
     auto physical = settings;
     physical.baseSpaceMinus = MVector(-0.5, -0.5, -0.5);
@@ -11,19 +19,16 @@ PartGeometry makeExtendedArrowFinGeometry(const ShapeSettings& settings) {
     const double heightSign = settings.baseSpacePlus[heightAxis] >= settings.baseSpaceMinus[heightAxis] ? 1.0 : -1.0;
     const auto center = bodyBaseSpacePoint(bodyNativeCenter(settings), settings);
     std::vector<MPoint> section;
-    if (diamond) {
+    if (isPlanarArrowBody(settings)) {
         double low = 1e100, high = -1e100;
-        for (const auto& point : optionPlanarVertexPoints(kDiamondArrowOutline)) {
+        for (const auto& point : profile) {
             const double along = (bodyBaseSpacePoint(point, settings)[alongAxis] - center[alongAxis]) * alongSign;
             low = std::min(low, along);
             high = std::max(high, along);
         }
+        if (outline == 39 && settings.finType == 0) low = 0.0;
         section = {MPoint(low, 0, 0), MPoint(high, 0, 0)};
     } else {
-        const auto profile = outlinePresetIndex(settings.shape) == 25
-            ? std::vector<MPoint>{MPoint(0.5, 0, 0), MPoint(0, 0.5, 0),
-                MPoint(-0.5, 0, 0), MPoint(0, -0.5, 0), MPoint(0.5, 0, 0)}
-            : bulkArrowProfilePoints(settings);
         for (const auto& point : profile) {
             const auto mapped = bodyBaseSpacePoint(point, settings) - center;
             section.emplace_back(mapped[alongAxis] * alongSign, mapped[heightAxis] * heightSign, 0);

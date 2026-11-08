@@ -65,8 +65,8 @@ def _joint_options(swapped, deformed):
 def _joint_point(point, swapped=False, deformed=False):
     x, y, z = point
     if deformed:
-        # R-=.5、R+=.65を含む完成外端[-1.7,1.85]で面倍率を補間する。
-        y *= 1 + 0.6 * (x + 1.7) / 3.55
+        # 半球は接合面の倍率を使い、円筒部だけで両端を補間する。
+        y *= 1 + 0.6 * (min(1.2, max(-1.2, x)) + 1.2) / 2.4
     return (y, x, -z) if swapped else (x, y, z)
 
 
@@ -426,7 +426,7 @@ def test_capsule_large_inward_offset_keeps_the_guide_through_the_opposite_cap(
 
 @pytest.mark.parametrize("swapped", (False, True))
 @pytest.mark.parametrize("sign", (1, -1))
-def test_capsule_keeps_cap_centers_and_uses_independent_axial_cap_radii(
+def test_capsule_keeps_cap_centers_and_uses_each_end_scale_for_axial_radii(
     maya_cmds, new_scene, tmp_path, swapped, sign
 ):
     _require_viewport(maya_cmds)
@@ -462,7 +462,7 @@ def test_capsule_keeps_cap_centers_and_uses_independent_axial_cap_radii(
         image = _capture_view(
             panel, tmp_path / "capsule_independent_axial_cap_radii.png"
         )
-        # R-=(.4*2+.6*.5)/2=.55、R+=(.4*.5+.6*2)/2=.7。
+        # Minusは(.4*2+.6*.5)/2=.55、Plusは(.4*.5+.6*2)/2=.7。
         for point in (
             (-1.55, 0, 0),
             (1.9, 0, 0),

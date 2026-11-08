@@ -53,7 +53,12 @@ _SURFACE_CASES = (
     ("ColorCube", (0, 0, 4), (0, 0, 0.5), (0.45, 0, 0.5)),
     ("ColorCornerCube", (0, 0, 4), (0, 0, 0.5), (0.45, 0, 0.5)),
     ("Octahedron", (4, 4, 4), (1 / 6, 1 / 6, 1 / 6), (0.24, 0.24, 0.02)),
-    ("OctahedronArrow", (4, 4, 4), (1 / 6, 1 / 6, 1 / 6), (0.24, 0.24, 0.02)),
+    (
+        "DiamondArrowSpatial",
+        (4, 4, 4),
+        (1 / 6, 1 / 6, 1 / 6),
+        (0.24, 0.24, 0.02),
+    ),
     (
         "Sphere",
         (4, 4, 4),
@@ -67,8 +72,8 @@ _SURFACE_CASES = (
         (_CIRCLE_DIAGONAL, _CIRCLE_DIAGONAL, 0),
     ),
     ("Cylinder", (4, 0, 0), (0.5, 0, 0), (0.5, 0.45, 0)),
-    ("Pyramid", (-4, 0, 0), (-0.5, 0.25, 0.1), (-0.5, 0.45, 0)),
-    ("Cone", (-4, 0, 0), (-0.5, 0.2, 0.2), (-0.5, 0.45, 0)),
+    ("SquareArrowAxial", (-4, 0, 0), (-0.5, 0.25, 0.1), (-0.5, 0.45, 0)),
+    ("CircleArrowAxial", (-4, 0, 0), (-0.5, 0.2, 0.2), (-0.5, 0.45, 0)),
 )
 
 
@@ -327,7 +332,7 @@ def test_fully_covered_sphere_has_no_internal_lines_and_unfilled_fallback(
         assert fallback == ordinary
 
 
-@pytest.mark.parametrize("preset", ("Cylinder", "Cone"))
+@pytest.mark.parametrize("preset", ("Cylinder", "CircleArrowAxial"))
 def test_wide_curved_sides_have_open_panels_between_rim_and_generator_bands(
     maya_cmds, new_scene, tmp_path, preset
 ):
@@ -344,7 +349,7 @@ def test_wide_curved_sides_have_open_panels_between_rim_and_generator_bands(
         _aim_at_origin(maya_cmds, camera, (0, 4, 4))
         side = (0, _CIRCLE_DIAGONAL, _CIRCLE_DIAGONAL)
         band = (0, math.sqrt(0.25 - 0.04**2), 0.04)
-        if preset == "Cone":
+        if preset == "CircleArrowAxial":
             side = (0, 0.25 / math.sqrt(2), 0.25 / math.sqrt(2))
             band = (0, math.sqrt(0.25**2 - 0.02**2), 0.02)
         pixels = _capture_view(panel, tmp_path / "curved_side_opening.png")

@@ -177,6 +177,35 @@ bool cageTemplateProtected(const MPoint& point, const std::vector<OptionClipVolu
     });
 }
 
+std::array<MPoint, 2> cageTemplateOriginalEdge(const MPoint& first, const MPoint& last,
+    const Strokes& strokes) {
+    const auto middle = first + (last - first) * 0.5;
+    std::array<MPoint, 2> result = {first, last};
+    double closest = 1e100;
+    for (const auto& stroke : strokes) for (unsigned int i = 1; i < stroke.length(); ++i) {
+        const auto a = stroke[i - 1], b = stroke[i];
+        const auto edge = b - a;
+        const double squared = edge * edge;
+        if (squared <= 1e-24) continue;
+        const double t = std::clamp(((middle - a) * edge) / squared, 0.0, 1.0);
+        const auto delta = middle - (a + edge * t);
+        if (delta * delta < closest) {
+            closest = delta * delta;
+            result = {a, b};
+        }
+    }
+    return result;
+}
+
+MPoint cageTemplateEdgePoint(const MPoint& point, const std::array<MPoint, 2>& edge,
+    const ShapeSettings& settings) {
+    const auto direction = edge[1] - edge[0];
+    const double squared = direction * direction;
+    const double t = squared <= 1e-24 ? 0.0 : std::clamp(((point - edge[0]) * direction) / squared, 0.0, 1.0);
+    const auto first = cageBodyPoint(edge[0], settings), last = cageBodyPoint(edge[1], settings);
+    return first + (last - first) * t;
+}
+
 std::vector<CageTemplatePath> cageTemplatePaths(const ShapeSettings& settings) {
     auto canonical = cageCanonicalBodyGeometry(settings);
     const auto reference = canonical;
@@ -191,13 +220,20 @@ std::vector<CageTemplatePath> cageTemplatePaths(const ShapeSettings& settings) {
     source.templateLineRate = settings.templateLineRate;
     source.templateLineInvert = settings.templateLineInvert;
     applyBodyTemplate(source, canonical, reference);
-    canonical.fillParts.clear();
-    auto mapped = cageMappedBodyGeometry(canonical, settings);
     std::vector<CageTemplatePath> result;
-    for (std::size_t i = 0; i < mapped.strokes.size(); ++i) {
+    for (std::size_t i = 0; i < canonical.strokes.size(); ++i) {
         CageTemplatePath path;
-        path.points = std::move(mapped.strokes[i]);
-        path.templated = mapped.strokeStyles[i] == StrokeStyle::Template;
+        path.templated = canonical.strokeStyles[i] == StrokeStyle::Template;
+        const auto& stroke = canonical.strokes[i];
+        for (unsigned int segment = 1; segment < stroke.length(); ++segment) {
+            const auto first = stroke[segment - 1], last = stroke[segment];
+            const auto edge = cageTemplateOriginalEdge(first, last, reference.strokes);
+            // Templateで増えた点を再変形せず、元辺の変形済み両端から補間する。
+            const auto a = cageTemplateEdgePoint(first, edge, settings);
+            const auto b = cageTemplateEdgePoint(last, edge, settings);
+            if (path.points.length() == 0) path.points.append(a);
+            path.points.append(b);
+        }
         if (path.points.length() < 2) continue;
         result.push_back(std::move(path));
     }

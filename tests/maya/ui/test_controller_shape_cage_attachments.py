@@ -129,7 +129,7 @@ def test_cage_wire_part_remains_normal_when_the_body_line_is_templated(
         assert _brightness_near_world(panel, hidden, sample) < 180
 
 
-def test_cage_fin_rises_from_the_new_body_surface_with_fixed_height(
+def test_cage_standard_fin_keeps_its_top_parallel_to_the_main_axis(
     maya_cmds, new_scene, tmp_path
 ):
     if maya_cmds.about(batch=True):
@@ -147,8 +147,8 @@ def test_cage_fin_rises_from_the_new_body_surface_with_fixed_height(
         maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3.2)
         _look_at(maya_cmds, camera, (0, 0.4, 0), (0, 0, 1))
         shown = _capture_view(panel, tmp_path / "fin.png")
-        inside = (0.5 - 0.3 / math.sqrt(5), 1 + 0.6 / math.sqrt(5), 0)
-        outside = (0.5 - 0.55 / math.sqrt(5), 1 + 1.1 / math.sqrt(5), 0)
+        inside = (0.25, 1.25, 0)
+        outside = (0.25, 1.5, 0)
         assert _brightness_near_world(panel, shown, inside) > 550
         assert _brightness_near_world(panel, shown, outside) < 180
         maya_cmds.setAttr(f"{shape}.shapeFin", False)

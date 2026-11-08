@@ -1,6 +1,6 @@
 ﻿// Static outline definitions extracted from the legacy ctrlshape.py.
 // Coordinates remain in its original XY / +Z orientation until appendPresetComponent.
-constexpr std::array<const char*, 28> kPresetNames = {
+constexpr std::array<const char*, 32> kPresetNames = {
     "Gear",
     "ColorCrossLine3Axis",
     "ColorCube",
@@ -22,13 +22,17 @@ constexpr std::array<const char*, 28> kPresetNames = {
     "Sphere",
     "Cylinder",
     "Capsule",
-    "Arrow",
-    "DiamondArrow",
-    "OctahedronArrow",
-    "CubeArrow",
-    "SphereArrow",
-    "Pyramid",
-    "Cone",
+    "ArrowPlanar",
+    "SquareArrowPlanar",
+    "DiamondArrowPlanar",
+    "CircleArrowPlanar",
+    "SquareArrowAxial",
+    "DiamondArrowAxial",
+    "CircleArrowAxial",
+    "ArrowSpatial",
+    "SquareArrowSpatial",
+    "DiamondArrowSpatial",
+    "CircleArrowSpatial",
 };
 
 enum class PartEnds { Both, End };
@@ -40,7 +44,7 @@ struct PresetInfo {
 };
 
 // 公開する基本形状の後ろに、既存の帯生成で使う内部形状を置く。
-constexpr std::array<PresetInfo, 37> kPresetInfo = {{
+constexpr std::array<PresetInfo, 41> kPresetInfo = {{
     {0},  // Gear
     {45},  // ColorCrossLine3Axis
     {50},  // ColorCube
@@ -62,13 +66,17 @@ constexpr std::array<PresetInfo, 37> kPresetInfo = {{
     {33},  // Sphere
     {36},  // Cylinder
     {kCapsuleOutline},  // Capsule
-    {39},  // Arrow
-    {kDiamondArrowOutline},  // DiamondArrow
-    {25},  // OctahedronArrow
-    {kCubeArrowOutline},  // CubeArrow
-    {kSphereArrowOutline},  // SphereArrow
-    {41},  // Pyramid
-    {43},  // Cone
+    {39},  // ArrowPlanar
+    {kSquareArrowPlanarOutline},  // SquareArrowPlanar
+    {kDiamondArrowOutline},  // DiamondArrowPlanar
+    {kCircleArrowPlanarOutline},  // CircleArrowPlanar
+    {41},  // SquareArrowAxial
+    {kDiamondArrowAxialOutline},  // DiamondArrowAxial
+    {43},  // CircleArrowAxial
+    {kArrowSpatialOutline},  // ArrowSpatial
+    {kCubeArrowOutline},  // SquareArrowSpatial
+    {25},  // DiamondArrowSpatial
+    {kSphereArrowOutline},  // CircleArrowSpatial
     {104},  // WideLine
     {106},  // WideCrossLine
     {117},  // WideCircle

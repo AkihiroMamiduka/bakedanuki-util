@@ -77,7 +77,8 @@ def test_shared_signed_distance_driver_expands_shape_and_custom_bounds_symmetric
     tuple(
         name
         for name in SHAPE_NAMES
-        if name not in ("Arrow", "DiamondArrow", "OctahedronArrow")
+        if name
+        not in ("ArrowPlanar", "DiamondArrowPlanar", "DiamondArrowSpatial")
     ),
 )
 @pytest.mark.parametrize("filled", (False, True))
@@ -107,9 +108,15 @@ def test_base_space_maps_all_body_shapes_without_normalizing_their_bounds(
     _set_base_space(maya_cmds, shape)
     if preset == "Capsule":
         expected = (-1.25, -2, 4, 5.25, 4, 7)
-    elif preset in ("CubeArrow", "SphereArrow"):
+    elif preset in ("SquareArrowSpatial", "CircleArrowSpatial"):
         # Minus=1を中心に横半径3と1.5の平均R=2.25を保ち、長さ2では錐を出さない。
         expected = (-1.25, -2, 4, 3.25, 4, 7)
+    elif preset in ("SquareArrowPlanar", "CircleArrowPlanar"):
+        # 平面の主軸半径は第3軸半幅1.5だけを使い、法線方向は中心1へ置く。
+        expected = (-0.5, 1, 4, 3, 1, 7)
+    elif preset == "ArrowSpatial":
+        # 横平均半径2.25に対し、後部深さR/2・前母体長1.5Rを保つ。
+        expected = (-0.125, -2, 4, 4.375, 4, 7)
     else:
         expected = _mapped_bounds(original)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)

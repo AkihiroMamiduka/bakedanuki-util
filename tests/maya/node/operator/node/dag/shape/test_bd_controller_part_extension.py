@@ -18,14 +18,14 @@ NEW_PART_BODIES = (
     "Diamond",
     "Octahedron",
     "Cylinder",
-    "Arrow",
-    "OctahedronArrow",
-    "Pyramid",
-    "Cone",
+    "ArrowPlanar",
+    "DiamondArrowSpatial",
+    "SquareArrowAxial",
+    "CircleArrowAxial",
     "ColorCube",
     "ColorCornerCube",
 )
-PLANAR_BODIES = ("Triangle", "Diamond", "Arrow")
+PLANAR_BODIES = ("Triangle", "Diamond", "ArrowPlanar")
 TRIANGLE_POINTS = ((0.5, 0.0, 0.0), (-0.37, 0.0, 0.5), (-0.37, 0.0, -0.5))
 
 
@@ -59,15 +59,15 @@ def _sites(preset):
             (tuple(0.5 * value for value in along), along)
             for along in ((1, 0, 0), (-1, 0, 0), (0, 0, 1), (0, 0, -1))
         )
-    if preset == "Arrow":
+    if preset == "ArrowPlanar":
         return (
             ((0.5, 0, 0), (1, 0, 0)),
-            ((-0.25, 0, 0.5), (0, 0, 1)),
-            ((-0.25, 0, -0.5), (0, 0, -1)),
+            ((-0.5, 0, 0.5), (0, 0, 1)),
+            ((-0.5, 0, -0.5), (0, 0, -1)),
         )
-    if preset in ("Pyramid", "Cone"):
+    if preset in ("SquareArrowAxial", "CircleArrowAxial"):
         return (((0.5, 0, 0), (1, 0, 0)),)
-    if preset == "OctahedronArrow":
+    if preset == "DiamondArrowSpatial":
         return (
             ((0.5, 0, 0), (1, 0, 0)),
             ((-1, 0, 0), (-1, 0, 0)),
@@ -85,7 +85,9 @@ def _sites(preset):
 
 
 def _body_bounds(preset):
-    if preset == "OctahedronArrow":
+    if preset == "ArrowPlanar":
+        return (-0.75, 0, -0.5, 0.5, 0, 0.5)
+    if preset == "DiamondArrowSpatial":
         return (-1, -0.5, -0.5, 0.5, 0.5, 0.5)
     if preset == "Triangle":
         return -0.37, 0, -0.5, 0.5, 0, 0.5
@@ -243,7 +245,7 @@ def test_new_bodies_generate_every_part_and_preserve_template_bounds(
         assert _bounds(maya_om, shape) == pytest.approx(body, abs=1e-9)
 
 
-@pytest.mark.parametrize("preset", ("Pyramid", "Cone"))
+@pytest.mark.parametrize("preset", ("SquareArrowAxial", "CircleArrowAxial"))
 @pytest.mark.parametrize("part", range(11))
 @pytest.mark.parametrize("swapped", (False, True))
 def test_single_tip_at_ends_applies_only_the_primary_multiplier(
@@ -352,7 +354,7 @@ def test_wide_straight_edges_keep_their_bounds_with_a_displaced_part(
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
 
 
-@pytest.mark.parametrize("preset", ("Arrow", "OctahedronArrow"))
+@pytest.mark.parametrize("preset", ("ArrowPlanar", "DiamondArrowSpatial"))
 @pytest.mark.parametrize("swapped", (False, True))
 def test_arrow_part_vertices_follow_the_fixed_rear_section(
     maya_cmds, maya_om, new_scene, preset, swapped
@@ -369,8 +371,10 @@ def test_arrow_part_vertices_follow_the_fixed_rear_section(
         shapePartShape=6,
         shapePartType=1,
         shapePartWidthScale=20.0,
-        shapePartHeightScale=20.0 if preset == "OctahedronArrow" else 1.0,
-        shapePartPrimarySizeScale=0.0 if preset == "OctahedronArrow" else 1.0,
+        shapePartHeightScale=20.0 if preset == "DiamondArrowSpatial" else 1.0,
+        shapePartPrimarySizeScale=(
+            0.0 if preset == "DiamondArrowSpatial" else 1.0
+        ),
         shapePartOtherSizeScale=1.0,
     )
     axis = "2nd" if swapped else "1st"
@@ -378,8 +382,8 @@ def test_arrow_part_vertices_follow_the_fixed_rear_section(
     maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 6.0)
     expected = (
         (-3.0, -1.0, -1.0, 6.0, 1.0, 1.0)
-        if preset == "OctahedronArrow"
-        else (-2.75, -0.05, -1.0, 6.05, 0.05, 1.0)
+        if preset == "DiamondArrowSpatial"
+        else (-3.0, -0.05, -1.0, 6.05, 0.05, 1.0)
     )
     if swapped:
         expected = _swap_bounds(expected)
@@ -387,7 +391,7 @@ def test_arrow_part_vertices_follow_the_fixed_rear_section(
 
 
 @pytest.mark.parametrize(
-    "preset", ("Triangle", "OctahedronArrow", "ColorCornerCube")
+    "preset", ("Triangle", "DiamondArrowSpatial", "ColorCornerCube")
 )
 def test_new_part_connection_undo_animation_and_scene_reload(
     maya_cmds, maya_om, new_scene, tmp_path, preset

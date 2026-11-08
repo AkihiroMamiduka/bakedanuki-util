@@ -188,17 +188,17 @@ def test_wide_arrow_ignores_extreme_part_scales_and_preserves_bounded_bands(
         shapePartWidthScale=width,
         shapePartOffset=0.17,
     )
-    plain = _controller(maya_cmds, "plainArrow", "Arrow", **options)
+    plain = _controller(maya_cmds, "plainArrow", "ArrowPlanar", **options)
     wide = _controller(
-        maya_cmds, "wideArrow", "Arrow", shapeWide=True, **options
+        maya_cmds, "wideArrow", "ArrowPlanar", shapeWide=True, **options
     )
     reference = _bounds(maya_om, plain)
     actual = _bounds(maya_om, wide)
-    assert reference == pytest.approx((-0.5, 0, -0.5, 0.5, 0, 0.5), abs=1e-9)
+    assert reference == pytest.approx((-0.75, 0, -0.5, 0.5, 0, 0.5), abs=1e-9)
     baseline = _controller(
         maya_cmds,
         "defaultWideArrow",
-        "Arrow",
+        "ArrowPlanar",
         shapeWide=True,
         shapeFill=filled,
         shapeWideWidth=wide_width,
@@ -235,7 +235,7 @@ def test_wide_arrow_ignores_zero_part_dimensions_and_part_offset(
     shape = _controller(
         maya_cmds,
         "independentWideArrow",
-        "Arrow",
+        "ArrowPlanar",
         shapeWide=True,
         shapeFill=filled,
         shapeAxisSwap=swapped,
@@ -246,7 +246,7 @@ def test_wide_arrow_ignores_zero_part_dimensions_and_part_offset(
     reference = _controller(
         maya_cmds,
         "referenceWideArrow",
-        "Arrow",
+        "ArrowPlanar",
         shapeWide=True,
         shapeFill=filled,
         shapeAxisSwap=swapped,
@@ -300,7 +300,7 @@ def test_arrow_body_ignores_part_height_with_its_fin_independent(
     shape = _controller(
         maya_cmds,
         "arrowBodyHeight",
-        "Arrow",
+        "ArrowPlanar",
         shapeWide=wide,
         shapeFill=filled,
         shapePartLengthScale=1.7,
@@ -480,7 +480,7 @@ def test_octahedron_arrow_ignores_part_height_and_uses_independent_fin_height(
     shape = _controller(
         maya_cmds,
         "octahedronBodyHeight",
-        "OctahedronArrow",
+        "DiamondArrowSpatial",
         shapeFill=filled,
         shapePartSize=1.3,
         shapePartOffset=0.17,

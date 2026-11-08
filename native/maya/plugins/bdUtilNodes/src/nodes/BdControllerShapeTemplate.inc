@@ -219,31 +219,34 @@ void mergeBodyTemplateSegments(std::vector<BodyTemplateDomain>& domains) {
 
 bool appendArrowTemplateDomains(const ShapeSettings& settings,
     const BdControllerShapeNode::Geometry& reference, std::vector<BodyTemplateDomain>& domains) {
-    if (reference.strokes.empty() || reference.strokes.front().length() < 4) return false;
-    MPointArray path;
-    for (const auto& point : reference.strokes.front()) path.append(bodyTemplateReferencePoint(point, settings));
-    const unsigned int last = path.length() - 1;
-    const std::array<std::array<unsigned int, 2>, 3> paths = {{{0, 1}, {1, last - 1}, {last - 1, last}}};
-    // 先端・両肩で区切り、後ろの折れ角とくぼみは弧長を共有する一経路として扱う。
-    for (const auto& interval : paths) {
-        double length = 0.0;
-        for (unsigned int i = interval[0] + 1; i <= interval[1]; ++i) length += (path[i] - path[i - 1]).length();
-        if (length < 1e-10) continue;
-        double position = 0.0;
-        for (unsigned int i = interval[0] + 1; i <= interval[1]; ++i) {
-            const double segment = (path[i] - path[i - 1]).length();
-            if (segment < 1e-10) continue;
-            BodyTemplateDomain domain;
-            domain.pattern = BodyTemplatePattern::TemplateMiddle;
-            domain.first = path[i - 1];
-            domain.last = path[i];
-            domain.parameterFirst = position / length;
-            position += segment;
-            domain.parameterLast = position / length;
-            domains.push_back(domain);
+    const auto initialCount = domains.size();
+    for (const auto& source : reference.strokes) {
+        if (source.length() < 4) continue;
+        MPointArray path;
+        for (const auto& point : source) path.append(bodyTemplateReferencePoint(point, settings));
+        const unsigned int last = path.length() - 1;
+        const std::array<std::array<unsigned int, 2>, 3> paths = {{{0, 1}, {1, last - 1}, {last - 1, last}}};
+        // 各平面を先端・両肩で区切り、後ろの折れ角とくぼみは一経路として扱う。
+        for (const auto& interval : paths) {
+            double length = 0.0;
+            for (unsigned int i = interval[0] + 1; i <= interval[1]; ++i) length += (path[i] - path[i - 1]).length();
+            if (length < 1e-10) continue;
+            double position = 0.0;
+            for (unsigned int i = interval[0] + 1; i <= interval[1]; ++i) {
+                const double segment = (path[i] - path[i - 1]).length();
+                if (segment < 1e-10) continue;
+                BodyTemplateDomain domain;
+                domain.pattern = BodyTemplatePattern::TemplateMiddle;
+                domain.first = path[i - 1];
+                domain.last = path[i];
+                domain.parameterFirst = position / length;
+                position += segment;
+                domain.parameterLast = position / length;
+                domains.push_back(domain);
+            }
         }
     }
-    return true;
+    return domains.size() > initialCount;
 }
 
 bool appendGearTemplateDomains(const ShapeSettings& settings,
@@ -305,22 +308,26 @@ std::vector<BodyTemplateDomain> bodyTemplateDomains(
 ) {
     const short outline = bodyTemplateBaseOutline(outlinePresetIndex(settings.shape));
     std::vector<BodyTemplateDomain> domains;
-    if (outline == kSphereArrowOutline && bulkArrowRearRadius(settings) > 0.0 &&
+    if (isRoundArrowBody(settings) && bulkArrowRearRadius(settings) > 0.0 &&
         bulkArrowFrontRadius(settings) > 0.0) {
         appendBodyTemplateCircle(domains, MPoint::origin, MVector(1, 0, 0), MVector(0, 0, 1));
-        appendBodyTemplateCircle(domains, MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0));
-        appendBodyTemplateCircle(domains, MPoint::origin, MVector(0, 1, 0), MVector(0, 0, 1));
+        const bool planar = outline == kCircleArrowPlanarOutline;
+        if (!planar) {
+            appendBodyTemplateCircle(domains, MPoint::origin, MVector(1, 0, 0), MVector(0, 1, 0));
+            appendBodyTemplateCircle(domains, MPoint::origin, MVector(0, 1, 0), MVector(0, 0, 1));
+        }
         if (bulkArrowHasHead(settings)) {
             const double radius = bulkArrowFrontRadius(settings);
             const double distance = bulkArrowFront(settings);
             const double ratio = radius / distance;
             const double joint = ratio * 0.5;
             const double crossRadius = 0.5 * std::sqrt(std::max(0.0, 1.0 - ratio * ratio));
-            for (unsigned int i = 0; i < 4; ++i) {
+            for (unsigned int i = 0; i < (planar ? 2u : 4u); ++i) {
                 const double angle = kPi * i * 0.5;
                 BodyTemplateDomain domain;
                 domain.pattern = BodyTemplatePattern::TemplateMiddle;
-                domain.first = MPoint(joint, crossRadius * std::cos(angle), crossRadius * std::sin(angle));
+                domain.first = planar ? MPoint(joint, 0, i == 0 ? crossRadius : -crossRadius)
+                    : MPoint(joint, crossRadius * std::cos(angle), crossRadius * std::sin(angle));
                 domain.last = MPoint(distance / (2.0 * radius), 0, 0);
                 domains.push_back(domain);
             }
@@ -353,7 +360,7 @@ std::vector<BodyTemplateDomain> bodyTemplateDomains(
         }
         return domains;
     }
-    if (outline == 39 && appendArrowTemplateDomains(settings, reference, domains)) return domains;
+    if (isNotchedArrowBody(settings) && appendArrowTemplateDomains(settings, reference, domains)) return domains;
     if (outline == 0 && appendGearTemplateDomains(settings, reference, domains)) return domains;
     if (isArcOutline(outline)) {
         const double sweep = std::clamp(settings.circleAngle, 0.0, 2.0 * kPi);
@@ -412,7 +419,8 @@ std::vector<BodyTemplateDomain> bodyTemplateDomains(
     const bool endNormal = outline == 6 || outline == 79 || outline == 24 || outline == 25 ||
         outline == 39 || outline == 41 || outline == 36 || outline == 43 ||
         outline == 19 || outline == 50 || outline == 51 || outline == kDiamondArrowOutline ||
-        outline == kCubeArrowOutline || outline == kSphereArrowOutline;
+        outline == kCubeArrowOutline || outline == kSphereArrowOutline ||
+        outline == kSquareArrowPlanarOutline || outline == kCircleArrowPlanarOutline || outline == kDiamondArrowAxialOutline;
     if (line || cross || endNormal) for (auto& domain : domains) {
         if (domain.kind != BodyTemplateDomainKind::Segment) continue;
         domain.pattern = line && settings.part && settings.partType != 1
@@ -658,7 +666,7 @@ void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode
         // 追加した小円も元の円平面へ固定し、交差する別の大円へ区間が移るのを防ぐ。
         const auto* strokeDomain = bodyTemplateStrokeDomain(domains, referenceStroke, onlyCurves);
         const short sourceOutline = outlinePresetIndex(settings.shape);
-        if (sourceOutline == kSphereArrowOutline && strokeDomain &&
+        if (isRoundArrowBody(settings) && strokeDomain &&
             !std::all_of(referenceStroke.begin(), referenceStroke.end(), [&](const auto& point) {
                 return bodyTemplateOnCircle(point, *strokeDomain);
             })) strokeDomain = nullptr;
@@ -718,7 +726,7 @@ void applyBodyTemplateLines(const ShapeSettings& settings, BdControllerShapeNode
                 fragment.append(last);
                 const short outline = outlinePresetIndex(settings.shape);
                 // 開口の閉輪郭に混ざる円周片も、母線ではなく端面の親円へ固定する。
-                if (outline == kSphereArrowOutline) {
+                if (isRoundArrowBody(settings)) {
                     for (const auto& candidate : domains) {
                         if (bodyTemplateOnCircle(first, candidate) && bodyTemplateOnCircle(last, candidate)) {
                             domain = &candidate;

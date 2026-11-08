@@ -5,7 +5,7 @@ from ._generated.bd_controller_shape import GeneratedBdControllerShape
 class BdControllerShape(GeneratedBdControllerShape):
     """リグ用の複数輪郭を表示するコントローラー shape。
 
-    `shape` は28種類の基本本体を選び、`shapeWide` は帯や面・曲面上のフレームを有効にする。
+    `shape` は32種類の基本本体を選び、`shapeWide` は帯や面・曲面上のフレームを有効にする。
     `shapeWideWidth` は基準空間で変形した本体上の実距離で、基準空間の伸縮やPart・Finの倍率から独立する。
     立体Wideは穴のある厚み0の帯だけを両面表示する。Wide Sphereは3帯の和集合の外周だけを描き、
     全被覆時のFill OFFでは通常の3大円へ戻る。
@@ -19,17 +19,24 @@ class BdControllerShape(GeneratedBdControllerShape):
     `shapeBaseSpace1stAxisPlusScale2ndAxis` など12個の面内倍率は、6面の各2軸を独立して拡縮する。
     `shapeBaseSpace1stAxisPlusScale` など6個の `double2` 親へ各面の2軸をまとめ、既定値は `(1, 1)`。
     親の `.set(0.5, 1.5)` で一括設定でき、`.get()` は `Double2` を返す。子への直接アクセスも維持する。
-    面内倍率の既定値は1で、隣接面の影響を乗算し、8頂点から補間した基準空間で本体を変形する。
+    面内倍率の既定値は1で、隣接面の影響を乗算し、8頂点から補間した基準空間で本体の元頂点を変形する。
+    元の直線辺は変形後の両端を直線で結び、曲線は既存サンプル頂点を維持する。
     面のねじれや範囲外の点への外挿も許容し、Partの寸法・OffsetとFinの高さを保つ。
-    Arrow本体はMinusを後端として後部 `0.25 cm` を固定する。
-    DiamondArrow・OctahedronArrow・CubeArrow・SphereArrowは内部Minusを肩または本体の中心にする。
-    横半径と主軸両面の宣言倍率から前後の主軸半径を別々に決め、Plusが本体より先のときだけ突出する。
-    CapsuleはMinusとPlusをキャップ中心とし、両端の半径も各面の宣言倍率から求める。
-    半径を定めて本体を組み立てた後、面内倍率で一度だけ変形する。Part属性を本体へ適用しない。
+    Arrow系はPlanar・Axial・Spatialの11本体から選ぶ。PartShapeのArrow2D/3Dとは別の公開enumである。
+    Planarは第3軸の半幅、Spatialは横2軸半径の平均を基準の主軸半径にする。
+    Planar・Spatialは内部Minusを本体・肩中心に保ち、短いPlusでは母体を保つ。
+    ArrowPlanar / ArrowSpatialはくぼみを内部Minusに置き、後部深さR/2、前側の母体長1.5Rを使う。
+    Axialは内部Minusの底面からPlusの先端へつなぎ、Partは先端1点に配置する。
+    Arrowの面Scaleは基準半径へ掛けず、組立後の本体へ一度だけ適用する。
+    CapsuleはMinusとPlusをキャップ中心とし、各端面の倍率を含む横2半径の平均を、その端の主軸半径にする。
+    Capsuleの半球は対応する端の倍率を固定して使い、円筒部分だけで両端を補間する。
+    Part属性を本体へ適用しない。
     ArrowのWide先端は帯境界の交点まで延ばし、鋭角でも尖りを保つ。
     ColorCornerCubeの小四角は基準空間で各辺 `0.2 cm` を保ち、小さい本体では面内へ切り詰める。
     追加Partは配置点と姿勢だけを追従させ、局所寸法と `shapePartOffset` の距離を保つ。
     ArcのPartは変形後の曲線上の弧長と局所幅を保ち、Finは付け根と幅へ追従して高さを保つ。
+    Standard Finは面Scale後も上辺を主軸、立ち上がりを補助軸へ平行に保ち、下向きの辺も表示する。
+    AxialのGuideLineは内部Minusの底面中心を起点にする。
     `shapeSize`・共通TRS・入力行列は、組立後の本体・Part・Fin・Wideへ共通に作用する。
     `customBoundsBaseSpaceXPlus` / `customBoundsBaseSpaceXMinus` とY/Zの両端は、
     親transformのローカルXYZへ固定した独立の箱を距離で指定する。

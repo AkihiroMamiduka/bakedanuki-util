@@ -5,7 +5,9 @@ bool isGuideShape(short outline) {
         case 36: case 41: case 43: case 46: case 50: case 51:
         case 79: case 104: case 106: case 110: case 116:
         case 117: case 118: case 119: case kCapsuleOutline:
-        case kDiamondArrowOutline: case kCubeArrowOutline: case kSphereArrowOutline:
+        case kDiamondArrowOutline: case kCubeArrowOutline: case kSphereArrowOutline: case 39:
+        case kSquareArrowPlanarOutline: case kCircleArrowPlanarOutline:
+        case kDiamondArrowAxialOutline: case kArrowSpatialOutline:
             return true;
         default:
             return false;
@@ -180,9 +182,18 @@ void appendShapeGuide(const ShapeSettings& settings, PartGeometry& geometry,
         addPair(2, 0.5);
         return;
     }
+    if (outline == 41 || outline == 43 || outline == kDiamondArrowAxialOutline) {
+        const MPoint origin(-0.5, 0, 0);
+        const auto style = settings.guideLineTemplate ? StrokeStyle::Template : StrokeStyle::Normal;
+        appendGuideSegment(geometry, MPoint(0.5, 0, 0), style, origin);
+        for (unsigned int axis : {1u, 2u}) for (double sign : {-1.0, 1.0}) {
+            appendGuideSegment(geometry, origin + nativeAxis(axis) * (sign * 0.5), style, origin);
+        }
+        return;
+    }
     const double extent = outline == 118 || outline == 119
         ? std::max(0.5, settings.wideWidth * 0.5) : 0.5;
     addPair(0, outline == kCapsuleOutline ? 1.0 : extent);
-    addPair(1, outline == 41 || outline == 43 ? 0.25 : extent);
-    addPair(2, outline == 41 || outline == 43 ? 0.25 : extent);
+    addPair(1, extent);
+    addPair(2, extent);
 }

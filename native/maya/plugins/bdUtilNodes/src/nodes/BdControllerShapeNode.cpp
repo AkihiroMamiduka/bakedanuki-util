@@ -169,11 +169,15 @@ MObject channelBoxSeparator14;
 
 constexpr double kPi = 3.14159265358979323846;
 constexpr unsigned int kCircleSegments = 64;
-constexpr short kPublicShapeCount = 28;
+constexpr short kPublicShapeCount = 32;
 constexpr short kCapsuleOutline = 122;
 constexpr short kDiamondArrowOutline = 123;
 constexpr short kCubeArrowOutline = 124;
 constexpr short kSphereArrowOutline = 125;
+constexpr short kSquareArrowPlanarOutline = 126;
+constexpr short kCircleArrowPlanarOutline = 127;
+constexpr short kDiamondArrowAxialOutline = 128;
+constexpr short kArrowSpatialOutline = 129;
 
 using Stroke = MPointArray;
 using Strokes = std::vector<Stroke>;
@@ -1832,6 +1836,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const ShapeSettings& settings
 ) {
     if (isCapsuleBody(settings) || isCenteredArrowBody(settings) ||
+        outlinePresetIndex(settings.shape) == kDiamondArrowAxialOutline ||
         hasCageMapping(settings) || useCagePartGeometry(settings)) return makeCageGeometry(settings);
     if (isArrowBody(settings)) return makeArrowBaseGeometry(settings);
     if (settings.wide && hasSingularBaseSpace(settings)) {

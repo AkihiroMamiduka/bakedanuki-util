@@ -151,13 +151,17 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     SPHERE = 18
     CYLINDER = 19
     CAPSULE = 20
-    ARROW = 21
-    DIAMONDARROW = 22
-    OCTAHEDRONARROW = 23
-    CUBEARROW = 24
-    SPHEREARROW = 25
-    PYRAMID = 26
-    CONE = 27
+    ARROWPLANAR = 21
+    SQUAREARROWPLANAR = 22
+    DIAMONDARROWPLANAR = 23
+    CIRCLEARROWPLANAR = 24
+    SQUAREARROWAXIAL = 25
+    DIAMONDARROWAXIAL = 26
+    CIRCLEARROWAXIAL = 27
+    ARROWSPATIAL = 28
+    SQUAREARROWSPATIAL = 29
+    DIAMONDARROWSPATIAL = 30
+    CIRCLEARROWSPATIAL = 31
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
@@ -184,13 +188,17 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     SPHERE = 18
     CYLINDER = 19
     CAPSULE = 20
-    ARROW = 21
-    DIAMONDARROW = 22
-    OCTAHEDRONARROW = 23
-    CUBEARROW = 24
-    SPHEREARROW = 25
-    PYRAMID = 26
-    CONE = 27
+    ARROWPLANAR = 21
+    SQUAREARROWPLANAR = 22
+    DIAMONDARROWPLANAR = 23
+    CIRCLEARROWPLANAR = 24
+    SQUAREARROWAXIAL = 25
+    DIAMONDARROWAXIAL = 26
+    CIRCLEARROWAXIAL = 27
+    ARROWSPATIAL = 28
+    SQUAREARROWSPATIAL = 29
+    DIAMONDARROWSPATIAL = 30
+    CIRCLEARROWSPATIAL = 31
 
     NAME_MAP = {
         GEAR: "Gear",
@@ -214,13 +222,17 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         SPHERE: "Sphere",
         CYLINDER: "Cylinder",
         CAPSULE: "Capsule",
-        ARROW: "Arrow",
-        DIAMONDARROW: "DiamondArrow",
-        OCTAHEDRONARROW: "OctahedronArrow",
-        CUBEARROW: "CubeArrow",
-        SPHEREARROW: "SphereArrow",
-        PYRAMID: "Pyramid",
-        CONE: "Cone",
+        ARROWPLANAR: "ArrowPlanar",
+        SQUAREARROWPLANAR: "SquareArrowPlanar",
+        DIAMONDARROWPLANAR: "DiamondArrowPlanar",
+        CIRCLEARROWPLANAR: "CircleArrowPlanar",
+        SQUAREARROWAXIAL: "SquareArrowAxial",
+        DIAMONDARROWAXIAL: "DiamondArrowAxial",
+        CIRCLEARROWAXIAL: "CircleArrowAxial",
+        ARROWSPATIAL: "ArrowSpatial",
+        SQUAREARROWSPATIAL: "SquareArrowSpatial",
+        DIAMONDARROWSPATIAL: "DiamondArrowSpatial",
+        CIRCLEARROWSPATIAL: "CircleArrowSpatial",
     }
 
 

@@ -5,14 +5,21 @@ bool isCapsuleBody(const ShapeSettings& settings) {
 
 double bodyAxisRadius(const ShapeSettings& settings, bool plus) {
     const auto span = settings.baseSpacePlus - settings.baseSpaceMinus;
-    const unsigned int normal = settings.axisSwap ? 1 : 0;
-    const auto radius = [&](unsigned int axis) {
-        const unsigned int ordinal = axis < normal ? axis : axis - 1;
-        const double scale = settings.baseSpaceFaceScale[normal * 4 + (plus ? 0 : 2) + ordinal];
-        return std::abs(span[axis]) * 0.5 * std::abs(scale);
-    };
-    if (outlinePresetIndex(settings.shape) == kDiamondArrowOutline) return radius(2);
-    return (radius(settings.axisSwap ? 0 : 1) + radius(2)) * 0.5;
+    const short outline = outlinePresetIndex(settings.shape);
+    if (outline == 39 || outline == kDiamondArrowOutline || outline == kSquareArrowPlanarOutline ||
+        outline == kCircleArrowPlanarOutline) return std::abs(span.z) * 0.5;
+    const unsigned int main = settings.axisSwap ? 1 : 0, transverse = settings.axisSwap ? 0 : 1;
+    double first = std::abs(span[transverse]), second = std::abs(span.z);
+    if (isCapsuleBody(settings)) {
+        const unsigned int side = main * 4 + (plus ? 0 : 2);
+        first *= std::abs(settings.baseSpaceFaceScale[side + (transverse < main ? transverse : transverse - 1)]);
+        second *= std::abs(settings.baseSpaceFaceScale[side + 1]);
+    }
+    return (first + second) * 0.25;
+}
+
+double capsuleCageCoordinate(double canonicalX) {
+    return std::clamp(canonicalX, -0.5, 0.5);
 }
 
 double capsuleBodyCoordinate(double coordinate, const ShapeSettings& settings) {

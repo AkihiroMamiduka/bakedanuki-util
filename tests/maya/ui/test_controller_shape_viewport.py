@@ -84,10 +84,14 @@ def _drawing_view(cmds, preset, **options):
     shape = cmds.createNode("bdControllerShape", parent=transform)
     set_preset(cmds, shape, preset)
     if preset.removeprefix("Wide").removesuffix("Swapped") in (
-        "DiamondArrow",
-        "OctahedronArrow",
-        "CubeArrow",
-        "SphereArrow",
+        "ArrowPlanar",
+        "SquareArrowPlanar",
+        "DiamondArrowPlanar",
+        "CircleArrowPlanar",
+        "ArrowSpatial",
+        "DiamondArrowSpatial",
+        "SquareArrowSpatial",
+        "CircleArrowSpatial",
     ):
         # 中心基準の矢印は比較図の中心を原点へ揃え、公開既定値は独立して確認する。
         axis = (
@@ -144,14 +148,15 @@ def _drawing_view(cmds, preset, **options):
     (
         "Cube",
         "Octahedron",
-        "OctahedronArrow",
-        "CubeArrow",
-        "SphereArrow",
+        "DiamondArrowSpatial",
+        "SquareArrowSpatial",
+        "CircleArrowSpatial",
         "Sphere",
         "Cylinder",
         "Capsule",
-        "Pyramid",
-        "Cone",
+        "SquareArrowAxial",
+        "DiamondArrowAxial",
+        "CircleArrowAxial",
         "ColorCube",
         "ColorCornerCube",
         "ColorSphere",
@@ -263,7 +268,7 @@ def test_thin_fill_remains_visible_from_both_sides(
 @pytest.mark.parametrize(
     "preset,part_shape,guide_template",
     (
-        ("Cone", None, None),
+        ("CircleArrowAxial", None, None),
         ("Cylinder", None, None),
         ("Line", 0, None),
         ("CrossLine", 0, None),
@@ -435,7 +440,7 @@ def test_arrow_tip_connection_matches_fill_and_guide_style(
 @pytest.mark.parametrize(
     "preset,point,options",
     (
-        ("Cone", (0, 0, 0.25), {}),
+        ("CircleArrowAxial", (0, 0, 0.25), {}),
         ("Cylinder", (0, 0, 0.5), {}),
         ("Line", (0.45, 0, 0.025), {"shapePart": True, "shapePartShape": 10}),
     ),
@@ -2684,7 +2689,6 @@ def test_guide_line_template_changes_only_guide_selection(
         "CrossLineSwapped",
         "CrossLine3Axis",
         "ColorCrossLine3Axis",
-        "Arrow",
         *ARC_SHAPES,
     ),
 )
@@ -2711,7 +2715,14 @@ def test_guide_line_is_ignored_on_excluded_shapes(
 
 
 @pytest.mark.parametrize(
-    "preset", ("Cube", "Cylinder", "Pyramid", "Cone", "WideCrossLine3Axis")
+    "preset",
+    (
+        "Cube",
+        "Cylinder",
+        "SquareArrowAxial",
+        "CircleArrowAxial",
+        "WideCrossLine3Axis",
+    ),
 )
 def test_guide_line_stops_at_the_solid_body(
     maya_cmds, new_scene, tmp_path, preset
@@ -2725,7 +2736,7 @@ def test_guide_line_stops_at_the_solid_body(
         _,
         panel,
     ):
-        if preset in ("Pyramid", "Cone"):
+        if preset in ("SquareArrowAxial", "CircleArrowAxial"):
             on_point, off_point = (0, 0.15, 0), (0, 0.35, 0)
         else:
             _aim_at_origin(maya_cmds, camera, (3, 2, 4))
@@ -3353,7 +3364,7 @@ def test_template_wide_cone_generators_follow_the_unfolded_parent_interval(
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
     with _drawing_view(
         maya_cmds,
-        "Cone",
+        "CircleArrowAxial",
         shapeWide=True,
         shapeWideWidth=0.2,
         shape1stAxis=0,
@@ -3389,7 +3400,7 @@ def test_template_wide_short_octahedron_arrow_keeps_the_parent_edge(
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
     with _drawing_view(
         maya_cmds,
-        "OctahedronArrow",
+        "DiamondArrowSpatial",
         shapePart=False,
         shapeFin=False,
         shapeBaseSpace1stAxisMinus=0,
@@ -3453,7 +3464,7 @@ def _pick_world(cmds, panel, point, *, surface=False):
     return bool(cmds.ls(selection=True))
 
 
-@pytest.mark.parametrize("preset", ("Cube", "Cylinder", "Cone"))
+@pytest.mark.parametrize("preset", ("Cube", "Cylinder", "CircleArrowAxial"))
 def test_solid_wide_fill_keeps_open_holes_unselectable(
     maya_cmds, new_scene, tmp_path, preset
 ):
@@ -3739,8 +3750,8 @@ def test_template_wide_cross_arm_caps_keep_the_end_label(
         ("Triangle", (0.5, 0, 0), (-0.37, 0, 0.5)),
         ("Diamond", (0.5, 0, 0), (0, 0, 0.5)),
         ("Octahedron", (0.5, 0, 0), (0, 0, 0.5)),
-        ("OctahedronArrow", (0.5, 0, 0), (0, 0, 0.5)),
-        ("Pyramid", (0.5, 0, 0), (-0.5, 0.5, 0.5)),
+        ("DiamondArrowSpatial", (0.5, 0, 0), (0, 0, 0.5)),
+        ("SquareArrowAxial", (0.5, 0, 0), (-0.5, 0.5, 0.5)),
     ),
 )
 def test_pointed_shape_template_intervals_keep_vertices_normal(
@@ -3778,20 +3789,20 @@ def test_arrow_template_uses_three_paths_and_one_continuous_back_path(
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
     with _drawing_view(
-        maya_cmds, "Arrow", shapeWide=wide, shapeWideWidth=0.05
+        maya_cmds, "ArrowPlanar", shapeWide=wide, shapeWideWidth=0.05
     ) as (_, shape, camera, _, panel):
         maya_cmds.setAttr(f"{camera}.translate", 0, 4, 0)
         maya_cmds.setAttr(f"{camera}.rotate", -90, 0, 0)
         paths = (
-            ((0.5, 0, 0), (-0.25, 0, -0.5)),
+            ((0.75, 0, 0), (0, 0, -0.5)),
             (
-                (-0.25, 0, -0.5),
-                (-0.5, 0, -0.25),
-                (-0.25, 0, 0),
-                (-0.5, 0, 0.25),
-                (-0.25, 0, 0.5),
+                (0, 0, -0.5),
+                (-0.25, 0, -0.25),
+                (0, 0, 0),
+                (-0.25, 0, 0.25),
+                (0, 0, 0.5),
             ),
-            ((-0.25, 0, 0.5), (0.5, 0, 0)),
+            ((0, 0, 0.5), (0.75, 0, 0)),
         )
 
         def point(path, parameter):
@@ -4286,8 +4297,8 @@ def test_base_space_wide_cube_keeps_face_inset_and_inner_line_width(
         "Diamond",
         "Cube",
         "Octahedron",
-        "Pyramid",
-        "Cone",
+        "SquareArrowAxial",
+        "CircleArrowAxial",
         "CrossLine3Axis",
     ),
 )
@@ -4461,7 +4472,7 @@ def test_base_space_octahedron_arrow_fills_each_half_outward(
 
     with _drawing_view(
         maya_cmds,
-        "OctahedronArrow",
+        "DiamondArrowSpatial",
         shapeBaseSpace1stAxisMinus=-minus,
         shapeBaseSpace1stAxisPlus=plus,
         shapeFill=True,
@@ -4513,7 +4524,7 @@ def test_arrow_wide_tip_keeps_the_sharp_offset_intersection_and_is_selectable(
 
     minus, half_width, half_height = -0.5, 0.025, 0.5
     direction = 1 if plus >= minus else -1
-    joint = minus + direction * 0.25
+    joint = minus
     length = abs(plus - joint)
     edge_length = math.hypot(length, half_height)
     extension = half_width * edge_length / half_height
@@ -4523,7 +4534,7 @@ def test_arrow_wide_tip_keeps_the_sharp_offset_intersection_and_is_selectable(
 
     with _drawing_view(
         maya_cmds,
-        "Arrow",
+        "ArrowPlanar",
         shapeWide=True,
         shapeWideWidth=half_width * 2,
         shapeAxisSwap=swapped,
@@ -4766,7 +4777,7 @@ def test_cage_wide_cube_insets_the_stretched_face_by_a_fixed_physical_width(
         assert not _pick_world(maya_cmds, panel, inner)
 
 
-@pytest.mark.parametrize("preset", ("Sphere", "Cylinder", "Cone"))
+@pytest.mark.parametrize("preset", ("Sphere", "Cylinder", "CircleArrowAxial"))
 def test_cage_wide_curved_surface_keeps_real_open_holes(
     maya_cmds, new_scene, tmp_path, preset
 ):
@@ -4891,20 +4902,20 @@ def test_cage_swapped_octahedron_arrow_keeps_reflected_faces_outward(
 ):
     if maya_cmds.about(batch=True):
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
-    extent = 0.75 if front else 0.5
+    extent = 0.5
     along = (1 if front else -1) * extent / 3
-    scale = 1.4 + 0.8 * along
+    scale = 1.5 + along
     point = (-scale / 6, along, -1 / 6)
     normal = (
         -1 / scale,
-        (1 if front else -1) / (2 * extent) - 0.8 / (6 * scale),
+        (1 if front else -1) / (2 * extent) - 1 / (6 * scale),
         -1,
     )
     length = math.sqrt(sum(value * value for value in normal))
     normal = tuple(value / length for value in normal)
     with _drawing_view(
         maya_cmds,
-        "OctahedronArrow",
+        "DiamondArrowSpatial",
         shapeAxisSwap=True,
         shapeBaseSpace1stAxisMinus=-0.5,
         shapeBaseSpace1stAxisPlus=-0.5,

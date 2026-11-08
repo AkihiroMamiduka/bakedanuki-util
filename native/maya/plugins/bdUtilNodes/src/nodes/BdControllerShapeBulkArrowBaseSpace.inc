@@ -1,7 +1,29 @@
 ﻿// 球と箱の中心をMinusへ置き、本体の前へ出る先端だけを錐でつなぐ。
 bool isBulkArrowBody(const ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
-    return outline == kCubeArrowOutline || outline == kSphereArrowOutline;
+    return outline == kCubeArrowOutline || outline == kSphereArrowOutline ||
+        outline == kSquareArrowPlanarOutline || outline == kCircleArrowPlanarOutline;
+}
+
+bool isPlanarArrowBody(const ShapeSettings& settings) {
+    const short outline = outlinePresetIndex(settings.shape);
+    return outline == 39 || outline == kDiamondArrowOutline || outline == kSquareArrowPlanarOutline ||
+        outline == kCircleArrowPlanarOutline;
+}
+
+bool isSpatialArrowBody(const ShapeSettings& settings) {
+    const short outline = outlinePresetIndex(settings.shape);
+    return outline == kArrowSpatialOutline || outline == 25 || outline == kCubeArrowOutline || outline == kSphereArrowOutline;
+}
+
+bool isNotchedArrowBody(const ShapeSettings& settings) {
+    const short outline = outlinePresetIndex(settings.shape);
+    return outline == 39 || outline == kArrowSpatialOutline;
+}
+
+bool isRoundArrowBody(const ShapeSettings& settings) {
+    const short outline = outlinePresetIndex(settings.shape);
+    return outline == kCircleArrowPlanarOutline || outline == kSphereArrowOutline;
 }
 
 double bulkArrowRearRadius(const ShapeSettings& settings) {
@@ -13,8 +35,15 @@ double bulkArrowFrontRadius(const ShapeSettings& settings) {
 }
 
 bool isCenteredArrowBody(const ShapeSettings& settings) {
-    const short outline = outlinePresetIndex(settings.shape);
-    return isBulkArrowBody(settings) || outline == 25 || outline == kDiamondArrowOutline;
+    return isPlanarArrowBody(settings) || isSpatialArrowBody(settings);
+}
+
+double arrowRearDepth(const ShapeSettings& settings) {
+    return bodyAxisRadius(settings, false) * (isNotchedArrowBody(settings) ? 0.5 : 1.0);
+}
+
+double arrowMotherFront(const ShapeSettings& settings) {
+    return bodyAxisRadius(settings, true) * (isNotchedArrowBody(settings) ? 1.5 : 1.0);
 }
 
 double bulkArrowLength(const ShapeSettings& settings) {
@@ -23,11 +52,11 @@ double bulkArrowLength(const ShapeSettings& settings) {
 }
 
 double bulkArrowFront(const ShapeSettings& settings) {
-    return std::max(bulkArrowLength(settings), bulkArrowFrontRadius(settings));
+    return std::max(bulkArrowLength(settings), arrowMotherFront(settings));
 }
 
 bool bulkArrowHasHead(const ShapeSettings& settings) {
-    return bulkArrowLength(settings) > bulkArrowFrontRadius(settings);
+    return bulkArrowLength(settings) > arrowMotherFront(settings);
 }
 
 MPoint bulkArrowBodyCenter(const ShapeSettings&) {
@@ -35,7 +64,7 @@ MPoint bulkArrowBodyCenter(const ShapeSettings&) {
 }
 
 MPoint bodyNativeCenter(const ShapeSettings& settings) {
-    return isBulkArrowBody(settings) ? bulkArrowBodyCenter(settings) : MPoint::origin;
+    return isNotchedArrowBody(settings) ? MPoint(-0.25, 0, 0) : MPoint::origin;
 }
 
 double bulkArrowConeJoin(const ShapeSettings& settings) {
@@ -54,10 +83,15 @@ double bulkArrowBodyCoordinate(double coordinate, const ShapeSettings& settings)
     return minus + (plus >= minus ? 1.0 : -1.0) * coordinate;
 }
 
+std::vector<MPoint> notchedArrowProfilePoints() {
+    return {MPoint(0.5, 0, 0), MPoint(-0.25, -0.5, 0), MPoint(-0.5, -0.25, 0),
+        MPoint(-0.25, 0, 0), MPoint(-0.5, 0.25, 0), MPoint(-0.25, 0.5, 0), MPoint(0.5, 0, 0)};
+}
+
 std::vector<MPoint> bulkArrowProfilePoints(const ShapeSettings& settings) {
     const double rearRadius = bulkArrowRearRadius(settings), frontRadius = bulkArrowFrontRadius(settings);
     const double front = bulkArrowFront(settings);
-    if (outlinePresetIndex(settings.shape) == kCubeArrowOutline) {
+    if (!isRoundArrowBody(settings)) {
         std::vector<MPoint> result = {MPoint(-rearRadius, -0.5, 0), MPoint(frontRadius, -0.5, 0)};
         if (bulkArrowHasHead(settings)) result.emplace_back(front, 0, 0);
         result.emplace_back(frontRadius, 0.5, 0);
@@ -83,7 +117,7 @@ std::vector<MPoint> bulkArrowProfilePoints(const ShapeSettings& settings) {
 }
 
 MPoint bulkArrowProjectedPoint(MPoint point, const ShapeSettings& settings) {
-    if (outlinePresetIndex(settings.shape) != kSphereArrowOutline) return point;
+    if (!isRoundArrowBody(settings)) return point;
     const double radius = point.x < 0.0 ? bulkArrowRearRadius(settings) : bulkArrowFrontRadius(settings);
     const double join = bulkArrowConeJoin(settings);
     if (bulkArrowHasHead(settings) && point.x >= join) {

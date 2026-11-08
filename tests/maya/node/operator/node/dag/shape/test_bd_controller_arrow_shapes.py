@@ -14,7 +14,12 @@ from test_bd_controller_shape import _bounds, _load_bd_util_nodes
 
 pytestmark = pytest.mark.maya
 
-NEW_ARROWS = ("DiamondArrow", "OctahedronArrow", "CubeArrow", "SphereArrow")
+NEW_ARROWS = (
+    "DiamondArrowPlanar",
+    "DiamondArrowSpatial",
+    "SquareArrowSpatial",
+    "CircleArrowSpatial",
+)
 MAIN_LIMITS = ((-0.5, 0.5), (-1, 3), (2, -1), (0.2, 0.4), (0.2, 0.2))
 TRANSVERSE_SPANS = ((1, 1), (2, 0.5), (-2, 0.5), (0, 2), (0, 0))
 
@@ -100,7 +105,7 @@ def _solid_support_bounds(om, preset, limits, swapped, angles, main_scale=1):
         ]
         extent.append(
             sum(values)
-            if preset == "CubeArrow"
+            if preset == "SquareArrowSpatial"
             else math.sqrt(sum(value**2 for value in values))
         )
     return tuple(
@@ -113,7 +118,7 @@ def _solid_support_bounds(om, preset, limits, swapped, angles, main_scale=1):
 
 
 def _body_bounds(preset, limits, swapped):
-    if preset == "DiamondArrow":
+    if preset == "DiamondArrowPlanar":
         return _point_bounds(_diamond_vertices(limits, swapped))
     center, radii, tip, _ = _solid_frame(limits, swapped)
     return tuple(
@@ -123,7 +128,7 @@ def _body_bounds(preset, limits, swapped):
 
 def _sites(preset, limits, swapped):
     axis = int(swapped)
-    if preset == "DiamondArrow":
+    if preset == "DiamondArrowPlanar":
         points = _diamond_vertices(limits, swapped)
         sign = 1 if limits[axis][1] >= limits[axis][0] else -1
         vectors = ((axis, sign), (axis, -sign), (2, -1), (2, 1))
@@ -151,18 +156,15 @@ def _sites(preset, limits, swapped):
     )
 
 
-def _declared_radii(preset, limits, swapped, minus_scales, plus_scales):
+def _base_radii(preset, limits, swapped):
     axis = int(swapped)
     radii = [
         abs(limits[component][1] - limits[component][0]) / 2
         for component in (1 - axis, 2)
     ]
-    if preset == "DiamondArrow":
-        return radii[1] * abs(minus_scales[1]), radii[1] * abs(plus_scales[1])
-    return tuple(
-        sum(radius * abs(scale) for radius, scale in zip(radii, scales)) / 2
-        for scales in (minus_scales, plus_scales)
-    )
+    if preset == "DiamondArrowPlanar":
+        return radii[1], radii[1]
+    return sum(radii) / 2, sum(radii) / 2
 
 
 @pytest.mark.parametrize("preset", NEW_ARROWS)
@@ -206,7 +208,7 @@ def test_centered_arrow_zero_transverse_radii_keep_reversed_main_part_direction(
         ((1, 1), (0, 0)),
     ),
 )
-def test_centered_arrow_main_face_declarations_set_separate_rear_and_front_radii(
+def test_centered_arrow_main_face_scales_deform_cage_without_changing_axial_radius(
     maya_cmds,
     maya_om,
     new_scene,
@@ -239,9 +241,7 @@ def test_centered_arrow_main_face_declarations_set_separate_rear_and_front_radii
             for component, value in zip((1 - axis, 2), scales)
         },
     )
-    rear_radius, front_radius = _declared_radii(
-        preset, limits, swapped, minus_scales, plus_scales
-    )
+    rear_radius, front_radius = _base_radii(preset, limits, swapped)
     minus, plus = main
     direction = 1 if plus >= minus else -1
     rear = minus - direction * rear_radius
@@ -270,7 +270,7 @@ def test_diamond_arrow_keeps_four_vertices_and_the_declared_shoulder_center(
     shape = _controller(
         maya_cmds,
         "fixedDiamondRear",
-        "DiamondArrow",
+        "DiamondArrowPlanar",
         shapeAxisSwap=swapped,
         shapeFill=filled,
     )
@@ -290,7 +290,9 @@ def test_diamond_arrow_keeps_four_vertices_and_the_declared_shoulder_center(
     )
 
 
-@pytest.mark.parametrize("preset", ("CubeArrow", "SphereArrow"))
+@pytest.mark.parametrize(
+    "preset", ("SquareArrowSpatial", "CircleArrowSpatial")
+)
 @pytest.mark.parametrize("swapped", (False, True))
 @pytest.mark.parametrize("main", MAIN_LIMITS)
 @pytest.mark.parametrize("transverse", TRANSVERSE_SPANS)
@@ -310,7 +312,9 @@ def test_solid_arrow_keeps_the_whole_body_and_extends_only_past_its_front(
         )
 
 
-@pytest.mark.parametrize("preset", ("CubeArrow", "SphereArrow"))
+@pytest.mark.parametrize(
+    "preset", ("SquareArrowSpatial", "CircleArrowSpatial")
+)
 @pytest.mark.parametrize("swapped", (False, True))
 @pytest.mark.parametrize("main", ((0.2, 0.4), (-1, 3), (2, -1)))
 @pytest.mark.parametrize("transverse", ((1, 1), (2, 0.5)))
@@ -331,11 +335,13 @@ def test_solid_arrow_rotated_support_is_the_convex_hull_of_body_and_tip(
     maya_cmds.setAttr(f"{shape}.shapeRotate", *angles)
     expected = _solid_support_bounds(maya_om, preset, limits, swapped, angles)
     assert _bounds(maya_om, shape) == pytest.approx(
-        expected, abs=1e-9 if preset == "CubeArrow" else 0.008
+        expected, abs=1e-9 if preset == "SquareArrowSpatial" else 0.008
     )
 
 
-@pytest.mark.parametrize("preset", ("CubeArrow", "SphereArrow"))
+@pytest.mark.parametrize(
+    "preset", ("SquareArrowSpatial", "CircleArrowSpatial")
+)
 @pytest.mark.parametrize("swapped", (False, True))
 @pytest.mark.parametrize("wide", (False, True))
 def test_short_solid_arrow_matches_its_complete_box_or_sphere_and_crosses_threshold_continuously(
@@ -345,7 +351,10 @@ def test_short_solid_arrow_matches_its_complete_box_or_sphere_and_crosses_thresh
     options = dict(shapeAxisSwap=swapped, shapeWide=wide, shapeWideWidth=0.08)
     shape = _controller(maya_cmds, "shortSolidArrow", preset, **options)
     reference = _controller(
-        maya_cmds, "wholeSolidBody", preset.removesuffix("Arrow"), **options
+        maya_cmds,
+        "wholeSolidBody",
+        {"SquareArrowSpatial": "Cube", "CircleArrowSpatial": "Sphere"}[preset],
+        **options,
     )
     limits = _limits((0.2, 0.4), swapped)
     _set_base_space(maya_cmds, shape, limits)
@@ -358,7 +367,7 @@ def test_short_solid_arrow_matches_its_complete_box_or_sphere_and_crosses_thresh
         # Wideの球の線は極が帯の内部へ隠れるため、Arrow側は完全表面の保守的boundsを使う。
         expected = (
             _body_bounds(preset, limits, swapped)
-            if preset == "SphereArrow" and wide and not filled
+            if preset == "CircleArrowSpatial" and wide and not filled
             else _bounds(maya_om, reference)
         )
         assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
@@ -464,7 +473,9 @@ def test_new_arrows_generate_every_part_profile_and_restore_the_body(
         assert _bounds(maya_om, shape) == pytest.approx(body, abs=1e-9)
 
 
-@pytest.mark.parametrize("preset", ("CubeArrow", "SphereArrow"))
+@pytest.mark.parametrize(
+    "preset", ("SquareArrowSpatial", "CircleArrowSpatial")
+)
 @pytest.mark.parametrize("swapped", (False, True))
 @pytest.mark.parametrize("main_scale", (1.6, -0.7))
 def test_solid_arrow_face_scale_applies_after_mean_radius_and_head_construction(
@@ -492,7 +503,7 @@ def test_solid_arrow_face_scale_applies_after_mean_radius_and_head_construction(
         maya_om, preset, limits, swapped, angles, main_scale
     )
     assert _bounds(maya_om, shape) == pytest.approx(
-        expected, abs=1e-9 if preset == "CubeArrow" else 0.012
+        expected, abs=1e-9 if preset == "SquareArrowSpatial" else 0.012
     )
 
 
@@ -534,7 +545,9 @@ def test_new_arrow_nonaffine_cage_fin_and_degenerate_inputs_remain_finite(
         assert _bounds(maya_om, shape) == pytest.approx(original, abs=1e-9)
 
 
-@pytest.mark.parametrize("preset", ("CubeArrow", "SphereArrow"))
+@pytest.mark.parametrize(
+    "preset", ("SquareArrowSpatial", "CircleArrowSpatial")
+)
 @pytest.mark.parametrize("swapped", (False, True))
 def test_short_solid_arrow_cage_uses_the_complete_body_frame_at_zero_and_tiny_lengths(
     maya_cmds, maya_om, new_scene, preset, swapped
@@ -604,7 +617,11 @@ def test_new_arrow_zero_spans_keep_the_physical_part_dimensions_and_fin_height(
 
 @pytest.mark.parametrize(
     "preset,enum",
-    (("DiamondArrow", 22), ("CubeArrow", 24), ("SphereArrow", 25)),
+    (
+        ("DiamondArrowPlanar", 23),
+        ("SquareArrowSpatial", 29),
+        ("CircleArrowSpatial", 31),
+    ),
 )
 def test_new_arrow_public_enum_connections_history_and_reload(
     maya_cmds, maya_om, new_scene, tmp_path, preset, enum

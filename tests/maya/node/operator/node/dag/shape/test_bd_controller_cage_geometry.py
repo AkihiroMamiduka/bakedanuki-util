@@ -111,7 +111,7 @@ def test_cage_main_shapes_remain_finite_and_common_size_applies_after_deformatio
     )
 
 
-# 固定長・横径由来の主軸寸法を持つ本体は、組立後の面倍率を専用テストで確認する。
+# 横径由来の主軸寸法を持つ本体は、組立後の面倍率を専用テストで確認する。
 @pytest.mark.parametrize(
     "preset",
     tuple(
@@ -119,11 +119,14 @@ def test_cage_main_shapes_remain_finite_and_common_size_applies_after_deformatio
         for name in SHAPE_NAMES
         if name
         not in (
-            "Arrow",
-            "DiamondArrow",
-            "OctahedronArrow",
-            "CubeArrow",
-            "SphereArrow",
+            "ArrowPlanar",
+            "SquareArrowPlanar",
+            "DiamondArrowPlanar",
+            "CircleArrowPlanar",
+            "ArrowSpatial",
+            "DiamondArrowSpatial",
+            "SquareArrowSpatial",
+            "CircleArrowSpatial",
             "Capsule",
         )
     ),

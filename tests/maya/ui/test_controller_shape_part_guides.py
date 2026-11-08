@@ -16,7 +16,7 @@ from test_controller_shape_viewport import (
 
 pytestmark = pytest.mark.maya
 
-GUIDE_BODIES = ("Diamond", "Octahedron", "OctahedronArrow")
+GUIDE_BODIES = ("Diamond", "Octahedron", "DiamondArrowSpatial")
 DISPLAY_CASES = (
     (False, False, False, False),
     (True, False, True, True),
@@ -540,7 +540,7 @@ def test_oct_arrow_guides_keep_the_stretched_joint_origin(
     }
     with _drawing_view(
         maya_cmds,
-        "OctahedronArrow",
+        "DiamondArrowSpatial",
         shapeAxisSwap=swapped,
         shapePart=True,
         shapePartShape=0,

@@ -1,13 +1,13 @@
 ﻿// 本体の帯と面上の補助輪郭を、PartやFinの寸法から独立して作る。
 bool genericWidePlanarOutline(short outline) {
     return outline == 0 || outline == 6 || outline == 8 || outline == 79 || outline == 39 ||
-        outline == kDiamondArrowOutline;
+        outline == kDiamondArrowOutline || outline == kSquareArrowPlanarOutline || outline == kCircleArrowPlanarOutline;
 }
 
 bool genericWideOutline(short outline) {
     return genericWidePlanarOutline(outline) || outline == 19 || outline == 24 || outline == 25 ||
         outline == 33 || outline == 36 || outline == 41 || outline == 43 || outline == 46 ||
-        outline == 50 || outline == 51;
+        outline == 50 || outline == 51 || outline == kDiamondArrowAxialOutline;
 }
 
 void appendGenericWideStroke(PartGeometry& geometry, const std::vector<MPoint>& points,

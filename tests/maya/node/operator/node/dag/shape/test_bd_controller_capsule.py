@@ -90,6 +90,52 @@ def _smooth_support_bounds(maya_om, limits, swapped, angles, main_scale=1):
     )
 
 
+def _endpoint_scaled_support_bounds(
+    maya_om, limits, swapped, angles, minus_scales, plus_scales
+):
+    matrix = maya_om.MEulerRotation(
+        *(math.radians(angle) for angle in angles)
+    ).asMatrix()
+    main = int(swapped)
+    transverse = (1 - main, 2)
+    axes = [
+        maya_om.MVector(*(int(axis == component) for component in range(3)))
+        * matrix
+        for axis in range(3)
+    ]
+    center = [sum(pair) / 2 for pair in limits]
+    direction = 1 if limits[main][1] >= limits[main][0] else -1
+
+    def support(world_axis, sign):
+        values = []
+        for endpoint, outward, scales in (
+            (limits[main][0], -direction, minus_scales),
+            (limits[main][1], direction, plus_scales),
+        ):
+            radii = [
+                abs(limits[axis][1] - limits[axis][0]) / 2 * abs(scale)
+                for axis, scale in zip(transverse, scales)
+            ]
+            axial = sum(radii) / 2
+            point = maya_om.MPoint(*center)
+            point[main] = endpoint
+            point = point * matrix
+            along = sign * axes[main][world_axis] * outward * axial
+            across = sum(
+                (radius * axes[axis][world_axis]) ** 2
+                for axis, radius in zip(transverse, radii)
+            )
+            values.append(
+                sign * point[world_axis]
+                + math.sqrt(across + max(along, 0) ** 2)
+            )
+        return max(values)
+
+    return tuple(-support(axis, -1) for axis in range(3)) + tuple(
+        support(axis, 1) for axis in range(3)
+    )
+
+
 @pytest.mark.parametrize("main", MAIN_LIMITS)
 @pytest.mark.parametrize("swapped", (False, True))
 @pytest.mark.parametrize("filled", (False, True))
@@ -192,7 +238,7 @@ def test_capsule_transverse_spans_define_cap_radius_and_zero_core_ellipsoid(
 
 @pytest.mark.parametrize("length", (0, 1e-8, -1e-8, 0.02))
 @pytest.mark.parametrize("swapped", (False, True))
-def test_capsule_tiny_core_cage_uses_total_length_and_converges_to_the_matching_zero_core(
+def test_capsule_tiny_core_keeps_endpoint_weights_and_converges_to_the_matching_zero_core(
     maya_cmds, maya_om, new_scene, length, swapped
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -232,7 +278,7 @@ def test_capsule_tiny_core_cage_uses_total_length_and_converges_to_the_matching_
         ((1, 1), (0, 0)),
     ),
 )
-def test_capsule_uses_each_declared_main_face_radius_before_cage_once(
+def test_capsule_main_face_scales_define_only_their_own_axial_cap_radius(
     maya_cmds, maya_om, new_scene, swapped, main, minus_scales, plus_scales
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -254,10 +300,8 @@ def test_capsule_uses_each_declared_main_face_radius_before_cage_once(
                 f"{shape}.shapeBaseSpace{('1st', '2nd')[axis]}Axis{side}Scale{('1st', '2nd', '3rd')[component]}Axis",
                 scale,
             )
-    rear_radius, front_radius = tuple(
-        (0.7 * abs(scales[0]) + 0.3 * abs(scales[1])) / 2
-        for scales in (minus_scales, plus_scales)
-    )
+    rear_radius = (0.7 * abs(minus_scales[0]) + 0.3 * abs(minus_scales[1])) / 2
+    front_radius = (0.7 * abs(plus_scales[0]) + 0.3 * abs(plus_scales[1])) / 2
     minus, plus = main
     sign = 1 if plus >= minus else -1
     ends = (minus - sign * rear_radius, plus + sign * front_radius)
@@ -266,6 +310,47 @@ def test_capsule_uses_each_declared_main_face_radius_before_cage_once(
     assert (box[axis], box[axis + 3]) == pytest.approx(
         (min(ends), max(ends)), abs=1e-9
     )
+
+
+@pytest.mark.parametrize("swapped", (False, True))
+@pytest.mark.parametrize("main", ((-1, 2), (2, -1), (0.2, 0.2)))
+@pytest.mark.parametrize(
+    "minus_scales,plus_scales",
+    (
+        ((2, 0.5), (1, 1)),
+        ((1, 1), (0.4, 1.6)),
+        ((-1.6, -0.6), (0.8, -1.4)),
+        ((0, 0), (1, 1)),
+        ((1.3, 0.7), (1.3, 0.7)),
+    ),
+)
+def test_capsule_caps_keep_constant_endpoint_scales_in_rotated_bounds(
+    maya_cmds, maya_om, new_scene, swapped, main, minus_scales, plus_scales
+):
+    _load_bd_util_nodes(maya_cmds)
+    shape = _controller(
+        maya_cmds,
+        "capsuleEndpointWeights",
+        "Capsule",
+        shapeAxisSwap=swapped,
+        shapeFill=True,
+    )
+    axis = int(swapped)
+    limits = list(_limits(main, swapped))
+    limits[1 - axis], limits[2] = (-0.4, 1), (-0.5, 0.1)
+    _set_base_space(maya_cmds, shape, limits)
+    for side, scales in (("Minus", minus_scales), ("Plus", plus_scales)):
+        for component, scale in zip((1 - axis, 2), scales):
+            maya_cmds.setAttr(
+                f"{shape}.shapeBaseSpace{('1st', '2nd')[axis]}Axis{side}Scale{('1st', '2nd', '3rd')[component]}Axis",
+                scale,
+            )
+    angles = (17, -29, 37)
+    maya_cmds.setAttr(f"{shape}.shapeRotate", *angles)
+    expected = _endpoint_scaled_support_bounds(
+        maya_om, limits, swapped, angles, minus_scales, plus_scales
+    )
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=0.008)
 
 
 @pytest.mark.parametrize("wide", (False, True))

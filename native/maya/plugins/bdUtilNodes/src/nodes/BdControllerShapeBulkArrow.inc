@@ -4,6 +4,14 @@ PartGeometry bulkArrowCanonicalBodyGeometry(const ShapeSettings& settings) {
     builder.singleSided = true;
     const double rearRadius = bulkArrowRearRadius(settings), frontRadius = bulkArrowFrontRadius(settings);
     const double front = bulkArrowFront(settings);
+    if (isPlanarArrowBody(settings)) {
+        std::vector<MPoint> profile;
+        for (const auto& point : bulkArrowProfilePoints(settings)) profile.emplace_back(point.x, 0, point.y);
+        builder.singleSided = false;
+        builder.stroke(profile);
+        builder.polygon(profile);
+        return std::move(builder.geometry);
+    }
     const auto triangle = [&](MPoint a, MPoint b, MPoint c) {
         const auto center = a + ((b - a) + (c - a)) / 3.0;
         if (((b - a) ^ (c - a)) * (center - bulkArrowBodyCenter(settings)) < 0.0) std::swap(b, c);
@@ -79,5 +87,39 @@ PartGeometry diamondArrowCanonicalBodyGeometry() {
     outline.push_back(outline.front());
     builder.stroke(outline);
     builder.polygon(points);
+    return std::move(builder.geometry);
+}
+
+PartGeometry notchedArrowCanonicalBodyGeometry(const ShapeSettings& settings) {
+    PartBuilder builder(true);
+    for (unsigned int plane = 0; plane < (isSpatialArrowBody(settings) ? 2u : 1u); ++plane) {
+        std::vector<MPoint> profile;
+        for (const auto& point : notchedArrowProfilePoints()) {
+            profile.push_back(plane == 0 ? MPoint(point.x, 0, point.y) : point);
+        }
+        builder.stroke(profile);
+        builder.polygon(profile);
+    }
+    return std::move(builder.geometry);
+}
+
+PartGeometry diamondAxialCanonicalBodyGeometry() {
+    PartBuilder builder(true);
+    builder.singleSided = true;
+    const std::array<MPoint, 4> base = {MPoint(-0.5, 0.5, 0), MPoint(-0.5, 0, 0.5),
+        MPoint(-0.5, -0.5, 0), MPoint(-0.5, 0, -0.5)};
+    const MPoint tip(0.5, 0, 0), inside(-0.25, 0, 0);
+    const auto triangle = [&](MPoint a, MPoint b, MPoint c) {
+        if (((b - a) ^ (c - a)) * (a - inside) < 0.0) std::swap(b, c);
+        builder.triangle(a, b, c);
+    };
+    for (unsigned int i = 0; i < 4; ++i) {
+        const auto next = (i + 1) % 4;
+        builder.stroke({base[i], base[next]});
+        builder.stroke({base[i], tip});
+        triangle(base[i], base[next], tip);
+    }
+    triangle(base[0], base[1], base[2]);
+    triangle(base[0], base[2], base[3]);
     return std::move(builder.geometry);
 }
