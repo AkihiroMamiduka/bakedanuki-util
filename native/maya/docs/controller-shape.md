@@ -1477,6 +1477,27 @@ Node Editorに表示する属性を追加・変更したときは、共通の
 属性定義の変更後は下記の生成ファイルを更新し、Channel Box の順序・表示状態と
 値変更後の描画・`boundingBox()` を自動テストと GUI の両方で確認します。
 
+### 調整属性の変更・削除と既定値の同期
+
+属性の追加だけでなく、削除や既定値の変更でも次を同じ変更で揃えます。
+
+| 対象 | 確認する箇所 |
+| --- | --- |
+| ネイティブ定義 | headerの宣言、static定義、`initialize()` の型・長名・短名・既定値・登録順 |
+| 形状入力とキャッシュ | `ShapeSettings`、`ShapeAttributes` と `shapeAttributes()` の初期化順、`readSettings()`、`sameSettings()`、`isShapeAttribute()`、`hasConnectedSettingsInput()` |
+| フォーカス入力 | `boundsMode` とCustom Boundsの読取・接続判定、基準箱と行列適用後の箱の無効化 |
+| 公開APIと表示 | 新しいDLLからのPython定義の再生成、型契約、Channel Box順、Node Editorテンプレートのattribute定義とproperty一覧 |
+| 回帰と説明 | 既定値・長名と短名・直接編集・接続・キー・Undo/Redo・再読込、仕様表とサンプル |
+
+形状入力とフォーカス入力は、それぞれに対応するキャッシュ更新経路を保ちます。
+`boundsMode` のように既定値とキャッシュの初期値が一致する場合も、初回の範囲を生成する必要があります。
+新規ノードで既定値を設定し直さずに `boundingBox()` を読み、移動した形状と `viewFit` でも確認します。
+
+属性を削除したときは、長名・短名・Pythonの公開descriptorが存在しないことも検証します。
+共通倍率を独立した寸法へ整理する場合は、既存テストの入力を同値の寸法へ置き換え、
+負値・0・入力接続・キー・保存再読込を通すケースを維持します。
+Python定義の既定値はロードしたDLLから取得するため、対象の絶対pathを指定した専用プロセスで再生成します。
+
 ### 基準空間の面内Scaleを保守するとき
 
 面内Scaleによる変形は、`makeBaseGeometry()` から `makeCageGeometry()` へ入る経路で扱います。
@@ -1500,9 +1521,10 @@ GuideLineを組み立て、共通TRSを一度だけ適用します。入力行�
 Capsuleの半球は `cageBodyPoint()` へ原型主軸座標を渡し、中心間0でも左右の端を区別します。
 新しい形状を追加するときも、本体の変形と、寸法を保つ要素の生成位置をこの順序へ揃えます。
 
-全ての面倍率が1なら従来の両端座標の経路を使います。向かい合う面の倍率が各成分で等しい場合は、
-`cageAffineSettings()` が両端座標へ集約します。Arrow系は固定した後端へ面倍率を適用する順序を
-保つため、この集約の対象外です。最適化時も、既定値・集約可能な倍率・非一様な倍率を分けて確認します。
+専用の本体生成経路を持たない形状では、全ての面倍率が1なら従来の両端座標の経路を使います。
+向かい合う面の倍率が各成分で等しい場合は、`cageAffineSettings()` が両端座標へ集約します。
+Planar / Spatial Arrow8本体・Capsule・DiamondArrowAxialは、組立後に面倍率を適用する専用経路を保つため、
+この集約の対象外です。最適化時も、既定値・集約可能な倍率・非一様な倍率を分けて確認します。
 
 Fill用とWireframe用では、Cylinderの母線やArrow Partの開いた線などに差があります。
 原型と変形前後の本体は共有し、完成した描画形状は表示ごとに組み立てます。
@@ -1619,6 +1641,23 @@ Crossの平面接合はWideCrossArcAxialとそのSwappedの仕様で、薄線Axi
 統一検証でbatch実行時の描画テストがskipしても、GUIでの成功を意味しません。
 再実行には [Viewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) の手順を使い、
 `build/` 内の一時的な起動スクリプトや画像の存在を前提にしないでください。
+
+### Finの保守と拡張
+
+寸法入力は距離の `shapeFinHeight` と倍率の `shapeFinWidthScale` です。
+高さ0ではFinを省略し、幅0では立ち上がり線が残る場合もあるため、両者を同じ省略条件にまとめません。
+
+Standardは、根元・上辺両端・根元の4点frameを保持してから、変形後の本体へ根元を合わせます。
+`appendShapeFin()` / `singularBaseSpaceFin()` の `keepStandardFrame` は、Wideの3軸形状で事前の切取りが
+このframeを失わせることを防ぎます。共通の切取り処理を変更するときも、この順序を保ちます。
+`makeCageAttachmentFin()` では上辺を主軸、立ち上がりを補助軸へ平行に組み直し、
+Cubeなどの表面基準と、Wideの3軸形状の中心軸基準をそれぞれ維持します。
+下向きの立ち上がりも線として残し、本体と重なる塗り面の除去とは分けて扱います。
+
+Taperedは本体断面と局所法線へ追従する傾斜の規約を使います。
+Finの共有処理を変更した場合は、Standard / Tapered、Wide、AxisSwap、Color系、
+正負と0の高さ・幅を確認します。数値と実画面の対象は
+[bdControllerShapeの回帰対象](testing-debugging.md#bdcontrollershapeの回帰対象) を参照してください。
 
 ### Template・Wide・描画を変更するときの保守規約
 

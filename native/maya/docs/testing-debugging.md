@@ -73,6 +73,29 @@ native nodeの標準テストは、配布対象のMaya 2025 / 2026 / 2027それ�
 schedule を検証できません。最終的な correctness test は、Maya に plug-in をロードして
 実際の DG を評価します。
 
+### bdControllerShapeの回帰対象
+
+変更した仕様に応じて次の数値テストを選び、描画・選択・フォーカスの変更は下記のGUIテストでも確認します。
+
+| 数値テスト | 主な確認対象 |
+| --- | --- |
+| [test_bd_controller_fin_axis.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_fin_axis.py) | Finの属性構造と既定表示、Height / WidthScaleの独立した正負・0・接続・履歴、Standardの軸平行とTaperedの高さ基準 |
+| [test_bd_controller_shape.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py) / [test_bd_controller_custom_bounds.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_custom_bounds.py) | `boundsMode` の既定Shape、3モード、行列、プレビュー、`viewFit` とCustom Boundsの独立性 |
+| [test_bd_controller_cage_straight_edges.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_cage_straight_edges.py) | 元頂点だけを変形した範囲、Circleの既存64サンプル、Template境界を加えても変わらない輪郭 |
+| [test_bd_controller_capsule.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_capsule.py) | 端別の半径と倍率、接合面、反転・中心間0・退化、Part・Finと保存再読込 |
+| [test_bd_controller_arrow_family.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_arrow_family.py) | Planar / Axial / Spatialの本体構成、横径由来の母体寸法、各オプションと軸交換 |
+| [test_bd_controller_node_editor_template.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_node_editor_template.py) | テンプレートとネイティブ属性の対応、66個の表示対象と順序、Finの4属性 |
+
+Finとフォーカスの変更を切り分ける例です。
+
+```powershell
+.\scripts\test-pytest-maya2025.cmd -RequirePlugin tests\maya\node\operator\node\dag\shape\test_bd_controller_fin_axis.py tests\maya\node\operator\node\dag\shape\test_bd_controller_shape.py -k "fin or bounds or focus or view_fit or defaults"
+```
+
+対象を絞った成功に加え、ネイティブ変更の最終確認では `verify.cmd -IncludeNative` を実行します。
+GUIの結果は検証したDLLの絶対path・buildと対応付け、配布先へ置くDLLが同じ内容であることも確認します。
+一時的なhelperやテスト件数の固定値を再実行手順の前提にせず、以下のGUI実行例と終了コード・JUnit XMLを使います。
+
 ## Viewport 2.0描画テスト
 
 `bdControllerShape` の描画比較は次の9ファイルに分かれています。
@@ -87,7 +110,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 | [test_controller_shape_part_guides.py](../../../tests/maya/ui/test_controller_shape_part_guides.py) | 頂点からArrow先端へつなぐGuideLine、Triangleの折れ線、Partの欠落方向、色付きコーナーの保持 |
 | [test_controller_shape_capsule.py](../../../tests/maya/ui/test_controller_shape_capsule.py) | Capsuleの横径由来のキャップ半径・円筒・面倍率、円筒長0でのSphere一致、Wide・Template・Wireframe、両端PartとGuideLine |
 | [test_controller_shape_arrow_shapes.py](../../../tests/maya/ui/test_controller_shape_arrow_shapes.py) | Planar・Axial・Spatialの11本体の肩・本体中心と基準半径、母体維持と伸長、接線接合と不要な接合円の省略、面の表裏、Part・Fin・GuideLine・Wide・Template |
-| [test_controller_shape_axis_fins.py](../../../tests/maya/ui/test_controller_shape_axis_fins.py) | 元の直線を保つ面変形・Wide・Template、Capsuleの左右独立半球、AxialのMinus起点Guide、Standard Finの軸平行と下降線 |
+| [test_controller_shape_axis_fins.py](../../../tests/maya/ui/test_controller_shape_axis_fins.py) | 元の直線を保つ面変形・Wide・Template、Capsuleの左右独立半球、AxialのMinus起点Guide、Finの軸平行・下降線・独立寸法と高さ0、既定Shapeの `viewFit` とOffsetLine |
 
 形状の仕様と手動で確認する項目は [Controller Shape](controller-shape.md) を参照してください。
 
@@ -100,7 +123,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 PythonのScript Editorから次を実行します。テストはsceneを新規作成するため、
 必要なsceneや作業状態のない専用プロセスを使用してください。
 `repo_root` は実際のcheckoutへ変更します。pytestは `setup-test.cmd` で用意した `.test` を使います。
-以下の例だけで8ファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
+以下の例だけで9ファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
 
 ```python
 import sys
@@ -137,6 +160,7 @@ def run_controller_viewport_tests():
             str(repo_root / "tests/maya/ui/test_controller_shape_part_guides.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_capsule.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_arrow_shapes.py"),
+            str(repo_root / "tests/maya/ui/test_controller_shape_axis_fins.py"),
             "--basetemp",
             str(output_dir / "pytest"),
             "--junitxml",
@@ -155,7 +179,7 @@ utils.executeDeferred(run_controller_viewport_tests)
 GuideLineの変更だけを切り分ける場合は、`pytest.main()` の引数へ
 `"-k", "guide_line or arrow_tip_connection"` を追加できます。
 対象を絞った確認後は、変更範囲に応じて関連する描画テストを実行します。
-描画・選択・Templateの共通処理を変更した場合はフィルターを外して8ファイルを確認し、
+描画・選択・Templateの共通処理を変更した場合はフィルターを外して9ファイルを確認し、
 最終の統一検証も行います。
 
 既定では実行中のMayaバージョンに対応した配布先 `.mll` をロードします。
