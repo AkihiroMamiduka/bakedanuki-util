@@ -60,9 +60,10 @@ def test_fin_height_and_width_are_independent_signed_controls(
     ):
         if connected:
             maya_cmds.addAttr(driver, longName=name, attributeType=kind)
-            maya_cmds.connectAttr(f"{driver}.{name}", f"{shape}.{name}")
-    maya_cmds.setAttr(f"{driver}.shapeFinHeight", height)
-    maya_cmds.setAttr(f"{driver}.shapeFinWidthScale", width)
+            with pytest.raises(RuntimeError):
+                maya_cmds.connectAttr(f"{driver}.{name}", f"{shape}.{name}")
+    maya_cmds.setAttr(f"{shape}.shapeFinHeight", height)
+    maya_cmds.setAttr(f"{shape}.shapeFinWidthScale", width)
     half_width = max(0.5, abs(width) * 0.5) if height else 0.5
     expected = (
         -half_width,
@@ -77,8 +78,10 @@ def test_fin_height_and_width_are_independent_signed_controls(
     assert maya_cmds.getAttr(f"{shape}.shapeFinWidthScale") == width
     if connected:
         for name in ("shapeFinHeight", "shapeFinWidthScale"):
-            assert maya_cmds.isConnected(f"{driver}.{name}", f"{shape}.{name}")
-    maya_cmds.setAttr(f"{driver}.shapeFinHeight", 0)
+            assert not maya_cmds.isConnected(
+                f"{driver}.{name}", f"{shape}.{name}"
+            )
+    maya_cmds.setAttr(f"{shape}.shapeFinHeight", 0)
     assert _bounds(maya_om, shape) == pytest.approx(
         (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5), abs=2e-8
     )

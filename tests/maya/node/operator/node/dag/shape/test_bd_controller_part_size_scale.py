@@ -198,7 +198,7 @@ def test_directional_scales_are_ignored_outside_non_arc_at_ends(
 @pytest.mark.parametrize(
     "preset", ("SquareSwapped", "ColorSphere", "WideCrossLine3Axis")
 )
-def test_size_scale_api_undo_connections_animation_and_scene_reload(
+def test_size_scale_api_direct_edits_undo_and_scene_reload(
     maya_cmds, maya_om, new_scene, tmp_path, preset
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -231,21 +231,11 @@ def test_size_scale_api_undo_connections_animation_and_scene_reload(
     assert _bounds(maya_om, shape) == pytest.approx(default_bounds)
     mod.redo_it()
     assert _bounds(maya_om, shape) == pytest.approx(changed_bounds)
-    driver = maya_cmds.createNode("network", name="scaleDriver")
-    for attr in ("primary", "other"):
-        maya_cmds.addAttr(
-            driver, longName=attr, attributeType="double", keyable=True
-        )
-    node.shapePartPrimarySizeScale.connect_from(f"{driver}.primary")
-    node.shapePartOtherSizeScale.connect_from(f"{driver}.other")
-    mod.do_it_dg()
     values = ((1.4, 0.2), (0, 1), (0, 0), (1, 0), (0.8, 1.6))
-    for time, (primary, other) in enumerate(values, 1):
-        maya_cmds.setKeyframe(f"{driver}.primary", time=time, value=primary)
-        maya_cmds.setKeyframe(f"{driver}.other", time=time, value=other)
     expected = []
-    for time in range(1, len(values) + 1):
-        maya_cmds.currentTime(time)
+    for primary, other in values:
+        maya_cmds.setAttr(f"{shape}.shapePartPrimarySizeScale", primary)
+        maya_cmds.setAttr(f"{shape}.shapePartOtherSizeScale", other)
         expected.append(_bounds(maya_om, shape))
     assert len(set(expected)) == len(values)
     scene = tmp_path / "part_size_scales.ma"
@@ -253,12 +243,8 @@ def test_size_scale_api_undo_connections_animation_and_scene_reload(
     maya_cmds.file(save=True, type="mayaAscii", force=True)
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene), open=True, force=True)
-    for time, box in enumerate(expected, 1):
-        maya_cmds.currentTime(time)
+    assert _bounds(maya_om, shape) == pytest.approx(expected[-1], abs=1e-9)
+    for (primary, other), box in zip(values, expected):
+        maya_cmds.setAttr(f"{shape}.shapePartPrimarySizeScale", primary)
+        maya_cmds.setAttr(f"{shape}.shapePartOtherSizeScale", other)
         assert _bounds(maya_om, shape) == pytest.approx(box, abs=1e-9)
-    assert maya_cmds.isConnected(
-        f"{driver}.primary", f"{shape}.shapePartPrimarySizeScale"
-    )
-    assert maya_cmds.isConnected(
-        f"{driver}.other", f"{shape}.shapePartOtherSizeScale"
-    )

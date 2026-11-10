@@ -35,6 +35,7 @@ $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
 & $mayapy -m pytest `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_plugin.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_shape.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_static_contract.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_arc_contract.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_attachment_contract.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_part_size_scale.py") `

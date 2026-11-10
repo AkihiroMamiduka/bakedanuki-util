@@ -2730,13 +2730,20 @@ def test_guide_line_stops_at_the_solid_body(
         pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
     with _drawing_view(maya_cmds, preset, shapeGuideLine=True) as (
         _,
-        _,
+        shape,
         camera,
-        _,
+        camera_shape,
         panel,
     ):
         if preset in ("SquareArrowAxial", "CircleArrowAxial"):
-            on_point, off_point = (0, 0.15, 0), (0, 0.35, 0)
+            # 底面の輪郭と重ならない視点で、Minus起点の横ガイドを確認する。
+            _aim_at_origin(maya_cmds, camera, (4, 3, 5))
+            maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 2.4)
+            on_point, off_point = (-0.5, 0.23, 0), (-0.5, 0.6, 0)
+            maya_cmds.setAttr(f"{shape}.shapeGuideLine", False)
+            plain = _capture_view(panel, tmp_path / "solid_without_guide.png")
+            assert _brightness_near_world(panel, plain, on_point) < 120
+            maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
         else:
             _aim_at_origin(maya_cmds, camera, (3, 2, 4))
             on_point, off_point = (0.25, 0, 0), (0.6, 0, 0)
@@ -4948,3 +4955,127 @@ def test_cage_swapped_octahedron_arrow_keeps_reflected_faces_outward(
             fill_color,
             background,
         )
+
+
+@pytest.mark.parametrize(
+    "preset", ("Cube", "Sphere", "ColorCube", "ColorSphere")
+)
+@pytest.mark.parametrize("evaluation_mode", ("off", "parallel"))
+def test_animation_matrix_playback_updates_fill_and_reflected_culling(
+    maya_cmds, new_scene, tmp_path, preset, evaluation_mode
+):
+    """実再生で接続行列の移動と反転を反映し、外側の塗りと内側のカリングを保つ。"""
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    previous_mode = maya_cmds.evaluationManager(query=True, mode=True)[0]
+    previous_time = maya_cmds.currentTime(query=True)
+    playback_flags = (
+        "minTime",
+        "maxTime",
+        "animationStartTime",
+        "animationEndTime",
+        "loop",
+        "playbackSpeed",
+        "maxPlaybackSpeed",
+        "view",
+        "by",
+    )
+    previous_playback = {
+        flag: maya_cmds.playbackOptions(query=True, **{flag: True})
+        for flag in playback_flags
+    }
+    has_cache = "cache" in (maya_cmds.evaluator(query=True) or [])
+    previous_cache = (
+        bool(maya_cmds.evaluator(query=True, name="cache", enable=True))
+        if has_cache
+        else False
+    )
+    try:
+        maya_cmds.evaluationManager(mode=evaluation_mode)
+        if has_cache:
+            maya_cmds.evaluator(name="cache", enable=False)
+            assert not maya_cmds.evaluator(
+                query=True, name="cache", enable=True
+            )
+        maya_cmds.playbackOptions(
+            minTime=1,
+            maxTime=3,
+            animationStartTime=1,
+            animationEndTime=3,
+            loop="once",
+            playbackSpeed=0,
+            maxPlaybackSpeed=0,
+            view="active",
+            by=1,
+        )
+        with _drawing_view(
+            maya_cmds,
+            preset,
+            shapeFill=True,
+            shapeLineTransparency=1,
+            shapeFillTransparency=0.5,
+        ) as (_, shape, camera, camera_shape, panel):
+            maya_cmds.setAttr(f"{camera_shape}.orthographic", False)
+            maya_cmds.setAttr(f"{camera}.translate", 0, 0, 6)
+            maya_cmds.setAttr(f"{camera}.rotate", 0, 0, 0)
+            driver = maya_cmds.createNode("composeMatrix")
+            maya_cmds.connectAttr(
+                f"{driver}.outputMatrix",
+                f"{shape}.shapeAnimationTransformMatrix",
+            )
+            for attribute, first, last in (
+                ("inputTranslateX", -0.75, 0.75),
+                ("inputScaleX", 1, -1),
+                ("inputRotateY", 0, 25),
+            ):
+                maya_cmds.setKeyframe(
+                    driver, attribute=attribute, time=1, value=first
+                )
+                maya_cmds.setKeyframe(
+                    driver, attribute=attribute, time=3, value=last
+                )
+            maya_cmds.keyTangent(
+                driver, inTangentType="linear", outTangentType="linear"
+            )
+            old_center, new_center = (-0.75, 0, 0), (0.75, 0, 0)
+            maya_cmds.currentTime(1)
+            initial = _capture_view(
+                panel, tmp_path / "matrix_playback_start.png"
+            )
+            background = sum(initial[:3])
+            assert (
+                _brightness_near_world(panel, initial, old_center)
+                > background + 60
+            )
+            assert (
+                _brightness_near_world(panel, initial, new_center)
+                <= background + 3
+            )
+            maya_cmds.play(forward=True, wait=True)
+            assert maya_cmds.currentTime(query=True) == pytest.approx(3)
+            final = _capture_view(panel, tmp_path / "matrix_playback_end.png")
+            background = sum(final[:3])
+            assert (
+                _brightness_near_world(panel, final, new_center)
+                > background + 60
+            )
+            assert (
+                _brightness_near_world(panel, final, old_center)
+                <= background + 3
+            )
+            # 外側の更新を先に確認し、その後に反転後の立体内部から裏面を確認する。
+            maya_cmds.setAttr(f"{camera}.translate", *new_center)
+            inside = _capture_view(
+                panel, tmp_path / "matrix_playback_inside.png"
+            )
+            assert all(
+                inside[index : index + 4] == inside[:4]
+                for index in range(0, len(inside), 4)
+            ), "行列反転後の立体内部に裏面が描画されている"
+    finally:
+        maya_cmds.play(state=False)
+        maya_cmds.playbackOptions(**previous_playback)
+        maya_cmds.evaluationManager(mode=previous_mode)
+        maya_cmds.currentTime(previous_time)
+        if has_cache:
+            maya_cmds.evaluator(name="cache", enable=previous_cache)

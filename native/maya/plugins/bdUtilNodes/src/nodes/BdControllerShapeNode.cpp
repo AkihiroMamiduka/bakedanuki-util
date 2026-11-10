@@ -4,7 +4,10 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
+#include <cstring>
 #include <mutex>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -35,6 +38,7 @@
 #include <maya/MPointArray.h>
 #include <maya/MQuaternion.h>
 #include <maya/MUIDrawManager.h>
+#include <maya/MUintArray.h>
 #include <maya/MUserData.h>
 #include <maya/MVector.h>
 
@@ -43,6 +47,8 @@
 #include "bdUtilNodes/attributes/NumericAttribute.h"
 #include "bdUtilNodes/attributes/RotateAttribute.h"
 #include "bdUtilNodes/attributes/UnitAttribute.h"
+
+#include "BdControllerShapeDrawData.inc"
 
 const MString BdControllerShapeNode::typeName("bdControllerShape");
 const MTypeId BdControllerShapeNode::typeId(0x0014271F);
@@ -1924,46 +1930,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     return result;
 }
 
-std::shared_ptr<const BdControllerShapeNode::Geometry> transformGeometry(
-    const BdControllerShapeNode::Geometry& base,
-    const MMatrix& matrix,
-    bool showOffsetLine
-) {
-    auto result = std::make_shared<BdControllerShapeNode::Geometry>();
-    result->offsetLineTemplate = base.offsetLineTemplate;
-    result->strokeStyles = base.strokeStyles;
-    for (const Stroke& baseStroke : base.strokes) {
-        Stroke stroke;
-        for (unsigned int index = 0; index < baseStroke.length(); ++index) {
-            stroke.append(baseStroke[index] * matrix);
-        }
-        result->strokes.push_back(std::move(stroke));
-    }
-    for (const auto& basePart : base.fillParts) {
-        BdControllerShapeNode::Geometry::FillPart part;
-        part.style = basePart.style;
-        part.marker = basePart.marker;
-        part.singleSided = basePart.singleSided;
-        for (unsigned int index = 0;
-             index < basePart.triangles.length(); ++index) {
-            part.triangles.append(basePart.triangles[index] * matrix);
-        }
-        result->fillParts.push_back(std::move(part));
-    }
-    if (matrix.det3x3() < 0.0) reverseSolidFillWinding(*result);
-    if (base.wireframeGeometry) {
-        result->wireframeGeometry = transformGeometry(*base.wireframeGeometry, matrix, showOffsetLine);
-    }
-    result->bounds = boundsForGeometry(result->strokes, result->fillParts);
-    result->offsetLineEndpoint = base.offsetLineEndpoint * matrix;
-    if (showOffsetLine && hasOffsetLine(result->offsetLineEndpoint)) {
-        result->offsetLine.append(MPoint::origin);
-        result->offsetLine.append(result->offsetLineEndpoint);
-        result->bounds.expand(MPoint::origin);
-        result->bounds.expand(result->offsetLineEndpoint);
-    }
-    return result;
-}
+#include "BdControllerShapeDrawGeometry.inc"
 
 MBoundingBox centeredShapeBounds(const BdControllerShapeNode::Geometry& geometry) {
     // 共通の移動は寸法を変えないため、既に生成した本体から中央範囲を求める。
@@ -2135,68 +2102,6 @@ bool hasIncomingConnection(const MPlug& plug) {
     return false;
 }
 
-bool hasConnectedSettingsInput(
-    const MObject& node, const ShapeAttributes& attributes
-) {
-    for (const auto& attribute : attributes.baseSpaceFaceScaleParents) {
-        if (!attribute.isNull() && hasIncomingConnection(MPlug(node, attribute))) return true;
-    }
-    for (const MObject& attribute : {
-             attributes.shape,
-             attributes.axisSwap,
-             attributes.wide,
-             attributes.templateLine,
-             attributes.templateLineRate,
-             attributes.templateLineInvert,
-             attributes.templateFill,
-             attributes.partTemplate,
-             attributes.finTemplate,
-             attributes.wideWidth,
-             attributes.circleAngle,
-             attributes.part,
-             attributes.partShape,
-             attributes.partType,
-             attributes.fill,
-             attributes.fin,
-             attributes.finType,
-             attributes.finWidthScale,
-             attributes.guideLine,
-             attributes.guideLineTemplate,
-             attributes.firstAxis,
-             attributes.secondAxis,
-             attributes.rootSize,
-             attributes.translate,
-             attributes.rotate,
-             attributes.scale,
-             attributes.axisTranslate,
-             attributes.axisRotate,
-             attributes.axisScale,
-             attributes.size,
-             attributes.baseSpace1stAxisMinus,
-             attributes.baseSpace1stAxisPlus,
-             attributes.baseSpace2ndAxisMinus,
-             attributes.baseSpace2ndAxisPlus,
-             attributes.baseSpace3rdAxisMinus,
-             attributes.baseSpace3rdAxisPlus,
-             attributes.partOffset,
-             attributes.partFinHeight,
-             attributes.partLengthScale,
-             attributes.partWidthScale,
-             attributes.partHeightScale,
-             attributes.partSize,
-             attributes.partPrimarySizeScale,
-             attributes.partOtherSizeScale,
-             attributes.showOffsetLine,
-             attributes.offsetLineTemplate,
-         }) {
-        if (!attribute.isNull() &&
-            hasIncomingConnection(MPlug(node, attribute))) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool hasConnectedBoundsInput(const MObject& node, short mode) {
     if (hasIncomingConnection(MPlug(node, BdControllerShapeNode::boundsMode)) ||
         hasIncomingConnection(MPlug(node, BdControllerShapeNode::showBoundsPreview))) return true;
@@ -2226,17 +2131,6 @@ MBoundingBox nodeBounds(const MObject& node) {
     return geometry
         ? geometry->focusBounds
         : MBoundingBox(MPoint::origin, MPoint::origin);
-}
-
-MPointArray lineSegments(const Strokes& strokes) {
-    MPointArray segments;
-    for (const Stroke& stroke : strokes) {
-        for (unsigned int index = 1; index < stroke.length(); ++index) {
-            segments.append(stroke[index - 1]);
-            segments.append(stroke[index]);
-        }
-    }
-    return segments;
 }
 
 using DrawDisplayType = MDAGDrawOverrideInfo::DrawOverrideDisplayType;
@@ -2304,28 +2198,78 @@ MColor axisStyledColor(
     return result;
 }
 
-// MUIDrawManagerには面のカリング指定がないため、現在のビューへ向く面だけを渡す。
-MPointArray frontFacingTriangles(const MPointArray& triangles, const MMatrix& objectToView, bool perspective) {
-    MPointArray result;
-    const double orientation = objectToView.det3x3() < 0.0 ? -1.0 : 1.0;
-    for (unsigned int i = 0; i + 2 < triangles.length(); i += 3) {
-        const auto a = triangles[i] * objectToView;
-        const auto b = triangles[i + 1] * objectToView;
-        const auto c = triangles[i + 2] * objectToView;
-        const auto towardCamera = perspective ? MPoint::origin - a : MVector(0, 0, 1);
-        if ((((b - a) ^ (c - a)) * towardCamera) * orientation <= 0.0) continue;
-        result.append(triangles[i]);
-        result.append(triangles[i + 1]);
-        result.append(triangles[i + 2]);
-    }
+struct TriangleFacingContext {
+    MMatrix objectToView;
+    MVector localCamera;
+    bool perspective = false;
+    bool usePlanes = false;
+    double orientation = 1.0;
+    double cameraLength = 0.0;
+};
+
+TriangleFacingContext triangleFacingContext(
+    const BdControllerShapeDrawGeometry& geometry, const MMatrix& objectToView, bool perspective
+) {
+    TriangleFacingContext result;
+    result.objectToView = objectToView;
+    result.perspective = perspective;
+    result.orientation = objectToView.det3x3() < 0.0 ? -1.0 : 1.0;
+    const auto combined = geometry.animationMatrix * objectToView;
+    const auto isAffine = [](const MMatrix& matrix) {
+        return matrix[0][3] == 0.0 && matrix[1][3] == 0.0 &&
+            matrix[2][3] == 0.0 && matrix[3][3] == 1.0;
+    };
+    if (!isAffine(geometry.animationMatrix) || !isAffine(objectToView) ||
+        !isAffine(combined) || combined.isSingular()) return result;
+    const auto inverse = combined.inverse();
+    result.localCamera = perspective
+        ? MPoint::origin * inverse - MPoint::origin
+        : MVector(0, 0, 1) * inverse;
+    result.cameraLength = result.localCamera.length();
+    result.usePlanes = std::isfinite(result.localCamera.x) &&
+        std::isfinite(result.localCamera.y) && std::isfinite(result.localCamera.z);
     return result;
+}
+
+// 不変の面情報で判定し、視点依存のindexだけを更新する。
+void frontFacingTriangleIndices(
+    const BdControllerShapeDrawGeometry& geometry, std::size_t partIndex,
+    const TriangleFacingContext& context, MUintArray& result
+) {
+    const auto& points = geometry.fillParts[partIndex];
+    const auto& indices = geometry.fillIndices(partIndex);
+    const auto& planes = geometry.topology->fillParts[partIndex].planes;
+    result.setLength(indices.length());
+    unsigned int count = 0;
+    for (unsigned int i = 0; i + 2 < indices.length(); i += 3) {
+        bool useReference = !context.usePlanes;
+        double facing = 0.0;
+        if (!useReference) {
+            const auto& plane = planes[i / 3];
+            facing = plane.normal * context.localCamera + (context.perspective ? plane.offset : 0.0);
+            const double scale = plane.normalLength * context.cameraLength +
+                (context.perspective ? std::abs(plane.offset) : 0.0);
+            // 輪郭に接する面は、元の演算順で丸め誤差による反転を避ける。
+            useReference = !std::isfinite(facing) || std::abs(facing) <= scale * 1e-12;
+        }
+        if (useReference) {
+            const auto a = points[indices[i]] * context.objectToView;
+            const auto b = points[indices[i + 1]] * context.objectToView;
+            const auto c = points[indices[i + 2]] * context.objectToView;
+            const auto towardCamera = context.perspective ? MPoint::origin - a : MVector(0, 0, 1);
+            facing = (((b - a) ^ (c - a)) * towardCamera) * context.orientation;
+        }
+        if (facing <= 0.0) continue;
+        result[count++] = indices[i];
+        result[count++] = indices[i + 1];
+        result[count++] = indices[i + 2];
+    }
+    result.setLength(count);
 }
 
 struct ShapeDrawData final : public MUserData {
     std::shared_ptr<const BdControllerShapeNode::Geometry> geometry;
-    Strokes onTopSegments;
-    Strokes wireframeOnTopSegments;
-    std::vector<MPointArray> frontTriangles;
+    std::vector<MUintArray> frontIndices;
     MMatrix objectToView;
     bool perspective = false;
     MColor color;
@@ -2405,28 +2349,31 @@ public:
             ? static_cast<ShapeDrawData*>(oldData)
             : new ShapeDrawData();
         const auto geometry = nodeGeometry(objectPath.node());
-        const bool geometryChanged = data->geometry != geometry;
+        const bool geometryChanged = !data->geometry || !geometry ||
+            data->geometry->drawGeometry != geometry->drawGeometry;
         data->geometry = geometry;
         MStatus status;
-        const bool singleSided = geometry && std::any_of(geometry->fillParts.begin(), geometry->fillParts.end(),
-            [](const BdControllerShapeNode::Geometry::FillPart& part) { return part.singleSided; });
+        const bool singleSided = geometry && geometry->drawGeometry->topology->singleSided;
         MMatrix view;
         if (singleSided) view = frameContext.getMatrix(MHWRender::MFrameContext::kViewMtx, &status);
         if (singleSided && status) {
             const auto objectToView = objectPath.inclusiveMatrix() * view;
             const auto projection = frameContext.getMatrix(MHWRender::MFrameContext::kProjectionMtx, &status);
             const bool perspective = status && std::abs(projection[3][3]) < 1e-12;
-            if (geometryChanged || data->frontTriangles.size() != geometry->fillParts.size() ||
+            const auto& drawGeometry = *geometry->drawGeometry;
+            if (geometryChanged || data->frontIndices.size() != drawGeometry.fillParts.size() ||
                 data->objectToView != objectToView || data->perspective != perspective) {
-                data->frontTriangles.clear();
-                for (const auto& part : geometry->fillParts) {
-                    data->frontTriangles.push_back(part.singleSided
-                        ? frontFacingTriangles(part.triangles, objectToView, perspective) : MPointArray());
+                const auto facing = triangleFacingContext(drawGeometry, objectToView, perspective);
+                data->frontIndices.resize(drawGeometry.fillParts.size());
+                for (std::size_t i = 0; i < drawGeometry.fillParts.size(); ++i) {
+                    if (drawGeometry.topology->fillParts[i].singleSided) {
+                        frontFacingTriangleIndices(drawGeometry, i, facing, data->frontIndices[i]);
+                    } else data->frontIndices[i].clear();
                 }
                 data->objectToView = objectToView;
                 data->perspective = perspective;
             }
-        } else data->frontTriangles.clear();
+        } else data->frontIndices.clear();
         const float lineWidth = MPlug(
             objectPath.node(), BdControllerShapeNode::shapeLineWidth
         ).asFloat(&status);
@@ -2445,26 +2392,11 @@ public:
         const float fillOpacity = status && std::isfinite(fillTransparency)
             ? 1.0f - std::clamp(fillTransparency, 0.0f, 1.0f)
             : 0.15f;
-        const bool wasDrawOnTop = data->drawOnTop;
         data->drawOnTop = MPlug(
             objectPath.node(), BdControllerShapeNode::shapeDrawOnTop
         ).asBool(&status);
         if (!status) {
             data->drawOnTop = false;
-        }
-        if (data->drawOnTop && (geometryChanged || !wasDrawOnTop)) {
-            data->onTopSegments.clear();
-            data->wireframeOnTopSegments.clear();
-            if (data->geometry) {
-                for (const Stroke& stroke : data->geometry->strokes) {
-                    data->onTopSegments.push_back(lineSegments(Strokes{stroke}));
-                }
-                if (data->geometry->wireframeGeometry) {
-                    for (const Stroke& stroke : data->geometry->wireframeGeometry->strokes) {
-                        data->wireframeOnTopSegments.push_back(lineSegments(Strokes{stroke}));
-                    }
-                }
-            }
         }
         data->color = MHWRender::MGeometryUtilities::wireframeColor(objectPath);
         data->displayType = drawDisplayType(objectPath);
@@ -2515,12 +2447,14 @@ public:
         }
         const auto appearance = drawAppearance(*data, frameContext.getDisplayStyle());
         const MColor& color = appearance.color;
-        for (std::size_t index = 0; index < data->geometry->fillParts.size(); ++index) {
-            const auto& part = data->geometry->fillParts[index];
+        const auto& drawGeometry = *data->geometry->drawGeometry;
+        for (std::size_t index = 0; index < drawGeometry.fillParts.size(); ++index) {
+            const auto& part = drawGeometry.topology->fillParts[index];
+            const auto& points = drawGeometry.fillParts[index];
             if (!appearance.shaded && !part.marker) continue;
-            const auto& triangles = part.singleSided && index < data->frontTriangles.size()
-                ? data->frontTriangles[index] : part.triangles;
-            if (triangles.length() == 0) continue;
+            const auto* indices = part.singleSided && index < data->frontIndices.size()
+                ? &data->frontIndices[index] : &drawGeometry.fillIndices(index);
+            if (points.length() == 0 || indices->length() == 0) continue;
             drawManager.beginDrawable(
                 part.style == StrokeStyle::Template
                     ? MHWRender::MUIDrawManager::kNonSelectable
@@ -2539,17 +2473,18 @@ public:
             drawManager.setPaintStyle(MHWRender::MUIDrawManager::kFlat);
             if (data->drawOnTop) drawManager.beginDrawInXray();
             drawManager.mesh(
-                MHWRender::MUIDrawManager::kTriangles, triangles
+                MHWRender::MUIDrawManager::kTriangles, points, nullptr, nullptr, indices
             );
             if (data->drawOnTop) drawManager.endDrawInXray();
             drawManager.endDrawable();
         }
         const bool wireframe = (!appearance.shaded || appearance.fillColor.a <= 0.0f) &&
             data->geometry->wireframeGeometry;
-        const auto& strokeGeometry = wireframe ? *data->geometry->wireframeGeometry : *data->geometry;
-        const auto& onTopSegments = wireframe ? data->wireframeOnTopSegments : data->onTopSegments;
+        const auto& strokeGeometry = wireframe
+            ? *data->geometry->wireframeGeometry->drawGeometry : drawGeometry;
         for (std::size_t index = 0; index < strokeGeometry.strokes.size(); ++index) {
-            const StrokeStyle style = strokeGeometry.strokeStyles[index];
+            const auto& strokeInfo = strokeGeometry.topology->strokes[index];
+            const StrokeStyle style = strokeInfo.style;
             MColor strokeColor = axisStyledColor(style, color,
                 appearance.selected, appearance.axisDisplayType);
             if (style == StrokeStyle::Template) {
@@ -2568,13 +2503,14 @@ public:
             if (data->lineWidth > 1.0f) {
                 drawManager.setLineWidth(data->lineWidth);
             }
-            if (data->drawOnTop && index < onTopSegments.size()) {
-                drawManager.beginDrawInXray();
+            if (data->drawOnTop || strokeInfo.lineList) {
+                if (data->drawOnTop) drawManager.beginDrawInXray();
                 drawManager.mesh(
                     MHWRender::MUIDrawManager::kLines,
-                    onTopSegments[index]
+                    strokeGeometry.strokes[index], nullptr, nullptr,
+                    &strokeInfo.lineIndices
                 );
-                drawManager.endDrawInXray();
+                if (data->drawOnTop) drawManager.endDrawInXray();
             } else {
                 drawManager.lineStrip(strokeGeometry.strokes[index], false);
             }
@@ -2635,7 +2571,6 @@ struct BdControllerShapeNode::GeometryCache {
     std::uint64_t boundsRevision = 0;
     short boundsMode = 0;
     bool showBoundsPreview = false;
-    bool hasConnectedInput = false;
     bool hasConnectedAnimationInput = false;
     bool hasConnectedBoundsInput = false;
 };
@@ -2647,6 +2582,19 @@ BdControllerShapeNode::~BdControllerShapeNode() {
     if (attributeChangedCallback_ != 0) {
         MMessage::removeCallback(attributeChangedCallback_);
     }
+}
+
+MStatus BdControllerShapeNode::legalConnection(
+    const MPlug& plug,
+    const MPlug& otherPlug,
+    bool asSrc,
+    bool& isLegal
+) const {
+    if (!asSrc && isShapeAttribute(plug.attribute())) {
+        isLegal = false;
+        return MS::kSuccess;
+    }
+    return MPxLocatorNode::legalConnection(plug, otherPlug, asSrc, isLegal);
 }
 
 void BdControllerShapeNode::onAttributeChanged(
@@ -2663,7 +2611,8 @@ void BdControllerShapeNode::onAttributeChanged(
     auto* node = static_cast<BdControllerShapeNode*>(clientData);
     if (plug.attribute() == shapeAnimationTransformMatrix) {
         node->animationRevision_.fetch_add(1, std::memory_order_release);
-    } else if (isShapeAttribute(plug.attribute())) {
+    } else if ((change & MNodeMessage::kAttributeSet) &&
+               isShapeAttribute(plug.attribute())) {
         node->geometryRevision_.fetch_add(1, std::memory_order_release);
     } else if (isBoundsAttribute(plug.attribute())) {
         node->boundsRevision_.fetch_add(1, std::memory_order_release);
@@ -2686,7 +2635,7 @@ BdControllerShapeNode::geometry() const {
     if (cache.value && cache.baseRevision == baseRevision &&
         cache.animationRevision == animationRevision &&
         cache.boundsRevision == boundsRevision &&
-        !cache.hasConnectedInput && !cache.hasConnectedAnimationInput &&
+        !cache.hasConnectedAnimationInput &&
         !cache.hasConnectedBoundsInput &&
         attributeChangedCallback_ != 0) {
         return cache.value;
@@ -2694,22 +2643,19 @@ BdControllerShapeNode::geometry() const {
 
     bool baseChanged = false;
     if (!cache.base || cache.baseRevision != baseRevision ||
-        cache.hasConnectedInput || attributeChangedCallback_ == 0) {
+        attributeChangedCallback_ == 0) {
         ShapeSettings settings;
         if (!readSettings(thisMObject(), shapeAttributes(), settings)) {
             return cache.value;
         }
-        const bool connected = hasConnectedSettingsInput(
-            thisMObject(), shapeAttributes()
-        );
         if (!cache.base || !sameSettings(settings, cache.settings)) {
-            cache.base = makeBaseGeometry(settings);
-            cache.centeredBaseBounds = centeredShapeBounds(*cache.base);
+            const auto generated = makeBaseGeometry(settings);
+            cache.centeredBaseBounds = centeredShapeBounds(*generated);
+            cache.base = bakeDrawGeometry(*generated);
             cache.settings = settings;
             baseChanged = true;
         }
         cache.baseRevision = baseRevision;
-        cache.hasConnectedInput = connected;
     }
 
     bool customBaseChanged = false;
@@ -3604,6 +3550,10 @@ MStatus BdControllerShapeNode::initialize() {
         if (!status) return status;
         status = attributeFn.setKeyable(false);
         if (!status) return status;
+        if (isShapeAttribute(attribute)) {
+            status = attributeFn.setConnectable(false);
+            if (!status) return status;
+        }
         status = attributeFn.setChannelBox(true);
         if (!status) return status;
         status = addAttribute(attribute);
@@ -3644,6 +3594,8 @@ MStatus BdControllerShapeNode::initialize() {
         MFnAttribute attributeFn(attribute, &status);
         if (!status) return status;
         status = attributeFn.setKeyable(false);
+        if (!status) return status;
+        status = attributeFn.setConnectable(false);
         if (!status) return status;
         status = attributeFn.setChannelBox(true);
         if (!status) return status;

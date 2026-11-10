@@ -79,7 +79,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 
 | 数値テスト | 主な確認対象 |
 | --- | --- |
-| [test_bd_controller_fin_axis.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_fin_axis.py) | Finの属性構造と既定表示、Height / WidthScaleの独立した正負・0・接続・履歴、Standardの軸平行とTaperedの高さ基準 |
+| [test_bd_controller_fin_axis.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_fin_axis.py) | Finの属性構造と既定表示、Height / WidthScaleの独立した正負・0・履歴、Standardの軸平行とTaperedの高さ基準。静的属性への接続・キー拒否はstatic contractで確認 |
 | [test_bd_controller_shape.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py) / [test_bd_controller_custom_bounds.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_custom_bounds.py) | `boundsMode` の既定Shape、3モード、行列、プレビュー、`viewFit` とCustom Boundsの独立性 |
 | [test_bd_controller_cage_straight_edges.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_cage_straight_edges.py) | 元頂点だけを変形した範囲、Circleの既存64サンプル、Template境界を加えても変わらない輪郭 |
 | [test_bd_controller_capsule.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_capsule.py) | 端別の半径と倍率、接合面、反転・中心間0・退化、Part・Finと保存再読込 |
@@ -327,9 +327,9 @@ assert cmds.getAttr(f"{node}.outputX") == 40.0
 
 ### bdControllerShapeの面内Scaleと描画キャッシュ
 
-`bdControllerShape` では、親・子の変更通知と入力接続の判定による描画キャッシュの更新も確認します。
-`MNodeMessage` は親への直接設定を親だけに通知する場合があり、親接続は子の
-`MPlug::isDestination()` だけでは検出できません。実装上の経路は
+`bdControllerShape` の形状調整は直接編集専用です。親・子の変更通知による
+描画キャッシュの更新と、入力接続・キーの拒否を確認します。
+`MNodeMessage` は親への直接設定を親だけに通知する場合があります。実装上の経路は
 [面内Scaleの保守](controller-shape.md#基準空間の面内scaleを保守するとき) を参照してください。
 
 `shape.shapeBaseSpace1stAxisPlusScale.set(0.5, 1.5)` は現在の共通PlugOperatorで子ごとの
@@ -338,18 +338,42 @@ modifier操作を積みます。この経路と、Mayaの `setAttr(..., type="do
 
 1. `boundingBox()` を一度取得してキャッシュを作る。範囲が変わる値を使い、親の一括設定では両成分、
    子の単独設定では対象成分だけが更新され、もう一方が保持されることを確認する。
-2. 親同士の接続、子だけの接続で接続元を変更し、切断・Undo/Redo・保存再読込後も値と範囲を確認する。
-3. 親へのキー設定と子ごとのキー設定を通し、前進・巻き戻しの両方で確認する。
-4. Maya GUIで接続先へ直接設定せずにdriverを変え、画素と必要な選択範囲が更新されるか確認する。
+2. 親と子を直接編集し、Undo/Redo・保存再読込後も値と範囲を確認する。
+3. 親・子への `connectAttr()`、`MDGModifier` の入力接続を拒否し、明示的なキー設定でもanimCurve入力を作らないことを確認する。
+4. Maya GUIで親の直接編集とUndoを行い、画素と必要な選択範囲が更新されるか確認する。
+5. `shapeAnimationTransformMatrix` の接続と接続元の数値属性のキー、表示属性・Bounds設定の接続とキーによる動的更新を確認する。
 
 テスト用のdynamic `double2` は、親と両子の `addAttr()` を完了してから子へ値・キー・接続を設定します。
 子を1つだけ追加した途中状態で操作すると、属性が見つからないことがあります。
 
 属性構造・API・キャッシュは
 [test_bd_controller_base_space_face_scale.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_base_space_face_scale.py)、
-実描画での親設定・driverアニメーションは
+静的属性の入力接続・キー拒否と直接編集の履歴は
+[test_bd_controller_static_contract.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_static_contract.py)、
+実描画での親設定とUndoは
 [test_controller_shape_cage_attachments.py](../../../tests/maya/ui/test_controller_shape_cage_attachments.py)
 で確認します。これらの入力経路がテストで実際に実行されていることを確認してください。
+
+### bdControllerShapeのindexed描画データ
+
+2026-11-10時点の描画データは、連続する同styleの2点ストロークをまとめた線群と、
+FillPartごとにbit同一の座標を共有します。論理プリミティブ数・分割数・描画順は維持します。
+形状生成用の配列と、描画用の一意な座標・静的index列を区別して確認してください。
+
+- indexを展開した線分・三角形とその順序、重複数、style・marker・singleSided、boundsが
+  共有前の独立した参照計算と一致する。`MPoint` のx・y・z・wをbit単位で比較し、
+  signed zero・NaN payload・wが異なる点を統合しない。長い `lineStrip` の座標と分割を保つ。
+- `shapeAnimationTransformMatrix` の正・負・ゼロの行列式、シアー、射影変換を確認する。
+  片面Fillの逆向きindex切替と、退化・輪郭付近のカリングfallbackが同じ3点・演算順を使う。
+  個別には射影変換を含み、合成するとaffineに見える組合せもfallbackを通す。
+- 実GUIで通常・Xray・太線・半透明、Normal / Templateの色と選択、Wireframeへの切替を比較する。
+  boundsの一致だけで画像・選択の一致を判断せず、前述の9ファイルを使って確認する。
+- 親transformだけの変更では基準座標と行列適用後の座標を再生成せず、
+  必要な可視indexを更新する。カメラ移動、選択色、表示属性の変更にも追従する。
+
+描画overrideの `isAlwaysDirty=true` は維持します。単純に `false` にする試作は採用せず、
+視点・選択・表示・複数view・instanceに対応するdirty通知が必要な別設計として扱います。
+仕様と測定段階の区別は [処理負荷の測定](controller-shape.md#処理負荷の測定) を参照してください。
 
 ## Sparse Multi Tests
 
@@ -420,6 +444,16 @@ tool の表示は原因そのものではなく Maya が認識している graph
 - 複数回計測し、外れ値1回ではなく中央値や分布を見る。
 - DG / Serial / Parallel の mode を記録する。
 - Python loop や大量の `cmds.getAttr()` の時間を C++ node の計算時間に混ぜない。
+
+`bdControllerShape` は `scripts/benchmark_controller_shape.py` で独立したMaya GUIを起動し、
+静止・親transform・再生・形状行列を分けて測定します。結果JSONでは実loadと保存archiveの
+path・SHA256、EM、Cached Playback無効、単位、Viewport実寸、全配置が画面内に収まる条件、
+空でない画像、試行ごとの有限な時間を照合します。GPU単独の時間やdraw call数とは区別します。
+`--foreground` を両runに揃える場合は、Qtの表示・アクティブ・非最小化と
+application状態を計測区間の前後で確認し、未アクティブのまま測定を続けません。
+`--adaptive-heavy` の有無と各個数のframes / trials / warmupも一致させます。
+保存画像のRGBA差は確認対象として列挙し、背景だけの画像同士の一致を成功にしません。
+最初のキャッシュ最適化（index化前）と最終indexed版の結果は別の比較として記録します。
 
 固定2入力版と multi 版を比較する場合は、同じ2入力、同じ node 数、同じ downstream
 graph で評価します。作成時間と計算時間を別々に記録し、API の使いやすさを犠牲にする

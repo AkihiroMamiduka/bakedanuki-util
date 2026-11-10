@@ -34,7 +34,7 @@ def _mapped_bounds(bounds, limits=BASE_LIMITS):
 
 @pytest.mark.parametrize("preset", ("Cube", "ColorCube"))
 @pytest.mark.parametrize("swapped", (False, True))
-def test_shared_signed_distance_driver_expands_shape_and_custom_bounds_symmetrically(
+def test_direct_shape_distance_and_custom_bounds_driver_expand_symmetrically(
     maya_cmds, maya_om, new_scene, preset, swapped
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -52,14 +52,16 @@ def test_shared_signed_distance_driver_expands_shape_and_custom_bounds_symmetric
     for axis, custom_axis in zip(AXES, "XYZ"):
         for side in ("Minus", "Plus"):
             maya_cmds.connectAttr(
-                f"{driver}.distance", f"{shape}.shapeBaseSpace{axis}Axis{side}"
-            )
-            maya_cmds.connectAttr(
                 f"{driver}.distance",
                 f"{shape}.customBoundsBaseSpace{custom_axis}{side}",
             )
     for value in (0.5, 2, -0.4, 0):
         maya_cmds.setAttr(f"{driver}.distance", value)
+        for axis in AXES:
+            for side in ("Minus", "Plus"):
+                maya_cmds.setAttr(
+                    f"{shape}.shapeBaseSpace{axis}Axis{side}", value
+                )
         expected = (-abs(value),) * 3 + (abs(value),) * 3
         for mode in (0, 2):
             maya_cmds.setAttr(f"{shape}.boundsMode", mode)
@@ -434,7 +436,7 @@ def test_base_space_distances_follow_scene_units_without_changing_geometry(
         maya_cmds.currentUnit(linear=previous_unit)
 
 
-def test_base_space_api_history_connections_animation_and_scene_reload(
+def test_base_space_api_direct_edits_history_and_scene_reload(
     maya_cmds, maya_om, new_scene, tmp_path
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -452,21 +454,11 @@ def test_base_space_api_history_connections_animation_and_scene_reload(
     assert _bounds(maya_om, shape) == pytest.approx(original)
     mod.redo_it()
     assert _bounds(maya_om, shape) == pytest.approx(expected)
-    driver = maya_cmds.createNode("network", name="baseSpaceDriver")
-    for side in ("minus", "plus"):
-        maya_cmds.addAttr(
-            driver, longName=side, attributeType="doubleLinear", keyable=True
-        )
-    node.shapeBaseSpace1stAxisMinus.connect_from(f"{driver}.minus")
-    node.shapeBaseSpace1stAxisPlus.connect_from(f"{driver}.plus")
-    mod.do_it_dg()
     values = ((1, 2), (-2, 1), (3, 5))
-    for time, (minus, plus) in enumerate(values, 1):
-        maya_cmds.setKeyframe(f"{driver}.minus", time=time, value=-minus)
-        maya_cmds.setKeyframe(f"{driver}.plus", time=time, value=plus)
     boxes = []
-    for time, (minus, plus) in enumerate(values, 1):
-        maya_cmds.currentTime(time)
+    for minus, plus in values:
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", -minus)
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisPlus", plus)
         box = (minus, -0.5, -0.5, plus, 0.5, 0.5)
         assert _bounds(maya_om, shape) == pytest.approx(box)
         boxes.append(box)
@@ -475,10 +467,8 @@ def test_base_space_api_history_connections_animation_and_scene_reload(
     maya_cmds.file(save=True, type="mayaAscii", force=True)
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene), open=True, force=True)
-    for time, expected in enumerate(boxes, 1):
-        maya_cmds.currentTime(time)
+    assert _bounds(maya_om, shape) == pytest.approx(boxes[-1], abs=1e-9)
+    for (minus, plus), expected in zip(values, boxes):
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", -minus)
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisPlus", plus)
         assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
-    for side in ("Minus", "Plus"):
-        assert maya_cmds.isConnected(
-            f"{driver}.{side.lower()}", f"{shape}.shapeBaseSpace1stAxis{side}"
-        )

@@ -393,10 +393,10 @@ def test_arrow_part_vertices_follow_the_fixed_rear_section(
 @pytest.mark.parametrize(
     "preset", ("Triangle", "DiamondArrowSpatial", "ColorCornerCube")
 )
-def test_new_part_connection_undo_animation_and_scene_reload(
+def test_new_part_direct_edits_undo_and_scene_reload(
     maya_cmds, maya_om, new_scene, tmp_path, preset
 ):
-    """新しい対象でも接続値・履歴・時刻変更・再読込が描画キャッシュへ届く。"""
+    """新しい対象でも直接編集・履歴・再読込が描画キャッシュへ届く。"""
     _load_bd_util_nodes(maya_cmds)
     name = _controller(
         maya_cmds,
@@ -406,14 +406,10 @@ def test_new_part_connection_undo_animation_and_scene_reload(
         shapePartType=1,
     )
     body = _bounds(maya_om, name)
-    driver = maya_cmds.createNode("network", name="partOffsetDriver")
-    maya_cmds.addAttr(
-        driver, longName="offset", attributeType="double", defaultValue=3
-    )
     mod = bdu.ModifierManager()
     shape = bdu.Nodes(modifier_manager=mod).existing(name)
     shape.shapePart.set(True)
-    shape.shapePartOffset.connect_from(f"{driver}.offset")
+    shape.shapePartOffset.set(3)
     mod.do_it_dg()
     decorated = _bounds(maya_om, name)
     assert decorated != pytest.approx(body)
@@ -421,21 +417,17 @@ def test_new_part_connection_undo_animation_and_scene_reload(
     assert _bounds(maya_om, name) == pytest.approx(body, abs=1e-9)
     mod.redo_it()
     assert _bounds(maya_om, name) == pytest.approx(decorated, abs=1e-9)
-    for frame, offset in ((1, 3.0), (10, 4.0)):
-        maya_cmds.setKeyframe(
-            driver, attribute="offset", time=frame, value=offset
-        )
-    maya_cmds.currentTime(10)
-    animated = _bounds(maya_om, name)
-    assert animated != pytest.approx(decorated)
-    maya_cmds.currentTime(1)
+    maya_cmds.setAttr(f"{name}.shapePartOffset", 4)
+    changed = _bounds(maya_om, name)
+    assert changed != pytest.approx(decorated)
+    maya_cmds.setAttr(f"{name}.shapePartOffset", 3)
     assert _bounds(maya_om, name) == pytest.approx(decorated, abs=1e-9)
     scene = tmp_path / "new_part_shapes.ma"
     maya_cmds.file(rename=str(scene))
     maya_cmds.file(save=True, type="mayaAscii", force=True)
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene), open=True, force=True)
-    assert maya_cmds.isConnected(f"{driver}.offset", f"{name}.shapePartOffset")
+    assert maya_cmds.getAttr(f"{name}.shapePartOffset") == 3
     assert _bounds(maya_om, name) == pytest.approx(decorated, abs=1e-9)
-    maya_cmds.currentTime(10)
-    assert _bounds(maya_om, name) == pytest.approx(animated, abs=1e-9)
+    maya_cmds.setAttr(f"{name}.shapePartOffset", 4)
+    assert _bounds(maya_om, name) == pytest.approx(changed, abs=1e-9)

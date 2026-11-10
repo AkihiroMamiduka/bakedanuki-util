@@ -5,6 +5,10 @@ from ._generated.bd_controller_shape import GeneratedBdControllerShape
 class BdControllerShape(GeneratedBdControllerShape):
     """リグ用の複数輪郭を表示するコントローラー shape。
 
+    形状調整属性は直接編集し、入力接続とキーを受け付けない。共通TRS・Fill・Part・Fin・Guideも
+    調整後の基準形状へ焼き込み、形状のアニメーションは `shapeAnimationTransformMatrix` へ
+    接続した行列で行う。親transformの操作では基準形状を再生成しない。
+    表示用の線幅・透明度・DrawOnTopとBounds設定は入力接続・明示的なキー設定を利用できる。
     `shape` は32種類の基本本体を選び、`shapeWide` は帯や面・曲面上のフレームを有効にする。
     `shapeWideWidth` は基準空間で変形した本体上の実距離で、基準空間の伸縮やPart・Finの倍率から独立する。
     立体Wideは穴のある厚み0の帯だけを両面表示する。Wide Sphereは3帯の和集合の外周だけを描き、

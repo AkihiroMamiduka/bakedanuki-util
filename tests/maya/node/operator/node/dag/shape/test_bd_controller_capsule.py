@@ -617,7 +617,7 @@ def test_capsule_mean_cap_radius_respects_scene_distance_units(
         maya_cmds.currentUnit(linear=previous)
 
 
-def test_capsule_public_enum_connections_history_and_reload_update_the_body(
+def test_capsule_public_enum_direct_edits_history_and_reload_update_the_body(
     maya_cmds, maya_om, new_scene, tmp_path
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -625,16 +625,8 @@ def test_capsule_public_enum_connections_history_and_reload_update_the_body(
     mod = bdu.ModifierManager()
     node = bdu.Nodes(modifier_manager=mod).existing(name)
     assert node.shape.CAPSULE == 20
-    driver = maya_cmds.createNode("network", name="capsuleLengthDriver")
-    maya_cmds.addAttr(
-        driver,
-        longName="end",
-        attributeType="doubleLinear",
-        defaultValue=4,
-        keyable=True,
-    )
     node.shape.set(node.shape.CAPSULE)
-    node.shapeBaseSpace1stAxisPlus.connect_from(f"{driver}.end")
+    node.shapeBaseSpace1stAxisPlus.set(4)
     mod.do_it_dg()
     assert _bounds(maya_om, name) == pytest.approx(
         (-1, -0.5, -0.5, 4.5, 0.5, 0.5), abs=1e-9
@@ -645,11 +637,9 @@ def test_capsule_public_enum_connections_history_and_reload_update_the_body(
     )
     mod.redo_it()
     values = ((1, 4), (5, 0.3), (10, -1))
-    for frame, end in values:
-        maya_cmds.setKeyframe(driver, attribute="end", time=frame, value=end)
     expected = []
     for frame, end in values:
-        maya_cmds.currentTime(frame)
+        maya_cmds.setAttr(f"{name}.shapeBaseSpace1stAxisPlus", end)
         box = (
             min(-0.5, end) - 0.5,
             -0.5,
@@ -665,9 +655,10 @@ def test_capsule_public_enum_connections_history_and_reload_update_the_body(
     maya_cmds.file(save=True, type="mayaAscii", force=True)
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene), open=True, force=True)
-    assert maya_cmds.isConnected(
-        f"{driver}.end", f"{name}.shapeBaseSpace1stAxisPlus"
+    assert (
+        maya_cmds.getAttr(f"{name}.shapeBaseSpace1stAxisPlus") == values[-1][1]
     )
-    for (frame, _), box in zip(values, expected):
-        maya_cmds.currentTime(frame)
+    assert _bounds(maya_om, name) == pytest.approx(expected[-1], abs=1e-9)
+    for (_, end), box in zip(values, expected):
+        maya_cmds.setAttr(f"{name}.shapeBaseSpace1stAxisPlus", end)
         assert _bounds(maya_om, name) == pytest.approx(box, abs=1e-9)

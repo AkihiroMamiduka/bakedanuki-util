@@ -20,6 +20,8 @@ namespace MHWRender {
 class MPxDrawOverride;
 }
 
+struct BdControllerShapeDrawGeometry;
+
 enum class StrokeStyle : unsigned char {
     Normal,
     Template,
@@ -43,6 +45,12 @@ public:
     static MHWRender::MPxDrawOverride* createDrawOverride(const MObject& node);
 
     void postConstructor() override;
+    MStatus legalConnection(
+        const MPlug& plug,
+        const MPlug& otherPlug,
+        bool asSrc,
+        bool& isLegal
+    ) const override;
     bool isBounded() const override;
     MBoundingBox boundingBox() const override;
     bool excludeAsLocator() const override;
@@ -73,6 +81,7 @@ public:
         MBoundingBox focusBounds;
         MBoundingBox drawBounds;
         bool offsetLineTemplate = false;
+        std::shared_ptr<const BdControllerShapeDrawGeometry> drawGeometry;
     };
 
     std::shared_ptr<const Geometry> geometry() const;
