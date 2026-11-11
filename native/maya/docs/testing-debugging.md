@@ -371,9 +371,47 @@ FillPartごとにbit同一の座標を共有します。論理プリミティブ
 - 親transformだけの変更では基準座標と行列適用後の座標を再生成せず、
   必要な可視indexを更新する。カメラ移動、選択色、表示属性の変更にも追従する。
 
-描画overrideの `isAlwaysDirty=true` は維持します。単純に `false` にする試作は採用せず、
-視点・選択・表示・複数view・instanceに対応するdirty通知が必要な別設計として扱います。
+描画データの保持には `MPxSubSceneOverride::areUIDrawablesDirty()` を使います。
+各viewで形状・可視面・表示属性を比較し、変更がある場合だけUI描画データを再提出します。
+通常refreshの最初のpostRender画像で、複数viewの片面Fillと色、親・shape・layerの
+非表示と復帰、viewportとoverrideLODのBounding Box表示を確認してください。
+`test_controller_shape_viewport.py` の `retained_ui` テストは非表示とBounding Boxの回帰を扱います。
+mayapyではskipするため、統一検証の成功とは別に実GUIでの実行が必要です。
 仕様と測定段階の区別は [処理負荷の測定](controller-shape.md#処理負荷の測定) を参照してください。
+
+### 保持UIのversion別確認（2026-11-12）
+
+Maya 2026 / 2027の通常Release DLLを、それぞれ同versionの旧DLLと比較しました。
+Maya 2025で確認した本体ソースを維持し、DAG instanceではなく各transformに独立したshapeを置いています。
+画像は通常更新の対象ViewportのpostRender内で取得し、画像取得前の強制refreshで補修しません。
+
+| 確認対象 | 各versionの結果 |
+| --- | --- |
+| Cube / Sphere Fillの表示・カメラ・色・表示切替 | 80操作、初期画像を含む82画像が旧版と一致。対象とmainの両viewで実postRenderを記録 |
+| Bounds、非表示と復帰、Sphereのviewport / override Bounding Box | 36操作、初期画像を含む37画像が旧版と一致 |
+| 通常 / Bounding Boxの実マウス選択 | 各4件、計8件成功。クリック・矩形は選択、Template / Referenceは非選択 |
+| Cube / Sphere Fillの親TRS・行列更新・再生 | 72操作と4実再生が成功、初期を含む74比較画像が一致 |
+| Cached Playback OFF / ON | `syncOnly` は60操作・8実再生・64画像、`syncAsync` は30操作・4実再生・32画像が一致 |
+| `retained_ui` の実GUI回帰 | 非表示と復帰、SphereのBounding Boxと復帰の4件が成功。mayapyでのskipとは別に確認 |
+
+Cached Playbackでは設定ONだけでなくcache状態と復元記録も保存します。
+親transformの復元経路と、`composeMatrix`・shape自身が既定のcaching pointではない経路を区別し、
+後者の再生成功を「shape自身のcache復元成功」とは扱いません。
+2026 / 2027では通常DLLの時間と実画像を確認しており、2025の別診断DLLのnative回数を転用しません。
+
+Module経由の起動確認と後続の検証・速度計測では、候補DLLは正式配布先の
+`plug-ins/maya2026` / `plug-ins/maya2027` と既存の `bd_util.mod` を使い、
+旧DLLは保存archiveを指す検証専用moduleでロードしています。
+2026の初期表示・選択・Fill検証はbuild先の候補DLLを使い、正式配布先とのSHA256一致を確認しています。
+実load path・SHA256・Maya / plug-in API versionを照合し、trustやセキュリティ設定は変更しません。
+同version別processの通常DLLによるABBA計時と限界は
+[追加比較](controller-shape.md#maya-2026--2027での追加比較2026-11-12) を参照してください。
+
+2026 / 2027の統一検証は終了コード0です。2027の当初の実行では、
+nativeテストとfull pytestのassert完了後にprocessが `0xC0000374` で終了しました。
+コマンドテストfixtureの登録・解除寿命を共有した版で、本体ソースを変えずに再検証し、
+native・full pytest・UIと差分確認まで正常終了しました。
+旧失敗の記録は保持し、この再検証だけで原因やMaya固有の不具合を断定しません。
 
 ## Sparse Multi Tests
 

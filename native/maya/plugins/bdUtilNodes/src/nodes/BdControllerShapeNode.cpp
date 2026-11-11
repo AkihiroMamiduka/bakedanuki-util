@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <cstring>
 #include <mutex>
+#include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -32,11 +33,13 @@
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MMessage.h>
 #include <maya/MMatrix.h>
-#include <maya/MPxDrawOverride.h>
+#include <maya/MPxSubSceneOverride.h>
 #include <maya/MPlug.h>
 #include <maya/MPoint.h>
 #include <maya/MPointArray.h>
 #include <maya/MQuaternion.h>
+#include <maya/MSelectionMask.h>
+#include <maya/MShaderManager.h>
 #include <maya/MUIDrawManager.h>
 #include <maya/MUintArray.h>
 #include <maya/MUserData.h>
@@ -53,7 +56,7 @@
 const MString BdControllerShapeNode::typeName("bdControllerShape");
 const MTypeId BdControllerShapeNode::typeId(0x0014271F);
 const MString BdControllerShapeNode::drawClassification(
-    "drawdb/geometry/bdControllerShape"
+    "drawdb/subscene/bdControllerShape"
 );
 const MString BdControllerShapeNode::drawRegistrantId(
     "bdControllerShapeDrawOverride"
@@ -2135,8 +2138,9 @@ MBoundingBox nodeBounds(const MObject& node) {
 
 using DrawDisplayType = MDAGDrawOverrideInfo::DrawOverrideDisplayType;
 
-DrawDisplayType drawDisplayType(const MDagPath& path) {
-    const auto overrides = path.getDrawOverrideInfo();
+DrawDisplayType drawDisplayType(
+    const MDagPath& path, const MDAGDrawOverrideInfo& overrides
+) {
     if (path.isTemplated()) return MDAGDrawOverrideInfo::kDisplayTypeTemplate;
     return overrides.fOverrideEnabled
         ? overrides.fDisplayType : MDAGDrawOverrideInfo::kDisplayTypeNormal;
@@ -2283,6 +2287,7 @@ struct ShapeDrawData final : public MUserData {
     bool drawOnTop = false;
     bool selected = false;
     bool activeTemplate = false;
+    bool boundingBoxLOD = false;
 };
 
 struct ShapeDrawAppearance {
@@ -2312,10 +2317,21 @@ ShapeDrawAppearance drawAppearance(
     };
 }
 
-class ControllerShapeDrawOverride final : public MHWRender::MPxDrawOverride {
+auto drawSignature(const ShapeDrawData& data, const MHWRender::MFrameContext& context) {
+    return std::make_tuple(
+        data.geometry, data.objectToView, data.perspective,
+        data.color, data.dormantColor, data.fillColor, data.dormantFillColor,
+        data.templateStrokeColor, data.boundsPreviewColor, data.displayType,
+        data.lineWidth, data.drawOnTop, data.selected, data.activeTemplate,
+        data.boundingBoxLOD,
+        context.getDisplayStyle(), context.objectTypeExclusions()
+    );
+}
+
+class ControllerShapeSubSceneOverride final : public MHWRender::MPxSubSceneOverride {
 public:
-    explicit ControllerShapeDrawOverride(const MObject& node)
-        : MPxDrawOverride(node, nullptr, true) {}
+    explicit ControllerShapeSubSceneOverride(const MObject& node)
+        : MPxSubSceneOverride(node), node_(node) {}
 
     MHWRender::DrawAPI supportedDrawAPIs() const override {
         return MHWRender::kAllDevices;
@@ -2325,26 +2341,184 @@ public:
         return true;
     }
 
-    bool isBounded(const MDagPath&, const MDagPath&) const override {
+    bool requiresUpdate(
+        const MHWRender::MSubSceneContainer&,
+        const MHWRender::MFrameContext&
+    ) const override {
         return true;
     }
 
-    MBoundingBox boundingBox(
-        const MDagPath& objectPath,
-        const MDagPath&
+    void update(
+        MHWRender::MSubSceneContainer& container,
+        const MHWRender::MFrameContext& context
+    ) override {
+        MStatus status;
+        MFnDagNode dagNode(node_, &status);
+        if (!status || !dagNode.getPath(path_) || !path_.isVisible()) {
+            if (boundsItemCreated_) {
+                if (auto* item = container.find(boundsItemName()); item && item->isEnabled()) {
+                    item->enable(false);
+                }
+            }
+            uiDirty_ = uiDirty_ || visible_;
+            visible_ = false;
+            return;
+        }
+        uiDirty_ = uiDirty_ || !visible_;
+        visible_ = true;
+        auto* nextData = static_cast<ShapeDrawData*>(
+            prepareForDraw(path_, context, data_.get())
+        );
+        if (nextData != data_.get()) data_.reset(nextData);
+        const auto nextSignature = drawSignature(*data_, context);
+        uiDirty_ = uiDirty_ || !ready_ || signature_ != nextSignature;
+        signature_ = nextSignature;
+        ready_ = true;
+        updateBoundsItem(container, context);
+    }
+
+    bool areUIDrawablesDirty() const override {
+        return uiDirty_;
+    }
+
+    void addUIDrawables(
+        MHWRender::MUIDrawManager& drawManager,
+        const MHWRender::MFrameContext& context
+    ) override {
+        if (visible_) drawUIDrawables(drawManager, context, data_.get());
+        uiDirty_ = false;
+    }
+
+    bool getInstancedSelectionPath(
+        const MHWRender::MRenderItem& item,
+        const MHWRender::MIntersection&,
+        MDagPath& path
     ) const override {
-        const auto geometry = nodeGeometry(objectPath.node());
-        return geometry
-            ? geometry->drawBounds
-            : MBoundingBox(MPoint::origin, MPoint::origin);
+        if (item.name() != boundsItemName() || !path_.isValid() || !data_ ||
+            data_->displayType != MDAGDrawOverrideInfo::kDisplayTypeNormal) return false;
+        path = path_;
+        return path.pop() == MS::kSuccess;
+    }
+
+private:
+    static const MString& boundsItemName() {
+        static const MString name("bdControllerShapeBoundingBox");
+        return name;
+    }
+
+    void updateBoundsItem(
+        MHWRender::MSubSceneContainer& container,
+        const MHWRender::MFrameContext& context
+    ) {
+        auto* item = boundsItemCreated_ ? container.find(boundsItemName()) : nullptr;
+        if (item && !item->isEnabled()) item->enable(true);
+        const auto mode = data_->boundingBoxLOD
+            ? MHWRender::MGeometry::kAll : MHWRender::MGeometry::kBoundingBox;
+        if (item && item->drawMode() != mode) item->setDrawMode(mode);
+        const bool requested = data_->boundingBoxLOD ||
+            (context.getDisplayStyle() & MHWRender::MFrameContext::kBoundingBox) != 0;
+        if (!requested || !data_->geometry ||
+            (context.objectTypeExclusions() & MHWRender::MFrameContext::kExcludePluginShapes)) return;
+
+        if (!item) {
+            auto* renderer = MHWRender::MRenderer::theRenderer();
+            const auto* shaders = renderer ? renderer->getShaderManager() : nullptr;
+            auto* shader = shaders
+                ? shaders->getStockShader(MHWRender::MShaderManager::k3dSolidShader)
+                : nullptr;
+            if (!shader) return;
+            item = MHWRender::MRenderItem::Create(
+                boundsItemName(), MHWRender::MRenderItem::NonMaterialSceneItem,
+                MHWRender::MGeometry::kLines
+            );
+            if (!item || !item->setShader(shader)) {
+                shaders->releaseShader(shader);
+                if (item) MHWRender::MRenderItem::Destroy(item);
+                return;
+            }
+            shaders->releaseShader(shader);
+            item->setDrawMode(mode);
+            item->setSelectionMask(MSelectionMask::kSelectLocators);
+            item->setObjectTypeExclusionFlag(MHWRender::MFrameContext::kExcludePluginShapes);
+            if (!container.add(item)) {
+                MHWRender::MRenderItem::Destroy(item);
+                return;
+            }
+            boundsItemCreated_ = true;
+            boundsReady_ = false;
+            boundsMatrixReady_ = false;
+            boundsColorReady_ = false;
+        }
+
+        const auto& bounds = data_->geometry->drawBounds;
+        if (!boundsReady_ || bounds.min() != bounds_.min() || bounds.max() != bounds_.max()) {
+            if (!boundsVertices_) {
+                const MHWRender::MVertexBufferDescriptor descriptor(
+                    "", MHWRender::MGeometry::kPosition, MHWRender::MGeometry::kFloat, 3
+                );
+                boundsVertices_ = std::make_unique<MHWRender::MVertexBuffer>(descriptor);
+            }
+            if (!boundsIndices_) {
+                auto indices = std::make_unique<MHWRender::MIndexBuffer>(
+                    MHWRender::MGeometry::kUnsignedInt32
+                );
+                auto* values = static_cast<unsigned int*>(indices->acquire(24, true));
+                if (!values) { item->enable(false); return; }
+                constexpr std::array<unsigned int, 24> edges = {
+                    0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6,
+                    6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7
+                };
+                std::copy(edges.begin(), edges.end(), values);
+                indices->commit(values);
+                boundsIndices_ = std::move(indices);
+            }
+            auto* values = static_cast<float*>(boundsVertices_->acquire(8, true));
+            if (!values) { item->enable(false); return; }
+            const auto corners = boundsCorners(bounds);
+            for (std::size_t i = 0; i < corners.size(); ++i) {
+                values[i * 3] = static_cast<float>(corners[i].x);
+                values[i * 3 + 1] = static_cast<float>(corners[i].y);
+                values[i * 3 + 2] = static_cast<float>(corners[i].z);
+            }
+            boundsVertices_->commit(values);
+            MHWRender::MVertexBufferArray buffers;
+            buffers.addBuffer("positions", boundsVertices_.get());
+            if (!setGeometryForRenderItem(*item, buffers, *boundsIndices_, &bounds)) {
+                item->enable(false);
+                return;
+            }
+            bounds_ = bounds;
+            boundsReady_ = true;
+        }
+        const auto matrix = path_.inclusiveMatrix();
+        if (!boundsMatrixReady_ || boundsMatrix_ != matrix) {
+            if (!item->setMatrix(&matrix)) { item->enable(false); return; }
+            boundsMatrix_ = matrix;
+            boundsMatrixReady_ = true;
+        }
+        auto color = drawAppearance(*data_, context.getDisplayStyle()).color;
+        color.a = 1.0f;
+        if (!boundsColorReady_ || boundsColor_ != color) {
+            auto* renderer = MHWRender::MRenderer::theRenderer();
+            const auto* shaders = renderer ? renderer->getShaderManager() : nullptr;
+            if (!shaders) { item->enable(false); return; }
+            auto* shader = item->getShader();
+            const bool updated = shader && shader->setParameter("solidColor", &color.r);
+            if (shader) shaders->releaseShader(shader);
+            if (!updated) {
+                item->enable(false);
+                return;
+            }
+            boundsColor_ = color;
+            boundsColorReady_ = true;
+        }
     }
 
     MUserData* prepareForDraw(
         const MDagPath& objectPath,
-        const MDagPath&,
         const MHWRender::MFrameContext& frameContext,
         MUserData* oldData
-    ) override {
+    ) {
         ShapeDrawData* data = oldData
             ? static_cast<ShapeDrawData*>(oldData)
             : new ShapeDrawData();
@@ -2399,7 +2573,10 @@ public:
             data->drawOnTop = false;
         }
         data->color = MHWRender::MGeometryUtilities::wireframeColor(objectPath);
-        data->displayType = drawDisplayType(objectPath);
+        const auto overrides = objectPath.getDrawOverrideInfo();
+        data->displayType = drawDisplayType(objectPath, overrides);
+        data->boundingBoxLOD = overrides.fOverrideEnabled &&
+            overrides.fLOD == MDAGDrawOverrideInfo::kLODBoundingBox;
         const auto displayStatus = MHWRender::MGeometryUtilities::displayStatus(objectPath);
         data->selected = displayStatus == MHWRender::kActive ||
             displayStatus == MHWRender::kLead ||
@@ -2431,20 +2608,20 @@ public:
         return data;
     }
 
-    void addUIDrawables(
-        const MDagPath&,
+    void drawUIDrawables(
         MHWRender::MUIDrawManager& drawManager,
         const MHWRender::MFrameContext& frameContext,
-        const MUserData* userData
-    ) override {
+        const ShapeDrawData* data
+    ) const {
         if (frameContext.objectTypeExclusions() &
             MHWRender::MFrameContext::kExcludePluginShapes) {
             return;
         }
-        const ShapeDrawData* data = static_cast<const ShapeDrawData*>(userData);
         if (!data || !data->geometry) {
             return;
         }
+        if (data->boundingBoxLOD ||
+            (frameContext.getDisplayStyle() & MHWRender::MFrameContext::kBoundingBox)) return;
         const auto appearance = drawAppearance(*data, frameContext.getDisplayStyle());
         const MColor& color = appearance.color;
         const auto& drawGeometry = *data->geometry->drawGeometry;
@@ -2549,6 +2726,24 @@ public:
             drawManager.endDrawable();
         }
     }
+
+    MObject node_;
+    MDagPath path_;
+    std::unique_ptr<ShapeDrawData> data_;
+    decltype(drawSignature(std::declval<const ShapeDrawData&>(),
+        std::declval<const MHWRender::MFrameContext&>())) signature_;
+    bool ready_ = false;
+    bool uiDirty_ = true;
+    bool visible_ = true;
+    std::unique_ptr<MHWRender::MVertexBuffer> boundsVertices_;
+    std::unique_ptr<MHWRender::MIndexBuffer> boundsIndices_;
+    MBoundingBox bounds_;
+    MMatrix boundsMatrix_;
+    MColor boundsColor_;
+    bool boundsReady_ = false;
+    bool boundsMatrixReady_ = false;
+    bool boundsColorReady_ = false;
+    bool boundsItemCreated_ = false;
 };
 
 }  // namespace
@@ -2761,10 +2956,10 @@ void* BdControllerShapeNode::creator() {
     return new BdControllerShapeNode();
 }
 
-MHWRender::MPxDrawOverride* BdControllerShapeNode::createDrawOverride(
+MHWRender::MPxSubSceneOverride* BdControllerShapeNode::createSubSceneOverride(
     const MObject& node
 ) {
-    return new ControllerShapeDrawOverride(node);
+    return new ControllerShapeSubSceneOverride(node);
 }
 
 void BdControllerShapeNode::postConstructor() {

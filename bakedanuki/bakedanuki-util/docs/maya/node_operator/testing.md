@@ -31,6 +31,19 @@ native変更とリリース前の検証です。
 `-Release`はその全項目に加えて、各versionのstaged plug-inを必須にしたfull pytestを
 実行します。個別scriptは開発中の切り分け用で、最終確認では`verify.cmd`を使用します。
 
+検証を特定versionへ限定する場合は、同じ入口へ`-MayaVersion`を指定します。
+
+```powershell
+.\scripts\verify.cmd -MayaVersion 2025
+.\scripts\verify.cmd -IncludeNative -MayaVersion 2025
+```
+
+この指定ではPyright、full pytest、UI互換性testを指定versionだけで実行し、
+`-IncludeNative`も指定した場合はnative build/testも同じversionへ限定します。
+Blackと`git diff --check`の対象は変わりません。未指定時は従来どおりの検証範囲です。
+単一versionの成功は全versionの検証完了を意味しません。リリース前は全対応versionを
+確認するため、`-Release`と`-MayaVersion`の併用はエラーになります。
+
 pytestは`requirements-test.txt`に固定し、repository直下の`.test`へtarget installします。
 `verify.cmd`は環境がない場合に自動作成します。手動で作成・再作成する場合です。
 
@@ -626,6 +639,20 @@ pytest 側では、ログ出力ではなく assert で仕様を固定します�
 - `ModifierManager` の undo / redo が期待通り動作する。
 - `lookup_attr_cls()` が新しい型を解決できる。
 - generator の生成結果と `.pyi` stub が実装と一致する。
+
+### MPxCommand fixtureの登録寿命
+
+`tests/maya/mpx_cmd`の正式`bdUtilCommands`はsession fixtureで登録寿命を共有します。
+round・姿勢維持・子補償の各moduleでは既存の`flushUndo()`を行い、解除はsession末へまとめます。
+`test_command.py`の5種類の検証用pluginはmoduleのlazy loaderで初回要求時だけ読み込み、
+module末にUndo履歴を解放して、要求と逆順に解除します。
+各testで使用していた`new_scene`、各fixtureの`flushUndo()`、parametrizeと全assertは維持します。
+sampleの遅延読込・解除、move・scale・clipの既存fixture、登録・再読込自体の検証は統合しません。
+
+この整理は、Maya 2027で全assert成功後に観測したプロセス終了異常の切り分けです。
+短い128件に加え、この構成でのMaya 2027統一検証も終了コード0で完了しました。
+fullは19,080件成功・2,366件skipで、native・UI・差分確認まで正常終了を確認しています。
+終了異常の原因を完全に特定したものではありません。
 
 ## _test の扱い
 

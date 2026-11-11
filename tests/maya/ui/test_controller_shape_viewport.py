@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import math
+import time
 from contextlib import contextmanager
 from ctypes import string_at
 from pathlib import Path
@@ -58,6 +59,47 @@ def _capture_view(panel, path):
     return string_at(image.pixels(), width * height * 4)
 
 
+def _capture_normal_update(panel, path, change):
+    """`change`後の最初の通常`postRender`を、追加の描画要求なしで読む。"""
+    from maya import utils
+    from maya.api import OpenMaya as om
+    from maya.api import OpenMayaUI as omui
+
+    from bd_util.ui.qt import QtWidgets
+
+    captured = []
+    errors = []
+
+    def rendered(*_):
+        if captured or errors:
+            return
+        try:
+            view = omui.M3dView.getM3dViewFromModelPanel(panel)
+            image = om.MImage()
+            view.readColorBuffer(image, True)
+            width, height = image.getSize()
+            captured.append(string_at(image.pixels(), width * height * 4))
+            image.writeToFile(str(path), "png")
+        except BaseException as error:
+            errors.append(error)
+
+    callback = omui.MUiMessage.add3dViewPostRenderMsgCallback(panel, rendered)
+    try:
+        change()
+        deadline = time.monotonic() + 5
+        application = QtWidgets.QApplication.instance()
+        assert application is not None
+        while not captured and not errors and time.monotonic() < deadline:
+            application.processEvents()
+            utils.processIdleEvents()
+    finally:
+        om.MMessage.removeCallback(callback)
+    if errors:
+        raise errors[0]
+    assert captured, "変更後に対象Viewportの通常postRenderが発生しない"
+    return captured[0]
+
+
 def _aim_at_origin(cmds, camera, position):
     cmds.setAttr(f"{camera}.translate", *position)
     target = cmds.createNode("transform")
@@ -68,7 +110,7 @@ def _aim_at_origin(cmds, camera, position):
 
 
 @contextmanager
-def _drawing_view(cmds, preset, **options):
+def _drawing_view(cmds, preset, *, fixed_viewport=False, **options):
     from maya import utils
 
     version = int(cmds.about(apiVersion=True)) // 10000
@@ -134,13 +176,164 @@ def _drawing_view(cmds, preset, **options):
     cmds.displayRGBColor("background", 0.07, 0.03, 0.09)
     cmds.displayPref(displayGradient=False)
     cmds.showWindow(window)
+    if fixed_viewport:
+        from maya.api import OpenMayaUI as omui
+
+        from bd_util.ui.qt import QtWidgets, wrapInstance
+
+        view = omui.M3dView.getM3dViewFromModelPanel(panel)
+        widget = wrapInstance(int(view.widget()), QtWidgets.QWidget)
+        assert widget.width() > 0 and widget.height() > 0
+        # 遅延レイアウトによる寸法差を除き、描画内容だけを比較する。
+        widget.setFixedSize(widget.size())
+        cmds.setFocus(panel)
     cmds.select(clear=True)
     utils.processIdleEvents()
+    if fixed_viewport:
+        assert omui.M3dView.active3dView().widget() == view.widget()
     try:
         yield transform, shape, camera, camera_shape, panel
     finally:
         cmds.deleteUI(window)
         cmds.displayRGBColor("background", *previous_background)
+
+
+@pytest.mark.parametrize("visibility_source", ("parent", "shape", "layer"))
+def test_retained_ui_visibility_hides_and_restores(
+    maya_cmds, new_scene, tmp_path, visibility_source
+):
+    """保持された描画も親・shape・displayLayerの表示変更へ即座に追従する。"""
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds, "Cube", fixed_viewport=True, shapeFill=False
+    ) as (
+        transform,
+        shape,
+        camera,
+        _,
+        panel,
+    ):
+        target = transform if visibility_source == "parent" else shape
+        if visibility_source == "layer":
+            target = maya_cmds.createDisplayLayer(empty=True)
+            maya_cmds.editDisplayLayerMembers(
+                target, transform, noRecurse=True
+            )
+        _capture_normal_update(
+            panel,
+            tmp_path / "warmup.png",
+            lambda: maya_cmds.setAttr(f"{camera}.translateX", 0.031),
+        )
+        visible = _capture_normal_update(
+            panel,
+            tmp_path / "visible.png",
+            lambda: maya_cmds.setAttr(f"{camera}.translateX", 0),
+        )
+        background = visible[:4]
+        assert any(
+            visible[index : index + 4] != background
+            for index in range(0, len(visible), 4)
+        ), "表示比較の基準となるCubeが描画されていない"
+        for cycle in range(2):
+            hidden = _capture_normal_update(
+                panel,
+                tmp_path / f"hidden_{cycle}.png",
+                lambda: maya_cmds.setAttr(f"{target}.visibility", False),
+            )
+            assert all(
+                hidden[index : index + 4] == background
+                for index in range(0, len(hidden), 4)
+            ), "visibility OFF後も前回の描画が残っている"
+            restored = _capture_normal_update(
+                panel,
+                tmp_path / f"restored_{cycle}.png",
+                lambda: maya_cmds.setAttr(f"{target}.visibility", True),
+            )
+            assert restored == visible, "visibility ON後の描画が元へ戻らない"
+
+
+def test_retained_ui_bounding_box_display_and_override_restore_sphere(
+    maya_cmds, new_scene, tmp_path
+):
+    """SphereのViewport／override LODで可視の箱を描き、元の曲線へ戻る。"""
+    if maya_cmds.about(batch=True):
+        pytest.skip("実際のViewport 2.0があるMaya GUIで実行する")
+    with _drawing_view(
+        maya_cmds, "Sphere", fixed_viewport=True, shapeFill=False
+    ) as (
+        _,
+        shape,
+        camera,
+        _,
+        panel,
+    ):
+        _capture_normal_update(
+            panel,
+            tmp_path / "warmup.png",
+            lambda: maya_cmds.setAttr(f"{camera}.translateX", 0.031),
+        )
+        sphere = _capture_normal_update(
+            panel,
+            tmp_path / "sphere.png",
+            lambda: maya_cmds.setAttr(f"{camera}.translateX", 0),
+        )
+        background = sum(sphere[:3])
+        corner = (0.5, 0.5, 0)
+        arc = (math.sqrt(0.125), math.sqrt(0.125), 0)
+        assert (
+            _brightness_near_world(panel, sphere, arc) > background + 60
+        ), "比較元のSphereの曲線が描かれていない"
+        assert _brightness_near_world(panel, sphere, corner) <= background + 3
+        fields = maya_cmds.attributeQuery(
+            "overrideLevelOfDetail", node=shape, listEnum=True
+        )[0].split(":")
+        full, bounding_box = (
+            next(
+                index
+                for index, field in enumerate(fields)
+                if field.replace(" ", "").lower() == name
+            )
+            for name in ("full", "boundingbox")
+        )
+        boxes = []
+        for source in ("viewport", "override"):
+
+            def change(enabled):
+                if source == "viewport":
+                    maya_cmds.modelEditor(
+                        panel,
+                        edit=True,
+                        displayAppearance=(
+                            "boundingBox" if enabled else "smoothShaded"
+                        ),
+                    )
+                else:
+                    maya_cmds.setAttr(
+                        f"{shape}.overrideLevelOfDetail",
+                        bounding_box if enabled else full,
+                    )
+
+            box = _capture_normal_update(
+                panel, tmp_path / f"{source}_box.png", lambda: change(True)
+            )
+            assert (
+                box != sphere
+            ), "Bounding Box指定でもSphereの曲線が残っている"
+            assert (
+                _brightness_near_world(panel, box, corner) > background + 60
+            ), "Bounding Box指定で可視の箱が描かれていない"
+            assert (
+                _brightness_near_world(panel, box, arc) <= background + 3
+            ), "Bounding Box指定でも箱の内側にSphereの曲線が残っている"
+            boxes.append(box)
+            restored = _capture_normal_update(
+                panel,
+                tmp_path / f"{source}_restored.png",
+                lambda: change(False),
+            )
+            assert restored == sphere, "LOD復元後にSphereの曲線へ戻らない"
+        assert boxes[0] == boxes[1], "Viewportとoverride LODで箱の表示が異なる"
 
 
 @pytest.mark.parametrize(

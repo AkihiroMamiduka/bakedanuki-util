@@ -17,7 +17,7 @@
 #include <maya/MTypeId.h>
 
 namespace MHWRender {
-class MPxDrawOverride;
+class MPxSubSceneOverride;
 }
 
 struct BdControllerShapeDrawGeometry;
@@ -42,7 +42,7 @@ public:
 
     static void* creator();
     static MStatus initialize();
-    static MHWRender::MPxDrawOverride* createDrawOverride(const MObject& node);
+    static MHWRender::MPxSubSceneOverride* createSubSceneOverride(const MObject& node);
 
     void postConstructor() override;
     MStatus legalConnection(

@@ -1188,10 +1188,10 @@ MStatus initializePlugin(MObject pluginObject) {
         return status;
     }
 
-    status = MHWRender::MDrawRegistry::registerDrawOverrideCreator(
+    status = MHWRender::MDrawRegistry::registerSubSceneOverrideCreator(
         BdControllerShapeNode::drawClassification,
         BdControllerShapeNode::drawRegistrantId,
-        BdControllerShapeNode::createDrawOverride
+        BdControllerShapeNode::createSubSceneOverride
     );
     if (!status) {
         status.perror("Failed to register bdControllerShape draw override");
@@ -1219,7 +1219,7 @@ MStatus uninitializePlugin(MObject pluginObject) {
     }
 
     const auto& registrations = nodeRegistrations();
-    status = MHWRender::MDrawRegistry::deregisterDrawOverrideCreator(
+    status = MHWRender::MDrawRegistry::deregisterSubSceneOverrideCreator(
         BdControllerShapeNode::drawClassification,
         BdControllerShapeNode::drawRegistrantId
     );

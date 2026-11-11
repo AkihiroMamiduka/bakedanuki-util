@@ -11,44 +11,49 @@ _TEST_PLUGIN_NAME = "bdu_mpx_command_test_plugin"
 _SAMPLE_PLUGIN_NAME = "bdUtilSampleCommands"
 
 
+@pytest.fixture(scope="module")
+def _mpx_test_plugin_loader():
+    """要求された検証用プラグインを初回だけ登録し、最後に逆順で解除する。"""
+    maya_cmds = pytest.importorskip("maya.cmds")
+    requested_names = []
+
+    def load(name):
+        if name not in requested_names:
+            path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
+            maya_cmds.loadPlugin(str(path), quiet=True)
+            requested_names.append(name)
+
+    yield load
+
+    maya_cmds.flushUndo()
+    for name in reversed(requested_names):
+        if maya_cmds.pluginInfo(name, query=True, loaded=True):
+            maya_cmds.unloadPlugin(name)
+
+
 @pytest.fixture
-def mpx_test_plugin(new_scene, maya_cmds):
-    plugin_path = (
-        Path(__file__).resolve().parent
-        / "fixtures"
-        / f"{_TEST_PLUGIN_NAME}.py"
-    )
-    maya_cmds.loadPlugin(str(plugin_path), quiet=True)
+def mpx_test_plugin(new_scene, maya_cmds, _mpx_test_plugin_loader):
+    _mpx_test_plugin_loader(_TEST_PLUGIN_NAME)
 
     yield
 
     maya_cmds.flushUndo()
-    if maya_cmds.pluginInfo(
-        _TEST_PLUGIN_NAME,
-        query=True,
-        loaded=True,
-    ):
-        maya_cmds.unloadPlugin(_TEST_PLUGIN_NAME)
 
 
 @pytest.fixture
-def reduce_test_plugin(new_scene, maya_cmds):
-    name = "bdu_mpx_keyframe_reduce_test_plugin"
-    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
-    maya_cmds.loadPlugin(str(path), quiet=True)
+def reduce_test_plugin(new_scene, maya_cmds, _mpx_test_plugin_loader):
+    _mpx_test_plugin_loader("bdu_mpx_keyframe_reduce_test_plugin")
     yield
     maya_cmds.flushUndo()
-    maya_cmds.unloadPlugin(name)
 
 
 @pytest.fixture
-def anim_layer_remove_test_plugin(new_scene, maya_cmds):
-    name = "bdu_mpx_anim_layer_remove_test_plugin"
-    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
-    maya_cmds.loadPlugin(str(path), quiet=True)
+def anim_layer_remove_test_plugin(
+    new_scene, maya_cmds, _mpx_test_plugin_loader
+):
+    _mpx_test_plugin_loader("bdu_mpx_anim_layer_remove_test_plugin")
     yield
     maya_cmds.flushUndo()
-    maya_cmds.unloadPlugin(name)
 
 
 @pytest.mark.parametrize("fail", [False, True])
@@ -134,13 +139,10 @@ def test_layer_remove_nodes_uses_maya_undo_redo_and_failure_rollback(
 
 
 @pytest.fixture
-def bake_test_plugin(new_scene, maya_cmds):
-    name = "bdu_mpx_keyframe_bake_test_plugin"
-    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
-    maya_cmds.loadPlugin(str(path), quiet=True)
+def bake_test_plugin(new_scene, maya_cmds, _mpx_test_plugin_loader):
+    _mpx_test_plugin_loader("bdu_mpx_keyframe_bake_test_plugin")
     yield
     maya_cmds.flushUndo()
-    maya_cmds.unloadPlugin(name)
 
 
 @pytest.fixture(scope="module")
@@ -168,13 +170,10 @@ def scale_test_plugin():
 
 
 @pytest.fixture
-def value_test_plugin(new_scene, maya_cmds):
-    name = "bdu_mpx_keyframe_value_test_plugin"
-    path = Path(__file__).resolve().parent / "fixtures" / f"{name}.py"
-    maya_cmds.loadPlugin(str(path), quiet=True)
+def value_test_plugin(new_scene, maya_cmds, _mpx_test_plugin_loader):
+    _mpx_test_plugin_loader("bdu_mpx_keyframe_value_test_plugin")
     yield
     maya_cmds.flushUndo()
-    maya_cmds.unloadPlugin(name)
 
 
 @pytest.fixture
