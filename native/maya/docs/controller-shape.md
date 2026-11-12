@@ -1621,6 +1621,21 @@ indexを元の順に展開した線分と三角形、描画属性、boundsが共
 基準形状の調整値が同じなら頂点を再生成せず、行列が同じなら変換後の頂点も
 再生成しません。入力接続のない状態では変更通知がない限り plug の読み取りも
 省きます。親 `transform` の TRS は基準形状の再生成条件に含めません。
+線幅・線とFillの透明度・DrawOnTopの4値は描画データに保持し、形状とは別の変更番号で
+更新します。既存の属性変更callbackで直接編集と接続変更を検出し、未接続・未変更の値は
+読み直しません。接続状態も変更時に確認し、接続のある項目は現在値を読みます。
+4属性は `setInternal(true)` と `setInternalValue()` で設定通知も受けるため、
+再生・スクラブ中にスクリプトが未接続値を直接変更した場合もキャッシュを更新します。
+このhookは値を保持せず `false` を返し、保存・キー・接続は通常のMaya datablockへ委譲します。
+接続・切断は標準の `connectionMade()` / `connectionBroken()` でも変更番号を進めます。
+再生中に属性変更callbackが届かない接続変更も、次の描画準備で接続状態と現在値を確認し直します。
+callbackが使えない場合や値の取得に失敗した場合は
+読み取りを省略しません。このためのcallback登録は追加しません。
+色・選択・表示レイヤーなどMaya側の表示状態は引き続き各viewで確認します。
+Selection HighlightingがONのviewでは使われない非選択色の取得を省きます。
+Template色が必要な線・面は形状の焼き込み時に記録し、Template線・OffsetLine・
+Bounds Previewなどが色を使う場合だけ取得します。同じ更新内のTemplate色と
+Draw Override情報は共有します。
 描画は `MPxSubSceneOverride` を使います。`requiresUpdate()` は各viewでの確認を維持し、
 形状キャッシュ、片面Fillの視点、色・選択・表示設定が前回と同じ場合は、
 `areUIDrawablesDirty()` で既存のUI描画データを再利用します。親transformの変化だけでは
@@ -1679,7 +1694,7 @@ Crossの平面接合はWideCrossArcAxialとそのSwappedの仕様で、薄線Axi
 分割数や交点を変更する場合は、連続した曲線の理論上の極値と、生成頂点から得るboundsを区別してください。
 
 数値の回帰は `tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py`、
-描画の回帰は [Viewport 2.0描画テストの分担表](testing-debugging.md#viewport-20描画テスト) に示す9ファイルにあります。
+描画の回帰は [Viewport 2.0描画テストの分担表](testing-debugging.md#viewport-20描画テスト) に示す10ファイルにあります。
 `radial_circle`・`axial_circle`・`cross_circle` のテストを変更対象に応じて確認し、
 長さ6.7、複数周、負値・ゼロ、大きな幅、Offsetの値保持、AtApexへの切替を含めます。
 数値・履歴・保存再読込の成功と、実GUIでの輪郭・半透明面の成功は別々に確認します。
@@ -1964,6 +1979,96 @@ Cube 1個の親回転は2026で1.718 → 1.416 ms、2027で1.776 → 1.684 msで
 コマンドテストfixtureの登録・解除寿命を共有した版で、native・full pytest・UIを含む再検証が正常終了しました。
 この結果だけで終了時エラーの原因を完全に特定したとは扱いません。
 
+#### 表示設定キャッシュの比較（2026-11-12、Maya 2025）
+
+直前の保持UI版（DLL SHA256先頭 `bdf86202`）と表示設定キャッシュ版（`0da5851f`）を比較しました。
+全条件で独立したwire Cubeを1,000個配置し、Fill・DrawOnTop・Cached Playback・ProfilerをOFFにしています。
+`bd_util.mod` を使って起動し、正式配布先の通常Release DLLを読み込みました。
+別Maya processを旧→新→新→旧の順に各版2回起動し、Windows・Qt前面と対象active3dView、
+DLL・ソースのSHA256、復元画像の一致を確認しています。
+表の「個体」は1,000個のうち1個を指し、1個だけを配置したシーンの結果ではありません。
+
+同期更新はWorld Moveツール・Undo ONで、warmup 8更新の後に36更新×5試行 / 起動を実行し、
+各版10試行の中央値を比較しました。設定と `refresh(currentView=True, force=True)` を含む時間です。
+
+| 選択対象 | 変更対象 | 旧→表示設定キャッシュ（ms / 更新） | 時間短縮 |
+| --- | --- | ---: | ---: |
+| 個体 | 静止 | 11.861 → 10.238 | 13.7% |
+| 個体 | 個体の親transform | 12.053 → 10.374 | 13.9% |
+| 個体 | 全体の上位transform | 13.868 → 12.233 | 11.8% |
+| 全体の上位transform | 静止 | 13.323 → 10.336 | 22.4% |
+| 全体の上位transform | 個体の親transform | 13.149 → 10.218 | 22.3% |
+| 全体の上位transform | 全体の上位transform | 15.179 → 12.445 | 18.0% |
+
+実再生は、選択した個体の親または全体の上位transformへWorld-X方向±0.6のlinearキーを設定しました。
+1–120フレームを1周暖機後に3周再生 / 起動し、各版6周の中央値を比較しています。
+値は `playingBack` の開始・終了間のwall時間を要求120フレームで割ったもので、開始・停止の固定費を含みます。
+
+| 選択・キー設定対象 | 旧→表示設定キャッシュ（ms / 要求フレーム） | 時間短縮 |
+| --- | ---: | ---: |
+| 個体の親transform | 12.513 → 10.650 | 14.9% |
+| 全体の上位transform | 14.035 → 11.274 | 19.7% |
+
+実再生6周のwall範囲は、個体で12.334–12.782 → 10.446–11.011、全体で13.875–14.138 →
+11.196–11.670 ms / 要求フレームでした。同期更新6条件も全試行のwall範囲が重なりませんでした。
+全再生周で終端120フレーム・対象viewの119回のpostRender・終点poseを確認し、他viewのpostRenderは0回でした。
+各postRenderと個別フレームの対応までは同定しておらず、この値をHUD FPSや実ドラッグFPSへ換算しません。
+
+同じ版の後の起動を前の起動と比べた条件別wall中央値の変動は、同期更新で旧−4.70～+2.41%・新−1.28～+2.62%、
+実再生で旧−0.21～+1.16%・新+1.71～+1.75%でした。実再生のprocess CPU中央値も個体14.258 → 12.240、
+全体18.880 → 16.536 ms / 要求フレームでしたが、全体のCPU試行範囲は重なります。
+短縮率はこの配置・実行条件での観測値であり、GPU単独の時間や一律の改善率を示しません。
+Maya 2026 / 2027でも、それぞれ同版の旧DLLと以下の条件で比較しました。
+
+#### 表示設定キャッシュのMaya 2026確認（2026-11-12）
+
+Maya 2026.3.3（Maya / plug-in API `20260303`）で、同版の旧DLL `0c610309` と
+表示設定キャッシュ版 `579e6400` を比較しました。旧・新とも正式配布先の通常Release DLLを
+既存の `bd_util.mod` で読み込んでいます。GUI回帰42件は両版とも成功し、静止281画像は完全一致、
+実再生32画像は4属性それぞれの2姿勢の集合が一致しました。
+
+実再生の速度比較は独立したwire Cube 1,000個・Fill / DrawOnTop / Cached Playback /
+Profiler OFFで、旧→新→新→旧の別processによるABBAです。選択した個体の親または全体の
+上位transformにWorld-X方向±0.6のlinearキーを設定し、1–120フレームを1周暖機後に
+各起動3周、各版6周の中央値を比較しました。値は開始・停止処理を含むwall時間を
+要求120フレームで割っています。「個体」は1,000個のうち1個です。
+
+| 選択・キー設定対象 | 旧→表示設定キャッシュ（ms / 要求フレーム） | 時間短縮 |
+| --- | ---: | ---: |
+| 個体の親transform | 12.678 → 10.869 | 14.27% |
+| 全体の上位transform | 13.942 → 11.534 | 17.27% |
+
+両条件とも6周のwall試行範囲は重ならず、process CPUの試行範囲は重なりました。
+この実行条件の観測値であり、HUD FPSや実ドラッグFPSへ換算しません。
+Cube 1個のCached Playback ONでは4属性の表示挙動を確認しましたが、numeric utilityの直接cache復元を
+要求する厳格なgateは未成立です。確認範囲は
+[表示設定キャッシュのversion別確認](testing-debugging.md#表示設定キャッシュのmaya-2026確認2026-11-12) を参照してください。
+本節はGUI回帰・Cache確認・条件を固定した実再生比較の結果を示します。
+
+#### 表示設定キャッシュのMaya 2027確認（2026-11-12）
+
+Maya 2027.2（Maya / plug-in API `20270200`）でも、同版の旧DLL `4d74bc19` と
+表示設定キャッシュ版 `59c0fd5b` のGUI回帰42件が成功しました。各313画像のうち静止281画像は
+寸法・RGBAが完全一致し、実再生32画像は4属性それぞれの2姿勢の集合が一致しています。
+旧・新とも正式配布先と既存の `bd_util.mod` を使い、必須の機能guard281件も成立しました。
+線幅のquick gateも通常10操作・実再生4条件が成功し、各9画像で2状態へ追従しました。
+
+Cube 1個のCached Playback ONでも4属性の表示挙動が成功し、上流transformのcache復元を
+確認しました。numeric utilityの直接復元を要求する厳格なgateは未成立のまま保持しています。
+実再生の速度比較は前節と同じ1,000個・Cache / Fill / DrawOnTop / Profiler OFFのABBA条件で、
+各版6周のwall中央値を要求120フレームで割りました。
+
+| 選択・キー設定対象 | 旧→表示設定キャッシュ（ms / 要求フレーム） | 時間短縮 |
+| --- | ---: | ---: |
+| 個体の親transform | 12.784 → 10.837 | 15.23% |
+| 全体の上位transform | 14.387 → 11.614 | 19.28% |
+
+両条件とも6周のwall試行範囲は重ならず、process CPUの試行範囲は重なりました。
+これらは同じMaya / SDK版内の観測値で、版をまたぐ速度比較やHUD / 実ドラッグFPSへは転用しません。
+GUI・Cacheの確認範囲は
+[Maya 2027の表示設定キャッシュ確認](testing-debugging.md#表示設定キャッシュのmaya-2027確認2026-11-12) を参照してください。
+統一検証の結果は [表示設定キャッシュ版の統一検証](testing-debugging.md#表示設定キャッシュ版の統一検証2026-11-12) を参照してください。
+
 ## 表示と選択
 
 この shape は Maya 標準の `nurbsCurve` ではありません。
@@ -2106,9 +2211,10 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 実際のViewport 2.0を必要とする画像比較テストは、`tests/maya/ui` の
 `test_controller_shape_viewport.py`、`test_controller_shape_wide_surfaces.py`、
 `test_controller_shape_display_colors.py`、`test_controller_shape_gear_template.py`、
+`test_controller_shape_display_cache.py`、
 `test_controller_shape_cage_attachments.py`、`test_controller_shape_part_guides.py`、
 `test_controller_shape_axis_fins.py`、
-`test_controller_shape_capsule.py`、`test_controller_shape_arrow_shapes.py` の9ファイルです。
+`test_controller_shape_capsule.py`、`test_controller_shape_arrow_shapes.py` の10ファイルです。
 既存作業とは別のMaya GUIプロセスでpytestから実行し、mayapyのbatch環境では明示的にskipします。
 ファイルの分担表・一括実行手順・画像比較の注意点は
 [Testing And DebuggingのViewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) を参照してください。

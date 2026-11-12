@@ -45,6 +45,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> bakeDrawGeometry(
     for (std::size_t i = 0; i < generated.strokes.size(); ++i) {
         const auto& stroke = generated.strokes[i];
         const auto style = generated.strokeStyles[i];
+        topology->templateStyled = topology->templateStyled || style == StrokeStyle::Template;
         // 描画順と連続輪郭を保ち、同じ状態の独立線だけをまとめる。
         if (stroke.length() == 2 && !topology->strokes.empty() &&
             topology->strokes.back().lineList && topology->strokes.back().style == style) {
@@ -78,6 +79,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> bakeDrawGeometry(
         const auto& part = generated.fillParts[i];
         auto& info = topology->fillParts[i];
         info.style = part.style;
+        topology->templateStyled = topology->templateStyled || part.style == StrokeStyle::Template;
         info.marker = part.marker;
         info.singleSided = part.singleSided;
         uniqueDrawPoints(part.triangles, draw->fillParts[i], info.triangleIndices);

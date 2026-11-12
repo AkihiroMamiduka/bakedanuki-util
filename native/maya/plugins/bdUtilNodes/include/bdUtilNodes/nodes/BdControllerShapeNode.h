@@ -45,6 +45,9 @@ public:
     static MHWRender::MPxSubSceneOverride* createSubSceneOverride(const MObject& node);
 
     void postConstructor() override;
+    bool setInternalValue(const MPlug& plug, const MDataHandle& data) override;
+    MStatus connectionMade(const MPlug& plug, const MPlug& otherPlug, bool asSrc) override;
+    MStatus connectionBroken(const MPlug& plug, const MPlug& otherPlug, bool asSrc) override;
     MStatus legalConnection(
         const MPlug& plug,
         const MPlug& otherPlug,
@@ -85,6 +88,7 @@ public:
     };
 
     std::shared_ptr<const Geometry> geometry() const;
+    std::uint64_t displayRevision() const;
 
     static const MString typeName;
     static const MTypeId typeId;
@@ -207,5 +211,6 @@ private:
     std::atomic<std::uint64_t> geometryRevision_{1};
     std::atomic<std::uint64_t> animationRevision_{1};
     std::atomic<std::uint64_t> boundsRevision_{1};
+    std::atomic<std::uint64_t> displayRevision_{1};
     MCallbackId attributeChangedCallback_ = 0;
 };

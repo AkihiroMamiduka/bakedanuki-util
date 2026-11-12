@@ -22,6 +22,7 @@ struct BdControllerShapeDrawGeometry {
         std::vector<StrokeInfo> strokes;
         std::vector<FillInfo> fillParts;
         bool singleSided = false;
+        bool templateStyled = false;
     };
     std::shared_ptr<const Topology> topology;
     std::vector<MPointArray> strokes;

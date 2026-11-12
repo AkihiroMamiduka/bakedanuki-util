@@ -98,13 +98,14 @@ GUIの結果は検証したDLLの絶対path・buildと対応付け、配布先�
 
 ## Viewport 2.0描画テスト
 
-`bdControllerShape` の描画比較は次の9ファイルに分かれています。
+`bdControllerShape` の描画比較は次の10ファイルに分かれています。
 
 | ファイル | 主な確認対象 |
 | --- | --- |
 | [test_controller_shape_viewport.py](../../../tests/maya/ui/test_controller_shape_viewport.py) | 面の表裏、Part・Fin・GuideLineの接合、軸交換、Template区間、選択・表示種別 |
 | [test_controller_shape_wide_surfaces.py](../../../tests/maya/ui/test_controller_shape_wide_surfaces.py) | 立体Wideの帯・開口・選択面、Sphereの混色、幅0、透明線による塗り面の深度欠け |
 | [test_controller_shape_display_colors.py](../../../tests/maya/ui/test_controller_shape_display_colors.py) | 無効なoverrideの保存色と、実際の非選択表示・Selection Highlighting OFFの一致 |
+| [test_controller_shape_display_cache.py](../../../tests/maya/ui/test_controller_shape_display_cache.py) | 表示4属性の直接編集・Undo/Redo・接続変更・保存再読込・複製後の初回描画、スクラブ・実再生中の更新 |
 | [test_controller_shape_gear_template.py](../../../tests/maya/ui/test_controller_shape_gear_template.py) | Gearの実長・周期区間、歯先中央の両側、Wideの位相、線と面の独立した選択、他形状による遮蔽 |
 | [test_controller_shape_cage_attachments.py](../../../tests/maya/ui/test_controller_shape_cage_attachments.py) | 面倍率で変形した本体とPart・Fin・GuideLineの接合、局所寸法、巻き付けPartとCrossの境界 |
 | [test_controller_shape_part_guides.py](../../../tests/maya/ui/test_controller_shape_part_guides.py) | 頂点からArrow先端へつなぐGuideLine、Triangleの折れ線、Partの欠落方向、色付きコーナーの保持 |
@@ -123,7 +124,7 @@ GUIの結果は検証したDLLの絶対path・buildと対応付け、配布先�
 PythonのScript Editorから次を実行します。テストはsceneを新規作成するため、
 必要なsceneや作業状態のない専用プロセスを使用してください。
 `repo_root` は実際のcheckoutへ変更します。pytestは `setup-test.cmd` で用意した `.test` を使います。
-以下の例だけで9ファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
+以下の例だけで10ファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
 
 ```python
 import sys
@@ -155,6 +156,7 @@ def run_controller_viewport_tests():
             str(repo_root / "tests/maya/ui/test_controller_shape_viewport.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_wide_surfaces.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_display_colors.py"),
+            str(repo_root / "tests/maya/ui/test_controller_shape_display_cache.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_gear_template.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_cage_attachments.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_part_guides.py"),
@@ -179,7 +181,7 @@ utils.executeDeferred(run_controller_viewport_tests)
 GuideLineの変更だけを切り分ける場合は、`pytest.main()` の引数へ
 `"-k", "guide_line or arrow_tip_connection"` を追加できます。
 対象を絞った確認後は、変更範囲に応じて関連する描画テストを実行します。
-描画・選択・Templateの共通処理を変更した場合はフィルターを外して9ファイルを確認し、
+描画・選択・Templateの共通処理を変更した場合はフィルターを外して10ファイルを確認し、
 最終の統一検証も行います。
 
 既定では実行中のMayaバージョンに対応した配布先 `.mll` をロードします。
@@ -367,7 +369,7 @@ FillPartごとにbit同一の座標を共有します。論理プリミティブ
   片面Fillの逆向きindex切替と、退化・輪郭付近のカリングfallbackが同じ3点・演算順を使う。
   個別には射影変換を含み、合成するとaffineに見える組合せもfallbackを通す。
 - 実GUIで通常・Xray・太線・半透明、Normal / Templateの色と選択、Wireframeへの切替を比較する。
-  boundsの一致だけで画像・選択の一致を判断せず、前述の9ファイルを使って確認する。
+  boundsの一致だけで画像・選択の一致を判断せず、前述の10ファイルを使って確認する。
 - 親transformだけの変更では基準座標と行列適用後の座標を再生成せず、
   必要な可視indexを更新する。カメラ移動、選択色、表示属性の変更にも追従する。
 
@@ -412,6 +414,75 @@ nativeテストとfull pytestのassert完了後にprocessが `0xC0000374` で終
 コマンドテストfixtureの登録・解除寿命を共有した版で、本体ソースを変えずに再検証し、
 native・full pytest・UIと差分確認まで正常終了しました。
 旧失敗の記録は保持し、この再検証だけで原因やMaya固有の不具合を断定しません。
+
+### 表示設定キャッシュのMaya 2026確認（2026-11-12）
+
+前節の保持UI版に表示4属性のキャッシュを追加した版を、Maya 2026.3.3
+（Maya / plug-in API `20260303`）で確認しました。同版の旧DLL `0c610309` と新DLL
+`579e6400` を別processで比較し、両版とも正式配布先と既存の `bd_util.mod` を使っています。
+実load path・SHA256・API版を照合し、trustやセキュリティ設定は変更していません。
+
+GUI回帰は旧・新とも42件成功しました。各313画像のうち、名前を対応させた静止281画像の
+寸法・RGBAが完全一致し、実再生32画像は4属性それぞれの2姿勢の集合が一致しています。
+30件は対象panelの通常postRender、既存の色比較12件はplayblastによる取得です。
+必須の機能guard281件も全件成立しました。線幅のquick gateでは通常10操作と実再生4条件
+（各9画像）が成功し、再生中の未接続値の直接設定と接続・切断も追従しました。
+
+Cube 1個で4属性のCached Playbackを標準EVAL規則・`syncOnly` で確認し、CacheOFF参照、CacheONの
+初回構築・2周目再生、逆向きスクラブを分けています。全属性で表示挙動が成功し、
+1–9フレームのcache範囲と、上流 `displayDriver` transformの直接復元を各属性で
+2周目7回・逆スクラブ8回確認しました。下流のcompose / decomposeは再計算され、
+numeric utility・animCurve・locator自身の直接復元は確認していません。
+このため `functional_behavior_passed=true` と `cache_scope_complete=false` を分離し、
+厳格なgateの失敗・各終了コード1はそのまま保持します。見た目の成功をnumeric直接復元の
+成功や、通常の終了コード0へ読み替えません。
+
+通常DLLによる実再生ABBAの結果と条件は
+[Maya 2026での表示設定キャッシュ比較](controller-shape.md#表示設定キャッシュのmaya-2026確認2026-11-12) を参照してください。
+本節はGUI・Cacheの検証範囲と実再生比較を示します。統一検証の結果は
+[表示設定キャッシュ版の統一検証](#表示設定キャッシュ版の統一検証2026-11-12) を参照してください。
+
+### 表示設定キャッシュのMaya 2027確認（2026-11-12）
+
+Maya 2027.2（Maya / plug-in API `20270200`）で、同版の旧DLL `4d74bc19` と新DLL
+`59c0fd5b` に同じ42件のGUI回帰を実行し、両版とも正常終了しました。各313画像を取得し、
+静止281画像の名前・寸法・RGBAが完全一致、実再生32画像は4属性それぞれの2姿勢の集合が
+一致しています。両版の必須機能guard281件は全件成立し、scene cleanupも完了しました。
+通常postRender30件と既存playblast12件を区別し、再生のcallback連番を別process間の
+厳密なフレーム対応とは扱いません。
+線幅のquick gateも通常10操作・実再生4条件（各9画像・2状態）が成功し、不一致は0、
+必須view guard15件も全件成立しました。再生中の未接続値の直接設定と接続・切断に追従しています。
+
+Cube 1個の4属性を標準EVAL規則・`syncOnly` で確認し、計152画像と8実再生、逆スクラブ32時刻で
+CacheOFF参照へ追従しました。各属性で1–9フレームのcache範囲と、上流 `displayDriver`
+transformの直接復元を2周目7回・逆スクラブ8回記録しています。compose / decomposeは
+再計算され、numeric utility・animCurve・locator自身の直接復元は確認していません。
+4属性とも表示挙動は成功ですが、厳格なnumeric復元gateは未成立で、各終了コード1を保持します。
+
+正式配布先・既存の `bd_util.mod` と実load SHA256・API版を照合し、新DLLに対応する保存済み
+本体6ソースはMaya 2025受入版と同一内容です。同版内の通常DLL実再生ABBAと限界は
+[Maya 2027の表示設定キャッシュ比較](controller-shape.md#表示設定キャッシュのmaya-2027確認2026-11-12) を参照してください。
+本節の結果はGUI・Cache確認と条件を固定した実再生比較の範囲です。統一検証の結果は次節を参照してください。
+
+### 表示設定キャッシュ版の統一検証（2026-11-12）
+
+正式配布先の今回の新版DLLを使い、統一入口をMaya版ごとに実行しました。
+
+```powershell
+.\scripts\verify.cmd -IncludeNative -MayaVersion 2026
+.\scripts\verify.cmd -IncludeNative -MayaVersion 2027
+```
+
+両版とも実processの終了コード0を確認しました。Blackは4809ファイル変更不要、
+Pyrightはerror・warningとも0で、native build / stageと差分確認も成功しています。
+
+| Maya | native | full pytest | Qt UI | Maya UI |
+| --- | ---: | ---: | ---: | ---: |
+| 2026 | 11765 passed | 19080 passed / 2392 skipped | 1195 passed | 1035 passed / 1310 skipped |
+| 2027 | 11765 passed | 19080 passed / 2392 skipped | 1195 passed | 1035 passed / 1310 skipped |
+
+実Viewportが必要な画像テストのbatch実行時skipと、前述の各版42件の実GUI成功は区別します。
+Cached Playbackの厳格なnumeric復元gateの終了コード1も、今回の統一検証の終了コード0とは別の結果として保持します。
 
 ## Sparse Multi Tests
 

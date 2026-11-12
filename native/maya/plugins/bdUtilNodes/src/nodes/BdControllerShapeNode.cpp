@@ -2093,6 +2093,13 @@ bool isBoundsAttribute(const MObject& attribute) {
     return std::find(attributes.begin(), attributes.end(), attribute) != attributes.end();
 }
 
+bool isDisplayAttribute(const MObject& attribute) {
+    return attribute == BdControllerShapeNode::shapeLineWidth ||
+        attribute == BdControllerShapeNode::shapeLineTransparency ||
+        attribute == BdControllerShapeNode::shapeFillTransparency ||
+        attribute == BdControllerShapeNode::shapeDrawOnTop;
+}
+
 bool hasIncomingConnection(const MPlug& plug) {
     if (plug.isDestination()) {
         return true;
@@ -2114,7 +2121,7 @@ bool hasConnectedBoundsInput(const MObject& node, short mode) {
     return false;
 }
 
-std::shared_ptr<const BdControllerShapeNode::Geometry> nodeGeometry(
+const BdControllerShapeNode* controllerShapeNode(
     const MObject& object
 ) {
     MStatus status;
@@ -2126,7 +2133,14 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> nodeGeometry(
     if (!status || !userNode) {
         return nullptr;
     }
-    return static_cast<BdControllerShapeNode*>(userNode)->geometry();
+    return static_cast<const BdControllerShapeNode*>(userNode);
+}
+
+std::shared_ptr<const BdControllerShapeNode::Geometry> nodeGeometry(
+    const MObject& object
+) {
+    const auto* node = controllerShapeNode(object);
+    return node ? node->geometry() : nullptr;
 }
 
 MBoundingBox nodeBounds(const MObject& node) {
@@ -2148,12 +2162,12 @@ DrawDisplayType drawDisplayType(
 
 MColor dormantWireframeColor(
     const MDagPath& path, const MColor& fallback, bool selected,
-    DrawDisplayType displayType
+    DrawDisplayType displayType, const MDAGDrawOverrideInfo& overrides,
+    const MColor& templateColor
 ) {
     MStatus status;
     if (displayType == MDAGDrawOverrideInfo::kDisplayTypeTemplate) {
-        const MColor color = M3dView::templateColor(&status);
-        return status ? color : fallback;
+        return templateColor;
     }
     if (displayType == MDAGDrawOverrideInfo::kDisplayTypeReference) {
         const MColor color = M3dView::referenceLayerColor(&status);
@@ -2165,7 +2179,7 @@ MColor dormantWireframeColor(
     MColor color = dagNode.dormantColor(&status);
     if (!status) return fallback;
     MColor overrideColor;
-    if (path.getDrawOverrideInfo().fOverrideEnabled &&
+    if (overrides.fOverrideEnabled &&
         dagNode.drawOverrideColor(overrideColor, &status) && status) {
         color = overrideColor;
     }
@@ -2284,11 +2298,63 @@ struct ShapeDrawData final : public MUserData {
     MColor boundsPreviewColor;
     DrawDisplayType displayType = MDAGDrawOverrideInfo::kDisplayTypeNormal;
     float lineWidth = 1.0f;
+    float opacity = 1.0f;
+    float fillOpacity = 0.15f;
+    std::uint64_t displayRevision = 0;
+    unsigned int connectedDisplayInputs = 0;
     bool drawOnTop = false;
     bool selected = false;
     bool activeTemplate = false;
     bool boundingBoxLOD = false;
 };
+
+void prepareDisplaySettings(
+    const MObject& object, std::uint64_t revision, ShapeDrawData& data
+) {
+    const bool changed = revision == 0 || data.displayRevision != revision;
+    if (!changed && data.connectedDisplayInputs == 0) return;
+    const std::array<MObject, 4> attributes = {
+        BdControllerShapeNode::shapeLineWidth,
+        BdControllerShapeNode::shapeLineTransparency,
+        BdControllerShapeNode::shapeFillTransparency,
+        BdControllerShapeNode::shapeDrawOnTop,
+    };
+    MStatus status;
+    bool valid = true;
+    if (changed) {
+        data.connectedDisplayInputs = 0;
+        for (unsigned int i = 0; i < attributes.size(); ++i) {
+            if (MPlug(object, attributes[i]).isDestination(&status)) {
+                data.connectedDisplayInputs |= 1u << i;
+            }
+            valid = valid && status;
+        }
+    }
+    // 接続入力は再生中も読み、未接続値と接続状態は変更通知まで保持する。
+    if (changed || (data.connectedDisplayInputs & 1u)) {
+        const float value = MPlug(object, attributes[0]).asFloat(&status);
+        data.lineWidth = status && std::isfinite(value) ? std::max(1.0f, value) : 1.0f;
+        valid = valid && status;
+    }
+    if (changed || (data.connectedDisplayInputs & 2u)) {
+        const float value = MPlug(object, attributes[1]).asFloat(&status);
+        data.opacity = status && std::isfinite(value)
+            ? 1.0f - std::clamp(value, 0.0f, 1.0f) : 1.0f;
+        valid = valid && status;
+    }
+    if (changed || (data.connectedDisplayInputs & 4u)) {
+        const float value = MPlug(object, attributes[2]).asFloat(&status);
+        data.fillOpacity = status && std::isfinite(value)
+            ? 1.0f - std::clamp(value, 0.0f, 1.0f) : 0.15f;
+        valid = valid && status;
+    }
+    if (changed || (data.connectedDisplayInputs & 8u)) {
+        data.drawOnTop = MPlug(object, attributes[3]).asBool(&status);
+        if (!status) data.drawOnTop = false;
+        valid = valid && status;
+    }
+    data.displayRevision = valid ? revision : 0;
+}
 
 struct ShapeDrawAppearance {
     MColor color;
@@ -2522,7 +2588,8 @@ private:
         ShapeDrawData* data = oldData
             ? static_cast<ShapeDrawData*>(oldData)
             : new ShapeDrawData();
-        const auto geometry = nodeGeometry(objectPath.node());
+        const auto* node = controllerShapeNode(objectPath.node());
+        const auto geometry = node ? node->geometry() : nullptr;
         const bool geometryChanged = !data->geometry || !geometry ||
             data->geometry->drawGeometry != geometry->drawGeometry;
         data->geometry = geometry;
@@ -2548,30 +2615,7 @@ private:
                 data->perspective = perspective;
             }
         } else data->frontIndices.clear();
-        const float lineWidth = MPlug(
-            objectPath.node(), BdControllerShapeNode::shapeLineWidth
-        ).asFloat(&status);
-        data->lineWidth = status && std::isfinite(lineWidth)
-            ? std::max(1.0f, lineWidth)
-            : 1.0f;
-        const float transparency = MPlug(
-            objectPath.node(), BdControllerShapeNode::shapeLineTransparency
-        ).asFloat(&status);
-        const float opacity = status && std::isfinite(transparency)
-            ? 1.0f - std::clamp(transparency, 0.0f, 1.0f)
-            : 1.0f;
-        const float fillTransparency = MPlug(
-            objectPath.node(), BdControllerShapeNode::shapeFillTransparency
-        ).asFloat(&status);
-        const float fillOpacity = status && std::isfinite(fillTransparency)
-            ? 1.0f - std::clamp(fillTransparency, 0.0f, 1.0f)
-            : 0.15f;
-        data->drawOnTop = MPlug(
-            objectPath.node(), BdControllerShapeNode::shapeDrawOnTop
-        ).asBool(&status);
-        if (!status) {
-            data->drawOnTop = false;
-        }
+        prepareDisplaySettings(objectPath.node(), node ? node->displayRevision() : 0, *data);
         data->color = MHWRender::MGeometryUtilities::wireframeColor(objectPath);
         const auto overrides = objectPath.getDrawOverrideInfo();
         data->displayType = drawDisplayType(objectPath, overrides);
@@ -2583,28 +2627,34 @@ private:
             displayStatus == MHWRender::kActiveComponent ||
             displayStatus == MHWRender::kHilite;
         data->activeTemplate = displayStatus == MHWRender::kActiveTemplate;
-        data->dormantColor = dormantWireframeColor(
-            objectPath, data->color, data->selected, data->displayType
+        const bool highlighting = (frameContext.getDisplayStyle() &
+            MHWRender::MFrameContext::kSelectionHighlighting) != 0;
+        const bool templateGeometry = geometry && (
+            geometry->drawGeometry->topology->templateStyled ||
+            (geometry->wireframeGeometry &&
+                geometry->wireframeGeometry->drawGeometry->topology->templateStyled) ||
+            (geometry->offsetLineTemplate && geometry->offsetLine.length() != 0) ||
+            !geometry->boundsPreview.empty()
         );
-        MStatus templateStatus;
-        data->templateStrokeColor = M3dView::templateColor(&templateStatus);
-        if (!templateStatus) {
-            data->templateStrokeColor = data->color;
-        }
-        if (data->geometry && !data->geometry->boundsPreview.empty()) {
+        MColor templateColor = data->color;
+        if (templateGeometry || (!highlighting &&
+            data->displayType == MDAGDrawOverrideInfo::kDisplayTypeTemplate)) {
             MStatus colorStatus;
-            data->boundsPreviewColor = M3dView::templateColor(&colorStatus);
-            if (!colorStatus) {
-                data->boundsPreviewColor = data->color;
-            }
+            const auto color = M3dView::templateColor(&colorStatus);
+            if (colorStatus) templateColor = color;
         }
+        data->dormantColor = highlighting ? data->color : dormantWireframeColor(
+            objectPath, data->color, data->selected, data->displayType, overrides, templateColor
+        );
+        data->templateStrokeColor = templateColor;
+        data->boundsPreviewColor = templateColor;
         data->fillColor = data->color;
         data->dormantFillColor = data->dormantColor;
-        data->fillColor.a *= fillOpacity;
-        data->dormantFillColor.a *= fillOpacity;
-        data->color.a *= opacity;
-        data->dormantColor.a *= opacity;
-        data->templateStrokeColor.a *= opacity;
+        data->fillColor.a *= data->fillOpacity;
+        data->dormantFillColor.a *= data->fillOpacity;
+        data->color.a *= data->opacity;
+        data->dormantColor.a *= data->opacity;
+        data->templateStrokeColor.a *= data->opacity;
         return data;
     }
 
@@ -2792,6 +2842,33 @@ MStatus BdControllerShapeNode::legalConnection(
     return MPxLocatorNode::legalConnection(plug, otherPlug, asSrc, isLegal);
 }
 
+bool BdControllerShapeNode::setInternalValue(const MPlug& plug, const MDataHandle& data) {
+    if (isDisplayAttribute(plug.attribute())) {
+        displayRevision_.fetch_add(1, std::memory_order_release);
+        // 設定通知だけを使い、値の保存はMayaの通常datablockへ委譲する。
+        return false;
+    }
+    return MPxLocatorNode::setInternalValue(plug, data);
+}
+
+MStatus BdControllerShapeNode::connectionMade(
+    const MPlug& plug, const MPlug& otherPlug, bool asSrc
+) {
+    if (!asSrc && isDisplayAttribute(plug.attribute())) {
+        displayRevision_.fetch_add(1, std::memory_order_release);
+    }
+    return MPxLocatorNode::connectionMade(plug, otherPlug, asSrc);
+}
+
+MStatus BdControllerShapeNode::connectionBroken(
+    const MPlug& plug, const MPlug& otherPlug, bool asSrc
+) {
+    if (!asSrc && isDisplayAttribute(plug.attribute())) {
+        displayRevision_.fetch_add(1, std::memory_order_release);
+    }
+    return MPxLocatorNode::connectionBroken(plug, otherPlug, asSrc);
+}
+
 void BdControllerShapeNode::onAttributeChanged(
     MNodeMessage::AttributeMessage change,
     MPlug& plug,
@@ -2811,7 +2888,14 @@ void BdControllerShapeNode::onAttributeChanged(
         node->geometryRevision_.fetch_add(1, std::memory_order_release);
     } else if (isBoundsAttribute(plug.attribute())) {
         node->boundsRevision_.fetch_add(1, std::memory_order_release);
+    } else if (isDisplayAttribute(plug.attribute())) {
+        node->displayRevision_.fetch_add(1, std::memory_order_release);
     }
+}
+
+std::uint64_t BdControllerShapeNode::displayRevision() const {
+    return attributeChangedCallback_ != 0
+        ? displayRevision_.load(std::memory_order_acquire) : 0;
 }
 
 std::shared_ptr<const BdControllerShapeNode::Geometry>
@@ -3747,6 +3831,10 @@ MStatus BdControllerShapeNode::initialize() {
         if (!status) return status;
         if (isShapeAttribute(attribute)) {
             status = attributeFn.setConnectable(false);
+            if (!status) return status;
+        }
+        if (isDisplayAttribute(attribute)) {
+            status = attributeFn.setInternal(true);
             if (!status) return status;
         }
         status = attributeFn.setChannelBox(true);
