@@ -494,7 +494,11 @@ class MayaChannelStateBinding(qt.QObject):
                 if message & om.MNodeMessage.kAttributeRemoved:
                     target.removed = True
         if matched and not self._writing:
-            self.refresh()
+            # 削除履歴は即座に記録し、Undo中の状態だけを後で読む
+            if om.MGlobal.isUndoing() or om.MGlobal.isRedoing():
+                self._schedule_refresh()
+            else:
+                self.refresh()
 
     def _on_node_removed(self, node: om.MObject, *_args: object) -> None:
         """削除予定の対象を無効化し、同名の再作成へ接続しない。"""
@@ -506,7 +510,10 @@ class MayaChannelStateBinding(qt.QObject):
             ):
                 target.removed = True
         if not self._writing:
-            self.refresh()
+            if om.MGlobal.isUndoing() or om.MGlobal.isRedoing():
+                self._schedule_refresh()
+            else:
+                self.refresh()
 
     def _schedule_refresh(self, *_args: object) -> None:
         """同じevent loop内のUndo等の通知を一回の読取りにまとめる。"""
@@ -516,8 +523,11 @@ class MayaChannelStateBinding(qt.QObject):
         run_later(self._refresh_later)
 
     def _refresh_later(self) -> None:
-        """予約後に終了したBindingへの読取りを停止する。"""
+        """Undoの途中値は読まず、復元完了後の状態へ一度だけ同期する。"""
         self._refresh_scheduled = False
+        if om.MGlobal.isUndoing() or om.MGlobal.isRedoing():
+            self._schedule_refresh()
+            return
         self.refresh()
 
     def dispose(self) -> None:

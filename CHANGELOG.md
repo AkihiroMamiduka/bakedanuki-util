@@ -25,6 +25,10 @@
 
 ### Fixed
 
+- 複数属性Bindingと`MayaChannelStateBinding`で、Undo / Redo中の途中状態の
+  再読取りを、復元後のQt event loopで一度の同期へまとめた。
+  通常の外部変更の即時同期、削除履歴の即時無効化、Undo / Redo履歴を維持する。
+  API・scene・保存設定の移行は不要。UI再生成またはMaya再起動で反映する。
 - `bdControllerShape` の不透明なTemplate塗りに、同一面上の輪郭線が隠れる不具合を修正。
   通常描画で輪郭の通常色・Template色を保ち、手前にある他のシーン形状による遮蔽は維持する。
 - `bdControllerShape` のSelection HighlightingがOFFのとき、選択中も実際の非選択時と同じ色を使うよう修正。

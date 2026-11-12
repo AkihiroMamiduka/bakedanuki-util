@@ -816,8 +816,11 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         run_later(self._refresh_later)
 
     def _refresh_later(self) -> None:
-        """予約後に終了したStoreへアクセスせず再読取りする。"""
+        """Undoの途中値は読まず、復元完了後の状態へ一度だけ同期する。"""
         self._refresh_scheduled = False
+        if om.MGlobal.isUndoing() or om.MGlobal.isRedoing():
+            self._schedule_refresh()
+            return
         self.refresh()
 
     def _register_callbacks(self) -> None:
@@ -909,7 +912,11 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
                 if message & om.MNodeMessage.kAttributeRemoved:
                     target.removed = True
         if matched and not self.is_disposed and not self._write_depth:
-            self.refresh()
+            # 削除履歴は即座に記録し、Undo中の値と状態だけを後で読む
+            if om.MGlobal.isUndoing() or om.MGlobal.isRedoing():
+                self._schedule_refresh()
+            else:
+                self.refresh()
 
     def _on_plug_dirty(
         self, _node: om.MObject, plug: om.MPlug, client_data: object
@@ -933,7 +940,10 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         for target in cast(tuple[PlugTarget[_ValueT], ...], client_data):
             target.removed = True
         if not self.is_disposed and not self._write_depth:
-            self.refresh()
+            if om.MGlobal.isUndoing() or om.MGlobal.isRedoing():
+                self._schedule_refresh()
+            else:
+                self.refresh()
 
     def dispose(self) -> None:
         """callbackと開いているUndoを即座に解除する。"""

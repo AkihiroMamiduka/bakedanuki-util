@@ -448,6 +448,12 @@ node lockなどMayaが属性変更を通知しない状態は、`refresh()`ま�
 Qt owner破棄とMaya終了時にも解除され、終了状態は`is_disposed`で確認できます。
 型付き入力契約`MayaChannelStatePlug`も同じ公開入口から利用できます。
 
+Undo / Redo中の属性通知は途中状態を読まず、復元後のQt event loopで最終状態へ
+一度だけ同期します。通常の外部変更は即時同期し、削除履歴はUndo中も直ちに記録します。
+同期前の`dispose()`とQt owner破棄では、予約した再読取りを行いません。
+`tests/maya/ui/test_binding_undo_refresh_batch.py`で連続chunk、Undo中のQt再入、
+削除・破棄と最終同期の読取り回数を確認します。
+
 多数対象では実体索引で重複と通知nodeを判定し、そのnodeに属するplugと祖先だけを
 照合します。hashが同じ別nodeを混同せず、入力中も削除履歴を保持します。
 操作前の検証、Undo、復旧とcallback本数を維持します。
