@@ -5,7 +5,7 @@ from collections.abc import Callable
 from typing import ClassVar
 
 from .... import qt
-from .._connection import connect_queued
+from ..._view_source import ViewSourceConnections
 from .._validation import require_slider_range, require_step
 from ..binding import IntBinding
 from ..store import IntValueStore
@@ -100,14 +100,60 @@ class IntSlider(qt.QSlider):
         self.valueChanged.connect(self._request_value)
         self.sliderPressed.connect(self._begin_edit)
         self.sliderReleased.connect(self._finish_edit)
-        view_model.value.changed.connect(self._update_value)
-        view_model.presentation_changed.connect(self._update_presentation)
-        view_model.set_value_command.can_execute_changed.connect(
-            self._update_enabled
+        self._source_connections = ViewSourceConnections(self)
+        self._connect_source()
+
+    def _connect_source(self) -> None:
+        """現在世代の整数値・範囲・編集終了だけを監視する。"""
+        connections = self._source_connections
+        view_model = self._view_model
+        connections.connect(view_model.value.changed, self._update_value)
+        connections.connect(
+            view_model.presentation_changed, self._update_presentation
         )
-        view_model.edit_finished.connect(self._finish_edit)
-        view_model.disposed.connect(self._stop_binding)
-        connect_queued(view_model.destroyed, self._stop_binding)
+        connections.connect(
+            view_model.set_value_command.can_execute_changed,
+            self._update_enabled,
+        )
+        connections.connect(view_model.edit_finished, self._finish_edit)
+        connections.connect(view_model.disposed, self._stop_binding)
+        connections.connect(
+            view_model.destroyed,
+            self._stop_binding,
+            queued=True,
+            discard_args=True,
+        )
+
+    def set_source(
+        self, source: IntViewModel | IntBinding[IntValueStore]
+    ) -> None:
+        """旧ドラッグを終了し、新しい整数入力元へ無書込みで付け替える。
+
+        操作範囲・分割数・入力handlerは維持し、旧Bindingは破棄しない。
+        終了済みの入力元は受け付けない。
+        """
+        view_model, binding = resolve_int_view_source(source)
+        if view_model.is_disposed or not qt.isValid(self):
+            raise RuntimeError("生存中のViewとIntViewModelが必要です")
+        generation = self._source_connections.generation
+        self._finish_edit()
+        if (
+            generation != self._source_connections.generation
+            or not qt.isValid(self)
+        ):
+            return
+        # 終了通知から新しい入力元が破棄されても、旧接続は変更しない
+        if not qt.isValid(view_model) or view_model.is_disposed:
+            raise RuntimeError("接続先のIntViewModelが終了しました")
+        self._source_connections.clear()
+        self._interrupted = True
+        self._wheel_editing = False
+        self.setRepeatAction(qt.QSlider.SliderAction.SliderNoAction)
+        self.setSliderDown(False)
+        self._binding = binding
+        self._view_model = view_model
+        self._connect_source()
+        self._render()
 
     @property
     def view_model(self) -> IntViewModel:
@@ -198,9 +244,14 @@ class IntSlider(qt.QSlider):
         value = lower + _round_ratio(
             position * (upper - lower), self._positions
         )
+        generation = self._source_connections.generation
         try:
             handler = self._value_request_handler
-            if handler is None or not handler(value):
+            handled = handler is not None and handler(value)
+            if (
+                not handled
+                and generation == self._source_connections.generation
+            ):
                 self._view_model.set_value_command.execute(value)
         except Exception:
             self._finish_edit()

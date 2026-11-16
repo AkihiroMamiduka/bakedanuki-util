@@ -256,6 +256,9 @@ Escapeによる破棄は単一属性と共通です。jointの`.otherType`を題
 構築、`refresh()`、単位変更、外部操作、Undo／Redo、混在状態の更新では
 Maya属性へ書き戻しません。`changed`を別属性の書込みへ接続して同期させる構成は
 不要です。選択変更で対象を変える場合は古いBindingを`dispose()`し、作り直します。
+対応するViewは`set_source(new_binding)`で再利用できます。
+旧通知・未確定入力・連続編集の取消と、保持するView設定は
+[Viewの入力元の付け替え](README.md#viewの入力元の付け替え)を参照してください。
 
 floatの公開単位は単一属性Bindingと同じで、距離はcm、角度はdegreeです。
 表示の単位・hard min/maxは先頭属性の`FloatPresentation`を保ちます。

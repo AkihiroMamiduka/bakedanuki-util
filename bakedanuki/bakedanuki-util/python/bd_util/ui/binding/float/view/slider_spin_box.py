@@ -85,6 +85,7 @@ class FloatSliderSpinBox(qt.QWidget):
         super().__init__(parent)
         self._binding = binding
         self._view_model = view_model
+        self._source_generation = 0
         self._layout_order: FloatSliderSpinBoxOrder = layout_order
 
         # 各Viewが同じViewModelへ入力し、同期・単位・Undoを既存基盤へ委譲する。
@@ -123,6 +124,26 @@ class FloatSliderSpinBox(qt.QWidget):
         layout = qt.QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         return layout
+
+    def set_source(
+        self, source: FloatViewModel | FloatBinding[FloatValueStore]
+    ) -> None:
+        """旧ドラッグと下書きを捨て、両Viewを新しい入力元へ無書込みで付け替える。
+
+        操作範囲・表示精度・Step・入力handlerは維持する。
+        旧Bindingの破棄は利用側が行う。
+        """
+        view_model, binding = resolve_float_view_source(source)
+        if view_model.is_disposed or not qt.isValid(self):
+            raise RuntimeError("生存中のViewとFloatViewModelが必要です")
+        self._source_generation += 1
+        generation = self._source_generation
+        self.slider.set_source(view_model)
+        if generation != self._source_generation or not qt.isValid(self):
+            return
+        self.spin_box.set_source(view_model)
+        self._binding = binding
+        self._view_model = view_model
 
     @property
     def view_model(self) -> FloatViewModel:

@@ -5,7 +5,7 @@ from collections.abc import Callable
 from typing import Protocol, cast
 
 from .... import qt
-from .._connection import connect_queued_qt_signal
+from ..._view_source import ViewSourceConnections
 from ..binding import StringBinding
 from ..store import StringValueStore
 from ..view_model import StringViewModel
@@ -62,6 +62,7 @@ class StringLineEdit(qt.QLineEdit):
         super().__init__(parent)
         self._view_model = view_model
         self._binding = binding
+        self._source_connections = ViewSourceConnections(self)
         self._input_enabled = True
         self._dirty = False
         self._conflicted = False
@@ -73,21 +74,56 @@ class StringLineEdit(qt.QLineEdit):
         self._value_request_handler: Callable[[str], bool] | None = None
         # Qtの既定32767文字による正本の黙った切り詰めを防ぐ
         self.setMaxLength(2_147_483_647)
-        self._render()
-        self._update_enabled()
+        self.set_source(binding if binding is not None else view_model)
         self.textEdited.connect(self._on_text_edited)
         self.returnPressed.connect(self._commit_explicit)
         self.editingFinished.connect(self._commit_on_focus_loss)
-        view_model.value.changed.connect(self._on_value_changed)
-        view_model.source_changed.connect(self._on_source_changed)
-        view_model.source_values_changed.connect(
-            self._on_source_values_changed
+
+    def set_source(
+        self, source: StringViewModel | StringBinding[StringValueStore]
+    ) -> None:
+        """未確定入力を破棄し、正本へ書き込まずに表示先を交換する。
+
+        入力handlerとView固有の設定を維持し、旧Bindingは破棄しない。
+
+        Args:
+            source: 生存中のViewModelまたはBinding。
+        """
+        view_model, binding = resolve_string_view_source(source)
+        self._source_connections.clear()
+        self._view_model = view_model
+        self._binding = binding
+        self._dirty = False
+        self._select_on_mouse_release = False
+        self._mouse_selection_dragged = False
+        self._pending_select_all = False
+        self._source_connections.connect(
+            view_model.value.changed, self._on_value_changed
         )
-        view_model.set_value_command.can_execute_changed.connect(
-            self._update_enabled
+        self._source_connections.connect(
+            view_model.source_changed, self._on_source_changed
         )
-        view_model.disposed.connect(self._on_disposed)
-        connect_queued_qt_signal(view_model.destroyed, self._on_disposed)
+        self._source_connections.connect(
+            view_model.source_values_changed, self._on_source_values_changed
+        )
+        self._source_connections.connect(
+            view_model.set_value_command.can_execute_changed,
+            self._update_enabled,
+        )
+        self._source_connections.connect(
+            view_model.disposed, self._on_disposed
+        )
+        self._source_connections.connect(
+            view_model.destroyed,
+            self._on_disposed,
+            queued=True,
+            discard_args=True,
+        )
+        # 別の正本へ入力欄自身のUndo履歴を持ち越さない
+        self.setText(view_model.value.value)
+        self.setModified(False)
+        self._set_conflicted(False)
+        self._update_enabled()
 
     @property
     def view_model(self) -> StringViewModel:
@@ -268,11 +304,16 @@ class StringLineEdit(qt.QLineEdit):
         if not self._dirty:
             return
         view_model = self._view_model
+        generation = self._source_connections.generation
         if view_model.is_disposed or not self._input_enabled:
             self._render()
             return
         # 通知されなかった外部変更を、書込み可否や競合の判定前に読む
-        if not self._refresh_source() or not self._dirty:
+        if (
+            not self._refresh_source()
+            or not self._dirty
+            or generation != self._source_connections.generation
+        ):
             return
         if self._conflicted and not explicit:
             return
@@ -284,6 +325,8 @@ class StringLineEdit(qt.QLineEdit):
         try:
             handler = self._value_request_handler
             handled = handler is not None and handler(requested)
+            if generation != self._source_connections.generation:
+                return
             if not handled:
                 view_model.set_value_command.execute(requested)
         except Exception as error:

@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 from .... import qt
-from .._connection import connect_queued
+from ..._view_source import ViewSourceConnections
+from ._source import resolve_int_view_source
 from .._validation import (
     INT32_MIN,
     INT32_MAX,
@@ -197,15 +198,52 @@ class IntRangeSliderSpinBox(IntSliderSpinBox):
             self.step_spin_box.valueChanged.connect(self._request_step)
             self.slider.intRangeChanged.connect(self._refresh_range)
             self.slider.intRangeChanged.connect(self._notify_settings_changed)
-            self.view_model.presentation_changed.connect(self._refresh_range)
-            self.view_model.disposed.connect(self._stop_range_editing)
-            connect_queued(self.view_model.destroyed, self._stop_range_editing)
+            self._range_source_connections = ViewSourceConnections(self)
+            self._connect_range_source()
             for first, second in zip(widgets, widgets[1:]):
                 qt.QWidget.setTabOrder(first, second)
         except Exception:
             self.setParent(None)
             self.deleteLater()
             raise
+
+    def _connect_range_source(self) -> None:
+        """現在世代の範囲情報と寿命だけを設定欄へ反映する。"""
+        connections = self._range_source_connections
+        connections.connect(
+            self._view_model.presentation_changed,
+            self._refresh_range,
+            discard_args=True,
+        )
+        connections.connect(
+            self._view_model.disposed, self._stop_range_editing
+        )
+        connections.connect(
+            self._view_model.destroyed,
+            self._stop_range_editing,
+            queued=True,
+            discard_args=True,
+        )
+
+    def set_source(
+        self, source: IntViewModel | IntBinding[IntValueStore]
+    ) -> None:
+        """操作設定を保ち、範囲欄を含めて新しい整数入力元へ付け替える。"""
+        view_model, _binding = resolve_int_view_source(source)
+        if view_model.is_disposed or not qt.isValid(self):
+            raise RuntimeError("生存中のViewとIntViewModelが必要です")
+        generation = self._range_source_connections.generation
+        super().set_source(source)
+        if (
+            generation != self._range_source_connections.generation
+            or self._view_model is not view_model
+            or not qt.isValid(self)
+        ):
+            return
+        self._range_source_connections.clear()
+        self._refresh_range()
+        self._refresh_step()
+        self._connect_range_source()
 
     def _create_layout(self) -> qt.QHBoxLayout:
         """入力行と範囲の説明領域を作る。"""

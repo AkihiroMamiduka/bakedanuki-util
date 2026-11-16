@@ -2,14 +2,25 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from functools import partial
+from typing import Protocol, cast
 
 from .... import qt
-from .._connection import connect_queued_qt_signal
+from ..._view_source import ViewSourceConnections
 from ..binding import EnumBinding
 from ..definition import EnumItem
 from ..store import EnumValueStore
 from ..view_model import EnumViewModel
 from ._source import resolve_enum_view_source
+
+
+class _QTimerType(Protocol):
+    """PySide版ごとのsingleShotの型差を局所化する。"""
+
+    @staticmethod
+    def singleShot(milliseconds: int, callback: Callable[[], None]) -> None:
+        """指定した遅延時間後に処理を一回だけ呼び出す。"""
+        raise NotImplementedError
 
 
 def _require_enabled(value: object) -> bool:
@@ -41,20 +52,64 @@ class EnumComboBox(qt.QComboBox):
         super().__init__(parent)
         self._view_model = view_model
         self._binding = binding
+        self._source_connections = ViewSourceConnections(self)
         self._input_enabled = True
         self.set_wheel_requires_focus(wheel_requires_focus)
         self._value_request_handler: Callable[[int], bool] | None = None
         self._index_change_pending = False
-        self._render()
+        self.set_source(binding if binding is not None else view_model)
         self.currentIndexChanged.connect(self._index_changed)
         self.activated.connect(self._activate_index)
-        view_model.value.changed.connect(self._render)
-        view_model.definition_changed.connect(self._render)
-        view_model.set_value_command.can_execute_changed.connect(
-            self._update_enabled
-        )
-        view_model.disposed.connect(self._disable_binding)
-        connect_queued_qt_signal(view_model.destroyed, self._disable_binding)
+
+    def set_source(
+        self, source: EnumViewModel | EnumBinding[EnumValueStore]
+    ) -> None:
+        """候補popupを閉じ、値と選択肢を書き込まずに表示先を交換する。
+
+        入力handlerとView固有の設定を維持し、旧Bindingは破棄しない。
+
+        Args:
+            source: 生存中のViewModelまたはBinding。
+        """
+        view_model, binding = resolve_enum_view_source(source)
+        generation = self._source_connections.generation
+        blocker = qt.QtCore.QSignalBlocker(self)
+        try:
+            self.hidePopup()
+            if (
+                generation != self._source_connections.generation
+                or not qt.isValid(self)
+            ):
+                return
+            # popup終了の外部通知で候補が失効しても、旧接続は変更しない
+            if not qt.isValid(view_model) or view_model.is_disposed:
+                raise RuntimeError("接続先のEnumViewModelが終了しました")
+            self._source_connections.clear()
+            self._index_change_pending = False
+            self._view_model = view_model
+            self._binding = binding
+            self._source_connections.connect(
+                view_model.value.changed, self._render
+            )
+            self._source_connections.connect(
+                view_model.definition_changed, self._render
+            )
+            self._source_connections.connect(
+                view_model.set_value_command.can_execute_changed,
+                self._update_enabled,
+            )
+            self._source_connections.connect(
+                view_model.disposed, self._disable_binding
+            )
+            self._source_connections.connect(
+                view_model.destroyed,
+                self._disable_binding,
+                queued=True,
+                discard_args=True,
+            )
+            self._render()
+        finally:
+            del blocker
 
     @property
     def view_model(self) -> EnumViewModel:
@@ -142,12 +197,18 @@ class EnumComboBox(qt.QComboBox):
     def _index_changed(self, index: int) -> None:
         """値の変化を即時反映し、同じ操作のactivatedとの重複を防ぐ。"""
         self._index_change_pending = True
-        qt.QTimer.singleShot(0, self._clear_index_change)
+        cast(_QTimerType, qt.QTimer).singleShot(
+            0,
+            partial(
+                self._clear_index_change, self._source_connections.generation
+            ),
+        )
         self._request_index(index)
 
-    def _clear_index_change(self) -> None:
+    def _clear_index_change(self, generation: int) -> None:
         """次のイベントでは同じ項目の明示選択も入力として受け付ける。"""
-        self._index_change_pending = False
+        if generation == self._source_connections.generation:
+            self._index_change_pending = False
 
     def _activate_index(self, index: int) -> None:
         """同じ項目の再選択を入力handlerへ一回だけ伝える。"""
@@ -170,20 +231,24 @@ class EnumComboBox(qt.QComboBox):
         if not isinstance(item, EnumItem):
             self._render()
             return
+        generation = self._source_connections.generation
         try:
             handler = self._value_request_handler
-            if handler is None or not handler(item.value):
+            handled = handler is not None and handler(item.value)
+            if generation != self._source_connections.generation:
+                return
+            if not handled:
                 vm.set_value_command.execute(item.value)
         finally:
             if qt.isValid(self):
                 self._render()
 
-    def wheelEvent(self, event: qt.QtGui.QWheelEvent) -> None:
+    def wheelEvent(self, e: qt.QtGui.QWheelEvent) -> None:
         """設定に応じて、非フォーカス時のホイールを親へ渡す。"""
         if self._wheel_requires_focus and not self.hasFocus():
-            event.ignore()
+            e.ignore()
             return
-        super().wheelEvent(event)
+        super().wheelEvent(e)
 
     @qt.Slot()
     def _disable_binding(self) -> None:

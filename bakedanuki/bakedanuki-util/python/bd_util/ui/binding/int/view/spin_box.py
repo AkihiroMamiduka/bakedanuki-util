@@ -4,8 +4,9 @@ from __future__ import annotations
 from collections.abc import Callable
 
 from .... import qt
+from ..._view_source import ViewSourceConnections
 from ..._spin_box_mouse_selection import SpinBoxMouseFocusSelection
-from .._connection import connect_queued, disconnect
+from .._connection import disconnect
 from .._validation import INT32_MAX, INT32_MIN, require_int
 from ..binding import IntBinding
 from ..store import IntValueStore
@@ -55,13 +56,52 @@ class IntSpinBox(qt.QSpinBox):
         self._input_connection: qt.QtCore.QMetaObject.Connection | None = (
             self.valueChanged.connect(self._request_value)
         )
-        view_model.value.changed.connect(self._update_value)
-        view_model.presentation_changed.connect(self._update_presentation)
-        view_model.set_value_command.can_execute_changed.connect(
-            self._update_enabled
+        self._source_connections = ViewSourceConnections(self)
+        self._connect_source()
+
+    def _connect_source(self) -> None:
+        """現在世代の整数値・範囲・入力可否だけを監視する。"""
+        connections = self._source_connections
+        view_model = self._view_model
+        connections.connect(view_model.value.changed, self._update_value)
+        connections.connect(
+            view_model.presentation_changed, self._update_presentation
         )
-        view_model.disposed.connect(self._disable_binding)
-        connect_queued(view_model.destroyed, self._disable_binding)
+        connections.connect(
+            view_model.set_value_command.can_execute_changed,
+            self._update_enabled,
+            discard_args=True,
+        )
+        connections.connect(view_model.disposed, self._disable_binding)
+        connections.connect(
+            view_model.destroyed,
+            self._disable_binding,
+            queued=True,
+            discard_args=True,
+        )
+
+    def set_source(
+        self, source: IntViewModel | IntBinding[IntValueStore]
+    ) -> None:
+        """旧下書きと通知を捨て、新しい整数入力元へ無書込みで付け替える。
+
+        Step・操作設定・入力handlerは維持する。旧Bindingは破棄しない。
+        終了済みの入力元は受け付けない。
+        """
+        view_model, binding = resolve_int_view_source(source)
+        if view_model.is_disposed or not qt.isValid(self):
+            raise RuntimeError("生存中のViewとIntViewModelが必要です")
+        self._source_connections.clear()
+        self._binding = binding
+        self._view_model = view_model
+        self._mouse_selection.reset()
+        if self._input_connection is None:
+            self._input_connection = self.valueChanged.connect(
+                self._request_value
+            )
+        self._connect_source()
+        self._render()
+        self._update_enabled()
 
     @property
     def view_model(self) -> IntViewModel:
@@ -128,12 +168,13 @@ class IntSpinBox(qt.QSpinBox):
         ):
             super().stepBy(steps)
             return
+        generation = self._source_connections.generation
         try:
             handled = handler(steps)
         finally:
             if qt.isValid(self) and self._valid_view_model() is not None:
                 self._render()
-        if not handled:
+        if not handled and generation == self._source_connections.generation:
             super().stepBy(steps)
 
     def wheelEvent(self, event: qt.QtGui.QWheelEvent) -> None:
@@ -208,9 +249,14 @@ class IntSpinBox(qt.QSpinBox):
         if not self._input_enabled:
             self._render()
             return
+        generation = self._source_connections.generation
         try:
             handler = self._value_request_handler
-            if handler is None or not handler(value):
+            handled = handler is not None and handler(value)
+            if (
+                not handled
+                and generation == self._source_connections.generation
+            ):
                 view_model.set_value_command.execute(value)
         finally:
             if qt.isValid(self) and self._valid_view_model() is not None:

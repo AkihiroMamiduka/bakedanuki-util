@@ -6,6 +6,35 @@ UI utilityは、利用場所ではなく依存関係で分けます。
 - `bd_util.maya.ui`には、Maya main windowやUI lifecycleとの連携処理を置きます。
 - 依存は`bd_util.maya.ui`から`bd_util.ui`への一方向とし、逆方向には依存させません。
 
+## Viewの入力元の付け替え
+
+`FloatSpinBox`、`FloatSlider`、`FloatValueStepSpinBox`、`FloatSliderSpinBox`、
+`FloatRangeSliderSpinBox`と、対応する5種類の`Int` Viewは、
+`set_source(source)`で新しい同型のViewModelまたはBindingへ接続できます。
+`BoolCheckBox`、`EnumComboBox`、`StringLineEdit`も同じAPIを持ちます。
+元のBinding・ViewModelは変更も破棄もせず、新しい確定値・範囲・候補・編集可否を
+正本へ書き戻さずに表示します。新しい入力元が終了済みなら、切り替える前に拒否します。
+
+付け替え時は、値・Step・範囲・文字列の未確定入力、enumのpopup、Sliderの連続操作を
+取り消します。旧入力元の値変更や、切替前に予約済みだったQt破棄通知が新表示を
+更新・無効化することはありません。入力handler内で接続先が変わった場合も、
+残った旧入力を新旧どちらの正本にも適用しません。
+Qt破棄通知は、Viewと同じ寿命の受信先へ一度だけ遅延配送します。
+送信元の破棄で通知が失われるQt版でも、既存の次イベントでの無効化を維持します。
+
+確定済みStep、Sliderの操作範囲・分割数、表示精度、幅・配置・単位文字の表示、
+View固有の入力設定と入力handlerは維持します。属性ごとに異なる設定やhandlerは
+利用側で更新してください。範囲は`slider.setFloatRange()`／`setIntRange()`で変更できます。
+複合Viewの`set_source()`は子Viewもまとめて付け替えます。
+Label・BoolComboBox・EnumRadioButtonGroup・Float3の複合Viewは今回の対象外です。
+
+Mayaの選択変更では、古いBindingを`dispose()`してcallbackと対象を終了し、
+現在の属性から新しくBindingを作って、保持したViewへ`set_source(new_binding)`を
+呼び出します。Mayaの対象・値・属性定義や検証結果は選択間で使い回しません。
+古いWidget自体へ`deleteLater()`を呼んだ後の再利用はできません。
+`tests/ui/test_numeric_view_source.py`と
+`tests/ui/test_scalar_view_source_reuse.py`で、切替・取消・旧通知と寿命を確認します。
+
 ## 新しいtoolへの導入
 
 多数の属性を同期的に一括編集する場合、`MayaBoolPlugsBinding`、

@@ -4,12 +4,13 @@ from __future__ import annotations
 from sys import float_info
 
 from .... import qt
+from ..._view_source import ViewSourceConnections
 from .._validation import require_decimals, require_slider_range
 from ..binding import FloatBinding
 from ..presentation import FloatUnitKind
 from ..store import FloatValueStore
 from ..view_model import FloatViewModel
-from ._connection import connect_queued_qt_signal
+from ._source import resolve_float_view_source
 from .slider_spin_box import FloatSliderSpinBox
 from .step_spin_box import (
     FloatStepMode,
@@ -225,19 +226,12 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
 
             # 外部APIと単位変更も同じ表示へ集約し、未確定の古い単位入力を破棄する。
             self.slider.floatRangeChanged.connect(self._refresh_range)
-            self.view_model.presentation_changed.connect(self._refresh_range)
-            self.view_model.presentation_changed.connect(self._refresh_step)
             self.slider.floatRangeChanged.connect(
                 self._notify_settings_changed
             )
-            self.view_model.presentation_changed.connect(
-                self._notify_settings_changed
-            )
             self._notify_settings_changed()
-            self.view_model.disposed.connect(self._stop_range_editing)
-            connect_queued_qt_signal(
-                self.view_model.destroyed, self._stop_range_editing
-            )
+            self._range_source_connections = ViewSourceConnections(self)
+            self._connect_range_source()
             qt.QWidget.setTabOrder(self.minimum_spin_box, self.slider)
             qt.QWidget.setTabOrder(self.slider, self.maximum_spin_box)
             qt.QWidget.setTabOrder(self.maximum_spin_box, self.spin_box)
@@ -247,6 +241,47 @@ class FloatRangeSliderSpinBox(FloatSliderSpinBox):
             self.setParent(None)
             self.deleteLater()
             raise
+
+    def _connect_range_source(self) -> None:
+        """現在世代の単位・範囲情報と寿命だけを設定欄へ反映する。"""
+        connections = self._range_source_connections
+        for slot in (
+            self._refresh_range,
+            self._refresh_step,
+            self._notify_settings_changed,
+        ):
+            connections.connect(
+                self._view_model.presentation_changed, slot, discard_args=True
+            )
+        connections.connect(
+            self._view_model.disposed, self._stop_range_editing
+        )
+        connections.connect(
+            self._view_model.destroyed,
+            self._stop_range_editing,
+            queued=True,
+            discard_args=True,
+        )
+
+    def set_source(
+        self, source: FloatViewModel | FloatBinding[FloatValueStore]
+    ) -> None:
+        """操作設定を保ち、範囲欄を含めて新しい入力元へ無書込みで付け替える。"""
+        view_model, _binding = resolve_float_view_source(source)
+        if view_model.is_disposed or not qt.isValid(self):
+            raise RuntimeError("生存中のViewとFloatViewModelが必要です")
+        generation = self._range_source_connections.generation
+        super().set_source(source)
+        if (
+            generation != self._range_source_connections.generation
+            or self._view_model is not view_model
+            or not qt.isValid(self)
+        ):
+            return
+        self._range_source_connections.clear()
+        self._refresh_range()
+        self._refresh_step()
+        self._connect_range_source()
 
     def _create_layout(self) -> qt.QHBoxLayout:
         """入力行の下に、拒否理由や有効範囲を表示する領域を用意する。"""

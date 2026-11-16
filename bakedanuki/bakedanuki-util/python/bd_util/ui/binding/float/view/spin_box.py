@@ -5,11 +5,12 @@ from collections.abc import Callable
 from sys import float_info
 
 from .... import qt
+from ..._view_source import ViewSourceConnections
 from .._validation import require_decimals, require_float
 from ..binding import FloatBinding
 from ..store import FloatValueStore
 from ..view_model import FloatViewModel
-from ._connection import connect_queued_qt_signal, disconnect_qt_connection
+from ._connection import disconnect_qt_connection
 from ._mouse_focus_spin_box import MouseFocusSelectAllDoubleSpinBox
 from ._source import resolve_float_view_source
 
@@ -80,16 +81,52 @@ class FloatSpinBox(MouseFocusSelectAllDoubleSpinBox):
         self._input_connection: qt.QtCore.QMetaObject.Connection | None = (
             self.valueChanged.connect(self._request_value)
         )
-        view_model.value.changed.connect(self._update_value)
-        view_model.presentation_changed.connect(self._update_presentation)
-        view_model.set_value_command.can_execute_changed.connect(
-            self._update_enabled
+        self._source_connections = ViewSourceConnections(self)
+        self._connect_source()
+
+    def _connect_source(self) -> None:
+        """現在の入力元だけを監視し、旧世代の終了通知を受け付けない。"""
+        connections = self._source_connections
+        view_model = self._view_model
+        connections.connect(view_model.value.changed, self._update_value)
+        connections.connect(
+            view_model.presentation_changed, self._update_presentation
+        )
+        connections.connect(
+            view_model.set_value_command.can_execute_changed,
+            self._update_enabled,
+            discard_args=True,
+        )
+        connections.connect(view_model.disposed, self._disable_binding)
+        connections.connect(
+            view_model.destroyed,
+            self._on_view_model_destroyed,
+            queued=True,
+            discard_args=True,
         )
 
-        # `QObject` の破棄が完了してから、次の event loop で入力を停止する。
-        connect_queued_qt_signal(
-            view_model.destroyed, self._on_view_model_destroyed
-        )
+    def set_source(
+        self, source: FloatViewModel | FloatBinding[FloatValueStore]
+    ) -> None:
+        """旧下書きと通知を捨て、新しい入力元へ書き込まず付け替える。
+
+        表示精度・Step・操作設定・入力handlerは維持する。
+        旧Bindingの破棄は利用側が行う。終了済みの入力元は受け付けない。
+        """
+        view_model, binding = resolve_float_view_source(source)
+        if view_model.is_disposed or not qt.isValid(self):
+            raise RuntimeError("生存中のViewとFloatViewModelが必要です")
+        self._source_connections.clear()
+        self._binding = binding
+        self._view_model = view_model
+        self._mouse_selection.reset()
+        if self._input_connection is None:
+            self._input_connection = self.valueChanged.connect(
+                self._request_value
+            )
+        self._connect_source()
+        self._render()
+        self._update_enabled()
 
     @property
     def view_model(self) -> FloatViewModel:
@@ -171,12 +208,13 @@ class FloatSpinBox(MouseFocusSelectAllDoubleSpinBox):
         ):
             super().stepBy(steps)
             return
+        generation = self._source_connections.generation
         try:
             handled = handler(steps)
         finally:
             if qt.isValid(self) and self._valid_view_model() is not None:
                 self._render()
-        if not handled:
+        if not handled and generation == self._source_connections.generation:
             super().stepBy(steps)
 
     def wheelEvent(self, event: qt.QtGui.QWheelEvent) -> None:
@@ -211,9 +249,14 @@ class FloatSpinBox(MouseFocusSelectAllDoubleSpinBox):
 
         # 公開単位へ変換して値の変更を要求する。
         requested = view_model.presentation.from_display(value)
+        generation = self._source_connections.generation
         try:
             handler = self._value_request_handler
-            if handler is None or not handler(requested):
+            handled = handler is not None and handler(requested)
+            if (
+                not handled
+                and generation == self._source_connections.generation
+            ):
                 view_model.set_value_command.execute(requested)
         finally:
             # 入力の補正・拒否・失敗時も、正本の確定値へ表示を戻す。

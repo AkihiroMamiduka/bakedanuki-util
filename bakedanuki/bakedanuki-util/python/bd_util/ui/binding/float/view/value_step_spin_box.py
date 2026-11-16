@@ -2,11 +2,11 @@
 from __future__ import annotations
 
 from .... import qt
+from ..._view_source import ViewSourceConnections
 from .._validation import require_decimals
 from ..binding import FloatBinding
 from ..store import FloatValueStore
 from ..view_model import FloatViewModel
-from ._connection import connect_queued_qt_signal
 from ._source import resolve_float_view_source
 from .spin_box import FloatSpinBox
 from .step_spin_box import (
@@ -126,14 +126,48 @@ class FloatValueStepSpinBox(qt.QWidget):
             self.setFocusProxy(self.spin_box)
             self._refresh_step()
             self.step_spin_box.valueChanged.connect(self._request_step)
-            view_model.presentation_changed.connect(self._refresh_step)
-            view_model.disposed.connect(self._stop_editing)
-            connect_queued_qt_signal(view_model.destroyed, self._stop_editing)
+            self._source_connections = ViewSourceConnections(self)
+            self._connect_source()
         except Exception:
             # 部分生成したViewだけを破棄し、共有Bindingの寿命は変更しない
             self.setParent(None)
             self.deleteLater()
             raise
+
+    def _connect_source(self) -> None:
+        """現在世代の表示単位と寿命だけをStep欄へ反映する。"""
+        connections = self._source_connections
+        connections.connect(
+            self._view_model.presentation_changed,
+            self._refresh_step,
+            discard_args=True,
+        )
+        connections.connect(self._view_model.disposed, self._stop_editing)
+        connections.connect(
+            self._view_model.destroyed,
+            self._stop_editing,
+            queued=True,
+            discard_args=True,
+        )
+
+    def set_source(
+        self, source: FloatViewModel | FloatBinding[FloatValueStore]
+    ) -> None:
+        """値とStepの旧下書きを捨て、新しい入力元へ無書込みで付け替える。
+
+        確定済みStep・表示・操作設定と入力handlerは維持する。
+        旧Bindingの破棄は利用側が行う。
+        """
+        view_model, binding = resolve_float_view_source(source)
+        if view_model.is_disposed or not qt.isValid(self):
+            raise RuntimeError("生存中のViewとFloatViewModelが必要です")
+        self._source_connections.clear()
+        self._binding = binding
+        self._view_model = view_model
+        self.spin_box.set_source(view_model)
+        self.step_spin_box.setEnabled(True)
+        self._refresh_step()
+        self._connect_source()
 
     @property
     def view_model(self) -> FloatViewModel:
@@ -191,6 +225,6 @@ class FloatValueStepSpinBox(qt.QWidget):
         try:
             self.step_spin_box.setValue(self.singleStep())
             self.step_spin_box.setEnabled(False)
-            self.spin_box.setInputEnabled(False)
+            self.spin_box.setEnabled(False)
         finally:
             del blocker

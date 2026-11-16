@@ -9,6 +9,12 @@
 
 ### Added
 
+- BoolCheckBox・EnumComboBox・StringLineEditと、float／intのSpinBox・Slider・
+  ValueStepSpinBox・SliderSpinBox・RangeSliderSpinBoxへ`set_source()`を追加。
+  入力部品を残して生存中の同型ViewModel／Bindingへ接続し直し、旧通知と未確定入力を
+  取り消して新しい値を無書込みで表示する。Viewの設定と外側の入力handlerは維持し、
+  Bindingの破棄とhandlerが保持する対象の切替は利用側が行う。
+  既存API・設定・sceneの移行は不要。UI再生成またはMaya再起動で反映する。
 - `bd_util.site.SITE_BASE_URL`と`build_url()`を追加。同梱`site/site.json`を
   初回読込時に検証して公開定数へ保持し、サイトの共通パスを保ってURLを生成する。
   汎用の`bd_util.py.web.open_url()`はHTTP/HTTPS URLを既定ブラウザーへ渡し、

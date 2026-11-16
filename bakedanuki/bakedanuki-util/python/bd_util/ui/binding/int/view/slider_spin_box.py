@@ -71,6 +71,7 @@ class IntSliderSpinBox(qt.QWidget):
         super().__init__(parent)
         self._binding = binding
         self._view_model = view_model
+        self._source_generation = 0
         self._layout_order: IntSliderSpinBoxOrder = layout_order
         try:
             self.slider = IntSlider(
@@ -106,6 +107,26 @@ class IntSliderSpinBox(qt.QWidget):
         layout = qt.QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         return layout
+
+    def set_source(
+        self, source: IntViewModel | IntBinding[IntValueStore]
+    ) -> None:
+        """旧ドラッグと下書きを捨て、両Viewを新しい整数入力元へ付け替える。
+
+        正本へ書き込まず、操作範囲・Step・入力handlerを維持する。
+        旧Bindingの破棄は利用側が行う。
+        """
+        view_model, binding = resolve_int_view_source(source)
+        if view_model.is_disposed or not qt.isValid(self):
+            raise RuntimeError("生存中のViewとIntViewModelが必要です")
+        self._source_generation += 1
+        generation = self._source_generation
+        self.slider.set_source(view_model)
+        if generation != self._source_generation or not qt.isValid(self):
+            return
+        self.spin_box.set_source(view_model)
+        self._binding = binding
+        self._view_model = view_model
 
     @property
     def view_model(self) -> IntViewModel:

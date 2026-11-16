@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from .... import qt
-from .._connection import connect_queued
+from ..._view_source import ViewSourceConnections
 from .._validation import require_step
 from ..binding import IntBinding
 from ..store import IntValueStore
@@ -100,12 +100,46 @@ class IntValueStepSpinBox(qt.QWidget):
                 layout.addStretch(1)
             self.setFocusProxy(self.spin_box)
             self.step_spin_box.valueChanged.connect(self._request_step)
-            view_model.disposed.connect(self._stop_editing)
-            connect_queued(view_model.destroyed, self._stop_editing)
+            self._source_connections = ViewSourceConnections(self)
+            self._connect_source()
         except Exception:
             self.setParent(None)
             self.deleteLater()
             raise
+
+    def _connect_source(self) -> None:
+        """現在の整数入力元の寿命だけを監視する。"""
+        connections = self._source_connections
+        connections.connect(self._view_model.disposed, self._stop_editing)
+        connections.connect(
+            self._view_model.destroyed,
+            self._stop_editing,
+            queued=True,
+            discard_args=True,
+        )
+
+    def set_source(
+        self, source: IntViewModel | IntBinding[IntValueStore]
+    ) -> None:
+        """値とStepの旧下書きを捨て、新しい整数入力元へ無書込みで付け替える。
+
+        確定済みStep・操作設定と入力handlerは維持する。
+        旧Bindingの破棄は利用側が行う。
+        """
+        view_model, binding = resolve_int_view_source(source)
+        if view_model.is_disposed or not qt.isValid(self):
+            raise RuntimeError("生存中のViewとIntViewModelが必要です")
+        self._source_connections.clear()
+        self._binding = binding
+        self._view_model = view_model
+        self.spin_box.set_source(view_model)
+        blocker = qt.QtCore.QSignalBlocker(self.step_spin_box)
+        try:
+            self.step_spin_box.setValue(self.singleStep())
+            self.step_spin_box.setEnabled(True)
+        finally:
+            del blocker
+        self._connect_source()
 
     @property
     def view_model(self) -> IntViewModel:
@@ -150,6 +184,6 @@ class IntValueStepSpinBox(qt.QWidget):
         try:
             self.step_spin_box.setValue(self.singleStep())
             self.step_spin_box.setEnabled(False)
-            self.spin_box.setInputEnabled(False)
+            self.spin_box.setEnabled(False)
         finally:
             del blocker
