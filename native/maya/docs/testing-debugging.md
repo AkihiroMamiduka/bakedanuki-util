@@ -98,7 +98,7 @@ GUIの結果は検証したDLLの絶対path・buildと対応付け、配布先�
 
 ## Viewport 2.0描画テスト
 
-`bdControllerShape` の描画比較は次の10ファイルに分かれています。
+`bdControllerShape` の描画比較は次のファイルに分かれています。
 
 | ファイル | 主な確認対象 |
 | --- | --- |
@@ -106,6 +106,8 @@ GUIの結果は検証したDLLの絶対path・buildと対応付け、配布先�
 | [test_controller_shape_wide_surfaces.py](../../../tests/maya/ui/test_controller_shape_wide_surfaces.py) | 立体Wideの帯・開口・選択面、Sphereの混色、幅0、透明線による塗り面の深度欠け |
 | [test_controller_shape_display_colors.py](../../../tests/maya/ui/test_controller_shape_display_colors.py) | 無効なoverrideの保存色と、実際の非選択表示・Selection Highlighting OFFの一致 |
 | [test_controller_shape_display_cache.py](../../../tests/maya/ui/test_controller_shape_display_cache.py) | 表示4属性の直接編集・Undo/Redo・接続変更・保存再読込・複製後の初回描画、スクラブ・実再生中の更新 |
+| [test_controller_shape_wire.py](../../../tests/maya/ui/test_controller_shape_wire.py) | 全32シェイプの親・個体の移動と復帰、選択色、形状・描画経路の切替、接続行列の実再生、複数viewの表示設定の独立性 |
+| [test_controller_shape_fill.py](../../../tests/maya/ui/test_controller_shape_fill.py) | 全32シェイプとWide・Part・FinのFill保持描画、描画経路の切替、反転と内側カリング、複数view、Cached Playback ON / OFFの実再生 |
 | [test_controller_shape_gear_template.py](../../../tests/maya/ui/test_controller_shape_gear_template.py) | Gearの実長・周期区間、歯先中央の両側、Wideの位相、線と面の独立した選択、他形状による遮蔽 |
 | [test_controller_shape_cage_attachments.py](../../../tests/maya/ui/test_controller_shape_cage_attachments.py) | 面倍率で変形した本体とPart・Fin・GuideLineの接合、局所寸法、巻き付けPartとCrossの境界 |
 | [test_controller_shape_part_guides.py](../../../tests/maya/ui/test_controller_shape_part_guides.py) | 頂点からArrow先端へつなぐGuideLine、Triangleの折れ線、Partの欠落方向、色付きコーナーの保持 |
@@ -124,7 +126,7 @@ GUIの結果は検証したDLLの絶対path・buildと対応付け、配布先�
 PythonのScript Editorから次を実行します。テストはsceneを新規作成するため、
 必要なsceneや作業状態のない専用プロセスを使用してください。
 `repo_root` は実際のcheckoutへ変更します。pytestは `setup-test.cmd` で用意した `.test` を使います。
-以下の例だけで10ファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
+以下の例でこれらのファイルを実行でき、`build/` 内の一時的な起動helperは必要ありません。
 
 ```python
 import sys
@@ -157,6 +159,8 @@ def run_controller_viewport_tests():
             str(repo_root / "tests/maya/ui/test_controller_shape_wide_surfaces.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_display_colors.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_display_cache.py"),
+            str(repo_root / "tests/maya/ui/test_controller_shape_wire.py"),
+            str(repo_root / "tests/maya/ui/test_controller_shape_fill.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_gear_template.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_cage_attachments.py"),
             str(repo_root / "tests/maya/ui/test_controller_shape_part_guides.py"),
@@ -181,7 +185,7 @@ utils.executeDeferred(run_controller_viewport_tests)
 GuideLineの変更だけを切り分ける場合は、`pytest.main()` の引数へ
 `"-k", "guide_line or arrow_tip_connection"` を追加できます。
 対象を絞った確認後は、変更範囲に応じて関連する描画テストを実行します。
-描画・選択・Templateの共通処理を変更した場合はフィルターを外して10ファイルを確認し、
+描画・選択・Templateの共通処理を変更した場合はフィルターを外してこれらのファイルを確認し、
 最終の統一検証も行います。
 
 既定では実行中のMayaバージョンに対応した配布先 `.mll` をロードします。
@@ -369,7 +373,7 @@ FillPartごとにbit同一の座標を共有します。論理プリミティブ
   片面Fillの逆向きindex切替と、退化・輪郭付近のカリングfallbackが同じ3点・演算順を使う。
   個別には射影変換を含み、合成するとaffineに見える組合せもfallbackを通す。
 - 実GUIで通常・Xray・太線・半透明、Normal / Templateの色と選択、Wireframeへの切替を比較する。
-  boundsの一致だけで画像・選択の一致を判断せず、前述の10ファイルを使って確認する。
+  boundsの一致だけで画像・選択の一致を判断せず、前述の描画テストを使って確認する。
 - 親transformだけの変更では基準座標と行列適用後の座標を再生成せず、
   必要な可視indexを更新する。カメラ移動、選択色、表示属性の変更にも追従する。
 
@@ -483,6 +487,138 @@ Pyrightはerror・warningとも0で、native build / stageと差分確認も成�
 
 実Viewportが必要な画像テストのbatch実行時skipと、前述の各版42件の実GUI成功は区別します。
 Cached Playbackの厳格なnumeric復元gateの終了コード1も、今回の統一検証の終了コード0とは別の結果として保持します。
+
+### Fill保持描画のMaya 2025確認（2026-11-15〜16）
+
+`BdControllerShapeFill.inc` の本体統合を、Maya 2025で先に確認しました。
+この初期検証は2025に限定しました。後続の2026 / 2027への展開は、版別の確認として後述します。
+試作の環境変数・health command・計測counterは本体へ追加しません。
+
+通常のGUI更新では全32基本形状に加え、Wide・Part・Fin・軸色・常設marker、
+太線・透明線・DrawOnTop等の従来描画との往復、片面／両面、親／静的形状／接続行列の反転、
+初回から負の親行列、不透明面の内側、独立した2 view、Selection Highlighting OFFと
+階層／Display Layerのoverride色を確認しました。
+実再生は親と `shapeAnimationTransformMatrix` の接続元へ2姿勢のstep keyを設定し、
+Cached Playback ON / OFFで2回ずつ再生します。
+
+開発記録は `build/controller_performance/fill_production_20261115/` に保存します。
+全74条件の機能assertは成功し、552固定画像のうち545画像は従来版とRGBAが完全一致しました。
+残る7画像はColorSphereとColorCubeの色境界の合計23画素で、alphaと描画範囲は一致します。
+実再生8条件の姿勢集合は一致しています。
+厳密比較のexit 1は原本のまま残し、無条件の画像許容値へ置き換えません。
+`visual_acceptance_v6.json` に視認可能な形状・挙動を維持する判断と、その限定範囲を記録しています。
+複数色の半透明面とPart / Finの併用は、従来の混色順を維持するためUI描画へ戻します。
+
+実入力はCornerの塗りmarkerクリック、輪郭クリック、空白・範囲選択、Template / Referenceの
+非選択、MoveハンドルのdragとUndoを確認します。10段階の操作で座標・選択・画像が復元しました。
+この入力fixtureの終了は強制自己終了のため、通常終了の証拠には含めません。
+別fixtureでnode削除・file new・unload / reloadを2回繰り返し、最後の実表示後に直接 `cmds.quit` を要求します。
+成功判定にはPython launcherとMaya processの実終了を必要とし、要求直前のJSON成功だけでは判定しません。
+本体v6で記録した約427秒／440秒の終了時間は、終了処理の性能値として使用しません。
+ユーザーから、検証用Mayaの終了時にMASHの `userSetup.py` に対する
+`Secure UserSetup Checksum verification` が残っているとの報告がありました。
+検証用の新規profileには、通常profileに保存されているMASHのchecksum記録がありません。
+確認待ちが混ざった可能性があるため、実終了コード0という事実と、自動での終了確認を区別します。
+プラグイン未ロードの標準meshでもrefreshと終了要求が成功し、
+ユーザーが当該確認画面でNoを選んだ後に実終了コード0へ達しました。
+これは本人の確認を含む終了であり、自動での通常終了成功やDLL起因の否定には使いません。
+セキュリティ設定や保存済みchecksumを変更・コピーして回避せず、画面の確認はユーザーが行います。
+
+新規profileの `quit(abort=True)` だけでは、scene保存確認とMASHのchecksum確認が残りました。
+通常profileを直接読む別試験ではchecksum確認は出ませんでしたが、
+`force=True, abort=True` でもscene保存確認が残り、Mayaが通常の `userPrefs.mel` を再保存しました。
+元ファイルとSHAが異なり長さは1byte減りました。元原本と一致するbackupがなく、変更内容を特定できず元へ戻せていません。
+この方式を定常検証へ採用せず、以後は専用profileを使います。詳細は `normal_profile_guard.json` に記録します。
+これらの終了方法の試験は、Fill本体・機能fixture・画像比較の判定を変更していません。
+
+最終検証は統一入口 `scripts/verify.cmd -IncludeNative -MayaVersion 2025` が終了コード0で成功しました。
+Black・Pyright・2025 buildに加え、native 11,765件、full pytest 19,080件、
+Qt UI 1,195件、Maya UI 1,035件が成功しています。
+fullの2,553件とMaya UIの1,471件のskipはUI配下で、実Viewport描画をbatchで実行した結果には含めません。
+GUI 74条件と厳密画像比較のexit 1は別証拠のまま保持します。
+logと `unified_verification_maya2025_v6.json` を開発記録へ保存しています。
+速度は同一条件の独立processで比較し、scriptによる回転とrefreshのwall時間を
+HUD FPS・実マウスdrag・GPU単体時間・実再生速度と混同しません。
+2形状それぞれの旧→新→新→旧の計8processと、通常profileを使わない専用設定で計測しています。
+速度計測の強制自己終了は、通常終了の解放や確認画面の有無を検証する手順とは区別します。
+
+### Fill OFF早期除外のMaya 2025確認（2026-11-16）
+
+面のない形状に対するFill描画可否の照会を入口で省く修正版 `f7db2774` を確認しました。
+`shapeFill` だけを見て省略せず、常設マーカー等の面がある場合は既存の判定を続けます。
+描画itemの停止処理は維持し、Fill ON / OFFや従来描画との切替時の後片付けは省きません。
+形状生成・キャッシュ・アニメーション行列、属性・callbackは変更していません。
+
+専用profileのGUIで全74機能条件が成功しました。
+前記のFill本体v6 `a6fc48fd` と修正版の552固定画像はRGBAが完全一致し、
+実再生8条件の姿勢集合も一致しました。
+比較元の古いUI版との厳密画像gateのexit 1と、今回のv6対修正版の一致は別々の記録として保持します。
+`functional_fastreject_v1_audit.json` にfixtureの機能部分の同一性と画像の照合結果を記録しています。
+
+実入力では、輪郭・常設markerのクリック、空白・範囲選択、Template / Reference、
+形状切替、Moveハンドルdrag、Undoの10段階が成功しました。
+Undo後の選択・姿勢・tool・画像は復元しました。
+ユーザー中断で入力前に止まった初回runは成功に含めず、別profileの再実行を採用しています。
+この再実行の原本は `wire_shapes_20261113/harness/runs/pick_production2025_fastreject_v1_resume1/`、
+監査結果は今回taskの `native_pick_C_audit.json` です。
+
+修正版の統一入口 `scripts/verify.cmd -IncludeNative -MayaVersion 2025` は終了コード0でした。
+Black・Pyright・2025 build、native 11,765件、full pytest 19,080件、
+Qt UI 1,195件、Maya UI 1,035件が成功しています。
+fullの2,553件とMaya UIの1,471件のUI skipは、実GUI確認とは分けます。
+`verification_exit.json` と `verification_audit.json` で終了コード・log・source・DLLを対応付けています。
+
+速度は線のみGPU版・Fill保持描画版・修正版をA→B→C→C→B→Aの6独立processで比較しました。
+各processのCube 1,000個が最初からFill OFF・DrawOnTop OFFであることを確認し、
+DLL・module/API・入力source・profile・配置・選択・view・表示設定・実終了を照合します。
+結果と測定範囲は [Fill OFFの比較](controller-shape.md) を参照してください。
+通常profileを使わず、終了は強制自己終了とし、通常終了や設定保存の検証には含めません。
+この2025のFill OFF比較では、Maya 2026 / 2027を更新・検証対象に含めていません。
+開発記録は `build/controller_performance/fill_off_20261116/` に保存します。
+
+### Fillの既定値とMaya 2026 / 2027対応（2026-11-16）
+
+2025でのユーザー操作確認後、3版の `shapeFillTransparency` の既定値を `0`（不透明）へ変更しました。
+native描画データの初期値・読取失敗時の不透明度は `1`、生成Python Fieldの透明度は `0` とし、
+新規ノードとUndoで既定値へ戻るテストも揃えています。
+新旧DLLの画像比較では、半透明は `0.85`、不透明は `0` を明示し、
+何も設定していない新規ノードの既定値確認と分けます。
+
+2026 / 2027は各74機能条件と実入力10段階が成功しました。
+通常の表示切替・反転・2 view・Cached Playback ON / OFFでの実再生を確認しています。
+旧版との厳密画像比較で残る7画像・合計23画素の色境界差は、既存2025の受容署名と一致しました。
+旧DLL側のoverride色の6条件の不具合と、新DLL側の8条件の表示判定成功も別に記録します。
+厳密比較のexit 1は原本を保持し、無条件の画像許容値や統一検証の成功へ読み替えません。
+
+初回の版別統一入口は3版とも、native 11,765件、full pytest 19,080件、
+Qt UI 1,195件、Maya UI 1,035件が成功しました。
+batch / offscreenのUI skipは実Viewport確認と区別します。
+旧GUIの線と暗い面の輝度差を確認する3関数には、半透明値 `0.85` を明示しました。
+閾値とassertは変更せず、その後のMaya 2025最終統一再検証も終了コード0でした。
+native 11,765件、full pytest 19,080件、Qt UI 1,195件、Maya UI 1,035件が成功しています。
+
+事前の既定値確認用ノードを作らない構成では、2026 / 2027ともnode削除・file new・
+unload / reloadを各2回行う9段階が、元の厳密なblank判定を含めて成功しました。
+最後のlive描画も確認しています。終了は強制自己終了で、通常の自然終了は試していません。
+
+事前の確認用ノードを作成・削除する2026の構成では、loop対象の削除後に原点の青い線が残り、
+blank判定は失敗しました。確認用ノードを原点から離しても同じ原点の線が残ります。
+旧26 Wire版 `7f763843` でも同じ3画像・RGBAと失敗が再現したため、
+新Fill固有の回帰とは分類しません。ただし根因と後続描画への持続性は未解決で、
+失敗原本を正常な解放や解決済みの記録に置き換えません。
+
+速度は2026 / 2027それぞれ旧→新→新→旧の4独立processで比較し、各DLL2起動・各processの条件／操作ごと5試行を監査しました。
+Cube 1,000個を同じprocess内でFill OFF→不透明0→半透明0.85の順に測り、各条件を独立起動とは数えません。
+個体／上位操作の回転設定と強制VP2 refreshのwall時間で、HUD・drag・実再生FPSやGPU単体時間とは区別します。
+不透明は個体約27〜30%・上位約73%短く、半透明は個体約9〜11%長く・上位約58〜60%短い結果でした。
+Fill OFFは約−1.2〜+2.6%の小幅な増減で、2027の個体約1.4%・上位約2.6%の増加も残る差として扱います。
+起動変動を含む記述統計で、小さな回帰傾向を排除せず、統計的有意差や全条件での改善は主張しません。
+2026の旧版A2初回は開始前のフォーカス確認不成立で数値閲覧前に除外し、新規processのA2再実行を採用しました。
+除外原本と `perf2026_A2_protocol_deviation.json` を保持しています。
+測定結果と条件表は [版別Fillの速度比較](controller-shape.md) を参照し、
+`performance2026_audit.json` / `performance2027_audit.json` にsource・DLL・表示条件・前後guard・実終了を対応付けます。
+測定後は3版の正式DLLを最終候補へ戻しています。計測の終了は強制自己終了で、通常終了の証明には使いません。
+開発記録と失敗原本は `build/controller_performance/fill_cross_versions_20261116/` に保存します。
 
 ## Sparse Multi Tests
 

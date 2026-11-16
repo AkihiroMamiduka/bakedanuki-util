@@ -1,8 +1,10 @@
 #pragma once
 
+#include <array>
 #include <atomic>
 #include <cstdint>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include <maya/MBoundingBox.h>
@@ -43,6 +45,10 @@ public:
     static void* creator();
     static MStatus initialize();
     static MHWRender::MPxSubSceneOverride* createSubSceneOverride(const MObject& node);
+    static MStatus cleanupWirePlaybackNotification();
+    static MStatus resumeWirePlaybackNotification();
+    static MStatus canCleanupDrawResources();
+    static MStatus cleanupDrawResources();
 
     void postConstructor() override;
     bool setInternalValue(const MPlug& plug, const MDataHandle& data) override;
@@ -89,6 +95,15 @@ public:
 
     std::shared_ptr<const Geometry> geometry() const;
     std::uint64_t displayRevision() const;
+    std::pair<std::uint64_t, std::uint64_t> wireSettingsRevision() const;
+    struct WireUpdateState {
+        std::array<std::uint64_t, 4> revisions{};
+        const Geometry* value = nullptr;
+        bool ready = false;
+        bool connectedAnimation = false;
+        bool connectedBounds = false;
+    };
+    WireUpdateState wireUpdateState() const;
 
     static const MString typeName;
     static const MTypeId typeId;

@@ -589,6 +589,7 @@ def test_arrow_tip_connection_matches_fill_and_guide_style(
     with _drawing_view(
         maya_cmds,
         preset,
+        shapeFillTransparency=0.85,
         shapePart=True,
         shapePartShape=part_shape,
         shapePartOffset=0.05,
@@ -649,6 +650,7 @@ def test_cone_keeps_side_lines_and_cylinder_hides_them_with_fill(
         maya_cmds,
         preset,
         shapeFill=True,
+        shapeFillTransparency=0.85,
         shapeDrawOnTop=draw_on_top,
         **options,
     ) as (_, _, _, _, panel):
@@ -2999,6 +3001,7 @@ def test_guide_line_connects_planar_arrow_tips(
     with _drawing_view(
         maya_cmds,
         preset,
+        shapeFillTransparency=0.85,
         shapeWideWidth=0.2,
         shapePart=True,
         shapePartShape=part_shape,

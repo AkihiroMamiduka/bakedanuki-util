@@ -648,7 +648,7 @@ class GeneratedBdControllerShape(Shape):
     sfl = shapeFill
 
     shapeFillTransparency = FloatField(
-        default_value=0.8500000238418579, min_value=0.0, max_value=1.0
+        default_value=0.0, min_value=0.0, max_value=1.0
     )
     sftp = shapeFillTransparency
 

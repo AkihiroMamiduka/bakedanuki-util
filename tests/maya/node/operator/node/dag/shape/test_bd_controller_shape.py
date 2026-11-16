@@ -661,7 +661,7 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         ("shapeLineWidth", "slw", 1.0),
         ("shapeLineTransparency", "slt", 0.0),
         ("shapeFill", "sfl", False),
-        ("shapeFillTransparency", "sftp", pytest.approx(0.85)),
+        ("shapeFillTransparency", "sftp", pytest.approx(0.0)),
         ("shapeDrawOnTop", "sdot", False),
     ):
         assert maya_cmds.getAttr(f"{shape}.{attribute}") == default
@@ -1601,7 +1601,7 @@ def test_draw_style_attributes_preserve_focus_bounds_and_scene_values(
     ) == pytest.approx(0.0)
     assert maya_cmds.getAttr(
         f"{shape_name}.shapeFillTransparency"
-    ) == pytest.approx(0.85)
+    ) == pytest.approx(0.0)
     assert not maya_cmds.getAttr(f"{shape_name}.shapeDrawOnTop")
     mod.redo_it()
 

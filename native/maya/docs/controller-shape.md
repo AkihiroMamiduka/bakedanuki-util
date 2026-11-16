@@ -151,7 +151,7 @@ mod.do_it_dg()
 | `shapeLineWidth` | `float` | `1` | 本体・GuideLine・OffsetLineの画面上の線幅。pixel単位、最小値1 |
 | `shapeLineTransparency` | `float` | `0` | 輪郭・GuideLine・OffsetLine・ColorCornerCubeの小四角の透明度。0は不透明、1は完全透明 |
 | `shapeFill` | `bool` | `false` | 本体・Part・Finの面を表示。薄線のArc系・CrossArc系はPartのみ。`sfl` |
-| `shapeFillTransparency` | `float` | `0.85` | 通常の塗り面の透明度。ColorCornerCubeの小四角には適用しない |
+| `shapeFillTransparency` | `float` | `0` | 通常の塗り面の透明度。0は不透明、1は完全透明。ColorCornerCubeの小四角には適用しない |
 | `shapeWide` | `bool` | `false` | 全32基本本体で帯または面上の追加輪郭を有効にする。`swd` |
 | `shapeWideWidth` | `doubleLinear` | `0.05 cm` | 帯幅、3軸の四角断面の一辺、変形後の面上の追加輪郭の実距離幅。最小値0。Wide OFFでは保持して無視。`sww` |
 | `shapeArcAngle` | `doubleAngle` | `180°` | Arc系4基本形状の円弧全体の角度。0–360°。他本体では保持して無視。`saa` |
@@ -1192,7 +1192,7 @@ Part・Finの線と面は通常色です。
 `shapeFill` がONなら、`ColorCornerCube` は正側3面の小四角部分を除いたL字形の領域と、負側3面を
 通常色で塗ります。小四角と本体面は境界を共有し、面積は重なりません。
 本体面には `shapeFillTransparency`、小四角には `shapeLineTransparency` を適用します。
-塗りONでは、本体面は既定の透明度85%、小四角は不透明です。これら2種類にもFinオプションを適用できます。
+塗りONでは、本体面と小四角は既定で不透明です。これら2種類にもFinオプションを適用できます。
 ColorCornerCubeの小四角は `shapeFill` がOFFでも表示・選択でき、Wireframeでも残ります。
 PartをONにしてもこの常時表示とRGB配色を保ち、実際にPartと交差する領域だけを接合の対象にします。
 離れたPartの追加やPartのON/OFFだけで、交差していない小四角を省略しません。
@@ -1324,6 +1324,8 @@ pixel 指定で、シーン単位や `shapeSize` とは独立しています。
 `shapeLineTransparency` は輪郭線・GuideLine・OffsetLine、`shapeFillTransparency` は
 `shapeFill` がON の本体面に適用します。`ColorCornerCube` の小四角だけは
 `shapeLineTransparency` に従います。面と輪郭線は選択状態に応じた色を使います。
+`shapeFillTransparency` の既定値は `0`（不透明）です。通常は不透明のまま使い、
+半透明が必要な場合だけ値を上げます。
 通常描画では、同一面上の不透明なTemplate塗りでも輪郭線の通常色・Template色を保ちます。
 手前にある他のシーン形状による遮蔽は通常どおり維持します。
 `shapeDrawOnTop` は輪郭線・面・GuideLine・OffsetLine を他のシーン形状より前に描きます。
@@ -1610,7 +1612,7 @@ Color系は固定本体へSwapを掛けず、Part・Finの配置点と方向をS
 長い輪郭は `lineStrip` を維持し、Xray表示には保存した線のindexを使います。
 線群とFillPartは個別に座標を共有し、bitが異なるsigned zero・NaN payload・wは区別します。
 indexを元の順に展開した線分と三角形、描画属性、boundsが共有前と一致することを保守条件にします。
-片面Fillは静的な面情報とローカル視点から可視indexを更新します。
+従来のUI描画では、片面Fillは静的な面情報とローカル視点から可視indexを更新します。
 親transformやカメラの変化で形状を再生成せず、退化・射影変換・輪郭付近では
 現在の向きのindex経由で3点を参照し、元の頂点変換による面向きの判定を使います。
 負det用index列も焼込み時に作り、行列更新時にindex列をコピーしません。
@@ -1636,12 +1638,59 @@ Selection HighlightingがONのviewでは使われない非選択色の取得を�
 Template色が必要な線・面は形状の焼き込み時に記録し、Template線・OffsetLine・
 Bounds Previewなどが色を使う場合だけ取得します。同じ更新内のTemplate色と
 Draw Override情報は共有します。
-描画は `MPxSubSceneOverride` を使います。`requiresUpdate()` は各viewでの確認を維持し、
+描画は `MPxSubSceneOverride` を使います。従来のUI描画経路では `requiresUpdate()` の各viewでの確認を維持し、
 形状キャッシュ、片面Fillの視点、色・選択・表示設定が前回と同じ場合は、
 `areUIDrawablesDirty()` で既存のUI描画データを再利用します。親transformの変化だけでは
 線のローカル座標を再提出せず、片面Fillでは必要な可視indexを更新します。
 複数viewでは現在のviewに対応した面・色を比較し、非表示へ切り替えたときは描画を空にします。
 この判定のためのcallbackは追加しません。形状生成・頂点変換のキャッシュは従来のままです。
+面のない標準31シェイプの不透明・幅1の線には `MRenderItem` を使います。
+Wide・Part・Fin・補助線などを含む面のない形状や、線の保持描画に対応しない表示条件では従来のUI描画へ戻します。
+面のある形状には後述のFill保持描画を使い、`ColorCornerCube` はFill OFFでも常設マーカーの面を保持します。
+焼込み済みの座標と接続情報を使い、連続する同じ配色の線をまとめます。
+Color系では線の順序と軸配色を保持し、選択時は従来と同じ選択色へ切り替えます。
+形状の接続構成が変わる場合は接続情報も更新し、アニメーションで座標だけが変わる場合は
+接続情報を再利用します。形状切替時の余分な描画itemは無効化します。
+キャッシュ、親行列、色・選択・表示設定、viewの状態が変わらない場合は、
+`requiresUpdate()` から更新を省略し、保持済みの線とGPUデータを再利用します。
+連続操作中の個体は更新し続け、停止後の更新を経てから省略を再開します。
+再生・スクラブ・時刻変更・動的な入力接続や不明な状態では更新を省略しません。
+再生状態は標準の `playingBack` 通知を描画インスタンス全体で1つ共有し、
+通知を利用できない場合は従来のAPI照会へ戻します。ノードごとの通知は追加しません。
+形状生成と静的TRSの焼込み、`shapeAnimationTransformMatrix` の適用は変更しません。
+この経路は対応する3バージョンそれぞれのSDKでビルドします。
+3バージョンの固定画像比較では、非選択の `ColorSphere` を一方向から見たときだけ、
+線の交点の1画素が緑から青へ変わりました。外形・透明度・選択時の画像は一致していますが、
+交点の画素まで従来のUI描画と完全に一致することは保証しません。
+
+Maya 2025 / 2026 / 2027に共通のFill保持描画は `BdControllerShapeFill.inc` に分離しています。
+試作用の環境変数や計測コマンドを使わず、焼込み済みの線と面を保持します。
+本体・Wide・Part・Finの通常色と軸色、面ごとの片面／両面指定、
+`ColorCornerCube` の常設マーカーを同じ経路で扱います。
+マーカーには線の透明度を使い、Fill OFF・Wireframeでも表示を維持します。
+通常のFillにはFillの透明度を使い、面を表示しないときは既存の代替線形状へ切り替えます。
+面のない形状はFill保持描画の入口で除外し、描画先・表示設定・配色の照会を省きます。
+`shapeFill` の値だけで判断せず、常設マーカーのある形状は面の描画対象として残します。
+親transformだけが変わるときは描画itemの行列を更新し、CPUで片面の可視indexを作り直しません。
+座標だけが変わるアニメーションでは頂点を更新し、接続構成と向きが同じindex bufferを再利用します。
+片面の向きは描画時のstateで制御し、両面表示へ仕様変更しません。
+太線・透明な線・DrawOnTop・Template / Reference・Bounds Preview・OffsetLineを含む条件や、
+対応できない行列・描画先・状態では従来のUI描画へ戻します。
+軸色の塗り面とPart / Finを併用した半透明Fillも、混色の順序を保つため従来のUI描画を使います。
+この組合せの判定は静的topologyの変更時にキャッシュし、行列アニメーションでは属性を再照会しません。
+不透明Fill・通常色だけの付属形状・常設マーカーはこの制限の対象外です。
+保持描画と従来描画の往復時には、片面の可視indexも現在の視点へ更新します。
+選択、Selection Highlighting OFF、親階層とDisplay Layerのoverride色は、既存の表示判定を共有します。
+半透明のFillと手前の透明meshが重なる場合は、従来UI描画と混色が異なることがあります。
+この差は採用対象の表示仕様として許容します。
+
+callback付きshaderの元インスタンスは、同じ配色・片面条件で共有する `MUserData` に所有させ、
+render itemが使う間は保持します。描画stateはDLLが所有し、TLSには単純なpointerと世代番号だけを置きます。
+プラグインの登録解除前に使用中の資源がないことを確認し、解除時に明示解放します。
+使用中の場合は登録解除を進めず、途中の解放失敗時は描画creatorと再生通知の復旧を試みます。
+形状生成・共通TRSの焼込み・`shapeAnimationTransformMatrix` のキャッシュ規約は変更しません。
+2025のユーザー操作確認を経て2026 / 2027へ同じ実装を展開しています。
+版別の確認範囲と未完了項目は [Fillの版別検証](testing-debugging.md) を参照してください。
 Bounding Box表示は、初めて必要になったときだけ8頂点・24indexのRenderItemを作り、
 範囲・親行列・色の変更に対応するデータだけを更新します。
 キャッシュの仕組みを変更する際は、描画範囲とフォーカス用の `boundingBox()`、
@@ -1694,7 +1743,7 @@ Crossの平面接合はWideCrossArcAxialとそのSwappedの仕様で、薄線Axi
 分割数や交点を変更する場合は、連続した曲線の理論上の極値と、生成頂点から得るboundsを区別してください。
 
 数値の回帰は `tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py`、
-描画の回帰は [Viewport 2.0描画テストの分担表](testing-debugging.md#viewport-20描画テスト) に示す10ファイルにあります。
+描画の回帰は [Viewport 2.0描画テストの分担表](testing-debugging.md#viewport-20描画テスト) に示すファイルにあります。
 `radial_circle`・`axial_circle`・`cross_circle` のテストを変更対象に応じて確認し、
 長さ6.7、複数周、負値・ゼロ、大きな幅、Offsetの値保持、AtApexへの切替を含めます。
 数値・履歴・保存再読込の成功と、実GUIでの輪郭・半透明面の成功は別々に確認します。
@@ -2069,6 +2118,175 @@ GUI・Cacheの確認範囲は
 [Maya 2027の表示設定キャッシュ確認](testing-debugging.md#表示設定キャッシュのmaya-2027確認2026-11-12) を参照してください。
 統一検証の結果は [表示設定キャッシュ版の統一検証](testing-debugging.md#表示設定キャッシュ版の統一検証2026-11-12) を参照してください。
 
+#### 通常線の保持描画と全形状への展開（2026-11-14）
+
+通常の不透明・幅1の線31種類へ、Cubeで確認した保持描画と未変更ノードの更新省略を展開しました。
+`ColorCornerCube` は常設の片面マーカーを持つためUI描画を維持します。
+形状生成・静的TRSの焼込み・`shapeAnimationTransformMatrix` の計算と属性構成は変更していません。
+
+同じMaya版の旧DLLと新版を、旧→新→新→旧の4つの新規Maya processで比較しました。
+各形状は独立したshapeを1,000個、Fill / DrawOnTop / Cached Playback / MSAA / Line AAはOFF、
+Evaluation Managerはparallel、時刻は1に固定しています。個体のtransformと上位transformを別々に選択し、
+`setAttr` による回転と強制refreshを36回×5試行、各試行の暖機8回で測定しました。
+各Maya版・旧新版それぞれ10試行を合わせたwall時間の中央値です。マウス操作、HUD FPS、実再生速度、GPU単体の時間とは区別します。
+2025の旧版 `c57ea454` は既にCubeの保持描画を含み、2026の旧版 `579e6400` と
+2027の旧版 `59c0fd5b` はそれ以前のUI描画版です。新版は順に `fa24d445` / `7f763843` / `467db855` です。
+
+| Maya | 形状 | 個体操作・旧→新（ms / refresh） | 上位操作・旧→新（ms / refresh） |
+| --- | --- | ---: | ---: |
+| 2025 | Cube | 8.266 → 8.375 | 13.106 → 13.225 |
+| 2025 | Circle | 11.032 → 8.435 | 13.233 → 13.228 |
+| 2025 | Sphere | 15.670 → 9.389 | 17.504 → 13.582 |
+| 2025 | ColorCube | 18.297 → 9.779 | 20.452 → 17.499 |
+| 2025 | ColorCornerCube | 14.765 → 14.631 | 84.533 → 105.042 |
+| 2026 | Cube | 10.553 → 8.310 | 12.470 → 13.681 |
+| 2026 | Circle | 10.264 → 8.441 | 12.263 → 13.559 |
+| 2026 | Sphere | 15.253 → 8.867 | 16.881 → 13.271 |
+| 2026 | ColorCube | 18.159 → 9.752 | 19.922 → 17.735 |
+| 2026 | ColorCornerCube | 13.591 → 14.728 | 59.758 → 88.878 |
+| 2027 | Cube | 10.540 → 8.623 | 12.586 → 13.918 |
+| 2027 | Circle | 10.532 → 9.136 | 12.585 → 13.197 |
+| 2027 | Sphere | 14.748 → 8.614 | 16.642 → 13.332 |
+| 2027 | ColorCube | 17.874 → 10.380 | 19.616 → 17.076 |
+| 2027 | ColorCornerCube | 13.596 → 15.009 | 59.284 → 89.323 |
+
+SphereとColorCubeの個体操作は3版とも約40〜47%短縮し、旧新の全試行範囲は重なりませんでした。
+Sphereの上位操作も約20〜22%短縮しました。一方、CubeとCircleの上位操作は全試行範囲が重なり、
+2026 / 2027では中央値が最大約11%遅い条件もあります。全条件での改善や統計的な有意差を示す結果ではありません。
+
+UI描画の対照であるColorCornerCubeは、先に他の4形状を測る上記条件では、2026 / 2027の上位操作が約49〜51%遅く、
+旧新の全試行範囲も重なりませんでした。この形状だけを最初から配置する追加のMaya 2026の4 process比較では、
+上位操作が59.145 → 54.050 ms、個体操作が13.148 → 15.112 msとなり、両方の試行範囲は重なりました。
+同じ新版DLLでも上位操作のprocess別中央値は約60 → 46 msへ変動しました。
+先行する描画履歴を除くと大きな上位操作の悪化は再現せず、コード単独の固定的な約50%悪化とは断定できません。
+描画エンジン内部の原因は未特定であり、形状を順に切り替える条件での遅い結果と、個体操作の遅い中央値は未解消の観測値として残します。
+この対照の結果を、31種類のGPU描画経路の改善効果には含めません。
+
+GUIでは各版の全32形状、84回帰条件、20実再生条件を同版の旧DLLと比較しました。
+固定画像2,748組のうち2,745組は完全一致し、残り3組は各版の非選択ColorSphereの交点1画素の配色差です。
+実再生では対応する姿勢の集合が一致し、Cached PlaybackのON / OFFで表示追従を確認しました。
+これはutility行列の直接cache復元やCached Playbackによる速度改善の証明ではありません。
+各版で実マウスのクリック・範囲選択・Template / Referenceの選択制限・Move / Undoも確認し、
+Undo後の座標・選択・画像が移動前へ復元しました。GUI検証用processの終了は強制自己終了を使用し、自然終了の検証とは区別します。
+
+計測のraw記録は開発用の `build/controller_performance/wire_shapes_20261113/harness/runs/`、
+集計は同harnessの `perf2025_abba_v2.json` / `perf2026_abba_v2.json` / `perf2027_abba_v2.json` と
+`control2026_abba_v1.json` に保存しています。各版の正式配布DLL、SDK / module、sourceのSHA、
+前面window・active view・選択・viewport寸法・時刻・表示設定と実process終了を照合した結果です。
+初期の検証スクリプト不備による失敗記録は除外し、rawを保持しています。
+
+#### Fill保持描画の本体統合（2026-11-16、Maya 2025）
+
+通常Releaseの従来UI Fill版 `0d23519c` と、本体統合版 `a6fc48fd` を比較しました。
+各形状を最初から配置する独立したMaya processで、旧→新→新→旧の順に起動しています。
+各シーンは独立したshapeを1,000個、Fill ON、Fill透明度0.85、線幅1・線透明度0、
+DrawOnTop / Cached Playback / MSAA / Line AA / ProfilerはOFF、EMはparallel、時刻は1です。
+956×676の正投影viewに全体を収め、個体のtransformまたは上位transformを選択します。
+回転値の設定と強制refreshを36回×5試行、各試行の暖機8回で測りました。
+
+下表は各版2つの独立processの中央値の範囲です。同一process内の5試行を、独立した5起動とは数えません。
+
+| 形状 | 操作 | 従来UI Fill（ms / refresh） | Fill保持描画（ms / refresh） |
+| --- | --- | ---: | ---: |
+| Cube | 1,000個のうち1個のtransform | 16.434–16.535 | 17.650–17.859 |
+| Cube | 全体の上位transform | 52.397–112.875 | 23.191–23.553 |
+| ColorCornerCube | 1,000個のうち1個のtransform | 17.945–18.017 | 20.065–20.410 |
+| ColorCornerCube | 全体の上位transform | 136.409–137.263 | 25.987–26.144 |
+
+親全体の更新時間は両形状で短くなり、半透明面の個体操作は長い結果です。
+各版10試行を合わせた中央値では、個体操作はCubeで約8%、ColorCornerCubeで約12%長くなりました。
+Cubeの従来版では起動間の親操作時間が2倍以上変動しており、一律の短縮率や統計的な有意差は主張しません。
+値はscriptによる回転とrefreshのwall時間で、HUD FPS・実マウスdrag・実再生速度・GPU単体時間ではありません。
+DLL・module/API・入力配置・選択・view寸法・前面window・active view・表示設定と実process終了を照合します。
+計測processの終了には検証用の強制自己終了を使い、通常終了の確認とは分けています。
+rawは `build/controller_performance/fill_production_20261115/harness/runs/perf_*_v6/`、
+監査結果は同taskの `performance_abba_v6_audit.json` です。
+全32基本形状と拡張・表示切替・実再生等の74機能条件、固定画像の限定的な色境界差と
+統一検証の範囲は [Maya 2025のFill確認](testing-debugging.md) を参照してください。
+この速度比較はMaya 2025の明示的な半透明条件に限ります。後続版の確認は次の展開記録と分けて扱います。
+
+#### Fill OFFの比較と面のない形状の早期除外（2026-11-16、Maya 2025）
+
+線のみGPU版A `0d23519c`、Fill保持描画版B `a6fc48fd`、
+面のない形状を早期除外する修正版C `f7db2774` を、A→B→C→C→B→Aの順で比較しました。
+各版2つの独立process・専用profileを使い、Cubeを1,000個、最初からFill OFF・DrawOnTop OFFで作成します。
+956×676の正投影view、選択・配置・表示設定・暖機・回転値設定とrefreshの回数は上記比較と揃えます。
+Fill ONの測定値とは別の比較で、通常profileは使いません。
+
+下表は各版2つのprocess中央値の範囲です。単位はms / refreshで、小さい方が短い時間です。
+
+| 操作 | 線のみGPU版A | Fill保持描画版B | 早期除外版C |
+| --- | ---: | ---: | ---: |
+| 1,000個のうち1個のtransform | 8.130–9.072 | 8.204–8.339 | 8.029–8.116 |
+| 全体の上位transform | 12.644–13.378 | 13.611–13.751 | 12.942–12.947 |
+
+各版の10試行を合わせた中央値では、BはAに対し個体操作が約0.5%短く、親全体は約5.7%長い結果でした。
+CはBに対し個体操作が約2.5%、親全体が約5.7%短く、親全体はAに対し約0.3%短い結果です。
+起動ごとの変動と試行範囲の重なりがあり、この率を一律の改善率や統計的な有意差として扱いません。
+特に個体操作で、Fill対応後に一貫して遅くなる結果は再現していません。
+HUD FPS・実マウスdrag・実再生速度ではなく、scriptによる回転と強制refreshのwall時間です。
+
+修正は `ControllerShapeFill::supported()` の入口の短絡判定だけです。
+形状生成・静的TRS・アニメーション行列のキャッシュ、従来描画への復帰処理は変えません。
+全74機能条件・実入力10段階・統一検証を確認し、BとCの552固定画像と実再生8条件の姿勢集合は一致しました。
+今回の速度比較は最初からFill OFFのCubeに限り、Fill ONからOFFへ切り替えた履歴や、
+Fill OFFでも面のある `ColorCornerCube` の速度は含めません。
+rawは `build/controller_performance/fill_off_20261116/harness/runs/off_*/`、
+監査結果は同taskの `performance_off_audit.json` です。
+
+#### 不透明の既定値とMaya 2026 / 2027への展開（2026-11-16）
+
+2025でのユーザー操作確認後、3版とも新規ノードの `shapeFillTransparency` を `0`（不透明）へ変更しました。
+描画データの初期不透明度と読取失敗時の不透明度も `1` に揃え、Pythonの生成Fieldも再生成しています。
+形状生成・静的TRS・`shapeAnimationTransformMatrix` のキャッシュ規約は変えません。
+
+2026 / 2027でも各74機能条件と実入力10段階が成功しました。
+旧版との画像差のうち7画像・合計23画素は、2025で確認した限定的な色境界差の署名と一致しています。
+厳密比較の失敗原本は保持し、この限定的な表示の受容判断と区別します。
+版別の限定受容は `visual_acceptance_2026_2027_v1.json` に記録しています。
+旧DLLに残っていたoverride色の6条件の不具合は別記し、新DLL側の8条件はすべて成功しました。
+既定値の変更と描画方式の比較を混ぜないよう、画像比較の半透明値は `0.85`、不透明値は `0` を明示しています。
+
+3版の統一検証と、旧GUIテスト3関数へ半透明値を明示した後のMaya 2025最終再検証は成功しました。
+事前の既定値確認用ノードを作らない構成では、2026 / 2027の削除・file new・unload / reloadを
+各2回繰り返す9段階が元の厳密判定のまま成功し、最後のlive描画も確認しました。
+このfixtureは強制自己終了を使い、通常の自然終了は確認していません。
+
+一方、事前の確認用ノードの作成・削除を挟む2026では、削除後に原点の青い線が残ります。
+確認用ノードを離して作っても原点の同じ線が残り、旧26 Wire版 `7f763843` でも
+同じ3画像とblank判定失敗が再現しました。新Fill固有の回帰とは分類しませんが、
+根因と後続描画への持続性は未解決です。失敗原本を残し、解決済みとは扱いません。
+
+速度は同じMaya版の旧DLLと最終候補を、旧→新→新→旧の4つの独立processで比較しました。
+各DLLは2つの独立process、各条件・操作は1 process内で5試行です。
+Cubeを1,000個配置し、同じprocess内でFill OFF→不透明（透明度0）→半透明（透明度0.85）の順に測ります。
+各形状条件を独立したprocessとは数えません。線幅1・線透明度0、DrawOnTop・Cached Playback・AAはOFFです。
+個体または全体の上位transformを選択し、回転設定と強制VP2 refreshを36回×5試行、暖機8回で測りました。
+
+下表は各DLLの2 process×5試行を合わせた中央値で、単位はms / refreshです。
+
+| Maya | Fill条件 | 個体操作・旧→新 | 上位操作・旧→新 |
+| --- | --- | ---: | ---: |
+| 2026 | OFF | 8.651 → 8.547 | 13.369 → 13.512 |
+| 2026 | 不透明 | 14.442 → 10.143 | 56.586 → 15.390 |
+| 2026 | 半透明0.85 | 17.085 → 18.965 | 59.023 → 24.532 |
+| 2027 | OFF | 8.420 → 8.535 | 12.995 → 13.327 |
+| 2027 | 不透明 | 14.271 → 10.363 | 55.312 → 15.061 |
+| 2027 | 半透明0.85 | 16.752 → 18.300 | 59.064 → 23.838 |
+
+不透明では個体操作が約27〜30%、上位操作が約73%短くなりました。
+半透明では個体操作が約9〜11%長く、上位操作が約58〜60%短い結果です。
+Fill OFFは約−1.2〜+2.6%の増減で、2027は個体約1.4%・上位約2.6%長くなっています。
+起動変動を含む小幅な差であり、小さな回帰傾向も排除せず残る差として記録します。
+2起動ずつの記述統計で、統計的な有意差や全条件での改善は主張しません。
+値はscriptによる回転とrefreshのwall時間で、HUD FPS・マウスdrag・実再生FPS・GPU単体時間ではありません。
+
+2026の最初の旧版A2は開始前のフォーカス確認が成立せず、数値を見る前に比較から除外し、
+別の新規process `A2_recovery` を採用しました。原本と `perf2026_A2_protocol_deviation.json` を保持します。
+集計は `performance2026_audit.json` / `performance2027_audit.json` に記録し、測定後は3版の正式DLLを最終候補へ戻しています。
+記録は `build/controller_performance/fill_cross_versions_20261116/` に保存し、
+検証の範囲は [版別のFill確認](testing-debugging.md) に記します。
+
 ## 表示と選択
 
 この shape は Maya 標準の `nurbsCurve` ではありません。
@@ -2086,6 +2304,8 @@ shape 自身の `visibility` をオフにすると非表示になります。
 同じDAGパスを実際に非選択にしたときと同じ線色・面表示にします。
 実効drawOverrideが無効ならMayaの通常の非選択色を使い、無効なoverrideの保存色は使いません。
 有効なshape・親transform・上位DAG・Display Layerのoverride色と、ユーザー指定のobject色は維持します。
+継承色は同じDAGパスを上へ辿り、最初に有効なoverrideで解決します。
+そのoverrideに色指定がない場合も、それより上のoverride色は使いません。
 `Normal` では通常色とRGBの軸色、`Template` ではMayaのtemplate色、
 `Reference` ではMayaのreference色で通常線を描きます。
 `Template` と `Reference` の非選択表示では通常の塗り面を省き、
@@ -2212,9 +2432,10 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 `test_controller_shape_viewport.py`、`test_controller_shape_wide_surfaces.py`、
 `test_controller_shape_display_colors.py`、`test_controller_shape_gear_template.py`、
 `test_controller_shape_display_cache.py`、
+`test_controller_shape_wire.py`、`test_controller_shape_fill.py`、
 `test_controller_shape_cage_attachments.py`、`test_controller_shape_part_guides.py`、
 `test_controller_shape_axis_fins.py`、
-`test_controller_shape_capsule.py`、`test_controller_shape_arrow_shapes.py` の10ファイルです。
+`test_controller_shape_capsule.py`、`test_controller_shape_arrow_shapes.py` です。
 既存作業とは別のMaya GUIプロセスでpytestから実行し、mayapyのbatch環境では明示的にskipします。
 ファイルの分担表・一括実行手順・画像比較の注意点は
 [Testing And DebuggingのViewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) を参照してください。

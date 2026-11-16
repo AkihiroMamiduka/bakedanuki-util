@@ -1218,6 +1218,18 @@ MStatus uninitializePlugin(MObject pluginObject) {
         return status;
     }
 
+    status = BdControllerShapeNode::canCleanupDrawResources();
+    if (!status) {
+        status.perror("Controller drawing resources are still in use");
+        return status;
+    }
+
+    status = BdControllerShapeNode::cleanupWirePlaybackNotification();
+    if (!status) {
+        status.perror("Failed to remove controller playback notification");
+        return status;
+    }
+
     const auto& registrations = nodeRegistrations();
     status = MHWRender::MDrawRegistry::deregisterSubSceneOverrideCreator(
         BdControllerShapeNode::drawClassification,
@@ -1225,6 +1237,20 @@ MStatus uninitializePlugin(MObject pluginObject) {
     );
     if (!status) {
         status.perror("Failed to deregister bdControllerShape draw override");
+        BdControllerShapeNode::resumeWirePlaybackNotification();
+        return status;
+    }
+
+    status = BdControllerShapeNode::cleanupDrawResources();
+    if (!status) {
+        const auto restoreStatus = MHWRender::MDrawRegistry::registerSubSceneOverrideCreator(
+            BdControllerShapeNode::drawClassification,
+            BdControllerShapeNode::drawRegistrantId,
+            BdControllerShapeNode::createSubSceneOverride
+        );
+        if (!restoreStatus) restoreStatus.perror("Failed to restore controller draw override");
+        BdControllerShapeNode::resumeWirePlaybackNotification();
+        status.perror("Failed to release controller drawing resources");
         return status;
     }
     for (std::size_t index = registrations.size(); index > 0; --index) {
