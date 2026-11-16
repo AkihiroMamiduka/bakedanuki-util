@@ -1,7 +1,7 @@
 ﻿// 付属矢印や端形状を除く本体断面へ、通常色のフィンを一枚追加する。
 #include "BdControllerShapeFinClip.inc"
 
-void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
+void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry, bool keepStandardFrame = false) {
     const short outline = outlinePresetIndex(settings.shape);
     if (isArcOutline(outline)) return;
     const bool tapered = settings.finType == 1;
@@ -24,7 +24,7 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
                                  MPoint(0.5, 0.5, 0), MPoint(0.5, 0, 0)};
         std::vector<MPoint> transformed;
         for (const auto& p : points) {
-            const double x = 0.125 + (p.x - 0.125) * settings.finWidthScale * settings.finSize;
+            const double x = 0.125 + (p.x - 0.125) * settings.finWidthScale;
             transformed.emplace_back(x,
                 p.y * 2.0 * partFinHeight(heightSettings()), 0);
         }
@@ -117,7 +117,7 @@ void appendShapeFin(const ShapeSettings& settings, PartGeometry& geometry) {
         for (const auto& point : part.triangles) points.append(colorAttachmentPoint(plane.point(point), settings));
         mapped.geometry.fillParts.push_back({points, part.style});
     }
-    if (outline == 118 || outline == 119) trimWideCross3AxisFin(settings, mapped.geometry);
+    if (!keepStandardFrame && (outline == 118 || outline == 119)) trimWideCross3AxisFin(settings, mapped.geometry);
     trimFinEndParts(settings, mapped);
     for (std::size_t i = 0; i < mapped.geometry.strokes.size(); ++i) {
         geometry.strokes.push_back(std::move(mapped.geometry.strokes[i]));

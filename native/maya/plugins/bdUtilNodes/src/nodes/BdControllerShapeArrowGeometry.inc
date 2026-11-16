@@ -11,7 +11,11 @@ void mapArrowBodyGeometry(PartGeometry& geometry, const ShapeSettings& settings)
     for (auto& part : geometry.fillParts) {
         for (unsigned int i = 0; i + 2 < part.triangles.length(); i += 3) {
             const double center = (part.triangles[i].x + part.triangles[i + 1].x + part.triangles[i + 2].x) / 3.0;
-            const double slope = center > -0.5 + arrowBodyFixedLength(settings) ? frontScale : direction;
+            const double slope = isNotchedArrowBody(settings)
+                ? direction * (center < -0.25 ? arrowRearDepth(settings) / 0.25 : bulkArrowFront(settings) / 0.75)
+                : isCenteredArrowBody(settings)
+                ? direction * 2.0 * (center < 0.0 ? bodyAxisRadius(settings, false) : bulkArrowFront(settings))
+                : center > -0.5 + arrowBodyFixedLength(settings) ? frontScale : direction;
             const bool reverse = part.singleSided && slope * span.y * span.z < 0.0;
             for (unsigned int vertex = 0; vertex < 3; ++vertex) {
                 part.triangles[i + vertex] = bodyBaseSpacePoint(part.triangles[i + vertex], settings);

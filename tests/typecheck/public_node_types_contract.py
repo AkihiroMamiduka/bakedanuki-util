@@ -281,6 +281,10 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.shape, ShapeEnumPlugOperator)
     for preset in (
         ShapeEnumPlugOperator.GEAR,
+        ShapeEnumPlugOperator.COLORCROSSLINE3AXIS,
+        ShapeEnumPlugOperator.COLORCUBE,
+        ShapeEnumPlugOperator.COLORCORNERCUBE,
+        ShapeEnumPlugOperator.COLORSPHERE,
         ShapeEnumPlugOperator.LINE,
         ShapeEnumPlugOperator.CROSSLINE,
         ShapeEnumPlugOperator.TRIANGLE,
@@ -294,16 +298,20 @@ def controller_shape_offset_line_contract() -> None:
         ShapeEnumPlugOperator.CROSSLINE3AXIS,
         ShapeEnumPlugOperator.CUBE,
         ShapeEnumPlugOperator.OCTAHEDRON,
-        ShapeEnumPlugOperator.OCTAHEDRONARROW,
         ShapeEnumPlugOperator.SPHERE,
         ShapeEnumPlugOperator.CYLINDER,
-        ShapeEnumPlugOperator.ARROW,
-        ShapeEnumPlugOperator.PYRAMID,
-        ShapeEnumPlugOperator.CONE,
-        ShapeEnumPlugOperator.COLORCROSSLINE3AXIS,
-        ShapeEnumPlugOperator.COLORCUBE,
-        ShapeEnumPlugOperator.COLORCORNERCUBE,
-        ShapeEnumPlugOperator.COLORSPHERE,
+        ShapeEnumPlugOperator.CAPSULE,
+        ShapeEnumPlugOperator.ARROWPLANAR,
+        ShapeEnumPlugOperator.SQUAREARROWPLANAR,
+        ShapeEnumPlugOperator.DIAMONDARROWPLANAR,
+        ShapeEnumPlugOperator.CIRCLEARROWPLANAR,
+        ShapeEnumPlugOperator.SQUAREARROWAXIAL,
+        ShapeEnumPlugOperator.DIAMONDARROWAXIAL,
+        ShapeEnumPlugOperator.CIRCLEARROWAXIAL,
+        ShapeEnumPlugOperator.ARROWSPATIAL,
+        ShapeEnumPlugOperator.SQUAREARROWSPATIAL,
+        ShapeEnumPlugOperator.DIAMONDARROWSPATIAL,
+        ShapeEnumPlugOperator.CIRCLEARROWSPATIAL,
     ):
         shape.shape.set(preset)
     assert_type(shape.shapeFin, BoolPlugOperator)
@@ -410,11 +418,11 @@ def controller_shape_offset_line_contract() -> None:
         shape.shapeBaseSpace3rdAxisMinusScale2ndAxis, DoublePlugOperator
     )
     assert_type(shape.sbsp3ms2, DoublePlugOperator)
-    shape.shapeBaseSpace1stAxisMinus.set(1.0)
+    shape.shapeBaseSpace1stAxisMinus.set(-1.0)
     shape.shapeBaseSpace1stAxisPlus.set(2.0)
-    shape.shapeBaseSpace2ndAxisMinus.set(-0.75)
+    shape.shapeBaseSpace2ndAxisMinus.set(0.75)
     shape.shapeBaseSpace2ndAxisPlus.set(0.75)
-    shape.shapeBaseSpace3rdAxisMinus.set(-1.0)
+    shape.shapeBaseSpace3rdAxisMinus.set(1.0)
     shape.shapeBaseSpace3rdAxisPlus.set(1.0)
     shape.shapeBaseSpace1stAxisPlusScale2ndAxis.set(0.75)
     shape.sbsp1ps2.set(1.0)
@@ -478,11 +486,10 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.saa, DoubleAnglePlugOperator)
     assert_type(shape.shapeFinHeight, DoubleLinearPlugOperator)
     assert_type(shape.sfnh, DoubleLinearPlugOperator)
-    assert_type(shape.shapeFinSize, DoublePlugOperator)
-    assert_type(shape.sfns, DoublePlugOperator)
     assert_type(shape.shapeFinWidthScale, DoublePlugOperator)
     assert_type(shape.sfnws, DoublePlugOperator)
-    shape.shapeFinSize.set(1.25)
+    shape.sfnh.set(1.25)
+    shape.sfnws.set(0.75)
     shape.shapeFinWidthScale.set(0.75)
     assert_type(shape.shapePartSize, DoublePlugOperator)
     assert_type(shape.shapePartPrimarySizeScale, DoublePlugOperator)
@@ -555,11 +562,11 @@ def controller_shape_bounds_contract() -> None:
     shape.boundsMode.set(BoundsModeEnumPlugOperator.CUSTOM)
     shape.showBoundsPreview.set(True)
     shape.customBoundsBaseSpaceXPlus.set(2.0)
-    shape.customBoundsBaseSpaceXMinus.set(1.0)
+    shape.customBoundsBaseSpaceXMinus.set(-1.0)
     shape.customBoundsBaseSpaceYPlus.set(3.0)
-    shape.customBoundsBaseSpaceYMinus.set(-1.0)
+    shape.customBoundsBaseSpaceYMinus.set(1.0)
     shape.customBoundsBaseSpaceZPlus.set(4.0)
-    shape.customBoundsBaseSpaceZMinus.set(-2.0)
+    shape.customBoundsBaseSpaceZMinus.set(2.0)
 
 
 def controller_shape_draw_style_contract() -> None:

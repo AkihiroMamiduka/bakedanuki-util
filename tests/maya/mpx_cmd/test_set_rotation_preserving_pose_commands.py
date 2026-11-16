@@ -12,13 +12,11 @@ pytestmark = pytest.mark.maya
 
 
 @pytest.fixture(scope="module")
-def util_rotation_commands_plugin():
-    """テストで読み込んだ正式プラグインを Undo 解放後に解除する。"""
+def util_rotation_commands_plugin(shared_util_commands_plugin):
+    """モジュールのUndo履歴を解放し、登録はセッションで共有する。"""
     cmds = pytest.importorskip("maya.cmds")
     yield
     cmds.flushUndo()
-    if cmds.pluginInfo("bdUtilCommands", query=True, loaded=True):
-        cmds.unloadPlugin("bdUtilCommands")
 
 
 def _set_xyz(cmds, node: str, attribute: str, values: Sequence[float]) -> None:

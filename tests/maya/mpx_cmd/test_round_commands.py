@@ -11,13 +11,11 @@ _PLUGIN_NAME = "bdUtilCommands"
 
 
 @pytest.fixture(scope="module")
-def util_round_commands_plugin():
-    """モジュール内で正式プラグインを共有し、最後に安全に解除する。"""
+def util_round_commands_plugin(shared_util_commands_plugin):
+    """モジュールのUndo履歴を解放し、登録はセッションで共有する。"""
     cmds = pytest.importorskip("maya.cmds")
     yield
     cmds.flushUndo()
-    if cmds.pluginInfo(_PLUGIN_NAME, query=True, loaded=True):
-        cmds.unloadPlugin(_PLUGIN_NAME)
 
 
 def test_typed_facade_loads_versioned_plugin_and_uses_maya_undo(

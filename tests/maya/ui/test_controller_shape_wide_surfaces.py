@@ -6,6 +6,8 @@ import math
 
 import pytest
 
+from controller_shape_cases import SHAPE_NAMES
+
 from test_controller_shape_viewport import (
     _aim_at_origin,
     _brightness_near_world,
@@ -51,7 +53,12 @@ _SURFACE_CASES = (
     ("ColorCube", (0, 0, 4), (0, 0, 0.5), (0.45, 0, 0.5)),
     ("ColorCornerCube", (0, 0, 4), (0, 0, 0.5), (0.45, 0, 0.5)),
     ("Octahedron", (4, 4, 4), (1 / 6, 1 / 6, 1 / 6), (0.24, 0.24, 0.02)),
-    ("OctahedronArrow", (4, 4, 4), (1 / 6, 1 / 6, 1 / 6), (0.24, 0.24, 0.02)),
+    (
+        "DiamondArrowSpatial",
+        (4, 4, 4),
+        (1 / 6, 1 / 6, 1 / 6),
+        (0.24, 0.24, 0.02),
+    ),
     (
         "Sphere",
         (4, 4, 4),
@@ -65,8 +72,8 @@ _SURFACE_CASES = (
         (_CIRCLE_DIAGONAL, _CIRCLE_DIAGONAL, 0),
     ),
     ("Cylinder", (4, 0, 0), (0.5, 0, 0), (0.5, 0.45, 0)),
-    ("Pyramid", (-4, 0, 0), (-0.5, 0.25, 0.1), (-0.5, 0.45, 0)),
-    ("Cone", (-4, 0, 0), (-0.5, 0.2, 0.2), (-0.5, 0.45, 0)),
+    ("SquareArrowAxial", (-4, 0, 0), (-0.5, 0.25, 0.1), (-0.5, 0.45, 0)),
+    ("CircleArrowAxial", (-4, 0, 0), (-0.5, 0.2, 0.2), (-0.5, 0.45, 0)),
 )
 
 
@@ -163,7 +170,7 @@ def _assert_sphere_palette_matches_rgb_override(
     actual = [
         _rgb_near_world(panel, colored_pixels, point) for point, _ in samples
     ]
-    cmds.setAttr(f"{shape}.shape", 15)
+    cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Sphere"))
     for index, ((point, expected), color) in enumerate(zip(samples, actual)):
         cmds.setAttr(f"{shape}.overrideColorRGB", *expected)
         reference = _capture_view(panel, output / f"rgb_reference_{index}.png")
@@ -261,7 +268,7 @@ def test_color_sphere_mixes_keep_template_fill_and_selection_priority(
             maya_cmds.select(transform, replace=True)
         colored = _capture_view(panel, tmp_path / f"mixed_{mode}.png")
         # 混色も単色Sphereと同じ本体Template色または選択色へ上書きする。
-        maya_cmds.setAttr(f"{shape}.shape", 15)
+        maya_cmds.setAttr(f"{shape}.shape", SHAPE_NAMES.index("Sphere"))
         plain = _capture_view(panel, tmp_path / f"plain_{mode}.png")
         for point in (
             (_DIAGONAL, _DIAGONAL, _DIAGONAL),
@@ -325,7 +332,7 @@ def test_fully_covered_sphere_has_no_internal_lines_and_unfilled_fallback(
         assert fallback == ordinary
 
 
-@pytest.mark.parametrize("preset", ("Cylinder", "Cone"))
+@pytest.mark.parametrize("preset", ("Cylinder", "CircleArrowAxial"))
 def test_wide_curved_sides_have_open_panels_between_rim_and_generator_bands(
     maya_cmds, new_scene, tmp_path, preset
 ):
@@ -342,7 +349,7 @@ def test_wide_curved_sides_have_open_panels_between_rim_and_generator_bands(
         _aim_at_origin(maya_cmds, camera, (0, 4, 4))
         side = (0, _CIRCLE_DIAGONAL, _CIRCLE_DIAGONAL)
         band = (0, math.sqrt(0.25 - 0.04**2), 0.04)
-        if preset == "Cone":
+        if preset == "CircleArrowAxial":
             side = (0, 0.25 / math.sqrt(2), 0.25 / math.sqrt(2))
             band = (0, math.sqrt(0.25**2 - 0.02**2), 0.02)
         pixels = _capture_view(panel, tmp_path / "curved_side_opening.png")

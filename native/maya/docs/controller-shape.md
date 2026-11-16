@@ -13,7 +13,7 @@
 
 ## 現在の実装範囲
 
-2026-11-01時点で、基本本体24種類、全本体に対応するWide・軸交換・Template表示、Part11種類、
+2026-11-10時点で、基本本体32種類、全本体に対応するWide・軸交換・Template表示、Part11種類、
 Arc系の円周変形と接合、Fin、GuideLine、表示・選択・フォーカス範囲・キャッシュを扱います。
 Arc系の6種類のPartは円周変形、残る5種類の立体Partは寸法を保つ角度補正を使い、
 AtApexは共通の中央方向へ配置します。Arc系4基本形状ではFinとGuideLineを生成しません。
@@ -29,7 +29,31 @@ Circleは角度固定の閉じた円としてSquareと同じPart・Finの規約�
 Arc系はArcRadial・ArcAxial・CrossArcRadial・CrossArcAxialの4基本形状とし、
 基準円を主軸と第3軸の平面、中央方向を+主軸へ揃えます。
 薄線のArc本体は塗らず、PartにだけFillを適用します。
-多数配置時の再生性能測定は今後の候補とし、実際の利用で負荷が確認できた際に検討します。
+多数配置時の変換操作・再生・行列更新は、独立したMaya GUIで変更前後を比較します。
+
+## 開発の区切りと再開事項（2026-11-16）
+
+Maya 2025 / 2026 / 2027でユーザーの操作確認が完了し、線とFillの保持描画を採用して今回の開発を一区切りとしました。
+今回の実装基準はcommit `a54f96ed` です。
+通常のFillは `shapeFillTransparency=0`（不透明）を推奨し、半透明が必要な場合だけ透明度を上げます。
+採用した表示差・従来描画へ戻る条件と、既知の未解決事項は引き続き適用します。
+
+次回の速度改善でも、Viewportでのtransform操作とアニメーション再生の負荷を優先します。
+静的な形状調整と共通TRSは完成形状へ焼き込み、形状座標をアニメーションで変える入力は
+`shapeAnimationTransformMatrix` に限定する規約を維持します。微小な効果のために実装を複雑にしません。
+
+再開時に検討する候補は次のとおりです。いずれも今回の確認完了とは別の未解決事項です。
+
+| 対象 | 残る確認・改善候補 |
+| --- | --- |
+| 半透明Fillの個体操作 | 旧版より処理時間が長い条件の内訳を調べる。親全体の改善と分けて判断する |
+| Fill OFFの小幅な差 | 同じMaya版・条件で再測定し、起動変動と処理の増加を切り分ける |
+| Maya 2026の削除直後の線残り | 事前ノードの作成・削除履歴の有無と旧／新版を比較し、最初の描画後も残るかを確認する。根因・持続性は未特定 |
+
+測定値と削除条件の詳細は、後述の「不透明の既定値とMaya 2026 / 2027への展開」に記録しています。
+今回の多数配置検証は各transformに独立したshapeを置く構成です。
+同じshapeのDAG instanceで同等の性能・挙動が検証済みとは扱いません。
+再測定の準備と原本の扱いは [Testing And Debugging](testing-debugging.md#controller-shapeの検証を再開するとき) を参照してください。
 
 ## 作成例
 
@@ -74,6 +98,15 @@ mod.do_it_dg()
 `shapeAnimationTransformMatrix` 自体には Maya の通常のキーを直接作れません。
 行列の移動・回転・スケールをキー化するときは、接続元の数値属性を使います。
 
+本体・軸指定・基準空間・共通TRS・Size・Wide・Arc・Template・Part・Fin・GuideLine・
+OffsetLine・`shapeFill` は静的な形状調整です。Channel Box、`setAttr()`、
+`ModifierManager` 経由で直接編集し、調整後の完成形状をノード内へキャッシュします。
+これらの親属性と子属性への入力接続、キー設定は受け付けません。
+形状をアニメーションするときは `shapeAnimationTransformMatrix` だけを使います。
+静的調整値を別ノードへ読み出す出力接続は許可します。
+`shapeLineWidth`・`shapeLineTransparency`・`shapeFillTransparency`・`shapeDrawOnTop` と
+Bounds設定は動的入力を維持し、接続と明示的なキー設定を利用できます。
+
 他の共通変形が既定値の場合、`Cube` の根元を原点に合わせて主軸方向へ5 cm伸ばすには、
 基準空間の両端を指定します。
 
@@ -90,9 +123,9 @@ mod.do_it_dg()
 
 ```python
 shape.boundsMode.set(2)  # Custom
-shape.customBoundsBaseSpaceXMinus.set(-1.5)
+shape.customBoundsBaseSpaceXMinus.set(1.5)
 shape.customBoundsBaseSpaceXPlus.set(1.5)
-shape.customBoundsBaseSpaceYMinus.set(-1.5)
+shape.customBoundsBaseSpaceYMinus.set(1.5)
 shape.customBoundsBaseSpaceYPlus.set(1.5)
 shape.customBoundsBaseSpaceZMinus.set(0.5)
 shape.customBoundsBaseSpaceZPlus.set(3.5)
@@ -106,20 +139,20 @@ mod.do_it_dg()
 ## 形状と属性
 
 本体を `shape` で選び、塗り・小形状・Fin・GuideLineを独立した共通オプションで追加します。
-オプションがOFF、または本体が対象外でも、設定値や接続を保持します。
+オプションがOFF、または本体が対象外でも、設定値を保持します。
 
 | Attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
 | `shape1stAxis` | enum | `+X` (0) | 基準主軸の行先。Color系ではPart・Finの配置姿勢に適用。`+X` (0)、`-X` (1)、`+Y` (2)、`-Y` (3)、`+Z` (4)、`-Z` (5) |
 | `shape2ndAxis` | enum | `+Y` (2) | 基準補助軸の行先。Color系ではPart・Finの配置姿勢に適用。選択肢はshape1stAxisと同じ |
 | `shapeAxisSwap` | `bool` | `false` | 基準形状の主軸・補助軸を交換し、第3軸を反転。Color系ではPart・Finだけに適用。軸属性値やAxis系TRSの意味は交換しない。`sasw` |
-| `shape` | enum | `Cube` (12) | 下表の24種類の基本本体。組合せは共通属性で選ぶ |
-| `shapeBaseSpace1stAxisPlus` | `doubleLinear` | `+0.5 cm` | 基準主軸の元の正端 `+0.5` の行き先 |
-| `shapeBaseSpace1stAxisMinus` | `doubleLinear` | `-0.5 cm` | 基準主軸の元の負端 `-0.5` の行き先 |
-| `shapeBaseSpace2ndAxisPlus` | `doubleLinear` | `+0.5 cm` | 基準補助軸の元の正端 `+0.5` の行き先 |
-| `shapeBaseSpace2ndAxisMinus` | `doubleLinear` | `-0.5 cm` | 基準補助軸の元の負端 `-0.5` の行き先 |
+| `shape` | enum | `Cube` (16) | 下表の32種類の基本本体。組合せは共通属性で選ぶ |
+| `shapeBaseSpace1stAxisPlus` | `doubleLinear` | `+0.5 cm` | 基準主軸の元の正端 `+0.5` の行き先。Capsuleの主軸では正側半球の中心 |
+| `shapeBaseSpace1stAxisMinus` | `doubleLinear` | `+0.5 cm` | 負方向への符号付き距離。内部座標は入力の符号を反転。Capsuleでは負側キャップ中心、Planar / Spatial Arrow8種では本体・肩中心 |
+| `shapeBaseSpace2ndAxisPlus` | `doubleLinear` | `+0.5 cm` | 基準補助軸の元の正端 `+0.5` の行き先。CapsuleのAxisSwap ONでは正側半球の中心 |
+| `shapeBaseSpace2ndAxisMinus` | `doubleLinear` | `+0.5 cm` | 補助軸の負方向への符号付き距離。AxisSwap ONではCapsule・中心基準Arrowの主軸として使う |
 | `shapeBaseSpace3rdAxisPlus` | `doubleLinear` | `+0.5 cm` | 基準第3軸の元の正端 `+0.5` の行き先 |
-| `shapeBaseSpace3rdAxisMinus` | `doubleLinear` | `-0.5 cm` | 基準第3軸の元の負端 `-0.5` の行き先 |
+| `shapeBaseSpace3rdAxisMinus` | `doubleLinear` | `+0.5 cm` | 第3軸の負方向への符号付き距離。内部座標は入力の符号を反転 |
 | `shapeBaseSpace1stAxisPlusScale` | `double2` | `(1, 1)` | 1st正面の(2nd, 3rd)倍率をまとめるnumeric compound。`sbsp1ps` |
 | `shapeBaseSpace1stAxisPlusScale2ndAxis` | `double` | `1` | 1st正面の2nd方向の倍率。`sbsp1ps2` |
 | `shapeBaseSpace1stAxisPlusScale3rdAxis` | `double` | `1` | 1st正面の3rd方向の倍率。`sbsp1ps3` |
@@ -142,8 +175,8 @@ mod.do_it_dg()
 | `shapeLineWidth` | `float` | `1` | 本体・GuideLine・OffsetLineの画面上の線幅。pixel単位、最小値1 |
 | `shapeLineTransparency` | `float` | `0` | 輪郭・GuideLine・OffsetLine・ColorCornerCubeの小四角の透明度。0は不透明、1は完全透明 |
 | `shapeFill` | `bool` | `false` | 本体・Part・Finの面を表示。薄線のArc系・CrossArc系はPartのみ。`sfl` |
-| `shapeFillTransparency` | `float` | `0.85` | 通常の塗り面の透明度。ColorCornerCubeの小四角には適用しない |
-| `shapeWide` | `bool` | `false` | 全24基本本体で帯または面上の追加輪郭を有効にする。`swd` |
+| `shapeFillTransparency` | `float` | `0` | 通常の塗り面の透明度。0は不透明、1は完全透明。ColorCornerCubeの小四角には適用しない |
+| `shapeWide` | `bool` | `false` | 全32基本本体で帯または面上の追加輪郭を有効にする。`swd` |
 | `shapeWideWidth` | `doubleLinear` | `0.05 cm` | 帯幅、3軸の四角断面の一辺、変形後の面上の追加輪郭の実距離幅。最小値0。Wide OFFでは保持して無視。`sww` |
 | `shapeArcAngle` | `doubleAngle` | `180°` | Arc系4基本形状の円弧全体の角度。0–360°。他本体では保持して無視。`saa` |
 | `shapeTemplateLine` | `bool` | `false` | 本体線の指定区間だけをTemplate色・選択不可にする。Part・Fin・GuideLine・OffsetLineには作用しない。`stl` |
@@ -157,17 +190,16 @@ mod.do_it_dg()
 | `shapePart` | `bool` | `false` | 対象本体へ小形状を追加。`spt` |
 | `shapePartShape` | enum | `Arrow2D` (0) | 小形状の11種類。`spsh` |
 | `shapePartType` | enum | `AtEnd` (0) | `AtEnd` (0)、`AtEnds` (1)、`AtApex` (2)。`sptp` |
-| `shapePartOffset` | `doubleLinear` | `0 cm` | Partを配置方向へ移動。Arc系・CrossArc系のAtEnd・AtEndsで円周へ曲げる6種類では無視し、値と接続は保持。追加Part専用 |
+| `shapePartOffset` | `doubleLinear` | `0 cm` | Partを配置方向へ移動。Arc系・CrossArc系のAtEnd・AtEndsで円周へ曲げる6種類では無視し、値は保持。追加Part専用 |
 | `shapePartSize` | `double` | `1` | Partの長さ・幅・高さの共通倍率。Arc系以外のPart対応本体のAtEndsではPrimary / Otherの配置倍率も掛ける。`sps` |
-| `shapePartPrimarySizeScale` | `double` | `1` | Arc系以外のAtEndsで、AtEndと同じ代表1つへ掛ける追加倍率。0ならそのPartを省略。負値を含め上下限なし。対象外では値と接続を保持して無視。`sppss` |
-| `shapePartOtherSizeScale` | `double` | `0.5` | Arc系以外のAtEndsで、代表以外へ掛ける追加倍率。0なら該当Partを省略。負値を含め上下限なし。対象外では値と接続を保持して無視。`sposs` |
+| `shapePartPrimarySizeScale` | `double` | `1` | Arc系以外のAtEndsで、AtEndと同じ代表1つへ掛ける追加倍率。0ならそのPartを省略。負値を含め上下限なし。対象外では値を保持して無視。`sppss` |
+| `shapePartOtherSizeScale` | `double` | `0.5` | Arc系以外のAtEndsで、代表以外へ掛ける追加倍率。0なら該当Partを省略。負値を含め上下限なし。対象外では値を保持して無視。`sposs` |
 | `shapePartLengthScale` | `double` | `1` | Partの長手方向の倍率。円周へ曲げるPartでは変形後の曲線上の弧長へ作用 |
 | `shapePartWidthScale` | `double` | `1` | Partの局所幅の倍率。円周変形時はRadialの曲線法線方向、Axialの円軸方向 |
 | `shapePartHeightScale` | `double` | `1` | Partの局所高さの独立した符号付き倍率。平面Partでは保持して無視し、Arrow3Dの追加面と立体Partへ適用する。0ではArrow3Dの追加面を省略しArrow2Dと一致する。`sphs` |
-| `shapeFin` | `bool` | `false` | Arc系4基本形状を除く20本体へ通常色のFinを1枚追加。対象外では値と接続を保持して無視。`sfn` |
+| `shapeFin` | `bool` | `false` | Arc系4基本形状を除く28本体へ通常色のFinを1枚追加。対象外では値を保持して無視。`sfn` |
 | `shapeFinType` | enum | `Standard` (0) | `Standard` (0)、`Tapered` (1)。`sfnt` |
-| `shapeFinHeight` | `doubleLinear` | `0.5 cm` | Finの張り出す高さ。`shapeFinSize`を掛け、0ならFinのみ省略。`sfnh` |
-| `shapeFinSize` | `double` | `1` | Finの高さと幅の共通倍率。`sfns` |
+| `shapeFinHeight` | `doubleLinear` | `0.5 cm` | Finの張り出す高さ。0ならFinのみ省略。`sfnh` |
 | `shapeFinWidthScale` | `double` | `1` | Finの付け根に沿った幅の倍率。`sfnws` |
 | `shapeGuideLine` | `bool` | `false` | 本体中心から表面までガイド線を追加。対象外では設定を保持して無視。`sgl` |
 | `shapeOffsetLine` | `bool` | `false` | 親transformのローカル原点から、共通変形後の基準中心へ補助線を描画。`sol` |
@@ -180,43 +212,51 @@ mod.do_it_dg()
 | `shapeAxisScale` | `double3` | `(1, 1, 1)` | 指定軸を基準に、shapeAxisRotateの内側で拡縮 |
 | `shapeSize` | `double` | `1` | 組み立てた形状の頂点を一律スケール |
 | `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状完成後、親transformの変換前に適用。Channel Boxには非表示 |
-| `boundsMode` | enum | `ShapeCentered` (1) | `Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
+| `boundsMode` | enum | `Shape` (0) | `Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
 | `showBoundsPreview` | `bool` | `false` | 選択中の最終フォーカス範囲をtemplate色・選択不可で表示 |
 
 ### 本体一覧
 
-公開する本体は次の24種類です。Wide・Swapped・SquareTemplateを選択するenum定数はありません。
+公開する本体は次の32種類です。Wide・Swapped・SquareTemplateを選択するenum定数はありません。
 本書で使う `WideCircle` などの `Wide...` は、その基本形状で `shapeWide=true` とした状態の略記です。
 `...Swapped` または「Swapped」は `shapeAxisSwap=true`、`SquareTemplate` は
 `Square` に `shapeTemplateLine=true`、`shapeTemplateLineRate=0.7`、`shapeTemplateFill=true` を指定した状態を指します。
-APIでは24基本形状の定数と個別の属性を設定し、状態の略記と区別します。
+APIでは32基本形状の定数と個別の属性を設定し、状態の略記と区別します。
 
 | 値 | 本体 |
 | --- | --- |
 | 0 | `Gear` |
-| 1 | `Line` |
-| 2 | `CrossLine` |
-| 3 | `Triangle` |
-| 4 | `Square` |
-| 5 | `Diamond` |
-| 6 | `Circle` |
-| 7 | `ArcRadial` |
-| 8 | `ArcAxial` |
-| 9 | `CrossArcRadial` |
-| 10 | `CrossArcAxial` |
-| 11 | `CrossLine3Axis` |
-| 12 | `Cube` |
-| 13 | `Octahedron` |
-| 14 | `OctahedronArrow` |
-| 15 | `Sphere` |
-| 16 | `Cylinder` |
-| 17 | `Arrow` |
-| 18 | `Pyramid` |
-| 19 | `Cone` |
-| 20 | `ColorCrossLine3Axis` |
-| 21 | `ColorCube` |
-| 22 | `ColorCornerCube` |
-| 23 | `ColorSphere` |
+| 1 | `ColorCrossLine3Axis` |
+| 2 | `ColorCube` |
+| 3 | `ColorCornerCube` |
+| 4 | `ColorSphere` |
+| 5 | `Line` |
+| 6 | `CrossLine` |
+| 7 | `Triangle` |
+| 8 | `Square` |
+| 9 | `Diamond` |
+| 10 | `Circle` |
+| 11 | `ArcRadial` |
+| 12 | `ArcAxial` |
+| 13 | `CrossArcRadial` |
+| 14 | `CrossArcAxial` |
+| 15 | `CrossLine3Axis` |
+| 16 | `Cube` |
+| 17 | `Octahedron` |
+| 18 | `Sphere` |
+| 19 | `Cylinder` |
+| 20 | `Capsule` |
+| 21 | `ArrowPlanar` |
+| 22 | `SquareArrowPlanar` |
+| 23 | `DiamondArrowPlanar` |
+| 24 | `CircleArrowPlanar` |
+| 25 | `SquareArrowAxial` |
+| 26 | `DiamondArrowAxial` |
+| 27 | `CircleArrowAxial` |
+| 28 | `ArrowSpatial` |
+| 29 | `SquareArrowSpatial` |
+| 30 | `DiamondArrowSpatial` |
+| 31 | `CircleArrowSpatial` |
 
 基準形状は各軸おおむね `-0.5..+0.5` を使います。矢印・小形状・FinやWideの帯は
 その範囲から張り出すことがあり、形状全体を長さ1へ正規化しません。
@@ -232,7 +272,7 @@ Cross版は通常版でXY平面の円を追加し、共通の中央方向+Xを�
 Cross版のSwappedは基準YZ平面と追加XY平面で、中央方向+Yを共有します。
 DiamondはSquare各辺の中点を結び、縦横の対角線が1となります。
 
-`shapeAxisSwap` は全24本体に対応します。Color系を除き、通常本体・Part・Fin・GuideLineを組み立てて接合した後、
+`shapeAxisSwap` は全32本体に対応します。Color系を除き、通常本体・Part・Fin・GuideLineを組み立てて接合した後、
 基準座標へ `(x, y, z) → (y, x, -z)` を一括適用します。
 主軸と補助軸の交換に合わせて第3軸も反転し、右手系を維持します。
 その後に適用する `shape1stAxis` / `shape2ndAxis` とAxis系TRSの
@@ -241,8 +281,8 @@ DiamondはSquare各辺の中点を結び、縦横の対角線が1となります
 Color系は基準配置の交換をPart・Finへ適用してから選択軸のフレームへ向け、固定本体・軸色・GuideLineを交換しません。
 OffsetLineとCustom Boundsはこの交換から独立しています。
 
-Cylinderは側面と両端、Coneは側面と底面、Pyramidは側面と底面を持ちます。
-ConeはFillのON/OFFにかかわらず、底円と先端を結ぶ補助線を表示します。小形状のConeも同様です。
+Cylinderは側面と両端、CircleArrowAxial・SquareArrowAxial・DiamondArrowAxialは側面と底面を持ちます。
+CircleArrowAxialはFillのON/OFFにかかわらず、底円と先端を結ぶ補助線を表示します。小形状のConeも同様です。
 Cylinderの通常表示はFillを表示する場合に両端の円だけを残し、円同士を結ぶ補助線を省略します。
 Wireframeや非選択のTemplate・Referenceなど、面を表示しない状態では補助線を表示します。
 WideのCylinderは正の幅ではFillのON/OFFにかかわらず元の4本の母線を描かず、
@@ -252,23 +292,27 @@ WideのCylinderは正の幅ではFillのON/OFFにかかわらず元の4本の母
 ### 本体の基準空間
 
 `shapeBaseSpace1stAxisMinus` / `shapeBaseSpace1stAxisPlus` は、
-本体の元の主軸座標 `-0.5` / `+0.5` を置く座標です。
+本体の各方向への符号付き距離です。Minus入力を `M`、Plus入力を `P` とすると、内部の端座標は `m=-M`、`p=P` です。
 `shapeBaseSpace2ndAxisMinus` / `shapeBaseSpace2ndAxisPlus` と
 `shapeBaseSpace3rdAxisMinus` / `shapeBaseSpace3rdAxisPlus` も同じ規則で補助軸・第3軸へ作用します。
-値は距離で、`Minus` / `Plus` は元の端を識別します。元の座標からの移動量ではありません。
-既定値は全軸 `-0.5 cm` / `+0.5 cm` で、後述の面内Scaleも全て1なら従来の基準形状を保ちます。
+既定値は全軸ともMinus / Plusが `+0.5 cm` です。通常の端座標写像では両方を同じ正値にすると基準中心を保ち、対称に広げられます。
+負値と0も保持し、原点を越す端の調整や反転を許容します。内部の幅は `P+M`、中心は `(P-M)/2` です。
+面内ScaleのMinusは対象の面を識別する名前で、倍率の符号を自動反転しません。
+Capsuleの主軸ではこの2座標をキャップ中心に使い、全体の先端は各端面の倍率を含む横2半径の平均R-/R+だけ外側へ進みます。
+そのため既定のCapsuleは主軸方向に `-1..+1 cm` の範囲を持ちます。
 
-各軸の元の座標を `p`、設定した両端を `minus` / `plus` とすると、
-面内Scaleが全て1のとき、`Arrow` / `OctahedronArrow` の主軸を除く本体上の座標は次の式で求めます。
-矢印の主軸は後述の固定長の規約を使います。ここで `p` は内部のcm単位の数値です。
+各軸の元の座標を `q`、内部の端座標を `m=-入力Minus` / `p=入力Plus` とすると、
+面内Scaleが全て1のとき、全Planar / Spatial Arrow8種と `Capsule` の主軸を除く本体上の座標は次の式で求めます。
+矢印の主軸は後述の肩・本体中心と横径由来の母体寸法、Capsuleの主軸は横径由来の半球と中央円筒の規約を使います。
+ここで各座標は内部のcm単位の数値です。
 
 ```text
-base(p) = (minus + plus) / 2 + p * (plus - minus)
+base(q) = (m + p) / 2 + q * (p - m)
 ```
 
 範囲外の頂点も同じ式で外挿し、クランプや本体ごとのBoundsへの正規化を行いません。
-たとえば元の `-0.5 / 0 / +0.5` は、両端を `1 / 2` とすると `1 / 1.5 / 2`、
-両端を `1 / 3` とすると `1 / 2 / 3` になります。後者では元の `+0.75` も `+3.5` へ移ります。
+たとえば元の `-0.5 / 0 / +0.5` は、内部両端を `1 / 2`（公開Minus=-1 / Plus=2）とすると `1 / 1.5 / 2`、
+内部両端を `1 / 3` とすると `1 / 2 / 3` になります。後者では元の `+0.75` も `+3.5` へ移ります。
 Triangleの底辺 `-0.37` やArcの角度による部分的な範囲も、そのまま線形変換します。
 
 基準空間の6面には、それぞれ面内2軸の倍率を指定できます。たとえば
@@ -283,8 +327,12 @@ numeric compound親にまとめます。親の型は `double2`、既定値は `(
 各面の中心から面内2軸を拡縮し、隣接面から同じ頂点へ作用する倍率は乗算します。
 たとえば正の1st面の2nd倍率が2、正の3rd面の2nd倍率が3なら、
 両面が接する頂点の2nd成分には6を掛けます。8頂点から三線形補間した基準空間で
-本体の点を変形し、元の範囲外の点もそのまま外挿します。独立した面内倍率による
+本体の元の頂点を変形し、元の範囲外の頂点もそのまま外挿します。独立した面内倍率による
 ねじれや、同一面の4頂点が同じ平面に収まらない形状も許容します。
+元の直線辺は変形した両端を直線で結び、塗り面も変形した元の三角形を使います。
+Circle・Sphereなど曲線の既存サンプル頂点は維持し、変形を曲線として近似するための追加分割は行いません。
+Templateの境界やPartとの切断点は変形済みの辺上へ補間し、Wideの精度用の分割も変形済みの三角面内で行います。
+Capsuleの主軸面は接合位置を基準にし、半球では対応する端の倍率を固定して使います。
 両端座標は面内Scaleが1の基準枠を定めます。隣接面の倍率によって頂点はその端座標の外にも
 移るため、完成形状の軸平行範囲の上下限を固定する値ではありません。
 
@@ -294,20 +342,21 @@ mod.do_it_dg()
 ```
 
 この例は正の1st面の2nd方向を半分、3rd方向を1.5倍にし、反対面側は既定倍率に保ちます。
+CapsuleではPlus半球の主軸半径もこの端の横2半径の平均へ変わり、Minus半球へPlus面の倍率を混ぜません。
 他面の倍率も変更すると、隣接面の影響を乗算した結果になります。
 親は `.set((0.5, 1.5))` の形式でも設定でき、`.get()` は `bdu.Double2` を返します。
 親のshort名は `sbsp1ps` / `sbsp1ms`、`sbsp2ps` / `sbsp2ms`、`sbsp3ps` / `sbsp3ms` です。
 子の名前は維持し、`shape.shapeBaseSpace1stAxisPlusScale2ndAxis` の直接アクセスと、
 `shape.sbsp1ps.sbsp1ps2` の親経由アクセスの両方で型付き補完を使えます。
 
-通常本体では `Minus > Plus` も許容し、その軸を反転します。
+通常本体では内部の `m > p`、つまり公開入力の `Minus + Plus < 0` も許容し、その軸を反転します。
 Color系は軸色と固定XYZの対応を保つため、入力した両端の中心を保ち、幅の絶対値を描画へ使います。
-保持している属性値・キー・接続は変更せず、通常本体へ戻すと両端の順序どおりの反転が作用します。
-矢印の主軸を除き、両端が同じ軸は本体をその座標へ潰しますが、
+保持している属性値は変更せず、通常本体へ戻すと両端の順序どおりの反転が作用します。
+中心基準の矢印とCapsuleの主軸を除き、両端が同じ軸は本体をその座標へ潰しますが、
 Partの局所寸法・OffsetやFinの高さは潰しません。
 
 ```python
-shape.shapeBaseSpace1stAxisMinus.set(1.0)
+shape.shapeBaseSpace1stAxisMinus.set(-1.0)
 shape.shapeBaseSpace1stAxisPlus.set(2.0)
 mod.do_it_dg()
 ```
@@ -324,13 +373,15 @@ Arcの円周へ沿わせるPartは、変形後の曲線上で長さを弧長と�
 曲線面が退化する場合は円周変形と立体の接合姿勢補正を行わず、元の局所姿勢からPartを作ります。
 配置点だけを退化後の本体へ写し、消えた方向には元の軸を使って長さ・幅・高さとOffsetの距離を保ちます。
 曲線面の2軸が残り、法線側の軸だけが潰れた場合は円周変形を保ちます。CrossArcは円ごとに判定します。
-Finは付け根と幅を本体へ追従させ、`shapeFinHeight * shapeFinSize` の張り出し量を保ちます。
+Finは付け根と幅を本体へ追従させ、`shapeFinHeight` の張り出し量を保ちます。
+Standardは面内Scale後も立ち上がりを補助軸、上辺を主軸へ平行に保ちます。
 GuideLineの中心は変形後の基準中心へ移り、Part先端へ延長する規則も完成したPartへ追従します。
-`OctahedronArrow` のGuideLineは、固定長の後部と先端をつなぐ中央断面から各頂点へ伸びます。
+`DiamondArrowPlanar` / `DiamondArrowSpatial` のGuideLineは、内部主軸Minus座標に置く肩中心から各頂点へ伸びます。
+`SquareArrowSpatial` / `CircleArrowSpatial` は保持する箱・球の中心をGuideLineの起点にします。
+Axial Arrow3種は内部主軸Minusの底面中心を起点にします。
 
 Wideは基準空間を適用した本体の表面から生成し、`shapeWideWidth` の実距離を保ちます。
-`Arrow` と `OctahedronArrow` の主軸は、後端の固定長を保つ例外を使います。
-この規約は「ArrowとOctahedronArrowの本体」を参照してください。
+Arrow系はPlanar・Axial・Spatialごとの基準空間を使います。基準半径へ面Scaleを掛けず、各本体を構成した後のCage変形として一度だけ適用します。
 
 組み立てた後の `shapeSize`・`shapeAxisScale`・`shapeScale`・`shapeRootSize` と
 `shapeAnimationTransformMatrix` は、本体・Part・Fin・Wideを共通に変形します。
@@ -342,7 +393,7 @@ Wideは基準空間を適用した本体の表面から生成し、`shapeWideWid
 
 ### Wideの共通オプション
 
-`shapeWide=true` と `shapeWideWidth` を組み合わせて、全24基本本体のWide表示を選びます。
+`shapeWide=true` と `shapeWideWidth` を組み合わせて、全32基本本体のWide表示を選びます。
 幅は基準空間の適用後、共通TRSの適用前の実距離で測ります。以下で `w=shapeWideWidth` とします。
 非等方な基準空間でも、線に垂直な平面距離または変形後の面上の距離を保ちます。
 面内Scaleで変形した立体表面の帯は、細分した三角面上の表面距離で幅を求めます。
@@ -350,7 +401,7 @@ Wideは基準空間を適用した本体の表面から生成し、`shapeWideWid
 帯が表面全体を覆う幅では穴を残しません。局所的な潰れや折り返しでも元の面のつながりを保ち、
 長さ0の辺は距離0として扱います。
 Part・FinのSizeやWidthを幅へ掛けません。共通TRSや入力行列では、帯も本体と一緒に伸縮します。
-後端が固定長のArrow系も、本体の輪郭・表面を確定してからWideを生成します。
+Arrow系も、本体の輪郭・表面を確定してからWideを生成します。
 以下の半径0.5や座標値は、基準空間と共通TRSが既定値の場合を示します。
 
 | 基本本体 | Wide表示 |
@@ -360,11 +411,14 @@ Part・FinのSizeやWidthを幅へ掛けません。共通TRSや入力行列で�
 | `ArcRadial`、`CrossArcRadial` | 円平面内で半径方向へ幅を持つ帯 |
 | `ArcAxial`、`CrossArcAxial` | 円軸方向へ幅を持つ薄い円筒側面状の帯 |
 | `CrossLine3Axis`、`ColorCrossLine3Axis` | 一辺`w`の四角断面を持つ3軸の外殻。中央で接合し内部面を残さない |
-| `Gear`、`Triangle`、`Square`、`Diamond`、`Arrow` | 基準輪郭から±`w/2`の帯に置き換え、元の平面全体の代わりに帯だけを塗る。角の接合や帯同士の重なりをまとめる |
-| `Cube`、`Octahedron`、`OctahedronArrow`、`Pyramid`、`ColorCube`、`ColorCornerCube` | 各面の境界から内側`w/2`の帯だけを塗るフレーム。元の稜線と内側の輪郭を描き、中央に穴を残す |
+| `Gear`、`Triangle`、`Square`、`Diamond`、全Planar Arrow | 基準輪郭から±`w/2`の帯に置き換え、元の平面全体の代わりに帯だけを塗る。角の接合や帯同士の重なりをまとめる |
+| `ArrowSpatial` | 直交する2平面でArrowの輪郭に沿う帯を組み立てる |
+| `Cube`、`SquareArrowSpatial`、`Octahedron`、`DiamondArrowSpatial`、`SquareArrowAxial`、`DiamondArrowAxial`、`ColorCube`、`ColorCornerCube` | 各面の境界から内側`w/2`の帯だけを塗るフレーム。元の稜線と内側の輪郭を描き、中央に穴を残す |
 | `Sphere`、`ColorSphere` | 元の3大円から球面距離`w/2`以内の帯の和集合。中央大円と帯同士の内部継ぎ目を消し、和集合の外周だけを描く |
+| `CircleArrowSpatial` | 球面と接線円錐からなる完成表面上で輪郭に沿う帯を作り、突出しない場合はSphereと同じ本体を保つ |
 | `Cylinder` | 側面の展開図で元の4母線と端円から`w/2`以内を帯とする。正の幅では元の母線を描かず、端円と帯の輪郭を残す。蓋は外周幅`w/2`の環 |
-| `Cone` | 4母線・底円を保ち、円錐展開面で母線から距離`w/2`以内と底周から距離`w/2`以内の帯を合成する。底面は外周幅`w/2`の環 |
+| `Capsule` | 直交する2本の縦断面輪郭と、半球・円筒の両接合位置の円に沿う表面帯を合成する。正の幅では元の輪郭と接合円を省略し、帯の外周だけを描く。中央に円や帯を追加しない |
+| `CircleArrowAxial` | 4母線・底円を保ち、円錐展開面で母線から距離`w/2`以内と底周から距離`w/2`以内の帯を合成する。底面は外周幅`w/2`の環 |
 
 立体のWideは外側へ厚みや新しい外殻を加える機能ではありません。
 面と曲面の帯は厚み0で両面から見え、穴には塗り面も選択面も残しません。
@@ -403,7 +457,7 @@ mod.do_it_dg()
 ### 本体のTemplate表示
 
 `shapeTemplateLine` は本体の線、`shapeTemplateFill` は本体の通常面をそれぞれ
-Template色・クリック選択不可にします。2つは独立したboolで、全24基本本体に対応します。
+Template色・クリック選択不可にします。2つは独立したboolで、全32基本本体に対応します。
 Part・Fin・GuideLine・OffsetLineには作用しません。
 GuideLineとOffsetLineは、それぞれ専用のTemplate属性を使います。
 ColorCornerCubeの小四角も本体Templateの対象から除外します。
@@ -417,9 +471,12 @@ Wideの追加輪郭と帯も、この本体の区間へ対応させます。
 | --- | --- |
 | Gearの外周 | 歯先中央から次の歯先中央までの輪郭を1区間とし、実長で谷中央Tpl `r`、両端の歯先側N `(1-r)/2` |
 | Squareの各辺 | 辺中央がN `1-r`、両端がそれぞれTpl `r/2` |
-| Cube・ColorCube・ColorCornerCubeの稜線 | 中央Tpl `r`、両端N `(1-r)/2` |
-| Triangle・Diamond・Octahedron・OctahedronArrow・Pyramidの各辺、Cylinder・Coneの母線 | 中央Tpl `r`、両端N `(1-r)/2` |
-| Arrow | 先端から各肩への2経路と、両肩を後ろの2折れ角・くぼみ経由で結ぶ1経路の計3経路。各経路の弧長で中央Tpl `r`、両端N `(1-r)/2` |
+| Cube・SquareArrowSpatial・ColorCube・ColorCornerCubeの稜線 | 中央Tpl `r`、両端N `(1-r)/2` |
+| Triangle・Diamond・SquareArrowPlanar・DiamondArrowPlanar・Octahedron・DiamondArrowSpatial・SquareArrowAxial・DiamondArrowAxialの各辺、SquareArrowSpatialの突出辺、Cylinder・CircleArrowAxialの母線 | 中央Tpl `r`、両端N `(1-r)/2` |
+| CircleArrowSpatial | 球面の円弧はSphereと同じ四分円の位相を保ち、接線円錐の母線は中央Tpl `r`・両端N `(1-r)/2`。接線の接合円は描かない |
+| Capsuleの半球四分円・円筒の母線 | 各四分円Arc・直線Segmentの中央Tpl `r`、両端N `(1-r)/2` |
+| Capsuleの両接合円 | 各円をSphereと同じ四分円区間へ分け、各区間の中央N `1-r`、両端Tpl `r/2`。L0で重なる円は1本にまとめる |
+| ArrowPlanar・ArrowSpatialの各平面 | 先端から各肩への2経路と、両肩を後ろの2折れ角・くぼみ経由で結ぶ1経路の計3経路。各経路の弧長で中央Tpl `r`、両端N `(1-r)/2` |
 | Circle、Sphere、ColorSphereの円、Gearの内円 | 平面内の4方向がNの中央となる四分円区間を使い、各区間の中央N `1-r`、両端Tpl `r/2` |
 | Line、Part OFFまたはAtEnds | 線の中央Tpl `r`、両端N `(1-r)/2` |
 | Line、Part ONのAtEndまたはAtApex | 代表端と反対の端からTpl `r`、代表端側N `1-r` |
@@ -446,7 +503,7 @@ Wide CrossLine系の端を閉じる辺は腕の外端のNとして扱い、Rate 
 Wide CrossLine3Axis系へPartを付けて腕が短くなる場合も、切取り後の実際の終端を外端として扱います。
 本体の端を閉じる辺とPartのTemplate指定は独立しており、Partの表示種別を本体へ引き継ぎません。
 Wideの円・円弧は元の円平面へ、直線は平行な元の辺へ区間を対応させます。
-Coneの追加母線は展開面上で元の母線へ投影した距離を使い、円周や別の母線へ区間を移しません。
+CircleArrowAxialの追加母線は展開面上で元の母線へ投影した距離を使い、円周や別の母線へ区間を移しません。
 Partの線・面と重なる部分は通常のPartとして保護し、表示境界をPartの内部へ通しません。
 PartやFinの寸法・配置、GuideLine・OffsetLineの表示と選択可否は変えません。
 
@@ -499,8 +556,34 @@ Arrowの底辺の線は追加せず、3D矢印をOffsetで離しても元の付�
 | `shapePartType` | 配置 |
 | --- | --- |
 | `AtEnd` (0) | 本体の代表となる1端。Arc系を除きAxisSwap OFFは+1st、ONは+2nd。Color系も選択軸上の代表配置だけを交換。Arc系は円弧の1端、CrossArc系は基準円の1端 |
-| `AtEnds` (1) | Lineは両端、2軸CrossLineは4端、3軸CrossLine・Cube・Sphere系は6端、Square系・Circle系は4方向、Arc系は円弧両端、CrossArc系は両円の4端 |
+| `AtEnds` (1) | 本体ごとの配置点全て。下表を参照 |
 | `AtApex` (2) | Arc系4基本形状の中央方向の頂部。CrossArc系は基準円の向きで1つ。その他の対象本体ではAtEndとして扱う |
+
+| 本体 | AtEndsの配置点 |
+| --- | --- |
+| `Line` | 両端の2点 |
+| `CrossLine` | 2軸の端の4点 |
+| `CrossLine3Axis`、`ColorCrossLine3Axis` | 3軸の端の6点 |
+| `Triangle` | 3頂点 |
+| `Square`、`Diamond`、`Circle` | 平面内の4方向 |
+| `SquareArrowPlanar`、`DiamondArrowPlanar`、`CircleArrowPlanar` | 平面内の4方向。Diamondは先端・後端・左右の肩 |
+| `Cube`、`ColorCube`、`ColorCornerCube`、`Sphere`、`ColorSphere` | 6方向の本体表面 |
+| `SquareArrowSpatial`、`CircleArrowSpatial` | 保持する本体の横4方向・後端と、前端の6点。突出時だけ前端を先端へ移す |
+| `Octahedron`、`DiamondArrowSpatial` | 6頂点 |
+| `Cylinder` | 両端の円の中心の2点 |
+| `Capsule` | 両端の半球の先端の2点 |
+| `ArrowPlanar` | 先端と左右の肩の3頂点 |
+| `ArrowSpatial` | 先端と横4肩の5点 |
+| `SquareArrowAxial`、`DiamondArrowAxial`、`CircleArrowAxial` | 先端の1点。AtEndと同じ配置点 |
+| `ArcRadial`、`ArcAxial` | 円弧両端の2点 |
+| `CrossArcRadial`、`CrossArcAxial` | 両円の円弧端の4点 |
+
+Triangle・DiamondのPartは、変形後の頂点で隣接する2辺の外向き角二等分線へ向けます。
+Octahedron・DiamondArrowSpatialは各頂点の軸方向、Cylinderは両端の円の中心から端面の外向き法線へ向けます。
+CapsuleはPlus側の半球先端を代表とし、AtEndsではMinus側の先端にも外向きに配置します。
+ArrowPlanarの左右の肩は第3軸の正負方向、ArrowSpatialの横4肩は横2軸の正負方向へ向け、後端の頂点には配置しません。
+Triangle・Diamond・ArrowPlanarのWideでは、頂点の外側の帯輪郭へ接合します。
+ColorCube・ColorCornerCubeはCubeと同じ6面の中心を使います。
 
 通常Square系・Circle系の代表方向は+1st、SwappedのSquare系・Circle系は+2ndです。
 AtEndsの各矢印は、それぞれ配置先の端から外向きに進みます。
@@ -509,12 +592,15 @@ Arc系4基本形状を除く全Part対応本体では、AtEndsの代表となる
 `shapePartPrimarySizeScale`、残りへ `shapePartOtherSizeScale` を `shapePartSize` と掛け合わせます。
 代表はAtEndで配置するものと同じで、SwappedやColor系の軸指定にも追従します。
 Arrow2D・Arrow3Dだけでなく全11種類のPartに適用し、既定値では代表1倍・残り0.5倍です。
+Axial Arrow3種もAtEndsでは先端の1点へ `shapePartPrimarySizeScale` を掛け、
+代表以外の配置点がないため `shapePartOtherSizeScale` は保持して無視します。
+これらの本体のAtEndとAtEndsは配置点が同じでも、Primary倍率が1以外なら寸法や生成の有無が変わります。
 倍率は各Partの長さ・幅・高さへ掛け、元の配置点とピボット、`shapePartOffset` の距離は変えません。
 `shapePartPrimarySizeScale=0` では代表だけを省き、他端を代表へ繰り上げません。
 `shapePartOtherSizeScale=0` なら代表だけを残します。両方0ではPartを生成せず、
 本体・Fin・GuideLine・BoundsもPart OFFと同じ結果にします。
 両倍率は上下限のない符号付きの値です。負値は `shapePartSize` と同じく、各Partのピボットを基準に反転させます。
-AtEnd・AtApexとArc系4基本形状では両倍率を無視し、値・接続・キーを保持します。
+AtEnd・AtApexとArc系4基本形状では両倍率を無視し、値を保持します。
 これらでは従来どおり `shapePartSize` と長さ・幅の倍率を使い、円弧両端や両円の4端も同じサイズ規約を保ちます。
 
 作成例のCircleで全方向を同じ大きさにする場合は、次のように設定します。
@@ -539,10 +625,8 @@ Arc系の360°・AtEndsでは、円周へ曲げるPartの重なる領域をま�
 Arc系のAtApexは通常版の+1st側、Swappedの+2nd側から外向きへ突出する付属Arrowを使います。
 配置は軸指定・全体回転前の基準座標に対して定義し、以後の全体変形へ追従します。
 
-対象外は `Gear`、`Triangle`、`Diamond`、`Octahedron`、`OctahedronArrow`、
-`Cylinder`、`Arrow`、`Pyramid`、`Cone`、`ColorCube`、`ColorCornerCube` の11基本本体です。
-これらではPartをONにしても本体を変更せず、Partの値を保持します。
-残る13基本本体がPartに対応し、Part対象外の11本体にもFinを追加できます。
+Partは `Gear` を除く31基本本体に対応します。
+GearではPartをONにしても本体を変更せず、Partの値を保持します。FinはGearにも追加できます。
 Wide・AxisSwap・Templateの設定でPartの対応範囲は変わりません。
 
 ### Partの変形と接合
@@ -589,39 +673,139 @@ Finと本体の線・塗りも、変形後の小形状内部を差し引きま�
 重なる面の二重描画と内部線を避け、半透明でも境界を揃えます。
 倍率は負値・ゼロ値にも対応し、面積0の塗り面は省略します。
 
-### ArrowとOctahedronArrowの本体
+### ArrowPlanar・ArrowSpatialのくぼみ
 
-`Arrow` と `OctahedronArrow` は、主軸のMinusを後端、Plusを先端として使います。
+`ArrowPlanar` / `ArrowSpatial` は、内部の主軸Minus座標をくぼみ・肩中心m、Plus座標pを先端の指定として使います。
 AxisSwapがOFFなら1st軸、ONなら2nd軸の両端です。
-後端から接合断面までの長さは、`Arrow` が `0.25 cm`、
-`OctahedronArrow` が `0.5 cm` に固定します。先端側だけを指定したPlusへ伸ばします。
+PlanarのRは第3軸の半幅、SpatialのRは横2軸半径の平均です。後部深さはR/2、前側の母体長は1.5Rです。
+ArrowSpatialは直交する2平面のArrowを合成し、各平面の肩幅はrA/rB、後ろの横幅はそれぞれ半分にします。
 これは面内Scaleを適用する前の本体構成です。面内Scaleはこの完成した本体へ作用するため、
 他面の主軸方向の倍率によって後端部分や先端も変形します。
 
 ```text
-direction = +1 if plus >= minus else -1
-rear = minus
-joint = rear + direction * rear_depth
-tip = plus
+s = +1 if p >= m else -1
+rear = m - s * R/2
+notch = m
+tip = m + s * max(abs(p-m), 1.5R)
 ```
 
-MinusとPlusを逆転すると向きも反転し、後端側の固定長を保ちます。
-両端間が固定長より短い場合も `joint` をクランプせず、接合断面と先端の位置をそのまま使います。
+内部m/pを逆転すると向きも反転し、くぼみ・肩中心をmに保ちます。
+指定が母体の前端より短くても母体を潰さず、前端を1.5Rに保ちます。
 幅・高さは他の基準空間の2軸で調整し、共通TRSは完成した本体全体へ作用します。
 `shapePartOffset`・`shapePartSize`・各Part倍率はこの本体へ作用しません。
-後端の固定長と前側の接合面、Wide・Fin・GuideLineも同じ本体の座標へ揃えます。
+後端と肩、Wide・Fin・GuideLineも同じ本体の座標へ揃えます。
+PartはArrowPlanarが先端と左右肩の3点、ArrowSpatialが先端と横4肩の5点です。
 
-`Arrow` のWideは、先端に接続する2辺の帯境界を交点まで延ばし、長く鋭くしても面取りへ切り替えません。
+`ArrowPlanar` のWideは、先端に接続する2辺の帯境界を交点まで延ばし、長く鋭くしても面取りへ切り替えません。
 辺から測る帯幅を保つため、外側の先端は本体のPlus座標より先へ張り出します。
 帯が頭部より太く、内側の交点が付け根を越える場合は、付け根で内側の穴を閉じます。
 先端の幅が0など交点を定義できない場合は、退化後の帯として扱います。
+ArrowSpatialで前側のPartが有効かつOffsetが0の場合は、非等方な2面の主軸上の外側miter先端を前方の共通点へ揃え、
+共有Partとの隙間を防ぎます。Offsetが0以外、または前Partを省略した場合は元の2面を保ちます。
+この補正は主軸上のmiter点を一意に取れる場合だけに適用し、Cageの折り返しや軸外の頂点では元の形を保ちます。
+帯の他の部分、Partの局所寸法、公開Plusの値は変更しません。
+
+### Square・Diamond・CircleのPlanar / Spatial
+
+SquareArrowPlanar / DiamondArrowPlanar / CircleArrowPlanarと、対応する3種類のSpatialは、
+内部の主軸Minus座標 `m=-入力Minus` を本体または肩の中心にします。
+主軸はAxisSwap OFFで1st軸、ONで2nd軸です。Plus入力 `p` は前側の先端を指定します。
+PlanarのRは第3軸の半幅だけを使い、Spatialは横2軸の基準半径rA/rBの平均を使います。
+主軸面ScaleをRへ掛けず、本体の組立後のCage変形へ一度だけ適用します。
+
+```text
+s = +1 if p >= m else -1
+L = abs(p - m)
+R = r3 for Planar, (rA+rB)/2 for Spatial
+rear = m - s * R
+front = m + s * max(L, R)
+```
+
+`L <= R` では母体だけを表示し、Plusが本体内へ入っても前半径を縮めません。
+`L > R` の場合に限り、前側の外殻を先端Plusへつなぎます。
+SquareArrowSpatial / CircleArrowSpatialはmを箱・球の中心に保ち、DiamondArrowPlanar / DiamondArrowSpatialはmを横頂点の肩中心に保ちます。
+公開の既定Minus=0.5では内部m=-0.5です。中心を原点に置く場合は主軸Minusへ0を入力します。
+SquareArrowSpatialは箱の前面を底とする四角錐、CircleArrowSpatialは球と外部の先端を包む凸包の円錐です。
+SquareArrowPlanarは四角形の母体へ三角形の先端、CircleArrowPlanarは円の母体へ接線で先端を接続します。
+Circle系の接線接合は中心から主軸向きに `a = R² / L` の位置で、
+横半径を `sqrt(1 - (a/R)²)` 倍にします。CircleArrowSpatialに接合円のストロークやWideの接合円帯は追加せず、
+球面と接線円錐の外殻を連続させます。
+Fillは完成した外殻だけを塗り、箱・錐や球・錐の内部へ円盤・仕切り面を追加しません。
+
+Partは横方向と後端を保持した本体へ配置し、前側1点だけを突出時のPlusへ追従させます。
+突出しない場合の前Partはm+s*Rに残し、本体内のPlusには配置しません。
+AtEnd / AtApexは前1点、AtEndsはPlanarが4方向、Spatialが6方向です。
+肩のPartは各横軸方向へ向け、辺の角二等分線へ変更しません。Primary / OtherとPartの局所寸法は共通規約です。
+GuideLineは箱・球の中心から各方向へ伸ばし、対象方向のArrow2D / Arrow3Dの先端まで接続します。
+Wide・Fin・Templateも完成した外殻へ適用します。面内Scaleは本体と突出部の組立後に適用し、
+共通TRS・Size・入力行列は本体・Part・Finへ同じ順序で作用します。負値・ゼロ値も保持します。
+面内Scaleの主軸枠は後端rearと前端frontから求め、幅を `s*(R+max(L,R))`、中心を両端の中点にします。
+短い長さやL0でも本体の幅を基準に補間するため、非対称な主軸面倍率で変形が発散しません。
+横2軸の枠は公開端座標の中心と符号付き幅を保ちます。
+
+主軸半径は横端座標から先に求め、本体を組み立ててからCage変形を一度だけ適用します。
+変形後のBoundsや表面から半径を再推定せず、再帰や重複適用を避けます。
+数値回帰は `test_bd_controller_arrow_shapes.py` と `test_bd_controller_arrow_family.py` で、固定中心、横径由来の本体寸法、突出しきい値、
+回転後の凸包の支持範囲、Part配置・局所寸法、面内Scaleの順序、全11小形状、履歴と保存再読込を確認します。
+
+### SquareArrowAxial・DiamondArrowAxial・CircleArrowAxial
+
+Axialは主軸の内部Minus座標mに底面、Plus座標pに先端を置く錐です。
+SquareArrowAxialは四角形、DiamondArrowAxialは横2軸の端を結ぶ菱形、CircleArrowAxialは円を底面にします。
+横2軸の端座標で底面の幅と中心を調整し、m/pの反転や一致も許容します。
+Partは先端1点だけを使い、AtEndsではPrimary倍率が作用し、Other倍率は保持して無視します。
+Wide・Fin・GuideLine・Template・AxisSwapも共通規約で適用します。
+
+### Capsuleの本体と基準空間
+
+`Capsule` は円筒の両端へ半球を接続した立体です。主軸はAxisSwap OFFで1st軸、ONで2nd軸を使い、
+内部のMinus座標 `m=-入力Minus` とPlus座標 `p=入力Plus` は両端キャップの中心、つまり中央円筒の両端です。
+円筒の長さは `L = abs(p - m)`、向きは `s=+1 if p>=m else -1` です。
+
+横2軸の半径をそれぞれ `rA = abs(plusA - minusA) / 2`、`rB = abs(plusB - minusB) / 2` とし、
+主軸Minus面の横2倍率を `SA-` / `SB-`、Plus面を `SA+` / `SB+` とすると、
+キャップごとの基準主軸半径は `R-=(rA*abs(SA-)+rB*abs(SB-))/2`、`R+=(rA*abs(SA+)+rB*abs(SB+))/2` です。
+主軸半径へ端面の横倍率を連動するのはCapsuleだけで、Arrow各本体は横端座標由来の半径を使います。
+AxisSwap OFFでは2nd軸と3rd軸、ONでは1st軸と3rd軸が横軸です。
+円筒長を `L` に保ち、両先端を `m-s*R-` と `p+s*R+` にします。全長は `L+R-+R+` です。
+全軸の公開Minus/Plusが既定の+0.5 cm、面倍率が1なら、内部m=-0.5・p=+0.5、円筒長1 cm・両半径0.5 cm・全長2 cmです。
+面倍率が全て1で横2軸が同径なら半球になり、非等方なら各横半径と主軸平均半径を持つ楕円体の半分になります。
+任意の面倍率では基準半径を決めた後に曲面もCage変形するため、完成した断面の実測半径と一致するとは限りません。
+`L = 0` では円筒が長さ0になります。両端の横倍率が同じなら楕円体、さらに横同径・同倍率ならSphereです。
+両端の倍率が異なる場合は左右の半球を独立して保ち、同じ主軸位置にある異径の接合円を平面状の接続部分でつなぎます。
+短い円筒でもキャップを主軸方向へ圧縮せず、MinusとPlusの逆転では両端の役割だけを交換します。
+横2軸がともに潰れるとR=0になり、Wideでも面積0の帯面を省いて中央の軸線を保ちます。
+
+残る2軸は他本体と同じ基準空間の倍率と中心を使います。主軸半径を横端座標と各端面の倍率から先に求めて本体を組み立て、面内Scaleを一度だけ適用するため、
+主軸の両端を広げる操作と、他面の主軸倍率で完成したCapsuleを拡縮する操作は同じ形状になりません。
+共通TRS・Size・入力行列も完成した本体全体へ作用し、Partの局所寸法は拡縮しません。
+横径と平均半径はMayaのシーン距離として計算し、表示単位をmmへ変えても同じ形状を保ちます。
+面内Scaleの主軸方向の基準枠は円筒の接合面間 `m/p`、中心は `(m+p)/2` です。
+枠の符号は元のPlus-Minusと同じ向きとし、元の幅0では正向きにします。他の2軸の枠は既存の横端座標です。
+Minus半球はMinus面、Plus半球はPlus面の倍率を使い、円筒部分だけで両面の倍率を線形補間します。
+半球へ反対端の倍率を混ぜず、原型の端を識別するため中心間が0・反転でも有限の変形を保ちます。
+
+通常の輪郭は2本の直交する縦断面と、半球と円筒の両接合部に置く2本の円です。
+面内Scaleを適用する前の接合円の主軸座標は内部m/pと一致し、中央の円は描きません。
+`L = 0` で接合円自体も重なる場合は1本にまとめ、異径なら両方の円を残します。WideとTemplateにも同じ接合位置を使います。
+Fillは半球と円筒がつながる外側の殻だけを塗り、接合位置に内部の円盤を追加しません。
+Partは両端キャップの先端だけを使い、AtEndとAtApexはPlus側中心から外側R+の先端、
+AtEndsはMinus側中心から外側R-の先端にも配置します。
+Primary / Other倍率は他の非Arc本体と共通で、倍率0のPartだけを省略します。
+Wide・Fin・GuideLine・Template表示と軸交換も対応し、付属形状のON/OFFで本体の半球や円筒の長さを変えません。
+Finは完成した本体の断面を付け根として共通のStandard / Tapered規約を適用します。
+Wideでも輪郭線と帯面だけでなく、完全な本体表面の範囲をboundsへ保持します。
+帯の内側へガイド線を追加する場合も、GuideLineの切替でフォーカス範囲を広げません。
+
+数値回帰は `test_bd_controller_capsule.py` で、半球中心の端座標、横径由来の平均半径、斜め回転時の支持範囲、
+面内Scaleの適用順序、2端Part、全11種類の小形状、Fin、単位と履歴・保存再読込を確認します。
 
 ### CircleとWideCircle
 
 `Circle` は角度を変更しない閉じた平面の円です。
 Wide OFFは半径0.5の円、Wide ONは円周に沿う環とし、AxisSwap OFFではXZ面、ONではYZ面へ置きます。
 円周は64分割です。
-`shapeArcAngle` は本体・Part・Fin・GuideLineへ作用せず、値・接続・キーを保持します。
+`shapeArcAngle` は本体・Part・Fin・GuideLineへ作用せず、値を保持します。
 Arc系の円周変形、接線方向の配置、立体Partの角度補正は使いません。
 
 Partの配置はSquare系と共通です。AtEndは通常版の+1st、Swapped版の+2ndへ外向きに1つ、
@@ -653,7 +837,7 @@ WideCrossLine3AxisとColorWideCrossLine3Axisは、3軸の線を四角断面の�
 幅0では元の3軸の線へ戻り、本体のFillを省略します。
 PartのAtEndは+1st、AtEndsは6方向、AtApexはAtEndとして扱い、Finも3軸本体の規約を使います。
 本体の断面幅はPartのSize・Widthから独立します。
-Finの高さは本体中心軸から `shapeFinHeight * shapeFinSize` で測り、断面の半幅を加算しません。
+Finの高さは本体中心軸から `shapeFinHeight` で測り、断面の半幅を加算しません。
 本体の内側へ入るFinの根元を切り取り、幅を変えても指定した到達高さを保ちます。
 
 ColorWideCrossLine3Axisは正側のX・Y・Zの腕を赤・緑・青にし、各腕の輪郭とFillへ同じ軸色を使います。
@@ -668,7 +852,7 @@ Arc系4基本形状の角度はPart・Wide・AxisSwapのON/OFFから独立して
 通常版の既定軸では0°の両端が+Xに一致し、180°で±Z、360°で-Xに一致します。
 Swappedでは0°が+Y、180°が±Z、360°が-Yです。
 0°では円弧・Partを省略し、360°では継ぎ目に不要な線を追加しません。
-接続入力も0–360°に制限します。Circle・WideCircleと各Swapped、Sphereを構成する円、小形状Circleには適用しません。
+`shapeArcAngle` の設定範囲は0–360°です。Circle・WideCircleと各Swapped、Sphereを構成する円、小形状Circleには適用しません。
 円周64分割相当の密度を使い、両端と各軸方向の点を含めます。
 
 | 基本形状とWide | 本体 | 円弧端の6種類のPart | Fill |
@@ -684,7 +868,7 @@ ArcRadial・ArcAxialと各Cross版・Swapped版の本体は円弧線で、Fill�
 追加Partだけを塗り、中心へ向かう線や扇形・円板を追加しません。
 Shape / ShapeCenteredの範囲も、実際に生成した円弧線とPartから計算します。
 Part OFFではRadialとAxialの本体は同じ円弧線です。
-薄線本体では `shapeWideWidth` を無視し、値と接続は保持します。
+薄線本体では `shapeWideWidth` を無視し、値は保持します。
 WideArcRadialは同じ平面内で半径方向に幅を持つ円弧です。
 塗りは帯状の円弧、360°では環となり、中央の空間を残します。
 
@@ -706,7 +890,7 @@ ArcRadial・WideArcRadialと各Cross版・Swapped版のAtEnd・AtEndsのArrow2D�
 どちらにも `shapePartSize` を掛けます。幅によって円の中心を越える部分は半径0へ制限します。
 基準となる長さ・幅はArcAxial・WideArcAxialと共通です。
 `shapeArcAngle` で変わる円弧端点へ追従し、`shapePartOffset` は無視します。
-Offsetの値・接続は保持し、立体PartやAtApexへ切り替えると再び作用します。
+Offsetの値は保持し、立体PartやAtApexへ切り替えると再び作用します。
 1周を超える長さやAtEndsの重なりは円周の周期でまとめ、内部線や重複面を残しません。
 Arrow2D・Arrow3D・Triangleの長さが正で幅が0でない場合は、端点から根元までの本体円弧を短縮します。
 負の長さは円周方向へ反転し、元の本体円弧を保ちます。
@@ -749,7 +933,7 @@ AtEnd・AtEndsのArrow2D・Arrow3D・Triangle・Square・Diamond・Circleは、
 Arrow2D・Arrow3Dの根元から先端までの基準弧長は `0.1 * cos(pi / 6)`、
 その他の4種類の基準長さは0.1、6種類の基準幅は0.1です。
 `shapeArcAngle` で変わる円弧端点へ追従し、`shapePartOffset` は無視します。
-Offsetの値・接続は保持し、立体PartやAtApexへ切り替えると再び作用します。
+Offsetの値は保持し、立体PartやAtApexへ切り替えると再び作用します。
 この巻き付けに新しい属性は使いません。
 
 帯とPartは展開図上で重なる領域をまとめ、円周の周期で折り返してから巻き付けます。
@@ -838,20 +1022,29 @@ Arrow3Dの追加面は、平面化後の根元からの高さと外側へ立ち�
 `shapeGuideLine` がONなら、本体中心から表面までガイド線を追加します。
 通常の平面形状は本体平面内の2軸、立体形状は3軸の線を使います。
 Triangle系は原点から各頂点へ3本を結び、WideCircle系は中央の穴の内周まで伸ばします。
+Triangleの3本はPartのON/OFFや種類から独立し、本体の頂点を基準に保ちます。
 WideCircle系の内半径が0の場合は線を省略します。WideLine・WideCrossLine系も対象です。
-`Triangle`、`Square`、`Diamond`、`Circle`、`Cube`、`Octahedron`、`OctahedronArrow`、
-`Sphere`、`Cylinder`、`Pyramid`、`Cone`、`ColorCube`、`ColorCornerCube`、`ColorSphere` の14本体に対応します。
+`Triangle`、`Square`、`Diamond`、`Circle`、`Cube`、`Octahedron`、`Sphere`、`Cylinder`、`Capsule`、
+Arrow系11本体、`ColorCube`、`ColorCornerCube`、`ColorSphere` の23本体に対応します。
 `Line`、`CrossLine`、`CrossLine3Axis`、`ColorCrossLine3Axis` の4本体はWide ONのときだけ対象です。
-Gear、Arrow、Arc系4基本形状では生成せず、属性の値・接続・キーを保持します。
+Gear、Arc系4基本形状では生成せず、属性の値を保持します。
 通常本体のガイドは本体と同じ軸指定・AxisSwap・変形・入力行列へ追従します。
 Color系のガイドは軸色を含む固定本体側の基準を保ち、Part・Finだけの軸交換では回転しません。
 
 長さは本体表面を基準とし、PartやFinへ延長しません。
-Square・SquareTemplateと各Swapped、WideLine、WideCrossLine・Circleと各Swappedは例外で、
+Square・SquareTemplateと各Swapped、WideLine、WideCrossLine・Circleと各Swapped、
+Triangle・Diamond・Octahedron・Capsuleと、Planar / Spatial Arrow8本体は例外で、
 Arrow2D・Arrow3Dを配置した方向のガイドを実際の先端までつなぎ、Fill表示時も接続を保ちます。
-PartのSize・Length・Offsetへ追従し、矢印のない方向は本体表面までに留めます。
+PartのSize・Length・OffsetとAtEndsのPrimary / Other倍率へ追従し、倍率0で省いたPart、
+矢印以外のPart、Partのない方向は本体表面までに留めます。
 WideCircleとWideCircleSwappedはこの延長の対象外で、引き続き中央の穴の内周で止めます。
-OctahedronArrowでは本体の長さ・太さの調整へ追従し、付属Partの長さとして扱いません。
+これらの頂点・中心基準本体では、本体内の元のガイド区間を維持したうえで、
+Partとの接合点からOffset後の肩中心、実際の先端まで接続します。負のOffsetや負のLengthでも
+途中を切り取らず、肩中心や先端の位置だけを本体の変形前座標へ戻しません。
+DiamondArrowPlanar・DiamondArrowSpatialのガイドは内部主軸Minusの肩中心を起点にします。
+SquareArrowSpatial・CircleArrowSpatialも内部主軸Minusの本体中心を使います。
+SquareArrowAxial・DiamondArrowAxial・CircleArrowAxialは内部主軸Minusの底面中心から、先端と底面の各方向へ伸ばします。
+本体の長さ・太さの調整へ追従し、付属Partの寸法から独立して起点を保ちます。
 GuideLine自体は線だけで、`shapeFill` に塗り面を追加しません。
 本体・Partの範囲内へ収まり、ON/OFFやTemplateの切替でフォーカス範囲を広げません。
 
@@ -868,12 +1061,12 @@ SquareにTemplateLine・Rate 0.7・TemplateFillを指定したSquareTemplate状�
 
 ### Fin
 
-Arc系4基本形状を除く20本体へ、Partとは独立した通常色のFinを1枚追加できます。
+Arc系4基本形状を除く28本体へ、Partとは独立した通常色のFinを1枚追加できます。
 対象外の4本体では、`shapeFin` がONでもFinを生成せず、Fin関連属性の全設定を無視します。
 描画・クリック選択・Shape / ShapeCenteredの範囲にはFinを含みません。
-属性の値・接続・キーは保持し、Fin対応形状へ切り替えると再び作用します。
+属性の値は保持し、Fin対応形状へ切り替えると再び作用します。
 Arrow3Dの追加面はPart自体の形状であり、Finの対象外設定には影響されません。
-Standardは矩形など本体に合った形、Taperedは幅の負側が高く正側へ低くなる形です。
+Standardは主軸に平行な上辺と補助軸に平行な立ち上がりを持ち、Taperedは幅の負側が高く正側へ低くなる形です。
 通常本体ではFinが+補助軸へ張り出し、Taperedの先細る側が+主軸を示します。
 Swappedではこの役割も入れ替わり、Finは+主軸へ張り出し、先細る側は+補助軸を示します。
 Finの基準は矢印や小形状を除いた本体断面です。小形状ごとにFinを追加しません。
@@ -885,19 +1078,23 @@ Finの基準は矢印や小形状を除いた本体断面です。小形状ご�
 
 Finは本体中心軸または断面へ接続し、根元を閉じる線を追加しません。
 Circle系にも通常のFinを追加でき、WideCircle系の中央の穴もFinが横断します。
-ArrowのStandardはくぼみ1st=-0.25から先端+0.5までの矩形、
-Taperedは従来Standardの傾斜した外形です。
+ArrowPlanarのStandardはくぼみmから実際の先端までの矩形で、既定のmは-0.5です。
+ArrowSpatialの付け根は同じFin平面にある本体外周を使います。
+Taperedは本体断面に沿い、先端へ向かって低くなる外形です。
 Cube・CylinderのTaperedは負側の高い位置から正側の本体上端へ接続します。
 TriangleにTapered Finを追加すると、本体のXZ面から+Yへ立つ薄い面になります。
 
 ```text
-height = shapeFinHeight * shapeFinSize
-width = shapeFinWidthScale * shapeFinSize
+height = shapeFinHeight
+width = shapeFinWidthScale
 ```
 
 PartのSize・Width・Offset・LengthをFinの寸法へ掛けません。
 `shapeBaseSpace...` では付け根と幅だけを本体へ追従させ、高さを伸縮しません。
-Arrow・OctahedronArrow本体に追従する付け根だけは、本体側の変形を反映します。
+Standardの上辺は先端側の既存高さを基準に両端の高さを揃え、Cubeなど既に水平な本体の高さ基準を保ちます。
+本体の両根元の高さが異なる場合は、片側の立ち上がりが下向きになる形も許容し、その線を残します。
+面内Scaleの局所法線へStandardを傾けず、全体の軸指定・AxisSwap・共通TRSで方向を変えます。
+Arrow系本体に追従する付け根は、本体側の変形を反映します。
 高さ0またはFin OFFではFinの線・面だけを省略し、本体・Partを残します。
 負の高さは自由頂点の張り出す向きを反転し、付け根を移し替えません。
 Color系でもFinは通常色で、`shape1stAxis` / `shape2ndAxis` に配置姿勢を追従させます。
@@ -965,8 +1162,8 @@ Color系の軸指定・回転・スケールの制約は「塗りとColor」に�
 塗りは共通のshapeFillで切り替え、OFFでも透明度やPart・Finの設定を保持します。
 純粋なLine・CrossLineと薄線のArc系・CrossArc系の本体は塗らず、追加Part・Finに面があれば塗ります。
 Wide OFFのGearとWideCircle系は外周と内円の間を塗り、穴を残します。
-Wide ONのGear・Triangle・Square・Diamond・Arrowは、各輪郭に沿う帯だけを塗ります。
-3D矢印は主面に直交する薄い面、Pyramid・Coneなどの立体は底面を含む面を持ちます。
+Wide ONのGear・Triangle・Square・Diamond・全Planar ArrowとArrowSpatialは、各輪郭に沿う帯だけを塗ります。
+PartのArrow3Dは主面に直交する薄い面を持ち、Axial Arrow3種の本体とPyramid・Coneなどの立体Partは底面を含む面を持ちます。
 閉じた立体の本体とPartは外向きの片面だけを描き、内側から裏面は表示しません。
 Color系の立体とColorCornerCubeの小四角も同様です。負のスケールや親transform、
 `shapeAnimationTransformMatrix` による反転後も外向きを維持します。
@@ -1019,11 +1216,13 @@ Part・Finの線と面は通常色です。
 `shapeFill` がONなら、`ColorCornerCube` は正側3面の小四角部分を除いたL字形の領域と、負側3面を
 通常色で塗ります。小四角と本体面は境界を共有し、面積は重なりません。
 本体面には `shapeFillTransparency`、小四角には `shapeLineTransparency` を適用します。
-塗りONでは、本体面は既定の透明度85%、小四角は不透明です。これら2種類にもFinオプションを適用できます。
+塗りONでは、本体面と小四角は既定で不透明です。これら2種類にもFinオプションを適用できます。
 ColorCornerCubeの小四角は `shapeFill` がOFFでも表示・選択でき、Wireframeでも残ります。
+PartをONにしてもこの常時表示とRGB配色を保ち、実際にPartと交差する領域だけを接合の対象にします。
+離れたPartの追加やPartのON/OFFだけで、交差していない小四角を省略しません。
 
 Color系4基本本体は、シェイプ編集を適用する段階で軸色と親transformのローカルXYZの対応を保ちます。
-属性値や接続は変更せず、描画用に読み取った設定だけを次のように扱います。
+属性値は変更せず、描画用に読み取った設定だけを次のように扱います。
 
 | 属性 | Color系の描画用設定 |
 | --- | --- |
@@ -1038,7 +1237,7 @@ Color系4基本本体は、シェイプ編集を適用する段階で軸色と�
 通常の形状へ切り替えると、保持していた軸指定・回転・符号付きスケールが再び作用します。
 本体の輪郭・塗り面・小四角・GuideLine・OffsetLineは、上記の本体用の描画設定を使います。
 Part・Finは通常色のまま、AxisSwapによる基準配置の交換後に選択した主軸・補助軸へ配置点と姿勢を合わせ、
-本体の向きや軸色は変えません。Part非対応のColorCube・ColorCornerCubeにPartを追加することはありません。
+本体の向きや軸色は変えません。ColorCube・ColorCornerCubeのPart配置はCubeと共通です。
 Partは固定された本体表面との接合を再計算し、Finも配置姿勢を変えてから本体・Part内部を切り取ります。
 FinはColor系4基本本体に対応し、Wide・AxisSwap・Template設定で各オプションの対応範囲は変わりません。
 `shapeRotate` / `shapeAxisRotate` の回転無視はPart・Finにも適用し、軸指定による配置姿勢の変更を反映します。
@@ -1056,16 +1255,17 @@ Custom Boundsの専用XYZ両端座標には、本体の軸指定やColorの特�
 
 | Custom attribute | Maya の型 | 既定値 | 意味 |
 | --- | --- | --- | --- |
-| `customBoundsBaseSpaceXPlus` / `customBoundsBaseSpaceXMinus` | `doubleLinear` | `+0.5 cm` / `-0.5 cm` | ローカルXの両端 |
-| `customBoundsBaseSpaceYPlus` / `customBoundsBaseSpaceYMinus` | `doubleLinear` | `+0.5 cm` / `-0.5 cm` | ローカルYの両端 |
-| `customBoundsBaseSpaceZPlus` / `customBoundsBaseSpaceZMinus` | `doubleLinear` | `+0.5 cm` / `-0.5 cm` | ローカルZの両端 |
+| `customBoundsBaseSpaceXPlus` / `customBoundsBaseSpaceXMinus` | `doubleLinear` | 両方 `+0.5 cm` | ローカルXの符号付き方向距離。Minusの内部座標は入力の符号を反転 |
+| `customBoundsBaseSpaceYPlus` / `customBoundsBaseSpaceYMinus` | `doubleLinear` | 両方 `+0.5 cm` | ローカルYの符号付き方向距離 |
+| `customBoundsBaseSpaceZPlus` / `customBoundsBaseSpaceZMinus` | `doubleLinear` | 両方 `+0.5 cm` | ローカルZの符号付き方向距離 |
 
 両端の大小が逆でも同じ箱とし、保持値・キー・接続は変更しません。両端一致による退化も許容します。
 指定した箱の8角へ共有の `shapeAnimationTransformMatrix` を適用してから、最終の軸平行範囲を求めます。
 親transformの変換も従来どおり反映します。Custom以外のモードでは6値を保持して無視します。
 
 表示する調整属性は、形状側の複合属性のX/Y/Z子属性も含めて非keyable・Channel Box表示です。
-Channel Box編集、DG接続、属性を明示したキー設定に対応し、通常の一括キー操作には含めません。
+形状調整は直接編集専用とし、入力接続と明示的なキー設定も受け付けません。
+線幅・透明度・DrawOnTopとBounds設定は、DG接続と明示的なキー設定に対応します。
 `shapeAnimationTransformMatrix` はChannel Boxに表示せず、接続と `ModifierManager` 経由の設定に対応します。
 
 Channel Boxの表示順は次の14区画です。区切りは `_` から `______________` までの
@@ -1080,7 +1280,7 @@ Channel Boxの表示順は次の14区画です。区切りは `_` から `______
 6. `shapeArcAngle`
 7. `shapeTemplateLine`、`shapeTemplateLineRate`、`shapeTemplateLineInvert`、`shapeTemplateFill`、`shapePartTemplate`、`shapeFinTemplate`、`shapeGuideLineTemplate`、`shapeOffsetLineTemplate`
 8. `shapePart`、`shapePartShape`、`shapePartType`、`shapePartOffset`、`shapePartSize`、`shapePartPrimarySizeScale`、`shapePartOtherSizeScale`、`shapePartLengthScale`、`shapePartWidthScale`、`shapePartHeightScale`
-9. `shapeFin`、`shapeFinType`、`shapeFinHeight`、`shapeFinSize`、`shapeFinWidthScale`
+9. `shapeFin`、`shapeFinType`、`shapeFinHeight`、`shapeFinWidthScale`
 10. `shapeGuideLine`
 11. `shapeOffsetLine`
 12. `shapeRootSize`、外側の移動・回転・スケール、内側の移動・回転・スケール、`shapeSize`
@@ -1093,7 +1293,7 @@ Channel Boxの表示順は次の14区画です。区切りは `_` から `______
 
 点 `p` に適用する階層は `shapeAnimationTransformMatrix > shapeRootSize > shapeTranslate > shapeRotate >
 shapeScale > 軸指定 > shapeAxisTranslate > shapeAxisRotate > shapeAxisScale > shapeSize > p` です。
-`p` は端座標と面内Scaleによる本体変形、後端固定長から構成した矢印、Wide、寸法を保つPart・Fin、GuideLineと
+`p` は端座標と面内Scaleによる本体変形、横半径から構成した矢印の母体、Wide、寸法を保つPart・Fin、GuideLineと
 Swappedの入替を反映して組み立てた頂点です。軸指定から作る回転を `A` とすると次の式になります。
 
 ```text
@@ -1116,6 +1316,30 @@ p_local = p_out * shapeAnimationTransformMatrix
 行列の平行移動は `shapeRootSize` の影響を受けません。
 非等方スケールやシアーも行列を分解せず適用し、Color系も入力行列と親DAG変換には同じ規則を使います。
 
+### Node Editorの属性表示
+
+Node Editorでは、`bdControllerShape` を `Custom Mode`（表示モード4）へ切り替えると、
+同梱の `NEbdControllerShapeTemplate.xml` で指定した属性を表示します。
+導入・更新後にMayaを再起動し、Node Editor上のノードを選択して `4` キーを押します。
+`Show Primary Attributes`（表示モード3）はMaya標準の表示判定を使います。
+
+Custom Modeの表示対象と順序は次のとおりです。
+
+1. 継承属性の `visibility`。
+2. 接続用の `shapeAnimationTransformMatrix`。
+3. 上記のChannel Boxの14区画から区切りenumを除いた順で、追加属性の親64個。
+
+合計66個を表示対象とし、TRSのXYZ子と面内Scaleの2子はそれぞれの親から展開します。
+区切りenum14本と、`visibility` 以外の継承属性はテンプレートの表示リストへ含めません。
+Channel Boxの表示、keyable、接続可否などは各属性の既存設定を使います。
+
+テンプレートはMaya 2025 / 2026 / 2027で共通の
+`bakedanuki/bakedanuki-util/templates/node_editor/NEbdControllerShapeTemplate.xml` に置き、
+`bd_util.mod` の各Maya versionのブロックから
+`MAYA_CUSTOM_TEMPLATE_PATH+:=templates/node_editor` で検索パスへ追加します。
+ユーザーの `prefs` に同名のテンプレートがある場合は、そちらが優先されます。
+Mayaのテンプレート保存先と、Node Editorの既定表示モードのpreferenceは変更しません。
+
 ### 描画属性
 
 `shapeLineWidth`、`shapeLineTransparency`、`shapeFillTransparency`、
@@ -1124,6 +1348,8 @@ pixel 指定で、シーン単位や `shapeSize` とは独立しています。
 `shapeLineTransparency` は輪郭線・GuideLine・OffsetLine、`shapeFillTransparency` は
 `shapeFill` がON の本体面に適用します。`ColorCornerCube` の小四角だけは
 `shapeLineTransparency` に従います。面と輪郭線は選択状態に応じた色を使います。
+`shapeFillTransparency` の既定値は `0`（不透明）です。通常は不透明のまま使い、
+半透明が必要な場合だけ値を上げます。
 通常描画では、同一面上の不透明なTemplate塗りでも輪郭線の通常色・Template色を保ちます。
 手前にある他のシーン形状による遮蔽は通常どおり維持します。
 `shapeDrawOnTop` は輪郭線・面・GuideLine・OffsetLine を他のシーン形状より前に描きます。
@@ -1145,7 +1371,7 @@ Custom Boundsは塗りのON/OFFから独立しています。接続・明示的�
 
 ### フォーカス範囲
 
-`boundsMode=Shape` は変形済みの形状本体と表示中の OffsetLine を
+既定の `boundsMode=Shape` は変形済みの形状本体と表示中の OffsetLine を
 含む範囲を返します。
 
 `boundsMode=ShapeCentered` は完成形状の寸法を使い、`shapeTranslate`・`shapeAxisTranslate`・
@@ -1165,8 +1391,9 @@ Customの箱は本体より小さくも大きくもできます。
 `MPxLocatorNode::boundingBox()` は選択したモードの範囲を返すため、
 `MFnDagNode.boundingBox`、親 `transform` の `xform -bb`、標準の
 F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform も含むため、
-子の範囲は別途合算されます。Viewport 2.0 の描画 override はカリング用に
-形状本体・表示中の OffsetLine・表示中のフォーカス範囲プレビューを包む範囲を返します。
+子の範囲は別途合算されます。Viewport 2.0 の描画側では、
+形状本体・表示中の OffsetLine・表示中のフォーカス範囲プレビューを包む
+`drawBounds` をフォーカス範囲と別に保持します。Bounding Box表示にもこの範囲を使います。
 クリック選択に使うのは、Template指定がなく、完全透明でもない本体・Part・Fin・GuideLine・OffsetLineの線です。
 
 ここで `⊙` は成分ごとの積です。`shapeRootSize` は平行移動を含む全体へ作用し、
@@ -1207,10 +1434,9 @@ Arrow3Dでは主平面と直交する薄い矢印面も加えます。
 
 基準形状を作る調整属性が固定されている間は、その頂点を再利用します。
 `shapeAnimationTransformMatrix` だけが変化する場合は、基準頂点を作り直さず、
-行列による頂点変換と補助線・描画範囲の更新だけを行います。
+保存した一意な座標の行列変換と補助線・描画範囲の更新だけを行います。
 親 `transform` のアニメーションでも基準形状は再計算しません。
-基準形状の調整属性自身をアニメーションまたは接続で変更する場合は、
-値が変わった時点で基準形状を更新します。
+基準形状の調整属性は直接編集したときだけ更新し、入力接続とキー設定を拒否します。
 
 ## 実装と拡張
 
@@ -1223,7 +1449,13 @@ ID の管理方針は [NODE_IDS.md](../NODE_IDS.md) に従います。
 Maya 上の挙動テストは [test_bd_controller_shape.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py)、
 公開 API の型確認は [public_node_types_contract.py](../../../tests/typecheck/public_node_types_contract.py)
 にあります。
-線の形状は独立したストロークの配列で保持し、ストロークごとに線を描きます。
+生成中の線は独立したストロークの配列で保持します。完成後は描画専用のデータへ焼き込み、
+同じ色・選択可否が連続する2点のストロークを線分の描画単位へまとめます。
+長いストロークは線幅と角の見た目を保つため折れ線のまま保持します。
+まとめた線分群とFillPartごとに、`MPoint` のx・y・z・wがbit単位で一致する座標だけを共有し、
+元の描画順と線分・三角形の重複数を静的なindex列へ保存します。
+異なるstyleや描画単位をまたいだ座標共有、近接点の統合、輪郭・三角形の削除は行いません。
+論理プリミティブ数と曲線の分割数は維持します。
 そのためCircleと追加Arrowや、色や選択可否の異なる部分を、橋渡しの線なしで
 １つの shape に収められます。現在の円は 64 分割の折れ線で、NURBS の
 degree や surface を持つ形状ではありません。
@@ -1234,17 +1466,23 @@ WideArc系は円弧角度に応じた帯となります。
 薄線のArc系本体は面を持たず、FillをONにしたPartにだけ面を生成します。
 面の頂点も描画範囲と `boundsMode=Shape` の算出に含めます。
 閉じた立体の片面表示（`singleSided`）では外向きの頂点順序を保持し、現在のビューに向く三角形だけを描画へ渡します。
+`shapeAnimationTransformMatrix` の3×3行列式が負の場合は、静的に保持した逆向きのindex列を使います。
+共有座標を入れ替えず、片面表示以外の面では元のindex順を保ちます。
+基準三角形の面情報を焼き込み、通常の移動・回転・スケール・シアーではカメラを基準空間へ戻して判定します。
+視点による変更は描画する頂点のindex列へ反映し、三角形の座標を複製しません。
+逆行列を使えない変換や投影を含む変換、境界付近の面には頂点から判定する経路を残します。
 厚み0のWideフレームは両面表示とし、この選別を適用しません。
 選別結果は形状・カメラ・親transformが変わるまで再利用します。
 Fillの表示で輪郭が変わる形状は、面を表示しない場合の線を形状キャッシュに保持します。
-`shapeDrawOnTop` がオンのときは、最前面表示に対応するためストロークを
-線分へ展開して描画します。色と選択可否はストロークごとに保持します。
+`shapeDrawOnTop` がオンのときは、最前面表示に対応する線分indexを使って描画します。
+indexは形状の焼込み時に保持し、行列や親transformの更新時に線の座標列を展開し直しません。
+色と選択可否は描画単位ごとに保持します。
 オフの既定状態では通常の深度テストを使います。
 
 ### プリセットを追加するとき
 
 `BdControllerShapePresets.inc` の `kPresetNames` の順序が公開 `shape` enum の数値です。
-`kPresetInfo` の先頭24件は同じ順序で各基本本体を内部の輪郭番号へ対応付けます。
+`kPresetInfo` の先頭32件は同じ順序で各基本本体を内部の輪郭番号へ対応付けます。
 後ろの9件は既存のWide生成で使う内部prototypeで、公開enumには含めません。
 `baseOutlineIndex()` / `wideOutlineIndex()` と描画用設定の正規化でWideの経路を選び、
 AxisSwap、Template、塗り、Partの種類・配置、Finの種類は別の設定で保持します。
@@ -1276,10 +1514,37 @@ Channel Box 表示を設定します。複合属性では、TRSのX/Y/Z子と面
 新しい区切り属性も追加し、表示専用・非接続・非保存・ロック済みとします。
 区切り名を変更したときは、Python 生成器の除外条件も確認してください。
 
+Node Editorに表示する属性を追加・変更したときは、共通の
+`NEbdControllerShapeTemplate.xml` も更新します。表示するのは親属性とし、
+子は親から展開できる構成を保ちます。行列の後にChannel Boxと同じ順で並べ、
+区切りenumは追加しません。Maya 2025 / 2026 / 2027のGUIでCustom Modeの属性順、
+親子の展開、静的調整への入力接続拒否、行列・表示・Boundsの接続、Primary表示への切替、ユーザーテンプレートの優先を確認します。
+
 形状、フォーカス範囲、プレビューに作用する属性では、値の読み取り、
 対応する基準形状・変換後のキャッシュの無効化、描画範囲まで確認します。
 属性定義の変更後は下記の生成ファイルを更新し、Channel Box の順序・表示状態と
 値変更後の描画・`boundingBox()` を自動テストと GUI の両方で確認します。
+
+### 調整属性の変更・削除と既定値の同期
+
+属性の追加だけでなく、削除や既定値の変更でも次を同じ変更で揃えます。
+
+| 対象 | 確認する箇所 |
+| --- | --- |
+| ネイティブ定義 | headerの宣言、static定義、`initialize()` の型・長名・短名・既定値・登録順 |
+| 形状入力とキャッシュ | `ShapeSettings`、`ShapeAttributes` と `shapeAttributes()` の初期化順、`readSettings()`、`sameSettings()`、`isShapeAttribute()`、非接続メタデータと `legalConnection()` |
+| フォーカス入力 | `boundsMode` とCustom Boundsの読取・接続判定、基準箱と行列適用後の箱の無効化 |
+| 公開APIと表示 | 新しいDLLからのPython定義の再生成、型契約、Channel Box順、Node Editorテンプレートのattribute定義とproperty一覧 |
+| 回帰と説明 | 既定値・長名と短名・直接編集・入力接続とキーの拒否・Undo/Redo・再読込、行列と表示・Boundsの動的入力、仕様表とサンプル |
+
+形状入力とフォーカス入力は、それぞれに対応するキャッシュ更新経路を保ちます。
+`boundsMode` のように既定値とキャッシュの初期値が一致する場合も、初回の範囲を生成する必要があります。
+新規ノードで既定値を設定し直さずに `boundingBox()` を読み、移動した形状と `viewFit` でも確認します。
+
+属性を削除したときは、長名・短名・Pythonの公開descriptorが存在しないことも検証します。
+共通倍率を独立した寸法へ整理する場合は、既存テストの入力を同値の寸法へ置き換え、
+負値・0・直接編集・入力接続とキーの拒否・保存再読込を通すケースを維持します。
+Python定義の既定値はロードしたDLLから取得するため、対象の絶対pathを指定した専用プロセスで再生成します。
 
 ### 基準空間の面内Scaleを保守するとき
 
@@ -1299,11 +1564,15 @@ Channel Box 表示を設定します。複合属性では、TRSのX/Y/Z子と面
 原型の点は `bodyBaseSpacePoint()` で基準姿勢・両端座標・Arrowの後端規約を反映し、
 `cagePoint()` で面内Scaleを反映します。その本体を使って、寸法を保つWide・Corner・Part・Finと
 GuideLineを組み立て、共通TRSを一度だけ適用します。入力行列は、その後の行列変換経路で扱います。
+元辺や元三角面へ追加する点は、変形済み頂点を補間します。Template境界などを原型へ追加してから
+独立にCage評価すると元の直線が曲がるため、元辺の両端との対応を保持します。
+Capsuleの半球は `cageBodyPoint()` へ原型主軸座標を渡し、中心間0でも左右の端を区別します。
 新しい形状を追加するときも、本体の変形と、寸法を保つ要素の生成位置をこの順序へ揃えます。
 
-全ての面倍率が1なら従来の両端座標の経路を使います。向かい合う面の倍率が各成分で等しい場合は、
-`cageAffineSettings()` が両端座標へ集約します。Arrow系は固定した後端へ面倍率を適用する順序を
-保つため、この集約の対象外です。最適化時も、既定値・集約可能な倍率・非一様な倍率を分けて確認します。
+専用の本体生成経路を持たない形状では、全ての面倍率が1なら従来の両端座標の経路を使います。
+向かい合う面の倍率が各成分で等しい場合は、`cageAffineSettings()` が両端座標へ集約します。
+Planar / Spatial Arrow8本体・Capsule・DiamondArrowAxialは、組立後に面倍率を適用する専用経路を保つため、
+この集約の対象外です。最適化時も、既定値・集約可能な倍率・非一様な倍率を分けて確認します。
 
 Fill用とWireframe用では、Cylinderの母線やArrow Partの開いた線などに差があります。
 原型と変形前後の本体は共有し、完成した描画形状は表示ごとに組み立てます。
@@ -1314,18 +1583,17 @@ Fill用とWireframe用では、Cylinderの母線やArrow Partの開いた線な�
 反転とAxisSwapを組み合わせたArrow系は、後端側と先端側の面が外向きに残ることをGUIで確認します。
 
 6つの `double2` 親は `MFnNumericAttribute` で既存の `double` 子2つをまとめるnumeric compoundです。
-親と子を登録・変更するときは、次の変更通知と接続判定を保ちます。
+親と子を登録・変更するときは、次の変更通知と入力接続の拒否を保ちます。
 
 - 親へ直接 `setAttr(..., type="double2")` した変更通知は、親だけに届く場合があります。
   `isShapeAttribute()` では6親と12子の両方を形状変更として扱います。
-- 親同士の接続では、親の `MPlug::isDestination()` がtrueでも子はfalseになる場合があります。
-  `hasConnectedSettingsInput()` は6親から `hasIncomingConnection()` で子を再帰的に調べます。
-- 接続元の値変更では、接続先のattribute callbackが発火する前提を置きません。
-  入力接続がある形状は設定値を再読込・比較し、キャッシュ済みの形状と描画範囲を更新します。
+- 親と子の両方を非接続属性とし、`legalConnection()` でも入力接続を拒否します。
+  `connectAttr()` と `MDGModifier` のどちらも対象です。
+- キー設定によるanimCurve入力も許可せず、値の直接編集とUndo/Redoで形状を更新します。
 
-Maya 2025での実測を踏まえた経路です。Maya versionや通知の扱いを変更するときは、
-[Dirty Propagation Tests](testing-debugging.md#dirty-propagation-tests) の親設定・親接続・子接続を
-別々に通し、GUIでもアニメーションと巻き戻しを確認します。
+Maya versionや通知の扱いを変更するときは、
+[Dirty Propagation Tests](testing-debugging.md#dirty-propagation-tests) の親設定・子設定、
+親子への入力接続とキーの拒否を別々に確認し、GUIでも直接編集とUndoを確認します。
 
 ### 基準形状を追加する際の座標規約
 
@@ -1350,22 +1618,109 @@ Swappedは基準円YZ面・中央方向+Yです。RadialのPartは円平面内�
 Color系は固定本体へSwapを掛けず、Part・Finの配置点と方向をSwapしてから選択軸へ写します。
 
 骨に沿う形状で根元を原点、先端を指定長へ置く場合は、基準空間の主軸両端を
-`0` と指定長に設定します。Arrow系は後端の固定長を保ち、前側だけを先端へ伸ばします。
+公開Minusへ `0`、Plusへ指定長を設定します。Planar / Spatial Arrowは本体・肩中心を原点に保ち、
+指定長が母体を越えた部分へ先端を伸ばします。Axial Arrowは底面を原点に置きます。
 形状を追加するときはストロークの区切り、基準範囲、軸指定・共通TRS・
 行列適用後の範囲と選択範囲を確認します。
 
 基準形状と行列適用後の形状、および Custom の基準箱と行列適用後の箱を
 同じ node 内で別々にキャッシュします。
-直接の属性変更と接続変更は `MNodeMessage` callback で対応するキャッシュを
-無効化します。入力接続がある場合は、再生中の値の変化を拾うために値を比較します。
+生成用の形状は完成後に `bakeDrawGeometry()` で描画用へ焼き込みます。
+描画データと不変の接続情報は
+[`BdControllerShapeDrawData.inc`](../plugins/bdUtilNodes/src/nodes/BdControllerShapeDrawData.inc)、
+焼き込みと行列変換は
+[`BdControllerShapeDrawGeometry.inc`](../plugins/bdUtilNodes/src/nodes/BdControllerShapeDrawGeometry.inc) にまとめています。
+線の描画単位・index・面情報は共有し、行列変更時は一意な保存座標の変換と正確な範囲の算出を同じ走査で行います。
+フォーカスやプレビューの変更で重い座標配列をコピーせず、描画データを共有します。
+描画順を保ったまま、同じstyleの連続する2点ストロークだけを1つの線群へまとめます。
+長い輪郭は `lineStrip` を維持し、Xray表示には保存した線のindexを使います。
+線群とFillPartは個別に座標を共有し、bitが異なるsigned zero・NaN payload・wは区別します。
+indexを元の順に展開した線分と三角形、描画属性、boundsが共有前と一致することを保守条件にします。
+従来のUI描画では、片面Fillは静的な面情報とローカル視点から可視indexを更新します。
+親transformやカメラの変化で形状を再生成せず、退化・射影変換・輪郭付近では
+現在の向きのindex経由で3点を参照し、元の頂点変換による面向きの判定を使います。
+負det用index列も焼込み時に作り、行列更新時にindex列をコピーしません。
+親transformだけが変わる場合は、形状内の座標とそのboundsを再計算せず、必要な可視indexだけを更新します。
+直接の形状調整は `MNodeMessage` callback で基準形状のキャッシュを無効化します。
+形状調整の入力接続は拒否するため、再生中に全調整属性の値や接続を走査しません。
+行列とBoundsに入力接続がある場合は、再生中の値の変化を拾うために値を比較します。
 基準形状の調整値が同じなら頂点を再生成せず、行列が同じなら変換後の頂点も
 再生成しません。入力接続のない状態では変更通知がない限り plug の読み取りも
 省きます。親 `transform` の TRS は基準形状の再生成条件に含めません。
-描画 override は選択色などの表示変化に追従するため常時更新とし、
-静的な調整値では属性の再読込と頂点・描画範囲の再計算を省きます。
-キャッシュの仕組みを変更する際は、描画と両方の `boundingBox()`、
-属性の直接編集、Undo/Redo、キー・接続による変化を一緒に確認してください。
-再生速度の改善量はまだ実測していません。
+線幅・線とFillの透明度・DrawOnTopの4値は描画データに保持し、形状とは別の変更番号で
+更新します。既存の属性変更callbackで直接編集と接続変更を検出し、未接続・未変更の値は
+読み直しません。接続状態も変更時に確認し、接続のある項目は現在値を読みます。
+4属性は `setInternal(true)` と `setInternalValue()` で設定通知も受けるため、
+再生・スクラブ中にスクリプトが未接続値を直接変更した場合もキャッシュを更新します。
+このhookは値を保持せず `false` を返し、保存・キー・接続は通常のMaya datablockへ委譲します。
+接続・切断は標準の `connectionMade()` / `connectionBroken()` でも変更番号を進めます。
+再生中に属性変更callbackが届かない接続変更も、次の描画準備で接続状態と現在値を確認し直します。
+callbackが使えない場合や値の取得に失敗した場合は
+読み取りを省略しません。このためのcallback登録は追加しません。
+色・選択・表示レイヤーなどMaya側の表示状態は引き続き各viewで確認します。
+Selection HighlightingがONのviewでは使われない非選択色の取得を省きます。
+Template色が必要な線・面は形状の焼き込み時に記録し、Template線・OffsetLine・
+Bounds Previewなどが色を使う場合だけ取得します。同じ更新内のTemplate色と
+Draw Override情報は共有します。
+描画は `MPxSubSceneOverride` を使います。従来のUI描画経路では `requiresUpdate()` の各viewでの確認を維持し、
+形状キャッシュ、片面Fillの視点、色・選択・表示設定が前回と同じ場合は、
+`areUIDrawablesDirty()` で既存のUI描画データを再利用します。親transformの変化だけでは
+線のローカル座標を再提出せず、片面Fillでは必要な可視indexを更新します。
+複数viewでは現在のviewに対応した面・色を比較し、非表示へ切り替えたときは描画を空にします。
+この判定のためのcallbackは追加しません。形状生成・頂点変換のキャッシュは従来のままです。
+面のない標準31シェイプの不透明・幅1の線には `MRenderItem` を使います。
+Wide・Part・Fin・補助線などを含む面のない形状や、線の保持描画に対応しない表示条件では従来のUI描画へ戻します。
+面のある形状には後述のFill保持描画を使い、`ColorCornerCube` はFill OFFでも常設マーカーの面を保持します。
+焼込み済みの座標と接続情報を使い、連続する同じ配色の線をまとめます。
+Color系では線の順序と軸配色を保持し、選択時は従来と同じ選択色へ切り替えます。
+形状の接続構成が変わる場合は接続情報も更新し、アニメーションで座標だけが変わる場合は
+接続情報を再利用します。形状切替時の余分な描画itemは無効化します。
+キャッシュ、親行列、色・選択・表示設定、viewの状態が変わらない場合は、
+`requiresUpdate()` から更新を省略し、保持済みの線とGPUデータを再利用します。
+連続操作中の個体は更新し続け、停止後の更新を経てから省略を再開します。
+再生・スクラブ・時刻変更・動的な入力接続や不明な状態では更新を省略しません。
+再生状態は標準の `playingBack` 通知を描画インスタンス全体で1つ共有し、
+通知を利用できない場合は従来のAPI照会へ戻します。ノードごとの通知は追加しません。
+形状生成と静的TRSの焼込み、`shapeAnimationTransformMatrix` の適用は変更しません。
+この経路は対応する3バージョンそれぞれのSDKでビルドします。
+3バージョンの固定画像比較では、非選択の `ColorSphere` を一方向から見たときだけ、
+線の交点の1画素が緑から青へ変わりました。外形・透明度・選択時の画像は一致していますが、
+交点の画素まで従来のUI描画と完全に一致することは保証しません。
+
+Maya 2025 / 2026 / 2027に共通のFill保持描画は `BdControllerShapeFill.inc` に分離しています。
+試作用の環境変数や計測コマンドを使わず、焼込み済みの線と面を保持します。
+本体・Wide・Part・Finの通常色と軸色、面ごとの片面／両面指定、
+`ColorCornerCube` の常設マーカーを同じ経路で扱います。
+マーカーには線の透明度を使い、Fill OFF・Wireframeでも表示を維持します。
+通常のFillにはFillの透明度を使い、面を表示しないときは既存の代替線形状へ切り替えます。
+面のない形状はFill保持描画の入口で除外し、描画先・表示設定・配色の照会を省きます。
+`shapeFill` の値だけで判断せず、常設マーカーのある形状は面の描画対象として残します。
+親transformだけが変わるときは描画itemの行列を更新し、CPUで片面の可視indexを作り直しません。
+座標だけが変わるアニメーションでは頂点を更新し、接続構成と向きが同じindex bufferを再利用します。
+片面の向きは描画時のstateで制御し、両面表示へ仕様変更しません。
+太線・透明な線・DrawOnTop・Template / Reference・Bounds Preview・OffsetLineを含む条件や、
+対応できない行列・描画先・状態では従来のUI描画へ戻します。
+軸色の塗り面とPart / Finを併用した半透明Fillも、混色の順序を保つため従来のUI描画を使います。
+この組合せの判定は静的topologyの変更時にキャッシュし、行列アニメーションでは属性を再照会しません。
+不透明Fill・通常色だけの付属形状・常設マーカーはこの制限の対象外です。
+保持描画と従来描画の往復時には、片面の可視indexも現在の視点へ更新します。
+選択、Selection Highlighting OFF、親階層とDisplay Layerのoverride色は、既存の表示判定を共有します。
+半透明のFillと手前の透明meshが重なる場合は、従来UI描画と混色が異なることがあります。
+この差は採用対象の表示仕様として許容します。
+
+callback付きshaderの元インスタンスは、同じ配色・片面条件で共有する `MUserData` に所有させ、
+render itemが使う間は保持します。描画stateはDLLが所有し、TLSには単純なpointerと世代番号だけを置きます。
+プラグインの登録解除前に使用中の資源がないことを確認し、解除時に明示解放します。
+使用中の場合は登録解除を進めず、途中の解放失敗時は描画creatorと再生通知の復旧を試みます。
+形状生成・共通TRSの焼込み・`shapeAnimationTransformMatrix` のキャッシュ規約は変更しません。
+2025のユーザー操作確認を経て2026 / 2027へ同じ実装を展開しています。
+版別の確認範囲と未完了項目は [Fillの版別検証](testing-debugging.md) を参照してください。
+Bounding Box表示は、初めて必要になったときだけ8頂点・24indexのRenderItemを作り、
+範囲・親行列・色の変更に対応するデータだけを更新します。
+キャッシュの仕組みを変更する際は、描画範囲とフォーカス用の `boundingBox()`、
+属性の直接編集、Undo/Redo、静的属性への入力接続とキーの拒否、
+行列の接続と接続元の数値キー、表示・Boundsの接続とキーによる変化を一緒に確認してください。
+多数配置時の実測条件と結果は、後述の「処理負荷の測定」に記します。
 
 `shape` enum の選択肢やフォーカス関連の属性を変更する場合も、
 ネイティブ属性の変更です。
@@ -1412,13 +1767,30 @@ Crossの平面接合はWideCrossArcAxialとそのSwappedの仕様で、薄線Axi
 分割数や交点を変更する場合は、連続した曲線の理論上の極値と、生成頂点から得るboundsを区別してください。
 
 数値の回帰は `tests/maya/node/operator/node/dag/shape/test_bd_controller_shape.py`、
-描画の回帰は [Viewport 2.0描画テストの分担表](testing-debugging.md#viewport-20描画テスト) に示す4ファイルにあります。
+描画の回帰は [Viewport 2.0描画テストの分担表](testing-debugging.md#viewport-20描画テスト) に示すファイルにあります。
 `radial_circle`・`axial_circle`・`cross_circle` のテストを変更対象に応じて確認し、
-長さ6.7、複数周、負値・ゼロ、大きな幅、Offsetの接続保持、AtApexへの切替を含めます。
+長さ6.7、複数周、負値・ゼロ、大きな幅、Offsetの値保持、AtApexへの切替を含めます。
 数値・履歴・保存再読込の成功と、実GUIでの輪郭・半透明面の成功は別々に確認します。
 統一検証でbatch実行時の描画テストがskipしても、GUIでの成功を意味しません。
 再実行には [Viewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) の手順を使い、
 `build/` 内の一時的な起動スクリプトや画像の存在を前提にしないでください。
+
+### Finの保守と拡張
+
+寸法入力は距離の `shapeFinHeight` と倍率の `shapeFinWidthScale` です。
+高さ0ではFinを省略し、幅0では立ち上がり線が残る場合もあるため、両者を同じ省略条件にまとめません。
+
+Standardは、根元・上辺両端・根元の4点frameを保持してから、変形後の本体へ根元を合わせます。
+`appendShapeFin()` / `singularBaseSpaceFin()` の `keepStandardFrame` は、Wideの3軸形状で事前の切取りが
+このframeを失わせることを防ぎます。共通の切取り処理を変更するときも、この順序を保ちます。
+`makeCageAttachmentFin()` では上辺を主軸、立ち上がりを補助軸へ平行に組み直し、
+Cubeなどの表面基準と、Wideの3軸形状の中心軸基準をそれぞれ維持します。
+下向きの立ち上がりも線として残し、本体と重なる塗り面の除去とは分けて扱います。
+
+Taperedは本体断面と局所法線へ追従する傾斜の規約を使います。
+Finの共有処理を変更した場合は、Standard / Tapered、Wide、AxisSwap、Color系、
+正負と0の高さ・幅を確認します。数値と実画面の対象は
+[bdControllerShapeの回帰対象](testing-debugging.md#bdcontrollershapeの回帰対象) を参照してください。
 
 ### Template・Wide・描画を変更するときの保守規約
 
@@ -1457,7 +1829,8 @@ Crossの平面接合はWideCrossArcAxialとそのSwappedの仕様で、薄線Axi
 同じ基準座標で加えたGuideLineにも、本体と同じSwapped・軸指定・TRS・入力行列を適用します。
 GuideLineへ新しい調整値を加える場合は、`ShapeSettings`・`ShapeAttributes` へ登録し、
 `readSettings()` で読み取ります。`sameSettings()`、
-`isShapeAttribute()`、`hasConnectedSettingsInput()` のキャッシュ更新経路も揃えます。
+`isShapeAttribute()` の変更通知経路と、非接続メタデータ・`legalConnection()` の
+入力接続拒否も揃えます。
 
 `GuideBodyGeometry` はPartを合成する直前、Fin追加前の本体の領域とストロークを保持します。
 WideLine・WideCrossLine系では、その本体内で原点から連続する区間を使い、幅0ではストロークから終端を求めます。
@@ -1466,13 +1839,19 @@ WideLineの本体全体が原点の片側へ移る場合は、Arrow接続線の�
 GuideLineだけでフォーカス範囲を広げない規約を維持します。
 
 Arrow先端は `optionPartSites()` と `makeOptionHeads()` の配置に合わせて求めます。
-Square・SquareTemplate・Circleと各Swappedの接続先は、各配置点から基準長さ0.125へPartの長さ倍率と配置倍率を掛け、
+Square・SquareTemplate・Circleと各Swapped、Triangle・Diamond・Octahedron・Capsuleと全Planar / Spatial Arrow8本体の接続先は、
+各配置点から基準長さ0.125へPartの長さ倍率と配置倍率を掛け、
 `shapePartOffset` を加えた位置です。AtEndsではPrimary / Otherの設定倍率を反映し、倍率0で省いたPartへは延長しません。
 WideLine・WideCrossLine・WideCrossLineSwappedは配置点から `shapePartOffset` だけ進んだ位置が先端で、
 Lengthは付け根側を変形します。この違いを保ち、本体の短縮処理の後に先端への接続を追加します。
 接続対象はArrow2D・Arrow3Dのある方向に限定し、WideCircleの内周停止と3軸Wideの表面停止を保ちます。
 Square系の既存の延長は、各方向で本体端の0.5と先端の投影距離の大きい方を使います。
 内向きOffsetでも本体端までの線を残し、Fill表示時の接続も維持します。
+Triangleは組み立て後の先頭ストロークから頂点を推測せず、本体の3頂点を使います。
+Triangle・Diamond・Octahedron・Capsuleと全Planar / Spatial Arrow8本体では、本体ガイドとPartの接続を別区間として追加します。
+元の本体区間をPartの体積で切り取らず、接合点からOffset後の肩中心、先端の順でつなぎます。
+Planar / Spatial Arrow8本体の本体区間は内部主軸Minusで定まる本体・肩中心を起点とし、
+基準空間を伸ばした場合や非affineな面内Scaleでも原点へ置き換えません。
 
 既存輪郭との重複は、同一直線上の区間を差し引いて除きます。
 幅0や分割された線でも二重描画を避け、既存の本体・Partの色と選択可否を保ちます。
@@ -1480,13 +1859,18 @@ Arrow3Dの既存の中心線と重なる区間もPartの通常線として残る
 Partの線と重ならない延長区間を使います。新しいColor本体ではGuideLineの軸色とFillの面色を
 それぞれ決め、ColorCubeの正側3面のFillとColorCornerCubeの小四角を混同しないでください。
 
-数値テストは `test_bd_controller_shape.py`、実GUIテストは `test_controller_shape_viewport.py` にあります。
+数値テストは `test_bd_controller_shape.py`、実GUIテストは `test_controller_shape_viewport.py` と
+`test_controller_shape_part_guides.py` にあります。
 
 | 確認する契約 | 主なテスト |
 | --- | --- |
 | 本体・Partの範囲、幅0、内向きOffset | `test_wide_guides_follow_retracted_body`、`test_arrow_tip_guides_preserve_shape_bounds` |
-| 値・接続・キー・Undo/Redo・保存 | `test_guide_options_preserve_history_and_scene_values`、`test_guide_option_connected_animation_is_retained` |
+| 直接編集・Undo/Redo・保存 | `test_guide_options_preserve_history_and_scene_values`、`test_guide_option_direct_values_are_retained` |
 | Arrow先端、矢印のない方向、Fill切替 | `test_guide_line_connects_planar_arrow_tips`、`test_arrow_tip_connection_matches_fill_and_guide_style` |
+| 頂点Partの先端接続、本体区間、倍率0・非Arrowの省略 | `test_vertex_arrow_guides_connect_body_roots_to_tips`、`test_diamond_arrow_guides_restore_the_body_to_root_interval`、`test_vertex_guides_skip_absent_or_non_arrow_heads` |
+| Triangleの3ガイド、DiamondArrowSpatialの断面起点 | `test_triangle_keeps_all_three_guides_with_parts`、`test_oct_arrow_guides_keep_the_stretched_joint_origin` |
+| 非affineの重複描画、負Offsetと負Length | `test_deformed_vertex_guide_keeps_its_body_segment`、`test_inward_offset_keeps_the_guide_through_the_arrow_axis` |
+| Fill OFF・WireframeのRGBマーカーとPart切替 | `test_corner_marker_survives_wireframe_parts` |
 | Templateの延長線と本体の選択可否 | `test_guide_line_template_changes_only_guide_selection` |
 | WideCircleの内周停止、対象外の本体 | `test_guide_line_stops_at_wide_circle_inner_rim_with_parts`、`test_guide_line_is_ignored_on_excluded_shapes` |
 
@@ -1501,16 +1885,431 @@ GUIの切り分けと画像の測定点の選び方は
 完了時は対象指定の成功に加え、前述の統一検証と、対応3バージョンの実GUI確認を行います。
 テスト件数は今後増減するため、成功は終了コードと実行対象で確認します。
 
-### 今後の候補: 多数配置時の再生性能測定
+### 処理負荷の測定
 
-多数の `bdControllerShape` を置いたシーンで、調整属性が静的な場合、
-`shapeAxisTranslate` などにキーや入力接続がある場合、親 `transform` のみを
-アニメーションする場合の再生時間を比較します。基準頂点と変換後頂点の
-再生成回数も記録し、現在のキャッシュが効く条件と負荷の大きい処理を特定します。
-最適化が必要と分かった場合は、描画・クリック選択・`boundingBox()` の結果を
-保ったまま、実測した負荷箇所に絞って変更します。
-長いPartやCross版では、周期断面の合成、Part内部を除く切取り、共面部分の合成も測定対象です。
-性能測定の前に、これらを既知の不具合や必須のリファクタとして扱わないでください。
+`scripts/benchmark_controller_shape.py` は、独立したMaya GUIで、静止更新、
+コントローラー1個の親transform、全体をまとめた上位transformの変換、
+上位transformをキー化したMayaの再生、共通composeMatrixから全shapeへの
+`shapeAnimationTransformMatrix` 更新を比較します。シーン生成と画像取得は計測外です。
+実際に読み込んだplug-inのpathとSHA256、Maya・GPU、Viewport寸法と配置、
+Cached Playbackの無効化、各試行の更新時間を出力先のJSONへ保存します。
+更新時間にはDGとVP2の処理を含み、GPUのdraw call数を直接計数するものではありません。
+
+#### 最終indexed版の比較（2026-11-10）
+
+最適化前の版と最終indexed版を、Maya 2025、GeForce GTX 1660 SUPER、OpenGL 4.6、
+956×676のViewport、Parallel EM、Cached Playback無効、単位cm / deg / filmで比較しました。
+Circle・Cube・WideSphere Fillを100・500・1,000個ずつ配置し、全39条件を比較しています。
+全てのshapeを画面内へ収め、取得した9組の画像はRGBA値まで一致しました。
+WideSphere Fillは `shapeWideWidth=0.14 cm`、`shapeRootSize=0.8` とした例です。
+両runに `--foreground` を指定し、9配置・108試行ずつで表示・アクティブ・非最小化を
+計測区間の前後に確認しました。実loadと保存archiveのSHA256が一致し、両runとも正常終了しています。
+以下は最終版そのものの測定で、先行したindex化前の39条件とは別の比較です。
+
+| WideSphere Fillの数 | 操作 | 変更前→変更後（ms / 更新） | 倍率（旧 / 新） |
+| ---: | --- | ---: | ---: |
+| 100 | 上位transformの変換 | 321.84 → 15.71 | 20.48 |
+| 100 | 上位transformの再生 | 344.73 → 15.56 | 22.16 |
+| 100 | shape行列の更新 | 368.97 → 19.45 | 18.97 |
+| 500 | 上位transformの変換 | 1717.40 → 67.86 | 25.31 |
+| 500 | 上位transformの再生 | 1794.52 → 60.35 | 29.73 |
+| 500 | shape行列の更新 | 2160.38 → 99.93 | 21.62 |
+| 1,000 | 上位transformの変換 | 3916.73 → 148.14 | 26.44 |
+| 1,000 | 上位transformの再生 | 4020.05 → 126.72 | 31.72 |
+| 1,000 | shape行列の更新 | 4898.60 → 187.48 | 26.13 |
+
+値は各試行の中央値です。通常のCircle・Cubeは12フレーム・3試行・warmup 3回としました。
+重いWideSphere Fillは100個で4フレーム、500個で3フレーム、1,000個で2フレームとし、
+いずれも2試行・warmup 1回です。再生は終端までの区間で平均し、再生の開始・終了の固定費も含みます。
+この更新時間を、長時間再生時のFPSへそのまま換算しません。
+
+通常のCircle・Cubeは一律の速度改善を確認していません。1,000個の主要操作は次の値でした。
+
+| 形状（1,000個） | 上位transform（旧→最終、ms） | 再生（旧→最終、ms） | shape行列（旧→最終、ms） |
+| --- | ---: | ---: | ---: |
+| Circle | 44.335 → 44.308 | 41.122 → 41.484 | 43.808 → 42.387 |
+| Cube | 39.385 → 44.246 | 43.434 → 41.475 | 40.304 → 39.079 |
+
+Cubeの親全体操作は今回1,000個で12.3%増、500個でも16.6%増でした。
+1,000個の試行範囲は39.013–41.067 → 42.745–44.302 msでした。
+このGUI比較のCubeはFill OFFの17点の連続線で、重複座標共有と片面判定の変更は通りません。
+過去の追試ではrun全体の時間水準が変わる現象があり、前面状態を揃えても差が残っています。
+この1組の比較から今回の増加をコード起因と切り分けず、通常形状すべての高速化や無退行を断定しません。
+
+#### 最終indexed版のCPU関数
+
+2026-11-10のMaya 2025で、生成・焼き込みを除いた旧処理と最終indexed版のCPU関数も比較しました。
+各1,000回・7試行で旧処理と新処理の実行順を交互に変えた中央値です。
+通常のCircleと、Fillを有効にしたCube・Sphere・WideSphereを使い、Wide幅は0.08 cmとしました。
+変換・コピーは `shapeAnimationTransformMatrix` が変わる場合の処理で、
+親transformだけが変わる場合には実行しません。面選別の時間には視点変換の準備も含めます。
+FPSの改善率とは区別します。
+
+| CPU処理 | 変更前→最終indexed（µs / 回） |
+| --- | ---: |
+| Circleの変換・最終コピー | 2.693 → 1.396 |
+| Cube Fillの変換・最終コピー | 2.715 → 0.828 |
+| Sphere Fillの変換・最終コピー | 72.116 → 9.680 |
+| WideSphere Fillの変換・最終コピー | 261.282 → 17.567 |
+| Cube Fillの面選別 | 0.888 → 0.342 |
+| Sphere Fillの面選別 | 45.406 → 6.928 |
+
+全ケースで比較用checksumが一致しました。WideSphere Fillの例では論理プリミティブと分割数を保ち、
+保存座標数を5,016から1,434へ減らし、線の描画単位を384から1へまとめています。
+行列更新では一意な座標だけを変換し、負の行列式では保存済みindex列を切り替えます。
+静的生成の周期断面・Part切取り・共面部分の合成は再生時の処理から分離されており、
+直接の形状調整時間を改善する際に個別に測定します。
+
+#### index化だけの追加pilot
+
+別の比較として、最初のキャッシュ最適化済み版（index化前）とindexed版を測定しました。
+39条件のGUI比較と同じMaya・GPU・Viewport・EM・Cached Playback・単位を使い、
+`shapeWideWidth=0.14 cm`、`shapeRootSize=0.8` のWideSphere Fillを500個配置しました。
+8フレーム・3試行・warmup 3回、`--adaptive-heavy` なし、両runに `--foreground` を指定しています。
+同じ配布先pathを使い、実load・archiveのSHA256、前面状態、RGBA画像の一致と正常終了を確認しました。
+
+| 操作 | index化前→indexed（ms / 更新、中央値） | 時間短縮 |
+| --- | ---: | ---: |
+| 上位transformの変換 | 68.582 → 60.533 | 11.7% |
+| shape行列の更新 | 137.405 → 78.853 | 42.6% |
+
+この2条件のpilotでは親操作の悪化は見られず、行列更新が短縮されました。
+値はDG・VP2とAPIへの提出を含む総時間であり、GPU単独の時間・転送量・draw call数ではありません。
+39条件の旧版→最終版とは比較する版と試行条件が異なるため、倍率を掛け合わせません。
+
+#### 保持UIによる再提出削減の比較（2026-11-11、Maya 2025）
+
+上記indexed版を基準に、描画内容が変わった場合だけUIを再提出する版を比較しました。
+形状生成と頂点変換のキャッシュ、静的TRSの焼込みは変更していません。
+形状座標を動的に変える入力は、引き続き `shapeAnimationTransformMatrix` です。
+
+診断用計測を含まない通常のRelease DLLを、Maya 2025、Parallel EM、
+Cached Playback・Profiler OFF、956×676の対象Viewportで測定しました。
+CubeはFill・DrawOnTop OFFで、1個を選択し、Rotateツールのmanipulatorを非表示にしています。
+各試行はwarmup 8フレームの後、36フレームの同期更新時間を平均しました。
+各runで5試行、各版2runの計10試行から中央値を取り、別Maya processで旧→新→新→旧の順に実行しています。
+計測前後のWindows・Qt前面状態と、active3dViewのwidget・camera・寸法を確認しました。
+
+| Cube数 | 操作 | 旧→保持UI（ms / 更新、10試行の中央値） | 時間短縮 |
+| ---: | --- | ---: | ---: |
+| 1,000 | 静止状態の再描画 | 30.417 → 11.100 | 63.5% |
+| 1,000 | コントローラー1個の親回転 | 30.935 → 11.633 | 62.4% |
+| 1,000 | 全体をまとめた上位transformの回転 | 35.035 → 13.144 | 62.5% |
+
+Cube 1個の親回転は中央値1.516 → 1.377 msでしたが、全試行の範囲は
+1.133–1.676 → 1.158–1.741 msと重なり、各runの中央値でも速い側が入れ替わりました。
+1個の場合に安定した改善・悪化の方向は確認していません。
+
+計時対象はPythonからの回転設定と `refresh(currentView=True, force=True)` を含む総時間です。
+main viewも表示した配置ですが、計時窓内のmain viewの描画回数は測っておらず、単一viewの性能とは扱いません。
+実マウスドラッグのFPSや、実アニメーション再生のFPSに対する改善率は未確認です。
+
+同じ本体ソースへ計数だけを追加した別DLLで、CubeをN=1 / 1,000個配置し、
+静止・全親回転・同値行列・異なる行列の8条件を、計数OFFで2回暖機後に12更新ずつ確認したところ、
+基準形状の再生成は全窓0回でした。
+静止・親回転・同値の `shapeAnimationTransformMatrix` では座標変換とUI再提出が0回、
+12回異なる値を与えた場合は各12N回となり、既存の座標キャッシュの維持を確認しました。
+表示状態の確認（`update` / `prepare`）とキャッシュ参照（`geometry`）は全窓で各12N回、
+対象Viewportの描画は各12回実行しています。
+この診断DLLの時間は速度比較に使用していません。
+
+Maya 2025はユーザーによる操作確認も完了しています。
+
+#### Maya 2026 / 2027での追加比較（2026-11-12）
+
+同じ本体ソースを各SDKでビルドし、各versionの旧DLLと比較しました。
+両versionでCube / SphereのFill、実際に描画された2つのViewport、親TRS、カメラ・色・表示切替、
+BoundsとBounding Box、通常表示・Bounding Box表示での実クリック選択を確認しています。
+親と `shapeAnimationTransformMatrix` のスクラブ・実再生、Cached Playback OFF / ON
+（`syncOnly` / `syncAsync`）、実GUIの保持UI回帰4件も成功しました。
+確認範囲とキャッシュ復元の限界は [保持UIのversion別確認](testing-debugging.md#保持uiのversion別確認2026-11-12) を参照してください。
+
+通常Release DLLを別Maya processで旧→新→新→旧の順に測定し、
+各版10試行の中央値を比較しました。Parallel EM、Cached Playback・Profiler OFF、
+CubeのFill・DrawOnTop OFF、warmup 8更新、36更新×5試行 / runは上記と同じです。
+各version内でViewportの寸法と画像復元を揃え、計測前後の前面状態・active3dViewを確認しています。
+
+| Maya | Cube数 | 操作 | 旧→保持UI（ms / 更新） | 時間短縮 |
+| --- | ---: | --- | ---: | ---: |
+| 2026 | 1,000 | 静止状態の再描画 | 82.487 → 12.506 | 84.8% |
+| 2026 | 1,000 | コントローラー1個の親回転 | 81.010 → 12.560 | 84.5% |
+| 2026 | 1,000 | 全体をまとめた上位transformの回転 | 87.637 → 14.816 | 83.1% |
+| 2027 | 1,000 | 静止状態の再描画 | 33.541 → 12.341 | 63.2% |
+| 2027 | 1,000 | コントローラー1個の親回転 | 33.688 → 12.473 | 63.0% |
+| 2027 | 1,000 | 全体をまとめた上位transformの回転 | 38.633 → 14.478 | 62.5% |
+
+Cube 1個の親回転は2026で1.718 → 1.416 ms、2027で1.776 → 1.684 msでしたが、
+どちらも全試行の範囲が重なるため、安定した改善率や実ドラッグFPSの改善を示す値とは扱いません。
+2026の旧DLLは別sessionでより短い結果も出ており、上表は採用した同条件ABBAの観測値です。
+短縮率を一般化したり、version間の速度差として比較したりしません。
+計時窓内のview別描画回数と、2026 / 2027のnative再提出回数は未計測です。
+集計は `build/controller_performance/cube_investigation/cross_versions_20261111/` の
+`normal_wall_comparison_2026.json` と `normal_wall_comparison_2027.json` に保存しています。
+
+表示・操作・再生の成功と統一検証の終了状態は分けて扱います。
+2026 / 2027の統一検証は終了コード0を確認しました。
+2027では当初full pytestの全assert完了後に `0xC0000374` で終了しましたが、
+コマンドテストfixtureの登録・解除寿命を共有した版で、native・full pytest・UIを含む再検証が正常終了しました。
+この結果だけで終了時エラーの原因を完全に特定したとは扱いません。
+
+#### 表示設定キャッシュの比較（2026-11-12、Maya 2025）
+
+直前の保持UI版（DLL SHA256先頭 `bdf86202`）と表示設定キャッシュ版（`0da5851f`）を比較しました。
+全条件で独立したwire Cubeを1,000個配置し、Fill・DrawOnTop・Cached Playback・ProfilerをOFFにしています。
+`bd_util.mod` を使って起動し、正式配布先の通常Release DLLを読み込みました。
+別Maya processを旧→新→新→旧の順に各版2回起動し、Windows・Qt前面と対象active3dView、
+DLL・ソースのSHA256、復元画像の一致を確認しています。
+表の「個体」は1,000個のうち1個を指し、1個だけを配置したシーンの結果ではありません。
+
+同期更新はWorld Moveツール・Undo ONで、warmup 8更新の後に36更新×5試行 / 起動を実行し、
+各版10試行の中央値を比較しました。設定と `refresh(currentView=True, force=True)` を含む時間です。
+
+| 選択対象 | 変更対象 | 旧→表示設定キャッシュ（ms / 更新） | 時間短縮 |
+| --- | --- | ---: | ---: |
+| 個体 | 静止 | 11.861 → 10.238 | 13.7% |
+| 個体 | 個体の親transform | 12.053 → 10.374 | 13.9% |
+| 個体 | 全体の上位transform | 13.868 → 12.233 | 11.8% |
+| 全体の上位transform | 静止 | 13.323 → 10.336 | 22.4% |
+| 全体の上位transform | 個体の親transform | 13.149 → 10.218 | 22.3% |
+| 全体の上位transform | 全体の上位transform | 15.179 → 12.445 | 18.0% |
+
+実再生は、選択した個体の親または全体の上位transformへWorld-X方向±0.6のlinearキーを設定しました。
+1–120フレームを1周暖機後に3周再生 / 起動し、各版6周の中央値を比較しています。
+値は `playingBack` の開始・終了間のwall時間を要求120フレームで割ったもので、開始・停止の固定費を含みます。
+
+| 選択・キー設定対象 | 旧→表示設定キャッシュ（ms / 要求フレーム） | 時間短縮 |
+| --- | ---: | ---: |
+| 個体の親transform | 12.513 → 10.650 | 14.9% |
+| 全体の上位transform | 14.035 → 11.274 | 19.7% |
+
+実再生6周のwall範囲は、個体で12.334–12.782 → 10.446–11.011、全体で13.875–14.138 →
+11.196–11.670 ms / 要求フレームでした。同期更新6条件も全試行のwall範囲が重なりませんでした。
+全再生周で終端120フレーム・対象viewの119回のpostRender・終点poseを確認し、他viewのpostRenderは0回でした。
+各postRenderと個別フレームの対応までは同定しておらず、この値をHUD FPSや実ドラッグFPSへ換算しません。
+
+同じ版の後の起動を前の起動と比べた条件別wall中央値の変動は、同期更新で旧−4.70～+2.41%・新−1.28～+2.62%、
+実再生で旧−0.21～+1.16%・新+1.71～+1.75%でした。実再生のprocess CPU中央値も個体14.258 → 12.240、
+全体18.880 → 16.536 ms / 要求フレームでしたが、全体のCPU試行範囲は重なります。
+短縮率はこの配置・実行条件での観測値であり、GPU単独の時間や一律の改善率を示しません。
+Maya 2026 / 2027でも、それぞれ同版の旧DLLと以下の条件で比較しました。
+
+#### 表示設定キャッシュのMaya 2026確認（2026-11-12）
+
+Maya 2026.3.3（Maya / plug-in API `20260303`）で、同版の旧DLL `0c610309` と
+表示設定キャッシュ版 `579e6400` を比較しました。旧・新とも正式配布先の通常Release DLLを
+既存の `bd_util.mod` で読み込んでいます。GUI回帰42件は両版とも成功し、静止281画像は完全一致、
+実再生32画像は4属性それぞれの2姿勢の集合が一致しました。
+
+実再生の速度比較は独立したwire Cube 1,000個・Fill / DrawOnTop / Cached Playback /
+Profiler OFFで、旧→新→新→旧の別processによるABBAです。選択した個体の親または全体の
+上位transformにWorld-X方向±0.6のlinearキーを設定し、1–120フレームを1周暖機後に
+各起動3周、各版6周の中央値を比較しました。値は開始・停止処理を含むwall時間を
+要求120フレームで割っています。「個体」は1,000個のうち1個です。
+
+| 選択・キー設定対象 | 旧→表示設定キャッシュ（ms / 要求フレーム） | 時間短縮 |
+| --- | ---: | ---: |
+| 個体の親transform | 12.678 → 10.869 | 14.27% |
+| 全体の上位transform | 13.942 → 11.534 | 17.27% |
+
+両条件とも6周のwall試行範囲は重ならず、process CPUの試行範囲は重なりました。
+この実行条件の観測値であり、HUD FPSや実ドラッグFPSへ換算しません。
+Cube 1個のCached Playback ONでは4属性の表示挙動を確認しましたが、numeric utilityの直接cache復元を
+要求する厳格なgateは未成立です。確認範囲は
+[表示設定キャッシュのversion別確認](testing-debugging.md#表示設定キャッシュのmaya-2026確認2026-11-12) を参照してください。
+本節はGUI回帰・Cache確認・条件を固定した実再生比較の結果を示します。
+
+#### 表示設定キャッシュのMaya 2027確認（2026-11-12）
+
+Maya 2027.2（Maya / plug-in API `20270200`）でも、同版の旧DLL `4d74bc19` と
+表示設定キャッシュ版 `59c0fd5b` のGUI回帰42件が成功しました。各313画像のうち静止281画像は
+寸法・RGBAが完全一致し、実再生32画像は4属性それぞれの2姿勢の集合が一致しています。
+旧・新とも正式配布先と既存の `bd_util.mod` を使い、必須の機能guard281件も成立しました。
+線幅のquick gateも通常10操作・実再生4条件が成功し、各9画像で2状態へ追従しました。
+
+Cube 1個のCached Playback ONでも4属性の表示挙動が成功し、上流transformのcache復元を
+確認しました。numeric utilityの直接復元を要求する厳格なgateは未成立のまま保持しています。
+実再生の速度比較は前節と同じ1,000個・Cache / Fill / DrawOnTop / Profiler OFFのABBA条件で、
+各版6周のwall中央値を要求120フレームで割りました。
+
+| 選択・キー設定対象 | 旧→表示設定キャッシュ（ms / 要求フレーム） | 時間短縮 |
+| --- | ---: | ---: |
+| 個体の親transform | 12.784 → 10.837 | 15.23% |
+| 全体の上位transform | 14.387 → 11.614 | 19.28% |
+
+両条件とも6周のwall試行範囲は重ならず、process CPUの試行範囲は重なりました。
+これらは同じMaya / SDK版内の観測値で、版をまたぐ速度比較やHUD / 実ドラッグFPSへは転用しません。
+GUI・Cacheの確認範囲は
+[Maya 2027の表示設定キャッシュ確認](testing-debugging.md#表示設定キャッシュのmaya-2027確認2026-11-12) を参照してください。
+統一検証の結果は [表示設定キャッシュ版の統一検証](testing-debugging.md#表示設定キャッシュ版の統一検証2026-11-12) を参照してください。
+
+#### 通常線の保持描画と全形状への展開（2026-11-14）
+
+通常の不透明・幅1の線31種類へ、Cubeで確認した保持描画と未変更ノードの更新省略を展開しました。
+`ColorCornerCube` は常設の片面マーカーを持つためUI描画を維持します。
+形状生成・静的TRSの焼込み・`shapeAnimationTransformMatrix` の計算と属性構成は変更していません。
+
+同じMaya版の旧DLLと新版を、旧→新→新→旧の4つの新規Maya processで比較しました。
+各形状は独立したshapeを1,000個、Fill / DrawOnTop / Cached Playback / MSAA / Line AAはOFF、
+Evaluation Managerはparallel、時刻は1に固定しています。個体のtransformと上位transformを別々に選択し、
+`setAttr` による回転と強制refreshを36回×5試行、各試行の暖機8回で測定しました。
+各Maya版・旧新版それぞれ10試行を合わせたwall時間の中央値です。マウス操作、HUD FPS、実再生速度、GPU単体の時間とは区別します。
+2025の旧版 `c57ea454` は既にCubeの保持描画を含み、2026の旧版 `579e6400` と
+2027の旧版 `59c0fd5b` はそれ以前のUI描画版です。新版は順に `fa24d445` / `7f763843` / `467db855` です。
+
+| Maya | 形状 | 個体操作・旧→新（ms / refresh） | 上位操作・旧→新（ms / refresh） |
+| --- | --- | ---: | ---: |
+| 2025 | Cube | 8.266 → 8.375 | 13.106 → 13.225 |
+| 2025 | Circle | 11.032 → 8.435 | 13.233 → 13.228 |
+| 2025 | Sphere | 15.670 → 9.389 | 17.504 → 13.582 |
+| 2025 | ColorCube | 18.297 → 9.779 | 20.452 → 17.499 |
+| 2025 | ColorCornerCube | 14.765 → 14.631 | 84.533 → 105.042 |
+| 2026 | Cube | 10.553 → 8.310 | 12.470 → 13.681 |
+| 2026 | Circle | 10.264 → 8.441 | 12.263 → 13.559 |
+| 2026 | Sphere | 15.253 → 8.867 | 16.881 → 13.271 |
+| 2026 | ColorCube | 18.159 → 9.752 | 19.922 → 17.735 |
+| 2026 | ColorCornerCube | 13.591 → 14.728 | 59.758 → 88.878 |
+| 2027 | Cube | 10.540 → 8.623 | 12.586 → 13.918 |
+| 2027 | Circle | 10.532 → 9.136 | 12.585 → 13.197 |
+| 2027 | Sphere | 14.748 → 8.614 | 16.642 → 13.332 |
+| 2027 | ColorCube | 17.874 → 10.380 | 19.616 → 17.076 |
+| 2027 | ColorCornerCube | 13.596 → 15.009 | 59.284 → 89.323 |
+
+SphereとColorCubeの個体操作は3版とも約40〜47%短縮し、旧新の全試行範囲は重なりませんでした。
+Sphereの上位操作も約20〜22%短縮しました。一方、CubeとCircleの上位操作は全試行範囲が重なり、
+2026 / 2027では中央値が最大約11%遅い条件もあります。全条件での改善や統計的な有意差を示す結果ではありません。
+
+UI描画の対照であるColorCornerCubeは、先に他の4形状を測る上記条件では、2026 / 2027の上位操作が約49〜51%遅く、
+旧新の全試行範囲も重なりませんでした。この形状だけを最初から配置する追加のMaya 2026の4 process比較では、
+上位操作が59.145 → 54.050 ms、個体操作が13.148 → 15.112 msとなり、両方の試行範囲は重なりました。
+同じ新版DLLでも上位操作のprocess別中央値は約60 → 46 msへ変動しました。
+先行する描画履歴を除くと大きな上位操作の悪化は再現せず、コード単独の固定的な約50%悪化とは断定できません。
+描画エンジン内部の原因は未特定であり、形状を順に切り替える条件での遅い結果と、個体操作の遅い中央値は未解消の観測値として残します。
+この対照の結果を、31種類のGPU描画経路の改善効果には含めません。
+
+GUIでは各版の全32形状、84回帰条件、20実再生条件を同版の旧DLLと比較しました。
+固定画像2,748組のうち2,745組は完全一致し、残り3組は各版の非選択ColorSphereの交点1画素の配色差です。
+実再生では対応する姿勢の集合が一致し、Cached PlaybackのON / OFFで表示追従を確認しました。
+これはutility行列の直接cache復元やCached Playbackによる速度改善の証明ではありません。
+各版で実マウスのクリック・範囲選択・Template / Referenceの選択制限・Move / Undoも確認し、
+Undo後の座標・選択・画像が移動前へ復元しました。GUI検証用processの終了は強制自己終了を使用し、自然終了の検証とは区別します。
+
+計測のraw記録は開発用の `build/controller_performance/wire_shapes_20261113/harness/runs/`、
+集計は同harnessの `perf2025_abba_v2.json` / `perf2026_abba_v2.json` / `perf2027_abba_v2.json` と
+`control2026_abba_v1.json` に保存しています。各版の正式配布DLL、SDK / module、sourceのSHA、
+前面window・active view・選択・viewport寸法・時刻・表示設定と実process終了を照合した結果です。
+初期の検証スクリプト不備による失敗記録は除外し、rawを保持しています。
+
+#### Fill保持描画の本体統合（2026-11-16、Maya 2025）
+
+通常Releaseの従来UI Fill版 `0d23519c` と、本体統合版 `a6fc48fd` を比較しました。
+各形状を最初から配置する独立したMaya processで、旧→新→新→旧の順に起動しています。
+各シーンは独立したshapeを1,000個、Fill ON、Fill透明度0.85、線幅1・線透明度0、
+DrawOnTop / Cached Playback / MSAA / Line AA / ProfilerはOFF、EMはparallel、時刻は1です。
+956×676の正投影viewに全体を収め、個体のtransformまたは上位transformを選択します。
+回転値の設定と強制refreshを36回×5試行、各試行の暖機8回で測りました。
+
+下表は各版2つの独立processの中央値の範囲です。同一process内の5試行を、独立した5起動とは数えません。
+
+| 形状 | 操作 | 従来UI Fill（ms / refresh） | Fill保持描画（ms / refresh） |
+| --- | --- | ---: | ---: |
+| Cube | 1,000個のうち1個のtransform | 16.434–16.535 | 17.650–17.859 |
+| Cube | 全体の上位transform | 52.397–112.875 | 23.191–23.553 |
+| ColorCornerCube | 1,000個のうち1個のtransform | 17.945–18.017 | 20.065–20.410 |
+| ColorCornerCube | 全体の上位transform | 136.409–137.263 | 25.987–26.144 |
+
+親全体の更新時間は両形状で短くなり、半透明面の個体操作は長い結果です。
+各版10試行を合わせた中央値では、個体操作はCubeで約8%、ColorCornerCubeで約12%長くなりました。
+Cubeの従来版では起動間の親操作時間が2倍以上変動しており、一律の短縮率や統計的な有意差は主張しません。
+値はscriptによる回転とrefreshのwall時間で、HUD FPS・実マウスdrag・実再生速度・GPU単体時間ではありません。
+DLL・module/API・入力配置・選択・view寸法・前面window・active view・表示設定と実process終了を照合します。
+計測processの終了には検証用の強制自己終了を使い、通常終了の確認とは分けています。
+rawは `build/controller_performance/fill_production_20261115/harness/runs/perf_*_v6/`、
+監査結果は同taskの `performance_abba_v6_audit.json` です。
+全32基本形状と拡張・表示切替・実再生等の74機能条件、固定画像の限定的な色境界差と
+統一検証の範囲は [Maya 2025のFill確認](testing-debugging.md) を参照してください。
+この速度比較はMaya 2025の明示的な半透明条件に限ります。後続版の確認は次の展開記録と分けて扱います。
+
+#### Fill OFFの比較と面のない形状の早期除外（2026-11-16、Maya 2025）
+
+線のみGPU版A `0d23519c`、Fill保持描画版B `a6fc48fd`、
+面のない形状を早期除外する修正版C `f7db2774` を、A→B→C→C→B→Aの順で比較しました。
+各版2つの独立process・専用profileを使い、Cubeを1,000個、最初からFill OFF・DrawOnTop OFFで作成します。
+956×676の正投影view、選択・配置・表示設定・暖機・回転値設定とrefreshの回数は上記比較と揃えます。
+Fill ONの測定値とは別の比較で、通常profileは使いません。
+
+下表は各版2つのprocess中央値の範囲です。単位はms / refreshで、小さい方が短い時間です。
+
+| 操作 | 線のみGPU版A | Fill保持描画版B | 早期除外版C |
+| --- | ---: | ---: | ---: |
+| 1,000個のうち1個のtransform | 8.130–9.072 | 8.204–8.339 | 8.029–8.116 |
+| 全体の上位transform | 12.644–13.378 | 13.611–13.751 | 12.942–12.947 |
+
+各版の10試行を合わせた中央値では、BはAに対し個体操作が約0.5%短く、親全体は約5.7%長い結果でした。
+CはBに対し個体操作が約2.5%、親全体が約5.7%短く、親全体はAに対し約0.3%短い結果です。
+起動ごとの変動と試行範囲の重なりがあり、この率を一律の改善率や統計的な有意差として扱いません。
+特に個体操作で、Fill対応後に一貫して遅くなる結果は再現していません。
+HUD FPS・実マウスdrag・実再生速度ではなく、scriptによる回転と強制refreshのwall時間です。
+
+修正は `ControllerShapeFill::supported()` の入口の短絡判定だけです。
+形状生成・静的TRS・アニメーション行列のキャッシュ、従来描画への復帰処理は変えません。
+全74機能条件・実入力10段階・統一検証を確認し、BとCの552固定画像と実再生8条件の姿勢集合は一致しました。
+今回の速度比較は最初からFill OFFのCubeに限り、Fill ONからOFFへ切り替えた履歴や、
+Fill OFFでも面のある `ColorCornerCube` の速度は含めません。
+rawは `build/controller_performance/fill_off_20261116/harness/runs/off_*/`、
+監査結果は同taskの `performance_off_audit.json` です。
+
+#### 不透明の既定値とMaya 2026 / 2027への展開（2026-11-16）
+
+2025でのユーザー操作確認後、3版とも新規ノードの `shapeFillTransparency` を `0`（不透明）へ変更しました。
+描画データの初期不透明度と読取失敗時の不透明度も `1` に揃え、Pythonの生成Fieldも再生成しています。
+形状生成・静的TRS・`shapeAnimationTransformMatrix` のキャッシュ規約は変えません。
+
+2026 / 2027でも各74機能条件と実入力10段階が成功しました。
+旧版との画像差のうち7画像・合計23画素は、2025で確認した限定的な色境界差の署名と一致しています。
+厳密比較の失敗原本は保持し、この限定的な表示の受容判断と区別します。
+版別の限定受容は `visual_acceptance_2026_2027_v1.json` に記録しています。
+旧DLLに残っていたoverride色の6条件の不具合は別記し、新DLL側の8条件はすべて成功しました。
+既定値の変更と描画方式の比較を混ぜないよう、画像比較の半透明値は `0.85`、不透明値は `0` を明示しています。
+
+3版の統一検証と、旧GUIテスト3関数へ半透明値を明示した後のMaya 2025最終再検証は成功しました。
+事前の既定値確認用ノードを作らない構成では、2026 / 2027の削除・file new・unload / reloadを
+各2回繰り返す9段階が元の厳密判定のまま成功し、最後のlive描画も確認しました。
+このfixtureは強制自己終了を使い、通常の自然終了は確認していません。
+
+一方、事前の確認用ノードの作成・削除を挟む2026では、削除後に原点の青い線が残ります。
+確認用ノードを離して作っても原点の同じ線が残り、旧26 Wire版 `7f763843` でも
+同じ3画像とblank判定失敗が再現しました。新Fill固有の回帰とは分類しませんが、
+根因と後続描画への持続性は未解決です。失敗原本を残し、解決済みとは扱いません。
+
+速度は同じMaya版の旧DLLと最終候補を、旧→新→新→旧の4つの独立processで比較しました。
+各DLLは2つの独立process、各条件・操作は1 process内で5試行です。
+Cubeを1,000個配置し、同じprocess内でFill OFF→不透明（透明度0）→半透明（透明度0.85）の順に測ります。
+各形状条件を独立したprocessとは数えません。線幅1・線透明度0、DrawOnTop・Cached Playback・AAはOFFです。
+個体または全体の上位transformを選択し、回転設定と強制VP2 refreshを36回×5試行、暖機8回で測りました。
+
+下表は各DLLの2 process×5試行を合わせた中央値で、単位はms / refreshです。
+
+| Maya | Fill条件 | 個体操作・旧→新 | 上位操作・旧→新 |
+| --- | --- | ---: | ---: |
+| 2026 | OFF | 8.651 → 8.547 | 13.369 → 13.512 |
+| 2026 | 不透明 | 14.442 → 10.143 | 56.586 → 15.390 |
+| 2026 | 半透明0.85 | 17.085 → 18.965 | 59.023 → 24.532 |
+| 2027 | OFF | 8.420 → 8.535 | 12.995 → 13.327 |
+| 2027 | 不透明 | 14.271 → 10.363 | 55.312 → 15.061 |
+| 2027 | 半透明0.85 | 16.752 → 18.300 | 59.064 → 23.838 |
+
+不透明では個体操作が約27〜30%、上位操作が約73%短くなりました。
+半透明では個体操作が約9〜11%長く、上位操作が約58〜60%短い結果です。
+Fill OFFは約−1.2〜+2.6%の増減で、2027は個体約1.4%・上位約2.6%長くなっています。
+起動変動を含む小幅な差であり、小さな回帰傾向も排除せず残る差として記録します。
+2起動ずつの記述統計で、統計的な有意差や全条件での改善は主張しません。
+値はscriptによる回転とrefreshのwall時間で、HUD FPS・マウスdrag・実再生FPS・GPU単体時間ではありません。
+
+2026の最初の旧版A2は開始前のフォーカス確認が成立せず、数値を見る前に比較から除外し、
+別の新規process `A2_recovery` を採用しました。原本と `perf2026_A2_protocol_deviation.json` を保持します。
+集計は `performance2026_audit.json` / `performance2027_audit.json` に記録し、測定後は3版の正式DLLを最終候補へ戻しています。
+記録は `build/controller_performance/fill_cross_versions_20261116/` に保存し、
+検証の範囲は [版別のFill確認](testing-debugging.md) に記します。
 
 ## 表示と選択
 
@@ -1529,6 +2328,8 @@ shape 自身の `visibility` をオフにすると非表示になります。
 同じDAGパスを実際に非選択にしたときと同じ線色・面表示にします。
 実効drawOverrideが無効ならMayaの通常の非選択色を使い、無効なoverrideの保存色は使いません。
 有効なshape・親transform・上位DAG・Display Layerのoverride色と、ユーザー指定のobject色は維持します。
+継承色は同じDAGパスを上へ辿り、最初に有効なoverrideで解決します。
+そのoverrideに色指定がない場合も、それより上のoverride色は使いません。
 `Normal` では通常色とRGBの軸色、`Template` ではMayaのtemplate色、
 `Reference` ではMayaのreference色で通常線を描きます。
 `Template` と `Reference` の非選択表示では通常の塗り面を省き、
@@ -1557,7 +2358,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 2. 選択解除して本体・Part・Finの通常線と、塗りONの面をクリックし、同じ親transformを選択できる。
 3. Show > Plugins > Plugin ShapesをOFFにすると描画・クリック選択を省略し、ONに戻すと再表示される。
 4. Show > LocatorsをOFFにして標準locatorが消えても、このshapeは表示される。shape自身のvisibilityでは表示を切り替えられる。
-5. shapeと調整値の直接変更、入力接続・キーの再生、Undo/Redoで描画と選択範囲が直後に更新される。
+5. shapeと調整値の直接変更・Undo/Redoで描画と選択範囲が直後に更新され、入力接続・キーは拒否される。行列・表示・Boundsの動的入力は維持する。
 6. Maya ASCIIへ保存・再読込して、本体・Part・Fin・透明度・軸・区切りの順序と値を保持する。
 7. shapeTranslateを動かしshapeOffsetLineをONにすると、親のローカル原点から形状基準位置へ補助線が出る。始点と終点が一致すると省略する。
 8. shapeOffsetLineTemplateをONにすると補助線だけがtemplate色・選択不可になる。本体の通常線は引き続き選択できる。
@@ -1565,7 +2366,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 10. 親transformをアニメーションしても形状が追従し、ローカル形状の調整値は変化しない。
 11. Cubeの基準空間の主軸両端を0/5へ変更し、根元と先端が0/5になる。Partの局所寸法・OffsetとFin高さを保ち、共通スケールでは全体が伸縮する。
 12. 基準空間の中心を移しshapeOffsetLineをONにすると、共通変形後の基準中心へ補助線が伸びる。両端を対称に保った伸縮では中心が移らない。
-13. 基準空間の距離入力の接続・キーとシーン単位変更を確認し、通常本体の反転、Colorの実効絶対幅、両端一致の退化を保つ。
+13. 基準空間の距離の直接編集とシーン単位変更、入力接続・キーの拒否を確認し、通常本体の反転、Colorの実効絶対幅、両端一致の退化を保つ。
 14. shapeAxisTranslateは基準空間の後で加算し、基準空間の幅では伸縮しない。回転・共通スケール・行列をOffsetLineの終点にも反映する。
 15. shapeAnimationTransformMatrixへcomposeMatrix出力を接続し、移動・回転・非等方スケール・シアーに本体・Part・Fin・範囲が追従する。
 16. 行列の移動で形状基準位置が原点から離れるとOffsetLineが出て、戻すと消える。行列の移動量はshapeRootSizeに掛からない。
@@ -1577,21 +2378,21 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 22. shapeLineWidthを大きくすると本体・Part・Fin・OffsetLineが画面上で太くなり、ズームやシーン単位によらず指定pixel幅を保つ。
 23. shapeLineTransparencyの0・中間値・1を通常色・選択色・template色・軸色で確認し、shapeFillTransparencyとは独立して変わる。
 24. shapeDrawOnTopのON/OFFで隠れた線・面を表示し、形状・クリック選択・Boundsを変えない。透明度・選択色との併用も確認する。
-25. Channel Boxの14本の区切りと14区画の順序を確認する。shape直後の区切りから基準空間の端座標6個、次の区切りから面内Scale親6個を置き、各親に面内2軸の子をまとめる。各区画内は1st Plus/Minus→2nd Plus/Minus→3rd Plus/Minusの順とする。次の区切りから表示5属性→Wide→Arc→Template、PartのSize→Primary→Other→Length→Width→Height、末尾のCustom XYZ Plus/Minusも保ち、親子の明示キー・接続と区切りのロックを確認する。
-26. shapeの24項目、PartShapeの11項目、PartTypeの3項目と、既定shapeがCube（12）であることを確認する。Wide/Swapped/SquareTemplate専用のenumを持たず、基本形状と独立した属性で選択する。
+25. Channel Boxの14本の区切りと14区画の順序を確認する。shape直後の区切りから基準空間の端座標6個、次の区切りから面内Scale親6個を置き、各親に面内2軸の子をまとめる。各区画内は1st Plus/Minus→2nd Plus/Minus→3rd Plus/Minusの順とする。次の区切りから表示5属性→Wide→Arc→Template、PartのSize→Primary→Other→Length→Width→Height、末尾のCustom XYZ Plus/Minusも保ち、形状調整の親子への入力接続・キーの拒否、表示・Boundsの動的入力と区切りのロックを確認する。
+26. shapeの32項目と順序、PartShapeの11項目、PartTypeの3項目と、既定shapeがCube（16）であることを確認する。Capsuleは20、Arrow系はArrowPlanar（21）からCircleArrowSpatial（31）までの11本体とし、上表の順序へ揃える。Wide/Swapped/SquareTemplate専用のenumを持たず、基本形状と独立した属性で選択する。
 27. 全本体でshapeFillを切り替え、Shadedでは面・輪郭、Wireframeでは輪郭、Wireframe on Shadedでは両方を表示する。ColorCornerCubeの小四角は常に残る。
 28. Triangle・Square・Circle・WideArcRadialの帯・WideArcAxialの側面・Fin・Arrow3Dは両面から見える。閉じた立体の本体・小形状・Color面は外側だけ見え、内側からは見えない。負のスケール・親transform・Animation行列の反転、透視・平行投影でも確認する。
-29. 各塗り面の外縁が輪郭と一致し、非等方・負スケールでも選択できる。Coneと小形状Coneの側線はFill表示時も残る。通常CylinderのFillは両端の円を残して側線を省略し、面を表示しない場合は側線が戻る。正の幅のWide CylinderはFillのON/OFFとも元の4母線を描かず、端円と帯の輪郭を残す。幅0では通常表示に戻る。Finの線は維持する。
+29. 各塗り面の外縁が輪郭と一致し、非等方・負スケールでも選択できる。CircleArrowAxialと小形状Coneの側線はFill表示時も残る。通常CylinderのFillは両端の円を残して側線を省略し、面を表示しない場合は側線が戻る。正の幅のWide CylinderはFillのON/OFFとも元の4母線を描かず、端円と帯の輪郭を残す。幅0では通常表示に戻る。Finの線は維持する。
 30. shapePartのON/OFFで小形状だけが切り替わり、種類・配置・Offset・Size・Length・Widthの値を保持する。
-31. Part対象外11基本本体ではONでも本体が変わらず、対応13本体へ切り替えると保持していたPart設定が作用する。Wide/Swap/Templateで対応範囲を変えない。
+31. GearではPartをONにしても本体が変わらず、対応する31本体へ切り替えると保持していたPart設定が作用する。Triangleは3頂点、PlanarのSquare/Diamond/Circleは4方向、ArrowPlanarは先端と左右肩、ArrowSpatialは先端と横4肩、Axial3種は先端1点とする。SpatialのSquare/Diamond/Circleは6方向、Cylinderは端円中心、Capsuleはキャップ先端を使う。ColorCube系はCubeと同じ6面中心とし、Wide/Swap/Templateで対応範囲を変えない。
 32. Line・CrossLine・CrossLine3AxisでAtEndがAxisSwap OFFなら+1st、ONなら+2nd、AtEndsが全端となり、各矢印が端の外向きへ進む。小形状のない端は元の±0.5に残る。
 33. 通常Square系・Circle系でAtEndが+1st、Swappedで+2nd、AtEndsが4方向、AtApexがAtEnd相当となり、全11種類のPartで追加倍率の既定値なら代表方向を標準サイズ、他の3方向を0.5倍にする。
 34. Cube・Sphere・ColorSphereでAtEndがAxisSwap OFFなら+1st、ONなら+2nd、AtEndsが6端となる。Arc系を除く全Part対応本体で、追加倍率の既定値ならAtEndsのAtEndと同じ代表1つだけを標準サイズ、残りを0.5倍にする。2D本体へ3DのPart、3D本体へ平面のPartも追加できる。
 35. 全11種類のPartで基準寸法0.1、外向きTriangle/Pyramid/Cone、端点ピボット、Offsetの加算距離、Length・Width・Heightの独立倍率を確認する。AtEndsの追加倍率を長さ・幅・高さへ掛けても、配置ピボットとOffsetの距離を変えない。AtEnd・AtApexとArc系4基本形状はPrimary / Otherの値の影響を受けない。
-36. 変形したPartの手前で接続線が止まり、小形状内へ本体・Finの線や塗り面が残らない。Line・CrossLine・薄線Arc系のArrow2D/3Dは面を表示しない場合に先端までつなぐ。Square・SquareTemplateと各Swapped、WideLine、WideCrossLine・Circleと各SwappedのGuideLineは、Fill表示時もArrow2D/3Dの先端までつなぐ。
+36. 変形したPartの手前で接続線が止まり、小形状内へ本体・Finの線や塗り面が残らない。Line・CrossLine・薄線Arc系のArrow2D/3Dは面を表示しない場合に先端までつなぐ。Square・SquareTemplateと各Swapped、WideLine、WideCrossLine・Circleと各Swapped、Triangle・Diamond・Octahedron・Capsuleと全Planar / Spatial Arrow8本体のGuideLineは、Fill表示時もArrow2D/3Dの先端までつなぐ。
 37. PartとFinの倍率に負値・ゼロを使い、面積0の面を省略し、輪郭と塗り・選択・Shape / ShapeCenteredの範囲が揃う。
 38. Arrow2DとArrow3Dの主面が一致する。通常2D・Lineの主面はXZ、追加面は+Y、SwappedではYZ・+Xとなる。3軸CrossLine・Cube・Sphere系は±X/±ZでXZ・+Y、±YでYZ・+Xとなり、両端でも同じ側へ立つ。Radialの円弧端では円の法線、Axialでは各位置の半径外側へ立ち、先端へ高さを落とす。Cross版は各円の向きに従う。肩から主面へ戻る辺をFill表示時も描き、調整値へ追従する。
-39. Arrowの後端から接合位置まで0.25 cm、OctahedronArrowでは0.5 cmを保つ。Minusが後端、Plusが先端となり、短い長さ・逆転でも接合位置をクランプしない。Part属性を変えても本体・Wide・Fin・GuideLineが変わらない。
+39. Planar / Spatialは内部Minusを本体・肩中心に保ち、横端座標から半径Rを求める。ArrowPlanar / ArrowSpatialはくぼみをm、後深さR/2、前母体長1.5Rとする。Plusが母体内へ入っても母体を縮めず、Part属性や面Scaleを基準Rへ掛けない。
 40. 作成直後のshapeArcAngleが180°となり、Arc系4基本形状が半円になる。WideとAxisSwapの全組合せで0・120・180・240・360°を確認し、中央方向固定と対称な両端を保つ。Part OFFでも作用し、Circle・Sphere・小形状Circleには作用しない。
 41. Wide OFFのArc系4基本形状は本体を塗らずPartだけを塗り、Wide ONのRadialは平面帯、Axialは円筒側面となる。Swapにも追従し、0°で円弧・Partを省略、360°で不要な継ぎ目線を作らない。薄線本体はFillで扇形や範囲を追加しない。
 42. Arc系のAtEndが180°で通常版-3rd・Swapped+3rdの端、AtEndsが両端となり、6種類のPartがRadialでは円平面内、Axialでは円筒面へ曲がり、5種類の立体Partが接合に合わせて向きを補正する。AtApexは中央方向の頂部、他本体ではAtEnd相当となる。円周へ曲げるPartは重複領域をまとめ、姿勢が異なる立体Partは中心が共通でも別々に残る。
@@ -1599,17 +2400,17 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 44. WideArcRadial・WideArcAxialと各Cross版・Swapped版のPartを調整しても接合部以外の帯幅を保ち、帯とPartが離れない。Partのない円弧端は平らに閉じる。AtEnd・AtEndsでは6種類をRadialなら同じ平面の円周、Axialなら円筒面へ曲げてOffsetを無視する。5種類の立体は固定する中心または先端と寸法を保ちながら接合に合わせて向きを補正する。AtApexは中央方向へ向けて配置し、Offsetを適用する。
 45. Square系のGuideLineで通常十字とtemplate十字を切り替え、本体の色と選択可否を保つ。SquareTemplateの四隅template線・辺中央通常線・template面はGuideLineとは独立し、Part OFFでも本体の通常線を残す。
 46. SquareTemplateのPartは線・面とも通常色で選択でき、本体のtemplate線・面だけでは選択できない。Arrow2D/3D・AtEndsで4方向を確認する。
-47. Fin対応20基本本体を2種類・塗りON/OFF・Wide・Swapで確認する。OFF・高さ0ではFinだけが消え、設定値を保持する。
-48. Finの高さ・幅はshapeFinSizeとshapeFinWidthScaleで調整し、PartのSize・Widthから独立する。Arrow・OctahedronArrowの付け根だけは本体変形へ追従する。
-49. FinはAxisSwap OFFで+2nd、ONで+1stへ立ち、根元を閉じる線を追加しない。Arc系4基本形状ではFinをONにしても描画・選択・範囲を変えず、値・接続・キーを保持する。
-50. 正の寸法倍率ではTaperedの細い側が通常本体の+1st、Swappedの+2ndを示す。ArrowのStandard Finはくぼみから先端までの矩形、Taperedは傾斜した外形となる。Cube・CylinderのTaperedとOctahedronArrowの面の重複も確認する。
+47. Fin対応28基本本体を2種類・塗りON/OFF・Wide・Swapで確認する。OFF・高さ0ではFinだけが消え、設定値を保持する。
+48. Finの高さ・幅はshapeFinHeightとshapeFinWidthScaleで独立して調整し、PartのSize・Widthから独立する。Arrow系の付け根は本体変形へ追従する。
+49. FinはAxisSwap OFFで+2nd、ONで+1stへ立ち、根元を閉じる線を追加しない。Arc系4基本形状ではFinをONにしても描画・選択・範囲を変えず、値を保持する。
+50. 正の寸法倍率ではTaperedの細い側が通常本体の+1st、Swappedの+2ndを示す。ArrowPlanarのStandard FinはMinusのくぼみから先端まで、ArrowSpatialは同じFin平面の本体外周を根元にする。Standardは面Scale後も上辺が主軸、立ち上がりが補助軸へ平行で、下向きの辺も残す。Taperedの傾斜、Cube・CylinderのTaperedとDiamondArrowSpatialの面の重複も確認する。
 51. ColorCrossLine3Axis・ColorWideCrossLine3AxisとColorSphereの軸色を保ち、追加Part・Finは通常色となる。ColorSphereのGuideLineをONにしても円とガイドの間に橋渡し線がない。
 52. ColorCubeの正側RGB枠・負側通常線、Fillの+X赤・+Y緑・+Z青と負3面の通常色、ColorCornerCubeの小四角・通常面の境界と独立した透明度を確認する。
 53. Color系4基本本体は軸指定とAxisSwapで本体・軸色・GuideLineを回転せず、対応するPart・Finだけを交換後の選択軸へ追従させる。回転無視、負スケールの絶対値化、固定XYZの基準空間とTRSを維持する。Wide追加線も元の面・輪郭の色を保つ。
 54. Color系でもCustom Boundsは専用の親ローカルXYZ両端で指定し、共有入力行列と親transformの回転・シアー・反転をそのまま反映する。
 55. shape・親transform・上位DAG・Display LayerでNormal/Template/Referenceを切り替え、Selection Highlighting OFFなら選択前後の線色・面表示・軸色が一致する。実効overrideがすべて無効な場合と、object色・有効な継承overrideがある場合を区別して確認する。
 56. 複数ViewportでSelection Highlightingを別々に設定し、選択色・軸色・templateの選択不可と通常線のオーバーライド色をそれぞれ確認する。
-57. ArcAxial・WideArcAxialと各SwappedのArrow2D・Arrow3D・Triangle・Square・Diamond・CircleをAtEnd・AtEndsに付け、主面が半径0.5の円筒面に沿う。Lengthは円周方向の弧長、Widthは円の軸方向へ作用し、ArcAngleで動く端点へ追従する。Offsetを0・正・負へ変えても形状と範囲が変わらず、値と接続は保持する。帯とPartの内部境界・重複した塗り面・接合の段差がない。
+57. ArcAxial・WideArcAxialと各SwappedのArrow2D・Arrow3D・Triangle・Square・Diamond・CircleをAtEnd・AtEndsに付け、主面が半径0.5の円筒面に沿う。Lengthは円周方向の弧長、Widthは円の軸方向へ作用し、ArcAngleで動く端点へ追従する。Offsetを0・正・負へ変えても形状と範囲が変わらず、値は保持する。帯とPartの内部境界・重複した塗り面・接合の段差がない。
 58. ArcAxial・WideArcAxialと各SwappedのCube・Octahedron・Sphere・Pyramid・ConeをAtEnd・AtEndsに付け、Offsetが0・正・負の場合も、実際の立体との交差位置の内側に本体の輪郭線と塗り面が残らない。中心固定の3種類と先端固定の2種類で位置・寸法を保ち、接合条件に応じて向きだけが補正される。斜め方向・軸方向から、塗りON/OFFと半透明の表示で内部線・二重面・接合の隙間がなく、本体の円弧が半径0.5を保つ。均等倍率のSphereは元の向きを保ち、球としての外形を変えない。
 59. ArcAxial・WideArcAxialと各Swappedの上記5種類の立体で、Partの最大幅より広い帯、長さ0・負値、短い円弧・交点のない配置を試し、元の接線方向を基準とした向きへ戻っても固定する中心または先端と指定寸法を保つ。立体と円弧が接している場合は、不要な直線帯を追加しない。Pyramid・ConeをSize=6・360°にして、底面までの円弧がPartへ置き換わり、先端付近に元の円弧の小片が残らない。AtApexの向きは変わらない。
 60. ArcAxial・WideArcAxialと各SwappedのAtEnd・AtEndsのArrow3Dは、根元の弧長と半径外側への高さを保ち、先端で高さ0となる。Size・Length・Widthを変えても根元の円筒面から浮かず、曲げに伴って上側の外周辺の長さが変わる。AtApexではXY平面の主面と通常版-Z・Swapped+Zへ立つ追加面を維持する。
@@ -1623,23 +2424,23 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 68. ArcRadial・CrossArcRadialのWide/AxisSwap全状態で、円周へ曲げる6種類のPartと長いLengthScaleを確認する。長さは中心円弧長、幅は半径方向、Arrow3Dの高さは法線方向とし、内部線・二重面を作らない。
 69. 上記Radial系の円周へ曲げる6種類はOffsetを保持して無視し、複数周・負値・0・大きな幅でも周期合成と接合を保つ。
 70. 上記Radial系の5種類の立体Partは固定点と寸法を保って接合へ向きを補正し、交点がない場合は元の姿勢へ戻る。全11種類のAtApexは円周変形せず、中央方向の頂部とOffsetを使う。
-71. 24基本形状でAxisSwapを切り替え、通常本体では本体・Part・Fin・GuideLine・template部分・接合面・選択範囲が右手系の `(x,y,z)→(y,x,-z)` へ一括追従する。Color系はPart・Finだけが追従する。基準空間とAxis系TRSは指定軸の意味と値を保ち、Swappedの代表方向に合わせて勝手に交換されない。
-72. Circle・WideCircleと各Swappedを切り替え、通常版がXZ、Swapped版がYZの閉じた円となる。shapeArcAngleの直接編集・入力接続・キーを0–360°へ変えても描画・選択・Boundsが変わらず、Arc系へ戻すと保持した角度が作用する。
+71. 32基本形状でAxisSwapを切り替え、通常本体では本体・Part・Fin・GuideLine・template部分・接合面・選択範囲が右手系の `(x,y,z)→(y,x,-z)` へ一括追従する。Color系はPart・Finだけが追従する。基準空間とAxis系TRSは指定軸の意味と値を保ち、Swappedの代表方向に合わせて勝手に交換されない。
+72. Circle・WideCircleと各Swappedを切り替え、通常版がXZ、Swapped版がYZの閉じた円となる。shapeArcAngleを直接編集して0–360°へ変えても描画・選択・Boundsが変わらず、Arc系へ戻すと保持した角度が作用する。
 73. Circle系の全11種類のPartをAtEnd・AtEnds・AtApexへ配置し、円周変形や立体Partの角度補正がないこと、Offsetの正・負が通常どおり作用することを確認する。Arrowの主面・追加面と、追加倍率の既定値による全11種類のAtEndsの代表方向と他3方向の2:1の寸法比も確認する。
 74. WideCircle系の幅を0・既定値・1・1より大きい値へ変え、幅0の一重線、環の穴、内半径0の円板を確認する。PartのSize・Widthを変えても本体の帯幅を保ち、Finは中央の穴を横断する。Fill・半透明・負スケールでも内部線・重複面を残さない。
 75. WideCrossLine3Axisの3本の四角断面が中央で接合し、外殻の面と稜線だけを描く。幅0で3軸線へ戻り、幅が大きい場合も内部面・二重面・不要な線がない。Partの全11種類・全配置とFin、半透明・軸変更・入力行列、Undo/Redo・保存再読込で形状と範囲が追従する。
 76. ColorWideCrossLine3Axisの正側の腕がX=赤・Y=緑・Z=青、負側が通常色となり、Fillも同じ配色になる。異色面の共有稜線が通常色で一重に見え、Part・Finは通常色となる。選択状態・Template/Reference・Selection Highlighting OFF、透明度、既存Color制約との併用でも配色と選択範囲を保つ。
 77. GuideLineの既定値がOFFとなり、通常平面は2軸、立体は3軸、Triangle系は原点から各頂点への3本となる。線が本体表面まで伸び、WideLine・WideCrossLine系にも対応する。既存輪郭と同一直線の重複区間は追加しない。
 78. WideCircle系のGuideLineが中央の穴の内周で止まり、幅1以上で内半径が0になると省略される。通常版・Swapped版、幅0・既定幅・広い幅、塗りON/OFFを確認する。
-79. Square・SquareTemplateと各Swapped、WideLine、WideCrossLine・Circleと各Swappedでは、Arrow2D/3Dを配置した方向のGuideLineを先端へつなぐ。Size・Length・Offset、AtEnd/AtEnds、Fill ON/OFFへ追従し、矢印のない方向や他のPart形状、WideCircle系は本体表面・内周までに留める。Color系は正側RGB・負側通常色で、GuideLineTemplateをONにすると延長部分を含むガイド線だけがtemplate色・選択不可になる。本体・Part・Fin・OffsetLineの選択可否は変わらない。
-80. Gear・Arrow・Arc系4基本形状と、Wide OFFのLine/CrossLine/CrossLine3Axis/ColorCrossLine3AxisではGuideLineを保持して無視する。対象の14本体とWide ONでのみ対象となる4本体を区別する。
+79. Square・SquareTemplateと各Swapped、WideLine、WideCrossLine・Circleと各Swapped、Triangle・Diamond・Octahedron・Capsuleと全Planar / Spatial Arrow8本体では、Arrow2D/3Dを配置した方向のGuideLineを先端へつなぐ。Size・Length・Offset、AtEnd/AtEnds、Fill ON/OFFへ追従し、矢印のない方向や他のPart形状、WideCircle系は本体表面・内周までに留める。Color系は正側RGB・負側通常色で、GuideLineTemplateをONにすると延長部分を含むガイド線だけがtemplate色・選択不可になる。本体・Part・Fin・OffsetLineの選択可否は変わらない。
+80. Gear・Arc系4基本形状と、Wide OFFのLine/CrossLine/CrossLine3Axis/ColorCrossLine3AxisではGuideLineを保持して無視する。対象の23本体とWide ONでのみ対象となる4本体を区別し、ArrowPlanarを含む11Arrow本体にも適用する。
 81. 通常本体のGuideLineは軸・AxisSwap・TRS・Animation行列へ追従し、Color系は固定本体側の基準を保つ。GuideLineとTemplateのON/OFFでShape / ShapeCentered / Customのフォーカス範囲を変えない。Undo/Redo・保存再読込でも設定と描画を保つ。
-82. 非Arc系の全Part対応本体・全11種類のAtEndsでPrimary / Otherを変更し、共通Sizeと長さ・幅の倍率へ掛け合わせる。代表はAtEndの配置点と同じで、SwappedとColor系の軸指定にも追従する。両方1なら等サイズ、Primary=0なら他端だけ、Other=0なら代表だけとなり、他端を代表へ繰り上げない。配置点・ピボットとOffsetの距離は保つ。
-83. Primary / Otherの両方0でPart OFFと本体・Fin・GuideLine・描画・選択・Boundsが一致する。負値で既存Sizeと同じ符号付き拡縮になり、AtEnd・AtApex・Arc系4基本形状では保持して無視する。キー・接続・Undo/Redo・保存再読込も確認する。
-84. 全24基本本体でWide・AxisSwap・TemplateLine・TemplateFillを独立に切り替え、基本shape enumの値と各オプションの保持値を保つ。短名sasw/swd/stl/stlr/stfと既定値を確認する。
-85. Gear/Triangle/Square/Diamond/ArrowのWide帯で角と重なりを確認し、Fillは帯だけを塗る。幅0は元の輪郭線を残し、本体帯面を省略する。
+82. 非Arc系の全Part対応本体・全11種類のAtEndsでPrimary / Otherを変更し、共通Sizeと長さ・幅の倍率へ掛け合わせる。代表はAtEndの配置点と同じで、SwappedとColor系の軸指定にも追従する。両方1なら等サイズ、Primary=0なら他端だけ、Other=0なら代表だけとなり、他端を代表へ繰り上げない。Axial Arrow3種は先端1点だけへPrimaryを掛け、Otherを無視し、AtEndでは両倍率を無視する。配置点・ピボットとOffsetの距離は保つ。
+83. Primary / Otherの両方0でPart OFFと本体・Fin・GuideLine・描画・選択・Boundsが一致する。負値で既存Sizeと同じ符号付き拡縮になり、AtEnd・AtApex・Arc系4基本形状では保持して無視する。直接編集・Undo/Redo・保存再読込と、入力接続・キーの拒否も確認する。
+84. 全32基本本体でWide・AxisSwap・TemplateLine・TemplateFillを独立に切り替え、基本shape enumの値と各オプションの保持値を保つ。短名sasw/swd/stl/stlr/stfと既定値を確認する。
+85. Gear/Triangle/Square/Diamondと全Planar Arrow・ArrowSpatialのWide帯で角と重なりを確認し、Fillは帯だけを塗る。幅0は元の輪郭線を残し、本体帯面を省略する。
 86. 立体のWideでは元の全面Fillをフレームの帯へ置き換え、多面体の元稜線を保つ。球・円柱・円錐の帯は面上距離w/2へ追従し、穴が成立しない領域は全面の帯とする。Colorの軸色とCornerマーカーの保護も確認する。
-87. TemplateLineのRate 0/0.7/1で全通常・区間分割・全Templateとなり、Invertでは各ラベルだけを交換する。Cube・ColorCube・ColorCornerCubeも尖り形状と母線と同じく端が通常、中央がTemplateとなり、保持したRateで区切る。Gear外周は歯先中央から次の歯先中央への実長を使い、谷がTemplate中央、歯先が通常中央となる。閉輪郭の始終端・Wideの追加輪郭で位相を保ち、内円はCircle規約を使う。Arrowの後ろの折れ角とくぼみは1経路の弧長で区切る。四分円・Line・CrossLine・単円Arc・CrossArcも確認する。
+87. TemplateLineのRate 0/0.7/1で全通常・区間分割・全Templateとなり、Invertでは各ラベルだけを交換する。Cube・ColorCube・ColorCornerCubeも尖り形状と母線と同じく端が通常、中央がTemplateとなり、保持したRateで区切る。Gear外周は歯先中央から次の歯先中央への実長を使い、谷がTemplate中央、歯先が通常中央となる。閉輪郭の始終端・Wideの追加輪郭で位相を保ち、内円はCircle規約を使う。ArrowPlanar / ArrowSpatialの後ろの折れ角とくぼみは1経路の弧長で区切る。四分円・Line・CrossLine・単円Arc・CrossArcも確認する。
 88. Line/ArcのPart OFF・AtEnd・AtEnds・AtApexでTemplate区間を確認する。CrossArcのAtEndでも両円4端を通常とし、AtApexでは両円中央を通常にする。
 89. TemplateLineとTemplateFillの4組合せで線と面の選択可否を独立に確認し、Part・Fin・GuideLine・OffsetLineとColorCornerCubeのマーカーを変えない。Wideの帯や追加線、Partを移動した接合部も確認する。
 90. 立体WideのFillは厚み0のフレームを両面から表示し、穴の画素・面選択を残さない。幅0では通常線だけを残し、穴が消える幅では対象領域を全面の帯とする。
@@ -1647,11 +2448,18 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 92. PartTemplate・FinTemplateで対象の線と面だけがTemplate色・選択不可となり、本体と他部品を変えない。OFF・対象外・寸法0で本体へ漏れず、ColorCornerCubeのマーカーも保つ。
 93. Arrow3DのHeight 0がArrow2Dと線・面・選択範囲で一致し、WidthとHeightを独立に変更できる。負のHeightは局所高さの方向だけを反転し、ArcRadialでは法線、ArcAxialでは半径方向へ作用する。
 94. Wide CrossLine3Axis系のPartで腕の終端が切り詰められても、本体の端を閉じる辺は実際の終端の通常区間に属する。Rate 1・Invertの例外規則とPartTemplateを切り替え、PartのTemplate指定が本体の端へ移らないことを確認する。
+95. Capsuleは内部m/pをキャップ中心にし、各端面の倍率を含む横2半径の平均R-/R+で半球を作る。Cage前の全長L+R-+R+、接合面m/pの基準枠を使い、半球の端ウェイトを固定して反対端へ倍率を漏らさない。接合円は同位置・同形なら1本、L0異径なら両方を残して接続する。中央円・内部円盤を追加せず、反転・Swap・片横0・mm単位・両端Partを確認する。
+96. Planar / SpatialのSquare・Diamond・Circleは内部mを肩・本体中心、後端m-s*R、前端m+s*max(L,R)にする。Planarは第3軸半幅、Spatialは横2軸半径の平均を使い、面ScaleをRへ掛けず、完成表面へ一度だけ適用する。短いPlusで母体を潰さず、CircleArrowSpatialに接合円の線・帯を残さない。全オプション、反転・0長を確認する。
+97. 全BaseSpace/CustomBoundsの公開Minus/Plusが既定+0.5となり、Minusだけ内部符号を反転する。形状両側へ同じ正値を直接設定すると中心を保って広がり、負値・0も保持する。Custom Boundsの両側は同じdriverへの接続とキーも利用できる。MinusScaleの倍率は自動符号反転しない。
 
 実際のViewport 2.0を必要とする画像比較テストは、`tests/maya/ui` の
 `test_controller_shape_viewport.py`、`test_controller_shape_wide_surfaces.py`、
 `test_controller_shape_display_colors.py`、`test_controller_shape_gear_template.py`、
-`test_controller_shape_cage_attachments.py` の5ファイルです。
+`test_controller_shape_display_cache.py`、
+`test_controller_shape_wire.py`、`test_controller_shape_fill.py`、
+`test_controller_shape_cage_attachments.py`、`test_controller_shape_part_guides.py`、
+`test_controller_shape_axis_fins.py`、
+`test_controller_shape_capsule.py`、`test_controller_shape_arrow_shapes.py` です。
 既存作業とは別のMaya GUIプロセスでpytestから実行し、mayapyのbatch環境では明示的にskipします。
 ファイルの分担表・一括実行手順・画像比較の注意点は
 [Testing And DebuggingのViewport 2.0描画テスト](testing-debugging.md#viewport-20描画テスト) を参照してください。

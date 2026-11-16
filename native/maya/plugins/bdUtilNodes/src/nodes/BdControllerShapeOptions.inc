@@ -125,7 +125,7 @@ void trimOptionGeometry(PartGeometry& geometry, const std::vector<OptionClipVolu
         }
     }
     for (const auto& part : geometry.fillParts) {
-        PartBuilder faces(filled);
+        PartBuilder faces(filled || part.marker);
         for (unsigned int i = 0; i < part.triangles.length(); i += 3) {
             PartPolygons pieces = {{part.triangles[i], part.triangles[i + 1], part.triangles[i + 2]}};
             for (const auto& volume : volumes) {
@@ -182,10 +182,18 @@ void trimOptionStrokes(PartGeometry& geometry, const std::vector<OptionClipVolum
 #include "BdControllerShapeWide.inc"
 #include "BdControllerShapePlanarCircle.inc"
 
+bool optionVertexPartOutline(short outline);
+
+bool useCagePartGeometry(const ShapeSettings& settings) {
+    const short outline = outlinePresetIndex(settings.shape);
+    return settings.part && (optionVertexPartOutline(outline) || outline == 50 || outline == 51);
+}
+
 bool optionPartSupported(short outline) {
     return outline == 1 || outline == 4 || outline == 5 || outline == 8 || outline == 19 ||
         outline == 27 || outline == 33 || outline == 45 || outline == 46 || outline == 47 ||
-        outline == 52 || outline == 53 || (outline >= 104 && outline <= 119) || isArcOutline(outline);
+        outline == 50 || outline == 51 || outline == 52 || outline == 53 ||
+        optionVertexPartOutline(outline) || (outline >= 104 && outline <= 119) || isArcOutline(outline);
 }
 
 short optionNarrowOutline(short outline) {
@@ -275,6 +283,7 @@ MVector directionalPartSide(unsigned int axis) {
     return nativeAxis(axis == 1 ? 2 : 0);
 }
 
+#include "BdControllerShapeVertexSites.inc"
 #include "BdControllerShapeAxialHead.inc"
 #include "BdControllerShapeRadialHead.inc"
 
@@ -298,6 +307,7 @@ std::vector<OptionSite> baseOptionPartSites(const ShapeSettings& settings) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!settings.part || !optionPartSupported(outline)) return {};
     const bool all = settings.partType == 1;
+    if (optionVertexPartOutline(outline)) return optionVertexPartSites(settings);
     std::vector<OptionSite> sites;
     const auto add = [&](MVector along, MVector side, bool attached) {
         sites.push_back({MPoint::origin + along * 0.5, along, side, attached});
@@ -337,7 +347,7 @@ std::vector<OptionSite> baseOptionPartSites(const ShapeSettings& settings) {
         }
         return sites;
     }
-    if (outline == 19 || outline == 33 || outline == 46 || outline == 47) {
+    if (outline == 19 || outline == 33 || outline == 46 || outline == 47 || outline == 50 || outline == 51) {
         add(nativeAxis(0), -nativeAxis(2), true);
         if (all) {
             add(-nativeAxis(0), nativeAxis(2), true);
@@ -488,7 +498,7 @@ OptionHeads makeOptionHeads(const ShapeSettings& settings, bool forTemplate = fa
         };
         if (settings.partShape <= 1) {
             const double depth = (site.attached ? 0.125 : 0.1 * std::cos(kPi / 6.0));
-            const double width = site.attached ? (outline == 19 || outline == 8 || (outline >= 108 && outline <= 110) || isPlanarCircleOutline(outline) ? 0.072 : 0.075) : 0.05;
+            const double width = site.attached ? (outline == 19 || outline == 50 || outline == 51 || outline == 8 || (outline >= 108 && outline <= 110) || isPlanarCircleOutline(outline) ? 0.072 : 0.075) : 0.05;
             const double shoulder = site.attached ? (round ? -0.004903810568 : 0.0) : -depth;
             const double tip = site.attached ? depth : 0.0;
             if (site.attached) {
@@ -712,6 +722,7 @@ bool makeOptionShapeGeometry(const ShapeSettings& settings, PartGeometry& geomet
     GuideBodyGeometry* guideBody = nullptr) {
     const short outline = outlinePresetIndex(settings.shape);
     if (!optionPartSupported(outline)) return false;
+    if (optionVertexPartOutline(outline) || outline == 50 || outline == 51) return false;
     if (crossCircleBaseOutline(outline) >= 0) return makeCrossCircleGeometry(settings, geometry);
     if (optionAxialWrapped(settings)) {
         geometry = makeAxialWrappedGeometry(settings);

@@ -32,7 +32,7 @@ def test_custom_endpoint_order_and_zero_dimensions_are_defined(
     for axis, minus, plus in zip("XYZ", coordinates[:3], coordinates[3:]):
         assert (
             maya_cmds.getAttr(f"{shape}.customBoundsBaseSpace{axis}Minus")
-            == minus
+            == -minus
         )
         assert (
             maya_cmds.getAttr(f"{shape}.customBoundsBaseSpace{axis}Plus")
@@ -70,7 +70,7 @@ def test_custom_endpoint_connections_are_ignored_outside_custom_and_survive_relo
     shape = _controller(maya_cmds, "customConnected", "Cube")
     driver = maya_cmds.createNode("network", name="customBoundsDriver")
     for axis in "XYZ":
-        for side, first, last in (("Minus", -0.5, 2), ("Plus", 0.5, 5)):
+        for side, first, last in (("Minus", 0.5, -2), ("Plus", 0.5, 5)):
             attribute = f"{axis}{side}"
             maya_cmds.addAttr(
                 driver,
@@ -127,6 +127,6 @@ def test_custom_coordinate_distances_follow_scene_units(
         assert _bounds(maya_om, shape) == pytest.approx(expected)
         maya_cmds.currentUnit(linear="cm")
         assert _bounds(maya_om, shape) == pytest.approx(expected)
-        assert maya_cmds.getAttr(f"{shape}.customBoundsBaseSpaceXMinus") == 1
+        assert maya_cmds.getAttr(f"{shape}.customBoundsBaseSpaceXMinus") == -1
     finally:
         maya_cmds.currentUnit(linear=previous)

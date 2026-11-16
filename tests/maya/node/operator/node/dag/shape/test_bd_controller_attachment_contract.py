@@ -18,7 +18,6 @@ COLOR_PAIRS = (
     ("ColorCornerCube", "Cube"),
     ("ColorSphere", "Sphere"),
 )
-COLOR_PART_PAIRS = (COLOR_PAIRS[0], COLOR_PAIRS[1], COLOR_PAIRS[4])
 AXIS_PAIRS = tuple(itertools.product(range(6), repeat=2))
 PART_AXIS_PAIRS = ((0, 2), (2, 0), (5, 1), (3, 4), (4, 5))
 
@@ -88,7 +87,7 @@ def test_color_body_keeps_fixed_axes_without_attachments(
         assert maya_cmds.getAttr(f"{shape}.shape2ndAxis") == second
 
 
-@pytest.mark.parametrize("preset,plain", COLOR_PART_PAIRS)
+@pytest.mark.parametrize("preset,plain", COLOR_PAIRS)
 @pytest.mark.parametrize("part", range(11))
 @pytest.mark.parametrize("filled", (False, True))
 def test_color_parts_follow_selected_axes_like_the_plain_body(
@@ -134,9 +133,8 @@ def test_color_fin_follows_selected_axes_with_its_body_fixed(
         shapeFill=filled,
         shapeFin=True,
         shapeFinType=fin_type,
-        shapeFinHeight=0.9,
-        shapeFinSize=1.3,
-        shapeFinWidthScale=1.2,
+        shapeFinHeight=1.17,
+        shapeFinWidthScale=1.56,
     )
     color = _controller(maya_cmds, "colorFin", preset, **options)
     reference = _controller(maya_cmds, "plainFin", plain, **options)
@@ -251,7 +249,7 @@ def test_at_ends_matches_one_standard_and_other_half_size_at_end_parts(
     assert _bounds(maya_om, actual) == pytest.approx(representative, abs=1e-9)
 
 
-def test_color_attachment_axis_connections_update_and_survive_reload(
+def test_color_attachment_axis_direct_edits_update_and_survive_reload(
     maya_cmds, maya_om, new_scene, tmp_path
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -268,22 +266,12 @@ def test_color_attachment_axis_connections_update_and_survive_reload(
     )
     color = _controller(maya_cmds, "colorAnimated", "ColorSphere", **options)
     reference = _controller(maya_cmds, "plainAnimated", "Sphere", **options)
-    driver = maya_cmds.createNode("network", name="axisDriver")
-    for attr, target in (
-        ("first", "shape1stAxis"),
-        ("second", "shape2ndAxis"),
-    ):
-        maya_cmds.addAttr(
-            driver, longName=attr, attributeType="long", keyable=True
-        )
-        for shape in (color, reference):
-            maya_cmds.connectAttr(f"{driver}.{attr}", f"{shape}.{target}")
-    for time, first, second in ((1, 0, 2), (2, 5, 0), (3, 2, 1)):
-        maya_cmds.setKeyframe(f"{driver}.first", time=time, value=first)
-        maya_cmds.setKeyframe(f"{driver}.second", time=time, value=second)
+    values = ((0, 2), (5, 0), (2, 1))
     expected = []
-    for time in (1, 2, 3):
-        maya_cmds.currentTime(time)
+    for first, second in values:
+        for shape in (color, reference):
+            maya_cmds.setAttr(f"{shape}.shape1stAxis", first)
+            maya_cmds.setAttr(f"{shape}.shape2ndAxis", second)
         box = _bounds(maya_om, color)
         assert box == pytest.approx(_bounds(maya_om, reference), abs=1e-9)
         expected.append(box)
@@ -293,6 +281,8 @@ def test_color_attachment_axis_connections_update_and_survive_reload(
     maya_cmds.file(save=True, type="mayaAscii", force=True)
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene), open=True, force=True)
-    for time, box in enumerate(expected, 1):
-        maya_cmds.currentTime(time)
+    assert _bounds(maya_om, color) == pytest.approx(expected[-1], abs=1e-9)
+    for (first, second), box in zip(values, expected):
+        maya_cmds.setAttr(f"{color}.shape1stAxis", first)
+        maya_cmds.setAttr(f"{color}.shape2ndAxis", second)
         assert _bounds(maya_om, color) == pytest.approx(box, abs=1e-9)

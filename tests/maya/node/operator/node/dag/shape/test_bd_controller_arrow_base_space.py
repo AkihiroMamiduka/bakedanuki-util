@@ -28,20 +28,27 @@ def _body_points(preset, swapped, limits):
     axis = int(swapped)
     minus, plus = limits[axis]
     direction = 1 if plus >= minus else -1
-    joint = minus + direction * (0.25 if preset == "Arrow" else 0.5)
-    if preset == "Arrow":
+    joint = minus
+    if preset == "ArrowPlanar":
+        radius = abs(limits[2][1] - limits[2][0]) / 2
+        tip = minus + direction * max(abs(plus - minus), 1.5 * radius)
+        rear = minus - direction * radius / 2
         vertices = (
-            (plus, 0, 0),
+            (tip, 0, 0),
             (joint, 0, -0.5),
-            (minus, 0, -0.25),
+            (rear, 0, -0.25),
             (joint, 0, 0),
-            (minus, 0, 0.25),
+            (rear, 0, 0.25),
             (joint, 0, 0.5),
         )
     else:
+        radius = (
+            abs(limits[1 - axis][1] - limits[1 - axis][0])
+            + abs(limits[2][1] - limits[2][0])
+        ) / 4
         vertices = (
-            (minus, 0, 0),
-            (plus, 0, 0),
+            (minus - direction * radius, 0, 0),
+            (minus + direction * max(abs(plus - minus), radius), 0, 0),
             (joint, -0.5, 0),
             (joint, 0.5, 0),
             (joint, 0, -0.5),
@@ -64,7 +71,7 @@ def _point_bounds(points):
     ) + tuple(max(point[axis] for point in points) for axis in range(3))
 
 
-@pytest.mark.parametrize("preset", ("Arrow", "OctahedronArrow"))
+@pytest.mark.parametrize("preset", ("ArrowPlanar", "DiamondArrowSpatial"))
 @pytest.mark.parametrize("swapped", (False, True))
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize("minus,plus", ENDPOINTS)
@@ -102,10 +109,10 @@ def test_arrow_body_keeps_its_rear_section_and_uses_exact_endpoint_coordinates(
     )
 
 
-@pytest.mark.parametrize("preset", ("Arrow", "OctahedronArrow"))
+@pytest.mark.parametrize("preset", ("ArrowPlanar", "DiamondArrowSpatial"))
 @pytest.mark.parametrize("fin", (False, True))
 @pytest.mark.parametrize("filled", (False, True))
-def test_part_controls_are_retained_and_do_not_deform_arrow_bodies_or_fins(
+def test_disabled_part_controls_are_retained_without_deforming_arrow_bodies_or_fins(
     maya_cmds, maya_om, new_scene, preset, fin, filled
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -116,12 +123,12 @@ def test_part_controls_are_retained_and_do_not_deform_arrow_bodies_or_fins(
         shapeFin=fin,
         shapeFill=filled,
         shapeGuideLine=True,
+        shapePart=False,
     )
     _set_base_space(maya_cmds, shape, ((1, 3), (-0.5, 0.5), (-1.5, 1.5)))
     maya_cmds.setAttr(f"{shape}.shapeRotate", 17, -29, 37)
     expected = _bounds(maya_om, shape)
     values = {
-        "shapePart": True,
         "shapePartShape": 10,
         "shapePartType": 2,
         "shapePartOffset": -4.0,
@@ -140,9 +147,28 @@ def test_part_controls_are_retained_and_do_not_deform_arrow_bodies_or_fins(
         assert maya_cmds.getAttr(f"{shape}.{attribute}") == pytest.approx(
             value
         )
+    # 有効な寸法でPartを表示してから戻しても、本体の固定長とFinは変えない。
+    active_sizes = {
+        "shapePartSize": 1.7,
+        "shapePartLengthScale": 1.3,
+        "shapePartWidthScale": 0.8,
+        "shapePartHeightScale": 1.2,
+    }
+    for attribute, value in active_sizes.items():
+        maya_cmds.setAttr(f"{shape}.{attribute}", value)
+    values.update(active_sizes)
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+    maya_cmds.setAttr(f"{shape}.shapePart", True)
+    assert _bounds(maya_om, shape) != pytest.approx(expected, abs=1e-9)
+    maya_cmds.setAttr(f"{shape}.shapePart", False)
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+    for attribute, value in values.items():
+        assert maya_cmds.getAttr(f"{shape}.{attribute}") == pytest.approx(
+            value
+        )
 
 
-@pytest.mark.parametrize("preset", ("Arrow", "OctahedronArrow"))
+@pytest.mark.parametrize("preset", ("ArrowPlanar", "DiamondArrowSpatial"))
 @pytest.mark.parametrize("swapped", (False, True))
 @pytest.mark.parametrize("fin_type", (0, 1))
 def test_arrow_fins_follow_new_body_coordinates_and_keep_their_height(
@@ -168,7 +194,7 @@ def test_arrow_fins_follow_new_body_coordinates_and_keep_their_height(
         assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
 
 
-@pytest.mark.parametrize("preset", ("Arrow", "OctahedronArrow"))
+@pytest.mark.parametrize("preset", ("ArrowPlanar", "DiamondArrowSpatial"))
 def test_fixed_rear_length_is_a_scene_distance_in_centimeters(
     maya_cmds, maya_om, new_scene, preset
 ):
@@ -177,7 +203,7 @@ def test_fixed_rear_length_is_a_scene_distance_in_centimeters(
     try:
         maya_cmds.currentUnit(linear="mm")
         shape = _controller(maya_cmds, "millimeterRear", preset)
-        maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", 10)
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", -10)
         maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisPlus", 11)
         expected = _point_bounds(
             _body_points(preset, False, ((1, 1.1), (-0.5, 0.5), (-0.5, 0.5)))
@@ -196,7 +222,7 @@ def test_wide_arrow_keeps_the_finished_plane_offset_and_width_on_a_collapsed_axi
     shape = _controller(
         maya_cmds,
         "flatWideArrow",
-        "Arrow",
+        "ArrowPlanar",
         shapeAxisSwap=swapped,
         shapeWide=True,
         shapeWideWidth=0.2,
@@ -240,8 +266,9 @@ def test_wide_arrow_tip_keeps_the_exact_sharp_offset_intersection(
     minus = 0.5 if reversed else -0.5
     plus = -tip if reversed else tip
     direction = 1 if plus >= minus else -1
-    joint = minus + direction * 0.25
+    joint = minus
     half_body = body_width / 2
+    rear = minus - direction * half_body / 2
     half_band = band_width / 2
     extension = half_band * math.hypot(plus - joint, half_body) / half_body
     expected_tip = plus + math.copysign(extension, plus - joint)
@@ -256,7 +283,7 @@ def test_wide_arrow_tip_keeps_the_exact_sharp_offset_intersection(
     shape = _controller(
         maya_cmds,
         "sharpWideArrow",
-        "Arrow",
+        "ArrowPlanar",
         shapeAxisSwap=swapped,
         shapeWide=True,
         shapeWideWidth=band_width,
@@ -273,9 +300,9 @@ def test_wide_arrow_tip_keeps_the_exact_sharp_offset_intersection(
     assert all(math.isfinite(value) for value in actual)
     # 内側の穴が潰れても、先端と反対へ巨大な突起を生成しない。
     if positive:
-        assert actual[axis] >= min(minus, joint) - reach - 1e-9
+        assert actual[axis] >= min(rear, joint) - reach - 1e-9
     else:
-        assert actual[axis + 3] <= max(minus, joint) + reach + 1e-9
+        assert actual[axis + 3] <= max(rear, joint) + reach + 1e-9
     assert actual[2] >= limits[2][0] - reach - 1e-9
     assert actual[5] <= limits[2][1] + reach + 1e-9
     normal = 1 - axis
@@ -290,9 +317,9 @@ def test_wide_arrow_tip_keeps_the_exact_sharp_offset_intersection(
         (0, 0.05, 3),
         (1, 0, 3),
         (0, 0, 3),
-        (1, 0.05, -0.25),
-        (1e-12, 0.05, -0.25),
-        (1e-10, 0.05, -0.25),
+        (1, 0.05, -0.5),
+        (1e-12, 0.05, -0.5),
+        (1e-10, 0.05, -0.5),
         (1, 1e-13, 10),
     ),
 )
@@ -305,7 +332,7 @@ def test_degenerate_wide_arrow_tips_keep_finite_geometry(
     shape = _controller(
         maya_cmds,
         "degenerateSharpArrow",
-        "Arrow",
+        "ArrowPlanar",
         shapeAxisSwap=swapped,
         shapeWide=True,
         shapeWideWidth=band_width,
@@ -316,7 +343,11 @@ def test_degenerate_wide_arrow_tips_keep_finite_geometry(
     _set_base_space(maya_cmds, shape, limits)
     actual = _bounds(maya_om, shape)
     assert all(math.isfinite(value) for value in actual)
-    body = _point_bounds(_body_points("Arrow", swapped, limits))
+    body = _point_bounds(_body_points("ArrowPlanar", swapped, limits))
+    if body_width == 1e-12 and tip == -0.5:
+        # 母体全体が輪郭の同一点判定より小さい場合は描画要素を持たない。
+        assert actual == pytest.approx((0,) * 6, abs=1e-12)
+        return
     reach = 4 * band_width / 2 + 1e-9
     for axis in range(3):
         assert body[axis] - reach <= actual[axis] <= body[axis + 3] + reach
@@ -331,7 +362,7 @@ def test_sharp_wide_arrow_tip_still_ignores_part_controls(
     shape = _controller(
         maya_cmds,
         "independentSharpTip",
-        "Arrow",
+        "ArrowPlanar",
         shapeAxisSwap=swapped,
         shapeWide=True,
     )

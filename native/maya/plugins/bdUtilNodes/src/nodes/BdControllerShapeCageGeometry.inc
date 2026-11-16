@@ -3,18 +3,29 @@ std::shared_ptr<BdControllerShapeNode::Geometry> assembleCageGeometry(const Shap
     const PartGeometry& canonical, const PartGeometry& baseBody, const PartGeometry& actualBody) {
     const auto source = untransformedShapeSettings(settings);
     auto result = std::make_shared<BdControllerShapeNode::Geometry>(actualBody);
-    if (!source.fill) result->fillParts.clear();
-    if (outlinePresetIndex(source.shape) == 36 && source.fill && !source.wide) {
-        result->strokes.resize(std::min<std::size_t>(2, result->strokes.size()));
-        result->strokeStyles.resize(result->strokes.size());
+    if (!makeAffineCageWideBody(source, *result)) {
+        if (!source.fill) result->fillParts.clear();
+        if (outlinePresetIndex(source.shape) == 36 && source.fill && !source.wide) {
+            result->strokes.resize(std::min<std::size_t>(2, result->strokes.size()));
+            result->strokeStyles.resize(result->strokes.size());
+        }
+        makeCageWideBody(source, canonical, baseBody, actualBody, *result);
     }
-    makeCageWideBody(source, canonical, baseBody, actualBody, *result);
     appendCageAttachments(source, *result, baseBody, actualBody);
     const ShapeTransform transform(settings);
     for (auto& stroke : result->strokes) for (auto& point : stroke) point = transformPoint(point, transform);
     for (auto& part : result->fillParts) for (auto& point : part.triangles) point = transformPoint(point, transform);
     if (reversesSolidFillWinding(transform)) reverseSolidFillWinding(*result);
     result->bounds = boundsForGeometry(result->strokes, result->fillParts);
+    if ((isCapsuleBody(settings) || isBulkArrowBody(settings)) && settings.wide) {
+        // 帯の内部にある極も含め、GuideやFillの切り替えでフォーカス範囲を変えない。
+        for (const auto& stroke : actualBody.strokes) for (const auto& point : stroke) {
+            result->bounds.expand(transformPoint(point, transform));
+        }
+        for (const auto& part : actualBody.fillParts) for (const auto& point : part.triangles) {
+            result->bounds.expand(transformPoint(point, transform));
+        }
+    }
     result->offsetLineTemplate = settings.offsetLineTemplate;
     result->offsetLineEndpoint = transformPoint(cagePoint(baseSpacePoint(MPoint::origin, source), source), transform);
     if (settings.showOffsetLine && hasOffsetLine(result->offsetLineEndpoint)) {
@@ -28,7 +39,7 @@ std::shared_ptr<BdControllerShapeNode::Geometry> assembleCageGeometry(const Shap
 
 std::shared_ptr<const BdControllerShapeNode::Geometry> makeCageGeometry(const ShapeSettings& settings) {
     ShapeSettings affine;
-    if (cageAffineSettings(settings, affine)) return makeBaseGeometry(affine);
+    if (!isCapsuleBody(settings) && !useCagePartGeometry(settings) && cageAffineSettings(settings, affine)) return makeBaseGeometry(affine);
     const auto source = untransformedShapeSettings(settings);
     const auto canonical = cageCanonicalBodyGeometry(source);
     const auto baseBody = cageMappedBodyGeometry(canonical, source, false);

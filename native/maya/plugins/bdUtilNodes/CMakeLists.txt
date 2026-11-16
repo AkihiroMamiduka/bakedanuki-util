@@ -197,6 +197,7 @@ target_link_libraries(
     "${MAYA_LOCATION}/lib/OpenMaya.lib"
     "${MAYA_LOCATION}/lib/OpenMayaUI.lib"
     "${MAYA_LOCATION}/lib/OpenMayaRender.lib"
+    "${MAYA_LOCATION}/lib/OpenMayaAnim.lib"
 )
 
 target_compile_definitions(
@@ -213,6 +214,7 @@ if(MSVC)
         bdUtilNodes
         PRIVATE
         /EHsc
+        /utf-8
         /permissive-
         /W4
         /Zc:__cplusplus

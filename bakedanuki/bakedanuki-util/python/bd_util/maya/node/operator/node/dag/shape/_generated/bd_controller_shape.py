@@ -131,61 +131,81 @@ class ShapeEnumPlugOperator(EnumPlugOperator["ShapeEnumAttrOperator"]):
     __slots__ = ()
 
     GEAR = 0
-    LINE = 1
-    CROSSLINE = 2
-    TRIANGLE = 3
-    SQUARE = 4
-    DIAMOND = 5
-    CIRCLE = 6
-    ARCRADIAL = 7
-    ARCAXIAL = 8
-    CROSSARCRADIAL = 9
-    CROSSARCAXIAL = 10
-    CROSSLINE3AXIS = 11
-    CUBE = 12
-    OCTAHEDRON = 13
-    OCTAHEDRONARROW = 14
-    SPHERE = 15
-    CYLINDER = 16
-    ARROW = 17
-    PYRAMID = 18
-    CONE = 19
-    COLORCROSSLINE3AXIS = 20
-    COLORCUBE = 21
-    COLORCORNERCUBE = 22
-    COLORSPHERE = 23
+    COLORCROSSLINE3AXIS = 1
+    COLORCUBE = 2
+    COLORCORNERCUBE = 3
+    COLORSPHERE = 4
+    LINE = 5
+    CROSSLINE = 6
+    TRIANGLE = 7
+    SQUARE = 8
+    DIAMOND = 9
+    CIRCLE = 10
+    ARCRADIAL = 11
+    ARCAXIAL = 12
+    CROSSARCRADIAL = 13
+    CROSSARCAXIAL = 14
+    CROSSLINE3AXIS = 15
+    CUBE = 16
+    OCTAHEDRON = 17
+    SPHERE = 18
+    CYLINDER = 19
+    CAPSULE = 20
+    ARROWPLANAR = 21
+    SQUAREARROWPLANAR = 22
+    DIAMONDARROWPLANAR = 23
+    CIRCLEARROWPLANAR = 24
+    SQUAREARROWAXIAL = 25
+    DIAMONDARROWAXIAL = 26
+    CIRCLEARROWAXIAL = 27
+    ARROWSPATIAL = 28
+    SQUAREARROWSPATIAL = 29
+    DIAMONDARROWSPATIAL = 30
+    CIRCLEARROWSPATIAL = 31
 
 
 class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
     __slots__ = ()
 
     GEAR = 0
-    LINE = 1
-    CROSSLINE = 2
-    TRIANGLE = 3
-    SQUARE = 4
-    DIAMOND = 5
-    CIRCLE = 6
-    ARCRADIAL = 7
-    ARCAXIAL = 8
-    CROSSARCRADIAL = 9
-    CROSSARCAXIAL = 10
-    CROSSLINE3AXIS = 11
-    CUBE = 12
-    OCTAHEDRON = 13
-    OCTAHEDRONARROW = 14
-    SPHERE = 15
-    CYLINDER = 16
-    ARROW = 17
-    PYRAMID = 18
-    CONE = 19
-    COLORCROSSLINE3AXIS = 20
-    COLORCUBE = 21
-    COLORCORNERCUBE = 22
-    COLORSPHERE = 23
+    COLORCROSSLINE3AXIS = 1
+    COLORCUBE = 2
+    COLORCORNERCUBE = 3
+    COLORSPHERE = 4
+    LINE = 5
+    CROSSLINE = 6
+    TRIANGLE = 7
+    SQUARE = 8
+    DIAMOND = 9
+    CIRCLE = 10
+    ARCRADIAL = 11
+    ARCAXIAL = 12
+    CROSSARCRADIAL = 13
+    CROSSARCAXIAL = 14
+    CROSSLINE3AXIS = 15
+    CUBE = 16
+    OCTAHEDRON = 17
+    SPHERE = 18
+    CYLINDER = 19
+    CAPSULE = 20
+    ARROWPLANAR = 21
+    SQUAREARROWPLANAR = 22
+    DIAMONDARROWPLANAR = 23
+    CIRCLEARROWPLANAR = 24
+    SQUAREARROWAXIAL = 25
+    DIAMONDARROWAXIAL = 26
+    CIRCLEARROWAXIAL = 27
+    ARROWSPATIAL = 28
+    SQUAREARROWSPATIAL = 29
+    DIAMONDARROWSPATIAL = 30
+    CIRCLEARROWSPATIAL = 31
 
     NAME_MAP = {
         GEAR: "Gear",
+        COLORCROSSLINE3AXIS: "ColorCrossLine3Axis",
+        COLORCUBE: "ColorCube",
+        COLORCORNERCUBE: "ColorCornerCube",
+        COLORSPHERE: "ColorSphere",
         LINE: "Line",
         CROSSLINE: "CrossLine",
         TRIANGLE: "Triangle",
@@ -199,16 +219,20 @@ class ShapeEnumAttrOperator(EnumAttrOperator[ShapeEnumPlugOperator]):
         CROSSLINE3AXIS: "CrossLine3Axis",
         CUBE: "Cube",
         OCTAHEDRON: "Octahedron",
-        OCTAHEDRONARROW: "OctahedronArrow",
         SPHERE: "Sphere",
         CYLINDER: "Cylinder",
-        ARROW: "Arrow",
-        PYRAMID: "Pyramid",
-        CONE: "Cone",
-        COLORCROSSLINE3AXIS: "ColorCrossLine3Axis",
-        COLORCUBE: "ColorCube",
-        COLORCORNERCUBE: "ColorCornerCube",
-        COLORSPHERE: "ColorSphere",
+        CAPSULE: "Capsule",
+        ARROWPLANAR: "ArrowPlanar",
+        SQUAREARROWPLANAR: "SquareArrowPlanar",
+        DIAMONDARROWPLANAR: "DiamondArrowPlanar",
+        CIRCLEARROWPLANAR: "CircleArrowPlanar",
+        SQUAREARROWAXIAL: "SquareArrowAxial",
+        DIAMONDARROWAXIAL: "DiamondArrowAxial",
+        CIRCLEARROWAXIAL: "CircleArrowAxial",
+        ARROWSPATIAL: "ArrowSpatial",
+        SQUAREARROWSPATIAL: "SquareArrowSpatial",
+        DIAMONDARROWSPATIAL: "DiamondArrowSpatial",
+        CIRCLEARROWSPATIAL: "CircleArrowSpatial",
     }
 
 
@@ -510,25 +534,25 @@ class GeneratedBdControllerShape(Shape):
     shapeAxisSwap = BoolField(default_value=False)
     sasw = shapeAxisSwap
 
-    shape = ShapeEnumField(default_value=12)
+    shape = ShapeEnumField(default_value=16)
     sh = shape
 
     shapeBaseSpace1stAxisPlus = DoubleLinearField(default_value=0.5)
     sbsp1p = shapeBaseSpace1stAxisPlus
 
-    shapeBaseSpace1stAxisMinus = DoubleLinearField(default_value=-0.5)
+    shapeBaseSpace1stAxisMinus = DoubleLinearField(default_value=0.5)
     sbsp1m = shapeBaseSpace1stAxisMinus
 
     shapeBaseSpace2ndAxisPlus = DoubleLinearField(default_value=0.5)
     sbsp2p = shapeBaseSpace2ndAxisPlus
 
-    shapeBaseSpace2ndAxisMinus = DoubleLinearField(default_value=-0.5)
+    shapeBaseSpace2ndAxisMinus = DoubleLinearField(default_value=0.5)
     sbsp2m = shapeBaseSpace2ndAxisMinus
 
     shapeBaseSpace3rdAxisPlus = DoubleLinearField(default_value=0.5)
     sbsp3p = shapeBaseSpace3rdAxisPlus
 
-    shapeBaseSpace3rdAxisMinus = DoubleLinearField(default_value=-0.5)
+    shapeBaseSpace3rdAxisMinus = DoubleLinearField(default_value=0.5)
     sbsp3m = shapeBaseSpace3rdAxisMinus
 
     shapeBaseSpace1stAxisPlusScale = ShapeBaseSpace1stAxisPlusScaleField(
@@ -624,7 +648,7 @@ class GeneratedBdControllerShape(Shape):
     sfl = shapeFill
 
     shapeFillTransparency = FloatField(
-        default_value=0.8500000238418579, min_value=0.0, max_value=1.0
+        default_value=0.0, min_value=0.0, max_value=1.0
     )
     sftp = shapeFillTransparency
 
@@ -704,9 +728,6 @@ class GeneratedBdControllerShape(Shape):
     shapeFinHeight = DoubleLinearField(default_value=0.5)
     sfnh = shapeFinHeight
 
-    shapeFinSize = DoubleField(default_value=1.0)
-    sfns = shapeFinSize
-
     shapeFinWidthScale = DoubleField(default_value=1.0)
     sfnws = shapeFinWidthScale
 
@@ -776,7 +797,7 @@ class GeneratedBdControllerShape(Shape):
     shapeSize = DoubleField(default_value=1.0)
     ss = shapeSize
 
-    boundsMode = BoundsModeEnumField(default_value=1)
+    boundsMode = BoundsModeEnumField(default_value=0)
     bdm = boundsMode
 
     showBoundsPreview = BoolField(default_value=False)
@@ -785,17 +806,17 @@ class GeneratedBdControllerShape(Shape):
     customBoundsBaseSpaceXPlus = DoubleLinearField(default_value=0.5)
     cbbsxp = customBoundsBaseSpaceXPlus
 
-    customBoundsBaseSpaceXMinus = DoubleLinearField(default_value=-0.5)
+    customBoundsBaseSpaceXMinus = DoubleLinearField(default_value=0.5)
     cbbsxm = customBoundsBaseSpaceXMinus
 
     customBoundsBaseSpaceYPlus = DoubleLinearField(default_value=0.5)
     cbbsyp = customBoundsBaseSpaceYPlus
 
-    customBoundsBaseSpaceYMinus = DoubleLinearField(default_value=-0.5)
+    customBoundsBaseSpaceYMinus = DoubleLinearField(default_value=0.5)
     cbbsym = customBoundsBaseSpaceYMinus
 
     customBoundsBaseSpaceZPlus = DoubleLinearField(default_value=0.5)
     cbbszp = customBoundsBaseSpaceZPlus
 
-    customBoundsBaseSpaceZMinus = DoubleLinearField(default_value=-0.5)
+    customBoundsBaseSpaceZMinus = DoubleLinearField(default_value=0.5)
     cbbszm = customBoundsBaseSpaceZMinus

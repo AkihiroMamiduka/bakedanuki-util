@@ -6,6 +6,8 @@ import math
 
 import pytest
 
+import bd_util as bdu
+
 from test_controller_shape_viewport import (
     _brightness_near_world,
     _capture_view,
@@ -129,7 +131,7 @@ def test_cage_wire_part_remains_normal_when_the_body_line_is_templated(
         assert _brightness_near_world(panel, hidden, sample) < 180
 
 
-def test_cage_fin_rises_from_the_new_body_surface_with_fixed_height(
+def test_cage_standard_fin_keeps_its_top_parallel_to_the_main_axis(
     maya_cmds, new_scene, tmp_path
 ):
     if maya_cmds.about(batch=True):
@@ -147,8 +149,8 @@ def test_cage_fin_rises_from_the_new_body_surface_with_fixed_height(
         maya_cmds.setAttr(f"{camera_shape}.orthographicWidth", 3.2)
         _look_at(maya_cmds, camera, (0, 0.4, 0), (0, 0, 1))
         shown = _capture_view(panel, tmp_path / "fin.png")
-        inside = (0.5 - 0.3 / math.sqrt(5), 1 + 0.6 / math.sqrt(5), 0)
-        outside = (0.5 - 0.55 / math.sqrt(5), 1 + 1.1 / math.sqrt(5), 0)
+        inside = (0.25, 1.25, 0)
+        outside = (0.25, 1.5, 0)
         assert _brightness_near_world(panel, shown, inside) > 550
         assert _brightness_near_world(panel, shown, outside) < 180
         maya_cmds.setAttr(f"{shape}.shapeFin", False)
@@ -244,7 +246,7 @@ def test_cage_double2_parent_direct_change_updates_both_drawn_components(
             assert _brightness_near_world(panel, restored, sample) < 180
 
 
-def test_cage_double2_parent_connection_updates_draw_from_driver_animation(
+def test_cage_double2_parent_direct_edit_updates_draw_and_undo(
     maya_cmds, new_scene, tmp_path
 ):
     if maya_cmds.about(batch=True):
@@ -272,25 +274,23 @@ def test_cage_double2_parent_connection_updates_draw_from_driver_animation(
                 defaultValue=1,
                 keyable=True,
             )
-        for child, value in (("inPlaneA", 2), ("inPlaneB", 3)):
-            maya_cmds.setKeyframe(f"{driver}.{child}", time=1, value=1)
-            maya_cmds.setKeyframe(f"{driver}.{child}", time=2, value=value)
-        maya_cmds.connectAttr(
-            f"{driver}.faceScale", f"{shape}.shapeBaseSpace1stAxisPlusScale"
-        )
+        with pytest.raises(RuntimeError):
+            maya_cmds.connectAttr(
+                f"{driver}.faceScale",
+                f"{shape}.shapeBaseSpace1stAxisPlusScale",
+            )
         samples = ((0.5, 1, 0), (0.5, 0, 1.5))
-        maya_cmds.currentTime(1)
-        baseline = _capture_view(panel, tmp_path / "double2_driver_frame1.png")
+        baseline = _capture_view(panel, tmp_path / "double2_before_edit.png")
         for sample in samples:
             assert _brightness_near_world(panel, baseline, sample) < 180
-        # 接続先の親へsetAttrせず、上流の評価だけで両成分を更新する。
-        maya_cmds.currentTime(2)
-        animated = _capture_view(panel, tmp_path / "double2_driver_frame2.png")
+        mod = bdu.ModifierManager()
+        node = bdu.Nodes(modifier_manager=mod).existing(shape)
+        node.shapeBaseSpace1stAxisPlusScale.set(2, 3)
+        mod.do_it_dg()
+        changed = _capture_view(panel, tmp_path / "double2_after_edit.png")
         for sample in samples:
-            assert _brightness_near_world(panel, animated, sample) > 550
-        maya_cmds.currentTime(1)
-        restored = _capture_view(
-            panel, tmp_path / "double2_driver_rewound.png"
-        )
+            assert _brightness_near_world(panel, changed, sample) > 550
+        mod.undo_it()
+        restored = _capture_view(panel, tmp_path / "double2_after_undo.png")
         for sample in samples:
             assert _brightness_near_world(panel, restored, sample) < 180

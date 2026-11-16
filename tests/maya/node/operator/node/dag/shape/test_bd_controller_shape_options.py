@@ -76,19 +76,12 @@ def test_template_options_preserve_geometry_bounds(
         assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
 
 
-def test_shape_options_keep_values_connections_and_history_across_presets(
+def test_shape_options_keep_direct_values_and_history_across_presets(
     maya_cmds, maya_om, new_scene, tmp_path
 ):
     _load_bd_util_nodes(maya_cmds)
     name = _controller(maya_cmds, "optionHistory", "Square", shapeFill=True)
     before = _bounds(maya_om, name)
-    driver = maya_cmds.createNode(
-        "multDoubleLinear", name="templateRateDriver"
-    )
-    maya_cmds.setAttr(f"{driver}.input1", 0.35)
-    maya_cmds.setAttr(f"{driver}.input2", 1)
-    maya_cmds.addAttr(driver, longName="flag", attributeType="bool")
-    maya_cmds.setAttr(f"{driver}.flag", True)
     mod = bdu.ModifierManager()
     shape = bdu.Nodes(modifier_manager=mod).existing(name)
     values = {
@@ -102,33 +95,16 @@ def test_shape_options_keep_values_connections_and_history_across_presets(
     }
     for attribute, value in values.items():
         getattr(shape, attribute).set(value)
-    shape.shapeTemplateLineRate.connect_from(f"{driver}.output")
-    shape.shapePartHeightScale.connect_from(f"{driver}.output")
-    connected_flags = (
-        "shapeTemplateLineInvert",
-        "shapePartTemplate",
-        "shapeFinTemplate",
-    )
-    for attribute in connected_flags:
-        getattr(shape, attribute).connect_from(f"{driver}.flag")
+    shape.shapeTemplateLineRate.set(0.35)
+    shape.shapePartHeightScale.set(0.35)
     mod.do_it_dg()
     after = _bounds(maya_om, name)
     assert after != pytest.approx(before)
     mod.undo_it()
     assert _bounds(maya_om, name) == pytest.approx(before)
-    assert not maya_cmds.isConnected(
-        f"{driver}.output", f"{name}.shapeTemplateLineRate"
-    )
-    assert not maya_cmds.isConnected(
-        f"{driver}.output", f"{name}.shapePartHeightScale"
-    )
     assert maya_cmds.getAttr(f"{name}.shapePartHeightScale") == 1
     for attribute in values:
         assert not maya_cmds.getAttr(f"{name}.{attribute}")
-    for attribute in connected_flags:
-        assert not maya_cmds.isConnected(
-            f"{driver}.flag", f"{name}.{attribute}"
-        )
     mod.redo_it()
     assert _bounds(maya_om, name) == pytest.approx(after)
     for preset in ("Cube", "ArcAxial", "Gear", "Square"):
@@ -146,19 +122,14 @@ def test_shape_options_keep_values_connections_and_history_across_presets(
     maya_cmds.file(save=True, type="mayaAscii", force=True)
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene), open=True, force=True)
-    assert maya_cmds.isConnected(
-        f"{driver}.output", f"{name}.shapeTemplateLineRate"
-    )
-    assert maya_cmds.isConnected(
-        f"{driver}.output", f"{name}.shapePartHeightScale"
+    assert maya_cmds.getAttr(f"{name}.shapeTemplateLineRate") == pytest.approx(
+        0.35
     )
     assert maya_cmds.getAttr(f"{name}.shapePartHeightScale") == pytest.approx(
         0.35
     )
     for attribute, value in values.items():
         assert maya_cmds.getAttr(f"{name}.{attribute}") == value
-    for attribute in connected_flags:
-        assert maya_cmds.isConnected(f"{driver}.flag", f"{name}.{attribute}")
     assert _bounds(maya_om, name) == pytest.approx(after)
 
 
@@ -188,17 +159,17 @@ def test_wide_arrow_ignores_extreme_part_scales_and_preserves_bounded_bands(
         shapePartWidthScale=width,
         shapePartOffset=0.17,
     )
-    plain = _controller(maya_cmds, "plainArrow", "Arrow", **options)
+    plain = _controller(maya_cmds, "plainArrow", "ArrowPlanar", **options)
     wide = _controller(
-        maya_cmds, "wideArrow", "Arrow", shapeWide=True, **options
+        maya_cmds, "wideArrow", "ArrowPlanar", shapeWide=True, **options
     )
     reference = _bounds(maya_om, plain)
     actual = _bounds(maya_om, wide)
-    assert reference == pytest.approx((-0.5, 0, -0.5, 0.5, 0, 0.5), abs=1e-9)
+    assert reference == pytest.approx((-0.75, 0, -0.5, 0.5, 0, 0.5), abs=1e-9)
     baseline = _controller(
         maya_cmds,
         "defaultWideArrow",
-        "Arrow",
+        "ArrowPlanar",
         shapeWide=True,
         shapeFill=filled,
         shapeWideWidth=wide_width,
@@ -235,7 +206,7 @@ def test_wide_arrow_ignores_zero_part_dimensions_and_part_offset(
     shape = _controller(
         maya_cmds,
         "independentWideArrow",
-        "Arrow",
+        "ArrowPlanar",
         shapeWide=True,
         shapeFill=filled,
         shapeAxisSwap=swapped,
@@ -246,7 +217,7 @@ def test_wide_arrow_ignores_zero_part_dimensions_and_part_offset(
     reference = _controller(
         maya_cmds,
         "referenceWideArrow",
-        "Arrow",
+        "ArrowPlanar",
         shapeWide=True,
         shapeFill=filled,
         shapeAxisSwap=swapped,
@@ -300,7 +271,7 @@ def test_arrow_body_ignores_part_height_with_its_fin_independent(
     shape = _controller(
         maya_cmds,
         "arrowBodyHeight",
-        "Arrow",
+        "ArrowPlanar",
         shapeWide=wide,
         shapeFill=filled,
         shapePartLengthScale=1.7,
@@ -480,7 +451,7 @@ def test_octahedron_arrow_ignores_part_height_and_uses_independent_fin_height(
     shape = _controller(
         maya_cmds,
         "octahedronBodyHeight",
-        "OctahedronArrow",
+        "DiamondArrowSpatial",
         shapeFill=filled,
         shapePartSize=1.3,
         shapePartOffset=0.17,
@@ -490,7 +461,7 @@ def test_octahedron_arrow_ignores_part_height_and_uses_independent_fin_height(
         shapeGuideLine=True,
         shapeFinHeight=0.6,
     )
-    expected = (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
+    expected = (-1.0, -0.5, -0.5, 0.5, 0.5, 0.5)
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
     maya_cmds.setAttr(f"{shape}.shapeFin", True)
     for fin_height in (0.6, 1.2, 0):

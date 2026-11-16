@@ -96,7 +96,14 @@ def test_cage_arc_width_follows_the_new_curve_normal_in_physical_space(
 
 @pytest.mark.parametrize(
     "preset",
-    ("Cube", "ColorCornerCube", "Sphere", "Cylinder", "Cone", "CrossArcAxial"),
+    (
+        "Cube",
+        "ColorCornerCube",
+        "Sphere",
+        "Cylinder",
+        "CircleArrowAxial",
+        "CrossArcAxial",
+    ),
 )
 @pytest.mark.parametrize("value", (0.0, -1.0, 0.1))
 def test_cage_wide_and_corner_fields_remain_finite_when_faces_fold_or_collapse(
@@ -145,7 +152,7 @@ def test_cage_wide_small_radial_arc_stops_the_inner_band_at_the_center(
         shapeFill=filled,
     )
     for axis in ("1st", "2nd", "3rd"):
-        maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", -0.05)
+        maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus", 0.05)
         maya_cmds.setAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus", 0.05)
     # 全体としては非線形だが、中央XZ面は半径0.075の円になる。
     maya_cmds.setAttr(f"{shape}.shapeBaseSpace2ndAxisPlusScale1stAxis", 2)

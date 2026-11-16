@@ -65,8 +65,11 @@ def test_face_scale_children_keep_schema_and_belong_to_the_face_parent(
     )
     assert not maya_cmds.attributeQuery(attribute, node=shape, minExists=True)
     assert not maya_cmds.attributeQuery(attribute, node=shape, maxExists=True)
-    for flag in ("readable", "writable", "storable", "connectable"):
+    for flag in ("readable", "writable", "storable"):
         assert maya_cmds.attributeQuery(attribute, node=shape, **{flag: True})
+    assert not maya_cmds.attributeQuery(
+        attribute, node=shape, connectable=True
+    )
     assert not maya_cmds.getAttr(f"{shape}.{attribute}", keyable=True)
     assert maya_cmds.getAttr(f"{shape}.{attribute}", channelBox=True)
     parent = f"shapeBaseSpace{AXES[normal]}Axis{side}Scale"
@@ -114,8 +117,9 @@ def test_face_scale_parents_are_numeric_double2_with_ordered_children(
         parent, node=shape, listChildren=True
     ) == list(children)
     assert not maya_cmds.attributeQuery(parent, node=shape, listParent=True)
-    for flag in ("readable", "writable", "storable", "connectable"):
+    for flag in ("readable", "writable", "storable"):
         assert maya_cmds.attributeQuery(parent, node=shape, **{flag: True})
+    assert not maya_cmds.attributeQuery(parent, node=shape, connectable=True)
     assert not maya_cmds.getAttr(f"{shape}.{parent}", keyable=True)
     assert maya_cmds.getAttr(f"{shape}.{parent}", channelBox=True)
     selection = maya_om.MSelectionList()
@@ -209,7 +213,7 @@ def test_face_scale_parent_api_bulk_set_supports_modifier_undo_redo(
 @pytest.mark.parametrize(
     "normal,side,parent,short_name,components,children", FACE_SCALE_PARENTS
 )
-def test_face_scale_parent_connection_and_single_child_connection_both_dirty_geometry(
+def test_face_scale_parent_and_single_child_direct_edits_both_dirty_geometry(
     maya_cmds,
     maya_om,
     new_scene,
@@ -222,60 +226,39 @@ def test_face_scale_parent_connection_and_single_child_connection_both_dirty_geo
     children,
 ):
     _load_bd_util_nodes(maya_cmds)
-    shape = _controller(maya_cmds, "connectedFaceParent", "Cube")
-    driver = maya_cmds.createNode("network", name="facePairDriver")
-    maya_cmds.addAttr(driver, longName="pair", attributeType="double2")
-    for child in ("first", "second"):
-        maya_cmds.addAttr(
-            driver,
-            longName=child,
-            attributeType="double",
-            parent="pair",
-            defaultValue=1,
-        )
-    maya_cmds.setAttr(f"{driver}.pair", 2, 3, type="double2")
+    shape = _controller(maya_cmds, "directFaceParent", "Cube")
     mod = bdu.ModifierManager()
-    bd_nodes = bdu.Nodes(modifier_manager=mod)
-    node = bd_nodes.existing(shape)
-    getattr(node, parent).connect_from(f"{driver}.pair")
+    node = bdu.Nodes(modifier_manager=mod).existing(shape)
+    getattr(node, parent).set(2, 3)
     mod.do_it_dg()
-    assert maya_cmds.isConnected(f"{driver}.pair", f"{shape}.{parent}")
     assert _bounds(maya_om, shape) == pytest.approx(
         _face_bounds(components, (2, 3)), abs=1e-9
     )
-    maya_cmds.setAttr(f"{driver}.pair", 4, 0.5, type="double2")
-    assert maya_cmds.getAttr(f"{shape}.{parent}")[0] == (4, 0.5)
+    mod.undo_it()
+    assert maya_cmds.getAttr(f"{shape}.{parent}")[0] == (1, 1)
+    assert _bounds(maya_om, shape) == pytest.approx((-0.5,) * 3 + (0.5,) * 3)
+    mod.redo_it()
+    assert maya_cmds.getAttr(f"{shape}.{parent}")[0] == (2, 3)
+    maya_cmds.setAttr(f"{shape}.{parent}", 4, 0.5, type="double2")
     assert _bounds(maya_om, shape) == pytest.approx(
         _face_bounds(components, (4, 0.5)), abs=1e-9
     )
-    mod.undo_it()
-    assert not maya_cmds.isConnected(f"{driver}.pair", f"{shape}.{parent}")
-    assert maya_cmds.getAttr(f"{shape}.{parent}")[0] == (1, 1)
-    assert _bounds(maya_om, shape) == pytest.approx((-0.5,) * 3 + (0.5,) * 3)
-    getattr(node, children[0]).connect_from(f"{driver}.first")
+    getattr(node, children[0]).set(2.5)
     mod.do_it_dg()
-    assert maya_cmds.isConnected(f"{driver}.first", f"{shape}.{children[0]}")
-    assert maya_cmds.getAttr(f"{shape}.{parent}")[0] == (4, 1)
-    assert _bounds(maya_om, shape) == pytest.approx(
-        _face_bounds(components, (4, 1)), abs=1e-9
-    )
-    maya_cmds.setAttr(f"{driver}.first", 2.5)
-    assert _bounds(maya_om, shape) == pytest.approx(
-        _face_bounds(components, (2.5, 1)), abs=1e-9
-    )
-    maya_cmds.disconnectAttr(f"{driver}.first", f"{shape}.{children[0]}")
-    maya_cmds.connectAttr(f"{driver}.pair", f"{shape}.{parent}")
-    scene = tmp_path / "connected_face_parent.ma"
-    maya_cmds.file(rename=str(scene))
-    maya_cmds.file(save=True, type="mayaAscii", force=True)
-    maya_cmds.file(new=True, force=True)
-    maya_cmds.file(str(scene), open=True, force=True)
-    assert maya_cmds.isConnected(f"{driver}.pair", f"{shape}.{parent}")
     assert maya_cmds.getAttr(f"{shape}.{parent}")[0] == (2.5, 0.5)
     assert _bounds(maya_om, shape) == pytest.approx(
         _face_bounds(components, (2.5, 0.5)), abs=1e-9
     )
-    maya_cmds.setAttr(f"{driver}.pair", 3, 4, type="double2")
+    scene = tmp_path / "direct_face_parent.ma"
+    maya_cmds.file(rename=str(scene))
+    maya_cmds.file(save=True, type="mayaAscii", force=True)
+    maya_cmds.file(new=True, force=True)
+    maya_cmds.file(str(scene), open=True, force=True)
+    assert maya_cmds.getAttr(f"{shape}.{parent}")[0] == (2.5, 0.5)
+    assert _bounds(maya_om, shape) == pytest.approx(
+        _face_bounds(components, (2.5, 0.5)), abs=1e-9
+    )
+    maya_cmds.setAttr(f"{shape}.{parent}", 3, 4, type="double2")
     assert _bounds(maya_om, shape) == pytest.approx(
         _face_bounds(components, (3, 4)), abs=1e-9
     )
@@ -284,7 +267,7 @@ def test_face_scale_parent_connection_and_single_child_connection_both_dirty_geo
 @pytest.mark.parametrize(
     "normal,side,parent,short_name,components,children", FACE_SCALE_PARENTS
 )
-def test_face_scale_parent_keys_expand_to_children_and_survive_scene_reload(
+def test_face_scale_parent_and_child_direct_edits_survive_scene_reload(
     maya_cmds,
     maya_om,
     new_scene,
@@ -297,20 +280,19 @@ def test_face_scale_parent_keys_expand_to_children_and_survive_scene_reload(
     children,
 ):
     _load_bd_util_nodes(maya_cmds)
-    shape = _controller(maya_cmds, "keyedFaceParent", "Cube")
-    frames = {1: (0.75, 1.5), 2: (-1.25, 2.5), 3: (2, 0)}
-    for frame in (1, 3):
-        maya_cmds.currentTime(frame)
-        maya_cmds.setAttr(f"{shape}.{parent}", *frames[frame], type="double2")
-        maya_cmds.setKeyframe(shape, attribute=parent, time=frame)
-    for child, value in zip(children, frames[2]):
-        maya_cmds.setKeyframe(f"{shape}.{child}", time=2, value=value)
-    for child in children:
-        assert (
-            maya_cmds.keyframe(
-                f"{shape}.{child}", query=True, keyframeCount=True
-            )
-            == 3
+    shape = _controller(maya_cmds, "directFaceParent", "Cube")
+    pairs = ((0.75, 1.5), (-1.25, 2.5), (2, 0))
+    for index, pair in enumerate(pairs):
+        if index == 1:
+            for child, value in zip(children, pair):
+                maya_cmds.setAttr(f"{shape}.{child}", value)
+        else:
+            maya_cmds.setAttr(f"{shape}.{parent}", *pair, type="double2")
+        assert maya_cmds.getAttr(f"{shape}.{short_name}")[0] == pytest.approx(
+            pair
+        )
+        assert _bounds(maya_om, shape) == pytest.approx(
+            _face_bounds(components, pair), abs=1e-9
         )
     scene = tmp_path / "face_scale_parent.ma"
     maya_cmds.file(rename=str(scene))
@@ -320,18 +302,20 @@ def test_face_scale_parent_keys_expand_to_children_and_survive_scene_reload(
     assert maya_cmds.attributeQuery(
         parent, node=shape, listChildren=True
     ) == list(children)
-    for frame, pair in frames.items():
-        maya_cmds.currentTime(frame)
-        assert maya_cmds.getAttr(f"{shape}.{short_name}")[0] == pytest.approx(
-            pair
+    assert maya_cmds.getAttr(f"{shape}.{parent}")[0] == pairs[-1]
+    assert _bounds(maya_om, shape) == pytest.approx(
+        _face_bounds(components, pairs[-1]), abs=1e-9
+    )
+    for child in children:
+        assert not maya_cmds.connectionInfo(
+            f"{shape}.{child}", isDestination=True
         )
-        assert _bounds(maya_om, shape) == pytest.approx(
-            _face_bounds(components, pair), abs=1e-9
-        )
-        for child in children:
-            assert maya_cmds.connectionInfo(
-                f"{shape}.{child}", isDestination=True
+        assert (
+            maya_cmds.keyframe(
+                f"{shape}.{child}", query=True, keyframeCount=True
             )
+            == 0
+        )
 
 
 @pytest.mark.parametrize(
@@ -401,14 +385,13 @@ def test_face_scales_are_unitless_when_scene_distance_units_change(
         maya_cmds.currentUnit(linear=previous_unit)
 
 
-def test_face_scale_api_undo_connections_animation_and_scene_reload(
+def test_face_scale_api_direct_edits_undo_and_scene_reload(
     maya_cmds, maya_om, new_scene, tmp_path
 ):
     _load_bd_util_nodes(maya_cmds)
-    shape = _controller(maya_cmds, "animatedFaces", "Cube")
+    shape = _controller(maya_cmds, "directFaces", "Cube")
     mod = bdu.ModifierManager()
-    bd_nodes = bdu.Nodes(modifier_manager=mod)
-    node = bd_nodes.existing(shape)
+    node = bdu.Nodes(modifier_manager=mod).existing(shape)
     for _, _, _, attribute, _ in FACE_SCALES:
         getattr(node, attribute).set(1.5)
     mod.do_it_dg()
@@ -418,31 +401,24 @@ def test_face_scale_api_undo_connections_animation_and_scene_reload(
     assert _bounds(maya_om, shape) == pytest.approx((-0.5,) * 3 + (0.5,) * 3)
     mod.redo_it()
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
-    driver = maya_cmds.createNode("network", name="faceScaleDriver")
-    maya_cmds.addAttr(
-        driver, longName="scale", attributeType="double", keyable=True
-    )
-    for _, _, _, attribute, _ in FACE_SCALES:
-        getattr(node, attribute).connect_from(f"{driver}.scale")
-    mod.do_it_dg()
-    for time, value in enumerate((0.75, 1.0, 1.5), 1):
-        maya_cmds.setKeyframe(f"{driver}.scale", time=time, value=value)
+    for value in (0.75, 1.0, 1.5):
+        for _, _, _, attribute, _ in FACE_SCALES:
+            maya_cmds.setAttr(f"{shape}.{attribute}", value)
+        extent = 0.5 * value * value
+        assert _bounds(maya_om, shape) == pytest.approx(
+            (-extent,) * 3 + (extent,) * 3, abs=1e-9
+        )
     scene = tmp_path / "base_space_face_scales.ma"
     maya_cmds.file(rename=str(scene))
     maya_cmds.file(save=True, type="mayaAscii", force=True)
     maya_cmds.file(new=True, force=True)
     maya_cmds.file(str(scene), open=True, force=True)
-    for time, value in enumerate((0.75, 1.0, 1.5), 1):
-        maya_cmds.currentTime(time)
-        extent = 0.5 * value * value
-        assert _bounds(maya_om, shape) == pytest.approx(
-            (-extent,) * 3 + (extent,) * 3, abs=1e-9
+    assert _bounds(maya_om, shape) == pytest.approx(expected, abs=1e-9)
+    for _, _, _, attribute, _ in FACE_SCALES:
+        assert maya_cmds.getAttr(f"{shape}.{attribute}") == 1.5
+        assert not maya_cmds.listConnections(
+            f"{shape}.{attribute}", source=True, destination=False
         )
-        for _, _, _, attribute, _ in FACE_SCALES:
-            assert maya_cmds.getAttr(f"{shape}.{attribute}") == value
-            assert maya_cmds.isConnected(
-                f"{driver}.scale", f"{shape}.{attribute}"
-            )
 
 
 def test_custom_bounds_remain_independent_of_all_face_scales(

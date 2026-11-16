@@ -4,12 +4,22 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
+#include <cstring>
+#include <deque>
+#include <limits>
 #include <mutex>
+#include <string>
+#include <tuple>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include <maya/M3dView.h>
 #include <maya/MAngle.h>
+#include <maya/MAnimControl.h>
+#include <maya/MConditionMessage.h>
+#include <maya/MTime.h>
 #include <maya/MColor.h>
 #include <maya/MDagPath.h>
 #include <maya/MDistance.h>
@@ -25,16 +35,23 @@
 #include <maya/MFnTypedAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MFrameContext.h>
+#include <maya/MDrawContext.h>
+#include <maya/MSharedPtr.h>
+#include <maya/MStateManager.h>
+#include <maya/MStringArray.h>
 #include <maya/MHWGeometry.h>
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MMessage.h>
 #include <maya/MMatrix.h>
-#include <maya/MPxDrawOverride.h>
+#include <maya/MPxSubSceneOverride.h>
 #include <maya/MPlug.h>
 #include <maya/MPoint.h>
 #include <maya/MPointArray.h>
 #include <maya/MQuaternion.h>
+#include <maya/MSelectionMask.h>
+#include <maya/MShaderManager.h>
 #include <maya/MUIDrawManager.h>
+#include <maya/MUintArray.h>
 #include <maya/MUserData.h>
 #include <maya/MVector.h>
 
@@ -44,10 +61,12 @@
 #include "bdUtilNodes/attributes/RotateAttribute.h"
 #include "bdUtilNodes/attributes/UnitAttribute.h"
 
+#include "BdControllerShapeDrawData.inc"
+
 const MString BdControllerShapeNode::typeName("bdControllerShape");
 const MTypeId BdControllerShapeNode::typeId(0x0014271F);
 const MString BdControllerShapeNode::drawClassification(
-    "drawdb/geometry/bdControllerShape"
+    "drawdb/subscene/bdControllerShape"
 );
 const MString BdControllerShapeNode::drawRegistrantId(
     "bdControllerShapeDrawOverride"
@@ -70,7 +89,6 @@ MObject BdControllerShapeNode::shapePartType;
 MObject BdControllerShapeNode::shapeFin;
 MObject BdControllerShapeNode::shapeFinType;
 MObject BdControllerShapeNode::shapeFinHeight;
-MObject BdControllerShapeNode::shapeFinSize;
 MObject BdControllerShapeNode::shapeFinWidthScale;
 MObject BdControllerShapeNode::shapeGuideLine;
 MObject BdControllerShapeNode::shapeGuideLineTemplate;
@@ -169,7 +187,15 @@ MObject channelBoxSeparator14;
 
 constexpr double kPi = 3.14159265358979323846;
 constexpr unsigned int kCircleSegments = 64;
-constexpr short kPublicShapeCount = 24;
+constexpr short kPublicShapeCount = 32;
+constexpr short kCapsuleOutline = 122;
+constexpr short kDiamondArrowOutline = 123;
+constexpr short kCubeArrowOutline = 124;
+constexpr short kSphereArrowOutline = 125;
+constexpr short kSquareArrowPlanarOutline = 126;
+constexpr short kCircleArrowPlanarOutline = 127;
+constexpr short kDiamondArrowAxialOutline = 128;
+constexpr short kArrowSpatialOutline = 129;
 
 using Stroke = MPointArray;
 using Strokes = std::vector<Stroke>;
@@ -198,7 +224,6 @@ struct ShapeSettings {
     bool baseSpaceBodyPart = false;
     bool fin = false;
     short finType = 0;
-    double finSize = 1.0;
     double finWidthScale = 1.0;
     bool guideLine = false;
     bool guideLineTemplate = false;
@@ -270,7 +295,6 @@ struct ShapeAttributes {
     MObject part;
     MObject partShape;
     MObject partType;
-    MObject finSize;
     MObject finWidthScale;
     MObject guideLine;
     MObject guideLineTemplate;
@@ -323,7 +347,6 @@ ShapeAttributes shapeAttributes() {
         BdControllerShapeNode::shapePart,
         BdControllerShapeNode::shapePartShape,
         BdControllerShapeNode::shapePartType,
-        BdControllerShapeNode::shapeFinSize,
         BdControllerShapeNode::shapeFinWidthScale,
         BdControllerShapeNode::shapeGuideLine,
         BdControllerShapeNode::shapeGuideLineTemplate,
@@ -381,7 +404,7 @@ bool readCustomBounds(const MObject& node, MBoundingBox& bounds) {
         MStatus status;
         const double plus = MPlug(node, attributes[axis * 2]).asMDistance(&status).asCentimeters();
         if (!status) return false;
-        const double minus = MPlug(node, attributes[axis * 2 + 1]).asMDistance(&status).asCentimeters();
+        const double minus = -MPlug(node, attributes[axis * 2 + 1]).asMDistance(&status).asCentimeters();
         if (!status) return false;
         minimum[axis] = std::min(minus, plus);
         maximum[axis] = std::max(minus, plus);
@@ -417,7 +440,7 @@ bool sameSettings(const ShapeSettings& left, const ShapeSettings& right) {
         left.partType == right.partType && left.wideWidth == right.wideWidth &&
         left.circleAngle == right.circleAngle &&
         left.fin == right.fin && left.finType == right.finType &&
-        left.finSize == right.finSize && left.finWidthScale == right.finWidthScale &&
+        left.finWidthScale == right.finWidthScale &&
         left.guideLine == right.guideLine && left.guideLineTemplate == right.guideLineTemplate &&
         left.firstAxis == right.firstAxis &&
         left.secondAxis == right.secondAxis &&
@@ -510,7 +533,6 @@ bool readSettings(
     settings.fill = false;
     settings.fin = false;
     settings.finType = 0;
-    settings.finSize = 1.0;
     settings.finWidthScale = 1.0;
     settings.guideLine = false;
     settings.guideLineTemplate = false;
@@ -524,15 +546,16 @@ bool readSettings(
     settings.baseSpaceMinus = MVector(-0.5, -0.5, -0.5);
     settings.baseSpacePlus = MVector(0.5, 0.5, 0.5);
     if (!attributes.baseSpace1stAxisMinus.isNull()) {
-        settings.baseSpaceMinus.x = MPlug(node, attributes.baseSpace1stAxisMinus).asMDistance(&status).asCentimeters();
+        // 公開Minusの方向距離を座標へ変換し、内部の原型は符号付き座標のまま扱う。
+        settings.baseSpaceMinus.x = -MPlug(node, attributes.baseSpace1stAxisMinus).asMDistance(&status).asCentimeters();
         if (!status) return false;
         settings.baseSpacePlus.x = MPlug(node, attributes.baseSpace1stAxisPlus).asMDistance(&status).asCentimeters();
         if (!status) return false;
-        settings.baseSpaceMinus.y = MPlug(node, attributes.baseSpace2ndAxisMinus).asMDistance(&status).asCentimeters();
+        settings.baseSpaceMinus.y = -MPlug(node, attributes.baseSpace2ndAxisMinus).asMDistance(&status).asCentimeters();
         if (!status) return false;
         settings.baseSpacePlus.y = MPlug(node, attributes.baseSpace2ndAxisPlus).asMDistance(&status).asCentimeters();
         if (!status) return false;
-        settings.baseSpaceMinus.z = MPlug(node, attributes.baseSpace3rdAxisMinus).asMDistance(&status).asCentimeters();
+        settings.baseSpaceMinus.z = -MPlug(node, attributes.baseSpace3rdAxisMinus).asMDistance(&status).asCentimeters();
         if (!status) return false;
         settings.baseSpacePlus.z = MPlug(node, attributes.baseSpace3rdAxisPlus).asMDistance(&status).asCentimeters();
         if (!status) return false;
@@ -571,8 +594,6 @@ bool readSettings(
         if (!status) return false;
         settings.finType = std::clamp<short>(settings.finType, 0, 1);
         settings.partFinHeight = MPlug(node, attributes.partFinHeight).asMDistance(&status).asCentimeters();
-        if (!status) return false;
-        settings.finSize = MPlug(node, attributes.finSize).asDouble(&status);
         if (!status) return false;
         settings.finWidthScale = MPlug(node, attributes.finWidthScale).asDouble(&status);
         if (!status) return false;
@@ -888,6 +909,8 @@ void normalizeShapeSettings(ShapeSettings& settings) {
 }
 
 #include "BdControllerShapeBaseSpace.inc"
+#include "BdControllerShapeCapsuleBaseSpace.inc"
+#include "BdControllerShapeBulkArrowBaseSpace.inc"
 #include "BdControllerShapeArrowBaseSpace.inc"
 #include "BdControllerShapeCage.inc"
 
@@ -1669,6 +1692,8 @@ std::vector<BdControllerShapeNode::Geometry::FillPart> makeFillParts(
 }
 
 #include "BdControllerShapeParts.inc"
+#include "BdControllerShapeCapsule.inc"
+#include "BdControllerShapeBulkArrow.inc"
 
 MBoundingBox boundsForGeometry(
     const Strokes& strokes,
@@ -1695,6 +1720,7 @@ MBoundingBox boundsForGeometry(
 }
 
 #include "BdControllerShapeOptions.inc"
+#include "BdControllerShapeArrowOptions.inc"
 #include "BdControllerShapeTemplate.inc"
 #include "BdControllerShapeFin.inc"
 #include "BdControllerShapeGuide.inc"
@@ -1821,7 +1847,9 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeSingularBaseGeometry(
 std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     const ShapeSettings& settings
 ) {
-    if (hasCageMapping(settings)) return makeCageGeometry(settings);
+    if (isCapsuleBody(settings) || isCenteredArrowBody(settings) ||
+        outlinePresetIndex(settings.shape) == kDiamondArrowAxialOutline ||
+        hasCageMapping(settings) || useCagePartGeometry(settings)) return makeCageGeometry(settings);
     if (isArrowBody(settings)) return makeArrowBaseGeometry(settings);
     if (settings.wide && hasSingularBaseSpace(settings)) {
         ShapeSettings effective = settings;
@@ -1915,46 +1943,7 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> makeBaseGeometry(
     return result;
 }
 
-std::shared_ptr<const BdControllerShapeNode::Geometry> transformGeometry(
-    const BdControllerShapeNode::Geometry& base,
-    const MMatrix& matrix,
-    bool showOffsetLine
-) {
-    auto result = std::make_shared<BdControllerShapeNode::Geometry>();
-    result->offsetLineTemplate = base.offsetLineTemplate;
-    result->strokeStyles = base.strokeStyles;
-    for (const Stroke& baseStroke : base.strokes) {
-        Stroke stroke;
-        for (unsigned int index = 0; index < baseStroke.length(); ++index) {
-            stroke.append(baseStroke[index] * matrix);
-        }
-        result->strokes.push_back(std::move(stroke));
-    }
-    for (const auto& basePart : base.fillParts) {
-        BdControllerShapeNode::Geometry::FillPart part;
-        part.style = basePart.style;
-        part.marker = basePart.marker;
-        part.singleSided = basePart.singleSided;
-        for (unsigned int index = 0;
-             index < basePart.triangles.length(); ++index) {
-            part.triangles.append(basePart.triangles[index] * matrix);
-        }
-        result->fillParts.push_back(std::move(part));
-    }
-    if (matrix.det3x3() < 0.0) reverseSolidFillWinding(*result);
-    if (base.wireframeGeometry) {
-        result->wireframeGeometry = transformGeometry(*base.wireframeGeometry, matrix, showOffsetLine);
-    }
-    result->bounds = boundsForGeometry(result->strokes, result->fillParts);
-    result->offsetLineEndpoint = base.offsetLineEndpoint * matrix;
-    if (showOffsetLine && hasOffsetLine(result->offsetLineEndpoint)) {
-        result->offsetLine.append(MPoint::origin);
-        result->offsetLine.append(result->offsetLineEndpoint);
-        result->bounds.expand(MPoint::origin);
-        result->bounds.expand(result->offsetLineEndpoint);
-    }
-    return result;
-}
+#include "BdControllerShapeDrawGeometry.inc"
 
 MBoundingBox centeredShapeBounds(const BdControllerShapeNode::Geometry& geometry) {
     // 共通の移動は寸法を変えないため、既に生成した本体から中央範囲を求める。
@@ -2052,7 +2041,6 @@ bool isShapeAttribute(const MObject& attribute) {
              BdControllerShapeNode::shapeFill,
              BdControllerShapeNode::shapeFin,
              BdControllerShapeNode::shapeFinType,
-             BdControllerShapeNode::shapeFinSize,
              BdControllerShapeNode::shapeFinWidthScale,
              BdControllerShapeNode::shapeGuideLine,
              BdControllerShapeNode::shapeGuideLineTemplate,
@@ -2115,75 +2103,19 @@ bool isBoundsAttribute(const MObject& attribute) {
     return std::find(attributes.begin(), attributes.end(), attribute) != attributes.end();
 }
 
+bool isDisplayAttribute(const MObject& attribute) {
+    return attribute == BdControllerShapeNode::shapeLineWidth ||
+        attribute == BdControllerShapeNode::shapeLineTransparency ||
+        attribute == BdControllerShapeNode::shapeFillTransparency ||
+        attribute == BdControllerShapeNode::shapeDrawOnTop;
+}
+
 bool hasIncomingConnection(const MPlug& plug) {
     if (plug.isDestination()) {
         return true;
     }
     for (unsigned int child = 0; child < plug.numChildren(); ++child) {
         if (hasIncomingConnection(plug.child(child))) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool hasConnectedSettingsInput(
-    const MObject& node, const ShapeAttributes& attributes
-) {
-    for (const auto& attribute : attributes.baseSpaceFaceScaleParents) {
-        if (!attribute.isNull() && hasIncomingConnection(MPlug(node, attribute))) return true;
-    }
-    for (const MObject& attribute : {
-             attributes.shape,
-             attributes.axisSwap,
-             attributes.wide,
-             attributes.templateLine,
-             attributes.templateLineRate,
-             attributes.templateLineInvert,
-             attributes.templateFill,
-             attributes.partTemplate,
-             attributes.finTemplate,
-             attributes.wideWidth,
-             attributes.circleAngle,
-             attributes.part,
-             attributes.partShape,
-             attributes.partType,
-             attributes.fill,
-             attributes.fin,
-             attributes.finType,
-             attributes.finSize,
-             attributes.finWidthScale,
-             attributes.guideLine,
-             attributes.guideLineTemplate,
-             attributes.firstAxis,
-             attributes.secondAxis,
-             attributes.rootSize,
-             attributes.translate,
-             attributes.rotate,
-             attributes.scale,
-             attributes.axisTranslate,
-             attributes.axisRotate,
-             attributes.axisScale,
-             attributes.size,
-             attributes.baseSpace1stAxisMinus,
-             attributes.baseSpace1stAxisPlus,
-             attributes.baseSpace2ndAxisMinus,
-             attributes.baseSpace2ndAxisPlus,
-             attributes.baseSpace3rdAxisMinus,
-             attributes.baseSpace3rdAxisPlus,
-             attributes.partOffset,
-             attributes.partFinHeight,
-             attributes.partLengthScale,
-             attributes.partWidthScale,
-             attributes.partHeightScale,
-             attributes.partSize,
-             attributes.partPrimarySizeScale,
-             attributes.partOtherSizeScale,
-             attributes.showOffsetLine,
-             attributes.offsetLineTemplate,
-         }) {
-        if (!attribute.isNull() &&
-            hasIncomingConnection(MPlug(node, attribute))) {
             return true;
         }
     }
@@ -2199,7 +2131,7 @@ bool hasConnectedBoundsInput(const MObject& node, short mode) {
     return false;
 }
 
-std::shared_ptr<const BdControllerShapeNode::Geometry> nodeGeometry(
+const BdControllerShapeNode* controllerShapeNode(
     const MObject& object
 ) {
     MStatus status;
@@ -2211,7 +2143,14 @@ std::shared_ptr<const BdControllerShapeNode::Geometry> nodeGeometry(
     if (!status || !userNode) {
         return nullptr;
     }
-    return static_cast<BdControllerShapeNode*>(userNode)->geometry();
+    return static_cast<const BdControllerShapeNode*>(userNode);
+}
+
+std::shared_ptr<const BdControllerShapeNode::Geometry> nodeGeometry(
+    const MObject& object
+) {
+    const auto* node = controllerShapeNode(object);
+    return node ? node->geometry() : nullptr;
 }
 
 MBoundingBox nodeBounds(const MObject& node) {
@@ -2221,21 +2160,11 @@ MBoundingBox nodeBounds(const MObject& node) {
         : MBoundingBox(MPoint::origin, MPoint::origin);
 }
 
-MPointArray lineSegments(const Strokes& strokes) {
-    MPointArray segments;
-    for (const Stroke& stroke : strokes) {
-        for (unsigned int index = 1; index < stroke.length(); ++index) {
-            segments.append(stroke[index - 1]);
-            segments.append(stroke[index]);
-        }
-    }
-    return segments;
-}
-
 using DrawDisplayType = MDAGDrawOverrideInfo::DrawOverrideDisplayType;
 
-DrawDisplayType drawDisplayType(const MDagPath& path) {
-    const auto overrides = path.getDrawOverrideInfo();
+DrawDisplayType drawDisplayType(
+    const MDagPath& path, const MDAGDrawOverrideInfo& overrides
+) {
     if (path.isTemplated()) return MDAGDrawOverrideInfo::kDisplayTypeTemplate;
     return overrides.fOverrideEnabled
         ? overrides.fDisplayType : MDAGDrawOverrideInfo::kDisplayTypeNormal;
@@ -2243,12 +2172,12 @@ DrawDisplayType drawDisplayType(const MDagPath& path) {
 
 MColor dormantWireframeColor(
     const MDagPath& path, const MColor& fallback, bool selected,
-    DrawDisplayType displayType
+    DrawDisplayType displayType, const MDAGDrawOverrideInfo& overrides,
+    const MColor& templateColor
 ) {
     MStatus status;
     if (displayType == MDAGDrawOverrideInfo::kDisplayTypeTemplate) {
-        const MColor color = M3dView::templateColor(&status);
-        return status ? color : fallback;
+        return templateColor;
     }
     if (displayType == MDAGDrawOverrideInfo::kDisplayTypeReference) {
         const MColor color = M3dView::referenceLayerColor(&status);
@@ -2259,10 +2188,23 @@ MColor dormantWireframeColor(
     if (!status) return fallback;
     MColor color = dagNode.dormantColor(&status);
     if (!status) return fallback;
-    MColor overrideColor;
-    if (path.getDrawOverrideInfo().fOverrideEnabled &&
-        dagNode.drawOverrideColor(overrideColor, &status) && status) {
-        color = overrideColor;
+    if (overrides.fOverrideEnabled) {
+        // 実効overrideと同じく、DAG path上で最初の有効な設定だけを使う。
+        auto overridePath = path;
+        while (overridePath.length() != 0) {
+            MFnDagNode overrideNode(overridePath, &status);
+            if (!status) break;
+            const bool enabled = overrideNode.drawOverrideEnabled(&status);
+            if (!status) break;
+            if (enabled) {
+                MColor overrideColor;
+                if (overrideNode.drawOverrideColor(overrideColor, &status) && status) {
+                    color = overrideColor;
+                }
+                break;
+            }
+            if (!overridePath.pop()) break;
+        }
     }
     return color;
 }
@@ -2297,28 +2239,78 @@ MColor axisStyledColor(
     return result;
 }
 
-// MUIDrawManagerには面のカリング指定がないため、現在のビューへ向く面だけを渡す。
-MPointArray frontFacingTriangles(const MPointArray& triangles, const MMatrix& objectToView, bool perspective) {
-    MPointArray result;
-    const double orientation = objectToView.det3x3() < 0.0 ? -1.0 : 1.0;
-    for (unsigned int i = 0; i + 2 < triangles.length(); i += 3) {
-        const auto a = triangles[i] * objectToView;
-        const auto b = triangles[i + 1] * objectToView;
-        const auto c = triangles[i + 2] * objectToView;
-        const auto towardCamera = perspective ? MPoint::origin - a : MVector(0, 0, 1);
-        if ((((b - a) ^ (c - a)) * towardCamera) * orientation <= 0.0) continue;
-        result.append(triangles[i]);
-        result.append(triangles[i + 1]);
-        result.append(triangles[i + 2]);
-    }
+struct TriangleFacingContext {
+    MMatrix objectToView;
+    MVector localCamera;
+    bool perspective = false;
+    bool usePlanes = false;
+    double orientation = 1.0;
+    double cameraLength = 0.0;
+};
+
+TriangleFacingContext triangleFacingContext(
+    const BdControllerShapeDrawGeometry& geometry, const MMatrix& objectToView, bool perspective
+) {
+    TriangleFacingContext result;
+    result.objectToView = objectToView;
+    result.perspective = perspective;
+    result.orientation = objectToView.det3x3() < 0.0 ? -1.0 : 1.0;
+    const auto combined = geometry.animationMatrix * objectToView;
+    const auto isAffine = [](const MMatrix& matrix) {
+        return matrix[0][3] == 0.0 && matrix[1][3] == 0.0 &&
+            matrix[2][3] == 0.0 && matrix[3][3] == 1.0;
+    };
+    if (!isAffine(geometry.animationMatrix) || !isAffine(objectToView) ||
+        !isAffine(combined) || combined.isSingular()) return result;
+    const auto inverse = combined.inverse();
+    result.localCamera = perspective
+        ? MPoint::origin * inverse - MPoint::origin
+        : MVector(0, 0, 1) * inverse;
+    result.cameraLength = result.localCamera.length();
+    result.usePlanes = std::isfinite(result.localCamera.x) &&
+        std::isfinite(result.localCamera.y) && std::isfinite(result.localCamera.z);
     return result;
+}
+
+// 不変の面情報で判定し、視点依存のindexだけを更新する。
+void frontFacingTriangleIndices(
+    const BdControllerShapeDrawGeometry& geometry, std::size_t partIndex,
+    const TriangleFacingContext& context, MUintArray& result
+) {
+    const auto& points = geometry.fillParts[partIndex];
+    const auto& indices = geometry.fillIndices(partIndex);
+    const auto& planes = geometry.topology->fillParts[partIndex].planes;
+    result.setLength(indices.length());
+    unsigned int count = 0;
+    for (unsigned int i = 0; i + 2 < indices.length(); i += 3) {
+        bool useReference = !context.usePlanes;
+        double facing = 0.0;
+        if (!useReference) {
+            const auto& plane = planes[i / 3];
+            facing = plane.normal * context.localCamera + (context.perspective ? plane.offset : 0.0);
+            const double scale = plane.normalLength * context.cameraLength +
+                (context.perspective ? std::abs(plane.offset) : 0.0);
+            // 輪郭に接する面は、元の演算順で丸め誤差による反転を避ける。
+            useReference = !std::isfinite(facing) || std::abs(facing) <= scale * 1e-12;
+        }
+        if (useReference) {
+            const auto a = points[indices[i]] * context.objectToView;
+            const auto b = points[indices[i + 1]] * context.objectToView;
+            const auto c = points[indices[i + 2]] * context.objectToView;
+            const auto towardCamera = context.perspective ? MPoint::origin - a : MVector(0, 0, 1);
+            facing = (((b - a) ^ (c - a)) * towardCamera) * context.orientation;
+        }
+        if (facing <= 0.0) continue;
+        result[count++] = indices[i];
+        result[count++] = indices[i + 1];
+        result[count++] = indices[i + 2];
+    }
+    result.setLength(count);
 }
 
 struct ShapeDrawData final : public MUserData {
     std::shared_ptr<const BdControllerShapeNode::Geometry> geometry;
-    Strokes onTopSegments;
-    Strokes wireframeOnTopSegments;
-    std::vector<MPointArray> frontTriangles;
+    std::vector<MUintArray> frontIndices;
     MMatrix objectToView;
     bool perspective = false;
     MColor color;
@@ -2328,11 +2320,66 @@ struct ShapeDrawData final : public MUserData {
     MColor templateStrokeColor;
     MColor boundsPreviewColor;
     DrawDisplayType displayType = MDAGDrawOverrideInfo::kDisplayTypeNormal;
+    MDAGDrawOverrideInfo rawDrawOverrides;
+    MHWRender::DisplayStatus rawDisplayStatus = MHWRender::kDormant;
     float lineWidth = 1.0f;
+    float opacity = 1.0f;
+    float fillOpacity = 1.0f;
+    std::uint64_t displayRevision = 0;
+    unsigned int connectedDisplayInputs = 0;
     bool drawOnTop = false;
     bool selected = false;
     bool activeTemplate = false;
+    bool boundingBoxLOD = false;
 };
+
+void prepareDisplaySettings(
+    const MObject& object, std::uint64_t revision, ShapeDrawData& data
+) {
+    const bool changed = revision == 0 || data.displayRevision != revision;
+    if (!changed && data.connectedDisplayInputs == 0) return;
+    const std::array<MObject, 4> attributes = {
+        BdControllerShapeNode::shapeLineWidth,
+        BdControllerShapeNode::shapeLineTransparency,
+        BdControllerShapeNode::shapeFillTransparency,
+        BdControllerShapeNode::shapeDrawOnTop,
+    };
+    MStatus status;
+    bool valid = true;
+    if (changed) {
+        data.connectedDisplayInputs = 0;
+        for (unsigned int i = 0; i < attributes.size(); ++i) {
+            if (MPlug(object, attributes[i]).isDestination(&status)) {
+                data.connectedDisplayInputs |= 1u << i;
+            }
+            valid = valid && status;
+        }
+    }
+    // 接続入力は再生中も読み、未接続値と接続状態は変更通知まで保持する。
+    if (changed || (data.connectedDisplayInputs & 1u)) {
+        const float value = MPlug(object, attributes[0]).asFloat(&status);
+        data.lineWidth = status && std::isfinite(value) ? std::max(1.0f, value) : 1.0f;
+        valid = valid && status;
+    }
+    if (changed || (data.connectedDisplayInputs & 2u)) {
+        const float value = MPlug(object, attributes[1]).asFloat(&status);
+        data.opacity = status && std::isfinite(value)
+            ? 1.0f - std::clamp(value, 0.0f, 1.0f) : 1.0f;
+        valid = valid && status;
+    }
+    if (changed || (data.connectedDisplayInputs & 4u)) {
+        const float value = MPlug(object, attributes[2]).asFloat(&status);
+        data.fillOpacity = status && std::isfinite(value)
+            ? 1.0f - std::clamp(value, 0.0f, 1.0f) : 1.0f;
+        valid = valid && status;
+    }
+    if (changed || (data.connectedDisplayInputs & 8u)) {
+        data.drawOnTop = MPlug(object, attributes[3]).asBool(&status);
+        if (!status) data.drawOnTop = false;
+        valid = valid && status;
+    }
+    data.displayRevision = valid ? revision : 0;
+}
 
 struct ShapeDrawAppearance {
     MColor color;
@@ -2361,10 +2408,24 @@ ShapeDrawAppearance drawAppearance(
     };
 }
 
-class ControllerShapeDrawOverride final : public MHWRender::MPxDrawOverride {
+auto drawSignature(const ShapeDrawData& data, const MHWRender::MFrameContext& context) {
+    return std::make_tuple(
+        data.geometry, data.objectToView, data.perspective,
+        data.color, data.dormantColor, data.fillColor, data.dormantFillColor,
+        data.templateStrokeColor, data.boundsPreviewColor, data.displayType,
+        data.lineWidth, data.drawOnTop, data.selected, data.activeTemplate,
+        data.boundingBoxLOD,
+        context.getDisplayStyle(), context.objectTypeExclusions()
+    );
+}
+
+#include "BdControllerShapeWire.inc"
+#include "BdControllerShapeFill.inc"
+
+class ControllerShapeSubSceneOverride final : public MHWRender::MPxSubSceneOverride {
 public:
-    explicit ControllerShapeDrawOverride(const MObject& node)
-        : MPxDrawOverride(node, nullptr, true) {}
+    explicit ControllerShapeSubSceneOverride(const MObject& node)
+        : MPxSubSceneOverride(node), node_(node), wire_(node), fill_(node) {}
 
     MHWRender::DrawAPI supportedDrawAPIs() const override {
         return MHWRender::kAllDevices;
@@ -2374,146 +2435,337 @@ public:
         return true;
     }
 
-    bool isBounded(const MDagPath&, const MDagPath&) const override {
-        return true;
-    }
-
-    MBoundingBox boundingBox(
-        const MDagPath& objectPath,
-        const MDagPath&
+    bool requiresUpdate(
+        const MHWRender::MSubSceneContainer& container,
+        const MHWRender::MFrameContext& context
     ) const override {
-        const auto geometry = nodeGeometry(objectPath.node());
-        return geometry
-            ? geometry->drawBounds
-            : MBoundingBox(MPoint::origin, MPoint::origin);
+        if (fill_.active()) return fill_.requiresUpdate(
+            container, context, data_.get(), ready_, uiDirty_, visible_
+        );
+        return wire_.requiresUpdate(
+            container, context, data_.get(), ready_, uiDirty_, visible_
+        );
     }
 
-    MUserData* prepareForDraw(
-        const MDagPath& objectPath,
-        const MDagPath&,
-        const MHWRender::MFrameContext& frameContext,
-        MUserData* oldData
+    void update(
+        MHWRender::MSubSceneContainer& container,
+        const MHWRender::MFrameContext& context
     ) override {
-        ShapeDrawData* data = oldData
-            ? static_cast<ShapeDrawData*>(oldData)
-            : new ShapeDrawData();
-        const auto geometry = nodeGeometry(objectPath.node());
-        const bool geometryChanged = data->geometry != geometry;
-        data->geometry = geometry;
         MStatus status;
-        const bool singleSided = geometry && std::any_of(geometry->fillParts.begin(), geometry->fillParts.end(),
-            [](const BdControllerShapeNode::Geometry::FillPart& part) { return part.singleSided; });
+        MFnDagNode dagNode(node_, &status);
+        if (!status || !dagNode.getPath(path_) || !path_.isVisible()) {
+            const bool wasGPU = wire_.active();
+            const bool wasFill = fill_.active();
+            wire_.suspend(container);
+            fill_.suspend(container);
+            if (boundsItemCreated_) {
+                if (auto* item = container.find(boundsItemName()); item && item->isEnabled()) {
+                    item->enable(false);
+                }
+            }
+            uiDirty_ = uiDirty_ || visible_;
+            uiDirty_ = uiDirty_ || wasGPU;
+            uiDirty_ = uiDirty_ || wasFill;
+            visible_ = false;
+            return;
+        }
+        uiDirty_ = uiDirty_ || !visible_;
+        visible_ = true;
+        const auto previousGeometry = data_ && data_->geometry
+            ? data_->geometry->drawGeometry.get() : nullptr;
+        auto* nextData = static_cast<ShapeDrawData*>(
+            prepareForDraw(path_, context, data_.get())
+        );
+        if (nextData != data_.get()) data_.reset(nextData);
+        const bool wasFill = fill_.active();
+        const bool isFill = fill_.update(*this, container, context, path_, *data_);
+        if (!isFill) {
+            const bool geometryChanged = !data_->geometry ||
+                data_->geometry->drawGeometry.get() != previousGeometry;
+            prepareFillFacing(path_, context, *data_, geometryChanged || wasFill);
+        }
+        const auto nextSignature = drawSignature(*data_, context);
+        uiDirty_ = uiDirty_ || !ready_ || signature_ != nextSignature;
+        signature_ = nextSignature;
+        ready_ = true;
+        const bool wasGPU = wire_.active();
+        bool isGPU = false;
+        if (isFill) wire_.suspend(container);
+        else isGPU = wire_.update(*this, container, context, path_, *data_);
+        uiDirty_ = uiDirty_ || wasGPU != isGPU;
+        uiDirty_ = uiDirty_ || wasFill != isFill;
+        updateBoundsItem(container, context);
+        wire_.completeUpdate(container, context, *data_);
+        fill_.completeUpdate(context, path_, *data_);
+    }
+
+    bool areUIDrawablesDirty() const override {
+        return uiDirty_;
+    }
+
+    void addUIDrawables(
+        MHWRender::MUIDrawManager& drawManager,
+        const MHWRender::MFrameContext& context
+    ) override {
+        if (visible_ && !wire_.active() && !fill_.active()) drawUIDrawables(drawManager, context, data_.get());
+        uiDirty_ = false;
+    }
+
+    bool getInstancedSelectionPath(
+        const MHWRender::MRenderItem& item,
+        const MHWRender::MIntersection&,
+        MDagPath& path
+    ) const override {
+        if (fill_.ownsItem(item.name())) {
+            if (!fill_.active() || !path_.isValid() || !data_ ||
+                data_->displayType != MDAGDrawOverrideInfo::kDisplayTypeNormal) {
+                path = MDagPath();
+                return true;
+            }
+            path = path_;
+            return path.pop() == MS::kSuccess;
+        }
+        if (wire_.ownsItem(item.name())) {
+            if (!wire_.active() || !path_.isValid() || !data_ ||
+                data_->displayType != MDAGDrawOverrideInfo::kDisplayTypeNormal) {
+                path = MDagPath();
+                return true;
+            }
+            path = path_;
+            if (path.pop() != MS::kSuccess) path = MDagPath();
+            return true;
+        }
+        if (item.name() != boundsItemName() || !path_.isValid() || !data_ ||
+            data_->displayType != MDAGDrawOverrideInfo::kDisplayTypeNormal) return false;
+        path = path_;
+        return path.pop() == MS::kSuccess;
+    }
+
+private:
+    static const MString& boundsItemName() {
+        static const MString name("bdControllerShapeBoundingBox");
+        return name;
+    }
+
+    void updateBoundsItem(
+        MHWRender::MSubSceneContainer& container,
+        const MHWRender::MFrameContext& context
+    ) {
+        auto* item = boundsItemCreated_ ? container.find(boundsItemName()) : nullptr;
+        if (item && !item->isEnabled()) item->enable(true);
+        const auto mode = data_->boundingBoxLOD
+            ? MHWRender::MGeometry::kAll : MHWRender::MGeometry::kBoundingBox;
+        if (item && item->drawMode() != mode) item->setDrawMode(mode);
+        const bool requested = data_->boundingBoxLOD ||
+            (context.getDisplayStyle() & MHWRender::MFrameContext::kBoundingBox) != 0;
+        if (!requested || !data_->geometry ||
+            (context.objectTypeExclusions() & MHWRender::MFrameContext::kExcludePluginShapes)) return;
+
+        if (!item) {
+            auto* renderer = MHWRender::MRenderer::theRenderer();
+            const auto* shaders = renderer ? renderer->getShaderManager() : nullptr;
+            auto* shader = shaders
+                ? shaders->getStockShader(MHWRender::MShaderManager::k3dSolidShader)
+                : nullptr;
+            if (!shader) return;
+            item = MHWRender::MRenderItem::Create(
+                boundsItemName(), MHWRender::MRenderItem::NonMaterialSceneItem,
+                MHWRender::MGeometry::kLines
+            );
+            if (!item || !item->setShader(shader)) {
+                shaders->releaseShader(shader);
+                if (item) MHWRender::MRenderItem::Destroy(item);
+                return;
+            }
+            shaders->releaseShader(shader);
+            item->setDrawMode(mode);
+            item->setSelectionMask(MSelectionMask::kSelectLocators);
+            item->setObjectTypeExclusionFlag(MHWRender::MFrameContext::kExcludePluginShapes);
+            if (!container.add(item)) {
+                MHWRender::MRenderItem::Destroy(item);
+                return;
+            }
+            boundsItemCreated_ = true;
+            boundsReady_ = false;
+            boundsMatrixReady_ = false;
+            boundsColorReady_ = false;
+        }
+
+        const auto& bounds = data_->geometry->drawBounds;
+        if (!boundsReady_ || bounds.min() != bounds_.min() || bounds.max() != bounds_.max()) {
+            if (!boundsVertices_) {
+                const MHWRender::MVertexBufferDescriptor descriptor(
+                    "", MHWRender::MGeometry::kPosition, MHWRender::MGeometry::kFloat, 3
+                );
+                boundsVertices_ = std::make_unique<MHWRender::MVertexBuffer>(descriptor);
+            }
+            if (!boundsIndices_) {
+                auto indices = std::make_unique<MHWRender::MIndexBuffer>(
+                    MHWRender::MGeometry::kUnsignedInt32
+                );
+                auto* values = static_cast<unsigned int*>(indices->acquire(24, true));
+                if (!values) { item->enable(false); return; }
+                constexpr std::array<unsigned int, 24> edges = {
+                    0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6,
+                    6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7
+                };
+                std::copy(edges.begin(), edges.end(), values);
+                indices->commit(values);
+                boundsIndices_ = std::move(indices);
+            }
+            auto* values = static_cast<float*>(boundsVertices_->acquire(8, true));
+            if (!values) { item->enable(false); return; }
+            const auto corners = boundsCorners(bounds);
+            for (std::size_t i = 0; i < corners.size(); ++i) {
+                values[i * 3] = static_cast<float>(corners[i].x);
+                values[i * 3 + 1] = static_cast<float>(corners[i].y);
+                values[i * 3 + 2] = static_cast<float>(corners[i].z);
+            }
+            boundsVertices_->commit(values);
+            MHWRender::MVertexBufferArray buffers;
+            buffers.addBuffer("positions", boundsVertices_.get());
+            if (!setGeometryForRenderItem(*item, buffers, *boundsIndices_, &bounds)) {
+                item->enable(false);
+                return;
+            }
+            bounds_ = bounds;
+            boundsReady_ = true;
+        }
+        const auto matrix = path_.inclusiveMatrix();
+        if (!boundsMatrixReady_ || boundsMatrix_ != matrix) {
+            if (!item->setMatrix(&matrix)) { item->enable(false); return; }
+            boundsMatrix_ = matrix;
+            boundsMatrixReady_ = true;
+        }
+        auto color = drawAppearance(*data_, context.getDisplayStyle()).color;
+        color.a = 1.0f;
+        if (!boundsColorReady_ || boundsColor_ != color) {
+            auto* renderer = MHWRender::MRenderer::theRenderer();
+            const auto* shaders = renderer ? renderer->getShaderManager() : nullptr;
+            if (!shaders) { item->enable(false); return; }
+            auto* shader = item->getShader();
+            const bool updated = shader && shader->setParameter("solidColor", &color.r);
+            if (shader) shaders->releaseShader(shader);
+            if (!updated) {
+                item->enable(false);
+                return;
+            }
+            boundsColor_ = color;
+            boundsColorReady_ = true;
+        }
+    }
+
+    void prepareFillFacing(
+        const MDagPath& objectPath,
+        const MHWRender::MFrameContext& frameContext,
+        ShapeDrawData& data,
+        bool geometryChanged
+    ) {
+        const auto& geometry = data.geometry;
+        MStatus status;
+        const bool singleSided = geometry && geometry->drawGeometry->topology->singleSided;
         MMatrix view;
         if (singleSided) view = frameContext.getMatrix(MHWRender::MFrameContext::kViewMtx, &status);
         if (singleSided && status) {
             const auto objectToView = objectPath.inclusiveMatrix() * view;
             const auto projection = frameContext.getMatrix(MHWRender::MFrameContext::kProjectionMtx, &status);
             const bool perspective = status && std::abs(projection[3][3]) < 1e-12;
-            if (geometryChanged || data->frontTriangles.size() != geometry->fillParts.size() ||
-                data->objectToView != objectToView || data->perspective != perspective) {
-                data->frontTriangles.clear();
-                for (const auto& part : geometry->fillParts) {
-                    data->frontTriangles.push_back(part.singleSided
-                        ? frontFacingTriangles(part.triangles, objectToView, perspective) : MPointArray());
+            const auto& drawGeometry = *geometry->drawGeometry;
+            if (geometryChanged || data.frontIndices.size() != drawGeometry.fillParts.size() ||
+                data.objectToView != objectToView || data.perspective != perspective) {
+                const auto facing = triangleFacingContext(drawGeometry, objectToView, perspective);
+                data.frontIndices.resize(drawGeometry.fillParts.size());
+                for (std::size_t i = 0; i < drawGeometry.fillParts.size(); ++i) {
+                    if (drawGeometry.topology->fillParts[i].singleSided) {
+                        frontFacingTriangleIndices(drawGeometry, i, facing, data.frontIndices[i]);
+                    } else data.frontIndices[i].clear();
                 }
-                data->objectToView = objectToView;
-                data->perspective = perspective;
+                data.objectToView = objectToView;
+                data.perspective = perspective;
             }
-        } else data->frontTriangles.clear();
-        const float lineWidth = MPlug(
-            objectPath.node(), BdControllerShapeNode::shapeLineWidth
-        ).asFloat(&status);
-        data->lineWidth = status && std::isfinite(lineWidth)
-            ? std::max(1.0f, lineWidth)
-            : 1.0f;
-        const float transparency = MPlug(
-            objectPath.node(), BdControllerShapeNode::shapeLineTransparency
-        ).asFloat(&status);
-        const float opacity = status && std::isfinite(transparency)
-            ? 1.0f - std::clamp(transparency, 0.0f, 1.0f)
-            : 1.0f;
-        const float fillTransparency = MPlug(
-            objectPath.node(), BdControllerShapeNode::shapeFillTransparency
-        ).asFloat(&status);
-        const float fillOpacity = status && std::isfinite(fillTransparency)
-            ? 1.0f - std::clamp(fillTransparency, 0.0f, 1.0f)
-            : 0.15f;
-        const bool wasDrawOnTop = data->drawOnTop;
-        data->drawOnTop = MPlug(
-            objectPath.node(), BdControllerShapeNode::shapeDrawOnTop
-        ).asBool(&status);
-        if (!status) {
-            data->drawOnTop = false;
-        }
-        if (data->drawOnTop && (geometryChanged || !wasDrawOnTop)) {
-            data->onTopSegments.clear();
-            data->wireframeOnTopSegments.clear();
-            if (data->geometry) {
-                for (const Stroke& stroke : data->geometry->strokes) {
-                    data->onTopSegments.push_back(lineSegments(Strokes{stroke}));
-                }
-                if (data->geometry->wireframeGeometry) {
-                    for (const Stroke& stroke : data->geometry->wireframeGeometry->strokes) {
-                        data->wireframeOnTopSegments.push_back(lineSegments(Strokes{stroke}));
-                    }
-                }
-            }
-        }
+        } else data.frontIndices.clear();
+    }
+
+    MUserData* prepareForDraw(
+        const MDagPath& objectPath,
+        const MHWRender::MFrameContext& frameContext,
+        MUserData* oldData
+    ) {
+        ShapeDrawData* data = oldData
+            ? static_cast<ShapeDrawData*>(oldData)
+            : new ShapeDrawData();
+        const auto* node = controllerShapeNode(objectPath.node());
+        data->geometry = node ? node->geometry() : nullptr;
+        const auto& geometry = data->geometry;
+        prepareDisplaySettings(objectPath.node(), node ? node->displayRevision() : 0, *data);
         data->color = MHWRender::MGeometryUtilities::wireframeColor(objectPath);
-        data->displayType = drawDisplayType(objectPath);
+        const auto overrides = objectPath.getDrawOverrideInfo();
+        data->rawDrawOverrides = overrides;
+        data->displayType = drawDisplayType(objectPath, overrides);
+        data->boundingBoxLOD = overrides.fOverrideEnabled &&
+            overrides.fLOD == MDAGDrawOverrideInfo::kLODBoundingBox;
         const auto displayStatus = MHWRender::MGeometryUtilities::displayStatus(objectPath);
+        data->rawDisplayStatus = displayStatus;
         data->selected = displayStatus == MHWRender::kActive ||
             displayStatus == MHWRender::kLead ||
             displayStatus == MHWRender::kActiveComponent ||
             displayStatus == MHWRender::kHilite;
         data->activeTemplate = displayStatus == MHWRender::kActiveTemplate;
-        data->dormantColor = dormantWireframeColor(
-            objectPath, data->color, data->selected, data->displayType
+        const bool highlighting = (frameContext.getDisplayStyle() &
+            MHWRender::MFrameContext::kSelectionHighlighting) != 0;
+        const bool templateGeometry = geometry && (
+            geometry->drawGeometry->topology->templateStyled ||
+            (geometry->wireframeGeometry &&
+                geometry->wireframeGeometry->drawGeometry->topology->templateStyled) ||
+            (geometry->offsetLineTemplate && geometry->offsetLine.length() != 0) ||
+            !geometry->boundsPreview.empty()
         );
-        MStatus templateStatus;
-        data->templateStrokeColor = M3dView::templateColor(&templateStatus);
-        if (!templateStatus) {
-            data->templateStrokeColor = data->color;
-        }
-        if (data->geometry && !data->geometry->boundsPreview.empty()) {
+        MColor templateColor = data->color;
+        if (templateGeometry || (!highlighting &&
+            data->displayType == MDAGDrawOverrideInfo::kDisplayTypeTemplate)) {
             MStatus colorStatus;
-            data->boundsPreviewColor = M3dView::templateColor(&colorStatus);
-            if (!colorStatus) {
-                data->boundsPreviewColor = data->color;
-            }
+            const auto color = M3dView::templateColor(&colorStatus);
+            if (colorStatus) templateColor = color;
         }
+        data->dormantColor = highlighting ? data->color : dormantWireframeColor(
+            objectPath, data->color, data->selected, data->displayType, overrides, templateColor
+        );
+        data->templateStrokeColor = templateColor;
+        data->boundsPreviewColor = templateColor;
         data->fillColor = data->color;
         data->dormantFillColor = data->dormantColor;
-        data->fillColor.a *= fillOpacity;
-        data->dormantFillColor.a *= fillOpacity;
-        data->color.a *= opacity;
-        data->dormantColor.a *= opacity;
-        data->templateStrokeColor.a *= opacity;
+        data->fillColor.a *= data->fillOpacity;
+        data->dormantFillColor.a *= data->fillOpacity;
+        data->color.a *= data->opacity;
+        data->dormantColor.a *= data->opacity;
+        data->templateStrokeColor.a *= data->opacity;
         return data;
     }
 
-    void addUIDrawables(
-        const MDagPath&,
+    void drawUIDrawables(
         MHWRender::MUIDrawManager& drawManager,
         const MHWRender::MFrameContext& frameContext,
-        const MUserData* userData
-    ) override {
+        const ShapeDrawData* data
+    ) const {
         if (frameContext.objectTypeExclusions() &
             MHWRender::MFrameContext::kExcludePluginShapes) {
             return;
         }
-        const ShapeDrawData* data = static_cast<const ShapeDrawData*>(userData);
         if (!data || !data->geometry) {
             return;
         }
+        if (data->boundingBoxLOD ||
+            (frameContext.getDisplayStyle() & MHWRender::MFrameContext::kBoundingBox)) return;
         const auto appearance = drawAppearance(*data, frameContext.getDisplayStyle());
         const MColor& color = appearance.color;
-        for (std::size_t index = 0; index < data->geometry->fillParts.size(); ++index) {
-            const auto& part = data->geometry->fillParts[index];
+        const auto& drawGeometry = *data->geometry->drawGeometry;
+        for (std::size_t index = 0; index < drawGeometry.fillParts.size(); ++index) {
+            const auto& part = drawGeometry.topology->fillParts[index];
+            const auto& points = drawGeometry.fillParts[index];
             if (!appearance.shaded && !part.marker) continue;
-            const auto& triangles = part.singleSided && index < data->frontTriangles.size()
-                ? data->frontTriangles[index] : part.triangles;
-            if (triangles.length() == 0) continue;
+            const auto* indices = part.singleSided && index < data->frontIndices.size()
+                ? &data->frontIndices[index] : &drawGeometry.fillIndices(index);
+            if (points.length() == 0 || indices->length() == 0) continue;
             drawManager.beginDrawable(
                 part.style == StrokeStyle::Template
                     ? MHWRender::MUIDrawManager::kNonSelectable
@@ -2532,17 +2784,18 @@ public:
             drawManager.setPaintStyle(MHWRender::MUIDrawManager::kFlat);
             if (data->drawOnTop) drawManager.beginDrawInXray();
             drawManager.mesh(
-                MHWRender::MUIDrawManager::kTriangles, triangles
+                MHWRender::MUIDrawManager::kTriangles, points, nullptr, nullptr, indices
             );
             if (data->drawOnTop) drawManager.endDrawInXray();
             drawManager.endDrawable();
         }
         const bool wireframe = (!appearance.shaded || appearance.fillColor.a <= 0.0f) &&
             data->geometry->wireframeGeometry;
-        const auto& strokeGeometry = wireframe ? *data->geometry->wireframeGeometry : *data->geometry;
-        const auto& onTopSegments = wireframe ? data->wireframeOnTopSegments : data->onTopSegments;
+        const auto& strokeGeometry = wireframe
+            ? *data->geometry->wireframeGeometry->drawGeometry : drawGeometry;
         for (std::size_t index = 0; index < strokeGeometry.strokes.size(); ++index) {
-            const StrokeStyle style = strokeGeometry.strokeStyles[index];
+            const auto& strokeInfo = strokeGeometry.topology->strokes[index];
+            const StrokeStyle style = strokeInfo.style;
             MColor strokeColor = axisStyledColor(style, color,
                 appearance.selected, appearance.axisDisplayType);
             if (style == StrokeStyle::Template) {
@@ -2561,13 +2814,14 @@ public:
             if (data->lineWidth > 1.0f) {
                 drawManager.setLineWidth(data->lineWidth);
             }
-            if (data->drawOnTop && index < onTopSegments.size()) {
-                drawManager.beginDrawInXray();
+            if (data->drawOnTop || strokeInfo.lineList) {
+                if (data->drawOnTop) drawManager.beginDrawInXray();
                 drawManager.mesh(
                     MHWRender::MUIDrawManager::kLines,
-                    onTopSegments[index]
+                    strokeGeometry.strokes[index], nullptr, nullptr,
+                    &strokeInfo.lineIndices
                 );
-                drawManager.endDrawInXray();
+                if (data->drawOnTop) drawManager.endDrawInXray();
             } else {
                 drawManager.lineStrip(strokeGeometry.strokes[index], false);
             }
@@ -2606,6 +2860,26 @@ public:
             drawManager.endDrawable();
         }
     }
+
+    MObject node_;
+    ControllerShapeWire wire_;
+    ControllerShapeFill fill_;
+    MDagPath path_;
+    std::unique_ptr<ShapeDrawData> data_;
+    decltype(drawSignature(std::declval<const ShapeDrawData&>(),
+        std::declval<const MHWRender::MFrameContext&>())) signature_;
+    bool ready_ = false;
+    bool uiDirty_ = true;
+    bool visible_ = true;
+    std::unique_ptr<MHWRender::MVertexBuffer> boundsVertices_;
+    std::unique_ptr<MHWRender::MIndexBuffer> boundsIndices_;
+    MBoundingBox bounds_;
+    MMatrix boundsMatrix_;
+    MColor boundsColor_;
+    bool boundsReady_ = false;
+    bool boundsMatrixReady_ = false;
+    bool boundsColorReady_ = false;
+    bool boundsItemCreated_ = false;
 };
 
 }  // namespace
@@ -2628,7 +2902,6 @@ struct BdControllerShapeNode::GeometryCache {
     std::uint64_t boundsRevision = 0;
     short boundsMode = 0;
     bool showBoundsPreview = false;
-    bool hasConnectedInput = false;
     bool hasConnectedAnimationInput = false;
     bool hasConnectedBoundsInput = false;
 };
@@ -2640,6 +2913,46 @@ BdControllerShapeNode::~BdControllerShapeNode() {
     if (attributeChangedCallback_ != 0) {
         MMessage::removeCallback(attributeChangedCallback_);
     }
+}
+
+MStatus BdControllerShapeNode::legalConnection(
+    const MPlug& plug,
+    const MPlug& otherPlug,
+    bool asSrc,
+    bool& isLegal
+) const {
+    if (!asSrc && isShapeAttribute(plug.attribute())) {
+        isLegal = false;
+        return MS::kSuccess;
+    }
+    return MPxLocatorNode::legalConnection(plug, otherPlug, asSrc, isLegal);
+}
+
+bool BdControllerShapeNode::setInternalValue(const MPlug& plug, const MDataHandle& data) {
+    if (isDisplayAttribute(plug.attribute())) {
+        displayRevision_.fetch_add(1, std::memory_order_release);
+        // 設定通知だけを使い、値の保存はMayaの通常datablockへ委譲する。
+        return false;
+    }
+    return MPxLocatorNode::setInternalValue(plug, data);
+}
+
+MStatus BdControllerShapeNode::connectionMade(
+    const MPlug& plug, const MPlug& otherPlug, bool asSrc
+) {
+    if (!asSrc && isDisplayAttribute(plug.attribute())) {
+        displayRevision_.fetch_add(1, std::memory_order_release);
+    }
+    return MPxLocatorNode::connectionMade(plug, otherPlug, asSrc);
+}
+
+MStatus BdControllerShapeNode::connectionBroken(
+    const MPlug& plug, const MPlug& otherPlug, bool asSrc
+) {
+    if (!asSrc && isDisplayAttribute(plug.attribute())) {
+        displayRevision_.fetch_add(1, std::memory_order_release);
+    }
+    return MPxLocatorNode::connectionBroken(plug, otherPlug, asSrc);
 }
 
 void BdControllerShapeNode::onAttributeChanged(
@@ -2656,11 +2969,68 @@ void BdControllerShapeNode::onAttributeChanged(
     auto* node = static_cast<BdControllerShapeNode*>(clientData);
     if (plug.attribute() == shapeAnimationTransformMatrix) {
         node->animationRevision_.fetch_add(1, std::memory_order_release);
-    } else if (isShapeAttribute(plug.attribute())) {
+    } else if ((change & MNodeMessage::kAttributeSet) &&
+               isShapeAttribute(plug.attribute())) {
         node->geometryRevision_.fetch_add(1, std::memory_order_release);
     } else if (isBoundsAttribute(plug.attribute())) {
         node->boundsRevision_.fetch_add(1, std::memory_order_release);
+    } else if (isDisplayAttribute(plug.attribute())) {
+        node->displayRevision_.fetch_add(1, std::memory_order_release);
     }
+}
+
+std::uint64_t BdControllerShapeNode::displayRevision() const {
+    return attributeChangedCallback_ != 0
+        ? displayRevision_.load(std::memory_order_acquire) : 0;
+}
+
+std::pair<std::uint64_t, std::uint64_t>
+BdControllerShapeNode::wireSettingsRevision() const {
+    if (attributeChangedCallback_ == 0) return {0, 0};
+    return {
+        geometryRevision_.load(std::memory_order_acquire),
+        boundsRevision_.load(std::memory_order_acquire),
+    };
+}
+
+BdControllerShapeNode::WireUpdateState
+BdControllerShapeNode::wireUpdateState() const {
+    GeometryCache& cache = *geometryCache_;
+    const std::lock_guard<std::mutex> lock(cache.mutex);
+    WireUpdateState snapshot;
+    snapshot.revisions = {
+        geometryRevision_.load(std::memory_order_acquire),
+        animationRevision_.load(std::memory_order_acquire),
+        boundsRevision_.load(std::memory_order_acquire),
+        displayRevision_.load(std::memory_order_acquire),
+    };
+    snapshot.value = cache.value.get();
+    snapshot.connectedAnimation = cache.hasConnectedAnimationInput;
+    snapshot.connectedBounds = cache.hasConnectedBoundsInput;
+    snapshot.ready = attributeChangedCallback_ != 0 && cache.base && cache.shapeValue &&
+        cache.value && cache.boundsSettingsReady &&
+        cache.baseRevision == snapshot.revisions[0] &&
+        cache.animationRevision == snapshot.revisions[1] &&
+        cache.boundsRevision == snapshot.revisions[2];
+    return snapshot;
+}
+
+MStatus BdControllerShapeNode::cleanupWirePlaybackNotification() {
+    const std::lock_guard<std::mutex> lock(controllerWireMutex());
+    return wirePlaybackNotification().stop();
+}
+
+MStatus BdControllerShapeNode::resumeWirePlaybackNotification() {
+    const std::lock_guard<std::mutex> lock(controllerWireMutex());
+    return controllerWireOwners() != 0 ? wirePlaybackNotification().start() : MS::kSuccess;
+}
+
+MStatus BdControllerShapeNode::canCleanupDrawResources() {
+    return controllerFillResourcesCanCleanup();
+}
+
+MStatus BdControllerShapeNode::cleanupDrawResources() {
+    return cleanupControllerFillResources();
 }
 
 std::shared_ptr<const BdControllerShapeNode::Geometry>
@@ -2679,7 +3049,7 @@ BdControllerShapeNode::geometry() const {
     if (cache.value && cache.baseRevision == baseRevision &&
         cache.animationRevision == animationRevision &&
         cache.boundsRevision == boundsRevision &&
-        !cache.hasConnectedInput && !cache.hasConnectedAnimationInput &&
+        !cache.hasConnectedAnimationInput &&
         !cache.hasConnectedBoundsInput &&
         attributeChangedCallback_ != 0) {
         return cache.value;
@@ -2687,22 +3057,19 @@ BdControllerShapeNode::geometry() const {
 
     bool baseChanged = false;
     if (!cache.base || cache.baseRevision != baseRevision ||
-        cache.hasConnectedInput || attributeChangedCallback_ == 0) {
+        attributeChangedCallback_ == 0) {
         ShapeSettings settings;
         if (!readSettings(thisMObject(), shapeAttributes(), settings)) {
             return cache.value;
         }
-        const bool connected = hasConnectedSettingsInput(
-            thisMObject(), shapeAttributes()
-        );
         if (!cache.base || !sameSettings(settings, cache.settings)) {
-            cache.base = makeBaseGeometry(settings);
-            cache.centeredBaseBounds = centeredShapeBounds(*cache.base);
+            const auto generated = makeBaseGeometry(settings);
+            cache.centeredBaseBounds = centeredShapeBounds(*generated);
+            cache.base = bakeDrawGeometry(*generated);
             cache.settings = settings;
             baseChanged = true;
         }
         cache.baseRevision = baseRevision;
-        cache.hasConnectedInput = connected;
     }
 
     bool customBaseChanged = false;
@@ -2808,10 +3175,10 @@ void* BdControllerShapeNode::creator() {
     return new BdControllerShapeNode();
 }
 
-MHWRender::MPxDrawOverride* BdControllerShapeNode::createDrawOverride(
+MHWRender::MPxSubSceneOverride* BdControllerShapeNode::createSubSceneOverride(
     const MObject& node
 ) {
-    return new ControllerShapeDrawOverride(node);
+    return new ControllerShapeSubSceneOverride(node);
 }
 
 void BdControllerShapeNode::postConstructor() {
@@ -2955,12 +3322,6 @@ MStatus BdControllerShapeNode::initialize() {
     status = enumAttributeFn.addField("Standard", 0);
     if (!status) return status;
     status = enumAttributeFn.addField("Tapered", 1);
-    if (!status) return status;
-    status = bd_util_nodes::createDoubleAttribute(
-        numericAttributeFn, shapeFinSize, "shapeFinSize", "sfns", 1.0
-    );
-    if (!status) return status;
-    status = bd_util_nodes::configureInputNumericAttribute(numericAttributeFn);
     if (!status) return status;
     status = bd_util_nodes::createDoubleAttribute(
         numericAttributeFn, shapeFinWidthScale, "shapeFinWidthScale", "sfnws", 1.0
@@ -3209,11 +3570,11 @@ MStatus BdControllerShapeNode::initialize() {
         double defaultValue;
     };
     for (const auto& attribute : {
-             BaseSpaceAttribute{&shapeBaseSpace1stAxisMinus, "shapeBaseSpace1stAxisMinus", "sbsp1m", -0.5},
+             BaseSpaceAttribute{&shapeBaseSpace1stAxisMinus, "shapeBaseSpace1stAxisMinus", "sbsp1m", 0.5},
              BaseSpaceAttribute{&shapeBaseSpace1stAxisPlus, "shapeBaseSpace1stAxisPlus", "sbsp1p", 0.5},
-             BaseSpaceAttribute{&shapeBaseSpace2ndAxisMinus, "shapeBaseSpace2ndAxisMinus", "sbsp2m", -0.5},
+             BaseSpaceAttribute{&shapeBaseSpace2ndAxisMinus, "shapeBaseSpace2ndAxisMinus", "sbsp2m", 0.5},
              BaseSpaceAttribute{&shapeBaseSpace2ndAxisPlus, "shapeBaseSpace2ndAxisPlus", "sbsp2p", 0.5},
-             BaseSpaceAttribute{&shapeBaseSpace3rdAxisMinus, "shapeBaseSpace3rdAxisMinus", "sbsp3m", -0.5},
+             BaseSpaceAttribute{&shapeBaseSpace3rdAxisMinus, "shapeBaseSpace3rdAxisMinus", "sbsp3m", 0.5},
              BaseSpaceAttribute{&shapeBaseSpace3rdAxisPlus, "shapeBaseSpace3rdAxisPlus", "sbsp3p", 0.5},
          }) {
         status = bd_util_nodes::createDoubleLinearAttribute(
@@ -3409,7 +3770,7 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) return status;
 
     shapeFillTransparency = numericAttributeFn.create(
-        "shapeFillTransparency", "sftp", MFnNumericData::kFloat, 0.85f, &status
+        "shapeFillTransparency", "sftp", MFnNumericData::kFloat, 0.0f, &status
     );
     if (!status) {
         return status;
@@ -3442,7 +3803,7 @@ MStatus BdControllerShapeNode::initialize() {
         return status;
     }
 
-    boundsMode = enumAttributeFn.create("boundsMode", "bdm", 1, &status);
+    boundsMode = enumAttributeFn.create("boundsMode", "bdm", 0, &status);
     if (!status) {
         return status;
     }
@@ -3474,11 +3835,11 @@ MStatus BdControllerShapeNode::initialize() {
 
     for (const auto& attribute : {
              BaseSpaceAttribute{&customBoundsBaseSpaceXPlus, "customBoundsBaseSpaceXPlus", "cbbsxp", 0.5},
-             BaseSpaceAttribute{&customBoundsBaseSpaceXMinus, "customBoundsBaseSpaceXMinus", "cbbsxm", -0.5},
+             BaseSpaceAttribute{&customBoundsBaseSpaceXMinus, "customBoundsBaseSpaceXMinus", "cbbsxm", 0.5},
              BaseSpaceAttribute{&customBoundsBaseSpaceYPlus, "customBoundsBaseSpaceYPlus", "cbbsyp", 0.5},
-             BaseSpaceAttribute{&customBoundsBaseSpaceYMinus, "customBoundsBaseSpaceYMinus", "cbbsym", -0.5},
+             BaseSpaceAttribute{&customBoundsBaseSpaceYMinus, "customBoundsBaseSpaceYMinus", "cbbsym", 0.5},
              BaseSpaceAttribute{&customBoundsBaseSpaceZPlus, "customBoundsBaseSpaceZPlus", "cbbszp", 0.5},
-             BaseSpaceAttribute{&customBoundsBaseSpaceZMinus, "customBoundsBaseSpaceZMinus", "cbbszm", -0.5},
+             BaseSpaceAttribute{&customBoundsBaseSpaceZMinus, "customBoundsBaseSpaceZMinus", "cbbszm", 0.5},
          }) {
         status = bd_util_nodes::createDoubleLinearAttribute(
             unitAttributeFn, *attribute.object, attribute.longName,
@@ -3574,7 +3935,6 @@ MStatus BdControllerShapeNode::initialize() {
              shapeFin,
              shapeFinType,
              shapeFinHeight,
-             shapeFinSize,
              shapeFinWidthScale,
              channelBoxSeparator10,
              shapeGuideLine,
@@ -3604,6 +3964,14 @@ MStatus BdControllerShapeNode::initialize() {
         if (!status) return status;
         status = attributeFn.setKeyable(false);
         if (!status) return status;
+        if (isShapeAttribute(attribute)) {
+            status = attributeFn.setConnectable(false);
+            if (!status) return status;
+        }
+        if (isDisplayAttribute(attribute)) {
+            status = attributeFn.setInternal(true);
+            if (!status) return status;
+        }
         status = attributeFn.setChannelBox(true);
         if (!status) return status;
         status = addAttribute(attribute);
@@ -3644,6 +4012,8 @@ MStatus BdControllerShapeNode::initialize() {
         MFnAttribute attributeFn(attribute, &status);
         if (!status) return status;
         status = attributeFn.setKeyable(false);
+        if (!status) return status;
+        status = attributeFn.setConnectable(false);
         if (!status) return status;
         status = attributeFn.setChannelBox(true);
         if (!status) return status;

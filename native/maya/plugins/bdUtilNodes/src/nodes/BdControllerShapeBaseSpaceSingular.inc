@@ -116,7 +116,7 @@ double singularFinSurface(const MPoint& point, const MVector& heightDirection,
     return surface == -1e100 ? 0.0 : surface;
 }
 
-PartGeometry singularBaseSpaceFin(const ShapeSettings& settings) {
+PartGeometry singularBaseSpaceFin(const ShapeSettings& settings, bool keepStandardFrame = false) {
     PartGeometry result;
     const short outline = outlinePresetIndex(settings.shape);
     if (!settings.fin || isArcOutline(outline) || partFinHeight(settings) == 0.0) return result;
@@ -125,7 +125,7 @@ PartGeometry singularBaseSpaceFin(const ShapeSettings& settings) {
     source.baseSpacePlus = MVector(0.5, 0.5, 0.5);
     source.part = source.guideLine = false;
     PartGeometry fin;
-    appendShapeFin(source, fin);
+    appendShapeFin(source, fin, keepStandardFrame);
     const bool planar = hasLegacyPlanarOrientation(outline);
     const bool line = outline == 1 || outline == 4 || outline == 5 || outline == 45 ||
         outline == 104 || outline == 106 || outline == 118 || outline == 119;

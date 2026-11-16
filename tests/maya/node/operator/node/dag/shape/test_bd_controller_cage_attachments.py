@@ -6,6 +6,7 @@ import math
 
 import pytest
 
+from controller_shape_cases import SHAPE_NAMES
 from test_bd_controller_attachment_contract import _controller
 from test_bd_controller_base_space import _set_base_space
 from test_bd_controller_shape import _bounds, _load_bd_util_nodes
@@ -26,8 +27,9 @@ def _set_cage(cmds, shape, attribute="1stAxisPlusScale3rdAxis", value=1.8):
 @pytest.mark.parametrize("part", range(11))
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize("swapped", (False, True))
+@pytest.mark.parametrize("preset", ("Cube", "Cylinder"))
 def test_cage_all_part_profiles_keep_dimensions_in_the_tilted_face_frame(
-    maya_cmds, maya_om, new_scene, part, filled, swapped
+    maya_cmds, maya_om, new_scene, part, filled, swapped, preset
 ):
     _load_bd_util_nodes(maya_cmds)
     options = dict(
@@ -41,13 +43,13 @@ def test_cage_all_part_profiles_keep_dimensions_in_the_tilted_face_frame(
         shapeFill=filled,
         shapeAxisSwap=swapped,
     )
-    actual = _controller(maya_cmds, "tiltedFace", "Cube", **options)
+    actual = _controller(maya_cmds, "tiltedFace", preset, **options)
     attribute = (
         "1stAxisPlusScale2ndAxis" if swapped else "2ndAxisPlusScale1stAxis"
     )
     _set_cage(maya_cmds, actual, attribute, 2)
-    # 一面だけを傾けた箱では、接合面の単位法線と回転角が解析的に決まる。
-    reference = _controller(maya_cmds, "rigidPartReference", "Cube", **options)
+    # 一面だけを傾けた基準空間では、接合面の単位法線と回転角が解析的に決まる。
+    reference = _controller(maya_cmds, "rigidPartReference", preset, **options)
     _set_base_space(maya_cmds, reference, ((0, 0),) * 3)
     angle = math.degrees(math.atan(0.5)) * (1 if swapped else -1)
     maya_cmds.setAttr(f"{reference}.shapeRotateZ", angle)
@@ -65,7 +67,7 @@ def test_cage_all_part_profiles_keep_dimensions_in_the_tilted_face_frame(
 
 @pytest.mark.parametrize("filled", (False, True))
 @pytest.mark.parametrize("swapped", (False, True))
-def test_cage_fin_height_is_measured_from_the_sloping_body_surface(
+def test_cage_standard_fin_keeps_axis_parallel_edges_and_physical_height(
     maya_cmds, maya_om, new_scene, filled, swapped
 ):
     _load_bd_util_nodes(maya_cmds)
@@ -83,11 +85,10 @@ def test_cage_fin_height_is_measured_from_the_sloping_body_surface(
         "2ndAxisPlusScale1stAxis" if swapped else "1stAxisPlusScale2ndAxis"
     )
     _set_cage(maya_cmds, shape, attribute, 2)
-    normal_offset = height / math.sqrt(5)
     expected = (
-        (-1, -0.5 - normal_offset, -0.5, 1 + 2 * normal_offset, 0.5, 0.5)
+        (-1, -0.5, -0.5, 1 + height, 0.5, 0.5)
         if swapped
-        else (-0.5 - normal_offset, -1, -0.5, 0.5, 1 + 2 * normal_offset, 0.5)
+        else (-0.5, -1, -0.5, 0.5, 1 + height, 0.5)
     )
     assert _bounds(maya_om, shape) == pytest.approx(expected, abs=2e-8)
 
@@ -292,21 +293,7 @@ def test_cage_wide_part_join_moves_once_with_the_base_space_center(
 
 @pytest.mark.parametrize(
     "preset",
-    (
-        "Line",
-        "CrossLine",
-        "CrossLine3Axis",
-        "Square",
-        "Circle",
-        "ArcRadial",
-        "ArcAxial",
-        "CrossArcRadial",
-        "CrossArcAxial",
-        "Cube",
-        "Sphere",
-        "ColorCrossLine3Axis",
-        "ColorSphere",
-    ),
+    tuple(preset for preset in SHAPE_NAMES if preset != "Gear"),
 )
 @pytest.mark.parametrize("part", range(11))
 def test_cage_every_supported_attachment_is_finite_after_rejoining(
@@ -330,7 +317,16 @@ def test_cage_every_supported_attachment_is_finite_after_rejoining(
 
 
 @pytest.mark.parametrize(
-    "preset", ("Line", "Cube", "ArcRadial", "CrossArcAxial")
+    "preset",
+    (
+        "Line",
+        "Cube",
+        "Triangle",
+        "Cylinder",
+        "ArrowPlanar",
+        "ArcRadial",
+        "CrossArcAxial",
+    ),
 )
 @pytest.mark.parametrize("part", (0, 6, 10))
 @pytest.mark.parametrize("value", (0.0, -1.5))
@@ -357,11 +353,11 @@ def test_cage_collapsed_or_reversed_frames_keep_parts_finite(
     (
         "Cube",
         "Octahedron",
-        "OctahedronArrow",
+        "DiamondArrowSpatial",
         "Sphere",
         "Cylinder",
-        "Pyramid",
-        "Cone",
+        "SquareArrowAxial",
+        "CircleArrowAxial",
         "Circle",
         "WideCrossLine3Axis",
     ),

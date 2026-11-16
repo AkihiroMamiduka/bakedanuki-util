@@ -1,8 +1,10 @@
 #pragma once
 
+#include <array>
 #include <atomic>
 #include <cstdint>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include <maya/MBoundingBox.h>
@@ -17,8 +19,10 @@
 #include <maya/MTypeId.h>
 
 namespace MHWRender {
-class MPxDrawOverride;
+class MPxSubSceneOverride;
 }
+
+struct BdControllerShapeDrawGeometry;
 
 enum class StrokeStyle : unsigned char {
     Normal,
@@ -40,9 +44,22 @@ public:
 
     static void* creator();
     static MStatus initialize();
-    static MHWRender::MPxDrawOverride* createDrawOverride(const MObject& node);
+    static MHWRender::MPxSubSceneOverride* createSubSceneOverride(const MObject& node);
+    static MStatus cleanupWirePlaybackNotification();
+    static MStatus resumeWirePlaybackNotification();
+    static MStatus canCleanupDrawResources();
+    static MStatus cleanupDrawResources();
 
     void postConstructor() override;
+    bool setInternalValue(const MPlug& plug, const MDataHandle& data) override;
+    MStatus connectionMade(const MPlug& plug, const MPlug& otherPlug, bool asSrc) override;
+    MStatus connectionBroken(const MPlug& plug, const MPlug& otherPlug, bool asSrc) override;
+    MStatus legalConnection(
+        const MPlug& plug,
+        const MPlug& otherPlug,
+        bool asSrc,
+        bool& isLegal
+    ) const override;
     bool isBounded() const override;
     MBoundingBox boundingBox() const override;
     bool excludeAsLocator() const override;
@@ -73,9 +90,20 @@ public:
         MBoundingBox focusBounds;
         MBoundingBox drawBounds;
         bool offsetLineTemplate = false;
+        std::shared_ptr<const BdControllerShapeDrawGeometry> drawGeometry;
     };
 
     std::shared_ptr<const Geometry> geometry() const;
+    std::uint64_t displayRevision() const;
+    std::pair<std::uint64_t, std::uint64_t> wireSettingsRevision() const;
+    struct WireUpdateState {
+        std::array<std::uint64_t, 4> revisions{};
+        const Geometry* value = nullptr;
+        bool ready = false;
+        bool connectedAnimation = false;
+        bool connectedBounds = false;
+    };
+    WireUpdateState wireUpdateState() const;
 
     static const MString typeName;
     static const MTypeId typeId;
@@ -99,7 +127,6 @@ public:
     static MObject shapeFin;
     static MObject shapeFinType;
     static MObject shapeFinHeight;
-    static MObject shapeFinSize;
     static MObject shapeFinWidthScale;
     static MObject shapeGuideLine;
     static MObject shapeGuideLineTemplate;
@@ -199,5 +226,6 @@ private:
     std::atomic<std::uint64_t> geometryRevision_{1};
     std::atomic<std::uint64_t> animationRevision_{1};
     std::atomic<std::uint64_t> boundsRevision_{1};
+    std::atomic<std::uint64_t> displayRevision_{1};
     MCallbackId attributeChangedCallback_ = 0;
 };

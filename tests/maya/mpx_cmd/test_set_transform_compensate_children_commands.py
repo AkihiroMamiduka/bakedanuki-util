@@ -11,13 +11,11 @@ pytestmark = pytest.mark.maya
 
 
 @pytest.fixture(scope="module")
-def util_set_commands_plugin():
-    """テスト後にUndo履歴を解放し、正式プラグインを解除する。"""
+def util_set_commands_plugin(shared_util_commands_plugin):
+    """モジュールのUndo履歴を解放し、登録はセッションで共有する。"""
     cmds = pytest.importorskip("maya.cmds")
     yield
     cmds.flushUndo()
-    if cmds.pluginInfo("bdUtilCommands", query=True, loaded=True):
-        cmds.unloadPlugin("bdUtilCommands")
 
 
 def _world_matrix(cmds, node: str) -> tuple[float, ...]:
