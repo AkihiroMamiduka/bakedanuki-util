@@ -21,6 +21,9 @@ public:
     bool isBounded() const override;
     MBoundingBox boundingBox() const override;
     bool excludeAsLocator() const override;
+#ifdef BD_CUBE_NODE_PARALLEL
+    SchedulingType schedulingType() const override;
+#endif
 
     static const MString typeName;
     static const MTypeId typeId;

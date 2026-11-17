@@ -55,7 +55,12 @@ std::shared_ptr<CubeShader> cubeShader(const MColor& color) {
             return value;
         }
     }
+#ifdef BD_CUBE_DRAW_PROFILE
+    auto* shader = manager->getStockShader(MHWRender::MShaderManager::k3dSolidShader,
+        cubeResearch::profiling::recordDraw, nullptr);
+#else
     auto* shader = manager->getStockShader(MHWRender::MShaderManager::k3dSolidShader);
+#endif
     if (!shader) return nullptr;
     if (!shader->setParameter("solidColor", &color.r)) {
         manager->releaseShader(shader);

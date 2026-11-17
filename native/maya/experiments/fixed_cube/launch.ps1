@@ -16,11 +16,18 @@ param(
     [switch]$PlaybackGate,
     [switch]$MayaProfile,
     [switch]$RendererResetGate,
+    [switch]$ManipulatorProbe,
     [switch]$ForceSelfExit
 )
 $ErrorActionPreference='Stop'
 if(Get-Process maya -ErrorAction SilentlyContinue){throw 'Another Maya GUI is running. Close it before this isolated benchmark.'}
 if($NativeProfile -and $Mode -ne 'geometry'){throw 'NativeProfile is only available for the Geometry diagnostic build.'}
+if($ManipulatorProbe){
+    if($PlaybackGate -or $RendererResetGate -or $Functional){throw 'ManipulatorProbe cannot be combined with automated gates or Functional.'}
+    if(-not $PSBoundParameters.ContainsKey('Counts')){$Counts=@(1000)}
+    if($Counts.Count -ne 1 -or $Counts[0] -ne 1000){throw 'ManipulatorProbe requires Counts=1000.'}
+    $Cases=@('group','individual')
+}
 $repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..\..'))
 $output=[IO.Path]::GetFullPath($OutputDirectory)
 if(-not $output.StartsWith($repo+'\',[StringComparison]::OrdinalIgnoreCase)){throw 'OutputDirectory must be inside this repository.'}
@@ -46,6 +53,15 @@ $profileHashes=Get-ProfileHashes
 [IO.Directory]::CreateDirectory($output)|Out-Null
 $runner=Join-Path $output 'benchmark.py'
 Copy-Item -LiteralPath $source -Destination $runner
+$entryRunner=$runner
+$manipulatorProbeHash=$null
+if($ManipulatorProbe){
+    $manipulatorProbeSource=Join-Path $PSScriptRoot 'manipulator_probe.py'
+    $entryRunner=Join-Path $output 'manipulator_probe.py'
+    Copy-Item -LiteralPath $manipulatorProbeSource -Destination $entryRunner
+    $manipulatorProbeHash=(Get-FileHash -LiteralPath $entryRunner -Algorithm SHA256).Hash.ToLowerInvariant()
+    if($manipulatorProbeHash -ne (Get-FileHash -LiteralPath $manipulatorProbeSource -Algorithm SHA256).Hash.ToLowerInvariant()){throw 'Manipulator probe changed during archival.'}
+}
 $playbackGateHash=$null
 if($PlaybackGate){
     $playbackGateSource=Join-Path $PSScriptRoot 'playback_gate.py'
@@ -70,6 +86,7 @@ $config=[ordered]@{
     playback_gate=[bool]$PlaybackGate; playback_gate_sha256=$playbackGateHash
     maya_profile=[bool]$MayaProfile
     renderer_reset_gate=[bool]$RendererResetGate
+    manipulator_probe=[bool]$ManipulatorProbe; manipulator_probe_sha256=$manipulatorProbeHash
     repository_directory=$repo; output_directory=$output; profile_directory=$profile; plugin_path=$plugin; plugin_sha256=$pluginHash
     plugin_archive_path=$pluginArchive; profile_file_sha256=$profileHashes
     requested_plugin_path=$PluginPath; benchmark_sha256=(Get-FileHash -LiteralPath $runner -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -77,10 +94,11 @@ $config=[ordered]@{
     started_utc=[DateTime]::UtcNow.ToString('o')
     measurement_scope='Independent transform/shape pairs; script settings plus refresh wall time; playback is separately labelled. No GPU-only or draw-call assertion.'
 }
+if($ManipulatorProbe){$config.measurement_scope='Manual manipulator diagnostic. Start-to-Finish includes idle. Post-render intervals include input pacing and callback overhead; not FPS or GPU timing.'}
 $utf8=[Text.UTF8Encoding]::new($false)
 $configPath=Join-Path $output 'config.json'
 [IO.File]::WriteAllText($configPath,($config|ConvertTo-Json -Depth 12),$utf8)
-$runnerLiteral=ConvertTo-Json ($runner.Replace('\','/')) -Compress
+$runnerLiteral=ConvertTo-Json ($entryRunner.Replace('\','/')) -Compress
 $pythonCode='import runpy; runpy.run_path('+$runnerLiteral+', run_name="__main__")'
 $deferred='import maya.utils; maya.utils.executeDeferred('+(ConvertTo-Json $pythonCode -Compress)+')'
 $mel='python('+(ConvertTo-Json $deferred -Compress)+');'

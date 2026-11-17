@@ -32,3 +32,9 @@ MBoundingBox BdShpLCubeNode::boundingBox() const {
 bool BdShpLCubeNode::excludeAsLocator() const {
     return false;
 }
+
+#ifdef BD_CUBE_NODE_PARALLEL
+MPxNode::SchedulingType BdShpLCubeNode::schedulingType() const {
+    return MPxNode::kParallel;
+}
+#endif

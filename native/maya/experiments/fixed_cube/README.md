@@ -267,12 +267,12 @@ curve と近い範囲へ到達しました。独立起動ごとの再生中央�
 SceneRender でしたが、正式全試行で他 view の描画が 0 だったことを独立に証明するものでは
 ありません。GPU 単体値や単一 view 専有の描画時間として扱いません。
 
-比較は次の入口で再現できます。旧版と候補は同じ型名・ID のため同時ロードしません。
+保存済み Baseline / Candidate の比較は次の入口で再現できます。
+旧版と候補は同じ型名・ID のため同時ロードしません。
 Baseline / Candidate の固定 DLL は比較記録用に残し、通常 build は標準の
 `bdShpCubeGeometry.mll` を生成します。
 
 ```powershell
-.\native\maya\experiments\fixed_cube\build.ps1 -MayaVersion 2025 -OutputSuffix Candidate
 .\native\maya\experiments\fixed_cube\playback_study.ps1 -OutputDirectory build/fixed_cube/runs/new_playback_study
 .\.venv-format\Scripts\python.exe -B native/maya/experiments/fixed_cube/summarize_playback.py build/fixed_cube/runs/new_playback_study build/fixed_cube/new_playback_summary.json
 ```
@@ -281,6 +281,8 @@ Baseline / Candidate の固定 DLL は比較記録用に残し、通常 build �
 `16d90680769e8940ffd8e5507099f751f8ed1a4059d818821128c75c0010528f`、
 候補の SHA256 は `64b09ea2108b9da1aacfe8c678632101e03801f15b1db51a76cf914908f3bb7b` です。
 通常 build や検証で Baseline / Candidate を上書きしません。
+`build.ps1` は既存 Candidate の上書きを拒否します。新規候補には
+`-OutputSuffix Research<識別名>` を使い、過去の比較とは別に保存します。
 比較開始から終了までは README を含む source directory の全ファイルを固定します。
 共有ソース保存に対応した新規比較は manifest の schema 2 を使用します。
 旧 schema 1 の証拠・保存済み監査プログラムは変更せず、両 schema とも保存時の
@@ -333,6 +335,100 @@ curve との差は OFF の 1 画像の色のみで、描線位置は一致して
 監査は `build/fixed_cube/integration_20261117_audit.json` に保存しました。
 この確認は各runのDLL・runner・profileのhashと終了記録を検証していますが、
 正式studyのような開始前のsource snapshotは作成していません。
+
+## 追加改善の検討（2026-11-17）
+
+commit `aad506e7` の実装を基準に、操作・再生の診断と
+`MPxNode::schedulingType() = kParallel` の候補比較を行いました。
+ノードの scheduling と、採用済み GeometryOverride の parallel update は別の設定です。
+今回の候補は通常版へ採用していません。研究用マクロを指定した DLL だけに適用します。
+
+Maya 2025 / OpenGL、Cached Playback 無効、共通親の下に独立した transform / shape を
+1個または1,000個配置しました。Current / Parallel / curve / curve / Parallel / Current の
+6独立起動で、各条件72要求frame × 5試行、暖機8回です。
+各processの中央値を集計した1,000個の値は次の通りです（ms / 要求frame、小さいほど短い）。
+
+| 条件 | 現行 | 並列候補 | nurbsCurve |
+| --- | ---: | ---: | ---: |
+| 静止 refresh | 1.434 | 1.372 | 1.360 |
+| 単体回転 + refresh | 1.622 | 1.577 | 1.527 |
+| 共通親の回転 + refresh | 7.641 | 7.501 | 7.888 |
+| カメラ変更 + refresh | 1.699 | 1.624 | 1.668 |
+| 共通親をキー再生 | 3.031 | 3.159 | 2.795 |
+
+親操作の候補差は平均的な集計で -1.8% ですが、前半の組では +0.25%、後半では -3.83% と
+方向が揃いません。再生は +4.2%、前後の組でも +1.61% / +6.78% で長くなりました。
+1個の親操作・再生では短縮がありましたが、重視する1,000個の操作・再生を
+安定して改善する根拠は得られていません。2processずつの記述統計であり、有意差の主張はしません。
+再生の一部trialには現行10.265 / 8.969、候補9.180 / 5.865 msの大きい値もあり、
+原因は未特定です。全300trialを除外せず保持し、再集計しました。
+実描画数は全trialで再生71回、その他72回。HUD FPS・マウスの継続ドラッグ速度とは異なります。
+全6起動で親変換の描画反映・12辺の画面選択を通過し、方式間の取得画像も一致しました。
+
+原本は `build/fixed_cube/runs/improvement_study_20261117_a/`、最終監査は
+`audit_after_06.json`、独立再集計は
+`build/fixed_cube/improvement_20261117_independent_recalculation.json` です。
+ソース・DLL・CMake設定・実行設定を保存し、各run前後に固定を確認しています。
+今回の監査scriptは実行時の現在ソースも照合するため、このREADMEを含む後日の編集後には
+そのまま再実行できません。比較完了時の監査結果とsnapshotを保持し、後日再確認する場合は
+保存済み原本を読み取る監査を使ってください。`build/` の記録・専用runnerはGit管理外です。
+
+### 診断から分かったこと
+
+個体・親の回転更新では、計測した独自callbackはすべて0回でした。
+再生中も表示更新・頂点生成は0回で、`requiresUpdateRenderItems()` の問い合わせだけが
+35,000回（35描画 × 1,000個）ありました。dirty対照では表示更新を1,000回検出しています。
+この条件では色・表示判定やshader検索の省略を、継続操作の高速化策とする根拠はありません。
+親回転の Maya Profiler では、curveにも同様の表示準備・評価待ちがありました。
+主threadの待機とworker、inclusive区間の親子は重複するため加算しません。
+
+shader callbackを追加した描画診断では、親回転・再生のRenderItem観測数は
+postRender当たり平均1、source mapping観測数は平均1,000で、consolidationとMultiDrawを確認しました。
+静止・単体回転では平均33 itemでした。試行全体の平均であり、各frameの個数やGPU draw call数、
+hardware instancing数ではありません。callback自体がbatchingを変える可能性もあるため、
+通常版の集約数や速度はこの診断だけで断定しません。
+
+実Move toolの診断でも、親・個体各1回の移動中に独自更新callbackは呼ばれませんでした。
+親操作では全子孫のworld matrix、単体操作では対象だけが変わることを確認しました。
+各5描画・移動値の変化1回だけなので、待機を含む時間や描画間隔をFPSへ換算しません。
+初回の試験02は初期シーンの再表示でMaya内部のconsolidation関連stackを伴うaccess violation、
+同じDLL・script・設定での試験03は成功しました。原因は未特定で、修正済みとは扱いません。
+失敗した試験02は性能比較から除外し、ログを保持しています。
+
+診断原本は `build/fixed_cube/runs/improvement_20261117/`、独立監査は
+`build/fixed_cube/improvement_20261117_{current_profile,manipulator,curve_draw}_analysis.json` です。
+将来の個別変形は、変更時だけローカル頂点を作り直し、親行列の更新はMayaへ委譲する方針を維持します。
+多色や集約方式の変更は、その仕様を加えた条件で操作・再生を測定して判断します。
+
+### 追加した研究入口
+
+```powershell
+.\native\maya\experiments\fixed_cube\build.ps1 -MayaVersion 2025 -OutputSuffix ResearchCurrent
+.\native\maya\experiments\fixed_cube\build.ps1 -MayaVersion 2025 -Variant NodeParallel
+.\native\maya\experiments\fixed_cube\build.ps1 -MayaVersion 2025 -Profile
+.\native\maya\experiments\fixed_cube\build.ps1 -MayaVersion 2025 -DrawProfile
+```
+
+成果物は順に `ResearchCurrent` / `ResearchParallel` / `ResearchProfile` / `ResearchDrawProfile` を
+末尾に付けた Geometry DLL です。中間buildを分離し、DLLは従来の研究用Releaseフォルダへ出力します。
+診断DLLでは `launch.ps1 -NativeProfile` を使い、`-MayaProfile` でMaya内部の記録も追加できます。
+次はMove toolの実操作を記録する例です。出力先は未使用の名前にします。
+
+```powershell
+.\native\maya\experiments\fixed_cube\launch.ps1 -Mode geometry -OutputDirectory build/fixed_cube/runs/new_manipulator -PluginPath build/fixed_cube/maya2025/Release/bdShpCubeGeometryResearchProfile.mll -ManipulatorProbe -NativeProfile -ForceSelfExit
+```
+
+UIでgroup / individualを選び、Start → Moveハンドルをドラッグ → Finish の順に操作します。
+両方の移動確認後、Save & Exitで結果保存と終了を行います。
+研究版は本体や別のCube研究版と同時ロードしません。診断付きの数値は性能比較に混ぜません。
+通常の `bdUtilNodes` buildでは、今回の並列候補・診断処理は有効になりません。
+
+最終の `verify.cmd -IncludeNative -IncludeCubeResearch` は終了コード0でした。
+Black 4,823ファイル、3versionの型確認・native各949件・Cube研究契約、Maya 2025 full pytest
+8,344件、3versionのQt各1,195件・Maya UI各1,035件が通過しています。
+初回はBlackの並列実行が停止したため中断し、`BLACK_NUM_WORKERS=1` の環境で
+同じ統一入口を再実行しました。ログは `build/fixed_cube/verify_improvement_20261117_retry.log`。
+配布DLLは3versionとも通常設定で再ビルド済みです。性能・実描画のGUI計測はMaya 2025 / OpenGLのみです。
 
 ## 参考
 
