@@ -9,6 +9,13 @@
 
 ### Added
 
+- `bd_util.maya.ui.shared_plugs_events()`を追加。同じ生成範囲内で作る
+  `monitor=True`のscalar属性群Bindingは、単位変更・Undo・Redoと接続編集用の
+  Auto Key・Layerの固定7通知を共有できる。範囲を抜けても同期を維持し、各Bindingの
+  `dispose()`とQt owner破棄で自分の購読を即解除する。最後の購読で共有監視も解放する。
+  node固有通知、動的な時刻・カーブ監視、Registry終了通知、状態編集Bindingは集約しない。
+  既存利用は変更不要。共有する構築箇所を`with shared_plugs_events():`で囲み、
+  reload前には古いWindowと全Bindingを終了する。scene・保存設定の移行は不要。
 - BoolCheckBox・EnumComboBox・StringLineEditと、float／intのSpinBox・Slider・
   ValueStepSpinBox・SliderSpinBox・RangeSliderSpinBoxへ`set_source()`を追加。
   入力部品を残して生存中の同型ViewModel／Bindingへ接続し直し、旧通知と未確定入力を
@@ -49,6 +56,13 @@
 
 ### Changed
 
+- 監視するscalar属性群Bindingは、Storeの初期評価で得た値・状態・表示情報を
+  ViewModelの初回同期へ一度だけ渡し、重複した読取りを減らす。
+  初回DG評価中の変更・削除や通知でsnapshotを失効させ、全対象を再確認する。
+  通常のrefresh、書込み前の検証、Undo / Redo中、監視なしBinding、未知の派生Store、
+  汎用ValueStoreの動的getter、任意のFloat表示adapterには持ち越さない。
+  既存API・scene・保存設定の移行は不要。古いUIとBindingを終了後にutilを含めてreloadするか、
+  Maya再起動で反映する。
 - `bd_util.ui.qt.QComboBox`を、画面内で可能な限り全候補を表示する共通サブクラスへ変更。
   `EnumComboBox`と`BoolComboBox`にも適用し、画面を超える候補はQt標準でスクロールする。
   利用側の`setMaxVisibleItems()`は優先する。`qt.QtWidgets.QComboBox`は元クラスを維持し、

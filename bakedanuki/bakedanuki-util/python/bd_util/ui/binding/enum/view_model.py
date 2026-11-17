@@ -5,6 +5,7 @@ from collections.abc import Callable
 from typing import cast
 
 from ... import qt
+from .._initial_snapshot import InitialStoreSnapshot, take_initial_snapshot
 from ._connection import (
     connect_queued_qt_signal,
     disconnect_qt_connection,
@@ -138,13 +139,33 @@ class EnumViewModel(qt.QObject):
                 self._store_destroyed_connection = connect_queued_qt_signal(
                     store.destroyed, self._on_store_destroyed
                 )
-            self.refresh_from_store(store)
+            snapshot = take_initial_snapshot(store)
+            if snapshot is None:
+                self.refresh_from_store(store)
+            else:
+                self._refresh_initial_snapshot(store, snapshot)
         except Exception:
             disconnect_qt_connection(self._store_destroyed_connection)
             self._store_destroyed_connection = None
             self._store = None
             self._set_value_command.set_can_execute(False)
             raise
+
+    def _refresh_initial_snapshot(
+        self, store: EnumValueStore, snapshot: InitialStoreSnapshot
+    ) -> bool:
+        """初回に評価した値と選択肢を追加のStore読取りなしで公開する。"""
+        if self.is_disposed:
+            return False
+        if not snapshot.available:
+            self.store_became_unavailable(store)
+            return False
+        definition = require_definition(snapshot.metadata)
+        value = require_enum_value(snapshot.value)
+        changed = self._publish(value, definition, snapshot.writable)
+        if not self.is_disposed:
+            self.store_refreshed.emit(self._value.value)
+        return changed
 
     def refresh_from_store(self, store: EnumValueStore) -> bool:
         """接続中のStoreから確定値と選択肢を再取得する。

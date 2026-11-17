@@ -6,6 +6,11 @@ from typing import cast
 from weakref import ReferenceType, ref
 
 from ... import qt
+from .._initial_snapshot import (
+    InitialStoreSnapshot,
+    resync_initial_state,
+    take_initial_snapshot,
+)
 from ._connection import connect_queued, disconnect
 from ._validation import require_int
 from .command import SetIntCommand
@@ -168,13 +173,40 @@ class IntViewModel(qt.QObject):
                 self._store_destroyed_connection = connect_queued(
                     store.destroyed, self._on_store_destroyed
                 )
-            self.refresh_from_store(store)
+            snapshot = take_initial_snapshot(store)
+            if snapshot is None:
+                self.refresh_from_store(store)
+            else:
+                self._refresh_initial_snapshot(store, snapshot)
         except Exception:
             disconnect(self._store_destroyed_connection)
             self._store_destroyed_connection = None
             self._store = None
             self._set_value_command.set_can_execute(False)
             raise
+
+    def _refresh_initial_snapshot(
+        self, store: IntValueStore, snapshot: InitialStoreSnapshot
+    ) -> bool:
+        """初回の評価済み実値と範囲を外部通知前に消費する。"""
+        if self.is_disposed:
+            return False
+        if not snapshot.available:
+            self.store_became_unavailable(store)
+            return False
+        value = require_int(snapshot.value, "snapshot.value")
+        presentation = require_presentation(snapshot.metadata)
+        if presentation != self._presentation:
+            self._presentation = presentation
+            self.presentation_changed.emit(presentation)
+            if self.is_disposed:
+                return False
+            resync_initial_state(store)
+            return self.refresh_from_store(store)
+        changed = self._publish(value, snapshot.writable)
+        if not self.is_disposed:
+            self.store_refreshed.emit(self._value.value)
+        return changed
 
     def refresh_from_store(self, store: IntValueStore) -> bool:
         """正本の実値、入力範囲と書込み可否を再同期する。"""

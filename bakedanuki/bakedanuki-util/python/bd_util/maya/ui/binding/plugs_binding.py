@@ -309,6 +309,29 @@ class _EnumPlugsStore(PlugsStore[int]):
             raise RuntimeError("代表属性は利用できません")
         return self._codecs[0].value.definition
 
+    def _supports_initial_snapshot(self) -> bool:
+        """未知の派生Storeでは初回読取りの省略を行わない。"""
+        return type(self) is _EnumPlugsStore
+
+    def _initial_snapshot_metadata(self) -> EnumDefinition:
+        """状態解析と同時に取得した代表のenum定義を返す。"""
+        definition = self._definitions[0]
+        if definition is None:
+            raise RuntimeError("代表属性は利用できません")
+        return definition
+
+    def _initial_snapshot_is_writable(self) -> bool:
+        """初回取得済みの定義比較も含めて入力可否を返す。"""
+        representative = self._definitions[0]
+        return (
+            super()._initial_snapshot_is_writable()
+            and representative is not None
+            and all(
+                definition is None or representative.matches(definition)
+                for definition in self._definitions[1:]
+            )
+        )
+
     def _current_group_definitions(
         self, *, refresh: bool = False
     ) -> tuple[EnumDefinition | None, ...]:
@@ -402,6 +425,16 @@ class _EnumPlugsStore(PlugsStore[int]):
 
     def _read_state(self) -> bool:
         """現在の定義・入力状態・値を対象順に同期する。"""
+        return self._read_enum_state()
+
+    def _read_initial_state(self) -> None:
+        """初回だけ値のDG評価後にenum定義と状態を取得する。"""
+        self._read_enum_state(self._read_initial_values())
+
+    def _read_enum_state(
+        self, initial_values: tuple[int | None, ...] | None = None
+    ) -> bool:
+        """定義と状態を共通取得し、初回評価済みの値だけを再利用する。"""
         definitions = self._current_definitions()
         representative = definitions[0]
         states: list[MayaPlugTargetState] = []
@@ -418,9 +451,16 @@ class _EnumPlugsStore(PlugsStore[int]):
                     reason="代表属性とenum定義（整数値と項目名）が一致しません",
                 )
             states.append(state)
-        values = tuple(
-            target.codec.read() if state.is_available else None
-            for target, state in zip(self._targets, states)
+        values = (
+            tuple(
+                target.codec.read() if state.is_available else None
+                for target, state in zip(self._targets, states)
+            )
+            if initial_values is None
+            else tuple(
+                value if state.is_available else None
+                for value, state in zip(initial_values, states)
+            )
         )
         changed = (
             definitions != self._definitions
@@ -431,6 +471,7 @@ class _EnumPlugsStore(PlugsStore[int]):
         self._states = tuple(states)
         self._values = values
         self._sync_input_callbacks()
+        self._initial_snapshot_needs_resync = self._refresh_pending
         return changed
 
     def _refresh_view_model(self) -> bool:
@@ -456,6 +497,10 @@ class _EnumPlugsStore(PlugsStore[int]):
 
 class _BoolPlugsStore(PlugsStore[bool]):
     """bool属性群の代表値と一括入力を対応ViewModelへ提供する。"""
+
+    def _supports_initial_snapshot(self) -> bool:
+        """既知のbool Storeだけで初回読取りを再利用する。"""
+        return type(self) is _BoolPlugsStore
 
     def __init__(
         self,
@@ -499,6 +544,14 @@ class _BoolPlugsStore(PlugsStore[bool]):
 
 class _FloatPlugsStore(PlugsStore[float]):
     """同種単位の属性群を一つのfloat入力として提供する。"""
+
+    def _supports_initial_snapshot(self) -> bool:
+        """既知のfloat Storeだけで初回読取りを再利用する。"""
+        return type(self) is _FloatPlugsStore
+
+    def _initial_snapshot_metadata(self) -> FloatPresentation:
+        """初回の表示範囲と単位を取得する。"""
+        return self.presentation
 
     def __init__(
         self,
@@ -593,6 +646,14 @@ class _FloatPlugsStore(PlugsStore[float]):
 class _IntPlugsStore(PlugsStore[int]):
     """byte・short・longの属性群を整数のまま一括編集する。"""
 
+    def _supports_initial_snapshot(self) -> bool:
+        """既知のint Storeだけで初回読取りを再利用する。"""
+        return type(self) is _IntPlugsStore
+
+    def _initial_snapshot_metadata(self) -> IntPresentation:
+        """初回の表示範囲を取得する。"""
+        return self.presentation
+
     def __init__(
         self,
         view_model: IntViewModel,
@@ -672,6 +733,10 @@ class _IntPlugsStore(PlugsStore[int]):
 
 class _StringPlugsStore(PlugsStore[str]):
     """複数のMaya string属性を監視して一括入力するStore。"""
+
+    def _supports_initial_snapshot(self) -> bool:
+        """既知のstring Storeだけで初回読取りを再利用する。"""
+        return type(self) is _StringPlugsStore
 
     def __init__(
         self,

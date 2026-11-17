@@ -35,6 +35,74 @@ Undo / Redo中の属性通知では途中値を読み直さず、復元後のQt 
 同期前に`dispose()`またはQt owner破棄が起きた場合は、予約した再読取りを行いません。
 既存のAPI・scene・保存設定の移行は不要です。
 
+監視するBindingの構築時は、内部Storeで一度評価した値・状態・表示情報を
+ViewModelの初回同期へ渡します。このsnapshotは外部通知前に一回だけ消費し、
+通常の`refresh()`、入力直前の検証、別のBindingの構築へは持ち越しません。
+初回のDG評価中に対象が変更・削除された場合は再利用を取り消し、代表値だけでなく
+全対象の状態と混在値も読み直します。Undo / Redo中、`monitor=False`、未知の派生Storeは
+従来の初回読取りを使用します。汎用ValueStoreの動的getterの評価も省略しません。
+Floatの表示情報通知後は、通知先からの変更に備えて値と入力可否を再確認します。
+任意のFloat表示adapterがある場合も初回snapshotを使用しません。
+
+## 同時に作るBindingの共通イベント監視
+
+`bd_util.maya.ui.shared_plugs_events()`は、範囲内で生成する値Bindingの
+固定Maya通知を共有するcontext managerです。監視するBindingをまとめて作るときに使います。
+
+```python
+from bd_util.maya.ui import (
+    MayaFloatPlugsBinding,
+    resolve_float_plug,
+    shared_plugs_events,
+)
+
+with shared_plugs_events():
+    bindings = [
+        MayaFloatPlugsBinding(
+            [resolve_float_plug("pCube1", attribute)],
+            edit_connected=True,
+            parent=owner,
+        )
+        for attribute in ("tx", "ty", "tz")
+    ]
+
+# 生成範囲を抜けた後も、各Bindingの外部同期は続く
+bindings[0].set_value(10.0)
+
+# 選択変更・Window終了・reload前に、古いBindingを終了する
+for binding in bindings:
+    binding.dispose()
+```
+
+対象は`PlugsStore`を使用する上記5種類の複数属性Bindingと、
+`MayaIntPlugBinding`のうち`monitor=True`のものです。共有する通知は次の7種類だけです。
+
+| 通知 | 購読するBinding |
+| --- | --- |
+| `linearUnitChanged`、`angularUnitChanged`、`Undo`、`Redo` | 対象の全Binding |
+| `autoKeyframeState`、`animLayerRefresh`、`animLayerRebuild` | `edit_connected=True`のBinding |
+
+同じ生成範囲では、必要な通知を種類ごとに一度だけ登録します。
+入れ子の生成範囲は独立し、内側を抜けると外側の共有へ戻ります。
+`monitor=False`、`MayaChannelStateBinding`などの状態編集Binding、範囲外で作ったBindingの
+監視は変更しません。nodeごとの属性変更・dirty・削除、動的な時刻変更・カーブ編集、
+RegistryごとのMaya終了通知も集約しません。
+値・状態の読取り、入力検証、書込み、Undo・失敗復旧は引き続き各Bindingが担当します。
+一つの購読の通知処理が失敗しても、残る購読へ配信してから例外を報告します。
+
+範囲を抜けても既存の購読は続き、各Bindingの`dispose()`またはQt owner破棄で
+そのBindingの購読を即座に外します。他のBindingの同期は継続し、最後の購読が終わった
+通知を解除します。空の生成範囲も終了時に共有ownerを解放します。
+書込み中の`dispose()`で復旧用の削除監視が残る場合も、共通イベントの購読は終了時に外します。
+`shared_plugs_lifetime()`とは独立しており、必要なら両方の生成範囲を併用できます。
+
+生成範囲の終了はBindingの終了を意味しません。module reload前には
+[UI基盤の導入手順](README.md)に従い、古いWindow・controllerと全Bindingを
+`dispose()`し、開いている生成範囲も終了してからreloadしてください。
+新しいBindingは新しい生成範囲で構築します。
+既存の呼出し、scene、保存設定の移行は不要です。共通通知を共有したい構築箇所だけを
+`with shared_plugs_events():`で囲んでください。
+
 ## 値同期を省く一時入力と削除監視
 
 操作専用のBindingには`monitor=False`を指定できます。外部変更の自動同期を省き、

@@ -5,6 +5,11 @@ from collections.abc import Callable
 from typing import Protocol, cast
 
 from ... import qt
+from .._initial_snapshot import (
+    InitialStoreSnapshot,
+    resync_initial_state,
+    take_initial_snapshot,
+)
 from .command import SetBoolCommand
 from .store import BoolValueStore
 from .value import BoolValue
@@ -158,13 +163,38 @@ class BoolViewModel(qt.QObject):
                     self._on_store_destroyed,
                     qt.Qt.ConnectionType.QueuedConnection,
                 )
-            self.refresh_from_store(store)
+            snapshot = take_initial_snapshot(store)
+            if snapshot is None:
+                self.refresh_from_store(store)
+            else:
+                self._refresh_initial_snapshot(store, snapshot)
         except Exception:
             _disconnect_qt_connection(self._store_destroyed_connection)
             self._store_destroyed_connection = None
             self._store = None
             self._set_value_command.set_can_execute(not self.is_disposed)
             raise
+
+    def _refresh_initial_snapshot(
+        self, store: BoolValueStore, snapshot: InitialStoreSnapshot
+    ) -> bool:
+        """取得済みの初回状態だけを消費し、通知後へcacheを残さない。"""
+        if self.is_disposed:
+            return False
+        if not snapshot.available:
+            self._set_value_command.set_can_execute(False)
+            return False
+        value = _require_bool(snapshot.value, "snapshot.value")
+        if not snapshot.writable or not self._set_value_command.can_execute:
+            self._set_value_command.set_can_execute(snapshot.writable)
+            if self.is_disposed:
+                return False
+            resync_initial_state(store)
+            return self.refresh_from_store(store)
+        changed = self._commit_value(value)
+        if not self.is_disposed:
+            self.store_refreshed.emit(value)
+        return changed
 
     def refresh_from_store(self, store: BoolValueStore) -> bool:
         """接続Storeの実値と書き込み可否をViewModelへ同期する。"""

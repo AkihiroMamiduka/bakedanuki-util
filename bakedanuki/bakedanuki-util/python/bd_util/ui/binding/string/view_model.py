@@ -5,6 +5,7 @@ from collections.abc import Callable
 from typing import cast
 
 from ... import qt
+from .._initial_snapshot import InitialStoreSnapshot, take_initial_snapshot
 from ._connection import connect_queued_qt_signal, disconnect_qt_connection
 from ._validation import require_string
 from .command import SetStringCommand
@@ -104,13 +105,32 @@ class StringViewModel(qt.QObject):
                 self._store_destroyed_connection = connect_queued_qt_signal(
                     store.destroyed, self._on_store_destroyed
                 )
-            self.refresh_from_store(store)
+            snapshot = take_initial_snapshot(store)
+            if snapshot is None:
+                self.refresh_from_store(store)
+            else:
+                self._refresh_initial_snapshot(store, snapshot)
         except Exception:
             disconnect_qt_connection(self._store_destroyed_connection)
             self._store_destroyed_connection = None
             self._store = None
             self._set_value_command.set_can_execute(False)
             raise
+
+    def _refresh_initial_snapshot(
+        self, store: StringValueStore, snapshot: InitialStoreSnapshot
+    ) -> bool:
+        """初回接続でだけ評価済みの文字列と入力可否を消費する。"""
+        if self.is_disposed:
+            return False
+        if not snapshot.available:
+            self.store_became_unavailable(store)
+            return False
+        value = require_string(snapshot.value, "snapshot.value")
+        changed = self._publish(value, snapshot.writable)
+        if not self.is_disposed:
+            self.store_refreshed.emit(self._value.value)
+        return changed
 
     def refresh_from_store(
         self, store: StringValueStore, *, notify_confirmation: bool = True

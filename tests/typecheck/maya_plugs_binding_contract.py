@@ -31,6 +31,7 @@ from bd_util.maya.ui import (
     resolve_int_plug,
     resolve_string_plug,
     shared_plugs_lifetime,
+    shared_plugs_events,
     shared_scalar_plug_nodes,
 )
 from bd_util.ui import (
@@ -49,6 +50,8 @@ def lifetime_monitor_contract(enabled: bool) -> None:
         assert_type(scope, None)
     with shared_scalar_plug_nodes() as nodes_scope:
         assert_type(nodes_scope, None)
+    with shared_plugs_events() as events_scope:
+        assert_type(events_scope, None)
     assert_type(
         MayaBoolPlugsBinding(
             [resolve_bool_plug("node", "visibility")],

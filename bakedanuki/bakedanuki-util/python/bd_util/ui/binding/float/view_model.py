@@ -6,6 +6,11 @@ from typing import Protocol, cast
 from weakref import ReferenceType, ref
 
 from ... import qt
+from .._initial_snapshot import (
+    InitialStoreSnapshot,
+    resync_initial_state,
+    take_initial_snapshot,
+)
 from ._validation import require_float
 from .presentation import FloatPresentation, require_presentation
 from .command import SetFloatCommand
@@ -235,13 +240,62 @@ class FloatViewModel(qt.QObject):
                     self._on_store_destroyed,
                     qt.Qt.ConnectionType.QueuedConnection,
                 )
-            self.refresh_from_store(store)
+            snapshot = take_initial_snapshot(store)
+            if snapshot is None or self._presentation_adapter is not None:
+                self.refresh_from_store(store)
+            else:
+                self._refresh_initial_snapshot(store, snapshot)
         except Exception:
             _disconnect_qt_connection(self._store_destroyed_connection)
             self._store_destroyed_connection = None
             self._store = None
             self._set_value_command.set_can_execute(not self.is_disposed)
             raise
+
+    def _refresh_initial_snapshot(
+        self, store: FloatValueStore, snapshot: InitialStoreSnapshot
+    ) -> bool:
+        """外部通知前に消費したMaya初期状態を一度だけ公開する。"""
+        if self.is_disposed:
+            return False
+        if not snapshot.available:
+            self._set_value_command.set_can_execute(False)
+            return False
+        value = require_float(snapshot.value, "snapshot.value")
+        presentation = require_presentation(snapshot.metadata)
+        if presentation != self._presentation:
+            self._presentation = presentation
+            self.presentation_changed.emit(presentation)
+            if self.is_disposed:
+                return False
+            # 表示通知先が正本を変えた可能性があるため、集約状態も再取得する
+            resync_initial_state(store)
+            if not _require_bool(store.is_available, "store.is_available"):
+                self._set_value_command.set_can_execute(False)
+                return False
+            # 通常refreshと同様に、表示通知後の実値と制約は必ず正本を読む
+            value = require_float(store.read(), "store.read()")
+            writable = _require_bool(store.is_writable, "store.is_writable")
+            self._set_value_command.set_can_execute(
+                writable and not self.is_disposed
+            )
+            if self.is_disposed:
+                return False
+            changed = self._commit_value(value)
+            if not self.is_disposed:
+                self.store_refreshed.emit(value)
+            return changed
+        if not snapshot.writable or not self._set_value_command.can_execute:
+            # Commandの無効化通知より後へ初回値を持ち越さない
+            self._set_value_command.set_can_execute(snapshot.writable)
+            if self.is_disposed:
+                return False
+            resync_initial_state(store)
+            return self.refresh_from_store(store)
+        changed = self._commit_value(value)
+        if not self.is_disposed:
+            self.store_refreshed.emit(value)
+        return changed
 
     def refresh_from_store(self, store: FloatValueStore) -> bool:
         """接続Storeの実値と書き込み可否をViewModelへ同期する。"""

@@ -37,6 +37,12 @@ Mayaの選択変更では、古いBindingを`dispose()`してcallbackと対象�
 
 ## 新しいtoolへの導入
 
+Mayaの複数属性Bindingは、監視を開始した直後の読取り結果を初回同期へ一度だけ渡し、
+構築時の重複評価を省きます。初回取得中の変更・削除では全対象を再取得し、
+通常refreshと入力前の検証は毎回正本を確認します。汎用Storeのgetterや
+`monitor=False`の初期読取りは変更しません。詳しくは
+[複数属性Bindingの初回同期](plugs_binding.md)を参照してください。
+
 多数の属性を同期的に一括編集する場合、`MayaBoolPlugsBinding`、
 `MayaFloatPlugsBinding`、`MayaIntPlugsBinding`、`MayaEnumPlugsBinding`、
 `MayaStringPlugsBinding`へ`monitor=False`を指定できます。外部変更の自動同期と

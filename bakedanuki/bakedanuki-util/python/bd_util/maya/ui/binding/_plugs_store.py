@@ -14,6 +14,10 @@ from maya.api import OpenMaya as om
 from maya.api import OpenMayaAnim as oma
 
 from ....ui import FloatViewModel, IntViewModel, qt
+from ....ui.binding._initial_snapshot import (
+    InitialSnapshotSource,
+    InitialStoreSnapshot,
+)
 from ..._identity import ObjectIdentityIndex, PlugIdentitySet
 from ...node.operator.node._core import NodeOperator
 from ..callback import MayaCallbackRegistry
@@ -31,6 +35,7 @@ from ._connected_plug_write import (
 from ._float_edit import FloatEditUndo
 from ._float_plug_endpoint import run_later
 from ._plug_lifetime import LifetimeWrite, PlugLifetime
+from ._plugs_events import PlugsEventsSubscription, subscribe_plugs_events
 
 # 型付き公開入口の下で、検証済みMPlug用の共通内部処理を共有する
 from .plug_input_state import (
@@ -388,19 +393,56 @@ def execute_plug_writes(
 
 
 class _PlugsCallbackRegistry(MayaCallbackRegistry):
-    """外部からの監視解除もStoreの終了へ通知するRegistry。"""
+    """共通通知の購読を所有し、外部からの監視解除もStoreへ通知する。"""
 
     disposed = qt.Signal()
 
+    def __init__(
+        self,
+        owner: qt.QObject,
+        *,
+        on_maya_exiting: Callable[[], object] | None = None,
+    ) -> None:
+        """基底の構築失敗による終了にも備え、購読と再入状態を先に用意する。"""
+        self._shared_events: PlugsEventsSubscription | None = None
+        self._disposing = False
+        super().__init__(owner, on_maya_exiting=on_maya_exiting)
+
+    def set_shared_events(self, subscription: PlugsEventsSubscription) -> None:
+        """一つの購読を引き受け、終了中・終了後の受渡しは購読を閉じて拒否する。"""
+        if self.is_disposed or self._disposing:
+            subscription.close()
+            raise RuntimeError("終了したRegistryへ共通通知を登録できません")
+        if self._shared_events is not None:
+            if subscription is not self._shared_events:
+                subscription.close()
+            raise RuntimeError("共通通知の購読は既に登録されています")
+        self._shared_events = subscription
+
+    def close_shared_events(self) -> None:
+        """node監視を残したまま共通購読を外し、解除中の再入も無害にする。"""
+        subscription, self._shared_events = self._shared_events, None
+        if subscription is not None:
+            subscription.close()
+
     def dispose(self, _object: qt.QObject | None = None) -> None:
-        """最初の解除時だけ、開いたUndoと入力の終了を通知する。"""
-        if self.is_disposed:
+        """購読解除が失敗してもMaya通知を外し、終了は再入させず一度だけ伝える。"""
+        if self.is_disposed or self._disposing:
             return
-        super().dispose(_object)
-        self.disposed.emit()
+        self._disposing = True
+        try:
+            try:
+                self.close_shared_events()
+            finally:
+                try:
+                    super().dispose(_object)
+                finally:
+                    self.disposed.emit()
+        finally:
+            self._disposing = False
 
 
-class PlugsStore(qt.QObject, Generic[_ValueT]):
+class PlugsStore(qt.QObject, InitialSnapshotSource, Generic[_ValueT]):
     """先頭を代表値として読み、入力時だけ編集可能な対象へ一括適用する。"""
 
     state_changed = qt.Signal()
@@ -436,6 +478,10 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self._refreshing = False
         self._refresh_pending = False
         self._refresh_scheduled = False
+        self._initial_snapshot: InitialStoreSnapshot | None = None
+        self._initial_snapshot_revision = 0
+        self._initial_snapshot_tracking = True
+        self._initial_snapshot_needs_resync = False
         self._states: tuple[MayaPlugTargetState, ...] = ()
         self._values: tuple[_ValueT | None, ...] = ()
         self._input_curves: tuple[om.MObjectHandle, ...] = ()
@@ -464,7 +510,16 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
                 for target in self._targets:
                     self._lifetime.add(target)
             self._register_callbacks()
-            self._read_state()
+            if (
+                monitor
+                and self._supports_initial_snapshot()
+                and not om.MGlobal.isUndoing()
+                and not om.MGlobal.isRedoing()
+            ):
+                self._prepare_initial_snapshot()
+            else:
+                self._initial_snapshot_tracking = False
+                self._read_state()
         except Exception:
             self.dispose()
             raise
@@ -644,7 +699,102 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
         self._states = states
         self._values = values
         self._sync_input_callbacks()
+        self._initial_snapshot_needs_resync = self._refresh_pending
         return changed
+
+    def _supports_initial_snapshot(self) -> bool:
+        """既知の具象Storeだけが初回読取りの再利用を明示的に許可する。"""
+        return False
+
+    def _initial_snapshot_metadata(self) -> object:
+        """初回接続に必要な表示情報を具象Storeから取得する。"""
+        return None
+
+    def _initial_snapshot_is_writable(self) -> bool:
+        """初回評価後に取得した代表属性の入力可否を返す。"""
+        return self.is_available and self._states[0].is_writable
+
+    def _read_initial_values(self) -> tuple[_ValueT | None, ...]:
+        """DG評価が状態を変える場合に備え、状態解析より先に値を読む。"""
+        return tuple(
+            target.codec.read() if target.is_available else None
+            for target in self._targets
+        )
+
+    def _read_initial_state(self) -> None:
+        """初回だけ値の評価後に状態を解析し、同じ結果を初期表示へ渡す。"""
+        values = self._read_initial_values()
+        self._states = tuple(target.state() for target in self._targets)
+        self._values = tuple(
+            value if state.is_available else None
+            for value, state in zip(values, self._states)
+        )
+        self._sync_input_callbacks()
+
+    def _prepare_initial_snapshot(self) -> None:
+        """初回取得中の通知を検出し、安全な結果だけを一時保持する。"""
+        revision = self._initial_snapshot_revision
+        self._refreshing = True
+        try:
+            self._read_initial_state()
+            available = self.is_available
+            metadata = self._initial_snapshot_metadata() if available else None
+        finally:
+            self._refreshing = False
+        self._initial_snapshot_needs_resync = (
+            revision != self._initial_snapshot_revision
+            or self._refresh_pending
+            or self._refresh_scheduled
+            or self.is_disposed
+        )
+        if not self._initial_snapshot_needs_resync:
+            self._initial_snapshot = InitialStoreSnapshot(
+                available,
+                self._values[0],
+                self._initial_snapshot_is_writable(),
+                metadata,
+            )
+
+    def _invalidate_initial_snapshot(self) -> None:
+        """構築から接続までの通知だけを数え、再利用を拒否する。"""
+        self._initial_snapshot_needs_resync = True
+        if self._initial_snapshot_tracking:
+            self._initial_snapshot_revision += 1
+            self._initial_snapshot = None
+            self._initial_snapshot_needs_resync = True
+
+    def _take_initial_snapshot(self) -> InitialStoreSnapshot | None:
+        """初回状態を外部通知前に取り出し、以後は通常読取りへ戻す。"""
+        snapshot, self._initial_snapshot = self._initial_snapshot, None
+        tracking = self._initial_snapshot_tracking
+        self._initial_snapshot_tracking = False
+        if not tracking or self.is_disposed:
+            return None
+        if (
+            self._initial_snapshot_needs_resync
+            or om.MGlobal.isUndoing()
+            or om.MGlobal.isRedoing()
+        ):
+            self._resync_initial_state()
+            return None
+        return snapshot
+
+    def _resync_initial_state(self) -> None:
+        """VMへ通知せず全対象を読み直し、再入による古い混在状態を残さない。"""
+        if self.is_disposed or not self._initial_snapshot_needs_resync:
+            return
+        if self._refreshing:
+            self._refresh_pending = True
+            return
+        self._refreshing = True
+        try:
+            while True:
+                self._refresh_pending = False
+                self._read_state()
+                if self.is_disposed or not self._refresh_pending:
+                    break
+        finally:
+            self._refreshing = False
 
     def _sync_input_callbacks(self) -> None:
         """入力元の曲線・レイヤ設定と時刻に必要な監視だけを保持する。"""
@@ -778,6 +928,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
 
     def refresh(self) -> bool:
         """表示だけを同期し、再入した通知は次の読取りへまとめる。"""
+        self._invalidate_initial_snapshot()
         if self.is_disposed:
             return False
         if self._write_depth or self._refreshing:
@@ -810,6 +961,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
 
     def _schedule_refresh(self, *_args: object) -> None:
         """関連するdirty・単位・Undo通知を一回の再読取りへまとめる。"""
+        self._invalidate_initial_snapshot()
         if self.is_disposed or self._refresh_scheduled or self._write_depth:
             return
         self._refresh_scheduled = True
@@ -861,6 +1013,13 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
                     )
                 )
             )
+        shared_events = subscribe_plugs_events(
+            self._schedule_refresh,
+            connected=any(target.edit_connected for target in self._targets),
+        )
+        if shared_events is not None:
+            self._registry.set_shared_events(shared_events)
+            return
         for event in (
             "linearUnitChanged",
             "angularUnitChanged",
@@ -933,6 +1092,7 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
 
     def _on_node_removed(self, _node: om.MObject, client_data: object) -> None:
         """削除予定nodeの属性を恒久的に無効化する。"""
+        self._invalidate_initial_snapshot()
         if self.is_disposed and not (
             self._monitor_lifetime and self._write_depth
         ):
@@ -947,24 +1107,30 @@ class PlugsStore(qt.QObject, Generic[_ValueT]):
 
     def dispose(self) -> None:
         """callbackと開いているUndoを即座に解除する。"""
+        self._invalidate_initial_snapshot()
         if self._disposed:
             return
         self._disposed = True
         self._refresh_scheduled = False
-        view_model = self._edit_view_model
-        if view_model is not None and not view_model.is_disposed:
-            view_model.end_edit()
-            self._refresh_view_model()
-        if qt.isValid(self._input_lock_timer):
-            self._input_lock_timer.stop()
-        if self._edit_undo is not None:
-            self._edit_undo.dispose()
-        if self._registry is not None and not (
-            self._monitor_lifetime and self._write_depth
-        ):
-            self._registry.dispose()
-        if not self._write_depth:
-            self._close_lifetime_monitor()
+        try:
+            if self._registry is not None:
+                self._registry.close_shared_events()
+        finally:
+            # 共通購読の終了に失敗しても、入力と既存の外部監視は解放する
+            view_model = self._edit_view_model
+            if view_model is not None and not view_model.is_disposed:
+                view_model.end_edit()
+                self._refresh_view_model()
+            if qt.isValid(self._input_lock_timer):
+                self._input_lock_timer.stop()
+            if self._edit_undo is not None:
+                self._edit_undo.dispose()
+            if self._registry is not None and not (
+                self._monitor_lifetime and self._write_depth
+            ):
+                self._registry.dispose()
+            if not self._write_depth:
+                self._close_lifetime_monitor()
 
     def _close_lifetime_monitor(self) -> None:
         """復旧が終わってから削除監視を解除し、遅延破棄中も二重解除しない。"""

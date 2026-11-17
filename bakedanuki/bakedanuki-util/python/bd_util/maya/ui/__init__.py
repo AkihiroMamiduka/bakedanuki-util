@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from .binding import (
+    shared_plugs_events,
     shared_plugs_lifetime,
     shared_scalar_plug_nodes,
     MayaNodeNameStore,
@@ -121,6 +122,7 @@ from .ui_state import MayaUiStateTracker
 from .window import MayaWindowController
 
 __all__ = [
+    "shared_plugs_events",
     "get_existing_directory_near",
     "get_open_file_names_near",
     "get_save_file_name_near",
