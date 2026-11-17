@@ -1,6 +1,8 @@
 add_library(
     bdUtilNodes
     SHARED
+    src/nodes/BdShpLCubeNode.cpp
+    src/nodes/BdShpLCubeGeometryOverride.cpp
     src/nodes/BdControllerShapeNode.cpp
     src/nodes/BdDeleteWithOwnerNode.cpp
     src/nodes/BdDblAddNode.cpp

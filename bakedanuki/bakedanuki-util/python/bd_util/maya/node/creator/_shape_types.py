@@ -18,6 +18,7 @@ CREATABLE_SHAPE_NODE_TYPES = frozenset(
         "areaLight",
         "baseLattice",
         "bdControllerShape",
+        "bdShpL_Cube",
         "bezierCurve",
         "camera",
         "clusterFlexorShape",

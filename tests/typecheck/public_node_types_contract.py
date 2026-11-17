@@ -42,6 +42,26 @@ from bd_util.maya.node.operator.node.dag.shape._generated.bd_controller_shape im
 from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 
 
+def fixed_cube_public_node_contract() -> None:
+    bd_nodes = bdu.Nodes()
+    transform, paired_shape = bd_nodes.create.with_transform.bdShpL_Cube()
+    assert_type(transform, bdu.node_types.Transform)
+    assert_type(paired_shape, bdu.node_types.BdShpLCube)
+    shape = bd_nodes.create.bdShpL_Cube(parent=transform)
+    assert_type(shape, bdu.node_types.BdShpLCube)
+    assert_type(paired_shape.visibility, BoolPlugOperator)
+    assert_type(paired_shape.overrideEnabled, BoolPlugOperator)
+    assert_type(
+        bd_nodes.existing.bdShpL_Cube("cubeShape"), bdu.node_types.BdShpLCube
+    )
+    assert_type(shape, bdu.node_types.maya2025.BdShpLCube)
+    assert_type(shape, bdu.node_types.maya2026.BdShpLCube)
+    assert_type(shape, bdu.node_types.maya2027.BdShpLCube)
+    assert_type(shape, bdu.node_types.maya2025_plus.BdShpLCube)
+    assert_type(shape, bdu.node_types.maya2026_plus.BdShpLCube)
+    assert_type(shape, bdu.node_types.maya2027_plus.BdShpLCube)
+
+
 def controller_shape_face_scale_compound_contract() -> None:
     _, shape = bdu.Nodes().create.controllerShape()
     assert_type(

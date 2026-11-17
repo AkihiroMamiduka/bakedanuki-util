@@ -92,9 +92,9 @@ def test_node_types_has_completion_names_and_caches_classes(new_scene):
     class_names = node_types.available_class_names()
 
     expected_counts = {
-        2025: 1270,
-        2026: 1329,
-        2027: 1338,
+        2025: 1271,
+        2026: 1330,
+        2027: 1339,
     }
     assert len(class_names) == expected_counts[maya_major_version()]
     assert class_names == tuple(sorted(class_names))
@@ -110,6 +110,7 @@ def test_node_types_has_completion_names_and_caches_classes(new_scene):
         "SphereLocator",
         "BdDeleteWithOwner",
         "BdControllerShape",
+        "BdShpLCube",
     }.issubset(class_names)
     assert set(class_names).issubset(dir(node_types))
     assert node_types.Locator is node_types.Locator

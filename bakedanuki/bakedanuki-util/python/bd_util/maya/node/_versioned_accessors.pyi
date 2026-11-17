@@ -957,6 +957,7 @@ from .operator.node.dg.bd_rbf_position_falloff_weight import (
 from .operator.node.dg.bd_rbf_position_weight import (
     BdRbfPositionWeight as _BdRbfPositionWeight,
 )
+from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube as _BdShpLCube
 from .operator.node.dg.bevel import Bevel as _Bevel
 from .operator.node.dg.bevel_plus import BevelPlus as _BevelPlus
 from .operator.node.dag.shape.bezier_curve import BezierCurve as _BezierCurve
@@ -3261,6 +3262,15 @@ class _ShapeWithTransformCreatorCommon:
         parent: DAG | None = None,
         namespace: str | None = None,
     ) -> tuple[Transform, _BdControllerShape]: ...
+    def bdShpL_Cube(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _BdShpLCube]: ...
     def bezierCurve(
         self,
         name: str | None = None,
@@ -8081,6 +8091,14 @@ class _NodeCreatorCommon:
         *,
         namespace: str | None = None,
     ) -> _BdRbfPositionWeight: ...
+    def bdShpL_Cube(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BdShpLCube: ...
     def bevel(
         self,
         name: str | None = None,
@@ -22045,6 +22063,11 @@ class _ExistingNodeAccessorCommon:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> _BdRbfPositionWeight: ...
+    def bdShpL_Cube(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdShpLCube: ...
     def bevel(
         self,
         node: str | om.MObject,

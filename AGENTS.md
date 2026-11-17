@@ -169,6 +169,18 @@ DG / DAG / node_attrを再生成した場合は、再生成後に`format.cmd`を
 通常の`verify.cmd`はBlack、3 versionのPyright contract、Maya 2025 full pytest、
 3 versionのUI互換性test、`git diff --check`を順に実行し、途中の失敗で停止します。
 
+`bdControllerShape` 専用テストは、通常の開発で必須とする検証範囲から外します。
+本書のfull pytest、native test、UI互換性testは、既定ではこの専用群を
+`deselect`した範囲を指します。`-IncludeNative`と`-Release`でも専用群は自動追加しません。
+専用群を含める場合は各検証scriptへ`-IncludeControllerShape`、pytestを直接呼ぶ場合は
+`--include-controller-shape`を明示します。専用テストファイルを明示指定した場合は、
+そのファイルを追加flagなしで実行できます。
+
+`bdControllerShape` 自体を変更する場合は、変更対象に対応する専用テストを明示して
+確認してください。`bdUtilNodes` に含む `bdShpL_Cube` の契約は通常の検証対象です。
+固定Cube研究の代替 DLL / Module ロードの契約テストは別の検証範囲で、
+`verify.cmd -IncludeCubeResearch`によって追加します。
+
 native plug-in、build script、配布binary、対応Maya versionを変更した場合です。
 
 ```powershell
@@ -211,6 +223,8 @@ UIの対象限定実行には次の入口を使用します。
   - 開発中は関連するUIテストを対象指定で実行し、最終の`verify.cmd`でMaya 2025 / 2026 / 2027それぞれのUI互換性テストを実行してください。
 - ネイティブplug-in、build script、配布バイナリ、対応Maya versionを変更した場合
   - 最終確認に`-IncludeNative`を指定してください。
+- `bdControllerShape` の仕様・描画を変更した場合
+  - 関連する専用テストを明示して実行してください。専用群をまとめて含む最終確認は`-IncludeNative -IncludeControllerShape`を指定します。
 
 CRLF warning はこの環境で出ることがあります。`git diff --check` が終了コード 0 なら、基本的には非ブロッキングとして扱ってください。
 

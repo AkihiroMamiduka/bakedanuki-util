@@ -96,8 +96,9 @@ def test_shape_with_transform_exposes_only_creatable_shapes(new_scene):
 
     assert node_creator.with_transform is creator
     assert creator.mesh is mesh_creator
-    assert len(creator.available_node_names()) == 81
+    assert len(creator.available_node_names()) == 82
     assert "mesh" in creator.available_node_names()
+    assert "bdShpL_Cube" in creator.available_node_names()
     assert "nurbsSurface" in dir(creator)
     assert "plusMinusAverage" not in dir(creator)
     assert "SphereLocator" not in dir(creator)

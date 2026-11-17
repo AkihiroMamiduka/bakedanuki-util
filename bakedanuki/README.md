@@ -169,6 +169,10 @@ print(bd_util.__file__)
 
 `bakedanuki/bakedanuki-util/python/bd_util/__init__.py` が表示されれば、`bakedanuki-util` のパスが通っています。
 
+線のみの固定 Cube `bdShpL_Cube` は、同梱の `bdUtilNodes.mll` に含まれます。
+通常の Maya Module 設定で `cmds.loadPlugin("bdUtilNodes")` を実行して使用できます。
+[作成例と対応範囲](bakedanuki-util/README.md#固定-cube)を参照してください。
+
 ## Package Docs
 
 - [bakedanuki-util](bakedanuki-util/README.md)

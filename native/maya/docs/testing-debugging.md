@@ -48,6 +48,21 @@ native nodeの標準テストは、配布対象のMaya 2025 / 2026 / 2027それ�
 .\scripts\test-native-maya2027.cmd
 ```
 
+既定のnative test、full pytest、UI互換性testでは、`bdControllerShape`専用群を
+`deselect`します。`verify.cmd -IncludeNative`と`verify.cmd -Release`も同じ対象範囲です。
+専用群を含める場合は検証scriptへ`-IncludeControllerShape`を明示します。
+pytestを直接呼ぶ場合は`--include-controller-shape`を指定します。
+
+```powershell
+.\scripts\verify.cmd -IncludeNative -IncludeControllerShape
+.\scripts\test-native-maya2025.cmd -IncludeControllerShape
+```
+
+専用テストファイルを明示指定した場合は、そのファイルを追加flagなしで実行できます。
+以下の`bdControllerShape`専用テストは、同ノードの開発時に変更範囲に応じて選ぶ対象です。
+過去の検証記録にある件数は当時の収集範囲のまま残し、現在の既定範囲とは区別します。
+固定Cube研究の契約テストは別枠の`-IncludeCubeResearch`で追加します。
+
 関連テストは次にあります。
 
 - [test_bd_dbl3_multiply.py](../../../tests/maya/node/operator/node/dg/test_bd_dbl3_multiply.py)
@@ -93,6 +108,7 @@ Finとフォーカスの変更を切り分ける例です。
 ```
 
 対象を絞った成功に加え、ネイティブ変更の最終確認では `verify.cmd -IncludeNative` を実行します。
+`bdControllerShape`専用群もまとめて確認する場合は`-IncludeControllerShape`を追加します。
 GUIの結果は検証したDLLの絶対path・buildと対応付け、配布先へ置くDLLが同じ内容であることも確認します。
 一時的なhelperやテスト件数の固定値を再実行手順の前提にせず、以下のGUI実行例と終了コード・JUnit XMLを使います。
 
@@ -118,8 +134,9 @@ GUIの結果は検証したDLLの絶対path・buildと対応付け、配布先�
 形状の仕様と手動で確認する項目は [Controller Shape](controller-shape.md) を参照してください。
 
 このテストは実際のViewport 2.0を持つMaya GUIで実行します。
-`mayapy` のbatch環境ではskipするため、`test-ui-maya*.cmd` や
-`verify.cmd -IncludeNative` の成功だけでは画像比較の成功を確認できません。
+既定の収集では専用群を`deselect`し、明示実行しても`mayapy`のbatch環境ではskipします。
+そのため、`test-ui-maya*.cmd`や`verify.cmd -IncludeNative`の成功だけでは、
+`-IncludeControllerShape`を付けた場合も画像比較の成功を確認できません。
 `offScreen=True` はplayblastの取得方法であり、GUIを不要にする設定ではありません。
 
 対象バージョンのplug-inをbuild / stageした後、作業中のMayaとは別の空のMaya GUIを起動し、

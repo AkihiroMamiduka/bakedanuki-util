@@ -277,6 +277,36 @@ multi.input[0].set((2.0, 3.0, 4.0))
 multi.input[3].set((5.0, 6.0, 7.0))
 ```
 
+### 固定 Cube
+
+線のみの固定 Cube `bdShpL_Cube` は、Windows版 Maya 2025 / 2026 / 2027 向けの
+`bdUtilNodes.mll` に含まれます。通常の Maya Module 設定で読み込み、
+Script Editor の Python から次のように作成します。
+
+```python
+from maya import cmds
+
+cmds.loadPlugin("bdUtilNodes", quiet=True)
+ctrl = cmds.createNode("transform", name="cube_ctrl")
+cmds.createNode("bdShpL_Cube", parent=ctrl, name="cube_ctrlShape")
+cmds.select(ctrl)
+```
+
+各軸のローカル座標 `±0.5 cm` に置いた8頂点・12辺を、標準の細線・不透明で描きます。
+独自属性はなく、形状選択・Fill切替・形状変形は行いません。
+形状の移動・回転・拡縮は親 transform で操作し、pivot・shear などを含む
+親 DAG 階層の最終行列を反映します。継承属性の `localPosition` / `localScale` は
+形状へ適用しません。DAG instance と component 編集は対象外です。
+
+Selection Highlighting OFF でも選択色が残る既存制約があります。
+同じ描画実装の GUI 描画・選択・再生と性能比較は、研究用 Geometry 版を使って
+Maya 2025 / OpenGL で確認しています。Maya 2026 / 2027 は登録・属性・bbox・保存などの
+契約検証までで、GUI 描画と性能は未検証です。
+
+研究用の `bdShpCubeGeometry.mll` / `bdShpCubeSubScene.mll` とその Baseline / Candidate 版は、
+同じ node type と `MTypeId` を登録する代替実装です。`bdUtilNodes.mll` と同時ロードできません。
+研究用 DLL をロード済みの場合は、Maya を再起動して配布先の `bdUtilNodes.mll` を読み込みます。
+
 ### Wrap Existing Nodes
 
 ```python

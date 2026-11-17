@@ -18,6 +18,7 @@ C++ node の設計・実装・検証については
 
 - [Dependency Node Basics](docs/node-basics.md)
 - [Controller Shape](docs/controller-shape.md)
+- [固定 Cube の速度研究](experiments/fixed_cube/README.md)
 - [bdDeleteWithOwner](docs/delete-with-owner.md)
 - [RBF Node Family And Roadmap](docs/rbf-roadmap.md)
 - [DG, Parallel Evaluation, And Cached Playback](docs/dg-parallel-cache-playback.md)
@@ -70,6 +71,12 @@ Debug build は配布用バイナリを上書きせず、
 Visual Studio から `maya.exe` へアタッチし、この `.mll` を絶対パスでロードします。
 Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み替えてください。
 
+固定 Cube `bdShpL_Cube` は `bdUtilNodes` に含まれ、上記の通常 build で更新します。
+既存 `.mod` を利用し、Maya から `cmds.loadPlugin("bdUtilNodes")` でロードできます。
+研究用 Geometry DLL は本体と同じノード・描画ソースをコンパイルする比較用です。
+研究用 DLL は配布先へ配置せず、本体と同じ Maya process に同時ロードしません。
+利用例と制約は[固定 Cube の速度研究](experiments/fixed_cube/README.md)を参照してください。
+
 ## Test
 
 初回だけ、repository直下で固定versionのpytestを `.test` へ導入します。
@@ -89,6 +96,9 @@ Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み�
 ```
 
 作業完了前の統一検証は `.\scripts\verify.cmd -IncludeNative` を使います。
+固定 Cube の6契約も通常の native test に含まれます。研究用の代替 DLL と
+`.mod` 経由の本体ロードを併せて検証する場合は `-IncludeCubeResearch` を追加します。
+固定 Cube の build と配布先を含める場合は `-IncludeCubeResearch` も指定します。
 Viewport 2.0の描画・選択は別のMaya GUIでも確認します。
 手順は [Testing And Debugging](docs/testing-debugging.md#viewport-20描画テスト) を参照してください。
 

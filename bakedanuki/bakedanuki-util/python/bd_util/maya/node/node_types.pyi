@@ -829,6 +829,7 @@ from .operator.node.dg.bd_rbf_position_falloff_weight import (
 from .operator.node.dg.bd_rbf_position_weight import (
     BdRbfPositionWeight as _BdRbfPositionWeight,
 )
+from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube as _BdShpLCube
 from .operator.node.dg.bevel import Bevel as _Bevel
 from .operator.node.dg.bevel_plus import BevelPlus as _BevelPlus
 from .operator.node.dag.shape.bezier_curve import BezierCurve as _BezierCurve
@@ -3331,6 +3332,8 @@ class NodeTypes:
     ) -> type[_BdRbfPositionFalloffWeight]: ...
     @property
     def BdRbfPositionWeight(self) -> type[_BdRbfPositionWeight]: ...
+    @property
+    def BdShpLCube(self) -> type[_BdShpLCube]: ...
     @property
     def Bevel(self) -> type[_Bevel]: ...
     @property

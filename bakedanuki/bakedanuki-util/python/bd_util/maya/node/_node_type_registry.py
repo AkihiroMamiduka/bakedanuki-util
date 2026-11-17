@@ -423,6 +423,7 @@ NODE_TYPE_BY_CLASS_NAME: dict[str, str] = {
     "BdRbfPoseBlend": "bdRbf_PoseBlend",
     "BdRbfPositionFalloffWeight": "bdRbf_PositionFalloffWeight",
     "BdRbfPositionWeight": "bdRbf_PositionWeight",
+    "BdShpLCube": "bdShpL_Cube",
     "Bevel": "bevel",
     "BevelPlus": "bevelPlus",
     "BezierCurve": "bezierCurve",

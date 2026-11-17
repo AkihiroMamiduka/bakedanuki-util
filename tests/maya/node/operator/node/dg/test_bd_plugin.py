@@ -52,7 +52,7 @@ def test_node_type_ids_are_unique_and_in_registered_block(maya_cmds, maya_om):
     plugin_name = _load_bd_util_nodes(maya_cmds)
     node_types = maya_cmds.pluginInfo(plugin_name, query=True, dependNode=True)
 
-    assert len(node_types) == 158
+    assert len(node_types) == 159
 
     type_ids = [
         maya_om.MNodeClass(node_type).typeId.id() for node_type in node_types
@@ -62,6 +62,36 @@ def test_node_type_ids_are_unique_and_in_registered_block(maya_cmds, maya_om):
         _REGISTERED_NODE_ID_START <= type_id <= _REGISTERED_NODE_ID_END
         for type_id in type_ids
     )
+
+
+def test_fixed_cube_public_creator_and_existing_support_undo_redo(
+    maya_cmds, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    mod = bdu.ModifierManager()
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    transform, shape = bd_nodes.create.with_transform.bdShpL_Cube(
+        name="cube_ctrl", shape_name="cubeShape"
+    )
+
+    assert isinstance(shape, bdu.node_types.BdShpLCube)
+    assert shape.modifier_manager is mod
+    mod.do_it_dag()
+
+    assert transform.full_path == "|cube_ctrl"
+    assert shape.full_path == "|cube_ctrl|cubeShape"
+    assert maya_cmds.nodeType(shape.full_path) == "bdShpL_Cube"
+    assert bdu.node_types.resolve("bdShpL_Cube") is type(shape)
+    existing = bd_nodes.existing.bdShpL_Cube(shape.full_path)
+    assert isinstance(existing, bdu.node_types.BdShpLCube)
+    assert existing.m_obj == shape.m_obj
+    assert existing.visibility.get() is True
+
+    mod.undo_it()
+    assert not maya_cmds.objExists("cube_ctrl")
+    mod.redo_it()
+    assert shape.full_path == "|cube_ctrl|cubeShape"
+    assert maya_cmds.objExists(shape.full_path)
 
 
 @pytest.mark.parametrize(

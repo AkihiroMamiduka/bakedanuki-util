@@ -127,6 +127,10 @@ native変更とリリース前の検証範囲です。
 .\scripts\verify.cmd -Release
 ```
 
+既定のpytest・native・UI検証は`bdControllerShape`専用テストを除外します。
+専用群を含める場合は`-IncludeControllerShape`を追加し、同ノードの開発時は
+関連する専用テストを明示して実行します。詳しくは上記の検証手順を参照してください。
+
 ### Maya C++ Plug-ins
 
 C++ source は配布用 `bakedanuki` フォルダへ含めず、リポジトリ直下の

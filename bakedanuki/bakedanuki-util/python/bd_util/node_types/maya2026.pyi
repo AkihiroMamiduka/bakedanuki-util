@@ -1665,6 +1665,10 @@ from ..maya.node._versioned_accessors import _BdRbfPositionWeight
 
 BdRbfPositionWeight: TypeAlias = _BdRbfPositionWeight
 
+from ..maya.node._versioned_accessors import _BdShpLCube
+
+BdShpLCube: TypeAlias = _BdShpLCube
+
 from ..maya.node._versioned_accessors import _Bevel
 
 Bevel: TypeAlias = _Bevel

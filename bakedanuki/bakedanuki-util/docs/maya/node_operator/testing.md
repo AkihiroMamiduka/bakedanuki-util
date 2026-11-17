@@ -31,6 +31,24 @@ native変更とリリース前の検証です。
 `-Release`はその全項目に加えて、各versionのstaged plug-inを必須にしたfull pytestを
 実行します。個別scriptは開発中の切り分け用で、最終確認では`verify.cmd`を使用します。
 
+full pytest、native test、UI互換性testは、既定では`bdControllerShape`専用群を
+`deselect`します。`-IncludeNative`や`-Release`もこの既定に従います。
+専用群を含める場合は検証scriptへ`-IncludeControllerShape`を明示します。
+
+```powershell
+.\scripts\verify.cmd -IncludeNative -IncludeControllerShape
+.\scripts\test-pytest-maya2025.cmd -IncludeControllerShape
+```
+
+pytestを直接呼ぶ場合のopt-inは`--include-controller-shape`です。
+専用テストファイルを明示指定した場合は、そのファイルを追加flagなしで実行できます。
+`bdControllerShape`を変更するときは、変更対象に応じて専用テストを選んで確認します。
+この文書の過去の実行件数は当時の収集範囲による記録であり、現在の既定範囲とは異なる場合があります。
+
+`bdUtilNodes` 内の固定 Cube `bdShpL_Cube` は通常の検証対象です。
+研究用の代替 DLL と Module ロードの契約を `-IncludeCubeResearch` で追加します。
+手順は[固定Cube研究](../../../../../native/maya/experiments/fixed_cube/README.md)を参照してください。
+
 検証を特定versionへ限定する場合は、同じ入口へ`-MayaVersion`を指定します。
 
 ```powershell

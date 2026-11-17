@@ -6,6 +6,7 @@
 #include <maya/MStatus.h>
 
 #include "bdUtilNodes/nodes/BdControllerShapeNode.h"
+#include "bdUtilNodes/nodes/BdShpLCubeNode.h"
 #include "bdUtilNodes/nodes/BdDeleteWithOwnerNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblLNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblLMultiNode.h"
@@ -181,8 +182,16 @@ struct NodeRegistration {
     const MString* classification = nullptr;
 };
 
-const std::array<NodeRegistration, 158>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 158> registrations = {{
+const std::array<NodeRegistration, 159>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 159> registrations = {{
+        {
+            BdShpLCubeNode::typeName,
+            BdShpLCubeNode::typeId,
+            BdShpLCubeNode::creator,
+            BdShpLCubeNode::initialize,
+            MPxNode::kLocatorNode,
+            &BdShpLCubeNode::drawClassification,
+        },
         {
             BdControllerShapeNode::typeName,
             BdControllerShapeNode::typeId,
@@ -1201,6 +1210,25 @@ MStatus initializePlugin(MObject pluginObject) {
         return status;
     }
 
+    status = MHWRender::MDrawRegistry::registerGeometryOverrideCreator(
+        BdShpLCubeNode::drawClassification,
+        BdShpLCubeNode::drawRegistrantId,
+        BdShpLCubeNode::createGeometryOverride
+    );
+    if (!status) {
+        status.perror("Failed to register bdShpL_Cube draw override");
+        const auto cleanupStatus = MHWRender::MDrawRegistry::deregisterSubSceneOverrideCreator(
+            BdControllerShapeNode::drawClassification,
+            BdControllerShapeNode::drawRegistrantId
+        );
+        if (!cleanupStatus) cleanupStatus.perror("Failed to roll back controller draw override");
+        for (std::size_t index = registrations.size(); index > 0; --index) {
+            const auto nodeStatus = plugin.deregisterNode(registrations[index - 1].typeId);
+            if (!nodeStatus) nodeStatus.perror("Failed to roll back node registration");
+        }
+        return status;
+    }
+
     return MS::kSuccess;
 }
 
@@ -1230,6 +1258,33 @@ MStatus uninitializePlugin(MObject pluginObject) {
         return status;
     }
 
+    const auto restoreCubeOverride = []() {
+        const auto restoreStatus = MHWRender::MDrawRegistry::registerGeometryOverrideCreator(
+            BdShpLCubeNode::drawClassification,
+            BdShpLCubeNode::drawRegistrantId,
+            BdShpLCubeNode::createGeometryOverride
+        );
+        if (!restoreStatus) restoreStatus.perror("Failed to restore Cube draw override");
+    };
+    const auto restoreControllerOverride = []() {
+        const auto restoreStatus = MHWRender::MDrawRegistry::registerSubSceneOverrideCreator(
+            BdControllerShapeNode::drawClassification,
+            BdControllerShapeNode::drawRegistrantId,
+            BdControllerShapeNode::createSubSceneOverride
+        );
+        if (!restoreStatus) restoreStatus.perror("Failed to restore controller draw override");
+    };
+
+    status = MHWRender::MDrawRegistry::deregisterGeometryOverrideCreator(
+        BdShpLCubeNode::drawClassification,
+        BdShpLCubeNode::drawRegistrantId
+    );
+    if (!status) {
+        status.perror("Failed to deregister bdShpL_Cube draw override");
+        BdControllerShapeNode::resumeWirePlaybackNotification();
+        return status;
+    }
+
     const auto& registrations = nodeRegistrations();
     status = MHWRender::MDrawRegistry::deregisterSubSceneOverrideCreator(
         BdControllerShapeNode::drawClassification,
@@ -1237,18 +1292,15 @@ MStatus uninitializePlugin(MObject pluginObject) {
     );
     if (!status) {
         status.perror("Failed to deregister bdControllerShape draw override");
+        restoreCubeOverride();
         BdControllerShapeNode::resumeWirePlaybackNotification();
         return status;
     }
 
     status = BdControllerShapeNode::cleanupDrawResources();
     if (!status) {
-        const auto restoreStatus = MHWRender::MDrawRegistry::registerSubSceneOverrideCreator(
-            BdControllerShapeNode::drawClassification,
-            BdControllerShapeNode::drawRegistrantId,
-            BdControllerShapeNode::createSubSceneOverride
-        );
-        if (!restoreStatus) restoreStatus.perror("Failed to restore controller draw override");
+        restoreControllerOverride();
+        restoreCubeOverride();
         BdControllerShapeNode::resumeWirePlaybackNotification();
         status.perror("Failed to release controller drawing resources");
         return status;
@@ -1260,9 +1312,22 @@ MStatus uninitializePlugin(MObject pluginObject) {
             MString message("Failed to deregister ");
             message += registration.typeName;
             status.perror(message);
+            // 途中まで解除した型と描画登録を戻し、失敗後も使用できる状態にする。
+            for (std::size_t restoreIndex = index; restoreIndex < registrations.size(); ++restoreIndex) {
+                const auto& removed = registrations[restoreIndex];
+                const auto restoreStatus = plugin.registerNode(
+                    removed.typeName, removed.typeId, removed.creator,
+                    removed.initialize, removed.type, removed.classification
+                );
+                if (!restoreStatus) restoreStatus.perror("Failed to restore node registration");
+            }
+            restoreControllerOverride();
+            restoreCubeOverride();
+            BdControllerShapeNode::resumeWirePlaybackNotification();
             return status;
         }
     }
 
+    BdShpLCubeNode::cleanupDrawResources();
     return MS::kSuccess;
 }

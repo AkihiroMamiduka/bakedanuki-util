@@ -1,6 +1,8 @@
 [CmdletBinding()]
 param(
     [switch]$IncludeNative,
+    [switch]$IncludeCubeResearch,
+    [switch]$IncludeControllerShape,
     [switch]$Release,
     [ValidateSet("2025", "2026", "2027")]
     [string]$MayaVersion
@@ -93,6 +95,10 @@ Run .\scripts\setup-test.cmd -ForceRecreate to rebuild it explicitly.
 }
 
 $runNative = $IncludeNative -or $Release
+$controllerShapeArguments = @()
+if ($IncludeControllerShape) {
+    $controllerShapeArguments += "-IncludeControllerShape"
+}
 $mode = if ($Release) {
     "Release"
 }
@@ -107,6 +113,12 @@ Push-Location $repoRoot
 try {
     $scopeLabel = if ($MayaVersion) { "Maya $MayaVersion " } else { "" }
     Write-Host "Running $scopeLabel$mode verification."
+    if ($IncludeControllerShape) {
+        Write-Host "Including bdControllerShape-specific tests."
+    }
+    else {
+        Write-Host "Excluding bdControllerShape-specific tests; use -IncludeControllerShape to include them."
+    }
 
     Invoke-VerificationStep `
         -Name "Black format check" `
@@ -131,7 +143,17 @@ try {
                 -Command (Join-Path $PSScriptRoot "build-native-maya$version.cmd")
             Invoke-VerificationStep `
                 -Name "Maya $version native tests" `
-                -Command (Join-Path $PSScriptRoot "test-native-maya$version.cmd")
+                -Command (Join-Path $PSScriptRoot "test-native-maya$version.cmd") `
+                -Arguments $controllerShapeArguments
+        }
+    }
+
+    if ($IncludeCubeResearch) {
+        foreach ($version in $verificationVersions) {
+            Invoke-VerificationStep `
+                -Name "Maya $version fixed Cube research build / contracts" `
+                -Command (Join-Path $repoRoot "native/maya/experiments/fixed_cube/check.ps1") `
+                -Arguments @($version)
         }
     }
 
@@ -140,24 +162,27 @@ try {
             Invoke-VerificationStep `
                 -Name "Maya $version release full pytest" `
                 -Command (Join-Path $PSScriptRoot "test-pytest-maya$version.cmd") `
-                -Arguments @("-RequirePlugin")
+                -Arguments (@("-RequirePlugin") + $controllerShapeArguments)
         }
     }
     else {
         Invoke-VerificationStep `
             -Name "Maya $pytestVersion full pytest" `
-            -Command (Join-Path $PSScriptRoot "test-pytest-maya$pytestVersion.cmd")
+            -Command (Join-Path $PSScriptRoot "test-pytest-maya$pytestVersion.cmd") `
+            -Arguments $controllerShapeArguments
     }
 
     if ($MayaVersion) {
         Invoke-VerificationStep `
             -Name "Maya $MayaVersion UI compatibility tests" `
-            -Command (Join-Path $PSScriptRoot "test-ui-maya$MayaVersion.cmd")
+            -Command (Join-Path $PSScriptRoot "test-ui-maya$MayaVersion.cmd") `
+            -Arguments $controllerShapeArguments
     }
     else {
         Invoke-VerificationStep `
             -Name "Maya 2025 / 2026 / 2027 UI compatibility tests" `
-            -Command (Join-Path $PSScriptRoot "test-ui-maya-all.cmd")
+            -Command (Join-Path $PSScriptRoot "test-ui-maya-all.cmd") `
+            -Arguments $controllerShapeArguments
     }
 
     Invoke-VerificationStep `

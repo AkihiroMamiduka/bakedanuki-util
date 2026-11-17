@@ -3,6 +3,7 @@ param(
     [ValidateSet("2025", "2026", "2027")]
     [string]$MayaVersion = "2025",
     [switch]$NativeClipboard,
+    [switch]$IncludeControllerShape,
     [ValidateSet("all", "qt", "maya")]
     [string]$Target = "all",
     [string]$TestPath,
@@ -29,7 +30,7 @@ if (-not $NativeClipboard -and -not (Test-Path -LiteralPath (Join-Path $pytestTa
 if (-not (Test-Path -LiteralPath $runner -PathType Leaf)) {
     throw "UI test runner was not found at $runner."
 }
-if ($NativeClipboard -and ($Target -ne "all" -or $TestPath -or $Keyword)) {
+if ($NativeClipboard -and ($Target -ne "all" -or $TestPath -or $Keyword -or $IncludeControllerShape)) {
     throw "-NativeClipboard cannot be combined with UI pytest filters."
 }
 if ($Target -eq "all" -and ($TestPath -or $Keyword)) {
@@ -76,7 +77,8 @@ function Invoke-UiPytest {
         [Parameter(Mandatory = $true)]
         [string]$FailureMessage,
         [string]$TestSelector,
-        [string]$KeywordExpression
+        [string]$KeywordExpression,
+        [switch]$IncludeControllerShape
     )
 
     $runnerArgs = @($runner, $Target)
@@ -85,6 +87,9 @@ function Invoke-UiPytest {
     }
     if ($KeywordExpression) {
         $runnerArgs += @("--keyword", $KeywordExpression)
+    }
+    if ($IncludeControllerShape) {
+        $runnerArgs += "--include-controller-shape"
     }
     & $mayapy @runnerArgs
     if ($LASTEXITCODE -ne 0) {
@@ -123,7 +128,8 @@ try {
             -Target $uiTarget `
             -FailureMessage "Maya $MayaVersion $uiTarget UI tests failed." `
             -TestSelector $testSelector `
-            -KeywordExpression $Keyword
+            -KeywordExpression $Keyword `
+            -IncludeControllerShape:$IncludeControllerShape
     }
 
     Write-Host "Maya $MayaVersion selected UI tests passed."

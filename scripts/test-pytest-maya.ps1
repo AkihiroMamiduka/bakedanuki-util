@@ -3,6 +3,7 @@ param(
     [ValidateSet("2025", "2026", "2027")]
     [string]$MayaVersion = "2025",
     [switch]$RequirePlugin,
+    [switch]$IncludeControllerShape,
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$AdditionalArguments = @()
 )
@@ -51,6 +52,12 @@ try {
     }
 
     $pytestArguments = @("-p", "no:cacheprovider")
+    if ($IncludeControllerShape) {
+        $pytestArguments += "--include-controller-shape"
+    }
+    elseif ($AdditionalArguments.Count -eq 0) {
+        $pytestArguments += "--exclude-controller-shape"
+    }
     if ($AdditionalArguments.Count -gt 0) {
         $pytestArguments += $AdditionalArguments
         Write-Host "Running targeted pytest with Maya $MayaVersion."

@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [ValidateSet("2025", "2026", "2027")]
-    [string]$MayaVersion = "2025"
+    [string]$MayaVersion = "2025",
+    [switch]$IncludeControllerShape
 )
 
 $ErrorActionPreference = "Stop"
@@ -32,8 +33,18 @@ if (-not (Test-Path -LiteralPath (Join-Path $pytestTarget "pytest"))) {
 $env:PYTHONPATH = "$pytestTarget;$pythonPath"
 $env:BD_UTIL_NODES_PLUGIN_PATH = $pluginPath
 
+$controllerShapeArgument = if ($IncludeControllerShape) {
+    "--include-controller-shape"
+}
+else {
+    # 定型のfile列挙を、利用者による個別テストの明示指定として扱わない。
+    "--exclude-controller-shape"
+}
+
 & $mayapy -m pytest `
+    $controllerShapeArgument `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_plugin.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_shp_l_cube.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_shape.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_static_contract.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_arc_contract.py") `

@@ -42,7 +42,12 @@ def _print_environment() -> int:
     return 0
 
 
-def _run_tests(target: str, test_path: str | None, keyword: str | None) -> int:
+def _run_tests(
+    target: str,
+    test_path: str | None,
+    keyword: str | None,
+    include_controller_shape: bool,
+) -> int:
     """指定されたUIテスト群を実行する。"""
 
     # Mayaごとのmayapyプロセス内でpytestを起動する。
@@ -60,6 +65,10 @@ def _run_tests(target: str, test_path: str | None, keyword: str | None) -> int:
             raise RuntimeError("Qt/UI testにはQApplicationが必要です")
 
     pytest_args = ["-p", "no:cacheprovider"]
+    if include_controller_shape:
+        pytest_args.append("--include-controller-shape")
+    elif not test_path:
+        pytest_args.append("--exclude-controller-shape")
     if keyword:
         pytest_args.extend(("-k", keyword))
     pytest_args.append(test_path or str(_TEST_PATHS[target]))
@@ -182,6 +191,7 @@ def main() -> int:
     )
     parser.add_argument("--test-path")
     parser.add_argument("--keyword")
+    parser.add_argument("--include-controller-shape", action="store_true")
     args = parser.parse_args()
 
     _prepare_import_paths()
@@ -189,7 +199,12 @@ def main() -> int:
         return _print_environment()
     if args.target == "native-clipboard":
         return _run_native_clipboard()
-    return _run_tests(args.target, args.test_path, args.keyword)
+    return _run_tests(
+        args.target,
+        args.test_path,
+        args.keyword,
+        args.include_controller_shape,
+    )
 
 
 if __name__ == "__main__":
