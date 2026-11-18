@@ -261,7 +261,7 @@ Geometry 版の `supportsEvaluationManagerParallelUpdate()` を `true`、
 `populateGeometry()` は固定配列からの buffer 準備だけに限定します。
 shader cache と表示状態の処理は foreground の `updateRenderItems()` に残し、
 共有される `geometryDirty_` は atomic にしました。独自属性は増やしていません。
-VP2 Custom Caching と Cached Playback は引き続き無効です。
+この節の計測は Cached Playback を無効にして実施しました。
 
 ### 同時期に測り直した比較
 
@@ -519,6 +519,65 @@ Maya 2025 full pytest 8,404件、3版のQt各1,195件・Maya UI各1,035件が成
 制限環境でBlackが停止した実行は中断し、通常環境で同じ統一入口を再実行しています。
 ログは `build/fixed_cube/static_axes_20261118/verify_20261118_unrestricted.log` です。
 配布DLLは3版とも通常設定で更新済みで、実Viewportと性能の確認範囲はMaya 2025 / OpenGLです。
+
+## Cached Playback の復元（2026-11-18）
+
+修正前の `bdShpL_Cube` は、キャッシュ済みのフレームで親のワールド行列が復元されても、
+Viewport にその姿勢が反映されない場合がありました。形状調整属性の追加前の DLL でも再現し、
+同じ階層の標準 `nurbsCurve` と `locator` は正しく再生されました。
+Maya は `MPxLocatorNode` の派生ノードを既定ではキャッシュしないため、
+`BdShpLCubeNode::getCacheSetup()` で `kWantToCacheByDefault` を有効にします。
+[Autodesk Maya 2025 Cached Playback](https://damassets.autodesk.net/content/dam/autodesk/www/html/maya-cached-playback/2025/MayaCachedPlaybackWhitePaper.html)
+
+Maya 2025 / OpenGL で、共通親と各 Cube の直接の親に移動・回転キーを設定しました。
+Evaluation Cache、Viewport Software、Viewport Hardware の各設定で、修正版の充填中と充填後の
+再生画像を3フレームずつ採取し、Cached Playback OFF の静止参照と一致することを確認しました。
+静的な形状調整を適用した Cube では、バックグラウンド充填後の Evaluation Cache からの復元も確認しました。
+
+既定の復元確認は、専用 Maya プロファイルを用意して次のように実行できます。
+
+```powershell
+.\native\maya\experiments\fixed_cube\launch.ps1 -Mode geometry `
+    -PluginPath bakedanuki/bakedanuki-util/plug-ins/maya2025/bdUtilNodes.mll `
+    -OutputDirectory build/fixed_cube/runs/cached_playback -CachedPlaybackProbe -ForceSelfExit
+```
+
+`-RunMetadataPath` で対象（`targets` に `group`、`individual`）とキャッシュモード
+（`cache_modes` に `evaluation`、`software`、`hardware`）を指定できます。
+計時する場合は `measure` を `true` にし、`cache_modes` を `evaluation` または `off` の1要素にします。
+描画の一致判定と実際のキャッシュ範囲は `results.json` に記録します。
+
+### Cube 1,000個での計時
+
+Maya 2025 / OpenGL の単一 VP2 ビュー（956 × 676）で、独立した1,000個の transform / shape を
+同じ共通親の下に置きました。72要求フレーム × 5試行を各条件2起動で計測しています。
+各起動の中央値を取り、その2値の中央値を示します。単位は ms / 要求フレームです。
+操作は回転設定と VP2 の強制更新、再生は開始・停止を含む Maya の全フレーム再生です。
+
+| 条件 | 共通親操作 | 単体操作 | 再生 |
+| --- | ---: | ---: | ---: |
+| 修正前 / OFF | 7.426 | 1.353 | 2.628 |
+| 修正後 / OFF | 7.152 | 1.469 | 2.489 |
+| 修正後 / ON | 7.279 | 1.354 | 3.223 |
+| 同形状の `nurbsCurve` / ON | 7.219 | 1.342 | 3.190 |
+
+ON は Evaluation Cache です。操作でキャッシュが無効化されることと、再生の全試行で
+対象区間のキャッシュが計時前後に有効であることを確認しました。120試行の VP2 描画通知は
+操作72回、再生71回で一致しました。単体操作の OFF 前後差は2起動の組で増減が分かれました。
+ON の再生は、このシーンでは修正版の OFF に対して約0.73 ms / フレーム長く、
+同じ ON 条件の `nurbsCurve` とは約0.03 ms / フレームの差でした。
+
+移動マニピュレータは、修正版の X 軸ハンドルに同じ72回のドラッグ入力を送り、
+ON / OFF を各2起動・5試行で計測しました。全40試行で入力に対応する72回の VP2 描画と
+同じ移動量を確認しました。表は Maya の入力処理と描画を含む ms / 入力です。
+
+| 移動マニピュレータ | OFF | ON |
+| --- | ---: | ---: |
+| 共通親 | 6.275 | 6.303 |
+| 単体 | 3.160 | 2.962 |
+
+再現と性能の証拠は `build/fixed_cube/cached_playback_20261118/`（Git 管理外）、
+再集計と監査は同フォルダの `timing_audit.json` と `drag_audit.json` です。
 
 ## 参考
 

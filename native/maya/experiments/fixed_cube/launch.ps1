@@ -1,5 +1,5 @@
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('geometry','subscene','controller','curve')][string]$Mode,
+    [Parameter(Mandatory=$true)][ValidateSet('geometry','subscene','controller','curve','locator')][string]$Mode,
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
     [ValidateSet('2025','2026','2027')][string]$MayaVersion='2025',
     [string]$PluginPath,
@@ -16,6 +16,7 @@ param(
     [switch]$Functional,
     [switch]$NativeProfile,
     [switch]$PlaybackGate,
+    [switch]$CachedPlaybackProbe,
     [switch]$MayaProfile,
     [switch]$RendererResetGate,
     [switch]$ManipulatorProbe,
@@ -24,6 +25,9 @@ param(
 $ErrorActionPreference='Stop'
 if(Get-Process maya -ErrorAction SilentlyContinue){throw 'Another Maya GUI is running. Close it before this isolated benchmark.'}
 if($NativeProfile -and $Mode -ne 'geometry'){throw 'NativeProfile is only available for the Geometry diagnostic build.'}
+if($CachedPlaybackProbe -and ($PlaybackGate -or $RendererResetGate -or $ManipulatorProbe -or $Functional -or $MayaProfile -or $NativeProfile)){
+    throw 'CachedPlaybackProbe requires an independent, uninstrumented run.'
+}
 if($ManipulatorProbe){
     if($PlaybackGate -or $RendererResetGate -or $Functional){throw 'ManipulatorProbe cannot be combined with automated gates or Functional.'}
     if(-not $PSBoundParameters.ContainsKey('Counts')){$Counts=@(1000)}
@@ -53,8 +57,10 @@ if($RunMetadataPath){
     if($metadataValue -isnot [pscustomobject]){throw 'Run metadata must be a JSON object.'}
 }
 if($Mode -eq 'controller' -and -not $PluginPath){$PluginPath=Join-Path $repo ('bakedanuki\bakedanuki-util\plug-ins\maya'+$MayaVersion+'\bdUtilNodes.mll')}
-if($Mode -ne 'curve' -and (-not $PluginPath -or -not (Test-Path -LiteralPath $PluginPath))){throw 'This mode requires an existing PluginPath.'}
-if($Mode -eq 'curve' -and $PluginPath){throw 'Curve control must not load an experimental plug-in.'}
+$builtinShape=$Mode -in @('curve','locator')
+if(-not $builtinShape -and (-not $PluginPath -or -not (Test-Path -LiteralPath $PluginPath))){throw 'This mode requires an existing PluginPath.'}
+if($builtinShape -and $PluginPath){throw 'Built-in shape controls must not load an experimental plug-in.'}
+if($Mode -eq 'locator' -and -not $CachedPlaybackProbe){throw 'Locator is only used by CachedPlaybackProbe.'}
 $profile=Join-Path $repo ('build\fixed_cube\profiles\maya'+$MayaVersion)
 if(-not (Test-Path -LiteralPath $profile -PathType Container)){throw 'Prepare and review the dedicated Maya profile before benchmarking.'}
 function Get-ProfileHashes {
@@ -87,10 +93,16 @@ if($ManipulatorProbe){
     if($manipulatorProbeHash -ne (Get-FileHash -LiteralPath $manipulatorProbeSource -Algorithm SHA256).Hash.ToLowerInvariant()){throw 'Manipulator probe changed during archival.'}
 }
 $playbackGateHash=$null
-if($PlaybackGate){
+$cachedPlaybackProbeHash=$null
+if($PlaybackGate -or $CachedPlaybackProbe){
     $playbackGateSource=Join-Path $PSScriptRoot 'playback_gate.py'
     Copy-Item -LiteralPath $playbackGateSource -Destination (Join-Path $output 'playback_gate.py')
     $playbackGateHash=(Get-FileHash -LiteralPath $playbackGateSource -Algorithm SHA256).Hash.ToLowerInvariant()
+}
+if($CachedPlaybackProbe){
+    $probeSource=Join-Path $PSScriptRoot 'cached_playback_probe.py'
+    Copy-Item -LiteralPath $probeSource -Destination (Join-Path $output 'cached_playback_probe.py')
+    $cachedPlaybackProbeHash=(Get-FileHash -LiteralPath $probeSource -Algorithm SHA256).Hash.ToLowerInvariant()
 }
 $plugin=$null
 $pluginArchive=$null
@@ -119,6 +131,7 @@ $config=[ordered]@{
     measurement_scope='Independent transform/shape pairs; script settings plus refresh wall time; playback is separately labelled. No GPU-only or draw-call assertion.'
 }
 if($BenchmarkScript){$config.benchmark_source_path=$source}
+if($CachedPlaybackProbe){$config.cached_playback_probe_sha256=$cachedPlaybackProbeHash}
 if($metadataSource){
     $config.run_metadata=$metadataValue
     $config.run_metadata_path=$metadataSource

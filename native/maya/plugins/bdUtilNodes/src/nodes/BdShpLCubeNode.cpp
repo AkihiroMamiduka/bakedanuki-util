@@ -8,6 +8,7 @@
 #include <maya/MFnAttribute.h>
 #include <maya/MFnEnumAttribute.h>
 #include <maya/MFnUnitAttribute.h>
+#include <maya/MNodeCacheSetupInfo.h>
 #include <maya/MPlug.h>
 #include <maya/MVector.h>
 #include <maya/MViewport2Renderer.h>
@@ -186,6 +187,17 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometry() const {
 
 bool BdShpLCubeNode::isBounded() const {
     return true;
+}
+
+void BdShpLCubeNode::getCacheSetup(
+    const MEvaluationNode& evalNode,
+    MNodeCacheDisablingInfo& disablingInfo,
+    MNodeCacheSetupInfo& cacheSetupInfo,
+    MObjectArray& monitoredAttributes
+) const {
+    MPxLocatorNode::getCacheSetup(evalNode, disablingInfo, cacheSetupInfo, monitoredAttributes);
+    // Cached Playbackで親の姿勢を復元するときも、このlocatorを描画更新の対象にする。
+    cacheSetupInfo.setPreference(MNodeCacheSetupInfo::kWantToCacheByDefault, true);
 }
 
 MBoundingBox BdShpLCubeNode::boundingBox() const {

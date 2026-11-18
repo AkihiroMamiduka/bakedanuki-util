@@ -31,6 +31,12 @@ public:
 
     bool isBounded() const override;
     MBoundingBox boundingBox() const override;
+    void getCacheSetup(
+        const MEvaluationNode& evalNode,
+        MNodeCacheDisablingInfo& disablingInfo,
+        MNodeCacheSetupInfo& cacheSetupInfo,
+        MObjectArray& monitoredAttributes
+    ) const override;
     bool excludeAsLocator() const override;
     bool setInternalValue(const MPlug& plug, const MDataHandle& data) override;
     MStatus legalConnection(

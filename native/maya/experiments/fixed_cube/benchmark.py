@@ -92,6 +92,7 @@ class CubeBenchmark:
         self.callbacks = []
         self.posts = 0
         self.blank_pixels = None
+        self.expected_cache_enabled = False
         main_window = self.wrap(
             int(ui1.MQtUtil.mainWindow()), QtWidgets.QWidget
         )
@@ -211,7 +212,10 @@ class CubeBenchmark:
             shape = self.om.MFnDagNode(obj).fullPathName()
         else:
             shape = c.createNode(
-                "bdControllerShape" if mode == "controller" else "bdShpL_Cube",
+                {
+                    "controller": "bdControllerShape",
+                    "locator": "locator",
+                }.get(mode, "bdShpL_Cube"),
                 parent=parent,
             )
             shape = c.ls(shape, long=True)[0]
@@ -435,10 +439,10 @@ class CubeBenchmark:
             or not record["active_view"]
             or not record["evaluation"]
             or record["evaluation"][0] != "parallel"
+            or record["cache_enabled"] != self.expected_cache_enabled
             or any(
                 record[name]
                 for name in (
-                    "cache_enabled",
                     "msaa",
                     "line_aa",
                     "profiler",
@@ -706,6 +710,24 @@ class CubeBenchmark:
                 raise RuntimeError("renderer reset 後の描画が一致しません")
             self._screen_pick()
             report["status"] = "passed"
+            self.result["status"] = "passed"
+            return
+        if self.config.get("cached_playback_probe_sha256"):
+            import importlib.util
+
+            modules = []
+            for name, signature in (
+                ("cached_playback_probe", "cached_playback_probe_sha256"),
+                ("playback_gate", "playback_gate_sha256"),
+            ):
+                path = Path(__file__).with_name(f"{name}.py")
+                if _sha(path) != self.config[signature]:
+                    raise RuntimeError(f"{name} の SHA256 が異なります")
+                spec = importlib.util.spec_from_file_location(name, path)
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+                modules.append(module)
+            modules[0].run(self, modules[1])
             self.result["status"] = "passed"
             return
         if self.config.get("playback_gate"):
