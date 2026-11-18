@@ -7,11 +7,107 @@ from .....attr.define.node_attr.bd_shp_l_cube import (
     LocalScaleField,
     WorldPositionField,
 )
+from .....attr.define.std.at.scalar.enum import (
+    EnumAttrOperator,
+    EnumPlugOperator,
+    EnumField,
+)
 from .....attr.define.std.at.message import MessageField
 from .....attr.define.std.at.scalar.numeric.bool import BoolField
 from .....attr.define.std.at.scalar.numeric.range.float import FloatField
 from .....attr.define.std.at.scalar.numeric.range.long import LongField
 from .....attr.define.std.at.scalar.numeric.range.short import ShortField
+from .....attr.define.std.at.scalar.unit.range.double_linear import (
+    DoubleLinearField,
+)
+
+
+class Shape1stAxisEnumPlugOperator(
+    EnumPlugOperator["Shape1stAxisEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+
+class Shape1stAxisEnumAttrOperator(
+    EnumAttrOperator[Shape1stAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+    NAME_MAP = {
+        PLUS_X: "+X",
+        MINUS_X: "-X",
+        PLUS_Y: "+Y",
+        MINUS_Y: "-Y",
+        PLUS_Z: "+Z",
+        MINUS_Z: "-Z",
+    }
+
+
+class Shape1stAxisEnumField(
+    EnumField[Shape1stAxisEnumAttrOperator, Shape1stAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Shape1stAxisEnumAttrOperator
+    PLUG_CLS = Shape1stAxisEnumPlugOperator
+
+
+class Shape2ndAxisEnumPlugOperator(
+    EnumPlugOperator["Shape2ndAxisEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+
+class Shape2ndAxisEnumAttrOperator(
+    EnumAttrOperator[Shape2ndAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    PLUS_X = 0
+    MINUS_X = 1
+    PLUS_Y = 2
+    MINUS_Y = 3
+    PLUS_Z = 4
+    MINUS_Z = 5
+
+    NAME_MAP = {
+        PLUS_X: "+X",
+        MINUS_X: "-X",
+        PLUS_Y: "+Y",
+        MINUS_Y: "-Y",
+        PLUS_Z: "+Z",
+        MINUS_Z: "-Z",
+    }
+
+
+class Shape2ndAxisEnumField(
+    EnumField[Shape2ndAxisEnumAttrOperator, Shape2ndAxisEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = Shape2ndAxisEnumAttrOperator
+    PLUG_CLS = Shape2ndAxisEnumPlugOperator
 
 
 class GeneratedBdShpLCube(Shape):
@@ -133,3 +229,27 @@ class GeneratedBdShpLCube(Shape):
     lsy = localScaleY
     localScaleZ = localScale.localScaleZ
     lsz = localScaleZ
+
+    shape1stAxis = Shape1stAxisEnumField(default_value=0)
+    s1a = shape1stAxis
+
+    shape2ndAxis = Shape2ndAxisEnumField(default_value=2)
+    s2a = shape2ndAxis
+
+    shapeBaseSpace1stAxisPlus = DoubleLinearField(default_value=0.5)
+    sbsp1p = shapeBaseSpace1stAxisPlus
+
+    shapeBaseSpace1stAxisMinus = DoubleLinearField(default_value=0.5)
+    sbsp1m = shapeBaseSpace1stAxisMinus
+
+    shapeBaseSpace2ndAxisPlus = DoubleLinearField(default_value=0.5)
+    sbsp2p = shapeBaseSpace2ndAxisPlus
+
+    shapeBaseSpace2ndAxisMinus = DoubleLinearField(default_value=0.5)
+    sbsp2m = shapeBaseSpace2ndAxisMinus
+
+    shapeBaseSpace3rdAxisPlus = DoubleLinearField(default_value=0.5)
+    sbsp3p = shapeBaseSpace3rdAxisPlus
+
+    shapeBaseSpace3rdAxisMinus = DoubleLinearField(default_value=0.5)
+    sbsp3m = shapeBaseSpace3rdAxisMinus

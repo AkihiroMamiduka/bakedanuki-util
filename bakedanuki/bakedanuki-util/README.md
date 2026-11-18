@@ -292,16 +292,34 @@ cmds.createNode("bdShpL_Cube", parent=ctrl, name="cube_ctrlShape")
 cmds.select(ctrl)
 ```
 
-各軸のローカル座標 `±0.5 cm` に置いた8頂点・12辺を、標準の細線・不透明で描きます。
-独自属性はなく、形状選択・Fill切替・形状変形は行いません。
-形状の移動・回転・拡縮は親 transform で操作し、pivot・shear などを含む
+既定値では各軸のローカル座標 `±0.5 cm` に置いた8頂点・12辺を、標準の細線・不透明で描きます。
+形状の種類と線描画を固定し、次の8属性で軸と各面の位置を調整します。
+
+| 属性 | 短縮名 | 型 | 既定値 |
+| --- | --- | --- | --- |
+| `shape1stAxis` | `s1a` | enum | `+X`（0） |
+| `shape2ndAxis` | `s2a` | enum | `+Y`（2） |
+| `shapeBaseSpace1stAxisPlus` | `sbsp1p` | doubleLinear | 0.5 cm |
+| `shapeBaseSpace1stAxisMinus` | `sbsp1m` | doubleLinear | 0.5 cm |
+| `shapeBaseSpace2ndAxisPlus` | `sbsp2p` | doubleLinear | 0.5 cm |
+| `shapeBaseSpace2ndAxisMinus` | `sbsp2m` | doubleLinear | 0.5 cm |
+| `shapeBaseSpace3rdAxisPlus` | `sbsp3p` | doubleLinear | 0.5 cm |
+| `shapeBaseSpace3rdAxisMinus` | `sbsp3m` | doubleLinear | 0.5 cm |
+
+軸 enum は `+X / -X / +Y / -Y / +Z / -Z` の順に `0..5` です。
+第3軸は第1軸と第2軸の外積で求めます。第1軸と第2軸が同じ軸を指す場合は、
+第1軸が `±Y` なら第2軸を `+Z`、それ以外なら `+Y` として形状を計算します。
+各軸の Plus 側は設定値、Minus 側は設定値の符号を反転した位置です。
+距離は負値・ゼロ・面の反転を許容し、自動的には補正しません。
+8属性は形状を準備するための静的な設定で、直接編集できますが、キー設定と入力接続はできません。
+形状選択や Fill 切替はありません。通常の移動・回転・拡縮は親 transform で操作し、pivot・shear などを含む
 親 DAG 階層の最終行列を反映します。継承属性の `localPosition` / `localScale` は
 形状へ適用しません。DAG instance と component 編集は対象外です。
 
 Selection Highlighting OFF でも選択色が残る既存制約があります。
-同じ描画実装の GUI 描画・選択・再生と性能比較は、研究用 Geometry 版を使って
-Maya 2025 / OpenGL で確認しています。Maya 2026 / 2027 は登録・属性・bbox・保存などの
-契約検証までで、GUI 描画と性能は未検証です。
+静的な形状属性を追加する前の GUI 描画・選択・再生と性能比較は、研究用 Geometry 版を使って
+Maya 2025 / OpenGL で確認しています。以前の測定値は属性追加後の性能を保証するものではありません。
+Maya 2026 / 2027 の GUI 描画と性能は未検証です。
 
 研究用の `bdShpCubeGeometry.mll` / `bdShpCubeSubScene.mll` とその Baseline / Candidate 版は、
 同じ node type と `MTypeId` を登録する代替実装です。`bdUtilNodes.mll` と同時ロードできません。

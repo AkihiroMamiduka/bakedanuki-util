@@ -3,6 +3,8 @@ param(
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
     [ValidateSet('2025','2026','2027')][string]$MayaVersion='2025',
     [string]$PluginPath,
+    [string]$BenchmarkScript,
+    [string]$RunMetadataPath,
     [int[]]$Counts=@(1,100,1000),
     [ValidateSet('static','individual','group','camera','playback')][string[]]$Cases=@('static','individual','group','camera','playback'),
     [ValidateRange(2,100000)][int]$Frames=36,
@@ -36,6 +38,20 @@ if(-not $Counts.Count -or ($Counts | Where-Object {$_ -lt 1})){throw 'Counts mus
 $maya=Join-Path ('C:\Program Files\Autodesk\Maya'+$MayaVersion) 'bin\maya.exe'
 if(-not (Test-Path -LiteralPath $maya)){throw 'Requested Maya GUI executable is missing.'}
 $source=Join-Path $PSScriptRoot 'benchmark.py'
+if($BenchmarkScript){
+    $source=[IO.Path]::GetFullPath($BenchmarkScript)
+    if(-not $source.StartsWith($repo+'\',[StringComparison]::OrdinalIgnoreCase) -or [IO.Path]::GetExtension($source) -ne '.py' -or -not (Test-Path -LiteralPath $source -PathType Leaf)){throw 'BenchmarkScript must be an existing Python file inside this repository.'}
+}
+$metadataSource=$null
+$metadataHash=$null
+$metadataValue=$null
+if($RunMetadataPath){
+    $metadataSource=[IO.Path]::GetFullPath($RunMetadataPath)
+    if(-not $metadataSource.StartsWith($repo+'\',[StringComparison]::OrdinalIgnoreCase) -or [IO.Path]::GetExtension($metadataSource) -ne '.json' -or -not (Test-Path -LiteralPath $metadataSource -PathType Leaf)){throw 'RunMetadataPath must be an existing JSON file inside this repository.'}
+    $metadataHash=(Get-FileHash -LiteralPath $metadataSource -Algorithm SHA256).Hash.ToLowerInvariant()
+    $metadataValue=Get-Content -LiteralPath $metadataSource -Raw -Encoding UTF8|ConvertFrom-Json
+    if($metadataValue -isnot [pscustomobject]){throw 'Run metadata must be a JSON object.'}
+}
 if($Mode -eq 'controller' -and -not $PluginPath){$PluginPath=Join-Path $repo ('bakedanuki\bakedanuki-util\plug-ins\maya'+$MayaVersion+'\bdUtilNodes.mll')}
 if($Mode -ne 'curve' -and (-not $PluginPath -or -not (Test-Path -LiteralPath $PluginPath))){throw 'This mode requires an existing PluginPath.'}
 if($Mode -eq 'curve' -and $PluginPath){throw 'Curve control must not load an experimental plug-in.'}
@@ -53,6 +69,14 @@ $profileHashes=Get-ProfileHashes
 [IO.Directory]::CreateDirectory($output)|Out-Null
 $runner=Join-Path $output 'benchmark.py'
 Copy-Item -LiteralPath $source -Destination $runner
+$benchmarkHash=(Get-FileHash -LiteralPath $runner -Algorithm SHA256).Hash.ToLowerInvariant()
+if($benchmarkHash -ne (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash.ToLowerInvariant()){throw 'Benchmark source changed during archival.'}
+$metadataArchive=$null
+if($metadataSource){
+    $metadataArchive=Join-Path $output 'run_metadata.json'
+    Copy-Item -LiteralPath $metadataSource -Destination $metadataArchive
+    if((Get-FileHash -LiteralPath $metadataArchive -Algorithm SHA256).Hash.ToLowerInvariant() -ne $metadataHash -or (Get-FileHash -LiteralPath $metadataSource -Algorithm SHA256).Hash.ToLowerInvariant() -ne $metadataHash){throw 'Run metadata changed during archival.'}
+}
 $entryRunner=$runner
 $manipulatorProbeHash=$null
 if($ManipulatorProbe){
@@ -93,6 +117,13 @@ $config=[ordered]@{
     launcher_sha256=(Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash.ToLowerInvariant()
     started_utc=[DateTime]::UtcNow.ToString('o')
     measurement_scope='Independent transform/shape pairs; script settings plus refresh wall time; playback is separately labelled. No GPU-only or draw-call assertion.'
+}
+if($BenchmarkScript){$config.benchmark_source_path=$source}
+if($metadataSource){
+    $config.run_metadata=$metadataValue
+    $config.run_metadata_path=$metadataSource
+    $config.run_metadata_archive_path=$metadataArchive
+    $config.run_metadata_sha256=$metadataHash
 }
 if($ManipulatorProbe){$config.measurement_scope='Manual manipulator diagnostic. Start-to-Finish includes idle. Post-render intervals include input pacing and callback overhead; not FPS or GPU timing.'}
 $utf8=[Text.UTF8Encoding]::new($false)
@@ -172,6 +203,15 @@ try{
         $profileAuditError=$_.Exception.Message
         $code=1
     }
-    [IO.File]::WriteAllText((Join-Path $output 'launcher_exit.json'),([ordered]@{exit_code=$code;finished_utc=[DateTime]::UtcNow.ToString('o');profile_file_sha256=$profileAfter;profile_audit_error=$profileAuditError}|ConvertTo-Json -Depth 5),$utf8)
+    $inputAuditError=$null
+    if($BenchmarkScript -or $metadataSource){
+        try{
+            if((Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash.ToLowerInvariant() -ne $benchmarkHash -or (Get-FileHash -LiteralPath $runner -Algorithm SHA256).Hash.ToLowerInvariant() -ne $benchmarkHash){throw 'Custom benchmark source or archive changed during this run.'}
+            if($metadataSource -and ((Get-FileHash -LiteralPath $metadataSource -Algorithm SHA256).Hash.ToLowerInvariant() -ne $metadataHash -or (Get-FileHash -LiteralPath $metadataArchive -Algorithm SHA256).Hash.ToLowerInvariant() -ne $metadataHash)){throw 'Run metadata source or archive changed during this run.'}
+        }catch{$inputAuditError=$_.Exception.Message;$code=1}
+    }
+    $launcherExit=[ordered]@{exit_code=$code;finished_utc=[DateTime]::UtcNow.ToString('o');profile_file_sha256=$profileAfter;profile_audit_error=$profileAuditError}
+    if($BenchmarkScript -or $metadataSource){$launcherExit.input_audit_error=$inputAuditError}
+    [IO.File]::WriteAllText((Join-Path $output 'launcher_exit.json'),($launcherExit|ConvertTo-Json -Depth 5),$utf8)
 }
 exit $code

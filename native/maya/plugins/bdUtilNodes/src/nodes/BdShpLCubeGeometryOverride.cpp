@@ -14,6 +14,7 @@
 #include <maya/M3dView.h>
 #include <maya/MColor.h>
 #include <maya/MDagPath.h>
+#include <maya/MFnDependencyNode.h>
 #include <maya/MFrameContext.h>
 #include <maya/MHWGeometry.h>
 #include <maya/MHWGeometryUtilities.h>
@@ -78,7 +79,12 @@ std::shared_ptr<CubeShader> cubeShader(const MColor& color) {
 
 class CubeGeometryOverride final : public MHWRender::MPxGeometryOverride {
 public:
-    explicit CubeGeometryOverride(const MObject& node) : MPxGeometryOverride(node) {}
+    explicit CubeGeometryOverride(const MObject& node)
+        : MPxGeometryOverride(node),
+          node_(static_cast<BdShpLCubeNode*>(MFnDependencyNode(node).userNode())) {
+        std::memcpy(geometry_.vertices, bdUtilNodes::fixedCube::vertices, sizeof(geometry_.vertices));
+        geometry_.bounds = bdUtilNodes::fixedCube::bounds();
+    }
 
     MHWRender::DrawAPI supportedDrawAPIs() const override {
         return MHWRender::kAllDevices;
@@ -89,13 +95,14 @@ public:
 #ifdef BD_CUBE_PROFILE
         cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::requiresGeometry);
 #endif
-        return geometryDirty_.load(std::memory_order_relaxed);
+        return geometryDirty_.load(std::memory_order_relaxed) ||
+            (node_ && node_->geometryRevision() != geometryRevision_.load(std::memory_order_acquire));
     }
     bool requiresUpdateRenderItems(const MDagPath&) const override {
 #ifdef BD_CUBE_PROFILE
         cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::requiresRenderItems);
 #endif
-        return false;
+        return node_ && node_->geometryRevision() != boundsRevision_.load(std::memory_order_acquire);
     }
     bool supportsEvaluationManagerParallelUpdate() const override { return true; }
     bool supportsVP2CustomCaching() const override { return false; }
@@ -104,6 +111,13 @@ public:
 #ifdef BD_CUBE_PROFILE
         cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::updateDG);
 #endif
+        if (!node_ || node_->geometryRevision() == geometryRevision_.load(std::memory_order_relaxed)) return;
+        const auto geometry = node_->geometry();
+        if (std::memcmp(geometry.vertices, geometry_.vertices, sizeof(geometry.vertices)) != 0) {
+            geometryDirty_.store(true, std::memory_order_relaxed);
+        }
+        geometry_ = geometry;
+        geometryRevision_.store(geometry.revision, std::memory_order_release);
     }
     void cleanUp() override {}
 
@@ -111,7 +125,7 @@ public:
 #ifdef BD_CUBE_PROFILE
         cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::indexingDirty);
 #endif
-        return geometryDirty_.load(std::memory_order_relaxed);
+        return indexingDirty_.load(std::memory_order_relaxed);
     }
 
     bool isStreamDirty(const MHWRender::MVertexBufferDescriptor&) override {
@@ -143,13 +157,17 @@ public:
             item->setExcludedFromPostEffects(true);
             item->setExcludedFromDefaultMaterialOverride(true);
             item->setObjectTypeExclusionFlag(MHWRender::MFrameContext::kExcludePluginShapes);
-            item->setBoundingBox(bdUtilNodes::fixedCube::bounds());
             item->depthPriority(MHWRender::MRenderItem::sDormantWireDepthPriority);
             if (!list.append(item)) {
                 MHWRender::MRenderItem::Destroy(item);
                 return;
             }
             geometryDirty_.store(true, std::memory_order_relaxed);
+            indexingDirty_.store(true, std::memory_order_relaxed);
+        }
+
+        if (item->setBoundingBox(geometry_.bounds)) {
+            boundsRevision_.store(geometry_.revision, std::memory_order_release);
         }
 
         const auto status = MHWRender::MGeometryUtilities::displayStatus(path);
@@ -188,6 +206,7 @@ public:
             manager_ = shader->manager;
             api_ = shader->api;
             geometryDirty_.store(true, std::memory_order_relaxed);
+            indexingDirty_.store(true, std::memory_order_relaxed);
         }
         auto binding = std::find_if(bindings_.begin(), bindings_.end(),
             [item](const auto& value) { return value.item == item; });
@@ -211,7 +230,7 @@ public:
 #ifdef BD_CUBE_PROFILE
         cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::populateGeometry);
 #endif
-        // Mayaが再要求した場合にも、渡されたgeometryへ固定bufferを作り直す。
+        // 位置だけの変更では辺の接続を再利用し、資源の再要求時は両方を用意する。
         bool positionsReady = false;
         const auto& descriptors = requirements.vertexRequirements();
         for (int i = 0; i < descriptors.length(); ++i) {
@@ -223,17 +242,20 @@ public:
             if (!buffer) return;
             auto* values = buffer->acquire(8, true);
             if (!values) return;
-            std::memcpy(values, bdUtilNodes::fixedCube::vertices, sizeof(bdUtilNodes::fixedCube::vertices));
+            std::memcpy(values, geometry_.vertices, sizeof(geometry_.vertices));
             buffer->commit(values);
             positionsReady = true;
         }
         if (!positionsReady) return;
-        auto* buffer = data.createIndexBuffer(MHWRender::MGeometry::kUnsignedInt32);
-        if (!buffer) return;
-        auto* values = buffer->acquire(24, true);
-        if (!values) return;
-        std::memcpy(values, bdUtilNodes::fixedCube::indices, sizeof(bdUtilNodes::fixedCube::indices));
-        buffer->commit(values);
+        auto* buffer = data.indexBufferCount() > 0 ? data.indexBuffer(0) : nullptr;
+        if (indexingDirty_.load(std::memory_order_relaxed) || !buffer) {
+            buffer = data.createIndexBuffer(MHWRender::MGeometry::kUnsignedInt32);
+            if (!buffer) return;
+            auto* values = buffer->acquire(24, true);
+            if (!values) return;
+            std::memcpy(values, bdUtilNodes::fixedCube::indices, sizeof(bdUtilNodes::fixedCube::indices));
+            buffer->commit(values);
+        }
         bool associated = false;
         for (int i = 0; i < renderItems.length(); ++i) {
             const auto* item = renderItems.itemAt(i);
@@ -241,7 +263,10 @@ public:
             if (!item->associateWithIndexBuffer(buffer)) return;
             associated = true;
         }
-        if (associated) geometryDirty_.store(false, std::memory_order_relaxed);
+        if (associated) {
+            geometryDirty_.store(false, std::memory_order_relaxed);
+            indexingDirty_.store(false, std::memory_order_relaxed);
+        }
     }
 
 private:
@@ -256,10 +281,15 @@ private:
     }
 
     std::vector<Binding> bindings_;
+    BdShpLCubeNode* node_;
+    BdShpLCubeNode::Geometry geometry_;
+    std::atomic<std::uint64_t> geometryRevision_{0};
+    std::atomic<std::uint64_t> boundsRevision_{0};
     MHWRender::MRenderer* renderer_ = nullptr;
     const MHWRender::MShaderManager* manager_ = nullptr;
     MHWRender::DrawAPI api_ = MHWRender::kNone;
     std::atomic<bool> geometryDirty_{true};
+    std::atomic<bool> indexingDirty_{true};
 };
 
 }  // namespace

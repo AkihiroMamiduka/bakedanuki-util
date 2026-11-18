@@ -1,4 +1,5 @@
 #include "CubeResearch.h"
+#include "bdUtilNodes/nodes/BdShpLCubeNode.h"
 
 #include <maya/M3dView.h>
 #include <maya/MColor.h>
@@ -34,7 +35,6 @@ struct SharedResources {
     std::unique_ptr<MVertexBuffer> vertices;
     std::unique_ptr<MIndexBuffer> indices;
     std::vector<ColorShader> shaders;
-    MBoundingBox bounds = cubeResearch::bounds();
 
     ~SharedResources() {
         auto* current = MRenderer::theRenderer(false);
@@ -111,7 +111,8 @@ struct DrawState {
 class CubeSubSceneOverride final : public MPxSubSceneOverride {
 public:
     explicit CubeSubSceneOverride(const MObject& object)
-        : MPxSubSceneOverride(object), object_(object) {}
+        : MPxSubSceneOverride(object), object_(object),
+          node_(static_cast<BdShpLCubeNode*>(MFnDagNode(object).userNode())) {}
 
     DrawAPI supportedDrawAPIs() const override {
         return kOpenGL | kOpenGLCoreProfile | kDirectX11;
@@ -123,16 +124,25 @@ public:
         return !ready_ || !resources_ || resources_->renderer != renderer ||
             (renderer && (resources_->manager != renderer->getShaderManager() ||
                 resources_->api != renderer->drawAPI())) ||
-            container.count() != 1 || !(pending_ == current_);
+            container.count() != 1 || !(pending_ == current_) ||
+            !geometryReady_ || (node_ && node_->geometryRevision() != geometry_.revision);
     }
 
     void update(MSubSceneContainer& container, const MFrameContext&) override {
+        if (!node_) return;
+        const bool geometryChanged = !geometryReady_ ||
+            node_->geometryRevision() != geometry_.revision;
+        if (geometryChanged) {
+            geometry_ = node_->geometry();
+            geometryReady_ = true;
+        }
         auto* renderer = MRenderer::theRenderer();
         const bool resourcesChanged = !resources_ || resources_->renderer != renderer ||
             (renderer && (resources_->manager != renderer->getShaderManager() ||
                 resources_->api != renderer->drawAPI()));
         if (resourcesChanged) {
             container.clear();
+            ownedVertices_.reset();
             resources_ = resourcesFor(renderer);
             ready_ = false;
         }
@@ -168,13 +178,31 @@ public:
                 return;
             }
         }
-        if (created || !ready_) {
+        if (created || !ready_ || geometryChanged) {
+            std::unique_ptr<MVertexBuffer> replacement;
+            auto* vertices = resources_->vertices.get();
+            if (std::memcmp(geometry_.vertices, cubeResearch::vertices,
+                sizeof(cubeResearch::vertices)) != 0) {
+                const MVertexBufferDescriptor descriptor(
+                    "", MGeometry::kPosition, MGeometry::kFloat, 3);
+                replacement = std::make_unique<MVertexBuffer>(descriptor);
+                auto* positions = replacement->acquire(8, true);
+                if (!positions) {
+                    fail();
+                    return;
+                }
+                std::memcpy(positions, geometry_.vertices, sizeof(geometry_.vertices));
+                replacement->commit(positions);
+                vertices = replacement.get();
+            }
             MVertexBufferArray buffers;
-            buffers.addBuffer("positions", resources_->vertices.get());
-            if (!setGeometryForRenderItem(*item, buffers, *resources_->indices, &resources_->bounds)) {
+            buffers.addBuffer("positions", vertices);
+            if (!setGeometryForRenderItem(*item, buffers, *resources_->indices, &geometry_.bounds)) {
                 fail();
                 return;
             }
+            // bind成功まで旧bufferを保持し、既定形状へ戻れば共有bufferを使う。
+            ownedVertices_ = std::move(replacement);
         }
         // 親階層を含む行列を明示し、静止時の再設定と geometry upload を省く。
         if ((created || !ready_ || pending_.matrix != current_.matrix) &&
@@ -225,9 +253,13 @@ private:
     }
 
     MObject object_;
+    BdShpLCubeNode* node_ = nullptr;
     std::shared_ptr<SharedResources> resources_;
+    std::unique_ptr<MVertexBuffer> ownedVertices_;
+    BdShpLCubeNode::Geometry geometry_;
     DrawState current_;
     mutable DrawState pending_;
+    bool geometryReady_ = false;
     bool ready_ = false;
 };
 }

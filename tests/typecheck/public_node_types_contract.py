@@ -39,6 +39,10 @@ from bd_util.maya.node.operator.node.dag.shape._generated.bd_controller_shape im
     ShapePartShapeEnumPlugOperator,
     ShapePartTypeEnumPlugOperator,
 )
+from bd_util.maya.node.operator.node.dag.shape._generated.bd_shp_l_cube import (
+    Shape1stAxisEnumPlugOperator as CubeShape1stAxisEnumPlugOperator,
+    Shape2ndAxisEnumPlugOperator as CubeShape2ndAxisEnumPlugOperator,
+)
 from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 
 
@@ -51,6 +55,27 @@ def fixed_cube_public_node_contract() -> None:
     assert_type(shape, bdu.node_types.BdShpLCube)
     assert_type(paired_shape.visibility, BoolPlugOperator)
     assert_type(paired_shape.overrideEnabled, BoolPlugOperator)
+    assert_type(shape.shape1stAxis, CubeShape1stAxisEnumPlugOperator)
+    assert_type(shape.s1a, CubeShape1stAxisEnumPlugOperator)
+    assert_type(shape.shape2ndAxis, CubeShape2ndAxisEnumPlugOperator)
+    assert_type(shape.s2a, CubeShape2ndAxisEnumPlugOperator)
+    shape.shape1stAxis.set(shape.s1a.PLUS_X)
+    shape.shape2ndAxis.set(shape.s2a.PLUS_Y)
+    assert_type(shape.shapeBaseSpace1stAxisPlus, DoubleLinearPlugOperator)
+    assert_type(shape.sbsp1p, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace1stAxisMinus, DoubleLinearPlugOperator)
+    assert_type(shape.sbsp1m, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace2ndAxisPlus, DoubleLinearPlugOperator)
+    assert_type(shape.sbsp2p, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace2ndAxisMinus, DoubleLinearPlugOperator)
+    assert_type(shape.sbsp2m, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace3rdAxisPlus, DoubleLinearPlugOperator)
+    assert_type(shape.sbsp3p, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace3rdAxisMinus, DoubleLinearPlugOperator)
+    assert_type(shape.sbsp3m, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace1stAxisPlus.get(), float)
+    shape.shapeBaseSpace1stAxisPlus.set(1.0)
+    shape.sbsp1m.set(0.25)
     assert_type(
         bd_nodes.existing.bdShpL_Cube("cubeShape"), bdu.node_types.BdShpLCube
     )

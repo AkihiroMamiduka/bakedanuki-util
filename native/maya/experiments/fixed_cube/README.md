@@ -1,10 +1,38 @@
 # 固定 Cube の描画速度研究
 
-`bdShpL_Cube` はローカル座標が各軸 `±0.5 cm` の線のみ Cube です。
-8 頂点と重複のない 12 辺を固定し、独自属性を追加しません。
+`bdShpL_Cube` は、既定のローカル座標が各軸 `±0.5 cm` の線のみ Cube です。
+8 頂点と重複のない 12 辺を維持し、軸と各面の位置を8個の静的な属性で調整します。
 親 DAG 階層の最終行列を反映し、pivot、rotateAxis、shear、jointOrient、
 offsetParentMatrix を Maya 標準の計算へ委譲します。
 頂点を TRS に分解した値で作り直す処理はありません。
+
+## 静的な形状設定（2026-11-18）
+
+本体と研究用 Geometry / SubScene 版の形状設定は次の8属性です。
+
+| 属性 | 短縮名 | 型 | 既定値 |
+| --- | --- | --- | --- |
+| `shape1stAxis` | `s1a` | enum | `+X`（0） |
+| `shape2ndAxis` | `s2a` | enum | `+Y`（2） |
+| `shapeBaseSpace1stAxisPlus` | `sbsp1p` | doubleLinear | 0.5 cm |
+| `shapeBaseSpace1stAxisMinus` | `sbsp1m` | doubleLinear | 0.5 cm |
+| `shapeBaseSpace2ndAxisPlus` | `sbsp2p` | doubleLinear | 0.5 cm |
+| `shapeBaseSpace2ndAxisMinus` | `sbsp2m` | doubleLinear | 0.5 cm |
+| `shapeBaseSpace3rdAxisPlus` | `sbsp3p` | doubleLinear | 0.5 cm |
+| `shapeBaseSpace3rdAxisMinus` | `sbsp3m` | doubleLinear | 0.5 cm |
+
+軸 enum は `+X / -X / +Y / -Y / +Z / -Z` の順に `0..5` です。
+第3軸は第1軸と第2軸の外積です。同じ軸を指定した場合、第1軸が `±Y` なら
+第2軸を `+Z`、それ以外なら `+Y` として形状を計算します。
+各軸の Plus 側は設定値、Minus 側は設定値の符号を反転した位置です。
+距離は負値・ゼロ・面の反転を許容し、clamp しません。
+8属性は直接編集できますが、キー設定と入力接続は禁止します。
+通常のアニメーションには親 transform を使用します。
+NodeOperator では各属性の長い名前・短縮名と enum 定数を補完できます。
+`DoubleLinearPlugOperator.set()` / `.get()` の距離単位は cm です。
+
+後述の2026-11-17までの性能・表示記録は、独自の形状属性を持たなかった版の結果です。
+過去の証拠はそのまま保存し、属性追加後の性能・表示確認と区別します。
 
 ## 研究用 DLL
 
@@ -38,16 +66,18 @@ NodeOperator の生成済み API と型補完にも `bdShpL_Cube` を追加し�
 
 通常の細線、不透明、標準 depth、オブジェクト選択、選択色、visibility、
 Template / Reference を初期対象とします。独立した transform / shape を使用し、
-DAG instance、component 編集、線幅、透明度、DrawOnTop、独自の形状変形は対象外です。
-継承された locator の `localPosition` / `localScale` も固定形状には適用しません。
+DAG instance、component 編集、線幅、透明度、DrawOnTop は対象外です。
+継承された locator の `localPosition` / `localScale` も形状には適用しません。
 表示条件を広げる場合は、速度だけでなく基本操作・表示の対応範囲も比較します。
 Selection Highlighting OFF でも選択色が残る既存制約があります。
 通常の選択色、親・display layer の表示／色、キーによる色・可視性、
 `hideOnPlayback` による再生中の非表示と復元は追加の GUI gate で確認しています。
 
-Geometry 版は Maya の geometry 管理を使い、通常の更新で固定 stream / index の再生成を省きます。
-Maya が geometry を再要求した場合は再生成します。
-SubScene 版は vertex / index buffer を renderer ごとに共有し、行列を変更時だけ更新します。
+Geometry 版は Maya の geometry 管理を使い、形状設定を変更したときにローカル頂点を更新します。
+親 transform だけの変更では頂点を作り直さず、Maya が geometry を再要求した場合は再生成します。
+SubScene 版は既定頂点の vertex buffer と固定 index buffer を renderer ごとに共有します。
+調整した頂点が既定と異なるノードは専用 vertex buffer を持ち、形状設定の変更時に更新します。
+既定頂点へ戻すと共有 buffer に戻し、専用 buffer を解放します。行列も変更時だけ更新します。
 両版とも同色の stock shader を共有します。
 consolidation の指定は実際の draw call 削減を証明するものではありません。
 
@@ -63,11 +93,12 @@ repository root から実行します。研究用の生成物は `build/fixed_cu
 
 `check.ps1` は両 DLL を別の mayapy へロードし、ID / 属性 / bbox / draw classification、
 transform と joint の親行列、複製と削除 Undo / Redo、保存・再読込を検証します。
+8個の静的属性の定義・軸の組合せ・非対称な各面の位置・キーと入力接続の拒否も対象です。
 さらに、配布先 `bdUtilNodes` と build の SHA256 が一致することを確認し、
 隔離した設定の mayapy から `.mod` を通してプラグイン名でロードします。
-実際のロード先・Module path・API version を照合し、同じ 6 件の契約を実行します。
+実際のロード先・Module path・API version を照合し、同じ 66 件の契約を実行します。
 配布先が古い場合や存在しない場合は失敗させ、通常の native build で更新します。
-6件の契約は通常テストと研究ランナーで共有し、実装の分岐による検証漏れを防ぎます。
+66件の契約は通常テストと研究ランナーで共有し、実装の分岐による検証漏れを防ぎます。
 batch の成功は Viewport 描画やクリック選択の成功を意味しません。
 
 最終検証の統一入口です。3 version の研究用 build / 契約検証も含みます。
@@ -429,6 +460,65 @@ Black 4,823ファイル、3versionの型確認・native各949件・Cube研究契
 初回はBlackの並列実行が停止したため中断し、`BLACK_NUM_WORKERS=1` の環境で
 同じ統一入口を再実行しました。ログは `build/fixed_cube/verify_improvement_20261117_retry.log`。
 配布DLLは3versionとも通常設定で再ビルド済みです。性能・実描画のGUI計測はMaya 2025 / OpenGLのみです。
+
+## 2026-11-18 の静的な軸・基準空間属性の追加検証
+
+`shape1stAxis` / `shape2ndAxis` と6方向の `shapeBaseSpace` 距離を追加し、
+属性なし版の `5e4f4fa4` を基準として比較しました。8属性は直接編集用で、
+キーと入力接続を拒否します。形状変更時に8頂点と境界を更新し、通常の親操作・再生では
+保持した形状を使用します。辺の接続情報と同色のshaderも再利用します。
+
+Maya 2025 / OpenGL、独立した1,000個のtransform / shapeを共通親へ配置しました。
+既定形状は変更前 / 変更後 / 変更後 / 変更前、調整済み形状は変更後 / nurbsCurve /
+nurbsCurve / 変更後の順で、各72要求frame × 5試行、暖機8回を測定しました。
+調整済み条件は全ノードが異なる軸・非対称距離の組み合わせで、curveにも同じローカル頂点を使います。
+旧版は既定形状だけで比較し、親transformによる形状の代用は行いません。
+
+各起動内の5試行の中央値を取り、さらに2起動の中央値を集計した処理時間です。
+単位はms / 要求frame、小さいほど高速です。親・単体操作は選択したtransformの
+回転設定と強制refreshを含み、実マウス操作のHUD FPSではありません。
+
+| 条件 | 追加前・既定形状 | 追加後・既定形状 | 追加後・調整済み | nurbsCurve・調整済み |
+| --- | ---: | ---: | ---: | ---: |
+| 静止refresh | 1.631 | 1.294 | 1.370 | 1.355 |
+| 単体操作 | 1.604 | 1.488 | 1.468 | 1.497 |
+| 共通親操作 | 7.583 | 7.413 | 7.488 | 7.228 |
+| カメラ操作 | 1.567 | 1.583 | 1.481 | 1.523 |
+| 再生 | 2.674 | 2.654 | 2.610 | 2.551 |
+
+既定形状の追加後 / 追加前は、親操作 −2.25%、単体操作 −7.25%、再生 −0.76%でした。
+親操作の前後ペアは +0.37% / −4.75%、再生は −1.66% / +0.16%で、
+今回の条件では一貫した負荷増は確認していません。
+調整済み形状の追加後 / curveは、親操作 +3.60%、単体操作 −1.90%、再生 +2.32%でした。
+各条件2起動の記述比較で、起動差と試行差を含みます。調整済みの親操作は
+全試行をまとめた中央値では差の向きが変わるため、数％の差を確定的な優劣とは扱いません。
+全200試行を除外せず保持し、再生の最大3.401 ms、調整済み親操作の最大8.378 msも含めています。
+
+全起動の実終了は0で、timeoutはありません。DLL / ソース / 設定のSHA、
+同条件のfixtureと採取画像、12辺の選択、6種類の親変換を照合しました。
+実描画通知は各試行72回、再生は71回で全起動が一致します。
+これは対象viewの通知数であり、全viewの描画数やGPU draw call数ではありません。
+画像は採取した姿勢の検証で、計時した全frameの画像検証ではありません。
+通常のmain view-paneの状態も独立した記録対象にはしていません。
+
+追加後の既定形状・調整済み形状と、配布用 `bdUtilNodes.mll` の3つのGUI smokeも成功しました。
+配布DLLの52画像は研究版の調整済みsmokeと一致し、属性変更、Undo / Redo、
+非表示中の編集後の再表示、変更後と再表示後の辺の選択を確認しています。
+smokeの計時値は正式比較へ含めません。
+
+証拠は `build/fixed_cube/static_axes_20261118/`（Git管理外）に保存しています。
+正式結果は `formal_01/audit_after_08.json`、独立再計算は
+`independent_recalculation_01.json`、本節追記直前の全入力一致と配布smokeの最終監査は
+`final_freeze_audit_01.json` です。実行時のソースと入力はsnapshotに保存済みです。
+現ソースとの一致を要求する再監査は本節追記前に完了しています。本節追記後はREADMEの
+差分が検出されるため、実行時のsnapshotと保存済みの最終監査を証拠として参照します。
+
+`verify.cmd -IncludeNative -IncludeCubeResearch` は終了コード0でした。
+Black 4,823ファイル、3版の型確認・native各1,009件・Cube契約各方式66件、
+Maya 2025 full pytest 8,404件、3版のQt各1,195件・Maya UI各1,035件が成功しました。
+制限環境でBlackが停止した実行は中断し、通常環境で同じ統一入口を再実行しています。
+ログは `build/fixed_cube/static_axes_20261118/verify_20261118_unrestricted.log` です。
+配布DLLは3版とも通常設定で更新済みで、実Viewportと性能の確認範囲はMaya 2025 / OpenGLです。
 
 ## 参考
 
