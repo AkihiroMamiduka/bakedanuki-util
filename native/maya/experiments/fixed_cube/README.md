@@ -579,6 +579,29 @@ ON / OFF を各2起動・5試行で計測しました。全40試行で入力に�
 再現と性能の証拠は `build/fixed_cube/cached_playback_20261118/`（Git 管理外）、
 再集計と監査は同フォルダの `timing_audit.json` と `drag_audit.json` です。
 
+## フォーカス用の兄弟シェイプ付きコントローラー
+
+Maya 2025.3.3 / OpenGL で、共通親の下にコントローラーを1,000組配置しました。
+各コントローラーは、先頭に非表示のフォーカス用シェイプ、2番目に同形状の Cube 本体を持ちます。
+`nurbsCurve` 2枚構成では先頭を `overrideVisibility` で隠し、
+プラグイン構成では `bdShpL_FocusBoundingBox.showShape` を OFF にしました。
+配布版はプレビュー表示中だけフォーカス用ノードを Evaluation Cache の既定対象にします。
+
+各構成を独立した2回の起動で測定し、各起動5試行の中央値を集計しました。
+操作は Maya の移動マニピュレータへ送った72入力の1入力あたり、
+再生は Maya の全フレーム再生で描画された71フレームの1フレームあたりです。単位は ms です。
+
+| 構成 | Cached Playback | 共通親操作 | 単体操作 | 再生 |
+| --- | --- | ---: | ---: | ---: |
+| `nurbsCurve` 2枚 | OFF | 7.51 | 2.72 | 3.02 |
+| Focus Bounding Box + Cube | OFF | 8.73 | 3.35 | 3.29 |
+| `nurbsCurve` 2枚 | Evaluation Cache | 7.64 | 2.53 | 4.10 |
+| Focus Bounding Box + Cube | Evaluation Cache | 8.99 | 3.54 | 3.53 |
+
+単体と共通親の再生時に、表示したプレビューが通常再生および Evaluation / VP2 Software /
+VP2 Hardware Cache の復元フレームと一致することを画像で確認しました。
+速度計測と描画検証の記録は `build/fixed_cube/focus_bbox_20261118/`（Git 管理外）にあります。
+
 ## 参考
 
 - [Autodesk Scene Overrides](https://help.autodesk.com/cloudhelp/2026/ENU/Maya-DEVHELP/files/Viewport-2-0-API/Overview-of-the-Viewport-2-0-API/Maya_DEVHELP_Viewport_2_0_API_Overview_of_the_Viewport_2_0_API_Scene_Overrides_html.html)

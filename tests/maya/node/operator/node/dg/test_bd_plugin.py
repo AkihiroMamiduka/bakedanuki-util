@@ -52,7 +52,7 @@ def test_node_type_ids_are_unique_and_in_registered_block(maya_cmds, maya_om):
     plugin_name = _load_bd_util_nodes(maya_cmds)
     node_types = maya_cmds.pluginInfo(plugin_name, query=True, dependNode=True)
 
-    assert len(node_types) == 159
+    assert len(node_types) == 160
 
     type_ids = [
         maya_om.MNodeClass(node_type).typeId.id() for node_type in node_types
@@ -92,6 +92,135 @@ def test_fixed_cube_public_creator_and_existing_support_undo_redo(
     mod.redo_it()
     assert shape.full_path == "|cube_ctrl|cubeShape"
     assert maya_cmds.objExists(shape.full_path)
+
+
+def test_focus_box_public_type_and_static_attributes(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    mod = bdu.ModifierManager()
+    bd_nodes = bdu.Nodes(modifier_manager=mod)
+    transform, shape = bd_nodes.create.with_transform.bdShpL_FocusBoundingBox(
+        name="control", shape_name="focusBox"
+    )
+    bd_nodes.create.bdShpL_Cube(parent=transform, name="cubeShape")
+    mod.do_it_dag()
+
+    node_type = "bdShpL_FocusBoundingBox"
+    assert maya_om.MNodeClass(node_type).typeId.id() == 0x00142721
+    assert type(shape) is bdu.node_types.BdShpLFocusBoundingBox
+    assert bdu.node_types.resolve(node_type) is type(shape)
+    existing = bd_nodes.existing.bdShpL_FocusBoundingBox(shape.full_path)
+    assert existing.m_obj == shape.m_obj
+    assert existing.visibility.get() is True
+    assert existing.showShape.get() is False
+
+    attrs = [("showShape", "ss", "bool", False)]
+    half_unit = maya_om.MDistance.internalToUI(0.5)
+    attrs.extend(
+        (
+            f"shapeBaseSpace{axis}{side}",
+            f"sbs{axis.lower()}{letter}",
+            "doubleLinear",
+            half_unit,
+        )
+        for axis in "XYZ"
+        for side, letter in (("Plus", "p"), ("Minus", "m"))
+    )
+    locator = maya_cmds.createNode("locator")
+    assert set(maya_cmds.listAttr(shape.full_path)) - set(
+        maya_cmds.listAttr(locator)
+    ) == {name for name, *_ in attrs}
+    for name, short, kind, default in attrs:
+        plug = f"{shape.full_path}.{name}"
+        assert (
+            maya_cmds.attributeQuery(
+                name, node=shape.full_path, shortName=True
+            )
+            == short
+        )
+        assert maya_cmds.getAttr(plug, type=True) == kind
+        assert maya_cmds.getAttr(
+            f"{shape.full_path}.{short}"
+        ) == pytest.approx(default)
+        assert not maya_cmds.getAttr(plug, keyable=True)
+        assert maya_cmds.getAttr(plug, channelBox=True)
+        assert not maya_cmds.attributeQuery(
+            name, node=shape.full_path, connectable=True
+        )
+        assert maya_cmds.attributeQuery(
+            name, node=shape.full_path, storable=True
+        )
+
+
+def test_focus_box_bounds_stay_independent_of_preview_and_sibling(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    ctrl = maya_cmds.createNode("transform")
+    focus = maya_cmds.createNode("bdShpL_FocusBoundingBox", parent=ctrl)
+    body = maya_cmds.createNode("bdShpL_Cube", parent=ctrl)
+
+    def bounds(node):
+        selection = maya_om.MSelectionList()
+        selection.add(node)
+        box = maya_om.MFnDagNode(selection.getDagPath(0)).boundingBox
+        return (*tuple(box.min)[:3], *tuple(box.max)[:3])
+
+    cube_bounds = (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
+    assert bounds(focus) == pytest.approx(cube_bounds)
+    for attr, value in (
+        ("shapeBaseSpaceXPlus", 7.0),
+        ("shapeBaseSpaceXMinus", -9.0),
+        ("shapeBaseSpaceYPlus", 0.0),
+        ("shapeBaseSpaceYMinus", 0.0),
+        ("shapeBaseSpaceZPlus", 2.75),
+        ("shapeBaseSpaceZMinus", 1.25),
+    ):
+        maya_cmds.setAttr(
+            f"{focus}.{attr}", maya_om.MDistance.internalToUI(value)
+        )
+    expected = (7.0, 0.0, -1.25, 9.0, 0.0, 2.75)
+    assert bounds(focus) == pytest.approx(expected)
+    maya_cmds.setAttr(f"{focus}.showShape", True)
+    assert bounds(focus) == pytest.approx(expected)
+    assert bounds(body) == pytest.approx(cube_bounds)
+
+    (duplicate,) = maya_cmds.duplicate(ctrl, name="copy")
+    duplicated_focus, _ = maya_cmds.listRelatives(
+        duplicate, shapes=True, fullPath=True
+    )
+    assert bounds(duplicated_focus) == pytest.approx(expected)
+    assert maya_cmds.getAttr(f"{duplicated_focus}.showShape")
+
+
+def test_focus_box_frames_first_visible_sibling(maya_cmds, maya_om, new_scene):
+    _load_bd_util_nodes(maya_cmds)
+    ctrl = maya_cmds.createNode("transform")
+    focus = maya_cmds.createNode("bdShpL_FocusBoundingBox", parent=ctrl)
+    body = maya_cmds.createNode("bdShpL_Cube", parent=ctrl)
+    to_ui = maya_om.MDistance.internalToUI
+    maya_cmds.setAttr(f"{ctrl}.translateX", to_ui(3.0))
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpaceXMinus", to_ui(-9.5))
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpaceXPlus", to_ui(10.5))
+    maya_cmds.select(ctrl)
+
+    def framed_x():
+        maya_cmds.viewFit("frontShape", animate=False, noChildren=True)
+        x, _, _ = maya_cmds.xform(
+            "front", query=True, worldSpace=True, translation=True
+        )
+        return maya_om.MDistance.uiToInternal(x)
+
+    assert framed_x() == pytest.approx(13.0)
+    maya_cmds.reorder(body, front=True)
+    assert framed_x() == pytest.approx(3.0)
+    maya_cmds.reorder(focus, front=True)
+    maya_cmds.setAttr(f"{focus}.visibility", False)
+    assert framed_x() == pytest.approx(3.0)
+    maya_cmds.setAttr(f"{focus}.visibility", True)
+    maya_cmds.setAttr(f"{focus}.showShape", True)
+    assert framed_x() == pytest.approx(13.0)
 
 
 @pytest.mark.parametrize(

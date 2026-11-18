@@ -7,6 +7,7 @@
 
 #include "bdUtilNodes/nodes/BdControllerShapeNode.h"
 #include "bdUtilNodes/nodes/BdShpLCubeNode.h"
+#include "bdUtilNodes/nodes/BdShpLFocusBoundingBoxNode.h"
 #include "bdUtilNodes/nodes/BdDeleteWithOwnerNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblLNode.h"
 #include "bdUtilNodes/nodes/BdAnyConditionDblLMultiNode.h"
@@ -182,8 +183,42 @@ struct NodeRegistration {
     const MString* classification = nullptr;
 };
 
-const std::array<NodeRegistration, 159>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 159> registrations = {{
+struct GeometryOverrideRegistration {
+    const MString& classification;
+    const MString& registrantId;
+    MHWRender::MDrawRegistry::GeometryOverrideCreator creator;
+
+    MStatus registerCreator() const {
+        return MHWRender::MDrawRegistry::registerGeometryOverrideCreator(
+            classification, registrantId, creator
+        );
+    }
+
+    MStatus deregisterCreator() const {
+        return MHWRender::MDrawRegistry::deregisterGeometryOverrideCreator(
+            classification, registrantId
+        );
+    }
+};
+
+const std::array<GeometryOverrideRegistration, 2>& geometryOverrides() {
+    static const std::array<GeometryOverrideRegistration, 2> overrides = {{
+        {
+            BdShpLCubeNode::drawClassification,
+            BdShpLCubeNode::drawRegistrantId,
+            BdShpLCubeNode::createGeometryOverride,
+        },
+        {
+            BdShpLFocusBoundingBoxNode::drawClassification,
+            BdShpLFocusBoundingBoxNode::drawRegistrantId,
+            BdShpLFocusBoundingBoxNode::createGeometryOverride,
+        },
+    }};
+    return overrides;
+}
+
+const std::array<NodeRegistration, 160>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 160> registrations = {{
         {
             BdShpLCubeNode::typeName,
             BdShpLCubeNode::typeId,
@@ -191,6 +226,14 @@ const std::array<NodeRegistration, 159>& nodeRegistrations() {
             BdShpLCubeNode::initialize,
             MPxNode::kLocatorNode,
             &BdShpLCubeNode::drawClassification,
+        },
+        {
+            BdShpLFocusBoundingBoxNode::typeName,
+            BdShpLFocusBoundingBoxNode::typeId,
+            BdShpLFocusBoundingBoxNode::creator,
+            BdShpLFocusBoundingBoxNode::initialize,
+            MPxNode::kLocatorNode,
+            &BdShpLFocusBoundingBoxNode::drawClassification,
         },
         {
             BdControllerShapeNode::typeName,
@@ -1210,20 +1253,22 @@ MStatus initializePlugin(MObject pluginObject) {
         return status;
     }
 
-    status = MHWRender::MDrawRegistry::registerGeometryOverrideCreator(
-        BdShpLCubeNode::drawClassification,
-        BdShpLCubeNode::drawRegistrantId,
-        BdShpLCubeNode::createGeometryOverride
-    );
-    if (!status) {
-        status.perror("Failed to register bdShpL_Cube draw override");
+    const auto& overrides = geometryOverrides();
+    for (std::size_t index = 0; index < overrides.size(); ++index) {
+        status = overrides[index].registerCreator();
+        if (status) continue;
+        status.perror(MString("Failed to register draw override: ") + overrides[index].classification);
+        for (std::size_t count = index; count > 0; --count) {
+            const auto cleanupStatus = overrides[count - 1].deregisterCreator();
+            if (!cleanupStatus) cleanupStatus.perror("Failed to roll back geometry override");
+        }
         const auto cleanupStatus = MHWRender::MDrawRegistry::deregisterSubSceneOverrideCreator(
             BdControllerShapeNode::drawClassification,
             BdControllerShapeNode::drawRegistrantId
         );
         if (!cleanupStatus) cleanupStatus.perror("Failed to roll back controller draw override");
-        for (std::size_t index = registrations.size(); index > 0; --index) {
-            const auto nodeStatus = plugin.deregisterNode(registrations[index - 1].typeId);
+        for (std::size_t count = registrations.size(); count > 0; --count) {
+            const auto nodeStatus = plugin.deregisterNode(registrations[count - 1].typeId);
             if (!nodeStatus) nodeStatus.perror("Failed to roll back node registration");
         }
         return status;
@@ -1258,13 +1303,12 @@ MStatus uninitializePlugin(MObject pluginObject) {
         return status;
     }
 
-    const auto restoreCubeOverride = []() {
-        const auto restoreStatus = MHWRender::MDrawRegistry::registerGeometryOverrideCreator(
-            BdShpLCubeNode::drawClassification,
-            BdShpLCubeNode::drawRegistrantId,
-            BdShpLCubeNode::createGeometryOverride
-        );
-        if (!restoreStatus) restoreStatus.perror("Failed to restore Cube draw override");
+    const auto& overrides = geometryOverrides();
+    const auto restoreGeometryOverrides = [&overrides](std::size_t first) {
+        for (std::size_t index = first; index < overrides.size(); ++index) {
+            const auto restoreStatus = overrides[index].registerCreator();
+            if (!restoreStatus) restoreStatus.perror("Failed to restore geometry override");
+        }
     };
     const auto restoreControllerOverride = []() {
         const auto restoreStatus = MHWRender::MDrawRegistry::registerSubSceneOverrideCreator(
@@ -1275,12 +1319,11 @@ MStatus uninitializePlugin(MObject pluginObject) {
         if (!restoreStatus) restoreStatus.perror("Failed to restore controller draw override");
     };
 
-    status = MHWRender::MDrawRegistry::deregisterGeometryOverrideCreator(
-        BdShpLCubeNode::drawClassification,
-        BdShpLCubeNode::drawRegistrantId
-    );
-    if (!status) {
-        status.perror("Failed to deregister bdShpL_Cube draw override");
+    for (std::size_t count = overrides.size(); count > 0; --count) {
+        status = overrides[count - 1].deregisterCreator();
+        if (status) continue;
+        status.perror(MString("Failed to deregister draw override: ") + overrides[count - 1].classification);
+        restoreGeometryOverrides(count);
         BdControllerShapeNode::resumeWirePlaybackNotification();
         return status;
     }
@@ -1292,7 +1335,7 @@ MStatus uninitializePlugin(MObject pluginObject) {
     );
     if (!status) {
         status.perror("Failed to deregister bdControllerShape draw override");
-        restoreCubeOverride();
+        restoreGeometryOverrides(0);
         BdControllerShapeNode::resumeWirePlaybackNotification();
         return status;
     }
@@ -1300,7 +1343,7 @@ MStatus uninitializePlugin(MObject pluginObject) {
     status = BdControllerShapeNode::cleanupDrawResources();
     if (!status) {
         restoreControllerOverride();
-        restoreCubeOverride();
+        restoreGeometryOverrides(0);
         BdControllerShapeNode::resumeWirePlaybackNotification();
         status.perror("Failed to release controller drawing resources");
         return status;
@@ -1322,7 +1365,7 @@ MStatus uninitializePlugin(MObject pluginObject) {
                 if (!restoreStatus) restoreStatus.perror("Failed to restore node registration");
             }
             restoreControllerOverride();
-            restoreCubeOverride();
+            restoreGeometryOverrides(0);
             BdControllerShapeNode::resumeWirePlaybackNotification();
             return status;
         }

@@ -325,6 +325,37 @@ Maya 2026 / 2027 の GUI 描画と性能は未検証です。
 同じ node type と `MTypeId` を登録する代替実装です。`bdUtilNodes.mll` と同時ロードできません。
 研究用 DLL をロード済みの場合は、Maya を再起動して配布先の `bdUtilNodes.mll` を読み込みます。
 
+### フォーカス用バウンディングボックス
+
+`bdShpL_FocusBoundingBox` は、選択したコントローラーを `F` キーでフレームする範囲を指定する shape です。
+コントローラーの transform 直下に最初の shape として配置し、標準の `visibility` は ON のまま使用します。
+本体には `bdShpL_Cube` や `nurbsCurve` などを配置できます。
+
+```python
+from maya import cmds
+
+cmds.loadPlugin("bdUtilNodes", quiet=True)
+ctrl = cmds.createNode("transform", name="cube_ctrl")
+focus = cmds.createNode("bdShpL_FocusBoundingBox", parent=ctrl, name="cube_focusShape")
+cmds.createNode("bdShpL_Cube", parent=ctrl, name="cube_ctrlShape")
+cmds.select(ctrl)
+```
+
+既存のコントローラーへ追加する場合は、`cmds.reorder(focus, front=True)` で先頭に移動します。
+本体自身の範囲でフレームしたいコントローラーは、本体の shape を先頭に置きます。
+
+| 属性 | 短縮名 | 型 | 既定値 |
+| --- | --- | --- | --- |
+| `showShape` | `ss` | bool | OFF |
+| `shapeBaseSpaceXPlus` / `shapeBaseSpaceXMinus` | `sbsxp` / `sbsxm` | doubleLinear | 0.5 cm |
+| `shapeBaseSpaceYPlus` / `shapeBaseSpaceYMinus` | `sbsyp` / `sbsym` | doubleLinear | 0.5 cm |
+| `shapeBaseSpaceZPlus` / `shapeBaseSpaceZMinus` | `sbszp` / `sbszm` | doubleLinear | 0.5 cm |
+
+各軸の端点は `-Minus` と `Plus` です。負値で箱を片側に寄せることもでき、
+端点が逆順の場合は小さい方と大きい方が範囲になります。7属性は直接編集する静的なチャンネルボックス属性です。
+`showShape` を ON にすると調整用の線が表示され、クリック選択は本体で行えます。
+通常使用時は `showShape` を OFF にすると、フレーム範囲を保ったままプレビューの描画データを省けます。
+
 ### Wrap Existing Nodes
 
 ```python

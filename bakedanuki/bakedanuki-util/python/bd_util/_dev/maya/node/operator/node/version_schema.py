@@ -46,6 +46,7 @@ INVENTORY_COUNTS = {
 BASELINE_ADDITIONAL_NODE_TYPES = (
     "aiOpenPBRSurface",
     "bdShpL_Cube",
+    "bdShpL_FocusBoundingBox",
     "bifrostGraphShape",
     "bifrostRiggingContainer",
     "gpuCache",

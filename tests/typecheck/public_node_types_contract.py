@@ -87,6 +87,32 @@ def fixed_cube_public_node_contract() -> None:
     assert_type(shape, bdu.node_types.maya2027_plus.BdShpLCube)
 
 
+def focus_bounding_box_public_node_contract() -> None:
+    bd_nodes = bdu.Nodes()
+    transform, paired_shape = (
+        bd_nodes.create.with_transform.bdShpL_FocusBoundingBox()
+    )
+    assert_type(transform, bdu.node_types.Transform)
+    assert_type(paired_shape, bdu.node_types.BdShpLFocusBoundingBox)
+    shape = bd_nodes.create.bdShpL_FocusBoundingBox(parent=transform)
+    assert_type(shape.showShape, BoolPlugOperator)
+    assert_type(shape.ss, BoolPlugOperator)
+    assert_type(shape.shapeBaseSpaceXPlus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpaceXMinus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpaceYPlus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpaceYMinus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpaceZPlus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpaceZMinus, DoubleLinearPlugOperator)
+    assert_type(shape.sbsxp, DoubleLinearPlugOperator)
+    assert_type(
+        bd_nodes.existing.bdShpL_FocusBoundingBox("focusShape"),
+        bdu.node_types.BdShpLFocusBoundingBox,
+    )
+    assert_type(shape, bdu.node_types.maya2025.BdShpLFocusBoundingBox)
+    assert_type(shape, bdu.node_types.maya2026.BdShpLFocusBoundingBox)
+    assert_type(shape, bdu.node_types.maya2027.BdShpLFocusBoundingBox)
+
+
 def controller_shape_face_scale_compound_contract() -> None:
     _, shape = bdu.Nodes().create.controllerShape()
     assert_type(

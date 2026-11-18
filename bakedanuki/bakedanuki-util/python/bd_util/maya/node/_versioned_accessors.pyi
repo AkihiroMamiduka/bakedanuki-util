@@ -958,6 +958,9 @@ from .operator.node.dg.bd_rbf_position_weight import (
     BdRbfPositionWeight as _BdRbfPositionWeight,
 )
 from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube as _BdShpLCube
+from .operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
+    BdShpLFocusBoundingBox as _BdShpLFocusBoundingBox,
+)
 from .operator.node.dg.bevel import Bevel as _Bevel
 from .operator.node.dg.bevel_plus import BevelPlus as _BevelPlus
 from .operator.node.dag.shape.bezier_curve import BezierCurve as _BezierCurve
@@ -3271,6 +3274,15 @@ class _ShapeWithTransformCreatorCommon:
         parent: DAG | None = None,
         namespace: str | None = None,
     ) -> tuple[Transform, _BdShpLCube]: ...
+    def bdShpL_FocusBoundingBox(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _BdShpLFocusBoundingBox]: ...
     def bezierCurve(
         self,
         name: str | None = None,
@@ -8099,6 +8111,14 @@ class _NodeCreatorCommon:
         parent: Transform,
         namespace: str | None = None,
     ) -> _BdShpLCube: ...
+    def bdShpL_FocusBoundingBox(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BdShpLFocusBoundingBox: ...
     def bevel(
         self,
         name: str | None = None,
@@ -22068,6 +22088,11 @@ class _ExistingNodeAccessorCommon:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> _BdShpLCube: ...
+    def bdShpL_FocusBoundingBox(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdShpLFocusBoundingBox: ...
     def bevel(
         self,
         node: str | om.MObject,
