@@ -99,7 +99,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 | [test_bd_controller_cage_straight_edges.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_cage_straight_edges.py) | 元頂点だけを変形した範囲、Circleの既存64サンプル、Template境界を加えても変わらない輪郭 |
 | [test_bd_controller_capsule.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_capsule.py) | 端別の半径と倍率、接合面、反転・中心間0・退化、Part・Finと保存再読込 |
 | [test_bd_controller_arrow_family.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_arrow_family.py) | Planar / Axial / Spatialの本体構成、横径由来の母体寸法、各オプションと軸交換 |
-| [test_bd_controller_node_editor_template.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_node_editor_template.py) | テンプレートとネイティブ属性の対応、66個の表示対象と順序、Finの4属性 |
+| [test_shape_node_editor_template.py](../../../tests/maya/node/operator/node/dag/shape/test_shape_node_editor_template.py) | Custom Mode の行列ポートとフォーカス用4型の空表示、配布テンプレートの検索パス |
 
 Finとフォーカスの変更を切り分ける例です。
 
@@ -364,7 +364,7 @@ modifier操作を積みます。この経路と、Mayaの `setAttr(..., type="do
 2. 親と子を直接編集し、Undo/Redo・保存再読込後も値と範囲を確認する。
 3. 親・子への `connectAttr()`、`MDGModifier` の入力接続を拒否し、明示的なキー設定でもanimCurve入力を作らないことを確認する。
 4. Maya GUIで親の直接編集とUndoを行い、画素と必要な選択範囲が更新されるか確認する。
-5. `shapeAnimationTransformMatrix` の接続と接続元の数値属性のキー、表示属性・Bounds設定の接続とキーによる動的更新を確認する。
+5. `shapeTransformMatrix` の接続と接続元の数値属性のキー、表示属性・Bounds設定の接続とキーによる動的更新を確認する。
 
 テスト用のdynamic `double2` は、親と両子の `addAttr()` を完了してから子へ値・キー・接続を設定します。
 子を1つだけ追加した途中状態で操作すると、属性が見つからないことがあります。
@@ -386,7 +386,7 @@ FillPartごとにbit同一の座標を共有します。論理プリミティブ
 - indexを展開した線分・三角形とその順序、重複数、style・marker・singleSided、boundsが
   共有前の独立した参照計算と一致する。`MPoint` のx・y・z・wをbit単位で比較し、
   signed zero・NaN payload・wが異なる点を統合しない。長い `lineStrip` の座標と分割を保つ。
-- `shapeAnimationTransformMatrix` の正・負・ゼロの行列式、シアー、射影変換を確認する。
+- `shapeTransformMatrix` の正・負・ゼロの行列式、シアー、射影変換を確認する。
   片面Fillの逆向きindex切替と、退化・輪郭付近のカリングfallbackが同じ3点・演算順を使う。
   個別には射影変換を含み、合成するとaffineに見える組合せもfallbackを通す。
 - 実GUIで通常・Xray・太線・半透明、Normal / Templateの色と選択、Wireframeへの切替を比較する。
@@ -515,7 +515,7 @@ Cached Playbackの厳格なnumeric復元gateの終了コード1も、今回の�
 太線・透明線・DrawOnTop等の従来描画との往復、片面／両面、親／静的形状／接続行列の反転、
 初回から負の親行列、不透明面の内側、独立した2 view、Selection Highlighting OFFと
 階層／Display Layerのoverride色を確認しました。
-実再生は親と `shapeAnimationTransformMatrix` の接続元へ2姿勢のstep keyを設定し、
+実再生は親と `shapeTransformMatrix` の接続元へ2姿勢のstep keyを設定し、
 Cached Playback ON / OFFで2回ずつ再生します。
 
 開発記録は `build/controller_performance/fill_production_20261115/` に保存します。

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <using package="maya"/>
+    <template name="NEbdShpL_Cube">
+        <attribute name="shapeTransformMatrix" type="maya.matrix">
+            <label>Shape Transform Matrix</label>
+        </attribute>
+    </template>
+    <view name="NEDefault" template="NEbdShpL_Cube">
+        <property name="shapeTransformMatrix"/>
+    </view>
+</templates>

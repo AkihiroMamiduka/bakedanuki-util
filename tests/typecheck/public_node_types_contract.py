@@ -76,6 +76,11 @@ def fixed_cube_public_node_contract() -> None:
     assert_type(shape.shapeBaseSpace1stAxisPlus.get(), float)
     shape.shapeBaseSpace1stAxisPlus.set(1.0)
     shape.sbsp1m.set(0.25)
+    assert_type(shape.shapeTransformMatrix, DataMatrixPlugOperator)
+    assert_type(shape.stm, DataMatrixPlugOperator)
+    assert_type(shape.stm.get(), bdu.TransformMatrix)
+    shape.shapeTransformMatrix.set(bdu.TransformMatrix())
+    bd_nodes.create.composeMatrix().outputMatrix.connect(shape.stm)
     assert_type(
         bd_nodes.existing.bdShpL_Cube("cubeShape"), bdu.node_types.BdShpLCube
     )
@@ -526,7 +531,8 @@ def controller_shape_offset_line_contract() -> None:
     shape.sfnt.set(ShapeFinTypeEnumPlugOperator.STANDARD)
     assert_type(shape.shape1stAxis, Shape1stAxisEnumPlugOperator)
     assert_type(shape.shape2ndAxis, Shape2ndAxisEnumPlugOperator)
-    assert_type(shape.shapeAnimationTransformMatrix, DataMatrixPlugOperator)
+    assert_type(shape.shapeTransformMatrix, DataMatrixPlugOperator)
+    assert_type(shape.stm, DataMatrixPlugOperator)
     assert_type(shape.shapeBaseSpace1stAxisMinus, DoubleLinearPlugOperator)
     assert_type(shape.shapeBaseSpace1stAxisPlus, DoubleLinearPlugOperator)
     assert_type(shape.shapeBaseSpace2ndAxisMinus, DoubleLinearPlugOperator)
@@ -682,7 +688,7 @@ def controller_shape_offset_line_contract() -> None:
     assert_type(shape.shapeAxisScale, ShapeAxisScalePlugOperator)
     shape.shape1stAxis.set(Shape1stAxisEnumPlugOperator.PLUS_X)
     shape.shape2ndAxis.set(Shape2ndAxisEnumPlugOperator.PLUS_Y)
-    shape.shapeAnimationTransformMatrix.set(
+    shape.shapeTransformMatrix.set(
         (
             1.0,
             0.0,

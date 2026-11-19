@@ -132,7 +132,7 @@ public:
     static MObject shapeGuideLineTemplate;
     static MObject shape1stAxis;
     static MObject shape2ndAxis;
-    static MObject shapeAnimationTransformMatrix;
+    static MObject shapeTransformMatrix;
     static MObject shapeRootSize;
 
     static MObject shapeTranslate;

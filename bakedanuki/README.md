@@ -33,6 +33,7 @@ bakedanuki/
     templates/
       node_editor/
         NEbdControllerShapeTemplate.xml
+        NEbdShpL_*Template.xml
 
   bakedanuki-tools/
     README.md
@@ -50,7 +51,7 @@ Maya には `bakedanuki/modules` だけを `MAYA_MODULE_PATH` として追加し
 各 `.mod` ファイルが、それぞれのパッケージフォルダ内にある `python`、
 Maya version 別の `plug-ins` などを Maya へ追加します。
 `bd_util.mod` はMaya 2025 / 2026 / 2027で共通の `templates/node_editor` も
-`MAYA_CUSTOM_TEMPLATE_PATH` へ追加します。`bdControllerShape` のCustom Mode用テンプレートを同梱し、
+`MAYA_CUSTOM_TEMPLATE_PATH` へ追加します。`bdControllerShape` と固定シェイプの Custom Mode 用テンプレートを同梱し、
 ユーザーのテンプレート保存先とNode Editorの既定表示モードは変更しません。
 
 ## Setup With installer.py

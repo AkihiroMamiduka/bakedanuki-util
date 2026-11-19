@@ -5217,7 +5217,7 @@ def test_animation_matrix_playback_updates_fill_and_reflected_culling(
             driver = maya_cmds.createNode("composeMatrix")
             maya_cmds.connectAttr(
                 f"{driver}.outputMatrix",
-                f"{shape}.shapeAnimationTransformMatrix",
+                f"{shape}.shapeTransformMatrix",
             )
             for attribute, first, last in (
                 ("inputTranslateX", -0.75, 0.75),

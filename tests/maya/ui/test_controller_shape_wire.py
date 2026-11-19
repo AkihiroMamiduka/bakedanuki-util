@@ -188,7 +188,7 @@ def test_wire_connected_animation_matrix_updates_during_playback(
             driver = maya_cmds.createNode("composeMatrix")
             maya_cmds.connectAttr(
                 f"{driver}.outputMatrix",
-                f"{shape}.shapeAnimationTransformMatrix",
+                f"{shape}.shapeTransformMatrix",
             )
             for frame, value in (
                 (1, -0.15),

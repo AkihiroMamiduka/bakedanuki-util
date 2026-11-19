@@ -90,7 +90,7 @@ def test_color_corner_common_transforms_and_animation_keep_the_cube_envelope(
         maya_cmds.setAttr(f"{shape}.shapeAxisTranslate", 0.3, -0.2, 0.4)
         maya_cmds.setAttr(f"{shape}.shapeTranslate", -0.7, 0.9, -0.5)
         maya_cmds.setAttr(
-            f"{shape}.shapeAnimationTransformMatrix",
+            f"{shape}.shapeTransformMatrix",
             *list(animation.asMatrix()),
             type="matrix",
         )

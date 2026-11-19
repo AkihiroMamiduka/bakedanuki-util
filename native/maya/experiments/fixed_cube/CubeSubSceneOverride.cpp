@@ -130,10 +130,13 @@ public:
 
     void update(MSubSceneContainer& container, const MFrameContext&) override {
         if (!node_) return;
-        const bool geometryChanged = !geometryReady_ ||
-            node_->geometryRevision() != geometry_.revision;
-        if (geometryChanged) {
-            geometry_ = node_->geometry();
+        bool geometryChanged = !geometryReady_;
+        if (geometryChanged || node_->geometryRevision() != geometry_.revision) {
+            const auto geometry = node_->geometry();
+            geometryChanged = geometryChanged ||
+                std::memcmp(geometry.vertices, geometry_.vertices, sizeof(geometry.vertices)) != 0 ||
+                geometry.bounds.min() != geometry_.bounds.min() || geometry.bounds.max() != geometry_.bounds.max();
+            geometry_ = geometry;
             geometryReady_ = true;
         }
         auto* renderer = MRenderer::theRenderer();

@@ -522,8 +522,8 @@ class GeneratedBdControllerShape(Shape):
     localScaleZ = localScale.localScaleZ
     lsz = localScaleZ
 
-    shapeAnimationTransformMatrix = DataMatrixField()
-    satm = shapeAnimationTransformMatrix
+    shapeTransformMatrix = DataMatrixField()
+    stm = shapeTransformMatrix
 
     shape1stAxis = Shape1stAxisEnumField(default_value=0)
     s1a = shape1stAxis

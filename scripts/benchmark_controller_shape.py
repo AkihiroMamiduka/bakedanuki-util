@@ -535,7 +535,7 @@ def _measure(
         for shape in shapes:
             cmds.connectAttr(
                 compose + ".outputMatrix",
-                shape + ".shapeAnimationTransformMatrix",
+                shape + ".shapeTransformMatrix",
             )
     if mode == "playback_all":
         for attribute, first, last in (
@@ -614,7 +614,7 @@ def _measure(
         identity = (1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
         for shape in shapes:
             cmds.setAttr(
-                shape + ".shapeAnimationTransformMatrix",
+                shape + ".shapeTransformMatrix",
                 *identity,
                 type="matrix",
             )

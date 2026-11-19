@@ -288,7 +288,7 @@ def test_fill_independent_reflections_restore(
         first = _warm(maya_cmds, values, tmp_path)
         driver = maya_cmds.createNode("composeMatrix")
         maya_cmds.connectAttr(
-            f"{driver}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
+            f"{driver}.outputMatrix", f"{shape}.shapeTransformMatrix"
         )
         for label, node, attribute in (
             ("parent", transform, "scaleX"),
@@ -675,7 +675,7 @@ def test_fill_connected_motion_during_actual_playback(
                 driver = maya_cmds.createNode("composeMatrix")
                 maya_cmds.connectAttr(
                     f"{driver}.outputMatrix",
-                    f"{shape}.shapeAnimationTransformMatrix",
+                    f"{shape}.shapeTransformMatrix",
                 )
                 attributes = ("inputTranslateX", "inputRotateY", "inputScaleX")
             else:

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <template name="NEbdShpL_FocusBoundingSquare"/>
+    <view name="NEDefault" template="NEbdShpL_FocusBoundingSquare"/>
+</templates>

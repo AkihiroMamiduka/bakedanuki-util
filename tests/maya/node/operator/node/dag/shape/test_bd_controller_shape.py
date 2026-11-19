@@ -471,23 +471,23 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         assert maya_cmds.getAttr(f"{shape}.{attribute}") == default
     assert maya_cmds.getAttr(f"{shape}.shapeRootSize") == pytest.approx(1.0)
     assert (
-        maya_cmds.getAttr(f"{shape}.shapeAnimationTransformMatrix", type=True)
+        maya_cmds.getAttr(f"{shape}.shapeTransformMatrix", type=True)
         == "matrix"
     )
     assert (
         maya_cmds.attributeQuery(
-            "shapeAnimationTransformMatrix", node=shape, attributeType=True
+            "shapeTransformMatrix", node=shape, attributeType=True
         )
         == "typed"
     )
     assert (
         maya_cmds.attributeQuery(
-            "shapeAnimationTransformMatrix", node=shape, shortName=True
+            "shapeTransformMatrix", node=shape, shortName=True
         )
-        == "satm"
+        == "stm"
     )
     matrix_data = maya_om.MFnMatrixData(
-        node_fn.findPlug("shapeAnimationTransformMatrix", False).asMObject()
+        node_fn.findPlug("shapeTransformMatrix", False).asMObject()
     )
     assert list(matrix_data.matrix()) == pytest.approx(list(maya_om.MMatrix()))
     assert maya_cmds.getAttr(f"{shape}.shapeTranslate")[0] == pytest.approx(
@@ -705,11 +705,9 @@ def test_node_type_defaults_and_single_shape(maya_cmds, maya_om, new_scene):
         maya_cmds.getAttr(f"{shape}.shapeRotateX", type=True) == "doubleAngle"
     )
     assert maya_cmds.getAttr(f"{shape}.shapeScaleX", type=True) == "double"
+    assert not maya_cmds.getAttr(f"{shape}.shapeTransformMatrix", keyable=True)
     assert not maya_cmds.getAttr(
-        f"{shape}.shapeAnimationTransformMatrix", keyable=True
-    )
-    assert not maya_cmds.getAttr(
-        f"{shape}.shapeAnimationTransformMatrix", channelBox=True
+        f"{shape}.shapeTransformMatrix", channelBox=True
     )
     assert (
         maya_cmds.getAttr(f"{shape}.shapeAxisTranslateX", type=True)
@@ -1071,7 +1069,7 @@ def test_swapped_geometry_follows_right_handed_axis_exchange(
         maya_cmds.setAttr(f"{shape}.shapeTranslate", 0.4, -0.2, 0.6)
         maya_cmds.setAttr(f"{shape}.shapeRootSize", 1.2)
         maya_cmds.setAttr(
-            f"{shape}.shapeAnimationTransformMatrix",
+            f"{shape}.shapeTransformMatrix",
             1,
             0.2,
             -0.1,
@@ -1117,7 +1115,7 @@ def test_tapered_fin_narrows_toward_positive_first_axis(
     maya_cmds.setAttr(f"{shape}.shapeFinHeight", 1)
     # YへXを加え、Finの高い端が-1st側にあることを範囲から区別する。
     maya_cmds.setAttr(
-        f"{shape}.shapeAnimationTransformMatrix",
+        f"{shape}.shapeTransformMatrix",
         1,
         1,
         0,
@@ -1165,9 +1163,7 @@ def test_sphere_filled_bounds_include_surface_vertices(
         0.0,
         1.0,
     )
-    maya_cmds.setAttr(
-        f"{shape}.shapeAnimationTransformMatrix", *matrix, type="matrix"
-    )
+    maya_cmds.setAttr(f"{shape}.shapeTransformMatrix", *matrix, type="matrix")
     _set_shape(maya_cmds, shape, "Sphere")
     wire_bounds = _bounds(maya_om, shape)
     _set_shape(maya_cmds, shape, "SphereFilled")
@@ -1706,7 +1702,7 @@ def test_shape_centered_asymmetry_and_animation_matrix(
     _set_shape(maya_cmds, shape, "ArcArrow2D")
     maya_cmds.setAttr(f"{shape}.boundsMode", 1)
     maya_cmds.connectAttr(
-        f"{matrix}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
+        f"{matrix}.outputMatrix", f"{shape}.shapeTransformMatrix"
     )
 
     assert _bounds(maya_om, shape) == pytest.approx(
@@ -1762,7 +1758,7 @@ def test_custom_bounds_transform_and_animation_connection(
         (3, -0.5, -0.5, 7, 0.5, 0.5)
     )
     maya_cmds.connectAttr(
-        f"{matrix}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
+        f"{matrix}.outputMatrix", f"{shape}.shapeTransformMatrix"
     )
     maya_cmds.setKeyframe(matrix, attribute="inputTranslateX", time=1, value=0)
     maya_cmds.setKeyframe(
@@ -1869,7 +1865,7 @@ def test_animation_matrix_connection_updates_bounds_at_keyframes(
     maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisMinus", 0)
     maya_cmds.setAttr(f"{shape}.shapeBaseSpace1stAxisPlus", 2)
     maya_cmds.connectAttr(
-        f"{source}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
+        f"{source}.outputMatrix", f"{shape}.shapeTransformMatrix"
     )
     maya_cmds.setKeyframe(source, attribute="inputTranslateX", time=1, value=0)
     maya_cmds.setKeyframe(
@@ -1911,7 +1907,7 @@ def test_animation_matrix_moves_offset_line_endpoint_from_origin(
     source = maya_cmds.createNode("composeMatrix", name="animatedShapeMatrix")
     maya_cmds.setAttr(f"{shape}.shapeOffsetLine", True)
     maya_cmds.connectAttr(
-        f"{source}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
+        f"{source}.outputMatrix", f"{shape}.shapeTransformMatrix"
     )
     maya_cmds.setAttr(f"{source}.inputTranslateZ", 3.0)
 
@@ -2705,7 +2701,7 @@ def test_animation_matrix_set_uses_modifier_history(
     shape = bdu.Nodes(modifier_manager=mod).existing(shape_name)
     matrix = maya_om.MMatrix((1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 2, 0, 0, 1))
 
-    shape.shapeAnimationTransformMatrix.set(matrix)
+    shape.shapeTransformMatrix.set(matrix)
     assert _bounds(maya_om, shape_name) == pytest.approx(
         (0.0, -0.5, -0.5, 0.0, 0.5, 0.5), abs=1.0e-9
     )
@@ -3051,9 +3047,7 @@ def test_color_shapes_apply_animation_matrix_unchanged(
     _, shape = _create_controller(maya_cmds, shape_name=shape_name)
     before = _bounds(maya_om, shape)
     matrix = (0, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0.5, 0, 4, -5, 6, 1)
-    maya_cmds.setAttr(
-        f"{shape}.shapeAnimationTransformMatrix", *matrix, type="matrix"
-    )
+    maya_cmds.setAttr(f"{shape}.shapeTransformMatrix", *matrix, type="matrix")
     xmin, ymin, zmin, xmax, ymax, zmax = before
     assert _bounds(maya_om, shape) == pytest.approx(
         (
@@ -3065,10 +3059,7 @@ def test_color_shapes_apply_animation_matrix_unchanged(
             0.5 * zmax + 6,
         )
     )
-    assert (
-        tuple(maya_cmds.getAttr(f"{shape}.shapeAnimationTransformMatrix"))
-        == matrix
-    )
+    assert tuple(maya_cmds.getAttr(f"{shape}.shapeTransformMatrix")) == matrix
 
 
 def test_color_matrix_connection_keeps_rotation_shear_and_reflection(
@@ -3080,7 +3071,7 @@ def test_color_matrix_connection_keeps_rotation_shear_and_reflection(
     )
     source = maya_cmds.createNode("composeMatrix")
     maya_cmds.connectAttr(
-        f"{source}.outputMatrix", f"{shape}.shapeAnimationTransformMatrix"
+        f"{source}.outputMatrix", f"{shape}.shapeTransformMatrix"
     )
     maya_cmds.setAttr(f"{source}.inputScale", -2.0, 3.0, 0.5)
     maya_cmds.setAttr(f"{source}.inputShear", 0.25, -0.4, 0.15)
@@ -3100,10 +3091,7 @@ def test_color_matrix_connection_keeps_rotation_shear_and_reflection(
             max(p[i] for p in points) for i in range(3)
         )
         assert _bounds(maya_om, shape) == pytest.approx(expected)
-        assert (
-            maya_cmds.getAttr(f"{shape}.shapeAnimationTransformMatrix")
-            == values
-        )
+        assert maya_cmds.getAttr(f"{shape}.shapeTransformMatrix") == values
     maya_cmds.setAttr(f"{transform}.rotate", 23.0, 37.0, 51.0)
     assert _bounds(maya_om, shape) == pytest.approx(expected)
     assert maya_cmds.getAttr(f"{transform}.rotate")[0] == (23.0, 37.0, 51.0)
@@ -3841,7 +3829,7 @@ def test_three_axis_end_arrows_use_direction_specific_planes(
         1,
     )
     maya_cmds.setAttr(
-        f"{shape}.shapeAnimationTransformMatrix", *matrix_values, type="matrix"
+        f"{shape}.shapeTransformMatrix", *matrix_values, type="matrix"
     )
     matrix = maya_om.MMatrix(matrix_values)
     points = []

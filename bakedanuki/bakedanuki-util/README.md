@@ -312,6 +312,13 @@ cmds.select(ctrl)
 各軸の Plus 側は設定値、Minus 側は設定値の符号を反転した位置です。
 距離は負値・ゼロ・面の反転を許容し、自動的には補正しません。
 8属性は形状を準備するための静的な設定で、直接編集できますが、キー設定と入力接続はできません。
+
+基準形状に行列変換を加えるには `shapeTransformMatrix`（`stm`）を使います。
+既定値は単位行列です。軸と寸法を反映した頂点を、この行列でシェイプのローカル空間内で変換し、
+その後に親 DAG 階層の行列を反映します。行列は直接設定するか、`composeMatrix.outputMatrix` などの
+行列出力を接続します。この属性はキー設定の対象外で、チャンネルボックスには表示しません。
+入力を切断するとプラグに保持されている値が残ります。未変形の形状に戻すには、単位行列を設定します。
+
 形状選択や Fill 切替はありません。通常の移動・回転・拡縮は親 transform で操作し、pivot・shear などを含む
 親 DAG 階層の最終行列を反映します。継承属性の `localPosition` / `localScale` は
 形状へ適用しません。チャンネルボックスでは `localPositionX/Y/Z` と `localScaleX/Y/Z` を非表示にします。
@@ -472,6 +479,7 @@ bakedanuki/
     templates/
       node_editor/
         NEbdControllerShapeTemplate.xml
+        NEbdShpL_*Template.xml
 ```
 
 `bakedanuki/modules/bd_util.mod` には、Python path、Maya version別のplug-in path、
@@ -485,8 +493,8 @@ MAYA_CUSTOM_TEMPLATE_PATH+:=templates/node_editor
 plug-ins: plug-ins/maya2025
 ```
 
-Node Editorで `bdControllerShape` をCustom Modeへ切り替えると、`Visibility` と
-追加属性を表示します。区切りenumは表示リストへ含めず、複合属性の子は親から展開します。
+Node Editor の Custom Mode（`4` キー）では、`bdControllerShape` と `bdShpL_Cube` に
+`shapeTransformMatrix` だけを表示します。フォーカス用シェイプ4型は属性行なしで表示します。
 ユーザーの `prefs` に同名のテンプレートがある場合はそちらを優先し、
 テンプレート保存先と既定表示モードのpreferenceは変更しません。
 

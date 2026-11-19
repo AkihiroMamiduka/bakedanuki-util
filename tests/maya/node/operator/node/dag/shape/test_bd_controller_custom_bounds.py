@@ -52,9 +52,7 @@ def test_custom_box_uses_shared_matrix_and_parent_transform_with_fixed_local_axe
     maya_cmds.setAttr(f"{shape}.shape2ndAxis", 0)
     maya_cmds.setAttr(f"{shape}.shapeSize", 5)
     matrix = (1, 0.5, 0, 0, 0, 2, 0, 0, 0, 0, -1, 0, 3, 4, 5, 1)
-    maya_cmds.setAttr(
-        f"{shape}.shapeAnimationTransformMatrix", *matrix, type="matrix"
-    )
+    maya_cmds.setAttr(f"{shape}.shapeTransformMatrix", *matrix, type="matrix")
     assert _bounds(maya_om, shape) == pytest.approx((4, 0.5, -2, 6, 13.5, 0))
     maya_cmds.setAttr(f"{transform}.rotateZ", 90)
     maya_cmds.setAttr(f"{transform}.translate", 10, 20, 30)

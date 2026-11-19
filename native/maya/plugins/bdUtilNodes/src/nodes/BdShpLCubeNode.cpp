@@ -5,8 +5,11 @@
 
 #include <cstring>
 
+#include <maya/MCacheSchema.h>
 #include <maya/MDistance.h>
 #include <maya/MFnAttribute.h>
+#include <maya/MFnMatrixData.h>
+#include <maya/MFnTypedAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MNodeCacheSetupInfo.h>
 #include <maya/MPlug.h>
@@ -30,6 +33,7 @@ MObject BdShpLCubeNode::shapeBaseSpace2ndAxisPlus;
 MObject BdShpLCubeNode::shapeBaseSpace2ndAxisMinus;
 MObject BdShpLCubeNode::shapeBaseSpace3rdAxisPlus;
 MObject BdShpLCubeNode::shapeBaseSpace3rdAxisMinus;
+MObject BdShpLCubeNode::shapeTransformMatrix;
 
 BdShpLCubeNode::BdShpLCubeNode() {
     std::memcpy(geometry_.vertices, bdUtilNodes::fixedCube::vertices, sizeof(geometry_.vertices));
@@ -43,6 +47,15 @@ void* BdShpLCubeNode::creator() {
 void BdShpLCubeNode::postConstructor() {
     MPxLocatorNode::postConstructor();
     bdUtilNodes::hideLocatorPositionAndScale(thisMObject());
+}
+
+void BdShpLCubeNode::copyInternalData(MPxNode* source) {
+    MPxLocatorNode::copyInternalData(source);
+    // 複製時は Maya が入力値をコピーするため、行列を参照する状態だけ引き継ぐ。
+    const auto* cube = static_cast<const BdShpLCubeNode*>(source);
+    if (cube && (cube->geometryRevision() & kAnimationUsed)) {
+        geometryRevision_.fetch_or(kAnimationUsed, std::memory_order_release);
+    }
 }
 
 MStatus BdShpLCubeNode::initialize() {
@@ -88,7 +101,24 @@ MStatus BdShpLCubeNode::initialize() {
         status = addAttribute(attribute);
         if (!status) return status;
     }
-    return MS::kSuccess;
+    MFnMatrixData matrixData;
+    const auto identity = matrixData.create(MMatrix::identity, &status);
+    if (!status) return status;
+    MFnTypedAttribute matrixAttribute;
+    shapeTransformMatrix = matrixAttribute.create(
+        "shapeTransformMatrix", "stm", MFnData::kMatrix, identity, &status);
+    if (!status) return status;
+    status = matrixAttribute.setKeyable(false);
+    if (!status) return status;
+    status = matrixAttribute.setChannelBox(false);
+    if (!status) return status;
+    status = matrixAttribute.setInternal(true);
+    if (!status) return status;
+    status = matrixAttribute.setAffectsAppearance(true);
+    if (!status) return status;
+    status = matrixAttribute.setAffectsWorldSpace(true);
+    if (!status) return status;
+    return addAttribute(shapeTransformMatrix);
 }
 
 bool BdShpLCubeNode::isShapeAttribute(const MObject& attribute) {
@@ -99,9 +129,14 @@ bool BdShpLCubeNode::isShapeAttribute(const MObject& attribute) {
 }
 
 bool BdShpLCubeNode::setInternalValue(const MPlug& plug, const MDataHandle& data) {
-    if (isShapeAttribute(plug.attribute())) {
-        geometryRevision_.fetch_add(1, std::memory_order_release);
-        MHWRender::MRenderer::setGeometryDrawDirty(thisMObject(), false);
+    const auto attribute = plug.attribute();
+    if (attribute == shapeTransformMatrix) {
+        geometryRevision_.fetch_or(kAnimationUsed, std::memory_order_release);
+        dirtyGeometry();
+        return false;
+    }
+    if (isShapeAttribute(attribute)) {
+        dirtyGeometry();
         // 値の保存は通常のdatablockへ委譲し、編集通知だけを保持する。
         return false;
     }
@@ -118,21 +153,57 @@ MStatus BdShpLCubeNode::legalConnection(
     return MPxLocatorNode::legalConnection(plug, otherPlug, asSrc, isLegal);
 }
 
+void BdShpLCubeNode::dirtyGeometry() {
+    geometryRevision_.fetch_add(1, std::memory_order_release);
+    MHWRender::MRenderer::setGeometryDrawDirty(thisMObject(), false);
+}
+
+void BdShpLCubeNode::setAnimationConnection(bool connected) {
+    if (connected) {
+        geometryRevision_.fetch_or(kAnimationUsed | kAnimationConnected, std::memory_order_release);
+    } else {
+        geometryRevision_.fetch_and(~kAnimationConnected, std::memory_order_release);
+    }
+    dirtyGeometry();
+}
+
+MStatus BdShpLCubeNode::connectionMade(const MPlug& plug, const MPlug& otherPlug, bool asSrc) {
+    if (!asSrc && plug.attribute() == shapeTransformMatrix) setAnimationConnection(true);
+    return MPxLocatorNode::connectionMade(plug, otherPlug, asSrc);
+}
+
+MStatus BdShpLCubeNode::connectionBroken(const MPlug& plug, const MPlug& otherPlug, bool asSrc) {
+    if (!asSrc && plug.attribute() == shapeTransformMatrix) setAnimationConnection(false);
+    return MPxLocatorNode::connectionBroken(plug, otherPlug, asSrc);
+}
+
 std::uint64_t BdShpLCubeNode::geometryRevision() const {
     return geometryRevision_.load(std::memory_order_acquire);
 }
 
 BdShpLCubeNode::Geometry BdShpLCubeNode::geometry() const {
-    const std::lock_guard<std::mutex> lock(geometryMutex_);
-    const auto revision = geometryRevision();
-    if (geometry_.revision == revision) return geometry_;
+    std::unique_lock<std::mutex> lock(geometryMutex_);
+    const auto revisionWithFlags = geometryRevision();
+    // 接続中は前回描画と同じリビジョンにせず、キャッシュ復元時も入力行列を読む。
+    const auto revision = revisionWithFlags & ~kAnimationConnected;
+    if (revisionWithFlags & kAnimationUsed) {
+        if (!(revisionWithFlags & kAnimationConnected) && animation_ && geometry_.revision == revision) {
+            return animation_->useTransformed ? animation_->transformed : geometry_;
+        }
+        lock.unlock();
+        return geometryWithAnimationMatrix(revision);
+    }
+    if (geometry_.revision != revision) updateBaseGeometry(revision);
+    return geometry_;
+}
 
+bool BdShpLCubeNode::updateBaseGeometry(std::uint64_t revision) const {
     MStatus status;
     const auto object = thisMObject();
     const short first = MPlug(object, shape1stAxis).asShort(&status);
-    if (!status) return geometry_;
+    if (!status) return false;
     const short second = MPlug(object, shape2ndAxis).asShort(&status);
-    if (!status) return geometry_;
+    if (!status) return false;
     const MObject distanceAttributes[3][2] = {
         {shapeBaseSpace1stAxisMinus, shapeBaseSpace1stAxisPlus},
         {shapeBaseSpace2ndAxisMinus, shapeBaseSpace2ndAxisPlus},
@@ -143,7 +214,7 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometry() const {
         for (unsigned int side = 0; side < 2; ++side) {
             limits[axis][side] = MPlug(object, distanceAttributes[axis][side])
                 .asMDistance(&status).asCentimeters() * (side == 0 ? -1 : 1);
-            if (!status) return geometry_;
+            if (!status) return false;
         }
     }
     const auto axes = bdUtilNodes::resolveSignedShapeAxes(first, second);
@@ -155,6 +226,7 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometry() const {
         const auto& original = bdUtilNodes::fixedCube::vertices[i];
         const auto point = MPoint::origin + firstVector * limits[0][original[0] > 0] +
             secondVector * limits[1][original[1] > 0] + thirdVector * limits[2][original[2] > 0];
+        if (animation_) animation_->basePositions[i] = point;
         result.bounds.expand(point);
         for (unsigned int axis = 0; axis < 3; ++axis) {
             result.vertices[i][axis] = static_cast<float>(point[axis]);
@@ -162,7 +234,42 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometry() const {
     }
     result.revision = revision;
     geometry_ = result;
-    return geometry_;
+    return true;
+}
+
+BdShpLCubeNode::Geometry BdShpLCubeNode::geometryWithAnimationMatrix(std::uint64_t revision) const {
+    MStatus status;
+    const auto data = MPlug(thisMObject(), shapeTransformMatrix).asMObject(&status);
+    MMatrix animationMatrix = MMatrix::identity;
+    if (status) {
+        MFnMatrixData matrixData(data, &status);
+        if (status) animationMatrix = matrixData.matrix();
+    }
+
+    const std::lock_guard<std::mutex> lock(geometryMutex_);
+    const bool needsBase = !animation_ || geometry_.revision != revision;
+    if (!animation_) animation_ = std::make_unique<AnimationGeometry>();
+    if (needsBase && !updateBaseGeometry(revision)) return geometry_;
+
+    if (animationMatrix == MMatrix::identity) {
+        animation_->useTransformed = false;
+        return geometry_;
+    }
+    if (animation_->transformed.revision != revision || animation_->matrix != animationMatrix) {
+        Geometry result;
+        for (unsigned int i = 0; i < 8; ++i) {
+            const auto point = animation_->basePositions[i] * animationMatrix;
+            result.bounds.expand(point);
+            for (unsigned int axis = 0; axis < 3; ++axis) {
+                result.vertices[i][axis] = static_cast<float>(point[axis]);
+            }
+        }
+        result.revision = revision;
+        animation_->transformed = result;
+        animation_->matrix = animationMatrix;
+    }
+    animation_->useTransformed = true;
+    return animation_->transformed;
 }
 
 bool BdShpLCubeNode::isBounded() const {
@@ -178,6 +285,15 @@ void BdShpLCubeNode::getCacheSetup(
     MPxLocatorNode::getCacheSetup(evalNode, disablingInfo, cacheSetupInfo, monitoredAttributes);
     // Cached Playbackで親の姿勢を復元するときも、このlocatorを描画更新の対象にする。
     cacheSetupInfo.setPreference(MNodeCacheSetupInfo::kWantToCacheByDefault, true);
+}
+
+void BdShpLCubeNode::configCache(const MEvaluationNode& evalNode, MCacheSchema& schema) const {
+    MPxLocatorNode::configCache(evalNode, schema);
+    // 描画更新から読む入力行列を、接続がある場合はフレームごとに復元する。
+    if (geometryRevision() & kAnimationConnected) {
+        const auto status = schema.add(shapeTransformMatrix);
+        if (!status) status.perror("Could not cache bdShpL_Cube.shapeTransformMatrix");
+    }
 }
 
 MBoundingBox BdShpLCubeNode::boundingBox() const {

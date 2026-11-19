@@ -94,7 +94,7 @@ MObject BdControllerShapeNode::shapeGuideLine;
 MObject BdControllerShapeNode::shapeGuideLineTemplate;
 MObject BdControllerShapeNode::shape1stAxis;
 MObject BdControllerShapeNode::shape2ndAxis;
-MObject BdControllerShapeNode::shapeAnimationTransformMatrix;
+MObject BdControllerShapeNode::shapeTransformMatrix;
 MObject BdControllerShapeNode::shapeRootSize;
 MObject BdControllerShapeNode::shapeTranslate;
 MObject BdControllerShapeNode::shapeTranslateX;
@@ -774,7 +774,7 @@ bool readSettings(
 bool readAnimationMatrix(const MObject& node, MMatrix& matrix) {
     MStatus status;
     const MObject data = MPlug(
-        node, BdControllerShapeNode::shapeAnimationTransformMatrix
+        node, BdControllerShapeNode::shapeTransformMatrix
     ).asMObject(&status);
     if (!status) {
         return false;
@@ -2967,7 +2967,7 @@ void BdControllerShapeNode::onAttributeChanged(
         return;
     }
     auto* node = static_cast<BdControllerShapeNode*>(clientData);
-    if (plug.attribute() == shapeAnimationTransformMatrix) {
+    if (plug.attribute() == shapeTransformMatrix) {
         node->animationRevision_.fetch_add(1, std::memory_order_release);
     } else if ((change & MNodeMessage::kAttributeSet) &&
                isShapeAttribute(plug.attribute())) {
@@ -3117,7 +3117,7 @@ BdControllerShapeNode::geometry() const {
             return cache.value;
         }
         const bool connected = hasIncomingConnection(MPlug(
-            thisMObject(), shapeAnimationTransformMatrix
+            thisMObject(), shapeTransformMatrix
         ));
         if (!sameMatrix(animationMatrix, cache.animationMatrix)) {
             cache.animationMatrix = animationMatrix;
@@ -3379,9 +3379,9 @@ MStatus BdControllerShapeNode::initialize() {
     if (!status) {
         return status;
     }
-    shapeAnimationTransformMatrix = typedAttributeFn.create(
-        "shapeAnimationTransformMatrix",
-        "satm",
+    shapeTransformMatrix = typedAttributeFn.create(
+        "shapeTransformMatrix",
+        "stm",
         MFnData::kMatrix,
         identityMatrix,
         &status
@@ -3878,7 +3878,7 @@ MStatus BdControllerShapeNode::initialize() {
         if (!status) return status;
     }
 
-    status = addAttribute(shapeAnimationTransformMatrix);
+    status = addAttribute(shapeTransformMatrix);
     if (!status) return status;
     for (const MObject& attribute : {
              channelBoxSeparator1,

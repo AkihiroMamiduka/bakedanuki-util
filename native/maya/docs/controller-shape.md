@@ -40,7 +40,7 @@ Maya 2025 / 2026 / 2027でユーザーの操作確認が完了し、線とFill�
 
 次回の速度改善でも、Viewportでのtransform操作とアニメーション再生の負荷を優先します。
 静的な形状調整と共通TRSは完成形状へ焼き込み、形状座標をアニメーションで変える入力は
-`shapeAnimationTransformMatrix` に限定する規約を維持します。微小な効果のために実装を複雑にしません。
+`shapeTransformMatrix` に限定する規約を維持します。微小な効果のために実装を複雑にしません。
 
 再開時に検討する候補は次のとおりです。いずれも今回の確認完了とは別の未解決事項です。
 
@@ -86,23 +86,23 @@ Arc系の通常版の基準円もXZ面、`Swapped` の基準円はYZ面に作ら
 Circleも通常の2D本体と同じXZ面です。作成例をXY面に向ける場合は、
 `shape.shape1stAxis.set(0)`（`+X`）、`shape.shape2ndAxis.set(4)`（`+Z`）を指定します。
 
-アニメーションで形状とフォーカス範囲を変形する場合は、行列ノードの出力を接続します。
-次の例では `composeMatrix` の数値入力をアニメーションさせます。
+`shapeTransformMatrix`（`stm`）に行列を設定すると、基準形状とフォーカス範囲を変形できます。
+アニメーションさせる場合は、次の例のように `composeMatrix` の出力を接続し、その数値入力にキーを設定します。
 
 ```python
 animation_matrix = bd_nodes.create.composeMatrix(name="hand_shape_animation")
-animation_matrix.outputMatrix.connect(shape.shapeAnimationTransformMatrix)
+animation_matrix.outputMatrix.connect(shape.shapeTransformMatrix)
 mod.do_it_dg()
 ```
 
-`shapeAnimationTransformMatrix` 自体には Maya の通常のキーを直接作れません。
+`shapeTransformMatrix` 自体には Maya の通常のキーを直接作れません。
 行列の移動・回転・スケールをキー化するときは、接続元の数値属性を使います。
 
 本体・軸指定・基準空間・共通TRS・Size・Wide・Arc・Template・Part・Fin・GuideLine・
 OffsetLine・`shapeFill` は静的な形状調整です。Channel Box、`setAttr()`、
 `ModifierManager` 経由で直接編集し、調整後の完成形状をノード内へキャッシュします。
 これらの親属性と子属性への入力接続、キー設定は受け付けません。
-形状をアニメーションするときは `shapeAnimationTransformMatrix` だけを使います。
+形状をアニメーションするときは `shapeTransformMatrix` だけを使います。
 静的調整値を別ノードへ読み出す出力接続は許可します。
 `shapeLineWidth`・`shapeLineTransparency`・`shapeFillTransparency`・`shapeDrawOnTop` と
 Bounds設定は動的入力を維持し、接続と明示的なキー設定を利用できます。
@@ -211,7 +211,7 @@ mod.do_it_dg()
 | `shapeAxisRotate` | `doubleAngle3` | `(0, 0, 0)` | 指定軸を基準にXYZ固定順に回転 |
 | `shapeAxisScale` | `double3` | `(1, 1, 1)` | 指定軸を基準に、shapeAxisRotateの内側で拡縮 |
 | `shapeSize` | `double` | `1` | 組み立てた形状の頂点を一律スケール |
-| `shapeAnimationTransformMatrix` | matrix data | 単位行列 | 基準形状完成後、親transformの変換前に適用。Channel Boxには非表示 |
+| `shapeTransformMatrix` | matrix data | 単位行列 | 基準形状完成後、親transformの変換前に適用。Channel Boxには非表示 |
 | `boundsMode` | enum | `Shape` (0) | `Shape` (0)、`ShapeCentered` (1)、`Custom` (2) |
 | `showBoundsPreview` | `bool` | `false` | 選択中の最終フォーカス範囲をtemplate色・選択不可で表示 |
 
@@ -384,7 +384,7 @@ Wideは基準空間を適用した本体の表面から生成し、`shapeWideWid
 Arrow系はPlanar・Axial・Spatialごとの基準空間を使います。基準半径へ面Scaleを掛けず、各本体を構成した後のCage変形として一度だけ適用します。
 
 組み立てた後の `shapeSize`・`shapeAxisScale`・`shapeScale`・`shapeRootSize` と
-`shapeAnimationTransformMatrix` は、本体・Part・Fin・Wideを共通に変形します。
+`shapeTransformMatrix` は、本体・Part・Fin・Wideを共通に変形します。
 基準空間による伸縮から独立したPart寸法・Fin高さ・Wide幅も、これらの共通スケールでは変化します。
 
 `shapeOffsetLine` は親transformのローカル原点から、共通変形後の基準中心へ描きます。
@@ -1166,7 +1166,7 @@ Wide ONのGear・Triangle・Square・Diamond・全Planar ArrowとArrowSpatialは
 PartのArrow3Dは主面に直交する薄い面を持ち、Axial Arrow3種の本体とPyramid・Coneなどの立体Partは底面を含む面を持ちます。
 閉じた立体の本体とPartは外向きの片面だけを描き、内側から裏面は表示しません。
 Color系の立体とColorCornerCubeの小四角も同様です。負のスケールや親transform、
-`shapeAnimationTransformMatrix` による反転後も外向きを維持します。
+`shapeTransformMatrix` による反転後も外向きを維持します。
 平面形状・WideArcAxialの側面・Fin・Arrow2D・Arrow3Dの薄い面は両面から表示します。
 裏面による半透明の重なりは除きますが、別の面や形状同士が重なる部分の濃淡は残ります。
 
@@ -1208,7 +1208,7 @@ Part・Finの線と面は通常色です。
 面内Scaleで正側面がねじれる場合は、その面の正側2辺から表面距離 `0.2 cm` 以内の
 領域の交差を色面とします。細分した三角面で距離を近似し、本体面・通常線・Wide追加線も
 同じ境界で切り取ります。
-共通のSize・TRS、`shapeAnimationTransformMatrix` と親transformでは本体と一緒に拡縮します。
+共通のSize・TRS、`shapeTransformMatrix` と親transformでは本体と一緒に拡縮します。
 小四角はWireframeでも
 塗り面として表示し、面内のクリックで選択できます。小四角に接する輪郭線3本は
 その境界で止め、色面上に通常色の線を重ねません。小四角もColor系の描画規則に従い、
@@ -1245,7 +1245,7 @@ FinはColor系4基本本体に対応し、Wide・AxisSwap・Template設定で各
 Shape / ShapeCentered Boundsは、これらを組み立てた実際の本体・Part・Finの頂点から計算します。
 Custom Boundsの専用XYZ両端座標には、本体の軸指定やColorの特殊な描画設定を適用しません。
 
-`shapeAnimationTransformMatrix` はColor系でも分解・加工せず、そのまま適用します。
+`shapeTransformMatrix` はColor系でも分解・加工せず、そのまま適用します。
 行列や親transformに回転・シアー・反転が含まれる場合、色付き部位もその変換に追従します。
 これらは利用者が与える変換として扱い、シェイプ編集の制約とは分けます。
 
@@ -1260,13 +1260,13 @@ Custom Boundsの専用XYZ両端座標には、本体の軸指定やColorの特�
 | `customBoundsBaseSpaceZPlus` / `customBoundsBaseSpaceZMinus` | `doubleLinear` | 両方 `+0.5 cm` | ローカルZの符号付き方向距離 |
 
 両端の大小が逆でも同じ箱とし、保持値・キー・接続は変更しません。両端一致による退化も許容します。
-指定した箱の8角へ共有の `shapeAnimationTransformMatrix` を適用してから、最終の軸平行範囲を求めます。
+指定した箱の8角へ共有の `shapeTransformMatrix` を適用してから、最終の軸平行範囲を求めます。
 親transformの変換も従来どおり反映します。Custom以外のモードでは6値を保持して無視します。
 
 表示する調整属性は、形状側の複合属性のX/Y/Z子属性も含めて非keyable・Channel Box表示です。
 形状調整は直接編集専用とし、入力接続と明示的なキー設定も受け付けません。
 線幅・透明度・DrawOnTopとBounds設定は、DG接続と明示的なキー設定に対応します。
-`shapeAnimationTransformMatrix` はChannel Boxに表示せず、接続と `ModifierManager` 経由の設定に対応します。
+`shapeTransformMatrix` はChannel Boxに表示せず、接続と `ModifierManager` 経由の設定に対応します。
 
 Channel Boxの表示順は次の14区画です。区切りは `_` から `______________` までの
 14本の表示専用1値enumで、値は `-----------------------------------` です。
@@ -1291,7 +1291,7 @@ Channel Boxの表示順は次の14区画です。区切りは `_` から `______
 継承する `localPositionX/Y/Z` と `localScaleX/Y/Z` は描画に使わないためChannel Boxの既定表示から外し、
 標準locatorの表示設定には影響しません。
 
-点 `p` に適用する階層は `shapeAnimationTransformMatrix > shapeRootSize > shapeTranslate > shapeRotate >
+点 `p` に適用する階層は `shapeTransformMatrix > shapeRootSize > shapeTranslate > shapeRotate >
 shapeScale > 軸指定 > shapeAxisTranslate > shapeAxisRotate > shapeAxisScale > shapeSize > p` です。
 `p` は端座標と面内Scaleによる本体変形、横半径から構成した矢印の母体、Wide、寸法を保つPart・Fin、GuideLineと
 Swappedの入替を反映して組み立てた頂点です。軸指定から作る回転を `A` とすると次の式になります。
@@ -1306,7 +1306,7 @@ p_out = shapeRootSize * (
         )
     )
 )
-p_local = p_out * shapeAnimationTransformMatrix
+p_local = p_out * shapeTransformMatrix
 ```
 
 行列の積はMayaの行ベクトル規約です。行列は親transformのローカル空間で適用し、
@@ -1319,19 +1319,11 @@ p_local = p_out * shapeAnimationTransformMatrix
 ### Node Editorの属性表示
 
 Node Editorでは、`bdControllerShape` を `Custom Mode`（表示モード4）へ切り替えると、
-同梱の `NEbdControllerShapeTemplate.xml` で指定した属性を表示します。
+同梱の `NEbdControllerShapeTemplate.xml` に従って `shapeTransformMatrix` だけを表示します。
 導入・更新後にMayaを再起動し、Node Editor上のノードを選択して `4` キーを押します。
 `Show Primary Attributes`（表示モード3）はMaya標準の表示判定を使います。
 
-Custom Modeの表示対象と順序は次のとおりです。
-
-1. 継承属性の `visibility`。
-2. 接続用の `shapeAnimationTransformMatrix`。
-3. 上記のChannel Boxの14区画から区切りenumを除いた順で、追加属性の親64個。
-
-合計66個を表示対象とし、TRSのXYZ子と面内Scaleの2子はそれぞれの親から展開します。
-区切りenum14本と、`visibility` 以外の継承属性はテンプレートの表示リストへ含めません。
-Channel Boxの表示、keyable、接続可否などは各属性の既存設定を使います。
+行列の接続には Custom Mode を使い、形状の調整は Channel Box の各区画で行います。
 
 テンプレートはMaya 2025 / 2026 / 2027で共通の
 `bakedanuki/bakedanuki-util/templates/node_editor/NEbdControllerShapeTemplate.xml` に置き、
@@ -1377,13 +1369,13 @@ Custom Boundsは塗りのON/OFFから独立しています。接続・明示的�
 `boundsMode=ShapeCentered` は完成形状の寸法を使い、`shapeTranslate`・`shapeAxisTranslate`・
 基準空間の中心移動とOffsetLineによる位置ずれを除きます。
 形状の軸平行範囲を親transformのローカル原点中心へ置き直し、
-その8角へ `shapeAnimationTransformMatrix` を適用して最終の範囲を求めます。
+その8角へ `shapeTransformMatrix` を適用して最終の範囲を求めます。
 行列の移動もフォーカス範囲へ反映します。
 例えばCubeの主軸両端を `0 cm` / `5 cm` とし、他の変形が既定値なら、
 行列適用前の主軸範囲は `-2.5 cm` / `+2.5 cm` です。
 
 `boundsMode=Custom` は専用のローカルXYZ両端座標から箱を作り、
-共有の `shapeAnimationTransformMatrix` を8角へ適用して軸平行範囲を求めます。
+共有の `shapeTransformMatrix` を8角へ適用して軸平行範囲を求めます。
 Customの箱は本体より小さくも大きくもできます。
 `showBoundsPreview` は選択中の `boundsMode` の最終範囲を表示するだけで、
 フォーカス範囲を変更しません。`Shape` では表示中の OffsetLine も範囲へ含みます。
@@ -1411,7 +1403,7 @@ F / Ctrl+F によるフレームへ反映されます。Ctrl+F は子 transform 
 
 補助線の始点は親transformのローカル原点 `(0, 0, 0)`、
 終点は `p=base(0, 0, 0)` を共通変形の式へ代入して求める基準中心です。
-`shapeTranslate` と `shapeAxisTranslate`、共有の `shapeAnimationTransformMatrix` の移動を反映します。
+`shapeTranslate` と `shapeAxisTranslate`、共有の `shapeTransformMatrix` の移動を反映します。
 基準中心が原点なら `shapeAxisRotate`・`shapeAxisScale`・`shapeSize` は終点を動かしません。
 基準中心が原点から離れる場合は、その中心へこれらの回転と拡縮も作用します。
 始点と終点が重なる場合は線を描きません。
@@ -1433,7 +1425,7 @@ ArcRadialへArrow2DをAtApexで追加した既定形状は、XZ面の半径0.5�
 Arrow3Dでは主平面と直交する薄い矢印面も加えます。
 
 基準形状を作る調整属性が固定されている間は、その頂点を再利用します。
-`shapeAnimationTransformMatrix` だけが変化する場合は、基準頂点を作り直さず、
+`shapeTransformMatrix` だけが変化する場合は、基準頂点を作り直さず、
 保存した一意な座標の行列変換と補助線・描画範囲の更新だけを行います。
 親 `transform` のアニメーションでも基準形状は再計算しません。
 基準形状の調整属性は直接編集したときだけ更新し、入力接続とキー設定を拒否します。
@@ -1460,13 +1452,13 @@ Maya 上の挙動テストは [test_bd_controller_shape.py](../../../tests/maya/
 １つの shape に収められます。現在の円は 64 分割の折れ線で、NURBS の
 degree や surface を持つ形状ではありません。
 `shapeFill` がONの面は同じ shape 内で表示種別ごとの三角形列として保持し、線と同じ形状変形と
-`shapeAnimationTransformMatrix` を適用します。Wide OFFでは、Square は２三角形、Circle は64分割の円板、
+`shapeTransformMatrix` を適用します。Wide OFFでは、Square は２三角形、Circle は64分割の円板、
 Cube は６面の12三角形、Sphere は32経度×16緯度の球面です。Wide ONでは帯面を生成し、
 WideArc系は円弧角度に応じた帯となります。
 薄線のArc系本体は面を持たず、FillをONにしたPartにだけ面を生成します。
 面の頂点も描画範囲と `boundsMode=Shape` の算出に含めます。
 閉じた立体の片面表示（`singleSided`）では外向きの頂点順序を保持し、現在のビューに向く三角形だけを描画へ渡します。
-`shapeAnimationTransformMatrix` の3×3行列式が負の場合は、静的に保持した逆向きのindex列を使います。
+`shapeTransformMatrix` の3×3行列式が負の場合は、静的に保持した逆向きのindex列を使います。
 共有座標を入れ替えず、片面表示以外の面では元のindex順を保ちます。
 基準三角形の面情報を焼き込み、通常の移動・回転・スケール・シアーではカメラを基準空間へ戻して判定します。
 視点による変更は描画する頂点のindex列へ反映し、三角形の座標を複製しません。
@@ -1510,15 +1502,13 @@ Python の公開 enum は下記の生成手順で更新し、生成ファイル�
 Channel Box 表示を設定します。複合属性では、TRSのX/Y/Z子と面内Scaleの各2子にも
 同じ設定が必要です。親への `setKeyable()` / `setChannelBox()` が子へ伝播する前提にせず、
 親と各子へ明示的に設定します。`addAttribute()` は親へ行い、子は親に含めて登録します。
-`shapeAnimationTransformMatrix` は表示しない例外です。区画を増やす場合は
+`shapeTransformMatrix` は表示しない例外です。区画を増やす場合は
 新しい区切り属性も追加し、表示専用・非接続・非保存・ロック済みとします。
 区切り名を変更したときは、Python 生成器の除外条件も確認してください。
 
-Node Editorに表示する属性を追加・変更したときは、共通の
-`NEbdControllerShapeTemplate.xml` も更新します。表示するのは親属性とし、
-子は親から展開できる構成を保ちます。行列の後にChannel Boxと同じ順で並べ、
-区切りenumは追加しません。Maya 2025 / 2026 / 2027のGUIでCustom Modeの属性順、
-親子の展開、静的調整への入力接続拒否、行列・表示・Boundsの接続、Primary表示への切替、ユーザーテンプレートの優先を確認します。
+Node Editor で使用する `shapeTransformMatrix` の定義を変更したときは、共通の
+`NEbdControllerShapeTemplate.xml` も更新します。Maya 2025 / 2026 / 2027 の GUI で
+Custom Mode の行列ポート、接続後の表示、Primary 表示への切替を確認します。
 
 形状、フォーカス範囲、プレビューに作用する属性では、値の読み取り、
 対応する基準形状・変換後のキャッシュの無効化、描画範囲まで確認します。
@@ -1681,7 +1671,7 @@ Color系では線の順序と軸配色を保持し、選択時は従来と同じ
 再生・スクラブ・時刻変更・動的な入力接続や不明な状態では更新を省略しません。
 再生状態は標準の `playingBack` 通知を描画インスタンス全体で1つ共有し、
 通知を利用できない場合は従来のAPI照会へ戻します。ノードごとの通知は追加しません。
-形状生成と静的TRSの焼込み、`shapeAnimationTransformMatrix` の適用は変更しません。
+形状生成と静的TRSの焼込み、`shapeTransformMatrix` の適用は変更しません。
 この経路は対応する3バージョンそれぞれのSDKでビルドします。
 3バージョンの固定画像比較では、非選択の `ColorSphere` を一方向から見たときだけ、
 線の交点の1画素が緑から青へ変わりました。外形・透明度・選択時の画像は一致していますが、
@@ -1712,7 +1702,7 @@ callback付きshaderの元インスタンスは、同じ配色・片面条件で
 render itemが使う間は保持します。描画stateはDLLが所有し、TLSには単純なpointerと世代番号だけを置きます。
 プラグインの登録解除前に使用中の資源がないことを確認し、解除時に明示解放します。
 使用中の場合は登録解除を進めず、途中の解放失敗時は描画creatorと再生通知の復旧を試みます。
-形状生成・共通TRSの焼込み・`shapeAnimationTransformMatrix` のキャッシュ規約は変更しません。
+形状生成・共通TRSの焼込み・`shapeTransformMatrix` のキャッシュ規約は変更しません。
 2025のユーザー操作確認を経て2026 / 2027へ同じ実装を展開しています。
 版別の確認範囲と未完了項目は [Fillの版別検証](testing-debugging.md) を参照してください。
 Bounding Box表示は、初めて必要になったときだけ8頂点・24indexのRenderItemを作り、
@@ -1890,7 +1880,7 @@ GUIの切り分けと画像の測定点の選び方は
 `scripts/benchmark_controller_shape.py` は、独立したMaya GUIで、静止更新、
 コントローラー1個の親transform、全体をまとめた上位transformの変換、
 上位transformをキー化したMayaの再生、共通composeMatrixから全shapeへの
-`shapeAnimationTransformMatrix` 更新を比較します。シーン生成と画像取得は計測外です。
+`shapeTransformMatrix` 更新を比較します。シーン生成と画像取得は計測外です。
 実際に読み込んだplug-inのpathとSHA256、Maya・GPU、Viewport寸法と配置、
 Cached Playbackの無効化、各試行の更新時間を出力先のJSONへ保存します。
 更新時間にはDGとVP2の処理を含み、GPUのdraw call数を直接計数するものではありません。
@@ -1941,7 +1931,7 @@ Cubeの親全体操作は今回1,000個で12.3%増、500個でも16.6%増でし�
 2026-11-10のMaya 2025で、生成・焼き込みを除いた旧処理と最終indexed版のCPU関数も比較しました。
 各1,000回・7試行で旧処理と新処理の実行順を交互に変えた中央値です。
 通常のCircleと、Fillを有効にしたCube・Sphere・WideSphereを使い、Wide幅は0.08 cmとしました。
-変換・コピーは `shapeAnimationTransformMatrix` が変わる場合の処理で、
+変換・コピーは `shapeTransformMatrix` が変わる場合の処理で、
 親transformだけが変わる場合には実行しません。面選別の時間には視点変換の準備も含めます。
 FPSの改善率とは区別します。
 
@@ -1981,7 +1971,7 @@ FPSの改善率とは区別します。
 
 上記indexed版を基準に、描画内容が変わった場合だけUIを再提出する版を比較しました。
 形状生成と頂点変換のキャッシュ、静的TRSの焼込みは変更していません。
-形状座標を動的に変える入力は、引き続き `shapeAnimationTransformMatrix` です。
+形状座標を動的に変える入力は、引き続き `shapeTransformMatrix` です。
 
 診断用計測を含まない通常のRelease DLLを、Maya 2025、Parallel EM、
 Cached Playback・Profiler OFF、956×676の対象Viewportで測定しました。
@@ -2007,7 +1997,7 @@ main viewも表示した配置ですが、計時窓内のmain viewの描画回�
 同じ本体ソースへ計数だけを追加した別DLLで、CubeをN=1 / 1,000個配置し、
 静止・全親回転・同値行列・異なる行列の8条件を、計数OFFで2回暖機後に12更新ずつ確認したところ、
 基準形状の再生成は全窓0回でした。
-静止・親回転・同値の `shapeAnimationTransformMatrix` では座標変換とUI再提出が0回、
+静止・親回転・同値の `shapeTransformMatrix` では座標変換とUI再提出が0回、
 12回異なる値を与えた場合は各12N回となり、既存の座標キャッシュの維持を確認しました。
 表示状態の確認（`update` / `prepare`）とキャッシュ参照（`geometry`）は全窓で各12N回、
 対象Viewportの描画は各12回実行しています。
@@ -2020,7 +2010,7 @@ Maya 2025はユーザーによる操作確認も完了しています。
 同じ本体ソースを各SDKでビルドし、各versionの旧DLLと比較しました。
 両versionでCube / SphereのFill、実際に描画された2つのViewport、親TRS、カメラ・色・表示切替、
 BoundsとBounding Box、通常表示・Bounding Box表示での実クリック選択を確認しています。
-親と `shapeAnimationTransformMatrix` のスクラブ・実再生、Cached Playback OFF / ON
+親と `shapeTransformMatrix` のスクラブ・実再生、Cached Playback OFF / ON
 （`syncOnly` / `syncAsync`）、実GUIの保持UI回帰4件も成功しました。
 確認範囲とキャッシュ復元の限界は [保持UIのversion別確認](testing-debugging.md#保持uiのversion別確認2026-11-12) を参照してください。
 
@@ -2146,7 +2136,7 @@ GUI・Cacheの確認範囲は
 
 通常の不透明・幅1の線31種類へ、Cubeで確認した保持描画と未変更ノードの更新省略を展開しました。
 `ColorCornerCube` は常設の片面マーカーを持つためUI描画を維持します。
-形状生成・静的TRSの焼込み・`shapeAnimationTransformMatrix` の計算と属性構成は変更していません。
+形状生成・静的TRSの焼込み・`shapeTransformMatrix` の計算と属性構成は変更していません。
 
 同じMaya版の旧DLLと新版を、旧→新→新→旧の4つの新規Maya processで比較しました。
 各形状は独立したshapeを1,000個、Fill / DrawOnTop / Cached Playback / MSAA / Line AAはOFF、
@@ -2262,7 +2252,7 @@ rawは `build/controller_performance/fill_off_20261116/harness/runs/off_*/`、
 
 2025でのユーザー操作確認後、3版とも新規ノードの `shapeFillTransparency` を `0`（不透明）へ変更しました。
 描画データの初期不透明度と読取失敗時の不透明度も `1` に揃え、Pythonの生成Fieldも再生成しています。
-形状生成・静的TRS・`shapeAnimationTransformMatrix` のキャッシュ規約は変えません。
+形状生成・静的TRS・`shapeTransformMatrix` のキャッシュ規約は変えません。
 
 2026 / 2027でも各74機能条件と実入力10段階が成功しました。
 旧版との画像差のうち7画像・合計23画素は、2025で確認した限定的な色境界差の署名と一致しています。
@@ -2368,7 +2358,7 @@ Selection Highlightingがオフの選択中も同じ軸色を使います。
 12. 基準空間の中心を移しshapeOffsetLineをONにすると、共通変形後の基準中心へ補助線が伸びる。両端を対称に保った伸縮では中心が移らない。
 13. 基準空間の距離の直接編集とシーン単位変更、入力接続・キーの拒否を確認し、通常本体の反転、Colorの実効絶対幅、両端一致の退化を保つ。
 14. shapeAxisTranslateは基準空間の後で加算し、基準空間の幅では伸縮しない。回転・共通スケール・行列をOffsetLineの終点にも反映する。
-15. shapeAnimationTransformMatrixへcomposeMatrix出力を接続し、移動・回転・非等方スケール・シアーに本体・Part・Fin・範囲が追従する。
+15. shapeTransformMatrixへcomposeMatrix出力を接続し、移動・回転・非等方スケール・シアーに本体・Part・Fin・範囲が追従する。
 16. 行列の移動で形状基準位置が原点から離れるとOffsetLineが出て、戻すと消える。行列の移動量はshapeRootSizeに掛からない。
 17. boundsModeの3値でF / Ctrl+Fの範囲が追従し、Ctrl+Fでは子transformも含まれる。
 18. ShapeCenteredは形状の寸法を保ち、基準中心・共通移動・OffsetLineによる位置ずれを除いて原点中心へ戻す。入力行列の移動は反映する。
