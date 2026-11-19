@@ -314,7 +314,8 @@ cmds.select(ctrl)
 8属性は形状を準備するための静的な設定で、直接編集できますが、キー設定と入力接続はできません。
 形状選択や Fill 切替はありません。通常の移動・回転・拡縮は親 transform で操作し、pivot・shear などを含む
 親 DAG 階層の最終行列を反映します。継承属性の `localPosition` / `localScale` は
-形状へ適用しません。DAG instance と component 編集は対象外です。
+形状へ適用しません。チャンネルボックスでは `localPositionX/Y/Z` と `localScaleX/Y/Z` を非表示にします。
+DAG instance と component 編集は対象外です。
 
 Selection Highlighting OFF でも選択色が残る既存制約があります。
 静的な形状属性を追加する前の GUI 描画・選択・再生と性能比較は、研究用 Geometry 版を使って
@@ -355,6 +356,9 @@ cmds.select(ctrl)
 端点が逆順の場合は小さい方と大きい方が範囲になります。7属性は直接編集する静的なチャンネルボックス属性です。
 `showShape` を ON にすると調整用の線が表示され、クリック選択は本体で行えます。
 通常使用時は `showShape` を OFF にすると、フレーム範囲を保ったままプレビューの描画データを省けます。
+
+ノード作成時に `overrideEnabled` を OFF でロックし、チャンネルボックスでは
+`localPositionX/Y/Z` と `localScaleX/Y/Z` を非表示にします。
 
 ### Wrap Existing Nodes
 

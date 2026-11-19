@@ -1,10 +1,12 @@
 #include "bdUtilNodes/nodes/BdShpLFocusBoundingBoxNode.h"
 #include "bdUtilNodes/draw/FixedCubeGeometry.h"
+#include "bdUtilNodes/nodes/LocatorChannelBox.h"
 
 #include <algorithm>
 
 #include <maya/MDistance.h>
 #include <maya/MFnAttribute.h>
+#include <maya/MFnDependencyNode.h>
 #include <maya/MFnNumericAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MNodeCacheSetupInfo.h>
@@ -31,6 +33,18 @@ BdShpLFocusBoundingBoxNode::BdShpLFocusBoundingBoxNode() {
 
 void* BdShpLFocusBoundingBoxNode::creator() {
     return new BdShpLFocusBoundingBoxNode;
+}
+
+void BdShpLFocusBoundingBoxNode::postConstructor() {
+    MPxLocatorNode::postConstructor();
+    const auto node = thisMObject();
+    bdUtilNodes::hideLocatorPositionAndScale(node);
+
+    MStatus status;
+    auto overrideEnabled = MFnDependencyNode(node).findPlug("overrideEnabled", false, &status);
+    if (status) status = overrideEnabled.setBool(false);
+    if (status) status = overrideEnabled.setLocked(true);
+    if (!status) status.perror("Failed to set the bdShpL_FocusBoundingBox drawing override default");
 }
 
 MStatus BdShpLFocusBoundingBoxNode::initialize() {

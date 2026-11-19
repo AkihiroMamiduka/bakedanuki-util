@@ -24,6 +24,7 @@ public:
     static MStatus initialize();
     static MHWRender::MPxGeometryOverride* createGeometryOverride(const MObject& node);
 
+    void postConstructor() override;
     bool isBounded() const override;
     MBoundingBox boundingBox() const override;
     bool excludeAsLocator() const override;

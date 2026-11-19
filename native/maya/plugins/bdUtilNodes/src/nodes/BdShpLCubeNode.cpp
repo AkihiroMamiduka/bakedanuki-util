@@ -1,5 +1,6 @@
 #include "bdUtilNodes/nodes/BdShpLCubeNode.h"
 #include "bdUtilNodes/draw/FixedCubeGeometry.h"
+#include "bdUtilNodes/nodes/LocatorChannelBox.h"
 
 #include <cmath>
 #include <cstring>
@@ -51,6 +52,11 @@ BdShpLCubeNode::BdShpLCubeNode() {
 
 void* BdShpLCubeNode::creator() {
     return new BdShpLCubeNode;
+}
+
+void BdShpLCubeNode::postConstructor() {
+    MPxLocatorNode::postConstructor();
+    bdUtilNodes::hideLocatorPositionAndScale(thisMObject());
 }
 
 MStatus BdShpLCubeNode::initialize() {

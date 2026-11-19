@@ -29,6 +29,7 @@ public:
     static MHWRender::MPxGeometryOverride* createGeometryOverride(const MObject& node);
     static void cleanupDrawResources();
 
+    void postConstructor() override;
     bool isBounded() const override;
     MBoundingBox boundingBox() const override;
     void getCacheSetup(

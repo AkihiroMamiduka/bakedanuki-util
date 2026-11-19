@@ -194,6 +194,33 @@ def test_focus_box_bounds_stay_independent_of_preview_and_sibling(
     assert maya_cmds.getAttr(f"{duplicated_focus}.showShape")
 
 
+def test_fixed_shape_channel_box_and_focus_override_defaults(
+    maya_cmds, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    cube = maya_cmds.createNode("bdShpL_Cube")
+    focus = maya_cmds.createNode("bdShpL_FocusBoundingBox")
+    locator = maya_cmds.createNode("locator")
+
+    for attribute in ("localPosition", "localScale"):
+        for axis in "XYZ":
+            name = f"{attribute}{axis}"
+            for shape in (cube, focus):
+                plug = f"{shape}.{name}"
+                assert not maya_cmds.getAttr(plug, channelBox=True)
+                assert not maya_cmds.getAttr(plug, keyable=True)
+            assert maya_cmds.getAttr(f"{locator}.{name}", channelBox=True)
+
+    focus_override = f"{focus}.overrideEnabled"
+    assert maya_cmds.getAttr(focus_override, lock=True)
+    with pytest.raises(RuntimeError):
+        maya_cmds.setAttr(focus_override, True)
+    assert not maya_cmds.getAttr(focus_override)
+
+    for shape in (cube, locator):
+        assert not maya_cmds.getAttr(f"{shape}.overrideEnabled", lock=True)
+
+
 def test_focus_box_frames_first_visible_sibling(maya_cmds, maya_om, new_scene):
     _load_bd_util_nodes(maya_cmds)
     ctrl = maya_cmds.createNode("transform")
@@ -220,6 +247,12 @@ def test_focus_box_frames_first_visible_sibling(maya_cmds, maya_om, new_scene):
     assert framed_x() == pytest.approx(3.0)
     maya_cmds.setAttr(f"{focus}.visibility", True)
     maya_cmds.setAttr(f"{focus}.showShape", True)
+    assert framed_x() == pytest.approx(13.0)
+
+    maya_cmds.setAttr(f"{focus}.showShape", False)
+    maya_cmds.setAttr(f"{focus}.overrideVisibility", False)
+    maya_cmds.setAttr(f"{focus}.overrideEnabled", lock=False)
+    maya_cmds.setAttr(f"{focus}.overrideEnabled", True)
     assert framed_x() == pytest.approx(13.0)
 
 

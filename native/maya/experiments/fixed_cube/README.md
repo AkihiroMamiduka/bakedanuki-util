@@ -602,6 +602,47 @@ Maya 2025.3.3 / OpenGL で、共通親の下にコントローラーを1,000組�
 VP2 Hardware Cache の復元フレームと一致することを画像で確認しました。
 速度計測と描画検証の記録は `build/fixed_cube/focus_bbox_20261118/`（Git 管理外）にあります。
 
+### マニピュレータ操作とフォーカス用シェイプの表示設定
+
+この節は表示オーバーライドを切り替えたときの比較記録です。
+現在の配布版は再生を優先し、作成時にフォーカス用シェイプの `overrideEnabled` を OFF でロックします。
+
+Maya 2025.3.3 / OpenGL で、同じ共通親の下にコントローラーを1,000組配置しました。
+移動マニピュレータの X 軸へ72入力を送り、その移動軌跡と同じ `translateX` の値変更と描画更新も測りました。
+各構成を独立に2回起動し、起動ごとの5試行の中央値を集計しています。各入力の描画と、両操作の移動値・最終行列を照合しました。
+
+| キャッシュ OFF の構成 | 共通親ドラッグ | 共通親の値変更＋描画 | 単体ドラッグ |
+| --- | ---: | ---: | ---: |
+| `nurbsCurve` 本体のみ | 7.86 ms | 7.14 ms | 2.41 ms |
+| `nurbsCurve` 2枚 | 8.89 ms | 8.29 ms | 2.50 ms |
+| `bdShpL_Cube` 本体のみ | 7.72 ms | 6.99 ms | 3.00 ms |
+| Focus Bounding Box + Cube | 11.61 ms | 11.13 ms | 3.09 ms |
+
+共通親でフォーカス用シェイプを追加した差は、ドラッグと値変更の両方に出ました。
+36描画の Profiler 診断では、Geometry の共通親ドラッグ時に `Vp2PrepareToUpdate` が
+1.06 → 2.01 ms、`Vp2BuildRenderLists` が 2.48 → 3.69 ms に増えました。
+後述の表示オーバーライドを使用すると、同じ診断でそれぞれ 1.05 ms、2.36 ms になりました。
+フォーカス用ノードの GeometryOverride で並列更新を外した試作の共通親ドラッグは、
+キャッシュ OFF の2起動で 11.86 ms と 11.66 ms、同時期の配布版は 11.67 ms でした。
+
+表示オーバーライドの比較では、フォーカス用シェイプの `showShape=OFF` と `visibility=ON` を揃えました。
+表示オーバーライド併用時は `overrideEnabled=ON`、`overrideVisibility=OFF` を指定しました。
+各設定を2起動、5試行ずつ測定しました。ドラッグは ms／入力、再生は ms／描画フレームです。
+ON は Evaluation Cache で、再生の計時前後とも対象範囲のキャッシュが有効でした。
+
+| フォーカス用シェイプの設定 | キャッシュ | 共通親ドラッグ | 単体ドラッグ | 再生 |
+| --- | --- | ---: | ---: | ---: |
+| `showShape=OFF` | OFF | 11.53 | 3.14 | 3.23 |
+| 表示オーバーライド併用 | OFF | 8.59 | 2.90 | 3.56 |
+| `showShape=OFF` | ON | 8.73 | 3.25 | 3.41 |
+| 表示オーバーライド併用 | ON | 8.07 | 3.97 | 4.00 |
+
+`showShape=OFF` の2設定はキャッシュ対象がいずれも2,001ノードでした。
+`showShape=ON` のまま表示オーバーライドで隠した追加診断は3,001ノードとなり、成功した1起動の再生中央値は
+5.88 ms でした。同条件のもう1起動では、初回描画中に Maya が異常終了しました。
+表示オーバーライド併用時にも `F` の範囲と本体の描画・選択を確認し、プレビューの表示切替を検証しました。
+計測、回帰確認、Profiler の記録は `build/fixed_cube/manipulator_20261119/`（Git 管理外）にあります。
+
 ## 参考
 
 - [Autodesk Scene Overrides](https://help.autodesk.com/cloudhelp/2026/ENU/Maya-DEVHELP/files/Viewport-2-0-API/Overview-of-the-Viewport-2-0-API/Maya_DEVHELP_Viewport_2_0_API_Overview_of_the_Viewport_2_0_API_Scene_Overrides_html.html)
