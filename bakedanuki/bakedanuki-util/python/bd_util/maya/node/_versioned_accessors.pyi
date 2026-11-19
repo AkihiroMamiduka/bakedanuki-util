@@ -961,6 +961,15 @@ from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube as _BdShpLCube
 from .operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
     BdShpLFocusBoundingBox as _BdShpLFocusBoundingBox,
 )
+from .operator.node.dag.shape.bd_shp_l_focus_bounding_cross_line import (
+    BdShpLFocusBoundingCrossLine as _BdShpLFocusBoundingCrossLine,
+)
+from .operator.node.dag.shape.bd_shp_l_focus_bounding_cross_line3_axis import (
+    BdShpLFocusBoundingCrossLine3Axis as _BdShpLFocusBoundingCrossLine3Axis,
+)
+from .operator.node.dag.shape.bd_shp_l_focus_bounding_square import (
+    BdShpLFocusBoundingSquare as _BdShpLFocusBoundingSquare,
+)
 from .operator.node.dg.bevel import Bevel as _Bevel
 from .operator.node.dg.bevel_plus import BevelPlus as _BevelPlus
 from .operator.node.dag.shape.bezier_curve import BezierCurve as _BezierCurve
@@ -3283,6 +3292,33 @@ class _ShapeWithTransformCreatorCommon:
         parent: DAG | None = None,
         namespace: str | None = None,
     ) -> tuple[Transform, _BdShpLFocusBoundingBox]: ...
+    def bdShpL_FocusBoundingCrossLine(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _BdShpLFocusBoundingCrossLine]: ...
+    def bdShpL_FocusBoundingCrossLine3Axis(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _BdShpLFocusBoundingCrossLine3Axis]: ...
+    def bdShpL_FocusBoundingSquare(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _BdShpLFocusBoundingSquare]: ...
     def bezierCurve(
         self,
         name: str | None = None,
@@ -8119,6 +8155,30 @@ class _NodeCreatorCommon:
         parent: Transform,
         namespace: str | None = None,
     ) -> _BdShpLFocusBoundingBox: ...
+    def bdShpL_FocusBoundingCrossLine(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BdShpLFocusBoundingCrossLine: ...
+    def bdShpL_FocusBoundingCrossLine3Axis(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BdShpLFocusBoundingCrossLine3Axis: ...
+    def bdShpL_FocusBoundingSquare(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BdShpLFocusBoundingSquare: ...
     def bevel(
         self,
         name: str | None = None,
@@ -22093,6 +22153,21 @@ class _ExistingNodeAccessorCommon:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> _BdShpLFocusBoundingBox: ...
+    def bdShpL_FocusBoundingCrossLine(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdShpLFocusBoundingCrossLine: ...
+    def bdShpL_FocusBoundingCrossLine3Axis(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdShpLFocusBoundingCrossLine3Axis: ...
+    def bdShpL_FocusBoundingSquare(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdShpLFocusBoundingSquare: ...
     def bevel(
         self,
         node: str | om.MObject,

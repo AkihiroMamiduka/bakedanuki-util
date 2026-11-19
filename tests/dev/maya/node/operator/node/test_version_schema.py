@@ -28,7 +28,7 @@ _EXPECTED_SELECTION_COUNTS = {
         "introduced": 0,
         "removed": 0,
         "changed": 0,
-        "generation": 12,
+        "generation": 15,
     },
     2026: {
         "introduced": 64,

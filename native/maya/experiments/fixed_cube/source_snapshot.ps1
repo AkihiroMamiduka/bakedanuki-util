@@ -2,6 +2,8 @@ $script:CubeStudyProductionFiles = @(
     'src/nodes/BdShpLCubeNode.cpp',
     'src/nodes/BdShpLCubeGeometryOverride.cpp',
     'include/bdUtilNodes/nodes/BdShpLCubeNode.h',
+    'include/bdUtilNodes/nodes/LocatorChannelBox.h',
+    'include/bdUtilNodes/nodes/SignedShapeAxes.h',
     'include/bdUtilNodes/draw/FixedCubeGeometry.h'
 )
 
@@ -50,7 +52,7 @@ function New-CubeStudySourceSnapshot([string]$ResearchRoot, [string]$RepositoryR
         Copy-Item -LiteralPath $source -Destination $destination
     }
     $manifest = [ordered]@{
-        schema_version = 2; research_source_directory = $ResearchRoot
+        schema_version = 3; research_source_directory = $ResearchRoot
         production_source_directory = $productionRoot; source_snapshot_sha256 = $hashes
     }
     [IO.File]::WriteAllText($manifestPath, ($manifest | ConvertTo-Json -Depth 8), [Text.UTF8Encoding]::new($false))

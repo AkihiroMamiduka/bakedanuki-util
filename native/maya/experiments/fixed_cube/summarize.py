@@ -67,7 +67,8 @@ def _audit_source_snapshot(
         )
         return None
     manifest = _read(manifest_path)
-    _require(manifest["schema_version"] == 2, "Unknown source snapshot schema")
+    version = manifest["schema_version"]
+    _require(version in (2, 3), "Unknown source snapshot schema")
     _require(
         Path(manifest["research_source_directory"]).resolve()
         == repository / "native/maya/experiments/fixed_cube"
@@ -80,9 +81,15 @@ def _audit_source_snapshot(
         hashes == manifest["source_snapshot_sha256"],
         "Source snapshot files differ from the manifest",
     )
+    sources = _PRODUCTION_CUBE_SOURCES
+    if version == 3:
+        sources += (
+            "include/bdUtilNodes/nodes/LocatorChannelBox.h",
+            "include/bdUtilNodes/nodes/SignedShapeAxes.h",
+        )
     _require(
         {name for name in hashes if name.startswith("production_cube/")}
-        == {"production_cube/" + name for name in _PRODUCTION_CUBE_SOURCES},
+        == {"production_cube/" + name for name in sources},
         "Production Cube source snapshot is incomplete",
     )
     return _sha(manifest_path)

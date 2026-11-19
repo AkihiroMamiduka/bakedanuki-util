@@ -12,6 +12,23 @@ pytestmark = pytest.mark.maya
 
 _REGISTERED_NODE_ID_START = 0x00142680
 _REGISTERED_NODE_ID_END = 0x0014277F
+_SPATIAL_FOCUS_NODE_TYPES = {
+    "bdShpL_FocusBoundingBox": (0x00142721, "BdShpLFocusBoundingBox"),
+    "bdShpL_FocusBoundingCrossLine3Axis": (
+        0x00142722,
+        "BdShpLFocusBoundingCrossLine3Axis",
+    ),
+}
+_PLANAR_FOCUS_NODE_TYPES = {
+    "bdShpL_FocusBoundingSquare": (0x00142723, "BdShpLFocusBoundingSquare"),
+    "bdShpL_FocusBoundingCrossLine": (
+        0x00142724,
+        "BdShpLFocusBoundingCrossLine",
+    ),
+}
+_FOCUS_NODE_TYPES = _SPATIAL_FOCUS_NODE_TYPES | _PLANAR_FOCUS_NODE_TYPES
+_AXIS_FIELDS = ("+X", "-X", "+Y", "-Y", "+Z", "-Z")
+_CUBE_BOUNDS = (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
 
 
 def _load_bd_util_nodes(maya_cmds) -> str:
@@ -36,6 +53,13 @@ def _load_bd_util_nodes(maya_cmds) -> str:
     return plugin_path.stem
 
 
+def _local_bounds(maya_om, node):
+    selection = maya_om.MSelectionList()
+    selection.add(node)
+    box = maya_om.MFnDagNode(selection.getDagPath(0)).boundingBox
+    return (*tuple(box.min)[:3], *tuple(box.max)[:3])
+
+
 def test_plugin_metadata_matches_runtime(maya_cmds):
     plugin_name = _load_bd_util_nodes(maya_cmds)
 
@@ -52,7 +76,7 @@ def test_node_type_ids_are_unique_and_in_registered_block(maya_cmds, maya_om):
     plugin_name = _load_bd_util_nodes(maya_cmds)
     node_types = maya_cmds.pluginInfo(plugin_name, query=True, dependNode=True)
 
-    assert len(node_types) == 160
+    assert len(node_types) == 163
 
     type_ids = [
         maya_om.MNodeClass(node_type).typeId.id() for node_type in node_types
@@ -94,43 +118,56 @@ def test_fixed_cube_public_creator_and_existing_support_undo_redo(
     assert maya_cmds.objExists(shape.full_path)
 
 
-def test_focus_box_public_type_and_static_attributes(
-    maya_cmds, maya_om, new_scene
+@pytest.mark.parametrize("node_type", _FOCUS_NODE_TYPES)
+def test_focus_shape_public_type_and_static_attributes(
+    node_type, maya_cmds, maya_om, new_scene
 ):
     _load_bd_util_nodes(maya_cmds)
     mod = bdu.ModifierManager()
     bd_nodes = bdu.Nodes(modifier_manager=mod)
-    transform, shape = bd_nodes.create.with_transform.bdShpL_FocusBoundingBox(
-        name="control", shape_name="focusBox"
-    )
+    create = getattr(bd_nodes.create.with_transform, node_type)
+    transform, shape = create(name="control", shape_name="focusShape")
     bd_nodes.create.bdShpL_Cube(parent=transform, name="cubeShape")
     mod.do_it_dag()
 
-    node_type = "bdShpL_FocusBoundingBox"
-    assert maya_om.MNodeClass(node_type).typeId.id() == 0x00142721
-    assert type(shape) is bdu.node_types.BdShpLFocusBoundingBox
+    type_id, class_name = _FOCUS_NODE_TYPES[node_type]
+    assert maya_om.MNodeClass(node_type).typeId.id() == type_id
+    assert type(shape) is getattr(bdu.node_types, class_name)
     assert bdu.node_types.resolve(node_type) is type(shape)
-    existing = bd_nodes.existing.bdShpL_FocusBoundingBox(shape.full_path)
+    existing = getattr(bd_nodes.existing, node_type)(shape.full_path)
     assert existing.m_obj == shape.m_obj
     assert existing.visibility.get() is True
     assert existing.showShape.get() is False
 
-    attrs = [("showShape", "ss", "bool", False)]
+    attrs: list[tuple[str, str, str, bool | int | float]] = [
+        ("showShape", "ss", "bool", False)
+    ]
     half_unit = maya_om.MDistance.internalToUI(0.5)
+    if node_type in _PLANAR_FOCUS_NODE_TYPES:
+        attrs.extend(
+            (
+                ("shape1stAxis", "s1a", "enum", 0),
+                ("shape2ndAxis", "s2a", "enum", 2),
+            )
+        )
+        distance_names = (("1stAxis", "sbsp1"), ("2ndAxis", "sbsp2"))
+    else:
+        distance_names = (("X", "sbsx"), ("Y", "sbsy"), ("Z", "sbsz"))
     attrs.extend(
         (
             f"shapeBaseSpace{axis}{side}",
-            f"sbs{axis.lower()}{letter}",
+            f"{short}{letter}",
             "doubleLinear",
             half_unit,
         )
-        for axis in "XYZ"
+        for axis, short in distance_names
         for side, letter in (("Plus", "p"), ("Minus", "m"))
     )
     locator = maya_cmds.createNode("locator")
     assert set(maya_cmds.listAttr(shape.full_path)) - set(
         maya_cmds.listAttr(locator)
     ) == {name for name, *_ in attrs}
+    node_class = maya_om.MNodeClass(node_type)
     for name, short, kind, default in attrs:
         plug = f"{shape.full_path}.{name}"
         assert (
@@ -151,24 +188,21 @@ def test_focus_box_public_type_and_static_attributes(
         assert maya_cmds.attributeQuery(
             name, node=shape.full_path, storable=True
         )
+        if kind == "enum":
+            enum = maya_om.MFnEnumAttribute(node_class.attribute(name))
+            assert tuple(enum.fieldName(i) for i in range(6)) == _AXIS_FIELDS
 
 
-def test_focus_box_bounds_stay_independent_of_preview_and_sibling(
-    maya_cmds, maya_om, new_scene
+@pytest.mark.parametrize("node_type", _SPATIAL_FOCUS_NODE_TYPES)
+def test_focus_shape_bounds_stay_independent_of_preview_and_sibling(
+    node_type, maya_cmds, maya_om, new_scene
 ):
     _load_bd_util_nodes(maya_cmds)
     ctrl = maya_cmds.createNode("transform")
-    focus = maya_cmds.createNode("bdShpL_FocusBoundingBox", parent=ctrl)
+    focus = maya_cmds.createNode(node_type, parent=ctrl)
     body = maya_cmds.createNode("bdShpL_Cube", parent=ctrl)
 
-    def bounds(node):
-        selection = maya_om.MSelectionList()
-        selection.add(node)
-        box = maya_om.MFnDagNode(selection.getDagPath(0)).boundingBox
-        return (*tuple(box.min)[:3], *tuple(box.max)[:3])
-
-    cube_bounds = (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
-    assert bounds(focus) == pytest.approx(cube_bounds)
+    assert _local_bounds(maya_om, focus) == pytest.approx(_CUBE_BOUNDS)
     for attr, value in (
         ("shapeBaseSpaceXPlus", 7.0),
         ("shapeBaseSpaceXMinus", -9.0),
@@ -180,26 +214,115 @@ def test_focus_box_bounds_stay_independent_of_preview_and_sibling(
         maya_cmds.setAttr(
             f"{focus}.{attr}", maya_om.MDistance.internalToUI(value)
         )
-    expected = (7.0, 0.0, -1.25, 9.0, 0.0, 2.75)
-    assert bounds(focus) == pytest.approx(expected)
+    assert _local_bounds(maya_om, focus) == pytest.approx(
+        (7.0, 0.0, -1.25, 9.0, 0.0, 2.75)
+    )
+    to_ui = maya_om.MDistance.internalToUI
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpaceYMinus", to_ui(-2.0))
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpaceYPlus", to_ui(5.0))
+    expected = (7.0, 2.0, -1.25, 9.0, 5.0, 2.75)
+    assert _local_bounds(maya_om, focus) == pytest.approx(expected)
     maya_cmds.setAttr(f"{focus}.showShape", True)
-    assert bounds(focus) == pytest.approx(expected)
-    assert bounds(body) == pytest.approx(cube_bounds)
+    assert _local_bounds(maya_om, focus) == pytest.approx(expected)
+    assert _local_bounds(maya_om, body) == pytest.approx(_CUBE_BOUNDS)
 
     (duplicate,) = maya_cmds.duplicate(ctrl, name="copy")
     duplicated_focus, _ = maya_cmds.listRelatives(
         duplicate, shapes=True, fullPath=True
     )
-    assert bounds(duplicated_focus) == pytest.approx(expected)
+    assert _local_bounds(maya_om, duplicated_focus) == pytest.approx(expected)
     assert maya_cmds.getAttr(f"{duplicated_focus}.showShape")
 
 
+@pytest.mark.parametrize("node_type", _PLANAR_FOCUS_NODE_TYPES)
+@pytest.mark.parametrize(
+    ("first", "second", "expected"),
+    (
+        (0, 2, (1.0, -2.0, 0.0, 3.0, 4.0, 0.0)),
+        (1, 4, (-3.0, 0.0, -2.0, -1.0, 0.0, 4.0)),
+        (3, 1, (-4.0, -3.0, 0.0, 2.0, -1.0, 0.0)),
+        (0, 1, (1.0, -2.0, 0.0, 3.0, 4.0, 0.0)),
+        (3, 2, (0.0, -3.0, -2.0, 0.0, -1.0, 4.0)),
+        (5, 5, (0.0, -2.0, -3.0, 0.0, 4.0, -1.0)),
+    ),
+)
+def test_planar_focus_shape_bounds_use_oriented_axis_limits(
+    node_type, first, second, expected, maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    focus = maya_cmds.createNode(node_type)
+    assert _local_bounds(maya_om, focus) == pytest.approx(
+        (-0.5, -0.5, 0.0, 0.5, 0.5, 0.0)
+    )
+
+    maya_cmds.setAttr(f"{focus}.shape1stAxis", first)
+    maya_cmds.setAttr(f"{focus}.shape2ndAxis", second)
+    to_ui = maya_om.MDistance.internalToUI
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpace1stAxisMinus", to_ui(-1.0))
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpace1stAxisPlus", to_ui(3.0))
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpace2ndAxisMinus", to_ui(2.0))
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpace2ndAxisPlus", to_ui(4.0))
+    assert _local_bounds(maya_om, focus) == pytest.approx(expected)
+    assert maya_cmds.getAttr(f"{focus}.shape2ndAxis") == second
+
+
+@pytest.mark.parametrize("node_type", _PLANAR_FOCUS_NODE_TYPES)
+def test_planar_focus_shape_degenerate_bounds_with_sibling_and_preview(
+    node_type, maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    ctrl = maya_cmds.createNode("transform")
+    focus = maya_cmds.createNode(node_type, parent=ctrl)
+    body = maya_cmds.createNode("bdShpL_Cube", parent=ctrl)
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpace1stAxisMinus", 0.0)
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpace1stAxisPlus", 0.0)
+    assert _local_bounds(maya_om, focus) == pytest.approx(
+        (0.0, -0.5, 0.0, 0.0, 0.5, 0.0)
+    )
+
+    to_ui = maya_om.MDistance.internalToUI
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpace2ndAxisMinus", to_ui(-2.0))
+    maya_cmds.setAttr(f"{focus}.shapeBaseSpace2ndAxisPlus", to_ui(2.0))
+    expected = (0.0, 2.0, 0.0, 0.0, 2.0, 0.0)
+    assert _local_bounds(maya_om, focus) == pytest.approx(expected)
+    maya_cmds.setAttr(f"{focus}.showShape", True)
+    assert _local_bounds(maya_om, focus) == pytest.approx(expected)
+    assert _local_bounds(maya_om, body) == pytest.approx(_CUBE_BOUNDS)
+
+    (duplicate,) = maya_cmds.duplicate(ctrl, name="copy")
+    duplicated_focus, _ = maya_cmds.listRelatives(
+        duplicate, shapes=True, fullPath=True
+    )
+    assert _local_bounds(maya_om, duplicated_focus) == pytest.approx(expected)
+    assert maya_cmds.getAttr(f"{duplicated_focus}.showShape")
+
+
+@pytest.mark.parametrize("node_type", _PLANAR_FOCUS_NODE_TYPES)
+def test_planar_focus_shape_rejects_incoming_connections(
+    node_type, maya_cmds, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    focus = maya_cmds.createNode(node_type)
+    source = maya_cmds.createNode("network")
+    for attribute, options in (
+        ("showShape", {"attributeType": "bool"}),
+        ("shape1stAxis", {"attributeType": "enum", "enumName": "off:on"}),
+        ("shapeBaseSpace1stAxisMinus", {"attributeType": "doubleLinear"}),
+    ):
+        maya_cmds.addAttr(source, longName=attribute, **options)
+        destination = f"{focus}.{attribute}"
+        with pytest.raises(RuntimeError):
+            maya_cmds.connectAttr(f"{source}.{attribute}", destination)
+        assert not maya_cmds.connectionInfo(destination, isDestination=True)
+
+
+@pytest.mark.parametrize("node_type", _FOCUS_NODE_TYPES)
 def test_fixed_shape_channel_box_and_focus_override_defaults(
-    maya_cmds, new_scene
+    node_type, maya_cmds, new_scene
 ):
     _load_bd_util_nodes(maya_cmds)
     cube = maya_cmds.createNode("bdShpL_Cube")
-    focus = maya_cmds.createNode("bdShpL_FocusBoundingBox")
+    focus = maya_cmds.createNode(node_type)
     locator = maya_cmds.createNode("locator")
 
     for attribute in ("localPosition", "localScale"):
@@ -221,10 +344,13 @@ def test_fixed_shape_channel_box_and_focus_override_defaults(
         assert not maya_cmds.getAttr(f"{shape}.overrideEnabled", lock=True)
 
 
-def test_focus_box_frames_first_visible_sibling(maya_cmds, maya_om, new_scene):
+@pytest.mark.parametrize("node_type", _SPATIAL_FOCUS_NODE_TYPES)
+def test_focus_shape_frames_first_visible_sibling(
+    node_type, maya_cmds, maya_om, new_scene
+):
     _load_bd_util_nodes(maya_cmds)
     ctrl = maya_cmds.createNode("transform")
-    focus = maya_cmds.createNode("bdShpL_FocusBoundingBox", parent=ctrl)
+    focus = maya_cmds.createNode(node_type, parent=ctrl)
     body = maya_cmds.createNode("bdShpL_Cube", parent=ctrl)
     to_ui = maya_om.MDistance.internalToUI
     maya_cmds.setAttr(f"{ctrl}.translateX", to_ui(3.0))

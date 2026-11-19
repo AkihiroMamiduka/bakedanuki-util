@@ -152,10 +152,11 @@ DLL の SHA256、Maya / API / GPU、view、配置数、設定、試行値、画�
 
 `study.ps1` と `playback_study.ps1` は研究ディレクトリを `source_snapshot` へ保存します。
 本体と共有する `BdShpLCubeNode.cpp`、`BdShpLCubeGeometryOverride.cpp`、
-`BdShpLCubeNode.h`、`FixedCubeGeometry.h` も `source_snapshot/production_cube` 以下へ
-本体内の相対パスを保って保存します。`source_snapshot_manifest.json` に全ファイルの
+`BdShpLCubeNode.h`、`FixedCubeGeometry.h`、`LocatorChannelBox.h`、`SignedShapeAxes.h` も
+`source_snapshot/production_cube` 以下へ本体内の相対パスを保って保存します。
+`source_snapshot_manifest.json` に全ファイルの
 SHA256 を記録し、各起動の前後で現在のソース・保存済みコピー・manifest の不変を確認します。
-測定中は研究ディレクトリと本体側のこの4ファイルを編集しないでください。
+測定中は研究ディレクトリと本体側のこれらのファイルを編集しないでください。
 
 実際の DLL は build の固定配置先から読み込み、run 配下のコピーは記録用に保持します。
 起動前に実体と archive の SHA256 を照合します。
@@ -642,6 +643,26 @@ ON は Evaluation Cache で、再生の計時前後とも対象範囲のキャ�
 5.88 ms でした。同条件のもう1起動では、初回描画中に Maya が異常終了しました。
 表示オーバーライド併用時にも `F` の範囲と本体の描画・選択を確認し、プレビューの表示切替を検証しました。
 計測、回帰確認、Profiler の記録は `build/fixed_cube/manipulator_20261119/`（Git 管理外）にあります。
+
+## フォーカス用プレビュー形状の比較
+
+Maya 2025.3.3 / OpenGL で、フォーカス用シェイプと `bdShpL_Cube` を持つ1,000組を計測しました。
+4形状を同じ DLL で2回ずつ独立起動し、プレビューと Evaluation Cache をそれぞれ ON／OFF にしました。
+Box と3軸十字は同じ3D範囲、四角と2D十字は同じ平面範囲を使い、プレビューの線と本体の線が重ならないように配置しました。
+操作は Move マニピュレータで共通親と単体をドラッグし、再生は共通親をアニメーションして計測しました。
+
+| フォーカス形状 | 頂点／辺 | キャッシュ ON・非表示の再生 | キャッシュ ON・表示の再生 |
+| --- | ---: | ---: | ---: |
+| Box | 8／12 | 3.715 ms | 8.517 ms |
+| 3軸十字 | 6／3 | 3.901 ms | 8.716 ms |
+| 四角 | 4／4 | 3.612 ms | 8.702 ms |
+| 2D十字 | 4／2 | 3.617 ms | 8.838 ms |
+
+値は各起動で3試行した、描画フレーム当たりの時間の中央値を集約したものです。
+非表示・キャッシュ ON の再生では、起動間のばらつきが形状間の差と同程度でした。
+表示時にフォーカス用1,000ノードがキャッシュ対象に加わり、全形状で再生時間が増えました。
+操作とキャッシュ OFF の結果、F キー相当のフレーミング、プレビューと本体の選択の記録は
+`build/fixed_cube/focus_variants_2d_20261119/`（Git 管理外）にあります。
 
 ## 参考
 

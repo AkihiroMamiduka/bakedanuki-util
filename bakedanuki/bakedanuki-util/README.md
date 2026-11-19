@@ -329,6 +329,7 @@ Maya 2026 / 2027 の GUI 描画と性能は未検証です。
 ### フォーカス用バウンディングボックス
 
 `bdShpL_FocusBoundingBox` は、選択したコントローラーを `F` キーでフレームする範囲を指定する shape です。
+`bdShpL_FocusBoundingCrossLine3Axis` は同じ範囲を指定でき、プレビューを範囲の中心で交差する3本の線で表示します。
 コントローラーの transform 直下に最初の shape として配置し、標準の `visibility` は ON のまま使用します。
 本体には `bdShpL_Cube` や `nurbsCurve` などを配置できます。
 
@@ -355,6 +356,13 @@ cmds.select(ctrl)
 各軸の端点は `-Minus` と `Plus` です。負値で箱を片側に寄せることもでき、
 端点が逆順の場合は小さい方と大きい方が範囲になります。7属性は直接編集する静的なチャンネルボックス属性です。
 `showShape` を ON にすると調整用の線が表示され、クリック選択は本体で行えます。
+
+`bdShpL_FocusBoundingSquare` と `bdShpL_FocusBoundingCrossLine` は、第1・第2軸で指定する平面内をフレームします。
+`showShape` に加え、`bdShpL_Cube` と同じ `shape1stAxis`、`shape2ndAxis`、
+`shapeBaseSpace1stAxisPlus` / `shapeBaseSpace1stAxisMinus`、
+`shapeBaseSpace2ndAxisPlus` / `shapeBaseSpace2ndAxisMinus` を編集できます。
+既定の平面は `+X` / `+Y` で、法線方向の厚みはゼロです。平行な軸を選んだ場合も Cube と同じ規則で第2軸を決定します。
+四角のプレビューは4辺で範囲を示し、十字は範囲の中心で交差する2本の線で示します。
 通常使用時は `showShape` を OFF にすると、フレーム範囲を保ったままプレビューの描画データを省けます。
 
 ノード作成時に `overrideEnabled` を OFF でロックし、チャンネルボックスでは

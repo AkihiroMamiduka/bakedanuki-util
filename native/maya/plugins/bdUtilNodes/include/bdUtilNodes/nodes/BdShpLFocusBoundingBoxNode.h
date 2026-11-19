@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <atomic>
 #include <cstdint>
 #include <mutex>
@@ -11,15 +12,24 @@ namespace MHWRender {
 class MPxGeometryOverride;
 }
 
-class BdShpLFocusBoundingBoxNode final : public MPxLocatorNode {
+enum class FocusBoundsWire { Box, CrossLine3Axis, Square, CrossLine };
+
+constexpr bool isPlanarFocusWire(FocusBoundsWire wire) {
+    return wire == FocusBoundsWire::Square || wire == FocusBoundsWire::CrossLine;
+}
+
+template <FocusBoundsWire Wire>
+class BdShpLFocusBoundsNode final : public MPxLocatorNode {
 public:
     struct Preview {
         MBoundingBox bounds;
         bool visible = false;
+        std::uint8_t firstAxis = 0;
+        std::uint8_t secondAxis = 1;
         std::uint64_t revision = 0;
     };
 
-    BdShpLFocusBoundingBoxNode();
+    BdShpLFocusBoundsNode();
     static void* creator();
     static MStatus initialize();
     static MHWRender::MPxGeometryOverride* createGeometryOverride(const MObject& node);
@@ -48,16 +58,29 @@ public:
     static const MString drawRegistrantId;
 
 private:
+    static constexpr bool IsPlanar = isPlanarFocusWire(Wire);
+    static constexpr unsigned int AxisCount = IsPlanar ? 2 : 3;
     static MObject showShape;
-    static MObject shapeBaseSpaceXPlus;
-    static MObject shapeBaseSpaceXMinus;
-    static MObject shapeBaseSpaceYPlus;
-    static MObject shapeBaseSpaceYMinus;
-    static MObject shapeBaseSpaceZPlus;
-    static MObject shapeBaseSpaceZMinus;
+    static MObject shape1stAxis;
+    static MObject shape2ndAxis;
+    static std::array<std::array<MObject, 2>, AxisCount> distances;
     static bool isPreviewAttribute(const MObject& attribute);
 
     std::atomic<std::uint64_t> previewRevision_{1};
     mutable std::mutex previewMutex_;
     mutable Preview preview_;
 };
+
+using BdShpLFocusBoundingBoxNode = BdShpLFocusBoundsNode<FocusBoundsWire::Box>;
+using BdShpLFocusBoundingCrossLine3AxisNode = BdShpLFocusBoundsNode<FocusBoundsWire::CrossLine3Axis>;
+using BdShpLFocusBoundingSquareNode = BdShpLFocusBoundsNode<FocusBoundsWire::Square>;
+using BdShpLFocusBoundingCrossLineNode = BdShpLFocusBoundsNode<FocusBoundsWire::CrossLine>;
+
+template <>
+MHWRender::MPxGeometryOverride* BdShpLFocusBoundingBoxNode::createGeometryOverride(const MObject& node);
+template <>
+MHWRender::MPxGeometryOverride* BdShpLFocusBoundingCrossLine3AxisNode::createGeometryOverride(const MObject& node);
+template <>
+MHWRender::MPxGeometryOverride* BdShpLFocusBoundingSquareNode::createGeometryOverride(const MObject& node);
+template <>
+MHWRender::MPxGeometryOverride* BdShpLFocusBoundingCrossLineNode::createGeometryOverride(const MObject& node);

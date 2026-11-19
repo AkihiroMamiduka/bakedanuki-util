@@ -1,13 +1,12 @@
 #include "bdUtilNodes/nodes/BdShpLCubeNode.h"
 #include "bdUtilNodes/draw/FixedCubeGeometry.h"
 #include "bdUtilNodes/nodes/LocatorChannelBox.h"
+#include "bdUtilNodes/nodes/SignedShapeAxes.h"
 
-#include <cmath>
 #include <cstring>
 
 #include <maya/MDistance.h>
 #include <maya/MFnAttribute.h>
-#include <maya/MFnEnumAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MNodeCacheSetupInfo.h>
 #include <maya/MPlug.h>
@@ -32,19 +31,6 @@ MObject BdShpLCubeNode::shapeBaseSpace2ndAxisMinus;
 MObject BdShpLCubeNode::shapeBaseSpace3rdAxisPlus;
 MObject BdShpLCubeNode::shapeBaseSpace3rdAxisMinus;
 
-namespace {
-MVector axisVector(short axis) {
-    switch (axis) {
-        case 1: return MVector(-1, 0, 0);
-        case 2: return MVector(0, 1, 0);
-        case 3: return MVector(0, -1, 0);
-        case 4: return MVector(0, 0, 1);
-        case 5: return MVector(0, 0, -1);
-        default: return MVector(1, 0, 0);
-    }
-}
-}
-
 BdShpLCubeNode::BdShpLCubeNode() {
     std::memcpy(geometry_.vertices, bdUtilNodes::fixedCube::vertices, sizeof(geometry_.vertices));
     geometry_.bounds = bdUtilNodes::fixedCube::bounds();
@@ -61,20 +47,10 @@ void BdShpLCubeNode::postConstructor() {
 
 MStatus BdShpLCubeNode::initialize() {
     MStatus status;
-    MFnEnumAttribute enumFn;
-    const char* axisNames[] = {"+X", "-X", "+Y", "-Y", "+Z", "-Z"};
-    shape1stAxis = enumFn.create("shape1stAxis", "s1a", 0, &status);
+    shape1stAxis = bdUtilNodes::createSignedAxisAttribute("shape1stAxis", "s1a", 0, status);
     if (!status) return status;
-    for (short i = 0; i < 6; ++i) {
-        status = enumFn.addField(axisNames[i], i);
-        if (!status) return status;
-    }
-    shape2ndAxis = enumFn.create("shape2ndAxis", "s2a", 2, &status);
+    shape2ndAxis = bdUtilNodes::createSignedAxisAttribute("shape2ndAxis", "s2a", 2, status);
     if (!status) return status;
-    for (short i = 0; i < 6; ++i) {
-        status = enumFn.addField(axisNames[i], i);
-        if (!status) return status;
-    }
     struct DistanceAttribute { MObject* object; const char* name; const char* shortName; };
     MFnUnitAttribute unitFn;
     for (const auto& value : {
@@ -170,11 +146,9 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometry() const {
             if (!status) return geometry_;
         }
     }
-    const auto firstVector = axisVector(first);
-    auto secondVector = axisVector(second);
-    if ((firstVector ^ secondVector).length() == 0) {
-        secondVector = std::abs(firstVector.y) == 1 ? MVector(0, 0, 1) : MVector(0, 1, 0);
-    }
+    const auto axes = bdUtilNodes::resolveSignedShapeAxes(first, second);
+    const auto firstVector = axes.first.vector();
+    const auto secondVector = axes.second.vector();
     const auto thirdVector = firstVector ^ secondVector;
     Geometry result;
     for (unsigned int i = 0; i < 8; ++i) {

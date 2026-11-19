@@ -1,6 +1,7 @@
 #include "bdUtilNodes/nodes/BdShpLFocusBoundingBoxNode.h"
 #include "bdUtilNodes/draw/FixedCubeGeometry.h"
 #include "bdUtilNodes/nodes/LocatorChannelBox.h"
+#include "bdUtilNodes/nodes/SignedShapeAxes.h"
 
 #include <algorithm>
 
@@ -14,28 +15,49 @@
 #include <maya/MPlug.h>
 #include <maya/MViewport2Renderer.h>
 
-const MString BdShpLFocusBoundingBoxNode::typeName("bdShpL_FocusBoundingBox");
-const MTypeId BdShpLFocusBoundingBoxNode::typeId(0x00142721);
-const MString BdShpLFocusBoundingBoxNode::drawClassification("drawdb/geometry/bdShpL_FocusBoundingBox");
-const MString BdShpLFocusBoundingBoxNode::drawRegistrantId("bdShpLFocusBoundingBoxGeometryOverride");
+template <> const MString BdShpLFocusBoundingBoxNode::typeName("bdShpL_FocusBoundingBox");
+template <> const MTypeId BdShpLFocusBoundingBoxNode::typeId(0x00142721);
+template <> const MString BdShpLFocusBoundingBoxNode::drawClassification("drawdb/geometry/bdShpL_FocusBoundingBox");
+template <> const MString BdShpLFocusBoundingBoxNode::drawRegistrantId("bdShpLFocusBoundingBoxGeometryOverride");
 
-MObject BdShpLFocusBoundingBoxNode::showShape;
-MObject BdShpLFocusBoundingBoxNode::shapeBaseSpaceXPlus;
-MObject BdShpLFocusBoundingBoxNode::shapeBaseSpaceXMinus;
-MObject BdShpLFocusBoundingBoxNode::shapeBaseSpaceYPlus;
-MObject BdShpLFocusBoundingBoxNode::shapeBaseSpaceYMinus;
-MObject BdShpLFocusBoundingBoxNode::shapeBaseSpaceZPlus;
-MObject BdShpLFocusBoundingBoxNode::shapeBaseSpaceZMinus;
+template <> const MString BdShpLFocusBoundingCrossLine3AxisNode::typeName("bdShpL_FocusBoundingCrossLine3Axis");
+template <> const MTypeId BdShpLFocusBoundingCrossLine3AxisNode::typeId(0x00142722);
+template <> const MString BdShpLFocusBoundingCrossLine3AxisNode::drawClassification("drawdb/geometry/bdShpL_FocusBoundingCrossLine3Axis");
+template <> const MString BdShpLFocusBoundingCrossLine3AxisNode::drawRegistrantId("bdShpLFocusBoundingCrossLine3AxisGeometryOverride");
 
-BdShpLFocusBoundingBoxNode::BdShpLFocusBoundingBoxNode() {
-    preview_.bounds = bdUtilNodes::fixedCube::bounds();
+template <> const MString BdShpLFocusBoundingSquareNode::typeName("bdShpL_FocusBoundingSquare");
+template <> const MTypeId BdShpLFocusBoundingSquareNode::typeId(0x00142723);
+template <> const MString BdShpLFocusBoundingSquareNode::drawClassification("drawdb/geometry/bdShpL_FocusBoundingSquare");
+template <> const MString BdShpLFocusBoundingSquareNode::drawRegistrantId("bdShpLFocusBoundingSquareGeometryOverride");
+
+template <> const MString BdShpLFocusBoundingCrossLineNode::typeName("bdShpL_FocusBoundingCrossLine");
+template <> const MTypeId BdShpLFocusBoundingCrossLineNode::typeId(0x00142724);
+template <> const MString BdShpLFocusBoundingCrossLineNode::drawClassification("drawdb/geometry/bdShpL_FocusBoundingCrossLine");
+template <> const MString BdShpLFocusBoundingCrossLineNode::drawRegistrantId("bdShpLFocusBoundingCrossLineGeometryOverride");
+
+template <FocusBoundsWire Wire> MObject BdShpLFocusBoundsNode<Wire>::showShape;
+template <FocusBoundsWire Wire> MObject BdShpLFocusBoundsNode<Wire>::shape1stAxis;
+template <FocusBoundsWire Wire> MObject BdShpLFocusBoundsNode<Wire>::shape2ndAxis;
+template <FocusBoundsWire Wire>
+std::array<std::array<MObject, 2>, BdShpLFocusBoundsNode<Wire>::AxisCount>
+    BdShpLFocusBoundsNode<Wire>::distances;
+
+template <FocusBoundsWire Wire>
+BdShpLFocusBoundsNode<Wire>::BdShpLFocusBoundsNode() {
+    if constexpr (IsPlanar) {
+        preview_.bounds = MBoundingBox(MPoint(-0.5, -0.5, 0), MPoint(0.5, 0.5, 0));
+    } else {
+        preview_.bounds = bdUtilNodes::fixedCube::bounds();
+    }
 }
 
-void* BdShpLFocusBoundingBoxNode::creator() {
-    return new BdShpLFocusBoundingBoxNode;
+template <FocusBoundsWire Wire>
+void* BdShpLFocusBoundsNode<Wire>::creator() {
+    return new BdShpLFocusBoundsNode;
 }
 
-void BdShpLFocusBoundingBoxNode::postConstructor() {
+template <FocusBoundsWire Wire>
+void BdShpLFocusBoundsNode<Wire>::postConstructor() {
     MPxLocatorNode::postConstructor();
     const auto node = thisMObject();
     bdUtilNodes::hideLocatorPositionAndScale(node);
@@ -44,34 +66,17 @@ void BdShpLFocusBoundingBoxNode::postConstructor() {
     auto overrideEnabled = MFnDependencyNode(node).findPlug("overrideEnabled", false, &status);
     if (status) status = overrideEnabled.setBool(false);
     if (status) status = overrideEnabled.setLocked(true);
-    if (!status) status.perror("Failed to set the bdShpL_FocusBoundingBox drawing override default");
+    if (!status) status.perror("Failed to set the focus bounding shape drawing override default");
 }
 
-MStatus BdShpLFocusBoundingBoxNode::initialize() {
+template <FocusBoundsWire Wire>
+MStatus BdShpLFocusBoundsNode<Wire>::initialize() {
     MStatus status;
     MFnNumericAttribute numericFn;
     showShape = numericFn.create("showShape", "ss", MFnNumericData::kBoolean, false, &status);
     if (!status) return status;
 
-    struct DistanceAttribute { MObject* object; const char* name; const char* shortName; };
-    MFnUnitAttribute unitFn;
-    for (const auto& distance : {
-        DistanceAttribute{&shapeBaseSpaceXPlus, "shapeBaseSpaceXPlus", "sbsxp"},
-        DistanceAttribute{&shapeBaseSpaceXMinus, "shapeBaseSpaceXMinus", "sbsxm"},
-        DistanceAttribute{&shapeBaseSpaceYPlus, "shapeBaseSpaceYPlus", "sbsyp"},
-        DistanceAttribute{&shapeBaseSpaceYMinus, "shapeBaseSpaceYMinus", "sbsym"},
-        DistanceAttribute{&shapeBaseSpaceZPlus, "shapeBaseSpaceZPlus", "sbszp"},
-        DistanceAttribute{&shapeBaseSpaceZMinus, "shapeBaseSpaceZMinus", "sbszm"},
-    }) {
-        *distance.object = unitFn.create(distance.name, distance.shortName,
-            MDistance(0.5, MDistance::kCentimeters), &status);
-        if (!status) return status;
-    }
-
-    for (const auto& attribute : {
-        showShape, shapeBaseSpaceXPlus, shapeBaseSpaceXMinus, shapeBaseSpaceYPlus,
-        shapeBaseSpaceYMinus, shapeBaseSpaceZPlus, shapeBaseSpaceZMinus,
-    }) {
+    const auto registerPreviewAttribute = [&status](const MObject& attribute, bool affectsBounds) {
         MFnAttribute fn(attribute, &status);
         if (!status) return status;
         status = fn.setKeyable(false);
@@ -84,22 +89,63 @@ MStatus BdShpLFocusBoundingBoxNode::initialize() {
         if (!status) return status;
         status = fn.setAffectsAppearance(true);
         if (!status) return status;
-        status = fn.setAffectsWorldSpace(attribute != showShape);
+        status = fn.setAffectsWorldSpace(affectsBounds);
         if (!status) return status;
-        status = addAttribute(attribute);
+        return addAttribute(attribute);
+    };
+    status = registerPreviewAttribute(showShape, false);
+    if (!status) return status;
+
+    if constexpr (IsPlanar) {
+        shape1stAxis = bdUtilNodes::createSignedAxisAttribute("shape1stAxis", "s1a", 0, status);
         if (!status) return status;
+        status = registerPreviewAttribute(shape1stAxis, true);
+        if (!status) return status;
+        shape2ndAxis = bdUtilNodes::createSignedAxisAttribute("shape2ndAxis", "s2a", 2, status);
+        if (!status) return status;
+        status = registerPreviewAttribute(shape2ndAxis, true);
+        if (!status) return status;
+    }
+
+    struct AttributeNames { const char* name; const char* shortName; };
+    constexpr AttributeNames xyzNames[3][2] = {
+        {{"shapeBaseSpaceXPlus", "sbsxp"}, {"shapeBaseSpaceXMinus", "sbsxm"}},
+        {{"shapeBaseSpaceYPlus", "sbsyp"}, {"shapeBaseSpaceYMinus", "sbsym"}},
+        {{"shapeBaseSpaceZPlus", "sbszp"}, {"shapeBaseSpaceZMinus", "sbszm"}},
+    };
+    constexpr AttributeNames planarNames[2][2] = {
+        {{"shapeBaseSpace1stAxisPlus", "sbsp1p"}, {"shapeBaseSpace1stAxisMinus", "sbsp1m"}},
+        {{"shapeBaseSpace2ndAxisPlus", "sbsp2p"}, {"shapeBaseSpace2ndAxisMinus", "sbsp2m"}},
+    };
+    const auto* names = IsPlanar ? planarNames : xyzNames;
+    MFnUnitAttribute unitFn;
+    for (unsigned int axis = 0; axis < AxisCount; ++axis) {
+        for (unsigned int side = 0; side < 2; ++side) {
+            const auto& name = names[axis][side];
+            auto& attribute = distances[axis][side];
+            attribute = unitFn.create(name.name, name.shortName, MDistance(0.5, MDistance::kCentimeters), &status);
+            if (!status) return status;
+            status = registerPreviewAttribute(attribute, true);
+            if (!status) return status;
+        }
     }
     return MS::kSuccess;
 }
 
-bool BdShpLFocusBoundingBoxNode::isPreviewAttribute(const MObject& attribute) {
-    return attribute == showShape ||
-        attribute == shapeBaseSpaceXPlus || attribute == shapeBaseSpaceXMinus ||
-        attribute == shapeBaseSpaceYPlus || attribute == shapeBaseSpaceYMinus ||
-        attribute == shapeBaseSpaceZPlus || attribute == shapeBaseSpaceZMinus;
+template <FocusBoundsWire Wire>
+bool BdShpLFocusBoundsNode<Wire>::isPreviewAttribute(const MObject& attribute) {
+    if (attribute == showShape) return true;
+    if constexpr (IsPlanar) {
+        if (attribute == shape1stAxis || attribute == shape2ndAxis) return true;
+    }
+    for (const auto& sides : distances) {
+        if (attribute == sides[0] || attribute == sides[1]) return true;
+    }
+    return false;
 }
 
-bool BdShpLFocusBoundingBoxNode::setInternalValue(const MPlug& plug, const MDataHandle& data) {
+template <FocusBoundsWire Wire>
+bool BdShpLFocusBoundsNode<Wire>::setInternalValue(const MPlug& plug, const MDataHandle& data) {
     const auto attribute = plug.attribute();
     if (isPreviewAttribute(attribute)) {
         previewRevision_.fetch_add(1, std::memory_order_release);
@@ -110,7 +156,8 @@ bool BdShpLFocusBoundingBoxNode::setInternalValue(const MPlug& plug, const MData
     return MPxLocatorNode::setInternalValue(plug, data);
 }
 
-MStatus BdShpLFocusBoundingBoxNode::legalConnection(
+template <FocusBoundsWire Wire>
+MStatus BdShpLFocusBoundsNode<Wire>::legalConnection(
     const MPlug& plug, const MPlug& otherPlug, bool asSrc, bool& isLegal
 ) const {
     if (!asSrc && isPreviewAttribute(plug.attribute())) {
@@ -120,11 +167,13 @@ MStatus BdShpLFocusBoundingBoxNode::legalConnection(
     return MPxLocatorNode::legalConnection(plug, otherPlug, asSrc, isLegal);
 }
 
-std::uint64_t BdShpLFocusBoundingBoxNode::previewRevision() const {
+template <FocusBoundsWire Wire>
+std::uint64_t BdShpLFocusBoundsNode<Wire>::previewRevision() const {
     return previewRevision_.load(std::memory_order_acquire);
 }
 
-BdShpLFocusBoundingBoxNode::Preview BdShpLFocusBoundingBoxNode::preview() const {
+template <FocusBoundsWire Wire>
+typename BdShpLFocusBoundsNode<Wire>::Preview BdShpLFocusBoundsNode<Wire>::preview() const {
     const std::lock_guard<std::mutex> lock(previewMutex_);
     const auto revision = previewRevision();
     if (preview_.revision == revision) return preview_;
@@ -134,34 +183,48 @@ BdShpLFocusBoundingBoxNode::Preview BdShpLFocusBoundingBoxNode::preview() const 
     const bool visible = MPlug(object, showShape).asBool(&status);
     if (!status) return preview_;
 
-    const MObject minus[] = {shapeBaseSpaceXMinus, shapeBaseSpaceYMinus, shapeBaseSpaceZMinus};
-    const MObject plus[] = {shapeBaseSpaceXPlus, shapeBaseSpaceYPlus, shapeBaseSpaceZPlus};
-    MPoint lower, upper;
-    for (unsigned int axis = 0; axis < 3; ++axis) {
-        const double first = -MPlug(object, minus[axis]).asMDistance(&status).asCentimeters();
+    bdUtilNodes::SignedShapeAxis axes[3] = {{0, 1.0}, {1, 1.0}, {2, 1.0}};
+    if constexpr (IsPlanar) {
+        const short first = MPlug(object, shape1stAxis).asShort(&status);
         if (!status) return preview_;
-        const double second = MPlug(object, plus[axis]).asMDistance(&status).asCentimeters();
+        const short second = MPlug(object, shape2ndAxis).asShort(&status);
         if (!status) return preview_;
-        lower[axis] = std::min(first, second);
-        upper[axis] = std::max(first, second);
+        const auto resolved = bdUtilNodes::resolveSignedShapeAxes(first, second);
+        axes[0] = resolved.first;
+        axes[1] = resolved.second;
     }
-    preview_ = {MBoundingBox(lower, upper), visible, revision};
+    MPoint lower, upper;
+    for (unsigned int axis = 0; axis < AxisCount; ++axis) {
+        const auto direction = axes[axis];
+        const double first = -MPlug(object, distances[axis][1]).asMDistance(&status).asCentimeters() * direction.sign;
+        if (!status) return preview_;
+        const double second = MPlug(object, distances[axis][0]).asMDistance(&status).asCentimeters() * direction.sign;
+        if (!status) return preview_;
+        lower[direction.component] = std::min(first, second);
+        upper[direction.component] = std::max(first, second);
+    }
+    preview_ = {MBoundingBox(lower, upper), visible, static_cast<std::uint8_t>(axes[0].component),
+        static_cast<std::uint8_t>(axes[1].component), revision};
     return preview_;
 }
 
-bool BdShpLFocusBoundingBoxNode::isBounded() const {
+template <FocusBoundsWire Wire>
+bool BdShpLFocusBoundsNode<Wire>::isBounded() const {
     return true;
 }
 
-MBoundingBox BdShpLFocusBoundingBoxNode::boundingBox() const {
+template <FocusBoundsWire Wire>
+MBoundingBox BdShpLFocusBoundsNode<Wire>::boundingBox() const {
     return preview().bounds;
 }
 
-bool BdShpLFocusBoundingBoxNode::excludeAsLocator() const {
+template <FocusBoundsWire Wire>
+bool BdShpLFocusBoundsNode<Wire>::excludeAsLocator() const {
     return false;
 }
 
-void BdShpLFocusBoundingBoxNode::getCacheSetup(
+template <FocusBoundsWire Wire>
+void BdShpLFocusBoundsNode<Wire>::getCacheSetup(
     const MEvaluationNode& evalNode,
     MNodeCacheDisablingInfo& disablingInfo,
     MNodeCacheSetupInfo& cacheSetupInfo,
@@ -173,3 +236,8 @@ void BdShpLFocusBoundingBoxNode::getCacheSetup(
     cacheSetupInfo.setPreference(MNodeCacheSetupInfo::kWantToCacheByDefault,
         MPlug(thisMObject(), showShape).asBool());
 }
+
+template class BdShpLFocusBoundsNode<FocusBoundsWire::Box>;
+template class BdShpLFocusBoundsNode<FocusBoundsWire::CrossLine3Axis>;
+template class BdShpLFocusBoundsNode<FocusBoundsWire::Square>;
+template class BdShpLFocusBoundsNode<FocusBoundsWire::CrossLine>;

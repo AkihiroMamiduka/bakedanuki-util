@@ -113,6 +113,98 @@ def focus_bounding_box_public_node_contract() -> None:
     assert_type(shape, bdu.node_types.maya2027.BdShpLFocusBoundingBox)
 
 
+def focus_bounding_cross_line_3_axis_public_node_contract() -> None:
+    bd_nodes = bdu.Nodes()
+    transform, paired_shape = (
+        bd_nodes.create.with_transform.bdShpL_FocusBoundingCrossLine3Axis()
+    )
+    assert_type(transform, bdu.node_types.Transform)
+    assert_type(paired_shape, bdu.node_types.BdShpLFocusBoundingCrossLine3Axis)
+    shape = bd_nodes.create.bdShpL_FocusBoundingCrossLine3Axis(
+        parent=transform
+    )
+    assert_type(shape.showShape, BoolPlugOperator)
+    assert_type(shape.ss, BoolPlugOperator)
+    assert_type(shape.overrideEnabled, BoolPlugOperator)
+    assert_type(shape.shapeBaseSpaceXPlus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpaceXMinus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpaceYPlus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpaceYMinus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpaceZPlus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpaceZMinus, DoubleLinearPlugOperator)
+    assert_type(shape.sbsxp, DoubleLinearPlugOperator)
+    assert_type(
+        bd_nodes.existing.bdShpL_FocusBoundingCrossLine3Axis("focusShape"),
+        bdu.node_types.BdShpLFocusBoundingCrossLine3Axis,
+    )
+    assert_type(
+        shape, bdu.node_types.maya2025.BdShpLFocusBoundingCrossLine3Axis
+    )
+    assert_type(
+        shape, bdu.node_types.maya2026.BdShpLFocusBoundingCrossLine3Axis
+    )
+    assert_type(
+        shape, bdu.node_types.maya2027.BdShpLFocusBoundingCrossLine3Axis
+    )
+    assert_type(
+        shape, bdu.node_types.maya2025_plus.BdShpLFocusBoundingCrossLine3Axis
+    )
+    assert_type(
+        shape, bdu.node_types.maya2026_plus.BdShpLFocusBoundingCrossLine3Axis
+    )
+    assert_type(
+        shape, bdu.node_types.maya2027_plus.BdShpLFocusBoundingCrossLine3Axis
+    )
+
+
+def focus_bounding_square_public_node_contract() -> None:
+    bd_nodes = bdu.Nodes()
+    transform, paired_shape = (
+        bd_nodes.create.with_transform.bdShpL_FocusBoundingSquare()
+    )
+    assert_type(transform, bdu.node_types.Transform)
+    assert_type(paired_shape, bdu.node_types.BdShpLFocusBoundingSquare)
+    shape = bd_nodes.create.bdShpL_FocusBoundingSquare(parent=transform)
+    assert_type(shape.showShape, BoolPlugOperator)
+    assert_type(shape.sbsp1p, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace1stAxisMinus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace2ndAxisPlus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace2ndAxisMinus, DoubleLinearPlugOperator)
+    shape.shape1stAxis.set(shape.s1a.PLUS_X)
+    shape.shape2ndAxis.set(shape.s2a.PLUS_Y)
+    assert_type(
+        bd_nodes.existing.bdShpL_FocusBoundingSquare("focusShape"),
+        bdu.node_types.BdShpLFocusBoundingSquare,
+    )
+    assert_type(shape, bdu.node_types.maya2025.BdShpLFocusBoundingSquare)
+    assert_type(shape, bdu.node_types.maya2026.BdShpLFocusBoundingSquare)
+    assert_type(shape, bdu.node_types.maya2027.BdShpLFocusBoundingSquare)
+
+
+def focus_bounding_cross_line_public_node_contract() -> None:
+    bd_nodes = bdu.Nodes()
+    transform, paired_shape = (
+        bd_nodes.create.with_transform.bdShpL_FocusBoundingCrossLine()
+    )
+    assert_type(transform, bdu.node_types.Transform)
+    assert_type(paired_shape, bdu.node_types.BdShpLFocusBoundingCrossLine)
+    shape = bd_nodes.create.bdShpL_FocusBoundingCrossLine(parent=transform)
+    assert_type(shape.ss, BoolPlugOperator)
+    assert_type(shape.shapeBaseSpace1stAxisPlus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace1stAxisMinus, DoubleLinearPlugOperator)
+    assert_type(shape.shapeBaseSpace2ndAxisPlus, DoubleLinearPlugOperator)
+    assert_type(shape.sbsp2m, DoubleLinearPlugOperator)
+    shape.shape1stAxis.set(shape.s1a.PLUS_X)
+    shape.shape2ndAxis.set(shape.s2a.PLUS_Y)
+    assert_type(
+        bd_nodes.existing.bdShpL_FocusBoundingCrossLine("focusShape"),
+        bdu.node_types.BdShpLFocusBoundingCrossLine,
+    )
+    assert_type(shape, bdu.node_types.maya2025.BdShpLFocusBoundingCrossLine)
+    assert_type(shape, bdu.node_types.maya2026.BdShpLFocusBoundingCrossLine)
+    assert_type(shape, bdu.node_types.maya2027.BdShpLFocusBoundingCrossLine)
+
+
 def controller_shape_face_scale_compound_contract() -> None:
     _, shape = bdu.Nodes().create.controllerShape()
     assert_type(

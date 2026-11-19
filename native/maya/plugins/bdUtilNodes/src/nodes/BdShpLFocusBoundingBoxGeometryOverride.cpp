@@ -2,6 +2,7 @@
 #include "bdUtilNodes/draw/FixedCubeGeometry.h"
 
 #include <cstring>
+#include <iterator>
 
 #include <maya/M3dView.h>
 #include <maya/MColor.h>
@@ -18,6 +19,18 @@
 namespace {
 using namespace MHWRender;
 namespace cube = bdUtilNodes::fixedCube;
+
+constexpr unsigned int axisCrossIndices[] = {0, 1, 2, 3, 4, 5};
+constexpr unsigned int squareIndices[] = {0, 1, 1, 2, 2, 3, 3, 0};
+constexpr unsigned int crossIndices[] = {0, 1, 2, 3};
+
+template <FocusBoundsWire Wire>
+constexpr const auto& wireIndices() {
+    if constexpr (Wire == FocusBoundsWire::Box) return cube::indices;
+    else if constexpr (Wire == FocusBoundsWire::CrossLine3Axis) return axisCrossIndices;
+    else if constexpr (Wire == FocusBoundsWire::Square) return squareIndices;
+    else return crossIndices;
+}
 
 const MString& itemName() {
     static const MString name("bdFocusBoundingBoxWire");
@@ -60,11 +73,16 @@ MRenderItem* createItem(MRenderItemList& list) {
     return item;
 }
 
-class FocusBoundingBoxGeometryOverride final : public MPxGeometryOverride {
+template <FocusBoundsWire Wire>
+class FocusBoundsGeometryOverride final : public MPxGeometryOverride {
+    using Node = BdShpLFocusBoundsNode<Wire>;
+    static constexpr unsigned int VertexCount = isPlanarFocusWire(Wire) ? 4 :
+        (Wire == FocusBoundsWire::CrossLine3Axis ? 6 : std::size(cube::vertices));
+
 public:
-    explicit FocusBoundingBoxGeometryOverride(const MObject& node)
+    explicit FocusBoundsGeometryOverride(const MObject& node)
         : MPxGeometryOverride(node),
-          node_(static_cast<BdShpLFocusBoundingBoxNode*>(MFnDependencyNode(node).userNode())) {}
+          node_(static_cast<Node*>(MFnDependencyNode(node).userNode())) {}
 
     DrawAPI supportedDrawAPIs() const override { return kAllDevices; }
     bool hasUIDrawables() const override { return false; }
@@ -135,8 +153,6 @@ public:
         if (!item) return;
 
         const auto& descriptors = requirements.vertexRequirements();
-        const auto low = preview_.bounds.min();
-        const auto high = preview_.bounds.max();
         bool positionsReady = false;
         for (int i = 0; i < descriptors.length(); ++i) {
             MVertexBufferDescriptor descriptor;
@@ -145,14 +161,9 @@ public:
             if (descriptor.dataType() != MGeometry::kFloat || descriptor.dimension() != 3) return;
             auto* buffer = data.createVertexBuffer(descriptor);
             if (!buffer) return;
-            auto* values = static_cast<float*>(buffer->acquire(8, true));
+            auto* values = static_cast<float*>(buffer->acquire(VertexCount, true));
             if (!values) return;
-            for (unsigned int vertex = 0; vertex < 8; ++vertex) {
-                for (unsigned int axis = 0; axis < 3; ++axis) {
-                    const auto coordinate = cube::vertices[vertex][axis] < 0 ? low[axis] : high[axis];
-                    values[3 * vertex + axis] = static_cast<float>(coordinate);
-                }
-            }
+            writePositions(values);
             buffer->commit(values);
             positionsReady = true;
         }
@@ -160,9 +171,10 @@ public:
 
         auto* buffer = data.createIndexBuffer(MGeometry::kUnsignedInt32);
         if (!buffer) return;
-        auto* values = buffer->acquire(24, true);
+        constexpr auto& indices = wireIndices<Wire>();
+        auto* values = buffer->acquire(std::size(indices), true);
         if (!values) return;
-        std::memcpy(values, cube::indices, sizeof(cube::indices));
+        std::memcpy(values, indices, sizeof(indices));
         buffer->commit(values);
         if (item->associateWithIndexBuffer(buffer)) {
             buffersDirty_.store(false, std::memory_order_relaxed);
@@ -170,8 +182,45 @@ public:
     }
 
 private:
-    BdShpLFocusBoundingBoxNode* node_;
-    BdShpLFocusBoundingBoxNode::Preview preview_;
+    void writePositions(float* values) const {
+        const auto low = preview_.bounds.min();
+        const auto high = preview_.bounds.max();
+        if constexpr (Wire == FocusBoundsWire::Box) {
+            for (unsigned int vertex = 0; vertex < VertexCount; ++vertex) {
+                for (unsigned int axis = 0; axis < 3; ++axis) {
+                    const auto coordinate = cube::vertices[vertex][axis] < 0 ? low[axis] : high[axis];
+                    values[3 * vertex + axis] = static_cast<float>(coordinate);
+                }
+            }
+        } else if constexpr (Wire == FocusBoundsWire::Square) {
+            const auto first = preview_.firstAxis;
+            const auto second = preview_.secondAxis;
+            const auto normal = 3 - first - second;
+            for (unsigned int vertex = 0; vertex < VertexCount; ++vertex) {
+                auto* point = values + 3 * vertex;
+                point[first] = static_cast<float>(vertex == 1 || vertex == 2 ? high[first] : low[first]);
+                point[second] = static_cast<float>(vertex >= 2 ? high[second] : low[second]);
+                point[normal] = 0.0f;
+            }
+        } else {
+            const auto center = preview_.bounds.center();
+            const unsigned int axes[] = {preview_.firstAxis, preview_.secondAxis, 2};
+            for (unsigned int line = 0; line < VertexCount / 2; ++line) {
+                auto* start = values + 6 * line;
+                auto* end = start + 3;
+                for (unsigned int component = 0; component < 3; ++component) {
+                    start[component] = static_cast<float>(center[component]);
+                    end[component] = start[component];
+                }
+                const auto axis = axes[line];
+                start[axis] = static_cast<float>(low[axis]);
+                end[axis] = static_cast<float>(high[axis]);
+            }
+        }
+    }
+
+    Node* node_;
+    typename Node::Preview preview_;
     std::atomic<std::uint64_t> previewRevision_{0};
     std::atomic<std::uint64_t> itemsRevision_{0};
     std::atomic<bool> buffersDirty_{false};
@@ -179,6 +228,22 @@ private:
 
 }  // namespace
 
+template <>
 MHWRender::MPxGeometryOverride* BdShpLFocusBoundingBoxNode::createGeometryOverride(const MObject& node) {
-    return new FocusBoundingBoxGeometryOverride(node);
+    return new FocusBoundsGeometryOverride<FocusBoundsWire::Box>(node);
+}
+
+template <>
+MHWRender::MPxGeometryOverride* BdShpLFocusBoundingCrossLine3AxisNode::createGeometryOverride(const MObject& node) {
+    return new FocusBoundsGeometryOverride<FocusBoundsWire::CrossLine3Axis>(node);
+}
+
+template <>
+MHWRender::MPxGeometryOverride* BdShpLFocusBoundingSquareNode::createGeometryOverride(const MObject& node) {
+    return new FocusBoundsGeometryOverride<FocusBoundsWire::Square>(node);
+}
+
+template <>
+MHWRender::MPxGeometryOverride* BdShpLFocusBoundingCrossLineNode::createGeometryOverride(const MObject& node) {
+    return new FocusBoundsGeometryOverride<FocusBoundsWire::CrossLine>(node);
 }

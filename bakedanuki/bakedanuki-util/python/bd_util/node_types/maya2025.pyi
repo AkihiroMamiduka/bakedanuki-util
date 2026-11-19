@@ -1629,6 +1629,20 @@ from ..maya.node._versioned_accessors import _BdShpLFocusBoundingBox
 
 BdShpLFocusBoundingBox: TypeAlias = _BdShpLFocusBoundingBox
 
+from ..maya.node._versioned_accessors import _BdShpLFocusBoundingCrossLine
+
+BdShpLFocusBoundingCrossLine: TypeAlias = _BdShpLFocusBoundingCrossLine
+
+from ..maya.node._versioned_accessors import _BdShpLFocusBoundingCrossLine3Axis
+
+BdShpLFocusBoundingCrossLine3Axis: TypeAlias = (
+    _BdShpLFocusBoundingCrossLine3Axis
+)
+
+from ..maya.node._versioned_accessors import _BdShpLFocusBoundingSquare
+
+BdShpLFocusBoundingSquare: TypeAlias = _BdShpLFocusBoundingSquare
+
 from ..maya.node._versioned_accessors import _Bevel
 
 Bevel: TypeAlias = _Bevel
