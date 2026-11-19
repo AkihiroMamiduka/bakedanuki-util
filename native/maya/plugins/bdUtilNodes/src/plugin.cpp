@@ -201,8 +201,8 @@ struct GeometryOverrideRegistration {
     }
 };
 
-const std::array<GeometryOverrideRegistration, 5>& geometryOverrides() {
-    static const std::array<GeometryOverrideRegistration, 5> overrides = {{
+const std::array<GeometryOverrideRegistration, 3>& geometryOverrides() {
+    static const std::array<GeometryOverrideRegistration, 3> overrides = {{
         {
             BdShpLCubeNode::drawClassification,
             BdShpLCubeNode::drawRegistrantId,
@@ -214,26 +214,16 @@ const std::array<GeometryOverrideRegistration, 5>& geometryOverrides() {
             BdShpLFocusBoundingBoxNode::createGeometryOverride,
         },
         {
-            BdShpLFocusBoundingCrossLine3AxisNode::drawClassification,
-            BdShpLFocusBoundingCrossLine3AxisNode::drawRegistrantId,
-            BdShpLFocusBoundingCrossLine3AxisNode::createGeometryOverride,
-        },
-        {
             BdShpLFocusBoundingSquareNode::drawClassification,
             BdShpLFocusBoundingSquareNode::drawRegistrantId,
             BdShpLFocusBoundingSquareNode::createGeometryOverride,
-        },
-        {
-            BdShpLFocusBoundingCrossLineNode::drawClassification,
-            BdShpLFocusBoundingCrossLineNode::drawRegistrantId,
-            BdShpLFocusBoundingCrossLineNode::createGeometryOverride,
         },
     }};
     return overrides;
 }
 
-const std::array<NodeRegistration, 163>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 163> registrations = {{
+const std::array<NodeRegistration, 161>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 161> registrations = {{
         {
             BdShpLCubeNode::typeName,
             BdShpLCubeNode::typeId,
@@ -251,28 +241,12 @@ const std::array<NodeRegistration, 163>& nodeRegistrations() {
             &BdShpLFocusBoundingBoxNode::drawClassification,
         },
         {
-            BdShpLFocusBoundingCrossLine3AxisNode::typeName,
-            BdShpLFocusBoundingCrossLine3AxisNode::typeId,
-            BdShpLFocusBoundingCrossLine3AxisNode::creator,
-            BdShpLFocusBoundingCrossLine3AxisNode::initialize,
-            MPxNode::kLocatorNode,
-            &BdShpLFocusBoundingCrossLine3AxisNode::drawClassification,
-        },
-        {
             BdShpLFocusBoundingSquareNode::typeName,
             BdShpLFocusBoundingSquareNode::typeId,
             BdShpLFocusBoundingSquareNode::creator,
             BdShpLFocusBoundingSquareNode::initialize,
             MPxNode::kLocatorNode,
             &BdShpLFocusBoundingSquareNode::drawClassification,
-        },
-        {
-            BdShpLFocusBoundingCrossLineNode::typeName,
-            BdShpLFocusBoundingCrossLineNode::typeId,
-            BdShpLFocusBoundingCrossLineNode::creator,
-            BdShpLFocusBoundingCrossLineNode::initialize,
-            MPxNode::kLocatorNode,
-            &BdShpLFocusBoundingCrossLineNode::drawClassification,
         },
         {
             BdControllerShapeNode::typeName,

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<templates>
-    <template name="NEbdShpL_FocusBoundingCrossLine3Axis"/>
-    <view name="NEDefault" template="NEbdShpL_FocusBoundingCrossLine3Axis"/>
-</templates>

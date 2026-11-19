@@ -99,7 +99,7 @@ schedule を検証できません。最終的な correctness test は、Maya に
 | [test_bd_controller_cage_straight_edges.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_cage_straight_edges.py) | 元頂点だけを変形した範囲、Circleの既存64サンプル、Template境界を加えても変わらない輪郭 |
 | [test_bd_controller_capsule.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_capsule.py) | 端別の半径と倍率、接合面、反転・中心間0・退化、Part・Finと保存再読込 |
 | [test_bd_controller_arrow_family.py](../../../tests/maya/node/operator/node/dag/shape/test_bd_controller_arrow_family.py) | Planar / Axial / Spatialの本体構成、横径由来の母体寸法、各オプションと軸交換 |
-| [test_shape_node_editor_template.py](../../../tests/maya/node/operator/node/dag/shape/test_shape_node_editor_template.py) | Custom Mode の行列ポートとフォーカス用4型の空表示、配布テンプレートの検索パス |
+| [test_shape_node_editor_template.py](../../../tests/maya/node/operator/node/dag/shape/test_shape_node_editor_template.py) | Custom Mode の行列ポートとフォーカス用2型の空表示、配布テンプレートの検索パス |
 
 Finとフォーカスの変更を切り分ける例です。
 

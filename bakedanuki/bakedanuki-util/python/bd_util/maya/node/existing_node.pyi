@@ -595,12 +595,6 @@ from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube
 from .operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
     BdShpLFocusBoundingBox,
 )
-from .operator.node.dag.shape.bd_shp_l_focus_bounding_cross_line import (
-    BdShpLFocusBoundingCrossLine,
-)
-from .operator.node.dag.shape.bd_shp_l_focus_bounding_cross_line3_axis import (
-    BdShpLFocusBoundingCrossLine3Axis,
-)
 from .operator.node.dag.shape.bd_shp_l_focus_bounding_square import (
     BdShpLFocusBoundingSquare,
 )
@@ -4487,18 +4481,6 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdShpLFocusBoundingBox: ...
-    @staticmethod
-    def bdShpL_FocusBoundingCrossLine(
-        node: str | om.MObject,
-        modifier_manager: ModifierManager | None = None,
-        auto_add_attr: bool = False,
-    ) -> BdShpLFocusBoundingCrossLine: ...
-    @staticmethod
-    def bdShpL_FocusBoundingCrossLine3Axis(
-        node: str | om.MObject,
-        modifier_manager: ModifierManager | None = None,
-        auto_add_attr: bool = False,
-    ) -> BdShpLFocusBoundingCrossLine3Axis: ...
     @staticmethod
     def bdShpL_FocusBoundingSquare(
         node: str | om.MObject,

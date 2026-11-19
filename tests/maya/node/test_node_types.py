@@ -92,9 +92,9 @@ def test_node_types_has_completion_names_and_caches_classes(new_scene):
     class_names = node_types.available_class_names()
 
     expected_counts = {
-        2025: 1275,
-        2026: 1334,
-        2027: 1343,
+        2025: 1273,
+        2026: 1332,
+        2027: 1341,
     }
     assert len(class_names) == expected_counts[maya_major_version()]
     assert class_names == tuple(sorted(class_names))
@@ -112,8 +112,6 @@ def test_node_types_has_completion_names_and_caches_classes(new_scene):
         "BdControllerShape",
         "BdShpLCube",
         "BdShpLFocusBoundingBox",
-        "BdShpLFocusBoundingCrossLine",
-        "BdShpLFocusBoundingCrossLine3Axis",
         "BdShpLFocusBoundingSquare",
     }.issubset(class_names)
     assert set(class_names).issubset(dir(node_types))

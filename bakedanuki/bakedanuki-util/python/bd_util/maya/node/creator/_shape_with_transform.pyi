@@ -29,12 +29,6 @@ from ..operator.node.dag.shape.bd_shp_l_cube import BdShpLCube
 from ..operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
     BdShpLFocusBoundingBox,
 )
-from ..operator.node.dag.shape.bd_shp_l_focus_bounding_cross_line import (
-    BdShpLFocusBoundingCrossLine,
-)
-from ..operator.node.dag.shape.bd_shp_l_focus_bounding_cross_line3_axis import (
-    BdShpLFocusBoundingCrossLine3Axis,
-)
 from ..operator.node.dag.shape.bd_shp_l_focus_bounding_square import (
     BdShpLFocusBoundingSquare,
 )
@@ -297,24 +291,6 @@ class ShapeWithTransformCreator:
         parent: DAG | None = None,
         namespace: str | None = None,
     ) -> tuple[Transform, BdShpLFocusBoundingBox]: ...
-    def bdShpL_FocusBoundingCrossLine(
-        self,
-        name: str | None = None,
-        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-        *,
-        shape_name: str | None = None,
-        parent: DAG | None = None,
-        namespace: str | None = None,
-    ) -> tuple[Transform, BdShpLFocusBoundingCrossLine]: ...
-    def bdShpL_FocusBoundingCrossLine3Axis(
-        self,
-        name: str | None = None,
-        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-        *,
-        shape_name: str | None = None,
-        parent: DAG | None = None,
-        namespace: str | None = None,
-    ) -> tuple[Transform, BdShpLFocusBoundingCrossLine3Axis]: ...
     def bdShpL_FocusBoundingSquare(
         self,
         name: str | None = None,

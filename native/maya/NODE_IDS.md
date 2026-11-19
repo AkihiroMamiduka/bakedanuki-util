@@ -164,9 +164,7 @@
 | `bdControllerShape` | `0x0014271F` | Autodesk registered |
 | `bdShpL_Cube` | `0x00142720` | Autodesk registered。`bdUtilNodes` に採用。研究用の代替 DLL も同じ ID を使用 |
 | `bdShpL_FocusBoundingBox` | `0x00142721` | Autodesk registered |
-| `bdShpL_FocusBoundingCrossLine3Axis` | `0x00142722` | Autodesk registered |
-| `bdShpL_FocusBoundingSquare` | `0x00142723` | Autodesk registered |
-| `bdShpL_FocusBoundingCrossLine` | `0x00142724` | Autodesk registered |
+| `bdShpL_FocusBoundingSquare` | `0x00142722` | Autodesk registered |
 
 2026-08-14 に
 [Autodesk Maya Developer Network](https://adn.autodesk.io/maya) から、次の固有 ID block
@@ -177,9 +175,9 @@
 - block size: 256
 
 既存ノードは、開発用 ID の相対順序を保って `0x00142680` から `0x0014271F` までへ
-割り当て、固定 Cube とフォーカス用シェイプに `0x00142720` から `0x00142724` を使用しています。
+割り当て、固定 Cube とフォーカス用シェイプに `0x00142720` から `0x00142722` を使用しています。
 未使用 ID は `0x001426AA`、`0x001426AB`、および
-`0x00142725` から `0x0014277F` までです。
+`0x00142723` から `0x0014277F` までです。
 
 新しい node type は未使用 ID から割り当て、この表へ登録します。一度 production
 scene へ保存した `MTypeId` は、その node type が存続する限り変更しません。

@@ -47,8 +47,6 @@ BASELINE_ADDITIONAL_NODE_TYPES = (
     "aiOpenPBRSurface",
     "bdShpL_Cube",
     "bdShpL_FocusBoundingBox",
-    "bdShpL_FocusBoundingCrossLine",
-    "bdShpL_FocusBoundingCrossLine3Axis",
     "bdShpL_FocusBoundingSquare",
     "bifrostGraphShape",
     "bifrostRiggingContainer",

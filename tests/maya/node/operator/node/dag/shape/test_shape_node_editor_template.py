@@ -16,9 +16,7 @@ _MATRIX_ATTRIBUTE = "shapeTransformMatrix"
 _MATRIX_NODE_TYPES = ("bdControllerShape", "bdShpL_Cube")
 _FOCUS_NODE_TYPES = (
     "bdShpL_FocusBoundingBox",
-    "bdShpL_FocusBoundingCrossLine3Axis",
     "bdShpL_FocusBoundingSquare",
-    "bdShpL_FocusBoundingCrossLine",
 )
 
 

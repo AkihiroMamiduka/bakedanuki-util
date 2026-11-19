@@ -20,6 +20,7 @@ from .....attr.define.std.at.scalar.numeric.range.short import ShortField
 from .....attr.define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearField,
 )
+from .....attr.define.std.dt.matrix import DataMatrixField
 
 
 class Shape1stAxisEnumPlugOperator(
@@ -250,3 +251,6 @@ class GeneratedBdShpLFocusBoundingSquare(Shape):
 
     shapeBaseSpace2ndAxisMinus = DoubleLinearField(default_value=0.5)
     sbsp2m = shapeBaseSpace2ndAxisMinus
+
+    shapeTransformMatrix = DataMatrixField()
+    stm = shapeTransformMatrix
