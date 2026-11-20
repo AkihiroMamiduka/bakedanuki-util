@@ -133,7 +133,7 @@ def test_shape_with_transform_stub_uses_only_creatable_shapes():
         python_root
     )
 
-    assert len(definitions) == 84
+    assert len(definitions) == 83
     assert any(definition.node_type == "mesh" for definition in definitions)
     assert any(
         definition.node_type == "bdShpL_Cube"
@@ -145,13 +145,10 @@ def test_shape_with_transform_stub_uses_only_creatable_shapes():
         and definition.class_name == "BdShpLFocusBoundingBox"
         for definition in definitions
     )
-    assert any(
-        definition.node_type == "bdShpL_FocusBoundingSquare"
-        and definition.class_name == "BdShpLFocusBoundingSquare"
-        for definition in definitions
-    )
     assert all(
-        definition.node_type != "SphereLocator" for definition in definitions
+        definition.node_type
+        not in {"SphereLocator", "bdShpL_FocusBoundingSquare"}
+        for definition in definitions
     )
 
 

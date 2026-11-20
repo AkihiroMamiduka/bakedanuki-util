@@ -313,12 +313,6 @@ cmds.select(ctrl)
 距離は負値・ゼロ・面の反転を許容し、自動的には補正しません。
 8属性は形状を準備するための静的な設定で、直接編集できますが、キー設定と入力接続はできません。
 
-基準形状に行列変換を加えるには `shapeTransformMatrix`（`stm`）を使います。
-既定値は単位行列です。軸と寸法を反映した頂点を、この行列でシェイプのローカル空間内で変換し、
-その後に親 DAG 階層の行列を反映します。行列は直接設定するか、`composeMatrix.outputMatrix` などの
-行列出力を接続します。この属性はキー設定の対象外で、チャンネルボックスには表示しません。
-入力を切断するとプラグに保持されている値が残ります。未変形の形状に戻すには、単位行列を設定します。
-
 形状選択や Fill 切替はありません。通常の移動・回転・拡縮は親 transform で操作し、pivot・shear などを含む
 親 DAG 階層の最終行列を反映します。継承属性の `localPosition` / `localScale` は
 形状へ適用しません。チャンネルボックスでは `localPositionX/Y/Z` と `localScaleX/Y/Z` を非表示にします。
@@ -358,24 +352,15 @@ cmds.select(ctrl)
 | `shapeBaseSpaceXPlus` / `shapeBaseSpaceXMinus` | `sbsxp` / `sbsxm` | doubleLinear | 0.5 cm |
 | `shapeBaseSpaceYPlus` / `shapeBaseSpaceYMinus` | `sbsyp` / `sbsym` | doubleLinear | 0.5 cm |
 | `shapeBaseSpaceZPlus` / `shapeBaseSpaceZMinus` | `sbszp` / `sbszm` | doubleLinear | 0.5 cm |
-| `shapeTransformMatrix` | `stm` | matrix | 単位行列 |
 
 各軸の端点は `-Minus` と `Plus` です。負値で箱を片側に寄せることもでき、
 端点が逆順の場合は小さい方と大きい方が範囲になります。各軸の端点と `showShape` はチャンネルボックスで直接編集します。
 `showShape` を ON にすると調整用の線が表示され、クリック選択は本体で行えます。
 
-`bdShpL_FocusBoundingSquare` は、第1・第2軸で指定する平面内をフレームします。
-`showShape` に加え、`bdShpL_Cube` と同じ `shape1stAxis`、`shape2ndAxis`、
-`shapeBaseSpace1stAxisPlus` / `shapeBaseSpace1stAxisMinus`、
-`shapeBaseSpace2ndAxisPlus` / `shapeBaseSpace2ndAxisMinus` を編集できます。
-既定の平面は `+X` / `+Y` で、法線方向の厚みはゼロです。平行な軸を選んだ場合も Cube と同じ規則で第2軸を決定します。
-
-両ノードでは、軸と寸法で指定した範囲の各頂点をローカル空間で `shapeTransformMatrix`（`stm`）により変換します。
-変換後の範囲を `F` キーとプレビューに反映します。行列は直接設定でき、
-本体と同じ行列出力を接続するとフォーカス範囲を本体の動きに合わせられます。
+平面の範囲をフレームするには、その平面に垂直なローカル軸の Plus と Minus を 0 に設定します。
+`F` キーは、設定したローカル範囲に親 transform の変換を反映してフレームします。
+寸法と `showShape` は直接編集する設定で、キー設定と接続を禁止します。
 通常は `showShape` を OFF にしてプレビューの描画データを省きます。
-入力接続がある場合、`showShape` が OFF のフォーカス用シェイプは再生中に軸と寸法の範囲を使います。
-再生を停止すると、現在のフレームの行列を `F` キーの範囲に反映します。
 
 ノード作成時に `overrideEnabled` を OFF でロックし、チャンネルボックスでは
 `localPositionX/Y/Z` と `localScaleX/Y/Z` を非表示にします。
@@ -498,8 +483,8 @@ MAYA_CUSTOM_TEMPLATE_PATH+:=templates/node_editor
 plug-ins: plug-ins/maya2025
 ```
 
-Node Editor の Custom Mode（`4` キー）では、`bdControllerShape` と `bdShpL_Cube` に
-`shapeTransformMatrix` だけを表示します。フォーカス用シェイプ2型は属性行なしで表示します。
+Node Editor の Custom Mode（`4` キー）では、`bdControllerShape` に `shapeTransformMatrix` を表示します。
+`bdShpL_Cube` と `bdShpL_FocusBoundingBox` はノード名だけを表示します。
 ユーザーの `prefs` に同名のテンプレートがある場合はそちらを優先し、
 テンプレート保存先と既定表示モードのpreferenceは変更しません。
 

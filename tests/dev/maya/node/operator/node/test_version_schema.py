@@ -18,9 +18,9 @@ _EXPECTED_PROFILE_COUNTS = {
 }
 
 _EXPECTED_INVENTORY_COUNTS = {
-    2025: {"registered": 1418, "generated": 1298, "skipped": 120},
-    2026: {"registered": 1477, "generated": 1357, "skipped": 120},
-    2027: {"registered": 1486, "generated": 1366, "skipped": 120},
+    2025: {"registered": 1417, "generated": 1297, "skipped": 120},
+    2026: {"registered": 1476, "generated": 1356, "skipped": 120},
+    2027: {"registered": 1485, "generated": 1365, "skipped": 120},
 }
 
 _EXPECTED_SELECTION_COUNTS = {
@@ -28,7 +28,7 @@ _EXPECTED_SELECTION_COUNTS = {
         "introduced": 0,
         "removed": 0,
         "changed": 0,
-        "generation": 13,
+        "generation": 12,
     },
     2026: {
         "introduced": 64,

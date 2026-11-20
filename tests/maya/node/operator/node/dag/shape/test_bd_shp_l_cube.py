@@ -38,6 +38,13 @@ ATTRIBUTE_SPECS = (
 ASYMMETRIC_LIMITS = ((1.0, 3.0), (-2.0, 4.0), (5.0, 7.0))
 DEFAULT_LIMITS = ((-0.5, 0.5),) * 3
 ANIMATION_MATRIX_ATTR = "shapeTransformMatrix"
+RESEARCH_SHAPE_MATRIX = bool(
+    os.environ.get("BD_FIXED_CUBE_PLUGIN_PATH")
+    and os.environ.get("BD_FIXED_CUBE_EXPECT_SHAPE_MATRIX") == "1"
+)
+requires_shape_matrix = pytest.mark.skipif(
+    not RESEARCH_SHAPE_MATRIX, reason="行列入力を含む研究用 DLL の契約"
+)
 AFFINE_MATRIX = (
     (-2.0, 0.5, 0.25, 0.0),
     (1.5, 3.0, -0.5, 0.0),
@@ -161,7 +168,11 @@ def test_identity_and_attributes():
     assert not (cmds.listAttr(shape, userDefined=True) or [])
     standard_locator = cmds.createNode("locator")
     attributes = {name for name, *_ in ATTRIBUTE_SPECS}
-    attributes.add(ANIMATION_MATRIX_ATTR)
+    if RESEARCH_SHAPE_MATRIX:
+        attributes.add(ANIMATION_MATRIX_ATTR)
+    else:
+        for name in (ANIMATION_MATRIX_ATTR, "stm"):
+            assert not cmds.attributeQuery(name, node=shape, exists=True)
     assert (
         set(cmds.listAttr(shape)).difference(cmds.listAttr(standard_locator))
         == attributes
@@ -192,6 +203,7 @@ def test_identity_and_attributes():
         assert not cmds.attributeQuery(name, node=shape, exists=True)
 
 
+@requires_shape_matrix
 def test_animation_matrix_attribute():
     """行列型・短縮名・単位行列の既定値と入力仕様を検証する。"""
     _, shape = _create_cube()
@@ -300,6 +312,7 @@ def test_base_space_uses_distance_units(unit, centimeters):
     assert _bounds(shape) == pytest.approx(expected)
 
 
+@requires_shape_matrix
 def test_direct_animation_matrix_updates_local_bounds_and_undo():
     """軸と寸法の適用後に行列を掛け、親の姿勢を保つ。"""
     parent, shape = _create_cube()
@@ -328,6 +341,7 @@ def test_direct_animation_matrix_updates_local_bounds_and_undo():
     )
 
 
+@requires_shape_matrix
 def test_connected_animation_matrix_tracks_time_and_disconnect():
     """上流キーの移動・回転と、接続解除時の保持を検証する。"""
     _, shape = _create_cube()
@@ -499,7 +513,11 @@ def test_parent_matrix_and_local_bounds(parent_type, adjusted):
 
 
 @pytest.mark.parametrize(
-    "uses_matrix", [False, True], ids=["static", "matrix"]
+    "uses_matrix",
+    [
+        pytest.param(False, id="static"),
+        pytest.param(True, marks=requires_shape_matrix, id="matrix"),
+    ],
 )
 def test_duplicate_delete_undo(uses_matrix):
     """調整値の複製・複製先の独立編集と、削除後の Undo / Redo を検証する。"""
@@ -515,9 +533,10 @@ def test_duplicate_delete_undo(uses_matrix):
     duplicate = cmds.duplicate(parent)[0]
     duplicate_shape = cmds.listRelatives(duplicate, shapes=True)[0]
     assert cmds.nodeType(duplicate_shape) == "bdShpL_Cube"
-    assert cmds.getAttr(f"{duplicate_shape}.stm") == cmds.getAttr(
-        f"{shape}.stm"
-    )
+    if uses_matrix:
+        assert cmds.getAttr(f"{duplicate_shape}.stm") == cmds.getAttr(
+            f"{shape}.stm"
+        )
     assert _bounds(duplicate_shape) == pytest.approx(original)
     for name, *_ in ATTRIBUTE_SPECS:
         assert cmds.getAttr(f"{duplicate_shape}.{name}") == cmds.getAttr(
@@ -559,15 +578,23 @@ def test_direct_edit_undo_redo_updates_cached_bounds():
 @pytest.mark.parametrize(
     "extension,file_type", [("ma", "mayaAscii"), ("mb", "mayaBinary")]
 )
-def test_save_reload(tmp_path, extension, file_type):
-    """再読込後も静的属性、接続のない行列、境界、親変換を保持する。"""
+@pytest.mark.parametrize(
+    "uses_matrix",
+    [
+        pytest.param(False, id="static"),
+        pytest.param(True, marks=requires_shape_matrix, id="matrix"),
+    ],
+)
+def test_save_reload(tmp_path, extension, file_type, uses_matrix):
+    """再読込後も形状属性、境界、親変換を保持する。"""
     parent, shape = _create_cube()
     cmds.setAttr(parent + ".shearXY", 0.4)
     cmds.setAttr(shape + ".shape1stAxis", 5)
     cmds.setAttr(shape + ".shape2ndAxis", 1)
     _set_base_space(shape, ASYMMETRIC_LIMITS)
-    matrix = om.MMatrix(AFFINE_MATRIX)
-    cmds.setAttr(f"{shape}.stm", *list(matrix), type="matrix")
+    matrix = om.MMatrix(AFFINE_MATRIX) if uses_matrix else None
+    if matrix is not None:
+        cmds.setAttr(f"{shape}.stm", *list(matrix), type="matrix")
     expected = _expected_bounds(5, 1, ASYMMETRIC_LIMITS, matrix)
     assert _bounds(shape) == pytest.approx(expected)
     values = {
@@ -581,7 +608,8 @@ def test_save_reload(tmp_path, extension, file_type):
     assert cmds.nodeType(shape) == "bdShpL_Cube"
     assert cmds.getAttr(parent + ".shearXY") == pytest.approx(0.4)
     assert _bounds(shape) == pytest.approx(expected)
-    assert cmds.getAttr(f"{shape}.stm") == pytest.approx(list(matrix))
+    if matrix is not None:
+        assert cmds.getAttr(f"{shape}.stm") == pytest.approx(list(matrix))
     for name, value in values.items():
         assert cmds.getAttr(f"{shape}.{name}") == pytest.approx(value)
 
@@ -601,6 +629,8 @@ def test_node_operator_edits_use_modifier_history(monkeypatch):
     bd_nodes = bdu.Nodes(modifier_manager=mod)
     shape = bd_nodes.existing.bdShpL_Cube(name)
     assert isinstance(shape, bdu.node_types.BdShpLCube)
+    assert not hasattr(type(shape), ANIMATION_MATRIX_ATTR)
+    assert not hasattr(type(shape), "stm")
     shape.shape1stAxis.set(4)
     shape.s2a.set(1)
     shape.shapeBaseSpace1stAxisMinus.set(-1)
@@ -609,17 +639,13 @@ def test_node_operator_edits_use_modifier_history(monkeypatch):
     shape.sbsp2p.set(4)
     shape.shapeBaseSpace3rdAxisMinus.set(-5)
     shape.sbsp3p.set(7)
-    matrix = om.MMatrix(AFFINE_MATRIX)
-    shape.stm.set(matrix)
     assert _bounds(name) == pytest.approx(original)
     mod.do_it_dg()
-    adjusted = _expected_bounds(4, 1, ASYMMETRIC_LIMITS, matrix)
+    adjusted = _expected_bounds(4, 1, ASYMMETRIC_LIMITS)
     assert _bounds(name) == pytest.approx(adjusted)
     assert shape.s1a.get() == 4
     assert shape.shape2ndAxis.get() == 1
     assert shape.shapeBaseSpace1stAxisPlus.get() == pytest.approx(3)
-    stored_matrix = shape.shapeTransformMatrix.get().matrix
-    assert list(stored_matrix) == pytest.approx(list(matrix))
     mod.undo_it()
     assert _bounds(name) == pytest.approx(original)
     mod.redo_it()

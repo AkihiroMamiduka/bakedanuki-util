@@ -37,9 +37,9 @@ BASE_PROFILE_PLUGIN_REQUESTS = (
 )
 
 INVENTORY_COUNTS = {
-    2025: {"registered": 1418, "generated": 1298, "skipped": 120},
-    2026: {"registered": 1477, "generated": 1357, "skipped": 120},
-    2027: {"registered": 1486, "generated": 1366, "skipped": 120},
+    2025: {"registered": 1417, "generated": 1297, "skipped": 120},
+    2026: {"registered": 1476, "generated": 1356, "skipped": 120},
+    2027: {"registered": 1485, "generated": 1365, "skipped": 120},
 }
 
 # 初回の Maya 2025 snapshot にない対応ノードも、後続版の差分判定の基準へ含める。
@@ -47,7 +47,6 @@ BASELINE_ADDITIONAL_NODE_TYPES = (
     "aiOpenPBRSurface",
     "bdShpL_Cube",
     "bdShpL_FocusBoundingBox",
-    "bdShpL_FocusBoundingSquare",
     "bifrostGraphShape",
     "bifrostRiggingContainer",
     "gpuCache",

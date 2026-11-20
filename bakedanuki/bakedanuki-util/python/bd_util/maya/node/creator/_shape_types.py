@@ -20,7 +20,6 @@ CREATABLE_SHAPE_NODE_TYPES = frozenset(
         "bdControllerShape",
         "bdShpL_Cube",
         "bdShpL_FocusBoundingBox",
-        "bdShpL_FocusBoundingSquare",
         "bezierCurve",
         "camera",
         "clusterFlexorShape",

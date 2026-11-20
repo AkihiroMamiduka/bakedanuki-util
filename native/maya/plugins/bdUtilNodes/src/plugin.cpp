@@ -201,8 +201,8 @@ struct GeometryOverrideRegistration {
     }
 };
 
-const std::array<GeometryOverrideRegistration, 3>& geometryOverrides() {
-    static const std::array<GeometryOverrideRegistration, 3> overrides = {{
+const std::array<GeometryOverrideRegistration, 2>& geometryOverrides() {
+    static const std::array<GeometryOverrideRegistration, 2> overrides = {{
         {
             BdShpLCubeNode::drawClassification,
             BdShpLCubeNode::drawRegistrantId,
@@ -213,17 +213,12 @@ const std::array<GeometryOverrideRegistration, 3>& geometryOverrides() {
             BdShpLFocusBoundingBoxNode::drawRegistrantId,
             BdShpLFocusBoundingBoxNode::createGeometryOverride,
         },
-        {
-            BdShpLFocusBoundingSquareNode::drawClassification,
-            BdShpLFocusBoundingSquareNode::drawRegistrantId,
-            BdShpLFocusBoundingSquareNode::createGeometryOverride,
-        },
     }};
     return overrides;
 }
 
-const std::array<NodeRegistration, 161>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 161> registrations = {{
+const std::array<NodeRegistration, 160>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 160> registrations = {{
         {
             BdShpLCubeNode::typeName,
             BdShpLCubeNode::typeId,
@@ -239,14 +234,6 @@ const std::array<NodeRegistration, 161>& nodeRegistrations() {
             BdShpLFocusBoundingBoxNode::initialize,
             MPxNode::kLocatorNode,
             &BdShpLFocusBoundingBoxNode::drawClassification,
-        },
-        {
-            BdShpLFocusBoundingSquareNode::typeName,
-            BdShpLFocusBoundingSquareNode::typeId,
-            BdShpLFocusBoundingSquareNode::creator,
-            BdShpLFocusBoundingSquareNode::initialize,
-            MPxNode::kLocatorNode,
-            &BdShpLFocusBoundingSquareNode::drawClassification,
         },
         {
             BdControllerShapeNode::typeName,

@@ -15,7 +15,6 @@ from .....attr.define.std.at.scalar.numeric.range.short import ShortField
 from .....attr.define.std.at.scalar.unit.range.double_linear import (
     DoubleLinearField,
 )
-from .....attr.define.std.dt.matrix import DataMatrixField
 
 
 class GeneratedBdShpLFocusBoundingBox(Shape):
@@ -158,6 +157,3 @@ class GeneratedBdShpLFocusBoundingBox(Shape):
 
     shapeBaseSpaceZMinus = DoubleLinearField(default_value=0.5)
     sbszm = shapeBaseSpaceZMinus
-
-    shapeTransformMatrix = DataMatrixField()
-    stm = shapeTransformMatrix

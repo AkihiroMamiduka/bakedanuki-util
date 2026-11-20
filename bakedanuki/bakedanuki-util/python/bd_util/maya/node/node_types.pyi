@@ -833,9 +833,6 @@ from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube as _BdShpLCube
 from .operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
     BdShpLFocusBoundingBox as _BdShpLFocusBoundingBox,
 )
-from .operator.node.dag.shape.bd_shp_l_focus_bounding_square import (
-    BdShpLFocusBoundingSquare as _BdShpLFocusBoundingSquare,
-)
 from .operator.node.dg.bevel import Bevel as _Bevel
 from .operator.node.dg.bevel_plus import BevelPlus as _BevelPlus
 from .operator.node.dag.shape.bezier_curve import BezierCurve as _BezierCurve
@@ -3342,10 +3339,6 @@ class NodeTypes:
     def BdShpLCube(self) -> type[_BdShpLCube]: ...
     @property
     def BdShpLFocusBoundingBox(self) -> type[_BdShpLFocusBoundingBox]: ...
-    @property
-    def BdShpLFocusBoundingSquare(
-        self,
-    ) -> type[_BdShpLFocusBoundingSquare]: ...
     @property
     def Bevel(self) -> type[_Bevel]: ...
     @property

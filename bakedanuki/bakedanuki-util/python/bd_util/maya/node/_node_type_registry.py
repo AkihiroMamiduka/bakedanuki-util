@@ -425,7 +425,6 @@ NODE_TYPE_BY_CLASS_NAME: dict[str, str] = {
     "BdRbfPositionWeight": "bdRbf_PositionWeight",
     "BdShpLCube": "bdShpL_Cube",
     "BdShpLFocusBoundingBox": "bdShpL_FocusBoundingBox",
-    "BdShpLFocusBoundingSquare": "bdShpL_FocusBoundingSquare",
     "Bevel": "bevel",
     "BevelPlus": "bevelPlus",
     "BezierCurve": "bezierCurve",

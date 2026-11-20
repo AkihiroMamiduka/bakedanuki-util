@@ -688,6 +688,10 @@
 
 ### Removed
 
+- `bdShpL_Cube` と `bdShpL_FocusBoundingBox` の
+  `shapeTransformMatrix` を削除。ローカル形状は軸と寸法で設定し、アニメーションには親 transform を使う。
+- `bdShpL_FocusBoundingSquare` を削除。フォーカス範囲の指定は `bdShpL_FocusBoundingBox` に統一。
+  旧版で Square を保存した `.ma` / `.mb` シーンでは、その shape は `unknownDag` として読み込まれる。
 - matrix plugの`transform_matrix`プロパティを削除。`get()`が返す
   `TransformMatrix`を使用する。
 

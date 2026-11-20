@@ -32,7 +32,9 @@ public:
     static void cleanupDrawResources();
 
     void postConstructor() override;
+#ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     void copyInternalData(MPxNode* source) override;
+#endif
     bool isBounded() const override;
     MBoundingBox boundingBox() const override;
     void getCacheSetup(
@@ -41,16 +43,24 @@ public:
         MNodeCacheSetupInfo& cacheSetupInfo,
         MObjectArray& monitoredAttributes
     ) const override;
+#ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     void configCache(const MEvaluationNode& evalNode, MCacheSchema& schema) const override;
+#endif
     bool excludeAsLocator() const override;
     bool setInternalValue(const MPlug& plug, const MDataHandle& data) override;
     MStatus legalConnection(
         const MPlug& plug, const MPlug& otherPlug, bool asSrc, bool& isLegal
     ) const override;
+#ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     MStatus connectionMade(const MPlug& plug, const MPlug& otherPlug, bool asSrc) override;
     MStatus connectionBroken(const MPlug& plug, const MPlug& otherPlug, bool asSrc) override;
+#endif
     Geometry geometry() const;
     std::uint64_t geometryRevision() const;
+#if defined(BD_CUBE_RESEARCH_SHAPE_MATRIX) && (defined(BD_CUBE_DRAW_OVERRIDE) || defined(BD_CUBE_SUBSCENE_MATRIX))
+    Geometry baseDrawGeometry() const;
+    MMatrix shapeDrawMatrix() const;
+#endif
 #ifdef BD_CUBE_NODE_PARALLEL
     SchedulingType schedulingType() const override;
 #endif
@@ -68,9 +78,12 @@ public:
     static MObject shapeBaseSpace2ndAxisMinus;
     static MObject shapeBaseSpace3rdAxisPlus;
     static MObject shapeBaseSpace3rdAxisMinus;
+#ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     static MObject shapeTransformMatrix;
+#endif
 
 private:
+#ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     static constexpr std::uint64_t kAnimationUsed = std::uint64_t{1} << 62;
     static constexpr std::uint64_t kAnimationConnected = std::uint64_t{1} << 63;
 
@@ -80,15 +93,20 @@ private:
         Geometry transformed;
         bool useTransformed = false;
     };
+#endif
 
     static bool isShapeAttribute(const MObject& attribute);
     void dirtyGeometry();
-    void setAnimationConnection(bool connected);
     bool updateBaseGeometry(std::uint64_t revision) const;
+#ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
+    void setAnimationConnection(bool connected);
     Geometry geometryWithAnimationMatrix(std::uint64_t revision) const;
+#endif
 
     std::atomic<std::uint64_t> geometryRevision_{1};
     mutable std::mutex geometryMutex_;
     mutable Geometry geometry_;
+#ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     mutable std::unique_ptr<AnimationGeometry> animation_;
+#endif
 };

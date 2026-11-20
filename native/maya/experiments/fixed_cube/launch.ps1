@@ -1,5 +1,5 @@
 param(
-    [Parameter(Mandatory=$true)][ValidateSet('geometry','subscene','controller','curve','locator')][string]$Mode,
+    [Parameter(Mandatory=$true)][ValidateSet('geometry','subscene','draw','controller','curve','locator')][string]$Mode,
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
     [ValidateSet('2025','2026','2027')][string]$MayaVersion='2025',
     [string]$PluginPath,

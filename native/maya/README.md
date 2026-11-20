@@ -76,6 +76,7 @@ Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み�
 研究用 Geometry DLL は本体と同じノード・描画ソースをコンパイルする比較用です。
 研究用 DLL は配布先へ配置せず、本体と同じ Maya process に同時ロードしません。
 利用例と制約は[固定 Cube の速度研究](experiments/fixed_cube/README.md)を参照してください。
+固定 Cube とフォーカス用シェイプの仕様は[静的シェイプの設計方針](experiments/fixed_cube/README.md#静的シェイプの設計方針)にまとめています。
 
 ## Test
 

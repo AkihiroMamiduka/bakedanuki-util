@@ -21,14 +21,6 @@ namespace {
 using namespace MHWRender;
 namespace cube = bdUtilNodes::fixedCube;
 
-constexpr unsigned int squareIndices[] = {0, 1, 1, 2, 2, 3, 3, 0};
-
-template <FocusBoundsWire Wire>
-constexpr const auto& wireIndices() {
-    if constexpr (Wire == FocusBoundsWire::Box) return cube::indices;
-    else return squareIndices;
-}
-
 const MString& itemName() {
     static const MString name("bdFocusBoundingBoxWire");
     return name;
@@ -70,12 +62,11 @@ MRenderItem* createItem(MRenderItemList& list) {
     return item;
 }
 
-template <FocusBoundsWire Wire>
-class FocusBoundsGeometryOverride final : public MPxGeometryOverride {
-    using Node = BdShpLFocusBoundsNode<Wire>;
+class FocusBoundingBoxGeometryOverride final : public MPxGeometryOverride {
+    using Node = BdShpLFocusBoundingBoxNode;
 
 public:
-    explicit FocusBoundsGeometryOverride(const MObject& node)
+    explicit FocusBoundingBoxGeometryOverride(const MObject& node)
         : MPxGeometryOverride(node),
           node_(static_cast<Node*>(MFnDependencyNode(node).userNode())) {}
 
@@ -168,10 +159,9 @@ public:
 
         auto* buffer = data.createIndexBuffer(MGeometry::kUnsignedInt32);
         if (!buffer) return;
-        constexpr auto& indices = wireIndices<Wire>();
-        auto* values = buffer->acquire(std::size(indices), true);
+        auto* values = buffer->acquire(std::size(cube::indices), true);
         if (!values) return;
-        std::memcpy(values, indices, sizeof(indices));
+        std::memcpy(values, cube::indices, sizeof(cube::indices));
         buffer->commit(values);
         if (item->associateWithIndexBuffer(buffer)) {
             buffersDirty_.store(false, std::memory_order_relaxed);
@@ -184,7 +174,7 @@ private:
     }
 
     Node* node_;
-    typename Node::Geometry geometry_;
+    Node::Geometry geometry_;
     std::atomic<std::uint64_t> previewRevision_{0};
     std::atomic<std::uint64_t> itemsRevision_{0};
     std::atomic<bool> buffersDirty_{false};
@@ -192,12 +182,6 @@ private:
 
 }  // namespace
 
-template <>
 MHWRender::MPxGeometryOverride* BdShpLFocusBoundingBoxNode::createGeometryOverride(const MObject& node) {
-    return new FocusBoundsGeometryOverride<FocusBoundsWire::Box>(node);
-}
-
-template <>
-MHWRender::MPxGeometryOverride* BdShpLFocusBoundingSquareNode::createGeometryOverride(const MObject& node) {
-    return new FocusBoundsGeometryOverride<FocusBoundsWire::Square>(node);
+    return new FocusBoundingBoxGeometryOverride(node);
 }

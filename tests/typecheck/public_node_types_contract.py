@@ -76,11 +76,6 @@ def fixed_cube_public_node_contract() -> None:
     assert_type(shape.shapeBaseSpace1stAxisPlus.get(), float)
     shape.shapeBaseSpace1stAxisPlus.set(1.0)
     shape.sbsp1m.set(0.25)
-    assert_type(shape.shapeTransformMatrix, DataMatrixPlugOperator)
-    assert_type(shape.stm, DataMatrixPlugOperator)
-    assert_type(shape.stm.get(), bdu.TransformMatrix)
-    shape.shapeTransformMatrix.set(bdu.TransformMatrix())
-    bd_nodes.create.composeMatrix().outputMatrix.connect(shape.stm)
     assert_type(
         bd_nodes.existing.bdShpL_Cube("cubeShape"), bdu.node_types.BdShpLCube
     )
@@ -109,10 +104,6 @@ def focus_bounding_box_public_node_contract() -> None:
     assert_type(shape.shapeBaseSpaceZPlus, DoubleLinearPlugOperator)
     assert_type(shape.shapeBaseSpaceZMinus, DoubleLinearPlugOperator)
     assert_type(shape.sbsxp, DoubleLinearPlugOperator)
-    assert_type(shape.shapeTransformMatrix, DataMatrixPlugOperator)
-    assert_type(shape.stm, DataMatrixPlugOperator)
-    assert_type(shape.stm.get(), bdu.TransformMatrix)
-    shape.shapeTransformMatrix.set(bdu.TransformMatrix())
     assert_type(
         bd_nodes.existing.bdShpL_FocusBoundingBox("focusShape"),
         bdu.node_types.BdShpLFocusBoundingBox,
@@ -120,33 +111,6 @@ def focus_bounding_box_public_node_contract() -> None:
     assert_type(shape, bdu.node_types.maya2025.BdShpLFocusBoundingBox)
     assert_type(shape, bdu.node_types.maya2026.BdShpLFocusBoundingBox)
     assert_type(shape, bdu.node_types.maya2027.BdShpLFocusBoundingBox)
-
-
-def focus_bounding_square_public_node_contract() -> None:
-    bd_nodes = bdu.Nodes()
-    transform, paired_shape = (
-        bd_nodes.create.with_transform.bdShpL_FocusBoundingSquare()
-    )
-    assert_type(transform, bdu.node_types.Transform)
-    assert_type(paired_shape, bdu.node_types.BdShpLFocusBoundingSquare)
-    shape = bd_nodes.create.bdShpL_FocusBoundingSquare(parent=transform)
-    assert_type(shape.showShape, BoolPlugOperator)
-    assert_type(shape.sbsp1p, DoubleLinearPlugOperator)
-    assert_type(shape.shapeBaseSpace1stAxisMinus, DoubleLinearPlugOperator)
-    assert_type(shape.shapeBaseSpace2ndAxisPlus, DoubleLinearPlugOperator)
-    assert_type(shape.shapeBaseSpace2ndAxisMinus, DoubleLinearPlugOperator)
-    shape.shape1stAxis.set(shape.s1a.PLUS_X)
-    shape.shape2ndAxis.set(shape.s2a.PLUS_Y)
-    assert_type(shape.shapeTransformMatrix, DataMatrixPlugOperator)
-    assert_type(shape.stm, DataMatrixPlugOperator)
-    bd_nodes.create.composeMatrix().outputMatrix.connect(shape.stm)
-    assert_type(
-        bd_nodes.existing.bdShpL_FocusBoundingSquare("focusShape"),
-        bdu.node_types.BdShpLFocusBoundingSquare,
-    )
-    assert_type(shape, bdu.node_types.maya2025.BdShpLFocusBoundingSquare)
-    assert_type(shape, bdu.node_types.maya2026.BdShpLFocusBoundingSquare)
-    assert_type(shape, bdu.node_types.maya2027.BdShpLFocusBoundingSquare)
 
 
 def controller_shape_face_scale_compound_contract() -> None:

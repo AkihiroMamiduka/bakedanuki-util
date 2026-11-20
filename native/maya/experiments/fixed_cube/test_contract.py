@@ -17,7 +17,12 @@ if __name__ == "__main__":
     parser.add_argument("plugin", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--module-search", action="store_true")
+    parser.add_argument("--shape-matrix", action="store_true")
     args = parser.parse_args()
+    if args.shape_matrix and (
+        args.module_search or args.plugin.stem == "bdUtilNodes"
+    ):
+        parser.error("--shape-matrix requires a standalone research plug-in")
     maya.standalone.initialize(name="python")
     plugin = args.plugin.resolve(strict=True)
     output = args.output.resolve()
@@ -45,6 +50,9 @@ if __name__ == "__main__":
     )
     os.environ["BD_FIXED_CUBE_PLUGIN_PATH"] = str(plugin)
     os.environ["BD_FIXED_CUBE_PLUGIN_NAME"] = plugin_name
+    os.environ["BD_FIXED_CUBE_EXPECT_SHAPE_MATRIX"] = (
+        "1" if args.shape_matrix else "0"
+    )
     exit_code = pytest.main(
         [
             str(test_path),

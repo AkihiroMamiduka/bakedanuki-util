@@ -3,7 +3,7 @@
 namespace cubeResearch::profiling {
 enum class Method {
     requiresGeometry, requiresRenderItems, updateDG, updateRenderItems,
-    populateGeometry, indexingDirty, streamDirty, bounds, count
+    populateGeometry, indexingDirty, streamDirty, bounds, matrixRead, geometryRebuild, count
 };
 }
 
@@ -146,7 +146,8 @@ public:
         }
         constexpr const char* names[] = {
             "requiresGeometry", "requiresRenderItems", "updateDG", "updateRenderItems",
-            "populateGeometry", "indexingDirty", "streamDirty", "bounds"
+            "populateGeometry", "indexingDirty", "streamDirty", "bounds",
+            "matrixRead", "geometryRebuild"
         };
         std::ostringstream result;
         result << "{";

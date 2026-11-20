@@ -132,7 +132,11 @@ public:
         if (!node_) return;
         bool geometryChanged = !geometryReady_;
         if (geometryChanged || node_->geometryRevision() != geometry_.revision) {
+#if defined(BD_CUBE_SUBSCENE_MATRIX) && defined(BD_CUBE_RESEARCH_SHAPE_MATRIX)
+            const auto geometry = node_->baseDrawGeometry();
+#else
             const auto geometry = node_->geometry();
+#endif
             geometryChanged = geometryChanged ||
                 std::memcmp(geometry.vertices, geometry_.vertices, sizeof(geometry.vertices)) != 0 ||
                 geometry.bounds.min() != geometry_.bounds.min() || geometry.bounds.max() != geometry_.bounds.max();
@@ -238,6 +242,9 @@ private:
         if (!status || !node.getPath(state.path) || !state.path.isValid()) return state;
         state.matrix = state.path.inclusiveMatrix(&status);
         if (!status) return state;
+#if defined(BD_CUBE_SUBSCENE_MATRIX) && defined(BD_CUBE_RESEARCH_SHAPE_MATRIX)
+        if (node_) state.matrix = node_->shapeDrawMatrix() * state.matrix;
+#endif
         state.visible = state.path.isVisible(&status) && status && !node.isIntermediateObject();
         const auto overrides = state.path.getDrawOverrideInfo();
         const auto type = state.path.isTemplated() ? MDAGDrawOverrideInfo::kDisplayTypeTemplate

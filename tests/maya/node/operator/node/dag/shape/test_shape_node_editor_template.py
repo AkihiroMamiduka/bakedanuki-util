@@ -13,11 +13,8 @@ _REPOSITORY_ROOT = Path(__file__).resolve().parents[7]
 _PACKAGE_ROOT = _REPOSITORY_ROOT / "bakedanuki" / "bakedanuki-util"
 _TEMPLATE_DIRECTORY = _PACKAGE_ROOT / "templates" / "node_editor"
 _MATRIX_ATTRIBUTE = "shapeTransformMatrix"
-_MATRIX_NODE_TYPES = ("bdControllerShape", "bdShpL_Cube")
-_FOCUS_NODE_TYPES = (
-    "bdShpL_FocusBoundingBox",
-    "bdShpL_FocusBoundingSquare",
-)
+_FOCUS_BOX_TYPE = "bdShpL_FocusBoundingBox"
+_STATIC_NODE_TYPES = ("bdShpL_Cube", _FOCUS_BOX_TYPE)
 
 
 @pytest.fixture
@@ -41,8 +38,7 @@ def load_plugin(maya_cmds, new_scene):
             (_MATRIX_ATTRIBUTE,),
             marks=pytest.mark.controller_shape,
         ),
-        ("bdShpL_Cube", (_MATRIX_ATTRIBUTE,)),
-        *((node_type, ()) for node_type in _FOCUS_NODE_TYPES),
+        *((node_type, ()) for node_type in _STATIC_NODE_TYPES),
     ],
 )
 def test_custom_view_ports(maya_cmds, load_plugin, node_type, expected_ports):
@@ -71,7 +67,12 @@ def test_custom_view_ports(maya_cmds, load_plugin, node_type, expected_ports):
         == expected_ports
     )
     if not attributes:
-        assert maya_cmds.attributeQuery("showShape", node=shape, exists=True)
+        for name in (_MATRIX_ATTRIBUTE, "stm"):
+            assert not maya_cmds.attributeQuery(name, node=shape, exists=True)
+        if node_type == _FOCUS_BOX_TYPE:
+            assert maya_cmds.attributeQuery(
+                "showShape", node=shape, exists=True
+            )
         return
 
     assert root.find("using").attrib == {"package": "maya"}
@@ -117,7 +118,7 @@ def test_every_module_version_resolves_the_distributed_templates():
             module_path.parent / header[-1] / assignments[0]
         ).resolve()
         assert template_directory == _TEMPLATE_DIRECTORY.resolve()
-        for node_type in (*_MATRIX_NODE_TYPES, *_FOCUS_NODE_TYPES):
+        for node_type in ("bdControllerShape", *_STATIC_NODE_TYPES):
             assert (
                 template_directory / f"NE{node_type}Template.xml"
             ).is_file()
