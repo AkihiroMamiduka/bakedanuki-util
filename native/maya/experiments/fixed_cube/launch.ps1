@@ -24,7 +24,7 @@ param(
 )
 $ErrorActionPreference='Stop'
 if(Get-Process maya -ErrorAction SilentlyContinue){throw 'Another Maya GUI is running. Close it before this isolated benchmark.'}
-if($NativeProfile -and $Mode -ne 'geometry'){throw 'NativeProfile is only available for the Geometry diagnostic build.'}
+if($NativeProfile -and $Mode -notin @('geometry','subscene')){throw 'NativeProfile requires a Geometry or SubScene diagnostic build.'}
 if($CachedPlaybackProbe -and ($PlaybackGate -or $RendererResetGate -or $ManipulatorProbe -or $Functional -or $MayaProfile -or $NativeProfile)){
     throw 'CachedPlaybackProbe requires an independent, uninstrumented run.'
 }

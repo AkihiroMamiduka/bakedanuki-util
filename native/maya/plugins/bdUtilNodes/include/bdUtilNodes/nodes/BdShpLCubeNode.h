@@ -1,5 +1,7 @@
 #pragma once
 
+#include "bdUtilNodes/draw/FixedCubeGeometry.h"
+
 #include <atomic>
 #include <cstdint>
 #include <memory>
@@ -17,13 +19,13 @@ namespace MHWRender {
 class MPxGeometryOverride;
 }
 
+namespace bdUtilNodes::fixedCube {
+struct ShapeAttributes;
+}
+
 class BdShpLCubeNode final : public MPxLocatorNode {
 public:
-    struct Geometry {
-        float vertices[8][3];
-        MBoundingBox bounds;
-        std::uint64_t revision = 0;
-    };
+    using Geometry = bdUtilNodes::fixedCube::Geometry;
 
     BdShpLCubeNode();
     static void* creator();
@@ -70,14 +72,6 @@ public:
     static const MString drawClassification;
     static const MString drawRegistrantId;
 
-    static MObject shape1stAxis;
-    static MObject shape2ndAxis;
-    static MObject shapeBaseSpace1stAxisPlus;
-    static MObject shapeBaseSpace1stAxisMinus;
-    static MObject shapeBaseSpace2ndAxisPlus;
-    static MObject shapeBaseSpace2ndAxisMinus;
-    static MObject shapeBaseSpace3rdAxisPlus;
-    static MObject shapeBaseSpace3rdAxisMinus;
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     static MObject shapeTransformMatrix;
 #endif
@@ -95,7 +89,7 @@ private:
     };
 #endif
 
-    static bool isShapeAttribute(const MObject& attribute);
+    static bdUtilNodes::fixedCube::ShapeAttributes shapeAttributes_;
     void dirtyGeometry();
     bool updateBaseGeometry(std::uint64_t revision) const;
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX

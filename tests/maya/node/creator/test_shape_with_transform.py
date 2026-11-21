@@ -96,9 +96,10 @@ def test_shape_with_transform_exposes_only_creatable_shapes(new_scene):
 
     assert node_creator.with_transform is creator
     assert creator.mesh is mesh_creator
-    assert len(creator.available_node_names()) == 83
+    assert len(creator.available_node_names()) == 84
     assert "mesh" in creator.available_node_names()
     assert "bdShpL_Cube" in creator.available_node_names()
+    assert "bdShpL_DeformableCube" in creator.available_node_names()
     assert "bdShpL_FocusBoundingBox" in creator.available_node_names()
     assert "bdShpL_FocusBoundingSquare" not in creator.available_node_names()
     assert "nurbsSurface" in dir(creator)

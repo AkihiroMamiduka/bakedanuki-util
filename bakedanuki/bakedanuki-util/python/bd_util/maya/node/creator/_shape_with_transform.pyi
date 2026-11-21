@@ -26,6 +26,9 @@ from ..operator.node.dag.shape.area_light import AreaLight
 from ..operator.node.dag.shape.base_lattice import BaseLattice
 from ..operator.node.dag.shape.bd_controller_shape import BdControllerShape
 from ..operator.node.dag.shape.bd_shp_l_cube import BdShpLCube
+from ..operator.node.dag.shape.bd_shp_l_deformable_cube import (
+    BdShpLDeformableCube,
+)
 from ..operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
     BdShpLFocusBoundingBox,
 )
@@ -279,6 +282,15 @@ class ShapeWithTransformCreator:
         parent: DAG | None = None,
         namespace: str | None = None,
     ) -> tuple[Transform, BdShpLCube]: ...
+    def bdShpL_DeformableCube(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, BdShpLDeformableCube]: ...
     def bdShpL_FocusBoundingBox(
         self,
         name: str | None = None,

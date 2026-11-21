@@ -1,6 +1,10 @@
 #include "CubeResearch.h"
 #include "bdUtilNodes/nodes/BdShpLCubeNode.h"
 
+#ifdef BD_CUBE_PROFILE
+#include "CubeDiagnostics.h"
+#endif
+
 #include <maya/M3dView.h>
 #include <maya/MColor.h>
 #include <maya/MDagPath.h>
@@ -20,6 +24,10 @@
 
 namespace {
 using namespace MHWRender;
+#ifdef BD_CUBE_PROFILE
+using cubeResearch::profiling::Method;
+using cubeResearch::profiling::Scope;
+#endif
 
 constexpr const char* itemName = "fixedCubeLines";
 
@@ -119,6 +127,9 @@ public:
     }
 
     bool requiresUpdate(const MSubSceneContainer& container, const MFrameContext&) const override {
+#ifdef BD_CUBE_PROFILE
+        Scope scope(Method::subSceneRequiresUpdate);
+#endif
         pending_ = readState();
         auto* renderer = MRenderer::theRenderer();
         return !ready_ || !resources_ || resources_->renderer != renderer ||
@@ -129,6 +140,9 @@ public:
     }
 
     void update(MSubSceneContainer& container, const MFrameContext&) override {
+#ifdef BD_CUBE_PROFILE
+        Scope scope(Method::subSceneUpdate);
+#endif
         if (!node_) return;
         bool geometryChanged = !geometryReady_;
         if (geometryChanged || node_->geometryRevision() != geometry_.revision) {
@@ -179,6 +193,9 @@ public:
             ready_ = false;
         };
         if (created || !ready_ || pending_.color != current_.color) {
+#ifdef BD_CUBE_PROFILE
+            Scope shaderScope(Method::subSceneUpdateShader);
+#endif
             auto* shader = resources_->shader(pending_.color);
             if (!shader || !item->setShader(shader)) {
                 fail();
@@ -204,7 +221,14 @@ public:
             }
             MVertexBufferArray buffers;
             buffers.addBuffer("positions", vertices);
-            if (!setGeometryForRenderItem(*item, buffers, *resources_->indices, &geometry_.bounds)) {
+            MStatus bound;
+            {
+#ifdef BD_CUBE_PROFILE
+                Scope bindScope(Method::subSceneBindGeometry);
+#endif
+                bound = setGeometryForRenderItem(*item, buffers, *resources_->indices, &geometry_.bounds);
+            }
+            if (!bound) {
                 fail();
                 return;
             }
@@ -212,10 +236,14 @@ public:
             ownedVertices_ = std::move(replacement);
         }
         // 親階層を含む行列を明示し、静止時の再設定と geometry upload を省く。
-        if ((created || !ready_ || pending_.matrix != current_.matrix) &&
-            !item->setMatrix(&pending_.matrix)) {
-            fail();
-            return;
+        if (created || !ready_ || pending_.matrix != current_.matrix) {
+#ifdef BD_CUBE_PROFILE
+            Scope matrixScope(Method::subSceneSetMatrix);
+#endif
+            if (!item->setMatrix(&pending_.matrix)) {
+                fail();
+                return;
+            }
         }
         if (created || !ready_ || pending_.selectable != current_.selectable) {
             item->setSelectionMask(pending_.selectable
@@ -236,6 +264,9 @@ public:
 
 private:
     DrawState readState() const {
+#ifdef BD_CUBE_PROFILE
+        Scope scope(Method::subSceneReadState);
+#endif
         DrawState state;
         MStatus status;
         MFnDagNode node(object_, &status);
@@ -244,6 +275,9 @@ private:
         if (!status) return state;
 #if defined(BD_CUBE_SUBSCENE_MATRIX) && defined(BD_CUBE_RESEARCH_SHAPE_MATRIX)
         if (node_) state.matrix = node_->shapeDrawMatrix() * state.matrix;
+#endif
+#ifdef BD_CUBE_PROFILE
+        Scope displayScope(Method::subSceneReadDisplayState);
 #endif
         state.visible = state.path.isVisible(&status) && status && !node.isIntermediateObject();
         const auto overrides = state.path.getDrawOverrideInfo();

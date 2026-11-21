@@ -1700,6 +1700,10 @@ from ..maya.node._versioned_accessors import _BdShpLCube
 
 BdShpLCube: TypeAlias = _BdShpLCube
 
+from ..maya.node._versioned_accessors import _BdShpLDeformableCube
+
+BdShpLDeformableCube: TypeAlias = _BdShpLDeformableCube
+
 from ..maya.node._versioned_accessors import _BdShpLFocusBoundingBox
 
 BdShpLFocusBoundingBox: TypeAlias = _BdShpLFocusBoundingBox

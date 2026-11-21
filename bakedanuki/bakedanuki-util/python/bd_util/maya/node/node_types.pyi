@@ -830,6 +830,9 @@ from .operator.node.dg.bd_rbf_position_weight import (
     BdRbfPositionWeight as _BdRbfPositionWeight,
 )
 from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube as _BdShpLCube
+from .operator.node.dag.shape.bd_shp_l_deformable_cube import (
+    BdShpLDeformableCube as _BdShpLDeformableCube,
+)
 from .operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
     BdShpLFocusBoundingBox as _BdShpLFocusBoundingBox,
 )
@@ -3337,6 +3340,8 @@ class NodeTypes:
     def BdRbfPositionWeight(self) -> type[_BdRbfPositionWeight]: ...
     @property
     def BdShpLCube(self) -> type[_BdShpLCube]: ...
+    @property
+    def BdShpLDeformableCube(self) -> type[_BdShpLDeformableCube]: ...
     @property
     def BdShpLFocusBoundingBox(self) -> type[_BdShpLFocusBoundingBox]: ...
     @property

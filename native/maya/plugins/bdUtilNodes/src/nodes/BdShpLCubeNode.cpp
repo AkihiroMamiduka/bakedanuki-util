@@ -1,19 +1,14 @@
 #include "bdUtilNodes/nodes/BdShpLCubeNode.h"
-#include "bdUtilNodes/draw/FixedCubeGeometry.h"
+#include "bdUtilNodes/nodes/FixedCubeShape.h"
 #include "bdUtilNodes/nodes/LocatorChannelBox.h"
-#include "bdUtilNodes/nodes/SignedShapeAxes.h"
 
 #include <cstring>
 
 #include <maya/MCacheSchema.h>
-#include <maya/MDistance.h>
-#include <maya/MFnAttribute.h>
 #include <maya/MFnMatrixData.h>
 #include <maya/MFnTypedAttribute.h>
-#include <maya/MFnUnitAttribute.h>
 #include <maya/MNodeCacheSetupInfo.h>
 #include <maya/MPlug.h>
-#include <maya/MVector.h>
 #include <maya/MViewport2Renderer.h>
 
 #ifdef BD_CUBE_PROFILE
@@ -25,14 +20,7 @@ const MTypeId BdShpLCubeNode::typeId(0x00142720);
 const MString BdShpLCubeNode::drawClassification("drawdb/geometry/bdShpL_Cube");
 const MString BdShpLCubeNode::drawRegistrantId("bdShpLCubeGeometryOverride");
 
-MObject BdShpLCubeNode::shape1stAxis;
-MObject BdShpLCubeNode::shape2ndAxis;
-MObject BdShpLCubeNode::shapeBaseSpace1stAxisPlus;
-MObject BdShpLCubeNode::shapeBaseSpace1stAxisMinus;
-MObject BdShpLCubeNode::shapeBaseSpace2ndAxisPlus;
-MObject BdShpLCubeNode::shapeBaseSpace2ndAxisMinus;
-MObject BdShpLCubeNode::shapeBaseSpace3rdAxisPlus;
-MObject BdShpLCubeNode::shapeBaseSpace3rdAxisMinus;
+bdUtilNodes::fixedCube::ShapeAttributes BdShpLCubeNode::shapeAttributes_;
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
 MObject BdShpLCubeNode::shapeTransformMatrix;
 #endif
@@ -63,51 +51,11 @@ void BdShpLCubeNode::copyInternalData(MPxNode* source) {
 #endif
 
 MStatus BdShpLCubeNode::initialize() {
-    MStatus status;
-    shape1stAxis = bdUtilNodes::createSignedAxisAttribute("shape1stAxis", "s1a", 0, status);
-    if (!status) return status;
-    shape2ndAxis = bdUtilNodes::createSignedAxisAttribute("shape2ndAxis", "s2a", 2, status);
-    if (!status) return status;
-    struct DistanceAttribute { MObject* object; const char* name; const char* shortName; };
-    MFnUnitAttribute unitFn;
-    for (const auto& value : {
-        DistanceAttribute{&shapeBaseSpace1stAxisPlus, "shapeBaseSpace1stAxisPlus", "sbsp1p"},
-        DistanceAttribute{&shapeBaseSpace1stAxisMinus, "shapeBaseSpace1stAxisMinus", "sbsp1m"},
-        DistanceAttribute{&shapeBaseSpace2ndAxisPlus, "shapeBaseSpace2ndAxisPlus", "sbsp2p"},
-        DistanceAttribute{&shapeBaseSpace2ndAxisMinus, "shapeBaseSpace2ndAxisMinus", "sbsp2m"},
-        DistanceAttribute{&shapeBaseSpace3rdAxisPlus, "shapeBaseSpace3rdAxisPlus", "sbsp3p"},
-        DistanceAttribute{&shapeBaseSpace3rdAxisMinus, "shapeBaseSpace3rdAxisMinus", "sbsp3m"},
-    }) {
-        *value.object = unitFn.create(value.name, value.shortName,
-            MDistance(0.5, MDistance::kCentimeters), &status);
-        if (!status) return status;
-    }
-    for (const auto& attribute : {
-        shape1stAxis, shape2ndAxis,
-        shapeBaseSpace1stAxisPlus, shapeBaseSpace1stAxisMinus,
-        shapeBaseSpace2ndAxisPlus, shapeBaseSpace2ndAxisMinus,
-        shapeBaseSpace3rdAxisPlus, shapeBaseSpace3rdAxisMinus,
-    }) {
-        MFnAttribute fn(attribute, &status);
-        if (!status) return status;
-        status = fn.setKeyable(false);
-        if (!status) return status;
-        status = fn.setConnectable(false);
-        if (!status) return status;
-        status = fn.setChannelBox(true);
-        if (!status) return status;
-        status = fn.setInternal(true);
-        if (!status) return status;
-        status = fn.setAffectsAppearance(true);
-        if (!status) return status;
-        status = fn.setAffectsWorldSpace(true);
-        if (!status) return status;
-        status = addAttribute(attribute);
-        if (!status) return status;
-    }
+    MStatus status = shapeAttributes_.initialize();
 #ifndef BD_CUBE_RESEARCH_SHAPE_MATRIX
-    return MS::kSuccess;
+    return status;
 #else
+    if (!status) return status;
     MFnMatrixData matrixData;
     const auto identity = matrixData.create(MMatrix::identity, &status);
     if (!status) return status;
@@ -129,13 +77,6 @@ MStatus BdShpLCubeNode::initialize() {
 #endif
 }
 
-bool BdShpLCubeNode::isShapeAttribute(const MObject& attribute) {
-    return attribute == shape1stAxis || attribute == shape2ndAxis ||
-        attribute == shapeBaseSpace1stAxisPlus || attribute == shapeBaseSpace1stAxisMinus ||
-        attribute == shapeBaseSpace2ndAxisPlus || attribute == shapeBaseSpace2ndAxisMinus ||
-        attribute == shapeBaseSpace3rdAxisPlus || attribute == shapeBaseSpace3rdAxisMinus;
-}
-
 bool BdShpLCubeNode::setInternalValue(const MPlug& plug, const MDataHandle& data) {
     const auto attribute = plug.attribute();
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
@@ -145,7 +86,7 @@ bool BdShpLCubeNode::setInternalValue(const MPlug& plug, const MDataHandle& data
         return false;
     }
 #endif
-    if (isShapeAttribute(attribute)) {
+    if (shapeAttributes_.contains(attribute)) {
         dirtyGeometry();
         // 値の保存は通常のdatablockへ委譲し、編集通知だけを保持する。
         return false;
@@ -156,7 +97,7 @@ bool BdShpLCubeNode::setInternalValue(const MPlug& plug, const MDataHandle& data
 MStatus BdShpLCubeNode::legalConnection(
     const MPlug& plug, const MPlug& otherPlug, bool asSrc, bool& isLegal
 ) const {
-    if (!asSrc && isShapeAttribute(plug.attribute())) {
+    if (!asSrc && shapeAttributes_.contains(plug.attribute())) {
         isLegal = false;
         return MS::kSuccess;
     }
@@ -219,44 +160,14 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometry() const {
 }
 
 bool BdShpLCubeNode::updateBaseGeometry(std::uint64_t revision) const {
-    MStatus status;
-    const auto object = thisMObject();
-    const short first = MPlug(object, shape1stAxis).asShort(&status);
-    if (!status) return false;
-    const short second = MPlug(object, shape2ndAxis).asShort(&status);
-    if (!status) return false;
-    const MObject distanceAttributes[3][2] = {
-        {shapeBaseSpace1stAxisMinus, shapeBaseSpace1stAxisPlus},
-        {shapeBaseSpace2ndAxisMinus, shapeBaseSpace2ndAxisPlus},
-        {shapeBaseSpace3rdAxisMinus, shapeBaseSpace3rdAxisPlus},
-    };
-    double limits[3][2];
-    for (unsigned int axis = 0; axis < 3; ++axis) {
-        for (unsigned int side = 0; side < 2; ++side) {
-            limits[axis][side] = MPlug(object, distanceAttributes[axis][side])
-                .asMDistance(&status).asCentimeters() * (side == 0 ? -1 : 1);
-            if (!status) return false;
-        }
-    }
-    const auto axes = bdUtilNodes::resolveSignedShapeAxes(first, second);
-    const auto firstVector = axes.first.vector();
-    const auto secondVector = axes.second.vector();
-    const auto thirdVector = firstVector ^ secondVector;
-    Geometry result;
-    for (unsigned int i = 0; i < 8; ++i) {
-        const auto& original = bdUtilNodes::fixedCube::vertices[i];
-        const auto point = MPoint::origin + firstVector * limits[0][original[0] > 0] +
-            secondVector * limits[1][original[1] > 0] + thirdVector * limits[2][original[2] > 0];
+    MPoint positions[8];
+    if (!shapeAttributes_.readPositions(thisMObject(), positions)) return false;
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
-        if (animation_) animation_->basePositions[i] = point;
-#endif
-        result.bounds.expand(point);
-        for (unsigned int axis = 0; axis < 3; ++axis) {
-            result.vertices[i][axis] = static_cast<float>(point[axis]);
-        }
+    if (animation_) {
+        for (unsigned int i = 0; i < 8; ++i) animation_->basePositions[i] = positions[i];
     }
-    result.revision = revision;
-    geometry_ = result;
+#endif
+    geometry_ = bdUtilNodes::fixedCube::geometryFromPositions(positions, revision);
     return true;
 }
 

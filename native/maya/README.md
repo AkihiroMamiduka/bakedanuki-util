@@ -78,6 +78,23 @@ Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み�
 利用例と制約は[固定 Cube の速度研究](experiments/fixed_cube/README.md)を参照してください。
 固定 Cube とフォーカス用シェイプの仕様は[静的シェイプの設計方針](experiments/fixed_cube/README.md#静的シェイプの設計方針)にまとめています。
 
+### 変形対応 Cube
+
+`bdShpL_DeformableCube` は、線の Cube を行列で変形する SubScene ノードです。
+固定 Cube と同じ軸・寸法属性で基本形状を指定し、`shapeDeformMatrix`（`sdm`）のアフィン変換を適用してから、親の DAG 階層の変換を反映します。
+既定の基本形状は各軸 `±0.5 cm`、入力行列は単位行列です。行列は直接設定でき、毎フレーム変化する上流ノードにも接続できます。
+Cached Playback では各フレームの入力行列を復元します。Node Editor の Custom Mode には `shapeDeformMatrix` が出ます。
+
+```python
+from maya import cmds
+
+cmds.loadPlugin("bdUtilNodes", quiet=True)
+control = cmds.createNode("transform", name="control")
+shape = cmds.createNode("bdShpL_DeformableCube", parent=control, name="controlShape")
+driver = cmds.createNode("transform", name="shapeDriver")
+cmds.connectAttr(f"{driver}.matrix", f"{shape}.shapeDeformMatrix")
+```
+
 ## Test
 
 初回だけ、repository直下で固定versionのpytestを `.test` へ導入します。

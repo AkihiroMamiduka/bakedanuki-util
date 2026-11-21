@@ -3,7 +3,9 @@
 namespace cubeResearch::profiling {
 enum class Method {
     requiresGeometry, requiresRenderItems, updateDG, updateRenderItems,
-    populateGeometry, indexingDirty, streamDirty, bounds, matrixRead, geometryRebuild, count
+    populateGeometry, indexingDirty, streamDirty, bounds, matrixRead, geometryRebuild,
+    subSceneRequiresUpdate, subSceneReadState, subSceneReadDisplayState, subSceneUpdate,
+    subSceneSetMatrix, subSceneBindGeometry, subSceneUpdateShader, count
 };
 }
 
@@ -147,8 +149,11 @@ public:
         constexpr const char* names[] = {
             "requiresGeometry", "requiresRenderItems", "updateDG", "updateRenderItems",
             "populateGeometry", "indexingDirty", "streamDirty", "bounds",
-            "matrixRead", "geometryRebuild"
+            "matrixRead", "geometryRebuild",
+            "subSceneRequiresUpdate", "subSceneReadState", "subSceneReadDisplayState",
+            "subSceneUpdate", "subSceneSetMatrix", "subSceneBindGeometry", "subSceneUpdateShader"
         };
+        static_assert(sizeof(names) / sizeof(*names) == static_cast<int>(Method::count));
         std::ostringstream result;
         result << "{";
         for (int i = 0; i < static_cast<int>(Method::count); ++i) {

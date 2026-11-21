@@ -3,6 +3,8 @@ add_library(
     SHARED
     src/nodes/BdShpLCubeNode.cpp
     src/nodes/BdShpLCubeGeometryOverride.cpp
+    src/nodes/BdShpLDeformableCubeNode.cpp
+    src/nodes/BdShpLDeformableCubeSubSceneOverride.cpp
     src/nodes/BdShpLFocusBoundingBoxNode.cpp
     src/nodes/BdShpLFocusBoundingBoxGeometryOverride.cpp
     src/nodes/BdControllerShapeNode.cpp

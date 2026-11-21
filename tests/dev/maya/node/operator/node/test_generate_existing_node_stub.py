@@ -133,11 +133,16 @@ def test_shape_with_transform_stub_uses_only_creatable_shapes():
         python_root
     )
 
-    assert len(definitions) == 83
+    assert len(definitions) == 84
     assert any(definition.node_type == "mesh" for definition in definitions)
     assert any(
         definition.node_type == "bdShpL_Cube"
         and definition.class_name == "BdShpLCube"
+        for definition in definitions
+    )
+    assert any(
+        definition.node_type == "bdShpL_DeformableCube"
+        and definition.class_name == "BdShpLDeformableCube"
         for definition in definitions
     )
     assert any(
@@ -324,6 +329,7 @@ def test_versioned_creator_surfaces_follow_node_availability():
     assert "Absolute" in common_names
     assert "BdControllerShape" in common_names
     assert "BdShpLCube" in common_names
+    assert "BdShpLDeformableCube" in common_names
     assert {"AddDoubleLinear", "AbsoluteDL", "ShotLabel"}.isdisjoint(
         common_names
     )

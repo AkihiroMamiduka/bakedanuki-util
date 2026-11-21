@@ -327,6 +327,21 @@ Maya 2026 / 2027 の GUI 描画と性能は未検証です。
 同じ node type と `MTypeId` を登録する代替実装です。`bdUtilNodes.mll` と同時ロードできません。
 研究用 DLL をロード済みの場合は、Maya を再起動して配布先の `bdUtilNodes.mll` を読み込みます。
 
+### 変形対応 Cube
+
+`bdShpL_DeformableCube` は、固定 Cube と同じ8属性で基本形状を決め、`shapeDeformMatrix`（`sdm`）で変形できる線シェイプです。
+既定値は単位行列です。直接設定するか、変形を制御する行列出力を接続します。
+基本形状に入力のアフィン変換を適用し、その結果を親の DAG 階層で変換します。SubScene で描画し、Cached Playback の各フレームでも変形を反映します。
+独立した DAG ノードのオブジェクト選択に対応しています。
+
+```python
+ctrl, shape = bd_nodes.create.with_transform.bdShpL_DeformableCube(name="cube_ctrl")
+driver = bd_nodes.create.transform(name="shape_driver")
+mod.do_it_dag()
+shape.shapeDeformMatrix.connect_from(driver.matrix)
+mod.do_it_dg()
+```
+
 ### フォーカス用バウンディングボックス
 
 `bdShpL_FocusBoundingBox` は、選択したコントローラーを `F` キーでフレームする範囲を指定する shape です。
@@ -484,6 +499,7 @@ plug-ins: plug-ins/maya2025
 ```
 
 Node Editor の Custom Mode（`4` キー）では、`bdControllerShape` に `shapeTransformMatrix` を表示します。
+`bdShpL_DeformableCube` に `shapeDeformMatrix` を表示します。
 `bdShpL_Cube` と `bdShpL_FocusBoundingBox` はノード名だけを表示します。
 ユーザーの `prefs` に同名のテンプレートがある場合はそちらを優先し、
 テンプレート保存先と既定表示モードのpreferenceは変更しません。

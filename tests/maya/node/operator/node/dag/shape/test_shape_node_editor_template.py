@@ -12,7 +12,9 @@ pytestmark = pytest.mark.maya
 _REPOSITORY_ROOT = Path(__file__).resolve().parents[7]
 _PACKAGE_ROOT = _REPOSITORY_ROOT / "bakedanuki" / "bakedanuki-util"
 _TEMPLATE_DIRECTORY = _PACKAGE_ROOT / "templates" / "node_editor"
-_MATRIX_ATTRIBUTE = "shapeTransformMatrix"
+_TRANSFORM_MATRIX = "shapeTransformMatrix"
+_DEFORM_MATRIX = "shapeDeformMatrix"
+_DEFORMABLE_CUBE_TYPE = "bdShpL_DeformableCube"
 _FOCUS_BOX_TYPE = "bdShpL_FocusBoundingBox"
 _STATIC_NODE_TYPES = ("bdShpL_Cube", _FOCUS_BOX_TYPE)
 
@@ -31,17 +33,22 @@ def load_plugin(maya_cmds, new_scene):
 
 
 @pytest.mark.parametrize(
-    ("node_type", "expected_ports"),
+    ("node_type", "matrix_port", "short_name"),
     [
         pytest.param(
             "bdControllerShape",
-            (_MATRIX_ATTRIBUTE,),
+            _TRANSFORM_MATRIX,
+            "stm",
             marks=pytest.mark.controller_shape,
         ),
-        *((node_type, ()) for node_type in _STATIC_NODE_TYPES),
+        (_DEFORMABLE_CUBE_TYPE, _DEFORM_MATRIX, "sdm"),
+        *((node_type, None, None) for node_type in _STATIC_NODE_TYPES),
     ],
 )
-def test_custom_view_ports(maya_cmds, load_plugin, node_type, expected_ports):
+def test_custom_view_ports(
+    maya_cmds, load_plugin, node_type, matrix_port, short_name
+):
+    expected_ports = (matrix_port,) if matrix_port else ()
     root = ET.parse(
         _TEMPLATE_DIRECTORY / f"NE{node_type}Template.xml"
     ).getroot()
@@ -67,7 +74,7 @@ def test_custom_view_ports(maya_cmds, load_plugin, node_type, expected_ports):
         == expected_ports
     )
     if not attributes:
-        for name in (_MATRIX_ATTRIBUTE, "stm"):
+        for name in (_TRANSFORM_MATRIX, "stm", _DEFORM_MATRIX, "sdm"):
             assert not maya_cmds.attributeQuery(name, node=shape, exists=True)
         if node_type == _FOCUS_BOX_TYPE:
             assert maya_cmds.attributeQuery(
@@ -79,19 +86,16 @@ def test_custom_view_ports(maya_cmds, load_plugin, node_type, expected_ports):
     (attribute,) = attributes
     assert attribute.tag == "attribute"
     assert attribute.attrib == {
-        "name": _MATRIX_ATTRIBUTE,
+        "name": matrix_port,
         "type": "maya.matrix",
     }
+    assert maya_cmds.getAttr(f"{shape}.{matrix_port}", type=True) == "matrix"
     assert (
-        maya_cmds.getAttr(f"{shape}.{_MATRIX_ATTRIBUTE}", type=True)
-        == "matrix"
-    )
-    assert (
-        maya_cmds.attributeQuery(_MATRIX_ATTRIBUTE, node=shape, shortName=True)
-        == "stm"
+        maya_cmds.attributeQuery(matrix_port, node=shape, shortName=True)
+        == short_name
     )
     assert attribute.findtext("label") == maya_cmds.attributeQuery(
-        _MATRIX_ATTRIBUTE, node=shape, niceName=True
+        matrix_port, node=shape, niceName=True
     )
 
 
@@ -118,7 +122,11 @@ def test_every_module_version_resolves_the_distributed_templates():
             module_path.parent / header[-1] / assignments[0]
         ).resolve()
         assert template_directory == _TEMPLATE_DIRECTORY.resolve()
-        for node_type in ("bdControllerShape", *_STATIC_NODE_TYPES):
+        for node_type in (
+            "bdControllerShape",
+            _DEFORMABLE_CUBE_TYPE,
+            *_STATIC_NODE_TYPES,
+        ):
             assert (
                 template_directory / f"NE{node_type}Template.xml"
             ).is_file()

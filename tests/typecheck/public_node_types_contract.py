@@ -87,6 +87,30 @@ def fixed_cube_public_node_contract() -> None:
     assert_type(shape, bdu.node_types.maya2027_plus.BdShpLCube)
 
 
+def deformable_cube_public_node_contract() -> None:
+    bd_nodes = bdu.Nodes()
+    transform, paired_shape = (
+        bd_nodes.create.with_transform.bdShpL_DeformableCube()
+    )
+    assert_type(transform, bdu.node_types.Transform)
+    assert_type(paired_shape, bdu.node_types.BdShpLDeformableCube)
+    shape = bd_nodes.create.bdShpL_DeformableCube(parent=transform)
+    assert_type(shape, bdu.node_types.BdShpLDeformableCube)
+    assert_type(shape.shapeDeformMatrix, DataMatrixPlugOperator)
+    assert_type(shape.sdm, DataMatrixPlugOperator)
+    assert_type(shape.shapeBaseSpace1stAxisPlus, DoubleLinearPlugOperator)
+    shape.shape1stAxis.set(shape.s1a.PLUS_X)
+    shape.shape2ndAxis.set(shape.s2a.PLUS_Y)
+    assert_type(
+        bd_nodes.existing.bdShpL_DeformableCube("deformableCubeShape"),
+        bdu.node_types.BdShpLDeformableCube,
+    )
+    assert_type(shape, bdu.node_types.maya2025.BdShpLDeformableCube)
+    assert_type(shape, bdu.node_types.maya2026.BdShpLDeformableCube)
+    assert_type(shape, bdu.node_types.maya2027.BdShpLDeformableCube)
+    assert_type(shape, bdu.node_types.maya2025_plus.BdShpLDeformableCube)
+
+
 def focus_bounding_box_public_node_contract() -> None:
     bd_nodes = bdu.Nodes()
     transform, paired_shape = (

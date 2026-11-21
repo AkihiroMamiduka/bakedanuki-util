@@ -592,6 +592,9 @@ from .operator.node.dg.bd_rbf_position_falloff_weight import (
 )
 from .operator.node.dg.bd_rbf_position_weight import BdRbfPositionWeight
 from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube
+from .operator.node.dag.shape.bd_shp_l_deformable_cube import (
+    BdShpLDeformableCube,
+)
 from .operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
     BdShpLFocusBoundingBox,
 )
@@ -4472,6 +4475,12 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdShpLCube: ...
+    @staticmethod
+    def bdShpL_DeformableCube(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdShpLDeformableCube: ...
     @staticmethod
     def bdShpL_FocusBoundingBox(
         node: str | om.MObject,
