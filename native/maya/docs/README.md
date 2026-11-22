@@ -3,6 +3,22 @@
 `bakedanuki-util` で Maya の C++ dependency node を追加・保守するための
 開発ガイドです。Windows版 Maya 2025 / 2026 / 2027 を対象にしています。
 
+## 最初に読む資料
+
+ノードを新しく設計するときや、既存ノードを変更するときは、この順に確認します。
+
+1. [Node Basics](node-basics.md)
+   - ノードのライフサイクルを把握し、`initialize()` で宣言する属性と、`compute()` が計算する出力を決めます。
+2. [Evaluation And Parallelism の dirty 伝搬](evaluation.md#dirty-propagation)
+   - どの入力がどの出力に影響するかを `attributeAffects()` で宣言します。
+     ノードや描画側が値を保持する場合は、何が変わるとそのキャッシュを失効させるかも決めます。
+3. [Testing And Debugging の dirty テスト](testing-debugging.md#dirty-propagation-tests)
+   - 直接編集や上流からの接続で入力を変え、出力が追従することを確認します。
+     描画キャッシュを持つ場合は、実際の描画と境界も検証します。
+
+Parallel 評価や Cached Playback でのキャッシュの設計には、評価コンテキストと通知の違いも関わります。
+[DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
+
 ## Documents
 
 所有元とともに DG ノードを削除する場合は

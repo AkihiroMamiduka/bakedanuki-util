@@ -13,17 +13,17 @@ bakedanuki/bakedanuki-util/
 
 ## Development Guide
 
-C++ node の設計・実装・検証については
-[Maya C++ Plug-in Development Guide](docs/README.md) を参照してください。
+C++ node の追加・変更では、[最初に読む資料](docs/README.md#最初に読む資料)の順に
+ノードの基本、dirty 伝搬、検証方法を確認してください。
 
 - [Dependency Node Basics](docs/node-basics.md)
+- [Evaluation And Parallelism](docs/evaluation.md#dirty-propagation)
+- [Testing And Debugging](docs/testing-debugging.md#dirty-propagation-tests)
+- [DG, Parallel Evaluation, And Cached Playback](docs/dg-parallel-cache-playback.md)
 - [Controller Shape](docs/controller-shape.md)
 - [固定 Cube の速度研究](experiments/fixed_cube/README.md)
 - [bdDeleteWithOwner](docs/delete-with-owner.md)
 - [RBF Node Family And Roadmap](docs/rbf-roadmap.md)
-- [DG, Parallel Evaluation, And Cached Playback](docs/dg-parallel-cache-playback.md)
-- [Evaluation And Parallelism](docs/evaluation.md)
-- [Testing And Debugging](docs/testing-debugging.md)
 
 ## Requirements
 

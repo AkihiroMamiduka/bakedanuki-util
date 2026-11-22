@@ -89,8 +89,8 @@ compound の親変更、各 child の直接変更、parent / child connection、
 runtime に追加される dynamic attribute や、node の状態によって依存先が変わる場合は
 `setDependentsDirty()` を検討します。
 
-`setDependentsDirty()` は dirty 伝搬中に呼ばれます。この関数では affected plug を
-追加するだけに留め、次の操作を行いません。
+`setDependentsDirty()` は dirty 伝搬中に呼ばれます。処理は affected plug の追加や、
+保持しているキャッシュを失効させるための通知に絞り、次の操作を避けます。
 
 - plug の値を要求して DG evaluation を発生させる。
 - output を計算する。
@@ -107,6 +107,19 @@ DG mode では dirty hook としても呼ばれますが、EM は Evaluation Gra
 通常の固定 attribute の算術 node には `attributeAffects()` だけで十分です。
 単純な node に `setDependentsDirty()` を追加しても品質は上がらず、依存関係が追いにくく
 なります。
+
+### 独自キャッシュの失効
+
+Maya が管理する出力の dirty と、ノードや Viewport 2.0 のオーバーライドが保持する値の失効は、
+設計時に両方を確認します。接続を受け付けない静的属性なら、直接編集時に独自キャッシュを失効できます。
+接続された入力を再利用する場合は、同じフレームでの上流変更、Evaluation Manager の評価、
+充填済み Cached Playback で表示するフレームの切り替えも検証に含めます。
+[Cached Playback の検証手順](testing-debugging.md#cached-playback-and-context)
+
+`bdShpL_Cube` と `bdShpL_FocusBoundingBox` は、静的属性の直接編集時に形状・プレビューのキャッシュを失効させます。
+`bdShpL_DeformableCube` は、通常コンテキストの SubScene 描画で接続済みの変形行列を再利用し、
+dirty 通知や接続変更で読み直します。
+[配布版の実装と検証結果](../experiments/fixed_cube/README.md#変形行列の再利用を配布版へ導入)
 
 ## Evaluation Manager
 

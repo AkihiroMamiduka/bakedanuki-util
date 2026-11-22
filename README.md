@@ -135,6 +135,10 @@ native変更とリリース前の検証範囲です。
 
 C++ source は配布用 `bakedanuki` フォルダへ含めず、リポジトリ直下の
 `native/maya` で管理します。最終確認には`verify.cmd -IncludeNative`を使用します。
+
+ノードを追加・変更するときは、属性の依存関係と dirty 伝搬を含む
+[ノード開発で最初に読む資料](native/maya/docs/README.md#最初に読む資料)から確認してください。
+
 versionごとのbuildとtestを個別に切り分ける場合は次のコマンドです。
 
 ```powershell

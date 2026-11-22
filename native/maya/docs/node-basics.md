@@ -3,6 +3,9 @@
 この文書は、`bdUtilNodes` に C++ dependency node を追加するときの基本手順と
 実装上の約束をまとめたものです。
 
+属性や `compute()` を設計するときは、入力の変更をどの出力へ伝えるか、
+ノードが保持するキャッシュをいつ失効させるかも決めます。[dirty 伝搬と評価](evaluation.md#dirty-propagation)
+
 ## Node Lifecycle
 
 Maya plug-in と node は、概ね次の順番で初期化・評価されます。
