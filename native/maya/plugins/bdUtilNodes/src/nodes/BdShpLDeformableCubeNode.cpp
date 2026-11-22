@@ -8,6 +8,8 @@
 #include <cstring>
 
 #include <maya/MCacheSchema.h>
+#include <maya/MDGContext.h>
+#include <maya/MEvaluationNode.h>
 #include <maya/MFnMatrixData.h>
 #include <maya/MFnTypedAttribute.h>
 #include <maya/MNodeCacheSetupInfo.h>
@@ -99,6 +101,27 @@ MBoundingBox BdShpLDeformableCubeNode::boundingBox() const {
 
 bool BdShpLDeformableCubeNode::excludeAsLocator() const {
     return false;
+}
+
+MStatus BdShpLDeformableCubeNode::setDependentsDirty(const MPlug& plug, MPlugArray& affected) {
+    if (plug.attribute() == shapeDeformMatrix) {
+        matrixRevision_.fetch_add(1, std::memory_order_release);
+    }
+    return MPxLocatorNode::setDependentsDirty(plug, affected);
+}
+
+MStatus BdShpLDeformableCubeNode::postEvaluation(
+    const MDGContext& context, const MEvaluationNode& evaluationNode, PostEvaluationType evalType
+) {
+    if (matrixConnected_.load(std::memory_order_acquire) && context.isNormal()) {
+        MStatus status;
+        const bool dirty = evaluationNode.dirtyPlugExists(shapeDeformMatrix, &status);
+        // 通常コンテキストの描画が再取得するよう、評価側では世代だけ進める。
+        if (dirty || !status || evalType == kLeaveDirty) {
+            matrixRevision_.fetch_add(1, std::memory_order_release);
+        }
+    }
+    return MPxLocatorNode::postEvaluation(context, evaluationNode, evalType);
 }
 
 bool BdShpLDeformableCubeNode::setInternalValue(const MPlug& plug, const MDataHandle& data) {
@@ -205,17 +228,24 @@ bool BdShpLDeformableCubeNode::readShapeMatrix(MMatrix& deformMatrix) const {
     return true;
 }
 
-MMatrix BdShpLDeformableCubeNode::shapeDrawMatrix() const {
+MMatrix BdShpLDeformableCubeNode::shapeDrawMatrix(DrawMatrixCache* drawCache) const {
     const bool connected = matrixConnected_.load(std::memory_order_acquire);
     const auto revision = matrixRevision_.load(std::memory_order_acquire);
-    if (!connected) {
+    const bool reuseConnected = connected && drawCache && MDGContext::current().isNormal();
+    if (reuseConnected) {
+        if (drawCache->revision == revision) return drawCache->matrix;
+    } else if (!connected) {
         const std::lock_guard<std::mutex> lock(dataMutex_);
         if (cachedMatrixRevision_ == revision) return cachedMatrix_;
     }
 
     MMatrix deformMatrix;
     if (!readShapeMatrix(deformMatrix)) return MMatrix::identity;
-    if (!connected) {
+    if (reuseConnected) {
+        if (matrixRevision_.load(std::memory_order_acquire) == revision) {
+            *drawCache = {deformMatrix, revision};
+        }
+    } else if (!connected) {
         const std::lock_guard<std::mutex> lock(dataMutex_);
         if (matrixRevision_.load(std::memory_order_acquire) == revision) {
             cachedMatrix_ = deformMatrix;

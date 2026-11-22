@@ -294,7 +294,7 @@ private:
         if (!status || !node.getPath(state.path) || !state.path.isValid()) return state;
         const auto parentMatrix = state.path.inclusiveMatrix(&status);
         if (!status) return state;
-        state.matrix = node_->shapeDrawMatrix() * parentMatrix;
+        state.matrix = node_->shapeDrawMatrix(&drawMatrixCache_) * parentMatrix;
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
         static_cast<DisplayValues&>(state) = displayCache_.read(
             displayMonitor, state.path, frame.getDisplayStyle(), [&] {
@@ -342,6 +342,7 @@ private:
     BdShpLDeformableCubeNode::Geometry geometry_{};
     DrawState current_;
     mutable DrawState pending_;
+    mutable BdShpLDeformableCubeNode::DrawMatrixCache drawMatrixCache_;
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
     mutable display::DisplayCache<DisplayValues> displayCache_;
 #endif

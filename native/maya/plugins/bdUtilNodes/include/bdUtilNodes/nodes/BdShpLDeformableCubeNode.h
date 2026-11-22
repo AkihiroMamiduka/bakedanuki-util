@@ -25,6 +25,11 @@ class BdShpLDeformableCubeNode final : public MPxLocatorNode {
 public:
     using Geometry = bdUtilNodes::fixedCube::Geometry;
 
+    struct DrawMatrixCache {
+        MMatrix matrix;
+        std::uint64_t revision = 0;
+    };
+
     BdShpLDeformableCubeNode();
     static void* creator();
     static MStatus initialize();
@@ -38,6 +43,10 @@ public:
     MBoundingBox boundingBox() const override;
     bool excludeAsLocator() const override;
 
+    MStatus setDependentsDirty(const MPlug& plug, MPlugArray& affected) override;
+    MStatus postEvaluation(
+        const MDGContext& context, const MEvaluationNode& evaluationNode, PostEvaluationType evalType
+    ) override;
     bool setInternalValue(const MPlug& plug, const MDataHandle& data) override;
     MStatus legalConnection(
         const MPlug& plug, const MPlug& otherPlug, bool asSrc, bool& isLegal
@@ -55,7 +64,7 @@ public:
 
     Geometry baseDrawGeometry() const;
     std::uint64_t geometryRevision() const;
-    MMatrix shapeDrawMatrix() const;
+    MMatrix shapeDrawMatrix(DrawMatrixCache* drawCache = nullptr) const;
 
     static const MString typeName;
     static const MTypeId typeId;

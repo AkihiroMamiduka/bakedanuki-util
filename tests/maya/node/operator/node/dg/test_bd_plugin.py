@@ -386,6 +386,37 @@ def test_focus_shape_frames_follow_keyed_parent_at_current_time(
             assert _local_bounds(maya_om, focus) == pytest.approx(original)
 
 
+def test_focus_shape_hidden_dimension_edits_update_framing_through_undo_redo(
+    maya_cmds, maya_om, new_scene
+):
+    _load_bd_util_nodes(maya_cmds)
+    ctrl = maya_cmds.createNode("transform")
+    focus = maya_cmds.createNode(_FOCUS_BOX_TYPE, parent=ctrl)
+    maya_cmds.createNode("bdShpL_Cube", parent=ctrl)
+    maya_cmds.select(ctrl)
+    assert maya_cmds.getAttr(f"{focus}.showShape") is False
+
+    def assert_bounds_and_framing(bounds, center_x):
+        assert _local_bounds(maya_om, focus) == pytest.approx(bounds)
+        recording = maya_cmds.undoInfo(query=True, state=True)
+        maya_cmds.undoInfo(stateWithoutFlush=False)
+        try:
+            assert _framed_x(maya_cmds, maya_om) == pytest.approx(center_x)
+        finally:
+            maya_cmds.undoInfo(stateWithoutFlush=recording)
+
+    assert_bounds_and_framing(_CUBE_BOUNDS, 0.0)
+    maya_cmds.setAttr(
+        f"{focus}.shapeBaseSpaceXPlus", maya_om.MDistance.internalToUI(3.5)
+    )
+    adjusted = (-0.5, -0.5, -0.5, 3.5, 0.5, 0.5)
+    assert_bounds_and_framing(adjusted, 1.5)
+    maya_cmds.undo()
+    assert_bounds_and_framing(_CUBE_BOUNDS, 0.0)
+    maya_cmds.redo()
+    assert_bounds_and_framing(adjusted, 1.5)
+
+
 def test_focus_shape_bounds_stay_independent_of_preview_and_sibling(
     maya_cmds, maya_om, new_scene
 ):
