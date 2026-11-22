@@ -1,8 +1,15 @@
 #include "bdUtilNodes/nodes/BdShpLDeformableCubeNode.h"
 #include "bdUtilNodes/draw/FixedCubeGeometry.h"
+#ifdef BD_CUBE_PROFILE
+#include "CubeDiagnostics.h"
+#endif
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+#include "DeformableCubeDisplayStateCache.h"
+#endif
 
 #include <cstring>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include <maya/M3dView.h>
@@ -21,18 +28,30 @@
 namespace {
 using namespace MHWRender;
 namespace cube = bdUtilNodes::fixedCube;
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+namespace display = bdUtilNodes::deformableCubeDisplay;
+// Maya API を使う監視は plug-in の登録・解除処理で管理する。
+display::DisplayMonitor* displayMonitor = nullptr;
+#endif
+#ifdef BD_CUBE_PROFILE
+using cubeResearch::profiling::Method;
+using cubeResearch::profiling::Scope;
+#endif
 
 const MString& itemName() {
     static const MString name("bdDeformableCubeLines");
     return name;
 }
 
-std::unique_ptr<MVertexBuffer> vertexBuffer(const float (&vertices)[8][3]) {
+std::unique_ptr<MVertexBuffer> vertexBuffer(const float (&vertices)[cube::vertexCount][3]) {
     const MVertexBufferDescriptor descriptor("", MGeometry::kPosition, MGeometry::kFloat, 3);
     auto buffer = std::make_unique<MVertexBuffer>(descriptor);
-    auto* positions = buffer->acquire(8, true);
+    auto* positions = buffer->acquire(cube::vertexCount, true);
     if (!positions) return nullptr;
     std::memcpy(positions, vertices, sizeof(vertices));
+#ifdef BD_CUBE_PROFILE
+    Scope scope(Method::subSceneVertexCommit);
+#endif
     buffer->commit(positions);
     return buffer;
 }
@@ -69,9 +88,12 @@ struct SharedResources {
         vertices = vertexBuffer(cube::vertices);
         if (!vertices) return false;
         indices = std::make_unique<MIndexBuffer>(MGeometry::kUnsignedInt32);
-        auto* edges = indices->acquire(24, true);
+        auto* edges = indices->acquire(cube::indexCount, true);
         if (!edges) return false;
         std::memcpy(edges, cube::indices, sizeof(cube::indices));
+#ifdef BD_CUBE_PROFILE
+        Scope scope(Method::subSceneIndexCommit);
+#endif
         indices->commit(edges);
         return true;
     }
@@ -122,13 +144,16 @@ MRenderItem* createItem(MSubSceneContainer& container) {
     return nullptr;
 }
 
-struct DrawState {
-    MDagPath path;
-    MMatrix matrix;
+struct DisplayValues {
     MColor color;
     bool visible = false;
     bool selectable = false;
     bool hideOnPlayback = false;
+};
+
+struct DrawState : DisplayValues {
+    MDagPath path;
+    MMatrix matrix;
 
     bool operator==(const DrawState& other) const {
         return path == other.path && matrix == other.matrix && color == other.color &&
@@ -147,15 +172,21 @@ public:
         return kOpenGL | kOpenGLCoreProfile | kDirectX11;
     }
 
-    bool requiresUpdate(const MSubSceneContainer& container, const MFrameContext&) const override {
+    bool requiresUpdate(const MSubSceneContainer& container, const MFrameContext& frame) const override {
+#ifdef BD_CUBE_PROFILE
+        Scope scope(Method::subSceneRequiresUpdate);
+#endif
         if (!node_) return false;
-        pending_ = readState();
+        pending_ = readState(frame);
         return !ready_ || !resources_ || !resources_->matches(MRenderer::theRenderer()) ||
             container.count() != 1 || !(pending_ == current_) ||
             node_->geometryRevision() != geometry_.revision;
     }
 
     void update(MSubSceneContainer& container, const MFrameContext&) override {
+#ifdef BD_CUBE_PROFILE
+        Scope scope(Method::subSceneUpdate);
+#endif
         if (!node_) return;
         auto* renderer = MRenderer::theRenderer();
         if (!resources_ || !resources_->matches(renderer)) {
@@ -177,6 +208,9 @@ public:
             ready_ = false;
         };
         if (reinitialize || pending_.color != current_.color) {
+#ifdef BD_CUBE_PROFILE
+            Scope shaderScope(Method::subSceneUpdateShader);
+#endif
             auto* shader = resources_->shader(pending_.color);
             if (!shader || !item->setShader(shader)) {
                 fail();
@@ -200,9 +234,14 @@ public:
         }
 
         // 親階層を含む行列を明示し、変形中もローカル頂点バッファを再利用する。
-        if ((reinitialize || pending_.matrix != current_.matrix) && !item->setMatrix(&pending_.matrix)) {
-            fail();
-            return;
+        if (reinitialize || pending_.matrix != current_.matrix) {
+#ifdef BD_CUBE_PROFILE
+            Scope matrixScope(Method::subSceneSetMatrix);
+#endif
+            if (!item->setMatrix(&pending_.matrix)) {
+                fail();
+                return;
+            }
         }
         if (reinitialize || pending_.selectable != current_.selectable) {
             item->setSelectionMask(pending_.selectable
@@ -232,15 +271,23 @@ private:
         }
         MVertexBufferArray buffers;
         buffers.addBuffer("positions", vertices);
-        if (!setGeometryForRenderItem(item, buffers, *resources_->indices, &geometry_.bounds)) {
-            return false;
+        {
+#ifdef BD_CUBE_PROFILE
+            Scope bindScope(Method::subSceneBindGeometry);
+#endif
+            if (!setGeometryForRenderItem(item, buffers, *resources_->indices, &geometry_.bounds)) {
+                return false;
+            }
         }
         // 描画との関連付けが完了するまで旧バッファを保持する。
         ownedVertices_ = std::move(replacement);
         return true;
     }
 
-    DrawState readState() const {
+    DrawState readState(const MFrameContext& frame) const {
+#ifdef BD_CUBE_PROFILE
+        Scope scope(Method::subSceneReadState);
+#endif
         DrawState state;
         MStatus status;
         MFnDagNode node(object_, &status);
@@ -248,14 +295,37 @@ private:
         const auto parentMatrix = state.path.inclusiveMatrix(&status);
         if (!status) return state;
         state.matrix = node_->shapeDrawMatrix() * parentMatrix;
-        state.visible = state.path.isVisible(&status) && status && !node.isIntermediateObject();
-        const auto overrides = state.path.getDrawOverrideInfo();
-        const auto type = state.path.isTemplated() ? MDAGDrawOverrideInfo::kDisplayTypeTemplate
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+        static_cast<DisplayValues&>(state) = displayCache_.read(
+            displayMonitor, state.path, frame.getDisplayStyle(), [&] {
+#ifdef BD_CUBE_PROFILE
+                Scope scope(Method::subSceneProbeDisplayStatus);
+#endif
+                // ハイライト解除など、選択コールバックを送らない変化も確認する。
+                return MGeometryUtilities::displayStatus(state.path);
+            }, [&] { return readDisplay(state.path, node); }
+        );
+#else
+        (void)frame;
+        static_cast<DisplayValues&>(state) = readDisplay(state.path, node);
+#endif
+        return state;
+    }
+
+    static DisplayValues readDisplay(const MDagPath& path, const MFnDagNode& node) {
+#ifdef BD_CUBE_PROFILE
+        Scope displayScope(Method::subSceneReadDisplayState);
+#endif
+        DisplayValues state;
+        MStatus status;
+        state.visible = path.isVisible(&status) && status && !node.isIntermediateObject();
+        const auto overrides = path.getDrawOverrideInfo();
+        const auto type = path.isTemplated() ? MDAGDrawOverrideInfo::kDisplayTypeTemplate
             : (overrides.fOverrideEnabled ? overrides.fDisplayType : MDAGDrawOverrideInfo::kDisplayTypeNormal);
         if (overrides.fOverrideEnabled) state.visible = state.visible && overrides.fEnableVisible;
         state.hideOnPlayback = overrides.fOverrideEnabled && !overrides.fPlaybackVisible;
         state.selectable = state.visible && type == MDAGDrawOverrideInfo::kDisplayTypeNormal;
-        state.color = MGeometryUtilities::wireframeColor(state.path);
+        state.color = MGeometryUtilities::wireframeColor(path);
         if (type == MDAGDrawOverrideInfo::kDisplayTypeTemplate) {
             state.color = M3dView::templateColor();
         } else if (type == MDAGDrawOverrideInfo::kDisplayTypeReference) {
@@ -272,6 +342,9 @@ private:
     BdShpLDeformableCubeNode::Geometry geometry_{};
     DrawState current_;
     mutable DrawState pending_;
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+    mutable display::DisplayCache<DisplayValues> displayCache_;
+#endif
     bool geometryReady_ = false;
     bool ready_ = false;
 };
@@ -281,7 +354,16 @@ MHWRender::MPxSubSceneOverride* BdShpLDeformableCubeNode::createSubSceneOverride
     return new DeformableCubeSubSceneOverride(object);
 }
 
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+void BdShpLDeformableCubeNode::startDisplayStateMonitoring() {
+    displayMonitor = new display::DisplayMonitor();
+}
+#endif
+
 void BdShpLDeformableCubeNode::cleanupDrawResources() {
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+    delete std::exchange(displayMonitor, nullptr);
+#endif
     delete resourceCache;
     resourceCache = nullptr;
 }

@@ -15,10 +15,17 @@
 #include "CubeDiagnostics.h"
 #endif
 
+#ifdef BD_CUBE_RESEARCH_FIN
+const MString BdShpLCubeNode::typeName("bdShpL_CubeWithFin");
+const MTypeId BdShpLCubeNode::typeId(0x00142724);
+const MString BdShpLCubeNode::drawClassification("drawdb/geometry/bdShpL_CubeWithFin");
+const MString BdShpLCubeNode::drawRegistrantId("bdShpLCubeWithFinGeometryOverride");
+#else
 const MString BdShpLCubeNode::typeName("bdShpL_Cube");
 const MTypeId BdShpLCubeNode::typeId(0x00142720);
 const MString BdShpLCubeNode::drawClassification("drawdb/geometry/bdShpL_Cube");
 const MString BdShpLCubeNode::drawRegistrantId("bdShpLCubeGeometryOverride");
+#endif
 
 bdUtilNodes::fixedCube::ShapeAttributes BdShpLCubeNode::shapeAttributes_;
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
@@ -26,8 +33,12 @@ MObject BdShpLCubeNode::shapeTransformMatrix;
 #endif
 
 BdShpLCubeNode::BdShpLCubeNode() {
+#ifdef BD_CUBE_RESEARCH_FIN
+    geometry_ = bdUtilNodes::fixedCube::initialGeometry();
+#else
     std::memcpy(geometry_.vertices, bdUtilNodes::fixedCube::vertices, sizeof(geometry_.vertices));
     geometry_.bounds = bdUtilNodes::fixedCube::bounds();
+#endif
 }
 
 void* BdShpLCubeNode::creator() {
@@ -139,6 +150,9 @@ std::uint64_t BdShpLCubeNode::geometryRevision() const {
 }
 
 BdShpLCubeNode::Geometry BdShpLCubeNode::geometry() const {
+#ifdef BD_CUBE_PROFILE
+    cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::baseGeometryAccess);
+#endif
 #ifndef BD_CUBE_RESEARCH_SHAPE_MATRIX
     const std::lock_guard<std::mutex> lock(geometryMutex_);
     const auto revision = geometryRevision();
@@ -160,7 +174,10 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometry() const {
 }
 
 bool BdShpLCubeNode::updateBaseGeometry(std::uint64_t revision) const {
-    MPoint positions[8];
+#ifdef BD_CUBE_PROFILE
+    cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::baseGeometryRebuild);
+#endif
+    MPoint positions[bdUtilNodes::fixedCube::vertexCount];
     if (!shapeAttributes_.readPositions(thisMObject(), positions)) return false;
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     if (animation_) {

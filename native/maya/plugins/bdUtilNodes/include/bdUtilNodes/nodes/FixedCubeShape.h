@@ -2,6 +2,12 @@
 
 #include "bdUtilNodes/draw/FixedCubeGeometry.h"
 #include "bdUtilNodes/nodes/SignedShapeAxes.h"
+#ifdef BD_CUBE_PROFILE
+#include "CubeDiagnostics.h"
+#endif
+#ifdef BD_CUBE_RESEARCH_FIN
+#include "CubeFinSettings.h"
+#endif
 
 #include <initializer_list>
 
@@ -17,8 +23,14 @@ struct ShapeAttributes {
     MObject firstAxis;
     MObject secondAxis;
     MObject limits[3][2];
+#ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
+    FinAttributes finAttributes;
+#endif
 
     MStatus initialize() {
+#ifdef BD_CUBE_RESEARCH_FIXED_BASE
+        return MS::kSuccess;
+#else
         MStatus status;
         firstAxis = createSignedAxisAttribute("shape1stAxis", "s1a", 0, status);
         if (!status) return status;
@@ -47,41 +59,82 @@ struct ShapeAttributes {
             firstAxis, secondAxis, limits[0][1], limits[0][0], limits[1][1], limits[1][0],
             limits[2][1], limits[2][0],
         }) {
-            MFnAttribute fn(attribute, &status);
-            if (!status) return status;
-            status = fn.setKeyable(false);
-            if (!status) return status;
-            status = fn.setConnectable(false);
-            if (!status) return status;
-            status = fn.setChannelBox(true);
-            if (!status) return status;
-            status = fn.setInternal(true);
-            if (!status) return status;
-            status = fn.setAffectsAppearance(true);
-            if (!status) return status;
-            status = fn.setAffectsWorldSpace(true);
-            if (!status) return status;
-            status = MPxNode::addAttribute(attribute);
+            status = addStaticAttribute(attribute);
             if (!status) return status;
         }
+#ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
+        status = finAttributes.create();
+        if (!status) return status;
+        for (const auto& attribute : {finAttributes.type, finAttributes.height, finAttributes.widthScale}) {
+            status = addStaticAttribute(attribute);
+            if (!status) return status;
+        }
+#endif
         return MS::kSuccess;
+#endif
     }
 
     bool contains(const MObject& attribute) const {
-        return attribute == firstAxis || attribute == secondAxis ||
+#ifdef BD_CUBE_RESEARCH_FIXED_BASE
+        (void)attribute;
+        return false;
+#else
+        const bool bodyAttribute = attribute == firstAxis || attribute == secondAxis ||
             attribute == limits[0][1] || attribute == limits[0][0] ||
             attribute == limits[1][1] || attribute == limits[1][0] ||
             attribute == limits[2][1] || attribute == limits[2][0];
+#ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
+        return bodyAttribute || finAttributes.contains(attribute);
+#else
+        return bodyAttribute;
+#endif
+#endif
     }
 
-    bool readPositions(const MObject& object, MPoint (&positions)[8]) const {
+    bool readPositions(const MObject& object, MPoint (&positions)[vertexCount]) const {
+#ifdef BD_CUBE_RESEARCH_FIXED_BASE
+        (void)object;
+        constexpr short first = 0;
+        constexpr short second = 2;
+        constexpr double endpoints[3][2] = {{-0.5, 0.5}, {-0.5, 0.5}, {-0.5, 0.5}};
+#else
+        short first;
+        short second;
+        double endpoints[3][2];
+        if (!readBaseSettings(object, first, second, endpoints)) return false;
+#endif
+        const auto axes = resolveSignedShapeAxes(first, second);
+        const auto firstVector = axes.first.vector();
+        const auto secondVector = axes.second.vector();
+        const auto thirdVector = firstVector ^ secondVector;
+        for (unsigned int i = 0; i < bodyVertexCount; ++i) {
+            const auto& original = vertices[i];
+            positions[i] = MPoint::origin + firstVector * endpoints[0][original[0] > 0] +
+                secondVector * endpoints[1][original[1] > 0] +
+                thirdVector * endpoints[2][original[2] > 0];
+        }
+#ifdef BD_CUBE_RESEARCH_FIN
+        FinSettings fin;
+#ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
+        if (!finAttributes.read(object, fin)) return false;
+#endif
+        writeFinPositions(positions + bodyVertexCount, fin, firstVector, secondVector, thirdVector, endpoints);
+#endif
+        return true;
+    }
+
+private:
+#ifndef BD_CUBE_RESEARCH_FIXED_BASE
+    bool readBaseSettings(const MObject& object, short& first, short& second, double (&endpoints)[3][2]) const {
+#ifdef BD_CUBE_PROFILE
+        cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::baseShapeRead);
+#endif
         MStatus status;
-        const short first = MPlug(object, firstAxis).asShort(&status);
+        first = MPlug(object, firstAxis).asShort(&status);
         if (!status) return false;
-        const short second = MPlug(object, secondAxis).asShort(&status);
+        second = MPlug(object, secondAxis).asShort(&status);
         if (!status) return false;
 
-        double endpoints[3][2];
         for (unsigned int axis = 0; axis < 3; ++axis) {
             for (unsigned int side = 0; side < 2; ++side) {
                 endpoints[axis][side] = MPlug(object, limits[axis][side])
@@ -89,17 +142,27 @@ struct ShapeAttributes {
                 if (!status) return false;
             }
         }
-        const auto axes = resolveSignedShapeAxes(first, second);
-        const auto firstVector = axes.first.vector();
-        const auto secondVector = axes.second.vector();
-        const auto thirdVector = firstVector ^ secondVector;
-        for (unsigned int i = 0; i < 8; ++i) {
-            const auto& original = vertices[i];
-            positions[i] = MPoint::origin + firstVector * endpoints[0][original[0] > 0] +
-                secondVector * endpoints[1][original[1] > 0] +
-                thirdVector * endpoints[2][original[2] > 0];
-        }
         return true;
+    }
+#endif
+
+    static MStatus addStaticAttribute(const MObject& attribute) {
+        MStatus status;
+        MFnAttribute fn(attribute, &status);
+        if (!status) return status;
+        status = fn.setKeyable(false);
+        if (!status) return status;
+        status = fn.setConnectable(false);
+        if (!status) return status;
+        status = fn.setChannelBox(true);
+        if (!status) return status;
+        status = fn.setInternal(true);
+        if (!status) return status;
+        status = fn.setAffectsAppearance(true);
+        if (!status) return status;
+        status = fn.setAffectsWorldSpace(true);
+        if (!status) return status;
+        return MPxNode::addAttribute(attribute);
     }
 };
 

@@ -5,7 +5,10 @@ enum class Method {
     requiresGeometry, requiresRenderItems, updateDG, updateRenderItems,
     populateGeometry, indexingDirty, streamDirty, bounds, matrixRead, geometryRebuild,
     subSceneRequiresUpdate, subSceneReadState, subSceneReadDisplayState, subSceneUpdate,
-    subSceneSetMatrix, subSceneBindGeometry, subSceneUpdateShader, count
+    subSceneSetMatrix, subSceneBindGeometry, subSceneUpdateShader,
+    baseShapeRead, finShapeRead, baseGeometryAccess, baseGeometryRebuild,
+    geometryVertexCommit, geometryIndexCommit, subSceneVertexCommit, subSceneIndexCommit,
+    subSceneProbeDisplayStatus, count
 };
 }
 
@@ -151,7 +154,10 @@ public:
             "populateGeometry", "indexingDirty", "streamDirty", "bounds",
             "matrixRead", "geometryRebuild",
             "subSceneRequiresUpdate", "subSceneReadState", "subSceneReadDisplayState",
-            "subSceneUpdate", "subSceneSetMatrix", "subSceneBindGeometry", "subSceneUpdateShader"
+            "subSceneUpdate", "subSceneSetMatrix", "subSceneBindGeometry", "subSceneUpdateShader",
+            "baseShapeRead", "finShapeRead", "baseGeometryAccess", "baseGeometryRebuild",
+            "geometryVertexCommit", "geometryIndexCommit", "subSceneVertexCommit", "subSceneIndexCommit",
+            "subSceneProbeDisplayStatus"
         };
         static_assert(sizeof(names) / sizeof(*names) == static_cast<int>(Method::count));
         std::ostringstream result;

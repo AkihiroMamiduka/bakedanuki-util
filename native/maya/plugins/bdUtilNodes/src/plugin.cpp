@@ -1288,6 +1288,7 @@ MStatus initializePlugin(MObject pluginObject) {
         return status;
     }
 
+    BdShpLDeformableCubeNode::startDisplayStateMonitoring();
     return MS::kSuccess;
 }
 

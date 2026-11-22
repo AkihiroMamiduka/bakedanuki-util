@@ -29,6 +29,7 @@ public:
     static void* creator();
     static MStatus initialize();
     static MHWRender::MPxSubSceneOverride* createSubSceneOverride(const MObject& node);
+    static void startDisplayStateMonitoring();
     static void cleanupDrawResources();
 
     void postConstructor() override;

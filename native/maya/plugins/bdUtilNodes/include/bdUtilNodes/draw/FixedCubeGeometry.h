@@ -4,38 +4,87 @@
 
 #include <maya/MBoundingBox.h>
 #include <maya/MPoint.h>
+#ifdef BD_CUBE_RESEARCH_FIN
+#include <maya/MMatrix.h>
+#endif
 
 namespace bdUtilNodes::fixedCube {
-inline constexpr float vertices[8][3] = {
+inline constexpr unsigned int bodyVertexCount = 8;
+#ifdef BD_CUBE_RESEARCH_FIN
+inline constexpr double defaultFinHeight = 0.5;
+inline constexpr double defaultFinWidthScale = 1.0;
+#endif
+inline constexpr float vertices[][3] = {
     {-0.5f, -0.5f, -0.5f}, {0.5f, -0.5f, -0.5f},
     {0.5f, 0.5f, -0.5f}, {-0.5f, 0.5f, -0.5f},
     {-0.5f, -0.5f, 0.5f}, {0.5f, -0.5f, 0.5f},
     {0.5f, 0.5f, 0.5f}, {-0.5f, 0.5f, 0.5f},
+#ifdef BD_CUBE_RESEARCH_FIN
+    {-0.5f, 0.5f, 0.0f}, {-0.5f, 0.5f + static_cast<float>(defaultFinHeight), 0.0f},
+    {0.5f, 0.5f + static_cast<float>(defaultFinHeight), 0.0f}, {0.5f, 0.5f, 0.0f},
+#endif
 };
-inline constexpr unsigned int indices[24] = {
+inline constexpr unsigned int indices[] = {
     0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6,
     6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7,
+#ifdef BD_CUBE_RESEARCH_FIN
+    8, 9, 9, 10, 10, 11,
+#endif
 };
+inline constexpr unsigned int vertexCount = sizeof(vertices) / sizeof(vertices[0]);
+inline constexpr unsigned int indexCount = sizeof(indices) / sizeof(indices[0]);
+
 inline MBoundingBox bounds() {
+#ifdef BD_CUBE_RESEARCH_FIN
+    return MBoundingBox(MPoint(-0.5, -0.5, -0.5), MPoint(0.5, 0.5 + defaultFinHeight, 0.5));
+#else
     return MBoundingBox(MPoint(-0.5, -0.5, -0.5), MPoint(0.5, 0.5, 0.5));
+#endif
 }
 
 struct Geometry {
-    float vertices[8][3];
+    float vertices[vertexCount][3];
     MBoundingBox bounds;
     std::uint64_t revision = 0;
+#ifdef BD_CUBE_RESEARCH_FIN
+    MBoundingBox bodyBounds;
+    MPoint finPositions[vertexCount - bodyVertexCount];
+#endif
 };
 
-inline Geometry geometryFromPositions(const MPoint (&positions)[8], std::uint64_t revision) {
+inline Geometry geometryFromPositions(const MPoint (&positions)[vertexCount], std::uint64_t revision) {
     Geometry result;
-    for (unsigned int i = 0; i < 8; ++i) {
+    for (unsigned int i = 0; i < vertexCount; ++i) {
         const auto& point = positions[i];
         result.bounds.expand(point);
         for (unsigned int axis = 0; axis < 3; ++axis) {
             result.vertices[i][axis] = static_cast<float>(point[axis]);
         }
+#ifdef BD_CUBE_RESEARCH_FIN
+        if (i == bodyVertexCount - 1) result.bodyBounds = result.bounds;
+        if (i >= bodyVertexCount) result.finPositions[i - bodyVertexCount] = point;
+#endif
     }
     result.revision = revision;
     return result;
 }
+
+#ifdef BD_CUBE_RESEARCH_FIN
+inline Geometry initialGeometry() {
+    MPoint positions[vertexCount];
+    for (unsigned int i = 0; i < vertexCount; ++i) {
+        positions[i] = MPoint(vertices[i][0], vertices[i][1], vertices[i][2]);
+    }
+    return geometryFromPositions(positions, 0);
+}
+
+inline MBoundingBox transformedBounds(const Geometry& geometry, const MMatrix& matrix) {
+    if (matrix == MMatrix::identity) return geometry.bounds;
+    auto result = geometry.bodyBounds;
+    result.transformUsing(matrix);
+    // Finのみが張り出すので、全体の箱を変換すると実際の線より広い範囲になる。
+    for (const auto& point : geometry.finPositions) result.expand(point * matrix);
+    return result;
+}
+#endif
 }

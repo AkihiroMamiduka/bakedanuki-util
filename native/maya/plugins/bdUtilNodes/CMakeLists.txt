@@ -213,6 +213,11 @@ target_compile_definitions(
     REQUIRE_IOSTREAM
 )
 
+set_property(
+    SOURCE src/nodes/BdShpLDeformableCubeSubSceneOverride.cpp
+    APPEND PROPERTY COMPILE_DEFINITIONS BD_CUBE_CACHE_DISPLAY_STATE
+)
+
 target_compile_features(bdUtilNodes PRIVATE cxx_std_17)
 
 if(MSVC)

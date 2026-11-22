@@ -1,6 +1,9 @@
 #include "bdUtilNodes/nodes/BdShpLDeformableCubeNode.h"
 #include "bdUtilNodes/nodes/FixedCubeShape.h"
 #include "bdUtilNodes/nodes/LocatorChannelBox.h"
+#ifdef BD_CUBE_PROFILE
+#include "CubeDiagnostics.h"
+#endif
 
 #include <cstring>
 
@@ -11,17 +14,28 @@
 #include <maya/MPlug.h>
 #include <maya/MViewport2Renderer.h>
 
+#ifdef BD_CUBE_RESEARCH_FIN
+const MString BdShpLDeformableCubeNode::typeName("bdShpL_DeformableCubeWithFin");
+const MTypeId BdShpLDeformableCubeNode::typeId(0x00142725);
+const MString BdShpLDeformableCubeNode::drawClassification("drawdb/subscene/bdShpL_DeformableCubeWithFin");
+const MString BdShpLDeformableCubeNode::drawRegistrantId("bdShpLDeformableCubeWithFinSubSceneOverride");
+#else
 const MString BdShpLDeformableCubeNode::typeName("bdShpL_DeformableCube");
 const MTypeId BdShpLDeformableCubeNode::typeId(0x00142723);
 const MString BdShpLDeformableCubeNode::drawClassification("drawdb/subscene/bdShpL_DeformableCube");
 const MString BdShpLDeformableCubeNode::drawRegistrantId("bdShpLDeformableCubeSubSceneOverride");
+#endif
 
 bdUtilNodes::fixedCube::ShapeAttributes BdShpLDeformableCubeNode::shapeAttributes_;
 MObject BdShpLDeformableCubeNode::shapeDeformMatrix;
 
 BdShpLDeformableCubeNode::BdShpLDeformableCubeNode() {
+#ifdef BD_CUBE_RESEARCH_FIN
+    baseGeometry_ = bdUtilNodes::fixedCube::initialGeometry();
+#else
     std::memcpy(baseGeometry_.vertices, bdUtilNodes::fixedCube::vertices, sizeof(baseGeometry_.vertices));
     baseGeometry_.bounds = bdUtilNodes::fixedCube::bounds();
+#endif
 }
 
 void* BdShpLDeformableCubeNode::creator() {
@@ -68,11 +82,19 @@ bool BdShpLDeformableCubeNode::isBounded() const {
 }
 
 MBoundingBox BdShpLDeformableCubeNode::boundingBox() const {
+#ifdef BD_CUBE_PROFILE
+    cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::bounds);
+#endif
+#ifdef BD_CUBE_RESEARCH_FIN
+    const auto geometry = baseDrawGeometry();
+    return bdUtilNodes::fixedCube::transformedBounds(geometry, shapeDrawMatrix());
+#else
     auto bounds = baseDrawGeometry().bounds;
     const auto deformMatrix = shapeDrawMatrix();
     // 基準形状の頂点は軸平行な境界の8隅にある。
     if (deformMatrix != MMatrix::identity) bounds.transformUsing(deformMatrix);
     return bounds;
+#endif
 }
 
 bool BdShpLDeformableCubeNode::excludeAsLocator() const {
@@ -143,10 +165,16 @@ std::uint64_t BdShpLDeformableCubeNode::geometryRevision() const {
 }
 
 BdShpLDeformableCubeNode::Geometry BdShpLDeformableCubeNode::baseDrawGeometry() const {
+#ifdef BD_CUBE_PROFILE
+    cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::baseGeometryAccess);
+#endif
     const std::lock_guard<std::mutex> lock(dataMutex_);
     const auto revision = geometryRevision();
     if (baseGeometry_.revision != revision) {
-        MPoint positions[8];
+#ifdef BD_CUBE_PROFILE
+        cubeResearch::profiling::Scope rebuildScope(cubeResearch::profiling::Method::baseGeometryRebuild);
+#endif
+        MPoint positions[bdUtilNodes::fixedCube::vertexCount];
         if (shapeAttributes_.readPositions(thisMObject(), positions)) {
             baseGeometry_ = bdUtilNodes::fixedCube::geometryFromPositions(positions, revision);
         }
@@ -160,6 +188,9 @@ void BdShpLDeformableCubeNode::dirtyMatrix() {
 }
 
 bool BdShpLDeformableCubeNode::readShapeMatrix(MMatrix& deformMatrix) const {
+#ifdef BD_CUBE_PROFILE
+    cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::matrixRead);
+#endif
     MStatus status;
     const auto data = MPlug(thisMObject(), shapeDeformMatrix).asMObject(&status);
     if (!status) return false;

@@ -240,10 +240,15 @@ public:
             if (descriptor.dataType() != MHWRender::MGeometry::kFloat || descriptor.dimension() != 3) return;
             auto* buffer = data.createVertexBuffer(descriptor);
             if (!buffer) return;
-            auto* values = buffer->acquire(8, true);
+            auto* values = buffer->acquire(bdUtilNodes::fixedCube::vertexCount, true);
             if (!values) return;
             std::memcpy(values, geometry_.vertices, sizeof(geometry_.vertices));
-            buffer->commit(values);
+            {
+#ifdef BD_CUBE_PROFILE
+                cubeResearch::profiling::Scope commitScope(cubeResearch::profiling::Method::geometryVertexCommit);
+#endif
+                buffer->commit(values);
+            }
             positionsReady = true;
         }
         if (!positionsReady) return;
@@ -251,9 +256,12 @@ public:
         if (indexingDirty_.load(std::memory_order_relaxed) || !buffer) {
             buffer = data.createIndexBuffer(MHWRender::MGeometry::kUnsignedInt32);
             if (!buffer) return;
-            auto* values = buffer->acquire(24, true);
+            auto* values = buffer->acquire(bdUtilNodes::fixedCube::indexCount, true);
             if (!values) return;
             std::memcpy(values, bdUtilNodes::fixedCube::indices, sizeof(bdUtilNodes::fixedCube::indices));
+#ifdef BD_CUBE_PROFILE
+            cubeResearch::profiling::Scope commitScope(cubeResearch::profiling::Method::geometryIndexCommit);
+#endif
             buffer->commit(values);
         }
         bool associated = false;
