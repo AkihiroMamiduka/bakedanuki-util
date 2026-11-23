@@ -236,7 +236,10 @@ MMatrix BdShpLDeformableCubeNode::shapeDrawMatrix(DrawMatrixCache* drawCache) co
         if (drawCache->revision == revision) return drawCache->matrix;
     } else if (!connected) {
         const std::lock_guard<std::mutex> lock(dataMutex_);
-        if (cachedMatrixRevision_ == revision) return cachedMatrix_;
+        if (cachedMatrixRevision_ == revision) {
+            if (drawCache) drawCache->revision = revision;
+            return cachedMatrix_;
+        }
     }
 
     MMatrix deformMatrix;
@@ -250,6 +253,7 @@ MMatrix BdShpLDeformableCubeNode::shapeDrawMatrix(DrawMatrixCache* drawCache) co
         if (matrixRevision_.load(std::memory_order_acquire) == revision) {
             cachedMatrix_ = deformMatrix;
             cachedMatrixRevision_ = revision;
+            if (drawCache) drawCache->revision = revision;
         }
     }
     return deformMatrix;

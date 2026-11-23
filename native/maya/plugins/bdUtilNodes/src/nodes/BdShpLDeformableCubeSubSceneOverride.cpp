@@ -15,6 +15,7 @@
 #include <maya/M3dView.h>
 #include <maya/MColor.h>
 #include <maya/MDagPath.h>
+#include <maya/MDGContext.h>
 #include <maya/MFnDagNode.h>
 #include <maya/MFrameContext.h>
 #include <maya/MHWGeometry.h>
@@ -177,13 +178,58 @@ public:
         Scope scope(Method::subSceneRequiresUpdate);
 #endif
         if (!node_) return false;
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+        matrixOnly_ = false;
+        const bool deformChanged = drawMatrixCache_.revision != 0 &&
+            drawMatrixCache_.revision != node_->shapeMatrixRevision();
+        const auto graph = graphRevision();
+        MStatus status;
+        MMatrix world;
+        const bool samePath = graph != 0 && graph == cachedPathRevision_;
+        if (samePath) world = cachedPath_.inclusiveMatrix(&status);
+        const bool haveWorld = samePath && status;
+        if (deformChanged) {
+            // 変形が続く間はパスだけを保持し、ローカル行列は変形が止まった描画で保存する。
+            canSkip_ = false;
+            localValid_ = false;
+            pending_ = readState(frame, haveWorld ? &cachedPath_ : nullptr, haveWorld ? &world : nullptr);
+            if (!haveWorld) {
+                cachedPathRevision_ = 0;
+                if (graph != 0 && pending_.path.isValid() && graph == graphRevision()) {
+                    cachedPath_ = pending_.path;
+                    cachedPathRevision_ = graph;
+                }
+            }
+        } else {
+            const bool available = ready_ && resources_ && resources_->matches(MRenderer::theRenderer()) &&
+                container.count() == 1 && node_->geometryRevision() == geometry_.revision;
+            if (available && haveWorld && localAndDisplayUnchanged(frame)) {
+                if (world == lastWorld_) return false;
+                pendingMatrix_ = cachedLocal_ * world;
+                if (pendingMatrix_ == current_.matrix) {
+                    lastWorld_ = world;
+                    return false;
+                }
+                pendingWorld_ = world;
+                pendingDisplayStyle_ = frame.getDisplayStyle();
+                pendingDisplayRevision_ = displayMonitor->displayRevision();
+                matrixOnly_ = true;
+                return true;
+            }
+            readFullState(frame, haveWorld ? &cachedPath_ : nullptr, haveWorld ? &world : nullptr, graph);
+            const bool changed = !available || !(pending_ == current_);
+            canSkip_ = !changed && cachedPathRevision_ != 0;
+            return changed;
+        }
+#else
         pending_ = readState(frame);
+#endif
         return !ready_ || !resources_ || !resources_->matches(MRenderer::theRenderer()) ||
             container.count() != 1 || !(pending_ == current_) ||
             node_->geometryRevision() != geometry_.revision;
     }
 
-    void update(MSubSceneContainer& container, const MFrameContext&) override {
+    void update(MSubSceneContainer& container, const MFrameContext& frame) override {
 #ifdef BD_CUBE_PROFILE
         Scope scope(Method::subSceneUpdate);
 #endif
@@ -202,7 +248,37 @@ public:
         if (created) item = createItem(container);
         if (!item) return;
 
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+        if (matrixOnly_) {
+            matrixOnly_ = false;
+            const auto graph = graphRevision();
+            if (ready_ && geometryReady_ && !created && container.count() == 1 &&
+                item->InternalObjectId() == lastItemId_ && graph != 0 && graph == cachedPathRevision_ &&
+                node_->geometryRevision() == geometry_.revision &&
+                drawMatrixCache_.revision == node_->shapeMatrixRevision() &&
+                displayMonitor->displayRevision() == pendingDisplayRevision_ &&
+                frame.getDisplayStyle() == pendingDisplayStyle_ && item->isEnabled() == current_.visible) {
+#ifdef BD_CUBE_PROFILE
+                Scope matrixScope(Method::subSceneSetMatrix);
+#endif
+                if (item->setMatrix(&pendingMatrix_)) {
+                    current_.matrix = pendingMatrix_;
+                    lastWorld_ = pendingWorld_;
+                } else {
+                    item->enable(false);
+                    ready_ = false;
+                    canSkip_ = false;
+                }
+                return;
+            }
+            // 判定後にコンテナや表示状態が変わった場合は、現在の状態で描画項目を構成する。
+            readFullState(frame, nullptr, nullptr, graph);
+        }
+        const bool reinitialize = created || !ready_ || item->InternalObjectId() != lastItemId_;
+#else
+        (void)frame;
         const bool reinitialize = created || !ready_;
+#endif
         const auto fail = [&]() {
             item->enable(false);
             ready_ = false;
@@ -251,6 +327,10 @@ public:
             item->setHideOnPlayback(pending_.hideOnPlayback);
         }
         if (item->isEnabled() != pending_.visible) item->enable(pending_.visible);
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+        lastItemId_ = item->InternalObjectId();
+        canSkip_ = cachedPathRevision_ != 0;
+#endif
         current_ = pending_;
         ready_ = true;
     }
@@ -284,18 +364,59 @@ private:
         return true;
     }
 
-    DrawState readState(const MFrameContext& frame) const {
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+    static std::uint64_t graphRevision() {
+        return displayMonitor && displayMonitor->ready() ? displayMonitor->graphRevision() : 0;
+    }
+
+    bool localAndDisplayUnchanged(const MFrameContext& frame) const {
+        return canSkip_ && localValid_ && drawMatrixCache_.revision == node_->shapeMatrixRevision() &&
+            MDGContext::current().isNormal() &&
+            displayCache_.canReuse(displayMonitor, frame.getDisplayStyle(),
+                [&] { return MGeometryUtilities::displayStatus(cachedPath_); });
+    }
+
+    void readFullState(const MFrameContext& frame, const MDagPath* path, const MMatrix* world,
+        std::uint64_t graph) const {
+        localValid_ = false;
+        pending_ = readState<true>(frame, path, world);
+        cachedPath_ = pending_.path;
+        cachedPathRevision_ = cachedPath_.isValid() ? graph : 0;
+    }
+#endif
+
+    template<bool cacheTransforms = false>
+    DrawState readState(const MFrameContext& frame, const MDagPath* knownPath = nullptr,
+        const MMatrix* knownWorld = nullptr) const {
 #ifdef BD_CUBE_PROFILE
         Scope scope(Method::subSceneReadState);
 #endif
         DrawState state;
         MStatus status;
-        MFnDagNode node(object_, &status);
-        if (!status || !node.getPath(state.path) || !state.path.isValid()) return state;
-        const auto parentMatrix = state.path.inclusiveMatrix(&status);
-        if (!status) return state;
-        state.matrix = node_->shapeDrawMatrix(&drawMatrixCache_) * parentMatrix;
+        if (knownPath) {
+            state.path = *knownPath;
+        } else {
+            const MFnDagNode node(object_, &status);
+            if (!status || !node.getPath(state.path) || !state.path.isValid()) {
+                state.path = MDagPath();
+                return state;
+            }
+        }
+        const auto parentMatrix = knownWorld ? *knownWorld : state.path.inclusiveMatrix(&status);
+        if (!status) {
+            state.path = MDagPath();
+            return state;
+        }
+        const auto local = node_->shapeDrawMatrix(&drawMatrixCache_);
+        state.matrix = local * parentMatrix;
+        const auto readValues = [&] { return readDisplay(state.path, MFnDagNode(object_)); };
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
+        if constexpr (cacheTransforms) {
+            lastWorld_ = parentMatrix;
+            cachedLocal_ = local;
+            localValid_ = MDGContext::current().isNormal() && drawMatrixCache_.revision != 0 &&
+                drawMatrixCache_.revision == node_->shapeMatrixRevision();
+        }
         static_cast<DisplayValues&>(state) = displayCache_.read(
             displayMonitor, state.path, frame.getDisplayStyle(), [&] {
 #ifdef BD_CUBE_PROFILE
@@ -303,11 +424,11 @@ private:
 #endif
                 // ハイライト解除など、選択コールバックを送らない変化も確認する。
                 return MGeometryUtilities::displayStatus(state.path);
-            }, [&] { return readDisplay(state.path, node); }
+            }, readValues
         );
 #else
         (void)frame;
-        static_cast<DisplayValues&>(state) = readDisplay(state.path, node);
+        static_cast<DisplayValues&>(state) = readValues();
 #endif
         return state;
     }
@@ -345,6 +466,18 @@ private:
     mutable BdShpLDeformableCubeNode::DrawMatrixCache drawMatrixCache_;
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
     mutable display::DisplayCache<DisplayValues> displayCache_;
+    mutable MDagPath cachedPath_;
+    mutable std::uint64_t cachedPathRevision_ = 0;
+    mutable MMatrix lastWorld_;
+    mutable MMatrix cachedLocal_;
+    mutable MMatrix pendingWorld_;
+    mutable MMatrix pendingMatrix_;
+    mutable std::uint64_t pendingDisplayRevision_ = 0;
+    mutable unsigned int pendingDisplayStyle_ = 0;
+    mutable bool localValid_ = false;
+    mutable bool matrixOnly_ = false;
+    MUint64 lastItemId_ = 0;
+    mutable bool canSkip_ = false;
 #endif
     bool geometryReady_ = false;
     bool ready_ = false;

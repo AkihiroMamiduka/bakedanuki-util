@@ -64,6 +64,9 @@ public:
 
     Geometry baseDrawGeometry() const;
     std::uint64_t geometryRevision() const;
+    std::uint64_t shapeMatrixRevision() const {
+        return matrixRevision_.load(std::memory_order_acquire);
+    }
     MMatrix shapeDrawMatrix(DrawMatrixCache* drawCache = nullptr) const;
 
     static const MString typeName;

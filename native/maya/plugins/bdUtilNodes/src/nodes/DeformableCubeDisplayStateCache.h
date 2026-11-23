@@ -238,6 +238,13 @@ inline bool DisplayMonitor::activateWatches(const std::vector<std::shared_ptr<No
 template <typename DisplayValues>
 class DisplayCache {
 public:
+    template <typename Probe>
+    bool canReuse(const DisplayMonitor* monitor, unsigned int displayStyle, Probe probe) const {
+        return monitor && monitor->ready() && cacheable_ && valid_ &&
+            monitor->graphRevision() == graph_ && monitor->displayRevision() == appearance_ &&
+            displayStyle == displayStyle_ && static_cast<unsigned int>(probe()) == displayStatus_;
+    }
+
     template <typename Probe, typename Read>
     DisplayValues read(DisplayMonitor* monitor, const MDagPath& path, unsigned int displayStyle,
         Probe probe, Read readDisplay) {
