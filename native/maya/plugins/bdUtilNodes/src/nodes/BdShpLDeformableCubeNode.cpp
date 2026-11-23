@@ -228,7 +228,10 @@ bool BdShpLDeformableCubeNode::readShapeMatrix(MMatrix& deformMatrix) const {
     return true;
 }
 
-MMatrix BdShpLDeformableCubeNode::shapeDrawMatrix(DrawMatrixCache* drawCache) const {
+MMatrix BdShpLDeformableCubeNode::shapeDrawMatrix(
+    DrawMatrixCache* drawCache, std::uint64_t* connectedReadRevision
+) const {
+    if (connectedReadRevision) *connectedReadRevision = 0;
     const bool connected = matrixConnected_.load(std::memory_order_acquire);
     const auto revision = matrixRevision_.load(std::memory_order_acquire);
     const bool reuseConnected = connected && drawCache && MDGContext::current().isNormal();
@@ -245,7 +248,9 @@ MMatrix BdShpLDeformableCubeNode::shapeDrawMatrix(DrawMatrixCache* drawCache) co
     MMatrix deformMatrix;
     if (!readShapeMatrix(deformMatrix)) return MMatrix::identity;
     if (reuseConnected) {
-        if (matrixRevision_.load(std::memory_order_acquire) == revision) {
+        const auto revisionAfterRead = matrixRevision_.load(std::memory_order_acquire);
+        if (connectedReadRevision) *connectedReadRevision = revisionAfterRead;
+        if (revisionAfterRead == revision) {
             *drawCache = {deformMatrix, revision};
         }
     } else if (!connected) {

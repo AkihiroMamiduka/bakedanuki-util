@@ -245,6 +245,8 @@ public:
             displayStyle == displayStyle_ && static_cast<unsigned int>(probe()) == displayStatus_;
     }
 
+    const DisplayValues& cachedValue() const { return value_; }
+
     template <typename Probe, typename Read>
     DisplayValues read(DisplayMonitor* monitor, const MDagPath& path, unsigned int displayStyle,
         Probe probe, Read readDisplay) {

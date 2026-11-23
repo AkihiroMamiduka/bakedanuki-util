@@ -67,7 +67,9 @@ public:
     std::uint64_t shapeMatrixRevision() const {
         return matrixRevision_.load(std::memory_order_acquire);
     }
-    MMatrix shapeDrawMatrix(DrawMatrixCache* drawCache = nullptr) const;
+    MMatrix shapeDrawMatrix(
+        DrawMatrixCache* drawCache = nullptr, std::uint64_t* connectedReadRevision = nullptr
+    ) const;
 
     static const MString typeName;
     static const MTypeId typeId;

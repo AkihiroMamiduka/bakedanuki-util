@@ -9,6 +9,7 @@
 
 #include <cstring>
 #include <memory>
+#include <optional>
 #include <utility>
 #include <vector>
 
@@ -150,6 +151,11 @@ struct DisplayValues {
     bool visible = false;
     bool selectable = false;
     bool hideOnPlayback = false;
+
+    bool operator==(const DisplayValues& other) const {
+        return color == other.color && visible == other.visible && selectable == other.selectable &&
+            hideOnPlayback == other.hideOnPlayback;
+    }
 };
 
 struct DrawState : DisplayValues {
@@ -157,9 +163,7 @@ struct DrawState : DisplayValues {
     MMatrix matrix;
 
     bool operator==(const DrawState& other) const {
-        return path == other.path && matrix == other.matrix && color == other.color &&
-            visible == other.visible && selectable == other.selectable &&
-            hideOnPlayback == other.hideOnPlayback;
+        return path == other.path && matrix == other.matrix && DisplayValues::operator==(other);
     }
 };
 
@@ -189,15 +193,51 @@ public:
         if (samePath) world = cachedPath_.inclusiveMatrix(&status);
         const bool haveWorld = samePath && status;
         if (deformChanged) {
-            // 変形が続く間はパスだけを保持し、ローカル行列は変形が止まった描画で保存する。
+            std::optional<MMatrix> localForThisDraw;
+            std::uint64_t connectedReadRevision = 0;
+            if (canSkip_ && haveWorld && ready_ && geometryReady_ && resources_ &&
+                resources_->matches(MRenderer::theRenderer()) && container.count() == 1 &&
+                node_->geometryRevision() == geometry_.revision &&
+                current_.path == cachedPath_ && MDGContext::current().isNormal()) {
+                const auto displayStyle = frame.getDisplayStyle();
+                const auto displayRevision = displayMonitor->displayRevision();
+                if (displayCache_.canReuse(displayMonitor, displayStyle,
+                        [&] { return MGeometryUtilities::displayStatus(cachedPath_); }) &&
+                    displayCache_.cachedValue() == current_) {
+                    const auto oldRevision = drawMatrixCache_.revision;
+                    const auto local = node_->shapeDrawMatrix(&drawMatrixCache_, &connectedReadRevision);
+                    if (drawMatrixCache_.revision != oldRevision &&
+                        drawMatrixCache_.revision == node_->shapeMatrixRevision() &&
+                        displayMonitor->displayRevision() == displayRevision &&
+                        graphRevision() == graph && frame.getDisplayStyle() == displayStyle) {
+                        pendingMatrix_ = local * world;
+                        if (pendingMatrix_ != current_.matrix) {
+                            localValid_ = false;
+                            pendingWorld_ = world;
+                            pendingDisplayStyle_ = displayStyle;
+                            pendingDisplayRevision_ = displayRevision;
+                            matrixOnly_ = true;
+                            return true;
+                        }
+                    }
+                    if (connectedReadRevision != 0) localForThisDraw.emplace(local);
+                }
+            }
+
+            // 読み取り中に世代が進んだ行列も、取得後の世代を照合してこの描画内でだけ使う。
             canSkip_ = false;
             localValid_ = false;
-            pending_ = readState(frame, haveWorld ? &cachedPath_ : nullptr, haveWorld ? &world : nullptr);
-            if (!haveWorld) {
+            const auto fallbackGraph = localForThisDraw ? graphRevision() : graph;
+            const bool reusePath = haveWorld && fallbackGraph == graph;
+            const bool reuseLocal = localForThisDraw && reusePath && MDGContext::current().isNormal() &&
+                node_->shapeMatrixRevision() == connectedReadRevision;
+            pending_ = readState(frame, reusePath ? &cachedPath_ : nullptr, reusePath ? &world : nullptr,
+                reuseLocal ? &*localForThisDraw : nullptr);
+            if (!reusePath) {
                 cachedPathRevision_ = 0;
-                if (graph != 0 && pending_.path.isValid() && graph == graphRevision()) {
+                if (fallbackGraph != 0 && pending_.path.isValid() && fallbackGraph == graphRevision()) {
                     cachedPath_ = pending_.path;
-                    cachedPathRevision_ = graph;
+                    cachedPathRevision_ = fallbackGraph;
                 }
             }
         } else {
@@ -387,7 +427,7 @@ private:
 
     template<bool cacheTransforms = false>
     DrawState readState(const MFrameContext& frame, const MDagPath* knownPath = nullptr,
-        const MMatrix* knownWorld = nullptr) const {
+        const MMatrix* knownWorld = nullptr, const MMatrix* localForThisDraw = nullptr) const {
 #ifdef BD_CUBE_PROFILE
         Scope scope(Method::subSceneReadState);
 #endif
@@ -407,7 +447,7 @@ private:
             state.path = MDagPath();
             return state;
         }
-        const auto local = node_->shapeDrawMatrix(&drawMatrixCache_);
+        const auto local = localForThisDraw ? *localForThisDraw : node_->shapeDrawMatrix(&drawMatrixCache_);
         state.matrix = local * parentMatrix;
         const auto readValues = [&] { return readDisplay(state.path, MFnDagNode(object_)); };
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
