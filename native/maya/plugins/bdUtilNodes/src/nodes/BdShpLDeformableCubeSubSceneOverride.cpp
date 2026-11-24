@@ -14,6 +14,10 @@
 #include <vector>
 
 #include <maya/M3dView.h>
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+#include <maya/MAnimControl.h>
+#include <maya/MTime.h>
+#endif
 #include <maya/MColor.h>
 #include <maya/MDagPath.h>
 #include <maya/MDGContext.h>
@@ -184,6 +188,7 @@ public:
         if (!node_) return false;
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
         matrixOnly_ = false;
+        transientRevision_ = 0;
         const bool deformChanged = drawMatrixCache_.revision != 0 &&
             drawMatrixCache_.revision != node_->shapeMatrixRevision();
         const auto graph = graphRevision();
@@ -206,8 +211,13 @@ public:
                     displayCache_.cachedValue() == current_) {
                     const auto oldRevision = drawMatrixCache_.revision;
                     const auto local = node_->shapeDrawMatrix(&drawMatrixCache_, &connectedReadRevision);
-                    if (drawMatrixCache_.revision != oldRevision &&
-                        drawMatrixCache_.revision == node_->shapeMatrixRevision() &&
+                    const auto currentRevision = node_->shapeMatrixRevision();
+                    const bool stable = drawMatrixCache_.revision != oldRevision &&
+                        drawMatrixCache_.revision == currentRevision;
+                    // 読み取り中に世代が進んだ値は、対応する `update()` までに限って使う。
+                    const bool transient = !stable && connectedReadRevision != 0 &&
+                        currentRevision == connectedReadRevision && MDGContext::current().isNormal();
+                    if ((stable || transient) &&
                         displayMonitor->displayRevision() == displayRevision &&
                         graphRevision() == graph && frame.getDisplayStyle() == displayStyle) {
                         pendingMatrix_ = local * world;
@@ -216,6 +226,10 @@ public:
                             pendingWorld_ = world;
                             pendingDisplayStyle_ = displayStyle;
                             pendingDisplayRevision_ = displayRevision;
+                            if (transient) {
+                                transientRevision_ = connectedReadRevision;
+                                transientTime_ = MAnimControl::currentTime();
+                            }
                             matrixOnly_ = true;
                             return true;
                         }
@@ -273,6 +287,10 @@ public:
 #ifdef BD_CUBE_PROFILE
         Scope scope(Method::subSceneUpdate);
 #endif
+#ifdef BD_CUBE_CACHE_DISPLAY_STATE
+        const auto transientRevision = std::exchange(transientRevision_, 0);
+        const bool matrixOnly = std::exchange(matrixOnly_, false);
+#endif
         if (!node_) return;
         auto* renderer = MRenderer::theRenderer();
         if (!resources_ || !resources_->matches(renderer)) {
@@ -289,15 +307,15 @@ public:
         if (!item) return;
 
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
-        if (matrixOnly_) {
-            matrixOnly_ = false;
+        if (matrixOnly) {
             const auto graph = graphRevision();
             if (ready_ && geometryReady_ && !created && container.count() == 1 &&
                 item->InternalObjectId() == lastItemId_ && graph != 0 && graph == cachedPathRevision_ &&
                 node_->geometryRevision() == geometry_.revision &&
-                drawMatrixCache_.revision == node_->shapeMatrixRevision() &&
                 displayMonitor->displayRevision() == pendingDisplayRevision_ &&
-                frame.getDisplayStyle() == pendingDisplayStyle_ && item->isEnabled() == current_.visible) {
+                frame.getDisplayStyle() == pendingDisplayStyle_ && item->isEnabled() == current_.visible &&
+                (transientRevision ? transientStillCurrent(frame, transientRevision)
+                                   : drawMatrixCache_.revision == node_->shapeMatrixRevision())) {
 #ifdef BD_CUBE_PROFILE
                 Scope matrixScope(Method::subSceneSetMatrix);
 #endif
@@ -312,7 +330,7 @@ public:
                 return;
             }
             // 判定後にコンテナや表示状態が変わった場合は、現在の状態で描画項目を構成する。
-            readFullState(frame, nullptr, nullptr, graph);
+            readFullState(frame, nullptr, nullptr, graphRevision());
         }
         const bool reinitialize = created || !ready_ || item->InternalObjectId() != lastItemId_;
 #else
@@ -407,6 +425,18 @@ private:
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
     static std::uint64_t graphRevision() {
         return displayMonitor && displayMonitor->ready() ? displayMonitor->graphRevision() : 0;
+    }
+
+    bool transientStillCurrent(const MFrameContext& frame, std::uint64_t revision) const {
+        if (!MDGContext::current().isNormal() || MAnimControl::currentTime() != transientTime_) return false;
+        MStatus status;
+        const auto world = cachedPath_.inclusiveMatrix(&status);
+        return status && world == pendingWorld_ &&
+            displayCache_.canReuse(displayMonitor, frame.getDisplayStyle(),
+                [&] { return MGeometryUtilities::displayStatus(cachedPath_); }) &&
+            displayCache_.cachedValue() == current_ && node_->shapeMatrixRevision() == revision &&
+            node_->geometryRevision() == geometry_.revision && graphRevision() == cachedPathRevision_ &&
+            displayMonitor->displayRevision() == pendingDisplayRevision_;
     }
 
     bool localAndDisplayUnchanged(const MFrameContext& frame) const {
@@ -516,6 +546,8 @@ private:
     mutable unsigned int pendingDisplayStyle_ = 0;
     mutable bool localValid_ = false;
     mutable bool matrixOnly_ = false;
+    mutable std::uint64_t transientRevision_ = 0;
+    mutable MTime transientTime_;
     MUint64 lastItemId_ = 0;
     mutable bool canSkip_ = false;
 #endif

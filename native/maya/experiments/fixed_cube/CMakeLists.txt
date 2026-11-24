@@ -227,6 +227,7 @@ if(BD_CUBE_RESEARCH_FIN_STUDY OR BD_CUBE_RESEARCH_DUMMY_BOOL_STUDY OR BD_CUBE_RE
                 endif()
                 if(variant STREQUAL "Cache")
                     target_compile_definitions(${target} PRIVATE BD_CUBE_CACHE_DISPLAY_STATE)
+                    target_link_libraries(${target} PRIVATE "${MAYA_LOCATION}/lib/OpenMayaAnim.lib")
                 endif()
             endforeach()
         endforeach()
