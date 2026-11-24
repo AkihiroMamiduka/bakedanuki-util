@@ -190,7 +190,8 @@ public:
         matrixOnly_ = false;
         transientRevision_ = 0;
         const bool deformChanged = drawMatrixCache_.revision != 0 &&
-            drawMatrixCache_.revision != node_->shapeMatrixRevision();
+            (drawMatrixCache_.revision != node_->shapeMatrixRevision() ||
+                !drawMatrixCache_.validAtCurrentTime());
         const auto graph = graphRevision();
         MStatus status;
         MMatrix world;
@@ -210,11 +211,13 @@ public:
                         [&] { return MGeometryUtilities::displayStatus(cachedPath_); }) &&
                     displayCache_.cachedValue() == current_) {
                     const auto oldRevision = drawMatrixCache_.revision;
-                    const auto local = node_->shapeDrawMatrix(&drawMatrixCache_, &connectedReadRevision);
+                    std::optional<MTime> publicationTime;
+                    const auto local = node_->shapeDrawMatrix(
+                        &drawMatrixCache_, &connectedReadRevision, &publicationTime);
                     const auto currentRevision = node_->shapeMatrixRevision();
                     const bool stable = drawMatrixCache_.revision != oldRevision &&
                         drawMatrixCache_.revision == currentRevision;
-                    // 読み取り中に世代が進んだ値は、対応する `update()` までに限って使う。
+                    // 評価済みの値や読み取り中に世代が進んだ値は、対応する `update()` で照合する。
                     const bool transient = !stable && connectedReadRevision != 0 &&
                         currentRevision == connectedReadRevision && MDGContext::current().isNormal();
                     if ((stable || transient) &&
@@ -232,6 +235,25 @@ public:
                             }
                             matrixOnly_ = true;
                             return true;
+                        }
+                        if (publicationTime) {
+                            const auto* item = container.find(itemName());
+                            if (item && item->InternalObjectId() == lastItemId_ &&
+                                item->isEnabled() == current_.visible &&
+                                MDGContext::current().isNormal() &&
+                                MAnimControl::currentTime() == *publicationTime &&
+                                node_->shapeMatrixRevision() == connectedReadRevision &&
+                                node_->geometryRevision() == geometry_.revision &&
+                                graphRevision() == graph &&
+                                displayMonitor->displayRevision() == displayRevision &&
+                                frame.getDisplayStyle() == displayStyle) {
+                                // 描画済みの行列と一致する時刻では、取得済みのローカル行列を引き継ぐ。
+                                drawMatrixCache_ = {local, connectedReadRevision, publicationTime};
+                                cachedLocal_ = local;
+                                lastWorld_ = world;
+                                localValid_ = true;
+                                return false;
+                            }
                         }
                     }
                     if (connectedReadRevision != 0) localForThisDraw.emplace(local);
@@ -315,7 +337,8 @@ public:
                 displayMonitor->displayRevision() == pendingDisplayRevision_ &&
                 frame.getDisplayStyle() == pendingDisplayStyle_ && item->isEnabled() == current_.visible &&
                 (transientRevision ? transientStillCurrent(frame, transientRevision)
-                                   : drawMatrixCache_.revision == node_->shapeMatrixRevision())) {
+                                   : (drawMatrixCache_.revision == node_->shapeMatrixRevision() &&
+                                       drawMatrixCache_.validAtCurrentTime()))) {
 #ifdef BD_CUBE_PROFILE
                 Scope matrixScope(Method::subSceneSetMatrix);
 #endif
@@ -441,7 +464,7 @@ private:
 
     bool localAndDisplayUnchanged(const MFrameContext& frame) const {
         return canSkip_ && localValid_ && drawMatrixCache_.revision == node_->shapeMatrixRevision() &&
-            MDGContext::current().isNormal() &&
+            drawMatrixCache_.validAtCurrentTime() && MDGContext::current().isNormal() &&
             displayCache_.canReuse(displayMonitor, frame.getDisplayStyle(),
                 [&] { return MGeometryUtilities::displayStatus(cachedPath_); });
     }
@@ -485,7 +508,8 @@ private:
             lastWorld_ = parentMatrix;
             cachedLocal_ = local;
             localValid_ = MDGContext::current().isNormal() && drawMatrixCache_.revision != 0 &&
-                drawMatrixCache_.revision == node_->shapeMatrixRevision();
+                drawMatrixCache_.revision == node_->shapeMatrixRevision() &&
+                drawMatrixCache_.validAtCurrentTime();
         }
         static_cast<DisplayValues&>(state) = displayCache_.read(
             displayMonitor, state.path, frame.getDisplayStyle(), [&] {

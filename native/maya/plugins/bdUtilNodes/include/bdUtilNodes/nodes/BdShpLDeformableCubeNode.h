@@ -5,12 +5,16 @@
 #include <atomic>
 #include <cstdint>
 #include <mutex>
+#include <optional>
 
+#include <maya/MAnimControl.h>
+#include <maya/MDGContext.h>
 #include <maya/MMatrix.h>
 #include <maya/MObject.h>
 #include <maya/MPxLocatorNode.h>
 #include <maya/MStatus.h>
 #include <maya/MString.h>
+#include <maya/MTime.h>
 #include <maya/MTypeId.h>
 
 namespace MHWRender {
@@ -28,6 +32,12 @@ public:
     struct DrawMatrixCache {
         MMatrix matrix;
         std::uint64_t revision = 0;
+        std::optional<MTime> publicationTime;
+
+        bool validAtCurrentTime() const {
+            return !publicationTime ||
+                (MDGContext::current().isNormal() && MAnimControl::currentTime() == *publicationTime);
+        }
     };
 
     BdShpLDeformableCubeNode();
@@ -68,7 +78,8 @@ public:
         return matrixRevision_.load(std::memory_order_acquire);
     }
     MMatrix shapeDrawMatrix(
-        DrawMatrixCache* drawCache = nullptr, std::uint64_t* connectedReadRevision = nullptr
+        DrawMatrixCache* drawCache = nullptr, std::uint64_t* connectedReadRevision = nullptr,
+        std::optional<MTime>* publicationTime = nullptr
     ) const;
 
     static const MString typeName;
@@ -77,6 +88,46 @@ public:
     static const MString drawRegistrantId;
 
 private:
+    class EvaluationMatrixCache {
+    public:
+        using Revision = std::atomic<std::uint64_t>;
+
+        struct Value {
+            MMatrix matrix;
+            MTime time;
+        };
+
+        class ReadScope {
+        public:
+            ReadScope(EvaluationMatrixCache& cache, bool track, bool exclusive = false);
+            ~ReadScope();
+            ReadScope(const ReadScope&) = delete;
+            ReadScope& operator=(const ReadScope&) = delete;
+
+            bool active() const { return active_; }
+
+        private:
+            EvaluationMatrixCache& cache_;
+            bool active_;
+        };
+
+        bool readActive() const;
+        bool hasPending(std::uint64_t revision) const;
+        void stage(MDataHandle data, std::uint64_t revision, const Revision& current);
+        void discard(std::uint64_t revision);
+        bool publishPending(std::uint64_t previous, const Revision& current);
+        void publishDirect(const MMatrix& deformMatrix, const MTime& time, std::uint64_t revision, const Revision& current);
+        std::optional<Value> lookup(std::uint64_t revision, const Revision& current) const;
+
+    private:
+        std::atomic<unsigned> activeReads_{0};
+        Revision pendingRevision_{0};
+        Revision publishedRevision_{0};
+        mutable std::mutex mutex_;
+        Value pending_;
+        Value published_;
+    };
+
     static bdUtilNodes::fixedCube::ShapeAttributes shapeAttributes_;
     static MObject shapeDeformMatrix;
 
@@ -87,6 +138,7 @@ private:
     std::atomic<std::uint64_t> matrixRevision_{1};
     std::atomic<bool> matrixConnected_{false};
     mutable std::mutex dataMutex_;
+    mutable EvaluationMatrixCache evaluationMatrixCache_;
     mutable Geometry baseGeometry_;
     mutable MMatrix cachedMatrix_;
     mutable std::uint64_t cachedMatrixRevision_ = 0;
