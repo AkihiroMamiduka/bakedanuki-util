@@ -19,6 +19,8 @@
 Parallel 評価や Cached Playback でのキャッシュの設計には、評価コンテキストと通知の違いも関わります。
 [DG, Parallel Evaluation, And Cached Playback](dg-parallel-cache-playback.md)
 
+コントローラーシェイプを拡張するときは、固定形状と行列変形での描画方式の使い分け、機能を追加する判断、ドラッグ・再生の比較条件を確認してください。[Cube を基にしたシェイプ開発](../experiments/fixed_cube/README.md#cube-extension-guide)
+
 ## Documents
 
 所有元とともに DG ノードを削除する場合は

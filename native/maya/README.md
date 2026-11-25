@@ -21,7 +21,7 @@ C++ node の追加・変更では、[最初に読む資料](docs/README.md#最�
 - [Testing And Debugging](docs/testing-debugging.md#dirty-propagation-tests)
 - [DG, Parallel Evaluation, And Cached Playback](docs/dg-parallel-cache-playback.md)
 - [Controller Shape](docs/controller-shape.md)
-- [固定 Cube の速度研究](experiments/fixed_cube/README.md)
+- [固定・変形 Cube の拡張指針と速度研究](experiments/fixed_cube/README.md#cube-extension-guide)
 - [bdDeleteWithOwner](docs/delete-with-owner.md)
 - [RBF Node Family And Roadmap](docs/rbf-roadmap.md)
 
@@ -84,7 +84,7 @@ Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み�
 固定 Cube と同じ軸・寸法属性で基本形状を指定し、`shapeDeformMatrix`（`sdm`）のアフィン変換を適用してから、親の DAG 階層の変換を反映します。
 既定の基本形状は各軸 `±0.5 cm`、入力行列は単位行列です。行列は直接設定でき、毎フレーム変化する上流ノードにも接続できます。
 Cached Playback では各フレームの入力行列を復元します。SubScene 描画では、接続済みの変形行列を入力の変更通知まで再利用します。評価時に取得できた行列は、時刻と世代が一致する描画でも再利用します。
-親階層の変換は描画の更新判定ごとに取得し、バウンディングボックスはその時点の入力行列から計算します。Node Editor の Custom Mode には `shapeDeformMatrix` が出ます。
+再生中に評価済み行列を使える場合は、`requiresUpdate()` でローカル行列と時刻・世代を保持し、`update()` で親のワールド行列と表示状態を確認して適用します。バウンディングボックスはその時点の入力行列から計算します。Node Editor の Custom Mode には `shapeDeformMatrix` が出ます。
 
 ```python
 from maya import cmds
