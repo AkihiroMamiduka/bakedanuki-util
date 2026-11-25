@@ -9,6 +9,7 @@
 #include <vector>
 
 #include <maya/MCallbackIdArray.h>
+#include <maya/MConditionMessage.h>
 #include <maya/MDGMessage.h>
 #include <maya/MDagMessage.h>
 #include <maya/MDagPath.h>
@@ -39,6 +40,17 @@ public:
         const auto selection = MModelMessage::addCallback(MModelMessage::kActiveListModified,
             displayChanged, this, &status);
         track(selection, status);
+        const MString playbackCondition("playingBack");
+        const auto playback = MConditionMessage::addConditionCallback(
+            playbackCondition, playbackChanged, this, &status);
+        if (status && playback != 0) {
+            callbacks_.append(playback);
+            const bool playing = MConditionMessage::getConditionState(playbackCondition, &status);
+            if (status) {
+                int expected = -1;
+                playing_.compare_exchange_strong(expected, playing ? 1 : 0, std::memory_order_acq_rel);
+            }
+        }
         constexpr const char* events[] = {
             "PreSelectionChangedTriggered", "SelectModeChanged", "SelectTypeChanged",
             "DisplayColorChanged", "DisplayRGBColorChanged", "ColorIndexChanged",
@@ -67,6 +79,7 @@ public:
     DisplayMonitor& operator=(const DisplayMonitor&) = delete;
 
     bool ready() const { return ready_; }
+    bool isPlaying() const { return playing_.load(std::memory_order_acquire) == 1; }
     std::uint64_t displayRevision() const { return displayRevision_.load(std::memory_order_acquire); }
     std::uint64_t graphRevision() const { return graphRevision_.load(std::memory_order_acquire); }
     std::shared_ptr<NodeWatch> watch(MObject object);
@@ -78,6 +91,10 @@ private:
     void track(MCallbackId id, const MStatus& status) {
         if (status) callbacks_.append(id);
         else ready_ = false;
+    }
+
+    static void playbackChanged(bool playing, void* data) {
+        static_cast<DisplayMonitor*>(data)->playing_.store(playing ? 1 : 0, std::memory_order_release);
     }
 
     static void displayChanged(void* data) {
@@ -97,6 +114,8 @@ private:
     static void connectionChanged(MPlug&, MPlug&, bool, void* data) { graphChanged(data); }
 
     MCallbackIdArray callbacks_;
+    // 状態が不明な間は通常経路を使う。
+    std::atomic<int> playing_{-1};
     std::atomic<std::uint64_t> displayRevision_{1};
     std::atomic<std::uint64_t> graphRevision_{1};
     bool ready_ = true;
@@ -238,11 +257,16 @@ inline bool DisplayMonitor::activateWatches(const std::vector<std::shared_ptr<No
 template <typename DisplayValues>
 class DisplayCache {
 public:
-    template <typename Probe>
-    bool canReuse(const DisplayMonitor* monitor, unsigned int displayStyle, Probe probe) const {
+    bool canReuseWithoutStatus(const DisplayMonitor* monitor, unsigned int displayStyle) const {
         return monitor && monitor->ready() && cacheable_ && valid_ &&
             monitor->graphRevision() == graph_ && monitor->displayRevision() == appearance_ &&
-            displayStyle == displayStyle_ && static_cast<unsigned int>(probe()) == displayStatus_;
+            displayStyle == displayStyle_;
+    }
+
+    template <typename Probe>
+    bool canReuse(const DisplayMonitor* monitor, unsigned int displayStyle, Probe probe) const {
+        return canReuseWithoutStatus(monitor, displayStyle) &&
+            static_cast<unsigned int>(probe()) == displayStatus_;
     }
 
     const DisplayValues& cachedValue() const { return value_; }

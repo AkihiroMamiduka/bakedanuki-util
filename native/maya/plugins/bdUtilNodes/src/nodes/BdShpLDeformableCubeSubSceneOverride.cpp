@@ -187,7 +187,7 @@ public:
 #endif
         if (!node_) return false;
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
-        matrixOnly_ = false;
+        matrixUpdate_ = MatrixUpdate::none;
         transientRevision_ = 0;
         const bool deformChanged = drawMatrixCache_.revision != 0 &&
             (drawMatrixCache_.revision != node_->shapeMatrixRevision() ||
@@ -196,6 +196,8 @@ public:
         MStatus status;
         MMatrix world;
         const bool samePath = graph != 0 && graph == cachedPathRevision_;
+        if (deformChanged && samePath && displayMonitor->isPlaying() &&
+            prepareDeferred(container, frame, graph)) return true;
         if (samePath) world = cachedPath_.inclusiveMatrix(&status);
         const bool haveWorld = samePath && status;
         if (deformChanged) {
@@ -233,7 +235,7 @@ public:
                                 transientRevision_ = connectedReadRevision;
                                 transientTime_ = MAnimControl::currentTime();
                             }
-                            matrixOnly_ = true;
+                            matrixUpdate_ = MatrixUpdate::ready;
                             return true;
                         }
                         if (publicationTime) {
@@ -289,7 +291,7 @@ public:
                 pendingWorld_ = world;
                 pendingDisplayStyle_ = frame.getDisplayStyle();
                 pendingDisplayRevision_ = displayMonitor->displayRevision();
-                matrixOnly_ = true;
+                matrixUpdate_ = MatrixUpdate::ready;
                 return true;
             }
             readFullState(frame, haveWorld ? &cachedPath_ : nullptr, haveWorld ? &world : nullptr, graph);
@@ -311,7 +313,7 @@ public:
 #endif
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
         const auto transientRevision = std::exchange(transientRevision_, 0);
-        const bool matrixOnly = std::exchange(matrixOnly_, false);
+        const auto matrixUpdate = std::exchange(matrixUpdate_, MatrixUpdate::none);
 #endif
         if (!node_) return;
         auto* renderer = MRenderer::theRenderer();
@@ -329,16 +331,21 @@ public:
         if (!item) return;
 
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
-        if (matrixOnly) {
+        if (matrixUpdate != MatrixUpdate::none) {
             const auto graph = graphRevision();
-            if (ready_ && geometryReady_ && !created && container.count() == 1 &&
+            const bool deferred = matrixUpdate == MatrixUpdate::deferred;
+            const bool currentItem = ready_ && geometryReady_ && !created && container.count() == 1 &&
                 item->InternalObjectId() == lastItemId_ && graph != 0 && graph == cachedPathRevision_ &&
                 node_->geometryRevision() == geometry_.revision &&
                 displayMonitor->displayRevision() == pendingDisplayRevision_ &&
-                frame.getDisplayStyle() == pendingDisplayStyle_ && item->isEnabled() == current_.visible &&
-                (transientRevision ? transientStillCurrent(frame, transientRevision)
-                                   : (drawMatrixCache_.revision == node_->shapeMatrixRevision() &&
-                                       drawMatrixCache_.validAtCurrentTime()))) {
+                frame.getDisplayStyle() == pendingDisplayStyle_ && item->isEnabled() == current_.visible;
+            const auto resolved = deferred && currentItem ? resolveDeferred(frame, transientRevision, graph)
+                                                         : DeferredResult::rejected;
+            if (resolved == DeferredResult::sameMatrix) return;
+            if (currentItem && (deferred ? resolved == DeferredResult::ready
+                : (transientRevision ? transientStillCurrent(frame, transientRevision)
+                    : (drawMatrixCache_.revision == node_->shapeMatrixRevision() &&
+                       drawMatrixCache_.validAtCurrentTime())))) {
 #ifdef BD_CUBE_PROFILE
                 Scope matrixScope(Method::subSceneSetMatrix);
 #endif
@@ -448,6 +455,68 @@ private:
 #ifdef BD_CUBE_CACHE_DISPLAY_STATE
     static std::uint64_t graphRevision() {
         return displayMonitor && displayMonitor->ready() ? displayMonitor->graphRevision() : 0;
+    }
+
+    enum class MatrixUpdate { none, ready, deferred };
+    enum class DeferredResult { rejected, sameMatrix, ready };
+
+    bool prepareDeferred(const MSubSceneContainer& container, const MFrameContext& frame,
+        std::uint64_t graph) const {
+        if (!canSkip_ || !ready_ || !geometryReady_ || !resources_ ||
+            !resources_->matches(MRenderer::theRenderer()) || container.count() != 1 ||
+            node_->geometryRevision() != geometry_.revision || !(current_.path == cachedPath_) ||
+            !MDGContext::current().isNormal()) return false;
+        const auto displayStyle = frame.getDisplayStyle();
+        const auto displayRevision = displayMonitor->displayRevision();
+        if (!displayCache_.canReuseWithoutStatus(displayMonitor, displayStyle) ||
+            !(displayCache_.cachedValue() == current_)) return false;
+
+        const auto revision = node_->shapeMatrixRevision();
+        MTime time;
+        // プラグへ読みに行かず、評価済みの接続値を取得できた時だけ保留する。
+        if (!node_->tryPublishedShapeMatrix(revision, pendingMatrix_, time)) return false;
+        if (lastDeferredTime_ && time == *lastDeferredTime_) return false;
+        if (graphRevision() != graph || displayMonitor->displayRevision() != displayRevision ||
+            node_->shapeMatrixRevision() != revision) return false;
+
+        pendingDisplayStyle_ = displayStyle;
+        pendingDisplayRevision_ = displayRevision;
+        transientRevision_ = revision;
+        transientTime_ = time;
+        lastDeferredTime_ = time;
+        // 保留中の pendingMatrix_ はローカル行列。ワールド行列と表示状態は update で取得する。
+        matrixUpdate_ = MatrixUpdate::deferred;
+        return true;
+    }
+
+    DeferredResult resolveDeferred(const MFrameContext& frame, std::uint64_t revision, std::uint64_t graph) {
+        if (!displayMonitor->isPlaying() || !MDGContext::current().isNormal() ||
+            MAnimControl::currentTime() != transientTime_ || node_->shapeMatrixRevision() != revision)
+            return DeferredResult::rejected;
+
+        MStatus status;
+        const auto world = cachedPath_.inclusiveMatrix(&status);
+        if (!status || graphRevision() != graph ||
+            !displayCache_.canReuse(displayMonitor, frame.getDisplayStyle(),
+                [&] { return MGeometryUtilities::displayStatus(cachedPath_); }) ||
+            !(displayCache_.cachedValue() == current_) ||
+            !MDGContext::current().isNormal() || MAnimControl::currentTime() != transientTime_ ||
+            node_->shapeMatrixRevision() != revision || node_->geometryRevision() != geometry_.revision ||
+            graphRevision() != graph || displayMonitor->displayRevision() != pendingDisplayRevision_ ||
+            frame.getDisplayStyle() != pendingDisplayStyle_) return DeferredResult::rejected;
+
+        const auto composite = pendingMatrix_ * world;
+        if (composite == current_.matrix) {
+            drawMatrixCache_ = {pendingMatrix_, revision, transientTime_};
+            cachedLocal_ = pendingMatrix_;
+            lastWorld_ = world;
+            localValid_ = true;
+            return DeferredResult::sameMatrix;
+        }
+        pendingWorld_ = world;
+        pendingMatrix_ = composite;
+        localValid_ = false;
+        return DeferredResult::ready;
     }
 
     bool transientStillCurrent(const MFrameContext& frame, std::uint64_t revision) const {
@@ -569,7 +638,8 @@ private:
     mutable std::uint64_t pendingDisplayRevision_ = 0;
     mutable unsigned int pendingDisplayStyle_ = 0;
     mutable bool localValid_ = false;
-    mutable bool matrixOnly_ = false;
+    mutable MatrixUpdate matrixUpdate_ = MatrixUpdate::none;
+    mutable std::optional<MTime> lastDeferredTime_;
     mutable std::uint64_t transientRevision_ = 0;
     mutable MTime transientTime_;
     MUint64 lastItemId_ = 0;

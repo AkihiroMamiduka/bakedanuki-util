@@ -277,6 +277,17 @@ bool BdShpLDeformableCubeNode::readShapeMatrix(MMatrix& deformMatrix) const {
     return status && readAffineMatrix(data, deformMatrix);
 }
 
+bool BdShpLDeformableCubeNode::tryPublishedShapeMatrix(
+    std::uint64_t revision, MMatrix& local, MTime& time
+) const {
+    if (!matrixConnected_.load(std::memory_order_acquire)) return false;
+    const auto value = evaluationMatrixCache_.lookup(revision, matrixRevision_);
+    if (!value) return false;
+    local = value->matrix;
+    time = value->time;
+    return true;
+}
+
 MMatrix BdShpLDeformableCubeNode::shapeDrawMatrix(
     DrawMatrixCache* drawCache, std::uint64_t* connectedReadRevision,
     std::optional<MTime>* publicationTime

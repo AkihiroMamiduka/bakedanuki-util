@@ -77,6 +77,7 @@ public:
     std::uint64_t shapeMatrixRevision() const {
         return matrixRevision_.load(std::memory_order_acquire);
     }
+    bool tryPublishedShapeMatrix(std::uint64_t revision, MMatrix& local, MTime& time) const;
     MMatrix shapeDrawMatrix(
         DrawMatrixCache* drawCache = nullptr, std::uint64_t* connectedReadRevision = nullptr,
         std::optional<MTime>* publicationTime = nullptr
