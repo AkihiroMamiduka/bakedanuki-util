@@ -35,6 +35,10 @@ ATTRIBUTE_SPECS = (
         for side, suffix in (("Minus", "m"), ("Plus", "p"))
     ),
     ("shapeGuideLine", "sgl", "bool", False),
+    ("shapeFin", "sfn", "bool", False),
+    ("shapeFinType", "sfnt", "enum", 0),
+    ("shapeFinHeight", "sfnh", "doubleLinear", 0.5),
+    ("shapeFinWidthScale", "sfnws", "double", 1.0),
 )
 ASYMMETRIC_LIMITS = ((1.0, 3.0), (-2.0, 4.0), (5.0, 7.0))
 DEFAULT_LIMITS = ((-0.5, 0.5),) * 3
@@ -190,7 +194,11 @@ def test_identity_and_attributes():
         assert cmds.getAttr(plug, channelBox=True)
         assert not cmds.attributeQuery(name, node=shape, connectable=True)
         assert cmds.attributeQuery(name, node=shape, storable=True)
-        if kind == "enum":
+        if name == "shapeFinType":
+            assert cmds.attributeQuery(name, node=shape, listEnum=True) == [
+                "Standard:Tapered"
+            ]
+        elif kind == "enum":
             enum = om.MFnEnumAttribute(fn.attribute(name))
             assert [enum.fieldName(value) for value in range(6)] == [
                 "+X",
@@ -200,7 +208,13 @@ def test_identity_and_attributes():
                 "+Z",
                 "-Z",
             ]
-    for name in ("shape", "shapeFill", "shapeSize", "shapeGuideLineTemplate"):
+    for name in (
+        "shape",
+        "shapeFill",
+        "shapeSize",
+        "shapeGuideLineTemplate",
+        "shapeFinTemplate",
+    ):
         assert not cmds.attributeQuery(name, node=shape, exists=True)
 
 
@@ -453,7 +467,15 @@ def test_shape_settings_reject_incoming_connections_and_keys(attribute):
 
 @pytest.mark.parametrize(
     "attribute",
-    ["shape1stAxis", "shapeBaseSpace3rdAxisMinus", "shapeGuideLine"],
+    [
+        "shape1stAxis",
+        "shapeBaseSpace3rdAxisMinus",
+        "shapeGuideLine",
+        "shapeFin",
+        "shapeFinType",
+        "shapeFinHeight",
+        "shapeFinWidthScale",
+    ],
 )
 def test_modifier_cannot_bypass_incoming_connection_restriction(attribute):
     """`MDGModifier` からも形状設定の入力接続を拒否する。"""
@@ -482,7 +504,16 @@ def test_shape_settings_can_drive_other_nodes():
             attributeType="long" if kind == "enum" else kind,
         )
         cmds.connectAttr(f"{shape}.{name}", f"{target}.{name}")
-        value = {"enum": 5, "bool": True, "doubleLinear": 2.25}[kind]
+        value = (
+            1
+            if name == "shapeFinType"
+            else {
+                "enum": 5,
+                "bool": True,
+                "doubleLinear": 2.25,
+                "double": -1.75,
+            }[kind]
+        )
         cmds.setAttr(f"{shape}.{name}", value)
         assert cmds.getAttr(f"{target}.{name}") == pytest.approx(value)
 

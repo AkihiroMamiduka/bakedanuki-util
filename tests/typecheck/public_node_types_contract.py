@@ -42,6 +42,10 @@ from bd_util.maya.node.operator.node.dag.shape._generated.bd_controller_shape im
 from bd_util.maya.node.operator.node.dag.shape._generated.bd_shp_l_cube import (
     Shape1stAxisEnumPlugOperator as CubeShape1stAxisEnumPlugOperator,
     Shape2ndAxisEnumPlugOperator as CubeShape2ndAxisEnumPlugOperator,
+    ShapeFinTypeEnumPlugOperator as CubeShapeFinTypeEnumPlugOperator,
+)
+from bd_util.maya.node.operator.node.dag.shape._generated.bd_shp_l_deformable_cube import (
+    ShapeFinTypeEnumPlugOperator as DeformableCubeShapeFinTypeEnumPlugOperator,
 )
 from bd_util.maya.node.operator.node.dag.transform.joint import Joint
 
@@ -77,6 +81,21 @@ def fixed_cube_public_node_contract() -> None:
     assert_type(shape.sgl, BoolPlugOperator)
     assert_type(shape.shapeGuideLine.get(), bool)
     shape.sgl.set(True)
+    assert_type(shape.shapeFin, BoolPlugOperator)
+    assert_type(shape.sfn, BoolPlugOperator)
+    assert_type(shape.shapeFinType, CubeShapeFinTypeEnumPlugOperator)
+    assert_type(shape.sfnt, CubeShapeFinTypeEnumPlugOperator)
+    assert_type(shape.shapeFinHeight, DoubleLinearPlugOperator)
+    assert_type(shape.sfnh, DoubleLinearPlugOperator)
+    assert_type(shape.shapeFinWidthScale, DoublePlugOperator)
+    assert_type(shape.sfnws, DoublePlugOperator)
+    assert_type(shape.shapeFin.get(), bool)
+    assert_type(shape.shapeFinHeight.get(), float)
+    assert_type(shape.shapeFinWidthScale.get(), float)
+    shape.sfn.set(True)
+    shape.sfnt.set(CubeShapeFinTypeEnumPlugOperator.TAPERED)
+    shape.sfnh.set(0.75)
+    shape.sfnws.set(-1.5)
     assert_type(shape.shapeBaseSpace1stAxisPlus.get(), float)
     shape.shapeBaseSpace1stAxisPlus.set(1.0)
     shape.sbsp1m.set(0.25)
@@ -107,6 +126,21 @@ def deformable_cube_public_node_contract() -> None:
     assert_type(shape.sgl, BoolPlugOperator)
     assert_type(shape.shapeGuideLine.get(), bool)
     shape.sgl.set(True)
+    assert_type(shape.shapeFin, BoolPlugOperator)
+    assert_type(shape.sfn, BoolPlugOperator)
+    assert_type(shape.shapeFinType, DeformableCubeShapeFinTypeEnumPlugOperator)
+    assert_type(shape.sfnt, DeformableCubeShapeFinTypeEnumPlugOperator)
+    assert_type(shape.shapeFinHeight, DoubleLinearPlugOperator)
+    assert_type(shape.sfnh, DoubleLinearPlugOperator)
+    assert_type(shape.shapeFinWidthScale, DoublePlugOperator)
+    assert_type(shape.sfnws, DoublePlugOperator)
+    assert_type(shape.shapeFin.get(), bool)
+    assert_type(shape.shapeFinHeight.get(), float)
+    assert_type(shape.shapeFinWidthScale.get(), float)
+    shape.sfn.set(True)
+    shape.sfnt.set(DeformableCubeShapeFinTypeEnumPlugOperator.TAPERED)
+    shape.sfnh.set(0.75)
+    shape.sfnws.set(-1.5)
     shape.shape1stAxis.set(shape.s1a.PLUS_X)
     shape.shape2ndAxis.set(shape.s2a.PLUS_Y)
     assert_type(

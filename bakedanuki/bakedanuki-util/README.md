@@ -318,6 +318,18 @@ cmds.select(ctrl)
 境界の大きさは変わりません。NodeOperator では `shape.shapeGuideLine.set(True)` または `shape.sgl.set(True)` を使い、
 最後に `mod.do_it_dg()` で反映します。ガイドだけのテンプレート表示はありません。
 
+固定 Cube と変形対応 Cube は、次の静的属性で Fin を1枚追加できます。Channel Box で直接編集でき、Fin の線からも本体を選択できます。
+
+| 属性 | 短縮名 | 型・既定値 | 効果 |
+| --- | --- | --- | --- |
+| `shapeFin` | `sfn` | bool・`False` | 第2軸の Plus 面に Fin を表示する |
+| `shapeFinType` | `sfnt` | enum・`Standard` (0) | `Standard` は第1軸に平行な上辺を持ち、`Tapered` (1) は既定の向きで第1軸の Plus 側へ低くなる |
+| `shapeFinHeight` | `sfnh` | doubleLinear・0.5 cm | 面からの張り出し量。負値は同じ面から内向きに伸び、0で Fin を省略する |
+| `shapeFinWidthScale` | `sfnws` | double・1.0 | 本体の第1軸幅に対する倍率。負値で傾きが反転し、0では高さ方向の線になる |
+
+Fin は第3軸の中央に置きます。軸や本体寸法を編集すると付け根と幅が追従し、指定した高さを保ちます。
+Fin とガイドは同時に表示できます。ガイドは本体の面中央まで伸び、シェイプの境界は Fin の先端まで含みます。
+
 形状選択や Fill 切替はありません。通常の移動・回転・拡縮は親 transform で操作し、pivot・shear などを含む
 親 DAG 階層の最終行列を反映します。継承属性の `localPosition` / `localScale` は
 形状へ適用しません。チャンネルボックスでは `localPositionX/Y/Z` と `localScaleX/Y/Z` を非表示にします。
@@ -334,7 +346,7 @@ Maya 2026 / 2027 の GUI 描画と性能は未検証です。
 
 ### 変形対応 Cube
 
-`bdShpL_DeformableCube` は、固定 Cube と同じ軸・寸法8属性と `shapeGuideLine` で基本形状を決め、`shapeDeformMatrix`（`sdm`）で変形できる線シェイプです。
+`bdShpL_DeformableCube` は固定 Cube と同じ軸・寸法・ガイド・Fin の設定を持ち、`shapeDeformMatrix`（`sdm`）で線全体を変形できます。
 既定値は単位行列です。直接設定するか、変形を制御する行列出力を接続します。
 基本形状に入力のアフィン変換を適用し、その結果を親の DAG 階層で変換します。SubScene で描画し、Cached Playback の各フレームでも変形を反映します。
 独立した DAG ノードのオブジェクト選択に対応しています。

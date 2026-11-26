@@ -82,7 +82,7 @@ private:
     static constexpr std::uint64_t kAnimationConnected = std::uint64_t{1} << 63;
 
     struct AnimationGeometry {
-        MPoint basePositions[8];
+        MPoint basePositions[bdUtilNodes::fixedCube::vertexCount];
         MMatrix matrix;
         Geometry transformed;
         bool useTransformed = false;

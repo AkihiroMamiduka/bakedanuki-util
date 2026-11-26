@@ -103,16 +103,8 @@ MBoundingBox BdShpLDeformableCubeNode::boundingBox() const {
 #ifdef BD_CUBE_PROFILE
     cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::bounds);
 #endif
-#ifdef BD_CUBE_RESEARCH_FIN
     const auto geometry = baseDrawGeometry();
     return bdUtilNodes::fixedCube::transformedBounds(geometry, shapeDrawMatrix());
-#else
-    auto bounds = baseDrawGeometry().bounds;
-    const auto deformMatrix = shapeDrawMatrix();
-    // 基準形状の頂点は軸平行な境界の8隅にある。
-    if (deformMatrix != MMatrix::identity) bounds.transformUsing(deformMatrix);
-    return bounds;
-#endif
 }
 
 bool BdShpLDeformableCubeNode::excludeAsLocator() const {
@@ -256,9 +248,11 @@ BdShpLDeformableCubeNode::Geometry BdShpLDeformableCubeNode::baseDrawGeometry() 
         cubeResearch::profiling::Scope rebuildScope(cubeResearch::profiling::Method::baseGeometryRebuild);
 #endif
         MPoint positions[bdUtilNodes::fixedCube::vertexCount];
-        bool guideLine;
-        if (shapeAttributes_.readPositions(thisMObject(), positions, guideLine)) {
-            baseGeometry_ = bdUtilNodes::fixedCube::geometryFromPositions(positions, revision, guideLine);
+        MPoint finPositions[bdUtilNodes::fixedCube::finVertexCount];
+        bool guideLine, fin;
+        if (shapeAttributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin)) {
+            baseGeometry_ = bdUtilNodes::fixedCube::geometryFromPositions(
+                positions, revision, guideLine, fin ? finPositions : nullptr);
         }
     }
     return baseGeometry_;

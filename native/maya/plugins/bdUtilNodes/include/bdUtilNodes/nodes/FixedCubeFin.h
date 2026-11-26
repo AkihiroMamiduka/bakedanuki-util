@@ -7,15 +7,12 @@
 
 #include <algorithm>
 
-#include <maya/MVector.h>
-
-#ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
 #include <maya/MDistance.h>
 #include <maya/MFnEnumAttribute.h>
 #include <maya/MFnNumericAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MPlug.h>
-#endif
+#include <maya/MVector.h>
 
 namespace bdUtilNodes::fixedCube {
 
@@ -34,9 +31,8 @@ inline void writeFinPositions(
     const auto face = MPoint::origin + second * endpoints[1][1] +
         third * ((endpoints[2][0] + endpoints[2][1]) * 0.5);
     if (fin.height == 0.0) {
-        // 高さ0では退化した線分として同じ頂点数とインデックスを使う。
-        const auto root = face + first * center;
-        std::fill_n(points, vertexCount - bodyVertexCount, root);
+        // 高さ0では本体内の一点へ縮退させ、幅設定によって境界を広げない。
+        std::fill_n(points, finVertexCount, face + first * center);
         return;
     }
 
@@ -53,7 +49,6 @@ inline void writeFinPositions(
     points[3] = face + first * rootEnd;
 }
 
-#ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
 struct FinAttributes {
     MObject type;
     MObject height;
@@ -93,6 +88,5 @@ struct FinAttributes {
         return status;
     }
 };
-#endif
 
 }  // namespace bdUtilNodes::fixedCube

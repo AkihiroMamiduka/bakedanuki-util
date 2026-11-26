@@ -113,9 +113,9 @@ public:
 #endif
         if (!node_ || node_->geometryRevision() == geometryRevision_.load(std::memory_order_relaxed)) return;
         const auto geometry = node_->geometry();
-        const bool topologyChanged = geometry.guideLine != geometry_.guideLine;
+        const bool topologyChanged = !bdUtilNodes::fixedCube::sameDrawTopology(geometry, geometry_);
         if (topologyChanged) indexingDirty_.store(true, std::memory_order_relaxed);
-        if (topologyChanged || std::memcmp(geometry.vertices, geometry_.vertices, sizeof(geometry.vertices)) != 0) {
+        if (topologyChanged || !bdUtilNodes::fixedCube::sameDrawVertices(geometry, geometry_)) {
             geometryDirty_.store(true, std::memory_order_relaxed);
         }
         geometry_ = geometry;
@@ -242,9 +242,9 @@ public:
             if (descriptor.dataType() != MHWRender::MGeometry::kFloat || descriptor.dimension() != 3) return;
             auto* buffer = data.createVertexBuffer(descriptor);
             if (!buffer) return;
-            auto* values = buffer->acquire(bdUtilNodes::fixedCube::drawVertexCount(geometry_.guideLine), true);
+            auto* values = buffer->acquire(bdUtilNodes::fixedCube::drawVertexCount(geometry_), true);
             if (!values) return;
-            bdUtilNodes::fixedCube::writeDrawVertices(geometry_.vertices, geometry_.guideLine, values);
+            bdUtilNodes::fixedCube::writeDrawVertices(geometry_, values);
             {
 #ifdef BD_CUBE_PROFILE
                 cubeResearch::profiling::Scope commitScope(cubeResearch::profiling::Method::geometryVertexCommit);
@@ -258,9 +258,9 @@ public:
         if (indexingDirty_.load(std::memory_order_relaxed) || !buffer) {
             if (!buffer) buffer = data.createIndexBuffer(MHWRender::MGeometry::kUnsignedInt32);
             if (!buffer) return;
-            auto* values = buffer->acquire(bdUtilNodes::fixedCube::drawIndexCount(geometry_.guideLine), true);
+            auto* values = buffer->acquire(bdUtilNodes::fixedCube::drawIndexCount(geometry_), true);
             if (!values) return;
-            bdUtilNodes::fixedCube::writeDrawIndices(geometry_.guideLine, values);
+            bdUtilNodes::fixedCube::writeDrawIndices(geometry_, values);
 #ifdef BD_CUBE_PROFILE
             cubeResearch::profiling::Scope commitScope(cubeResearch::profiling::Method::geometryIndexCommit);
 #endif

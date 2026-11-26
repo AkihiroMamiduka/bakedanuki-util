@@ -174,6 +174,7 @@ print(bd_util.__file__)
 通常の Maya Module 設定で `cmds.loadPlugin("bdUtilNodes")` を実行して使用できます。
 軸と各面の位置を8個の静的な属性で調整でき、通常の動きは親 transform で操作します。
 `shapeGuideLine`（`sgl`、既定 `False`）で、対向面の中央を結ぶ3本のガイド線を表示できます。
+`shapeFin`（`sfn`、既定 `False`）を有効にすると、第2軸の Plus 面に通常線の Fin を1枚追加できます。
 [作成例と対応範囲](bakedanuki-util/README.md#固定-cube)を参照してください。
 
 ## Package Docs

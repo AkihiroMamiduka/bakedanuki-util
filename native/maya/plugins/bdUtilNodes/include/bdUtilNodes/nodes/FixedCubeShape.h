@@ -1,12 +1,10 @@
 #pragma once
 
 #include "bdUtilNodes/draw/FixedCubeGeometry.h"
+#include "bdUtilNodes/nodes/FixedCubeFin.h"
 #include "bdUtilNodes/nodes/SignedShapeAxes.h"
 #ifdef BD_CUBE_PROFILE
 #include "CubeDiagnostics.h"
-#endif
-#ifdef BD_CUBE_RESEARCH_FIN
-#include "CubeFinSettings.h"
 #endif
 
 #include <initializer_list>
@@ -25,7 +23,10 @@ struct ShapeAttributes {
     MObject secondAxis;
     MObject limits[3][2];
     MObject guideLine;
-#ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
+#ifndef BD_CUBE_RESEARCH_FIN
+    MObject fin;
+#endif
+#if !defined(BD_CUBE_RESEARCH_FIN) || defined(BD_CUBE_RESEARCH_FIN_ATTRIBUTES)
     FinAttributes finAttributes;
 #endif
 
@@ -68,7 +69,13 @@ struct ShapeAttributes {
             status = addStaticAttribute(attribute);
             if (!status) return status;
         }
-#ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
+#ifndef BD_CUBE_RESEARCH_FIN
+        fin = numeric.create("shapeFin", "sfn", MFnNumericData::kBoolean, false, &status);
+        if (!status) return status;
+        status = addStaticAttribute(fin);
+        if (!status) return status;
+#endif
+#if !defined(BD_CUBE_RESEARCH_FIN) || defined(BD_CUBE_RESEARCH_FIN_ATTRIBUTES)
         status = finAttributes.create();
         if (!status) return status;
         for (const auto& attribute : {finAttributes.type, finAttributes.height, finAttributes.widthScale}) {
@@ -89,7 +96,9 @@ struct ShapeAttributes {
             attribute == limits[0][1] || attribute == limits[0][0] ||
             attribute == limits[1][1] || attribute == limits[1][0] ||
             attribute == limits[2][1] || attribute == limits[2][0] || attribute == guideLine;
-#ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
+#ifndef BD_CUBE_RESEARCH_FIN
+        return bodyAttribute || attribute == fin || finAttributes.contains(attribute);
+#elif defined(BD_CUBE_RESEARCH_FIN_ATTRIBUTES)
         return bodyAttribute || finAttributes.contains(attribute);
 #else
         return bodyAttribute;
@@ -97,7 +106,9 @@ struct ShapeAttributes {
 #endif
     }
 
-    bool readPositions(const MObject& object, MPoint (&positions)[vertexCount], bool& drawGuideLine) const {
+    bool readPositions(const MObject& object, MPoint (&positions)[vertexCount], bool& drawGuideLine,
+        MPoint (&finPositions)[finVertexCount], bool& drawFin) const {
+        drawFin = false;
 #ifdef BD_CUBE_RESEARCH_FIXED_BASE
         (void)object;
         drawGuideLine = false;
@@ -108,7 +119,7 @@ struct ShapeAttributes {
         short first;
         short second;
         double endpoints[3][2];
-        if (!readBaseSettings(object, first, second, endpoints, drawGuideLine)) return false;
+        if (!readBaseSettings(object, first, second, endpoints, drawGuideLine, drawFin)) return false;
 #endif
         const auto axes = resolveSignedShapeAxes(first, second);
         const auto firstVector = axes.first.vector();
@@ -126,6 +137,15 @@ struct ShapeAttributes {
         if (!finAttributes.read(object, fin)) return false;
 #endif
         writeFinPositions(positions + bodyVertexCount, fin, firstVector, secondVector, thirdVector, endpoints);
+#elif !defined(BD_CUBE_RESEARCH_FIXED_BASE)
+        if (drawFin) {
+            FinSettings settings;
+            if (!finAttributes.read(object, settings)) return false;
+            drawFin = settings.height != 0.0;
+            if (drawFin) {
+                writeFinPositions(finPositions, settings, firstVector, secondVector, thirdVector, endpoints);
+            }
+        }
 #endif
         return true;
     }
@@ -133,7 +153,7 @@ struct ShapeAttributes {
 private:
 #ifndef BD_CUBE_RESEARCH_FIXED_BASE
     bool readBaseSettings(const MObject& object, short& first, short& second,
-        double (&endpoints)[3][2], bool& drawGuideLine) const {
+        double (&endpoints)[3][2], bool& drawGuideLine, bool& drawFin) const {
 #ifdef BD_CUBE_PROFILE
         cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::baseShapeRead);
 #endif
@@ -152,6 +172,12 @@ private:
         }
         drawGuideLine = MPlug(object, guideLine).asBool(&status);
         if (!status) return false;
+#ifndef BD_CUBE_RESEARCH_FIN
+        drawFin = MPlug(object, fin).asBool(&status);
+        if (!status) return false;
+#else
+        (void)drawFin;
+#endif
         return true;
     }
 #endif

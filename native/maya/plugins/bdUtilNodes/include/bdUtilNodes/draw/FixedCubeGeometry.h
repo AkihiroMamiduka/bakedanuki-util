@@ -2,19 +2,24 @@
 
 #include <cstdint>
 #include <cstring>
+#include <memory>
+#include <utility>
 
 #include <maya/MBoundingBox.h>
 #include <maya/MPoint.h>
-#ifdef BD_CUBE_RESEARCH_FIN
 #include <maya/MMatrix.h>
-#endif
 
 namespace bdUtilNodes::fixedCube {
 inline constexpr unsigned int bodyVertexCount = 8;
-#ifdef BD_CUBE_RESEARCH_FIN
+inline constexpr unsigned int finVertexCount = 4;
+inline constexpr unsigned int finIndices[] = {0, 1, 1, 2, 2, 3};
+inline constexpr unsigned int finIndexCount = sizeof(finIndices) / sizeof(finIndices[0]);
 inline constexpr double defaultFinHeight = 0.5;
 inline constexpr double defaultFinWidthScale = 1.0;
-#endif
+inline constexpr float defaultFinVertices[finVertexCount][3] = {
+    {-0.5f, 0.5f, 0.0f}, {-0.5f, 1.0f, 0.0f},
+    {0.5f, 1.0f, 0.0f}, {0.5f, 0.5f, 0.0f},
+};
 inline constexpr float vertices[][3] = {
     {-0.5f, -0.5f, -0.5f}, {0.5f, -0.5f, -0.5f},
     {0.5f, 0.5f, -0.5f}, {-0.5f, 0.5f, -0.5f},
@@ -73,6 +78,12 @@ inline MBoundingBox bounds() {
 #endif
 }
 
+struct FinGeometry {
+    float vertices[finVertexCount][3];
+    MPoint positions[finVertexCount];
+    MBoundingBox bodyBounds;
+};
+
 struct Geometry {
     float vertices[vertexCount][3];
     MBoundingBox bounds;
@@ -82,10 +93,12 @@ struct Geometry {
     MBoundingBox bodyBounds;
     MPoint finPositions[vertexCount - bodyVertexCount];
 #endif
+    std::shared_ptr<const FinGeometry> fin;
 };
 
 inline Geometry geometryFromPositions(
-    const MPoint (&positions)[vertexCount], std::uint64_t revision, bool guideLine = false
+    const MPoint (&positions)[vertexCount], std::uint64_t revision, bool guideLine = false,
+    const MPoint* finPositions = nullptr
 ) {
     Geometry result;
     for (unsigned int i = 0; i < vertexCount; ++i) {
@@ -101,25 +114,94 @@ inline Geometry geometryFromPositions(
     }
     result.revision = revision;
     result.guideLine = guideLine;
+    if (finPositions) {
+        auto fin = std::make_shared<FinGeometry>();
+        fin->bodyBounds = result.bounds;
+        for (unsigned int i = 0; i < finVertexCount; ++i) {
+            fin->positions[i] = finPositions[i];
+            result.bounds.expand(finPositions[i]);
+            for (unsigned int axis = 0; axis < 3; ++axis) {
+                fin->vertices[i][axis] = static_cast<float>(finPositions[i][axis]);
+            }
+        }
+        result.fin = std::move(fin);
+    }
     return result;
 }
 
-#ifdef BD_CUBE_RESEARCH_FIN
-inline Geometry initialGeometry() {
+inline Geometry defaultDrawGeometry(bool guideLine, bool fin) {
     MPoint positions[vertexCount];
     for (unsigned int i = 0; i < vertexCount; ++i) {
         positions[i] = MPoint(vertices[i][0], vertices[i][1], vertices[i][2]);
     }
-    return geometryFromPositions(positions, 0);
+    MPoint finPositions[finVertexCount];
+    if (fin) {
+        for (unsigned int i = 0; i < finVertexCount; ++i) {
+            finPositions[i] = MPoint(defaultFinVertices[i][0], defaultFinVertices[i][1], defaultFinVertices[i][2]);
+        }
+    }
+    return geometryFromPositions(positions, 0, guideLine, fin ? finPositions : nullptr);
+}
+
+inline Geometry initialGeometry() {
+    return defaultDrawGeometry(false, false);
+}
+
+inline unsigned int drawVertexCount(const Geometry& geometry) {
+    return drawVertexCount(geometry.guideLine) + (geometry.fin ? finVertexCount : 0);
+}
+
+inline unsigned int drawIndexCount(const Geometry& geometry) {
+    return drawIndexCount(geometry.guideLine) + (geometry.fin ? finIndexCount : 0);
+}
+
+inline void writeDrawVertices(const Geometry& geometry, void* destination) {
+    writeDrawVertices(geometry.vertices, geometry.guideLine, destination);
+    if (geometry.fin) {
+        auto* values = static_cast<float*>(destination) + drawVertexCount(geometry.guideLine) * 3;
+        std::memcpy(values, geometry.fin->vertices, sizeof(geometry.fin->vertices));
+    }
+}
+
+inline void writeDrawIndices(const Geometry& geometry, void* destination) {
+    writeDrawIndices(geometry.guideLine, destination);
+    if (geometry.fin) {
+        auto* values = static_cast<unsigned int*>(destination) + drawIndexCount(geometry.guideLine);
+        const auto start = drawVertexCount(geometry.guideLine);
+        for (unsigned int i = 0; i < finIndexCount; ++i) values[i] = start + finIndices[i];
+    }
+}
+
+inline bool sameDrawTopology(const Geometry& left, const Geometry& right) {
+    return left.guideLine == right.guideLine && static_cast<bool>(left.fin) == static_cast<bool>(right.fin);
+}
+
+inline bool sameDrawVertices(const Geometry& left, const Geometry& right) {
+    return std::memcmp(left.vertices, right.vertices, sizeof(left.vertices)) == 0 &&
+        static_cast<bool>(left.fin) == static_cast<bool>(right.fin) &&
+        (!left.fin || std::memcmp(left.fin->vertices, right.fin->vertices, sizeof(left.fin->vertices)) == 0);
+}
+
+inline bool hasDefaultDrawVertices(const Geometry& geometry) {
+    return std::memcmp(geometry.vertices, vertices, sizeof(vertices)) == 0 &&
+        (!geometry.fin || std::memcmp(geometry.fin->vertices, defaultFinVertices, sizeof(defaultFinVertices)) == 0);
 }
 
 inline MBoundingBox transformedBounds(const Geometry& geometry, const MMatrix& matrix) {
     if (matrix == MMatrix::identity) return geometry.bounds;
+#ifdef BD_CUBE_RESEARCH_FIN
     auto result = geometry.bodyBounds;
+#else
+    auto result = geometry.fin ? geometry.fin->bodyBounds : geometry.bounds;
+#endif
     result.transformUsing(matrix);
     // Finのみが張り出すので、全体の箱を変換すると実際の線より広い範囲になる。
+#ifdef BD_CUBE_RESEARCH_FIN
     for (const auto& point : geometry.finPositions) result.expand(point * matrix);
+#endif
+    if (geometry.fin) {
+        for (const auto& point : geometry.fin->positions) result.expand(point * matrix);
+    }
     return result;
 }
-#endif
 }

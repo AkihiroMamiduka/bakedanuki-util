@@ -21,11 +21,11 @@ namespace cube = bdUtilNodes::fixedCube;
 
 struct CubeDrawData final : MUserData {
     MPointArray points;
+    MUintArray indices;
     MColor color;
     std::uint64_t revision = 0;
     bool visible = false;
     bool selectable = false;
-    bool guideLine = false;
 };
 
 class CubeDrawOverride final : public MPxDrawOverride {
@@ -78,15 +78,17 @@ public:
 
         if (data->points.length() == 0 || data->revision != node_->geometryRevision()) {
             const auto geometry = baseGeometry();
-            float vertices[cube::drawVertexCount(true)][3];
-            cube::writeDrawVertices(geometry.vertices, geometry.guideLine, vertices);
-            data->points.setLength(cube::drawVertexCount(geometry.guideLine));
+            float vertices[cube::drawVertexCount(true) + cube::finVertexCount][3];
+            cube::writeDrawVertices(geometry, vertices);
+            data->points.setLength(cube::drawVertexCount(geometry));
             for (unsigned int i = 0; i < data->points.length(); ++i) {
                 const auto& point = vertices[i];
                 data->points[i] = MPoint(point[0], point[1], point[2]);
             }
             data->revision = geometry.revision;
-            data->guideLine = geometry.guideLine;
+            unsigned int indices[cube::drawIndexCount(true) + cube::finIndexCount];
+            cube::writeDrawIndices(geometry, indices);
+            data->indices = MUintArray(indices, cube::drawIndexCount(geometry));
         }
         return data;
     }
@@ -99,20 +101,10 @@ public:
         if (!data || !data->visible ||
             (frameContext.objectTypeExclusions() & MFrameContext::kExcludePluginShapes)) return;
 
-        static const MUintArray bodyIndices(cube::indices, cube::indexCount);
-        const auto* lineIndices = &bodyIndices;
-        if (data->guideLine) {
-            static const MUintArray guideIndices = [] {
-                unsigned int values[cube::drawIndexCount(true)];
-                cube::writeDrawIndices(true, values);
-                return MUintArray(values, cube::drawIndexCount(true));
-            }();
-            lineIndices = &guideIndices;
-        }
         drawManager.beginDrawable(data->selectable ? MUIDrawManager::kSelectable : MUIDrawManager::kNonSelectable);
         drawManager.setColor(data->color);
         drawManager.setDepthPriority(MRenderItem::sDormantWireDepthPriority);
-        drawManager.mesh(MUIDrawManager::kLines, data->points, nullptr, nullptr, lineIndices);
+        drawManager.mesh(MUIDrawManager::kLines, data->points, nullptr, nullptr, &data->indices);
         drawManager.endDrawable();
     }
 

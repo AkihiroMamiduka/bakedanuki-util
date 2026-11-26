@@ -178,14 +178,15 @@ bool BdShpLCubeNode::updateBaseGeometry(std::uint64_t revision) const {
     cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::baseGeometryRebuild);
 #endif
     MPoint positions[bdUtilNodes::fixedCube::vertexCount];
-    bool guideLine;
-    if (!shapeAttributes_.readPositions(thisMObject(), positions, guideLine)) return false;
+    MPoint finPositions[bdUtilNodes::fixedCube::finVertexCount];
+    bool guideLine, fin;
+    if (!shapeAttributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin)) return false;
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     if (animation_) {
-        for (unsigned int i = 0; i < 8; ++i) animation_->basePositions[i] = positions[i];
+        for (unsigned int i = 0; i < bdUtilNodes::fixedCube::vertexCount; ++i) animation_->basePositions[i] = positions[i];
     }
 #endif
-    geometry_ = bdUtilNodes::fixedCube::geometryFromPositions(positions, revision, guideLine);
+    geometry_ = bdUtilNodes::fixedCube::geometryFromPositions(positions, revision, guideLine, fin ? finPositions : nullptr);
     return true;
 }
 
@@ -216,17 +217,18 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometryWithAnimationMatrix(std::uint64
 #ifdef BD_CUBE_PROFILE
         cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::geometryRebuild);
 #endif
-        Geometry result;
-        for (unsigned int i = 0; i < 8; ++i) {
-            const auto point = animation_->basePositions[i] * animationMatrix;
-            result.bounds.expand(point);
-            for (unsigned int axis = 0; axis < 3; ++axis) {
-                result.vertices[i][axis] = static_cast<float>(point[axis]);
+        MPoint positions[bdUtilNodes::fixedCube::vertexCount];
+        for (unsigned int i = 0; i < bdUtilNodes::fixedCube::vertexCount; ++i) {
+            positions[i] = animation_->basePositions[i] * animationMatrix;
+        }
+        MPoint finPositions[bdUtilNodes::fixedCube::finVertexCount];
+        if (geometry_.fin) {
+            for (unsigned int i = 0; i < bdUtilNodes::fixedCube::finVertexCount; ++i) {
+                finPositions[i] = geometry_.fin->positions[i] * animationMatrix;
             }
         }
-        result.revision = revision;
-        result.guideLine = geometry_.guideLine;
-        animation_->transformed = result;
+        animation_->transformed = bdUtilNodes::fixedCube::geometryFromPositions(
+            positions, revision, geometry_.guideLine, geometry_.fin ? finPositions : nullptr);
         animation_->matrix = animationMatrix;
     }
     animation_->useTransformed = true;

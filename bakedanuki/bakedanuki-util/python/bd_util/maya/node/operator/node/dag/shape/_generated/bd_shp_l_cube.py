@@ -14,6 +14,7 @@ from .....attr.define.std.at.scalar.enum import (
 )
 from .....attr.define.std.at.message import MessageField
 from .....attr.define.std.at.scalar.numeric.bool import BoolField
+from .....attr.define.std.at.scalar.numeric.range.double import DoubleField
 from .....attr.define.std.at.scalar.numeric.range.float import FloatField
 from .....attr.define.std.at.scalar.numeric.range.long import LongField
 from .....attr.define.std.at.scalar.numeric.range.short import ShortField
@@ -108,6 +109,38 @@ class Shape2ndAxisEnumField(
 
     ATTR_CLS = Shape2ndAxisEnumAttrOperator
     PLUG_CLS = Shape2ndAxisEnumPlugOperator
+
+
+class ShapeFinTypeEnumPlugOperator(
+    EnumPlugOperator["ShapeFinTypeEnumAttrOperator"]
+):
+    __slots__ = ()
+
+    STANDARD = 0
+    TAPERED = 1
+
+
+class ShapeFinTypeEnumAttrOperator(
+    EnumAttrOperator[ShapeFinTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    STANDARD = 0
+    TAPERED = 1
+
+    NAME_MAP = {
+        STANDARD: "Standard",
+        TAPERED: "Tapered",
+    }
+
+
+class ShapeFinTypeEnumField(
+    EnumField[ShapeFinTypeEnumAttrOperator, ShapeFinTypeEnumPlugOperator]
+):
+    __slots__ = ()
+
+    ATTR_CLS = ShapeFinTypeEnumAttrOperator
+    PLUG_CLS = ShapeFinTypeEnumPlugOperator
 
 
 class GeneratedBdShpLCube(Shape):
@@ -256,3 +289,15 @@ class GeneratedBdShpLCube(Shape):
 
     shapeGuideLine = BoolField(default_value=False)
     sgl = shapeGuideLine
+
+    shapeFin = BoolField(default_value=False)
+    sfn = shapeFin
+
+    shapeFinType = ShapeFinTypeEnumField(default_value=0)
+    sfnt = shapeFinType
+
+    shapeFinHeight = DoubleLinearField(default_value=0.5)
+    sfnh = shapeFinHeight
+
+    shapeFinWidthScale = DoubleField(default_value=1.0)
+    sfnws = shapeFinWidthScale
