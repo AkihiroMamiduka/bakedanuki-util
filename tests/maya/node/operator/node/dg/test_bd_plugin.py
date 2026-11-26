@@ -166,6 +166,27 @@ def test_deformable_cube_public_type_and_matrix_input(
     assert not maya_cmds.attributeQuery(
         "shapeBaseSpace1stAxisPlus", node=shape.full_path, connectable=True
     )
+    assert shape.shapeGuideLine.get() is False
+    assert shape.sgl.get() is False
+    assert (
+        maya_cmds.attributeQuery(
+            "shapeGuideLine", node=shape.full_path, shortName=True
+        )
+        == "sgl"
+    )
+    guide_plug = f"{shape.full_path}.shapeGuideLine"
+    assert maya_cmds.getAttr(guide_plug, type=True) == "bool"
+    assert not maya_cmds.getAttr(guide_plug, keyable=True)
+    assert maya_cmds.getAttr(guide_plug, channelBox=True)
+    assert not maya_cmds.attributeQuery(
+        "shapeGuideLine", node=shape.full_path, connectable=True
+    )
+    assert maya_cmds.attributeQuery(
+        "shapeGuideLine", node=shape.full_path, storable=True
+    )
+    assert not maya_cmds.attributeQuery(
+        "shapeGuideLineTemplate", node=shape.full_path, exists=True
+    )
 
     matrix = maya_om.MTransformationMatrix()
     matrix.setTranslation(
@@ -175,7 +196,10 @@ def test_deformable_cube_public_type_and_matrix_input(
     edit_nodes = bdu.Nodes(modifier_manager=edit_mod)
     edit_shape = edit_nodes.existing.bdShpL_DeformableCube(shape.full_path)
     edit_shape.shapeDeformMatrix.set(matrix.asMatrix())
+    edit_shape.sgl.set(True)
+    assert shape.shapeGuideLine.get() is False
     edit_mod.do_it_dg()
+    assert shape.shapeGuideLine.get() is True
     assert _local_bounds(maya_om, shape.full_path) == (
         1.5,
         -0.5,
@@ -186,6 +210,96 @@ def test_deformable_cube_public_type_and_matrix_input(
     )
     edit_mod.undo_it()
     assert _local_bounds(maya_om, shape.full_path) == _CUBE_BOUNDS
+    assert shape.shapeGuideLine.get() is False
+    edit_mod.redo_it()
+    assert shape.shapeGuideLine.get() is True
+    assert _local_bounds(maya_om, shape.full_path)[0] == pytest.approx(1.5)
+
+
+def test_deformable_cube_guide_rejects_inputs_and_keys(
+    maya_cmds, maya_om, new_scene
+):
+    """ガイドは直接編集に限定し、modifier からも入力接続を拒否する。"""
+    _load_bd_util_nodes(maya_cmds)
+    shape = maya_cmds.createNode(_DEFORMABLE_CUBE_TYPE)
+    source = maya_cmds.createNode("network")
+    maya_cmds.addAttr(source, longName="enabled", attributeType="bool")
+    source_plug = f"{source}.enabled"
+    guide_plug = f"{shape}.shapeGuideLine"
+    with pytest.raises(RuntimeError):
+        maya_cmds.connectAttr(source_plug, guide_plug)
+    selected = maya_om.MSelectionList()
+    selected.add(source_plug)
+    selected.add(guide_plug)
+    modifier = maya_om.MDGModifier()
+    with pytest.raises(RuntimeError):
+        modifier.connect(selected.getPlug(0), selected.getPlug(1))
+        modifier.doIt()
+    assert not maya_cmds.connectionInfo(guide_plug, isDestination=True)
+    assert (
+        maya_cmds.setKeyframe(shape, attribute="shapeGuideLine", time=1) == 0
+    )
+    assert maya_cmds.keyframe(guide_plug, query=True, keyframeCount=True) == 0
+    maya_cmds.connectAttr(guide_plug, source_plug)
+    maya_cmds.setAttr(f"{shape}.sgl", True)
+    assert maya_cmds.getAttr(source_plug) is True
+
+
+@pytest.mark.parametrize("deformed", [False, True])
+@pytest.mark.parametrize(
+    "limits",
+    [
+        ((-0.5, 0.5),) * 3,
+        ((1, 3), (-2, 4), (5, 7)),
+        ((3, 1), (4, -2), (7, 5)),
+        ((2, 2), (-1, 3), (4, 7)),
+        ((2, 2), (-1, -1), (4, 7)),
+        ((2, 2), (-1, -1), (4, 4)),
+    ],
+    ids=["default", "asymmetric", "reversed", "plane", "line", "point"],
+)
+def test_deformable_cube_guide_toggle_preserves_bounds(
+    maya_cmds, maya_om, new_scene, deformed, limits
+):
+    """非対称・反転・縮退とアフィン変形でもガイドは境界を広げない。"""
+    _load_bd_util_nodes(maya_cmds)
+    shape = maya_cmds.createNode(_DEFORMABLE_CUBE_TYPE)
+    maya_cmds.setAttr(f"{shape}.shape1stAxis", 4)
+    maya_cmds.setAttr(f"{shape}.shape2ndAxis", 1)
+    for axis, (minus, plus) in zip(("1st", "2nd", "3rd"), limits):
+        maya_cmds.setAttr(
+            f"{shape}.shapeBaseSpace{axis}AxisMinus",
+            maya_om.MDistance.internalToUI(-minus),
+        )
+        maya_cmds.setAttr(
+            f"{shape}.shapeBaseSpace{axis}AxisPlus",
+            maya_om.MDistance.internalToUI(plus),
+        )
+    matrix = maya_om.MMatrix()
+    if deformed:
+        matrix = maya_om.MMatrix(
+            (
+                (-2.0, 0.5, 0.25, 0.0),
+                (1.5, 3.0, -0.5, 0.0),
+                (0.25, -0.5, 0.75, 0.0),
+                (4.0, -5.0, 6.0, 1.0),
+            )
+        )
+        maya_cmds.setAttr(f"{shape}.sdm", *list(matrix), type="matrix")
+    points = [
+        maya_om.MPoint(-second, -third, first) * matrix
+        for first, second, third in product(*limits)
+    ]
+    expected = tuple(
+        extreme(point[axis] for point in points)
+        for extreme in (min, max)
+        for axis in range(3)
+    )
+    assert _local_bounds(maya_om, shape) == pytest.approx(expected)
+    for enabled in (True, False, True, False):
+        maya_cmds.setAttr(f"{shape}.sgl", enabled)
+        assert maya_cmds.getAttr(f"{shape}.shapeGuideLine") is enabled
+        assert _local_bounds(maya_om, shape) == pytest.approx(expected)
 
 
 def test_deformable_cube_affine_bounds_duplicate_and_save(
@@ -214,6 +328,7 @@ def test_deformable_cube_affine_bounds_duplicate_and_save(
         )
     )
     maya_cmds.setAttr(f"{shape}.sdm", *list(matrix), type="matrix")
+    maya_cmds.setAttr(f"{shape}.shapeGuideLine", True)
     points = [
         maya_om.MPoint(*point) * matrix
         for point in product((-0.5, 0.5), (-0.5, 0.5), (-0.5, 1.25))
@@ -231,6 +346,10 @@ def test_deformable_cube_affine_bounds_duplicate_and_save(
         duplicate, shapes=True, fullPath=True
     )
     assert _local_bounds(maya_om, duplicate_shape) == pytest.approx(expected)
+    assert maya_cmds.getAttr(f"{duplicate_shape}.shapeGuideLine") is True
+    maya_cmds.setAttr(f"{duplicate_shape}.sgl", False)
+    assert maya_cmds.getAttr(f"|{parent}|{shape}.shapeGuideLine") is True
+    assert _local_bounds(maya_om, duplicate_shape) == pytest.approx(expected)
 
     path = tmp_path / "deformable_cube.ma"
     maya_cmds.file(rename=str(path))
@@ -240,6 +359,8 @@ def test_deformable_cube_affine_bounds_duplicate_and_save(
         expected
     )
     assert _local_bounds(maya_om, duplicate_shape) == pytest.approx(expected)
+    assert maya_cmds.getAttr(f"|{parent}|{shape}.shapeGuideLine") is True
+    assert maya_cmds.getAttr(f"{duplicate_shape}.shapeGuideLine") is False
 
 
 def test_deformable_cube_connected_matrix_follows_time_and_disconnects(
@@ -255,9 +376,11 @@ def test_deformable_cube_connected_matrix_follows_time_and_disconnects(
     maya_cmds.connectAttr(source, destination)
     for frame, half_width in ((1, 0.5), (12, 2.5), (1, 0.5), (12, 2.5)):
         maya_cmds.currentTime(frame)
-        assert _local_bounds(maya_om, shape) == pytest.approx(
-            (-half_width, -0.5, -0.5, half_width, 0.5, 0.5)
-        )
+        for enabled in (False, True, False):
+            maya_cmds.setAttr(f"{shape}.shapeGuideLine", enabled)
+            assert _local_bounds(maya_om, shape) == pytest.approx(
+                (-half_width, -0.5, -0.5, half_width, 0.5, 0.5)
+            )
     maya_cmds.disconnectAttr(source, destination)
     maya_cmds.currentTime(1)
     assert _local_bounds(maya_om, shape) == pytest.approx(

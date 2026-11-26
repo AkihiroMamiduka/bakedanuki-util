@@ -178,13 +178,14 @@ bool BdShpLCubeNode::updateBaseGeometry(std::uint64_t revision) const {
     cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::baseGeometryRebuild);
 #endif
     MPoint positions[bdUtilNodes::fixedCube::vertexCount];
-    if (!shapeAttributes_.readPositions(thisMObject(), positions)) return false;
+    bool guideLine;
+    if (!shapeAttributes_.readPositions(thisMObject(), positions, guideLine)) return false;
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     if (animation_) {
         for (unsigned int i = 0; i < 8; ++i) animation_->basePositions[i] = positions[i];
     }
 #endif
-    geometry_ = bdUtilNodes::fixedCube::geometryFromPositions(positions, revision);
+    geometry_ = bdUtilNodes::fixedCube::geometryFromPositions(positions, revision, guideLine);
     return true;
 }
 
@@ -224,6 +225,7 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometryWithAnimationMatrix(std::uint64
             }
         }
         result.revision = revision;
+        result.guideLine = geometry_.guideLine;
         animation_->transformed = result;
         animation_->matrix = animationMatrix;
     }

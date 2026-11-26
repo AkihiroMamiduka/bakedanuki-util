@@ -13,6 +13,7 @@
 
 #include <maya/MDistance.h>
 #include <maya/MFnAttribute.h>
+#include <maya/MFnNumericAttribute.h>
 #include <maya/MFnUnitAttribute.h>
 #include <maya/MPlug.h>
 #include <maya/MPxNode.h>
@@ -23,6 +24,7 @@ struct ShapeAttributes {
     MObject firstAxis;
     MObject secondAxis;
     MObject limits[3][2];
+    MObject guideLine;
 #ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
     FinAttributes finAttributes;
 #endif
@@ -54,10 +56,14 @@ struct ShapeAttributes {
             }
         }
 
+        MFnNumericAttribute numeric;
+        guideLine = numeric.create("shapeGuideLine", "sgl", MFnNumericData::kBoolean, false, &status);
+        if (!status) return status;
+
         // 両ノードで基準形状の設定順と Channel Box の表示順を揃える。
         for (const auto& attribute : {
             firstAxis, secondAxis, limits[0][1], limits[0][0], limits[1][1], limits[1][0],
-            limits[2][1], limits[2][0],
+            limits[2][1], limits[2][0], guideLine,
         }) {
             status = addStaticAttribute(attribute);
             if (!status) return status;
@@ -82,7 +88,7 @@ struct ShapeAttributes {
         const bool bodyAttribute = attribute == firstAxis || attribute == secondAxis ||
             attribute == limits[0][1] || attribute == limits[0][0] ||
             attribute == limits[1][1] || attribute == limits[1][0] ||
-            attribute == limits[2][1] || attribute == limits[2][0];
+            attribute == limits[2][1] || attribute == limits[2][0] || attribute == guideLine;
 #ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
         return bodyAttribute || finAttributes.contains(attribute);
 #else
@@ -91,9 +97,10 @@ struct ShapeAttributes {
 #endif
     }
 
-    bool readPositions(const MObject& object, MPoint (&positions)[vertexCount]) const {
+    bool readPositions(const MObject& object, MPoint (&positions)[vertexCount], bool& drawGuideLine) const {
 #ifdef BD_CUBE_RESEARCH_FIXED_BASE
         (void)object;
+        drawGuideLine = false;
         constexpr short first = 0;
         constexpr short second = 2;
         constexpr double endpoints[3][2] = {{-0.5, 0.5}, {-0.5, 0.5}, {-0.5, 0.5}};
@@ -101,7 +108,7 @@ struct ShapeAttributes {
         short first;
         short second;
         double endpoints[3][2];
-        if (!readBaseSettings(object, first, second, endpoints)) return false;
+        if (!readBaseSettings(object, first, second, endpoints, drawGuideLine)) return false;
 #endif
         const auto axes = resolveSignedShapeAxes(first, second);
         const auto firstVector = axes.first.vector();
@@ -125,7 +132,8 @@ struct ShapeAttributes {
 
 private:
 #ifndef BD_CUBE_RESEARCH_FIXED_BASE
-    bool readBaseSettings(const MObject& object, short& first, short& second, double (&endpoints)[3][2]) const {
+    bool readBaseSettings(const MObject& object, short& first, short& second,
+        double (&endpoints)[3][2], bool& drawGuideLine) const {
 #ifdef BD_CUBE_PROFILE
         cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::baseShapeRead);
 #endif
@@ -142,6 +150,8 @@ private:
                 if (!status) return false;
             }
         }
+        drawGuideLine = MPlug(object, guideLine).asBool(&status);
+        if (!status) return false;
         return true;
     }
 #endif

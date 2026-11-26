@@ -256,8 +256,9 @@ BdShpLDeformableCubeNode::Geometry BdShpLDeformableCubeNode::baseDrawGeometry() 
         cubeResearch::profiling::Scope rebuildScope(cubeResearch::profiling::Method::baseGeometryRebuild);
 #endif
         MPoint positions[bdUtilNodes::fixedCube::vertexCount];
-        if (shapeAttributes_.readPositions(thisMObject(), positions)) {
-            baseGeometry_ = bdUtilNodes::fixedCube::geometryFromPositions(positions, revision);
+        bool guideLine;
+        if (shapeAttributes_.readPositions(thisMObject(), positions, guideLine)) {
+            baseGeometry_ = bdUtilNodes::fixedCube::geometryFromPositions(positions, revision, guideLine);
         }
     }
     return baseGeometry_;

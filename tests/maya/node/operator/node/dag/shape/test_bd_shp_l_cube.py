@@ -34,6 +34,7 @@ ATTRIBUTE_SPECS = (
         for number, axis in enumerate(AXES, 1)
         for side, suffix in (("Minus", "m"), ("Plus", "p"))
     ),
+    ("shapeGuideLine", "sgl", "bool", False),
 )
 ASYMMETRIC_LIMITS = ((1.0, 3.0), (-2.0, 4.0), (5.0, 7.0))
 DEFAULT_LIMITS = ((-0.5, 0.5),) * 3
@@ -199,7 +200,7 @@ def test_identity_and_attributes():
                 "+Z",
                 "-Z",
             ]
-    for name in ("shape", "shapeFill", "shapeSize"):
+    for name in ("shape", "shapeFill", "shapeSize", "shapeGuideLineTemplate"):
         assert not cmds.attributeQuery(name, node=shape, exists=True)
 
 
@@ -289,6 +290,33 @@ def test_signed_base_space_endpoints(limits):
     for axis, (minus, plus) in zip(AXES, limits):
         assert cmds.getAttr(f"{shape}.shapeBaseSpace{axis}AxisMinus") == -minus
         assert cmds.getAttr(f"{shape}.shapeBaseSpace{axis}AxisPlus") == plus
+
+
+@pytest.mark.parametrize("first,second", [(0, 2), (4, 1)])
+@pytest.mark.parametrize(
+    "limits",
+    [
+        DEFAULT_LIMITS,
+        ASYMMETRIC_LIMITS,
+        ((3, 1), (4, -2), (7, 5)),
+        ((2, 2), (-1, 3), (4, 7)),
+        ((2, 2), (-1, -1), (4, 7)),
+        ((2, 2), (-1, -1), (4, 4)),
+    ],
+    ids=["default", "asymmetric", "reversed", "plane", "line", "point"],
+)
+def test_guide_line_toggle_preserves_adjusted_bounds(first, second, limits):
+    """ガイドの切替は非対称・反転・縮退した基準形状の境界を変えない。"""
+    _, shape = _create_cube()
+    cmds.setAttr(f"{shape}.shape1stAxis", first)
+    cmds.setAttr(f"{shape}.shape2ndAxis", second)
+    _set_base_space(shape, limits)
+    expected = _expected_bounds(first, second, limits)
+    assert _bounds(shape) == pytest.approx(expected)
+    for enabled in (True, False, True, False):
+        cmds.setAttr(f"{shape}.sgl", enabled)
+        assert cmds.getAttr(f"{shape}.shapeGuideLine") is enabled
+        assert _bounds(shape) == pytest.approx(expected)
 
 
 @pytest.mark.parametrize("unit,centimeters", [("mm", 0.1), ("m", 100.0)])
@@ -411,7 +439,7 @@ def test_bounds_refresh_while_hidden_without_drawing():
 
 @pytest.mark.parametrize("attribute", [name for name, *_ in ATTRIBUTE_SPECS])
 def test_shape_settings_reject_incoming_connections_and_keys(attribute):
-    """8属性の入力接続とキーを拒否し、形状調整を直接編集に限定する。"""
+    """形状設定の入力接続とキーを拒否し、調整を直接編集に限定する。"""
     _, shape = _create_cube()
     _, source = _create_cube(name="source")
     plug = f"{shape}.{attribute}"
@@ -424,10 +452,11 @@ def test_shape_settings_reject_incoming_connections_and_keys(attribute):
 
 
 @pytest.mark.parametrize(
-    "attribute", ["shape1stAxis", "shapeBaseSpace3rdAxisMinus"]
+    "attribute",
+    ["shape1stAxis", "shapeBaseSpace3rdAxisMinus", "shapeGuideLine"],
 )
 def test_modifier_cannot_bypass_incoming_connection_restriction(attribute):
-    """`MDGModifier` からも軸と距離の入力接続を拒否する。"""
+    """`MDGModifier` からも形状設定の入力接続を拒否する。"""
     _, shape = _create_cube()
     _, source = _create_cube(name="source")
     destination_fn = om.MFnDependencyNode(_dag_path(shape).node())
@@ -443,17 +472,17 @@ def test_modifier_cannot_bypass_incoming_connection_restriction(attribute):
 
 
 def test_shape_settings_can_drive_other_nodes():
-    """全8属性を読み出す出力接続は許可し、直接編集した値を伝える。"""
+    """形状設定を読み出す出力接続は許可し、直接編集した値を伝える。"""
     _, shape = _create_cube()
     target = cmds.createNode("network")
     for name, _, kind, _ in ATTRIBUTE_SPECS:
         cmds.addAttr(
             target,
             longName=name,
-            attributeType="long" if kind == "enum" else "doubleLinear",
+            attributeType="long" if kind == "enum" else kind,
         )
         cmds.connectAttr(f"{shape}.{name}", f"{target}.{name}")
-        value = 5 if kind == "enum" else 2.25
+        value = {"enum": 5, "bool": True, "doubleLinear": 2.25}[kind]
         cmds.setAttr(f"{shape}.{name}", value)
         assert cmds.getAttr(f"{target}.{name}") == pytest.approx(value)
 
@@ -525,6 +554,7 @@ def test_duplicate_delete_undo(uses_matrix):
     cmds.setAttr(shape + ".shape1stAxis", 5)
     cmds.setAttr(shape + ".shape2ndAxis", 0)
     _set_base_space(shape, ASYMMETRIC_LIMITS)
+    cmds.setAttr(shape + ".shapeGuideLine", True)
     if uses_matrix:
         cmds.setAttr(
             f"{shape}.stm", *list(om.MMatrix(AFFINE_MATRIX)), type="matrix"
@@ -542,6 +572,9 @@ def test_duplicate_delete_undo(uses_matrix):
         assert cmds.getAttr(f"{duplicate_shape}.{name}") == cmds.getAttr(
             f"{shape}.{name}"
         )
+    cmds.setAttr(duplicate_shape + ".sgl", False)
+    assert cmds.getAttr(shape + ".shapeGuideLine") is True
+    assert _bounds(duplicate_shape) == pytest.approx(original)
     cmds.setAttr(duplicate_shape + ".shapeBaseSpace1stAxisPlus", 8)
     assert _bounds(duplicate_shape) != pytest.approx(original)
     assert _bounds(shape) == pytest.approx(original)
@@ -549,13 +582,14 @@ def test_duplicate_delete_undo(uses_matrix):
     assert not cmds.objExists(shape)
     cmds.undo()
     assert cmds.objExists(shape)
+    assert cmds.getAttr(shape + ".shapeGuideLine") is True
     assert _bounds(shape) == pytest.approx(original)
     cmds.redo()
     assert not cmds.objExists(shape)
 
 
 def test_direct_edit_undo_redo_updates_cached_bounds():
-    """直接編集の Undo / Redo で8属性と取得済み境界を復元する。"""
+    """直接編集の Undo / Redo で形状設定と取得済み境界を復元する。"""
     _, shape = _create_cube()
     original = _bounds(shape)
     cmds.undoInfo(openChunk=True)
@@ -563,6 +597,7 @@ def test_direct_edit_undo_redo_updates_cached_bounds():
         cmds.setAttr(shape + ".shape1stAxis", 4)
         cmds.setAttr(shape + ".shape2ndAxis", 1)
         _set_base_space(shape, ASYMMETRIC_LIMITS)
+        cmds.setAttr(shape + ".shapeGuideLine", True)
     finally:
         cmds.undoInfo(closeChunk=True)
     adjusted = _expected_bounds(4, 1, ASYMMETRIC_LIMITS)
@@ -573,6 +608,7 @@ def test_direct_edit_undo_redo_updates_cached_bounds():
         assert cmds.getAttr(f"{shape}.{name}") == pytest.approx(default)
     cmds.redo()
     assert _bounds(shape) == pytest.approx(adjusted)
+    assert cmds.getAttr(shape + ".shapeGuideLine") is True
 
 
 @pytest.mark.parametrize(
@@ -592,6 +628,7 @@ def test_save_reload(tmp_path, extension, file_type, uses_matrix):
     cmds.setAttr(shape + ".shape1stAxis", 5)
     cmds.setAttr(shape + ".shape2ndAxis", 1)
     _set_base_space(shape, ASYMMETRIC_LIMITS)
+    cmds.setAttr(shape + ".shapeGuideLine", True)
     matrix = om.MMatrix(AFFINE_MATRIX) if uses_matrix else None
     if matrix is not None:
         cmds.setAttr(f"{shape}.stm", *list(matrix), type="matrix")
@@ -639,14 +676,19 @@ def test_node_operator_edits_use_modifier_history(monkeypatch):
     shape.sbsp2p.set(4)
     shape.shapeBaseSpace3rdAxisMinus.set(-5)
     shape.sbsp3p.set(7)
+    shape.shapeGuideLine.set(True)
     assert _bounds(name) == pytest.approx(original)
+    assert shape.sgl.get() is False
     mod.do_it_dg()
     adjusted = _expected_bounds(4, 1, ASYMMETRIC_LIMITS)
     assert _bounds(name) == pytest.approx(adjusted)
     assert shape.s1a.get() == 4
     assert shape.shape2ndAxis.get() == 1
     assert shape.shapeBaseSpace1stAxisPlus.get() == pytest.approx(3)
+    assert shape.sgl.get() is True
     mod.undo_it()
     assert _bounds(name) == pytest.approx(original)
+    assert shape.shapeGuideLine.get() is False
     mod.redo_it()
     assert _bounds(name) == pytest.approx(adjusted)
+    assert shape.shapeGuideLine.get() is True

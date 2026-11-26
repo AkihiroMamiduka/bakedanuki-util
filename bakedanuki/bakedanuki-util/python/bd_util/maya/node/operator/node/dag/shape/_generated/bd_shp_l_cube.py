@@ -253,3 +253,6 @@ class GeneratedBdShpLCube(Shape):
 
     shapeBaseSpace3rdAxisMinus = DoubleLinearField(default_value=0.5)
     sbsp3m = shapeBaseSpace3rdAxisMinus
+
+    shapeGuideLine = BoolField(default_value=False)
+    sgl = shapeGuideLine

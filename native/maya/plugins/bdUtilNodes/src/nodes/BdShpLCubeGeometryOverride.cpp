@@ -113,7 +113,9 @@ public:
 #endif
         if (!node_ || node_->geometryRevision() == geometryRevision_.load(std::memory_order_relaxed)) return;
         const auto geometry = node_->geometry();
-        if (std::memcmp(geometry.vertices, geometry_.vertices, sizeof(geometry.vertices)) != 0) {
+        const bool topologyChanged = geometry.guideLine != geometry_.guideLine;
+        if (topologyChanged) indexingDirty_.store(true, std::memory_order_relaxed);
+        if (topologyChanged || std::memcmp(geometry.vertices, geometry_.vertices, sizeof(geometry.vertices)) != 0) {
             geometryDirty_.store(true, std::memory_order_relaxed);
         }
         geometry_ = geometry;
@@ -240,9 +242,9 @@ public:
             if (descriptor.dataType() != MHWRender::MGeometry::kFloat || descriptor.dimension() != 3) return;
             auto* buffer = data.createVertexBuffer(descriptor);
             if (!buffer) return;
-            auto* values = buffer->acquire(bdUtilNodes::fixedCube::vertexCount, true);
+            auto* values = buffer->acquire(bdUtilNodes::fixedCube::drawVertexCount(geometry_.guideLine), true);
             if (!values) return;
-            std::memcpy(values, geometry_.vertices, sizeof(geometry_.vertices));
+            bdUtilNodes::fixedCube::writeDrawVertices(geometry_.vertices, geometry_.guideLine, values);
             {
 #ifdef BD_CUBE_PROFILE
                 cubeResearch::profiling::Scope commitScope(cubeResearch::profiling::Method::geometryVertexCommit);
@@ -254,11 +256,11 @@ public:
         if (!positionsReady) return;
         auto* buffer = data.indexBufferCount() > 0 ? data.indexBuffer(0) : nullptr;
         if (indexingDirty_.load(std::memory_order_relaxed) || !buffer) {
-            buffer = data.createIndexBuffer(MHWRender::MGeometry::kUnsignedInt32);
+            if (!buffer) buffer = data.createIndexBuffer(MHWRender::MGeometry::kUnsignedInt32);
             if (!buffer) return;
-            auto* values = buffer->acquire(bdUtilNodes::fixedCube::indexCount, true);
+            auto* values = buffer->acquire(bdUtilNodes::fixedCube::drawIndexCount(geometry_.guideLine), true);
             if (!values) return;
-            std::memcpy(values, bdUtilNodes::fixedCube::indices, sizeof(bdUtilNodes::fixedCube::indices));
+            bdUtilNodes::fixedCube::writeDrawIndices(geometry_.guideLine, values);
 #ifdef BD_CUBE_PROFILE
             cubeResearch::profiling::Scope commitScope(cubeResearch::profiling::Method::geometryIndexCommit);
 #endif

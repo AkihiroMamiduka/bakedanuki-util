@@ -133,6 +133,7 @@ if(BD_CUBE_RESEARCH_FIN_STUDY OR BD_CUBE_RESEARCH_DUMMY_BOOL_STUDY OR BD_CUBE_RE
         target_link_libraries(${target} PRIVATE
             "${MAYA_LOCATION}/lib/Foundation.lib"
             "${MAYA_LOCATION}/lib/OpenMaya.lib"
+            "${MAYA_LOCATION}/lib/OpenMayaAnim.lib"
             "${MAYA_LOCATION}/lib/OpenMayaUI.lib"
             "${MAYA_LOCATION}/lib/OpenMayaRender.lib")
         set_target_properties(${target} PROPERTIES PREFIX "" SUFFIX ".mll")

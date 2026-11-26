@@ -313,6 +313,11 @@ cmds.select(ctrl)
 距離は負値・ゼロ・面の反転を許容し、自動的には補正しません。
 8属性は形状を準備するための静的な設定で、直接編集できますが、キー設定と入力接続はできません。
 
+`shapeGuideLine`（`sgl`、bool、既定 `False`）を ON にすると、対向面の中央を結ぶ3本のガイド線を追加します。
+同じ静的設定で、本体の色・選択可否に従い、非対称な寸法でも本体の中心を通ります。
+境界の大きさは変わりません。NodeOperator では `shape.shapeGuideLine.set(True)` または `shape.sgl.set(True)` を使い、
+最後に `mod.do_it_dg()` で反映します。ガイドだけのテンプレート表示はありません。
+
 形状選択や Fill 切替はありません。通常の移動・回転・拡縮は親 transform で操作し、pivot・shear などを含む
 親 DAG 階層の最終行列を反映します。継承属性の `localPosition` / `localScale` は
 形状へ適用しません。チャンネルボックスでは `localPositionX/Y/Z` と `localScaleX/Y/Z` を非表示にします。
@@ -329,7 +334,7 @@ Maya 2026 / 2027 の GUI 描画と性能は未検証です。
 
 ### 変形対応 Cube
 
-`bdShpL_DeformableCube` は、固定 Cube と同じ8属性で基本形状を決め、`shapeDeformMatrix`（`sdm`）で変形できる線シェイプです。
+`bdShpL_DeformableCube` は、固定 Cube と同じ軸・寸法8属性と `shapeGuideLine` で基本形状を決め、`shapeDeformMatrix`（`sdm`）で変形できる線シェイプです。
 既定値は単位行列です。直接設定するか、変形を制御する行列出力を接続します。
 基本形状に入力のアフィン変換を適用し、その結果を親の DAG 階層で変換します。SubScene で描画し、Cached Playback の各フレームでも変形を反映します。
 独立した DAG ノードのオブジェクト選択に対応しています。

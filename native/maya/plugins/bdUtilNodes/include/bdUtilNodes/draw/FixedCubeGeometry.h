@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <cstring>
 
 #include <maya/MBoundingBox.h>
 #include <maya/MPoint.h>
@@ -34,6 +35,36 @@ inline constexpr unsigned int indices[] = {
 inline constexpr unsigned int vertexCount = sizeof(vertices) / sizeof(vertices[0]);
 inline constexpr unsigned int indexCount = sizeof(indices) / sizeof(indices[0]);
 
+inline constexpr unsigned int drawVertexCount(bool guideLine) {
+    return vertexCount + (guideLine ? 6 : 0);
+}
+
+inline constexpr unsigned int drawIndexCount(bool guideLine) {
+    return indexCount + (guideLine ? 6 : 0);
+}
+
+inline void writeDrawVertices(const float (&source)[vertexCount][3], bool guideLine, void* destination) {
+    std::memcpy(destination, source, sizeof(source));
+    if (!guideLine) return;
+    // 対向面の中央を結び、軸・寸法の反転や縮退でも本体の境界内に収める。
+    constexpr unsigned int faceCorners[][2] = {{0, 7}, {1, 6}, {0, 5}, {3, 6}, {0, 2}, {4, 6}};
+    auto* values = static_cast<float*>(destination);
+    for (unsigned int face = 0; face < 6; ++face) {
+        for (unsigned int axis = 0; axis < 3; ++axis) {
+            values[(vertexCount + face) * 3 + axis] = static_cast<float>(
+                (static_cast<double>(source[faceCorners[face][0]][axis]) +
+                 static_cast<double>(source[faceCorners[face][1]][axis])) * 0.5);
+        }
+    }
+}
+
+inline void writeDrawIndices(bool guideLine, void* destination) {
+    std::memcpy(destination, indices, sizeof(indices));
+    if (!guideLine) return;
+    auto* values = static_cast<unsigned int*>(destination);
+    for (unsigned int i = 0; i < 6; ++i) values[indexCount + i] = vertexCount + i;
+}
+
 inline MBoundingBox bounds() {
 #ifdef BD_CUBE_RESEARCH_FIN
     return MBoundingBox(MPoint(-0.5, -0.5, -0.5), MPoint(0.5, 0.5 + defaultFinHeight, 0.5));
@@ -46,13 +77,16 @@ struct Geometry {
     float vertices[vertexCount][3];
     MBoundingBox bounds;
     std::uint64_t revision = 0;
+    bool guideLine = false;
 #ifdef BD_CUBE_RESEARCH_FIN
     MBoundingBox bodyBounds;
     MPoint finPositions[vertexCount - bodyVertexCount];
 #endif
 };
 
-inline Geometry geometryFromPositions(const MPoint (&positions)[vertexCount], std::uint64_t revision) {
+inline Geometry geometryFromPositions(
+    const MPoint (&positions)[vertexCount], std::uint64_t revision, bool guideLine = false
+) {
     Geometry result;
     for (unsigned int i = 0; i < vertexCount; ++i) {
         const auto& point = positions[i];
@@ -66,6 +100,7 @@ inline Geometry geometryFromPositions(const MPoint (&positions)[vertexCount], st
 #endif
     }
     result.revision = revision;
+    result.guideLine = guideLine;
     return result;
 }
 

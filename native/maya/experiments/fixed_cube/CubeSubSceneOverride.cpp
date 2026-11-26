@@ -24,12 +24,23 @@
 
 namespace {
 using namespace MHWRender;
+namespace cube = bdUtilNodes::fixedCube;
 #ifdef BD_CUBE_PROFILE
 using cubeResearch::profiling::Method;
 using cubeResearch::profiling::Scope;
 #endif
 
 constexpr const char* itemName = "fixedCubeLines";
+
+std::unique_ptr<MVertexBuffer> vertexBuffer(const float (&vertices)[cube::vertexCount][3], bool guideLine = false) {
+    const MVertexBufferDescriptor descriptor("", MGeometry::kPosition, MGeometry::kFloat, 3);
+    auto buffer = std::make_unique<MVertexBuffer>(descriptor);
+    auto* positions = buffer->acquire(cube::drawVertexCount(guideLine), true);
+    if (!positions) return nullptr;
+    cube::writeDrawVertices(vertices, guideLine, positions);
+    buffer->commit(positions);
+    return buffer;
+}
 
 struct ColorShader {
     MColor color;
@@ -42,6 +53,8 @@ struct SharedResources {
     DrawAPI api = kNone;
     std::unique_ptr<MVertexBuffer> vertices;
     std::unique_ptr<MIndexBuffer> indices;
+    std::unique_ptr<MVertexBuffer> guideVertices;
+    std::unique_ptr<MIndexBuffer> guideIndices;
     std::vector<ColorShader> shaders;
 
     ~SharedResources() {
@@ -67,6 +80,20 @@ struct SharedResources {
         if (!edges) return false;
         std::memcpy(edges, cubeResearch::indices, sizeof(cubeResearch::indices));
         indices->commit(edges);
+        return true;
+    }
+
+    bool ensureGuideGeometry() {
+        if (guideVertices && guideIndices) return true;
+        auto newVertices = vertexBuffer(cube::vertices, true);
+        if (!newVertices) return false;
+        auto newIndices = std::make_unique<MIndexBuffer>(MGeometry::kUnsignedInt32);
+        auto* edges = newIndices->acquire(cube::drawIndexCount(true), true);
+        if (!edges) return false;
+        cube::writeDrawIndices(true, edges);
+        newIndices->commit(edges);
+        guideVertices = std::move(newVertices);
+        guideIndices = std::move(newIndices);
         return true;
     }
 
@@ -152,6 +179,7 @@ public:
             const auto geometry = node_->geometry();
 #endif
             geometryChanged = geometryChanged ||
+                geometry.guideLine != geometry_.guideLine ||
                 std::memcmp(geometry.vertices, geometry_.vertices, sizeof(geometry.vertices)) != 0 ||
                 geometry.bounds.min() != geometry_.bounds.min() || geometry.bounds.max() != geometry_.bounds.max();
             geometry_ = geometry;
@@ -205,18 +233,22 @@ public:
         if (created || !ready_ || geometryChanged) {
             std::unique_ptr<MVertexBuffer> replacement;
             auto* vertices = resources_->vertices.get();
-            if (std::memcmp(geometry_.vertices, cubeResearch::vertices,
-                sizeof(cubeResearch::vertices)) != 0) {
-                const MVertexBufferDescriptor descriptor(
-                    "", MGeometry::kPosition, MGeometry::kFloat, 3);
-                replacement = std::make_unique<MVertexBuffer>(descriptor);
-                auto* positions = replacement->acquire(8, true);
-                if (!positions) {
+            auto* indices = resources_->indices.get();
+            if (geometry_.guideLine) {
+                if (!resources_->ensureGuideGeometry()) {
                     fail();
                     return;
                 }
-                std::memcpy(positions, geometry_.vertices, sizeof(geometry_.vertices));
-                replacement->commit(positions);
+                vertices = resources_->guideVertices.get();
+                indices = resources_->guideIndices.get();
+            }
+            if (std::memcmp(geometry_.vertices, cubeResearch::vertices,
+                sizeof(cubeResearch::vertices)) != 0) {
+                replacement = vertexBuffer(geometry_.vertices, geometry_.guideLine);
+                if (!replacement) {
+                    fail();
+                    return;
+                }
                 vertices = replacement.get();
             }
             MVertexBufferArray buffers;
@@ -226,7 +258,7 @@ public:
 #ifdef BD_CUBE_PROFILE
                 Scope bindScope(Method::subSceneBindGeometry);
 #endif
-                bound = setGeometryForRenderItem(*item, buffers, *resources_->indices, &geometry_.bounds);
+                bound = setGeometryForRenderItem(*item, buffers, *indices, &geometry_.bounds);
             }
             if (!bound) {
                 fail();
