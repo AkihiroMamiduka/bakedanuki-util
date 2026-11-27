@@ -224,7 +224,7 @@ public:
         if (created || !ready_ || geometryChanged) {
             std::unique_ptr<MVertexBuffer> replacement;
             const bool guide = geometry_.guideLine;
-            const bool fin = static_cast<bool>(geometry_.fin);
+            const bool fin = geometry_.fin() != nullptr;
             if (!resources_->ensureLines(guide, fin)) {
                 fail();
                 return;

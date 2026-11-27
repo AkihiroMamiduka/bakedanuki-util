@@ -311,10 +311,30 @@ cmds.select(ctrl)
 第1軸が `±Y` なら第2軸を `+Z`、それ以外なら `+Y` として形状を計算します。
 各軸の Plus 側は設定値、Minus 側は設定値の符号を反転した位置です。
 距離は負値・ゼロ・面の反転を許容し、自動的には補正しません。
-8属性は形状を準備するための静的な設定で、直接編集できますが、キー設定と入力接続はできません。
+両 Cube の形状調整属性は、Channel Box や NodeOperator で直接編集する静的な設定です。
+親属性・子属性ともに `keyable=False`、`connectable=False` です。
+Channel Box では、軸指定、面位置、面スケール、Fin、GuideLine、全体変換をこの順に表示します。
+
+面スケールは、`shapeBaseSpace1stAxisPlusScale` など各面に1個ずつある `double2` です。
+子の並びは、1st面が 2nd・3rd、2nd面が 1st・3rd、3rd面が 1st・2nd です。
+各成分の既定値は `1` で、0と負値も使えます。隣接面から同じ頂点の同じ成分に作用する倍率は乗算します。
+たとえば正の1st面の2nd倍率を2、正の3rd面の2nd倍率を3にすると、両面が接する頂点の2nd成分は本体中心から6倍の距離になります。
+面位置は拡縮前の基準範囲を定めます。面位置が重なっている軸については、その軸の Plus／Minus 面の倍率を平均します。
+
+| 全体変換の属性 | 型 | 既定値 | 適用先 |
+| --- | --- | --- | --- |
+| `shapeRootSize` | double | 1 | 平行移動を含む全体の一律拡縮 |
+| `shapeTranslate`／`shapeRotate`／`shapeScale` | doubleLinear3／doubleAngle3／double3 | (0, 0, 0)／(0, 0, 0)／(1, 1, 1) | 親 transform のローカル XYZ |
+| `shapeAxisTranslate`／`shapeAxisRotate`／`shapeAxisScale` | doubleLinear3／doubleAngle3／double3 | (0, 0, 0)／(0, 0, 0)／(1, 1, 1) | 指定した1st・2nd・3rd軸 |
+| `shapeSize` | double | 1 | 移動や回転を適用する前の形状の一律拡縮 |
+
+面位置と面スケールで組み立てた頂点へ、`shapeSize`、Axis 系の Scale・Rotate・Translate、軸指定、
+外側の Scale・Rotate・Translate、`shapeRootSize` の順で適用します。回転順はどちらも XYZ 固定です。
+たとえば `shapeTranslateX=1 cm` に `shapeRootSize=2` を適用すると、平行移動も2 cmになります。
+面スケールの各成分や XYZ の子属性も個別に編集できます。調整値のアニメーションには親 transform または変形対応 Cube の行列入力を使用します。
 
 `shapeGuideLine`（`sgl`、bool、既定 `False`）を ON にすると、対向面の中央を結ぶ3本のガイド線を追加します。
-同じ静的設定で、本体の色・選択可否に従い、非対称な寸法でも本体の中心を通ります。
+本体の色・選択可否に従い、各面の中央はその面の4頂点の平均です。
 境界の大きさは変わりません。NodeOperator では `shape.shapeGuideLine.set(True)` または `shape.sgl.set(True)` を使い、
 最後に `mod.do_it_dg()` で反映します。ガイドだけのテンプレート表示はありません。
 
@@ -323,11 +343,14 @@ cmds.select(ctrl)
 | 属性 | 短縮名 | 型・既定値 | 効果 |
 | --- | --- | --- | --- |
 | `shapeFin` | `sfn` | bool・`False` | 第2軸の Plus 面に Fin を表示する |
-| `shapeFinType` | `sfnt` | enum・`Standard` (0) | `Standard` は第1軸に平行な上辺を持ち、`Tapered` (1) は既定の向きで第1軸の Plus 側へ低くなる |
-| `shapeFinHeight` | `sfnh` | doubleLinear・0.5 cm | 面からの張り出し量。負値は同じ面から内向きに伸び、0で Fin を省略する |
+| `shapeFinType` | `sfnt` | enum・`Standard` (0) | `Standard` は両端を指定した高さだけ伸ばし、`Tapered` (1) は既定の向きで第1軸の Plus 側へ低くなる |
+| `shapeFinHeight` | `sfnh` | doubleLinear・0.5 cm | 面からの張り出し量。負値で伸び方向が反転し、0で Fin を省略する |
 | `shapeFinWidthScale` | `sfnws` | double・1.0 | 本体の第1軸幅に対する倍率。負値で傾きが反転し、0では高さ方向の線になる |
 
-Fin は第3軸の中央に置きます。軸や本体寸法を編集すると付け根と幅が追従し、指定した高さを保ちます。
+Fin は第3軸の中央に置き、付け根と幅が面位置・面スケールに追従します。
+面スケールを使うと、Standard の高さは基準の第2軸方向、Tapered の高さは取り付け位置での面法線方向です。
+法線を決められない縮退面では、両方とも基準の高さ方向を使います。
+高さは組み立て時点の距離で、組み立てた Fin には本体と同じ全体変換を適用します。
 Fin とガイドは同時に表示できます。ガイドは本体の面中央まで伸び、シェイプの境界は Fin の先端まで含みます。
 
 形状選択や Fill 切替はありません。通常の移動・回転・拡縮は親 transform で操作し、pivot・shear などを含む
@@ -336,9 +359,8 @@ Fin とガイドは同時に表示できます。ガイドは本体の面中央�
 DAG instance と component 編集は対象外です。
 
 Selection Highlighting OFF でも選択色が残る既存制約があります。
-静的な形状属性を追加する前の GUI 描画・選択・再生と性能比較は、研究用 Geometry 版を使って
-Maya 2025 / OpenGL で確認しています。以前の測定値は属性追加後の性能を保証するものではありません。
-Maya 2026 / 2027 の GUI 描画と性能は未検証です。
+形状調整後の表示と選択、既定形状の速度は Maya 2025 / OpenGL で確認しています。
+[固定・変形 Cube の速度研究](../../native/maya/experiments/fixed_cube/README.md)
 
 研究用の `bdShpCubeGeometry.mll` / `bdShpCubeSubScene.mll` とその Baseline / Candidate 版は、
 同じ node type と `MTypeId` を登録する代替実装です。`bdUtilNodes.mll` と同時ロードできません。
@@ -346,9 +368,10 @@ Maya 2026 / 2027 の GUI 描画と性能は未検証です。
 
 ### 変形対応 Cube
 
-`bdShpL_DeformableCube` は固定 Cube と同じ軸・寸法・ガイド・Fin の設定を持ち、`shapeDeformMatrix`（`sdm`）で線全体を変形できます。
+`bdShpL_DeformableCube` は固定 Cube と同じ形状調整・ガイド・Fin の設定を持ち、`shapeDeformMatrix`（`sdm`）で線全体を変形できます。
 既定値は単位行列です。直接設定するか、変形を制御する行列出力を接続します。
-基本形状に入力のアフィン変換を適用し、その結果を親の DAG 階層で変換します。SubScene で描画し、Cached Playback の各フレームでも変形を反映します。
+静的な全体変換まで適用した形状に入力のアフィン変換を適用し、その結果を親の DAG 階層で変換します。
+SubScene で描画し、Cached Playback の各フレームでも変形を反映します。
 独立した DAG ノードのオブジェクト選択に対応しています。
 
 ```python

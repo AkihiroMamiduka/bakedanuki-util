@@ -155,9 +155,12 @@ def test_generate_node_class_code_removes_type_separator_from_class_name():
     assert 'NODE_TYPE = "bdDbl_Add"' in code
 
 
-def test_controller_shape_generator_skips_channel_box_separators():
+@pytest.mark.parametrize(
+    "node_type", ("bdControllerShape", "bdShpL_Cube", "bdShpL_DeformableCube")
+)
+def test_shape_generator_skips_channel_box_separators(node_type):
     code = generate_node_class_code(
-        "bdControllerShape",
+        node_type,
         attr_infos=[
             _attr("shape", "sh", "enum", enum_name=["Square:Cube"]),
             _attr(
@@ -178,7 +181,7 @@ def test_controller_shape_generator_skips_channel_box_separators():
         inherited_attr_infos=[],
     )
 
-    compile(code, "bd_controller_shape.py", "exec")
+    compile(code, _node_type_to_file_name(node_type) + ".py", "exec")
     assert "shape = ShapeEnumField(" in code
     assert "shapeSize = DoubleField(" in code
     assert "AttrEnum" not in code

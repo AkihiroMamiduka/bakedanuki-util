@@ -5,6 +5,18 @@ from .....attr.define.node_attr.bd_shp_l_cube import (
     ComponentTagsField,
     LocalPositionField,
     LocalScaleField,
+    ShapeAxisRotateField,
+    ShapeAxisScaleField,
+    ShapeAxisTranslateField,
+    ShapeBaseSpace1stAxisMinusScaleField,
+    ShapeBaseSpace1stAxisPlusScaleField,
+    ShapeBaseSpace2ndAxisMinusScaleField,
+    ShapeBaseSpace2ndAxisPlusScaleField,
+    ShapeBaseSpace3rdAxisMinusScaleField,
+    ShapeBaseSpace3rdAxisPlusScaleField,
+    ShapeRotateField,
+    ShapeScaleField,
+    ShapeTranslateField,
     WorldPositionField,
 )
 from .....attr.define.std.at.scalar.enum import (
@@ -287,8 +299,83 @@ class GeneratedBdShpLCube(Shape):
     shapeBaseSpace3rdAxisMinus = DoubleLinearField(default_value=0.5)
     sbsp3m = shapeBaseSpace3rdAxisMinus
 
-    shapeGuideLine = BoolField(default_value=False)
-    sgl = shapeGuideLine
+    shapeBaseSpace1stAxisPlusScale = ShapeBaseSpace1stAxisPlusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp1ps = shapeBaseSpace1stAxisPlusScale
+    shapeBaseSpace1stAxisPlusScale2ndAxis = (
+        shapeBaseSpace1stAxisPlusScale.shapeBaseSpace1stAxisPlusScale2ndAxis
+    )
+    sbsp1ps2 = shapeBaseSpace1stAxisPlusScale2ndAxis
+    shapeBaseSpace1stAxisPlusScale3rdAxis = (
+        shapeBaseSpace1stAxisPlusScale.shapeBaseSpace1stAxisPlusScale3rdAxis
+    )
+    sbsp1ps3 = shapeBaseSpace1stAxisPlusScale3rdAxis
+
+    shapeBaseSpace1stAxisMinusScale = ShapeBaseSpace1stAxisMinusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp1ms = shapeBaseSpace1stAxisMinusScale
+    shapeBaseSpace1stAxisMinusScale2ndAxis = (
+        shapeBaseSpace1stAxisMinusScale.shapeBaseSpace1stAxisMinusScale2ndAxis
+    )
+    sbsp1ms2 = shapeBaseSpace1stAxisMinusScale2ndAxis
+    shapeBaseSpace1stAxisMinusScale3rdAxis = (
+        shapeBaseSpace1stAxisMinusScale.shapeBaseSpace1stAxisMinusScale3rdAxis
+    )
+    sbsp1ms3 = shapeBaseSpace1stAxisMinusScale3rdAxis
+
+    shapeBaseSpace2ndAxisPlusScale = ShapeBaseSpace2ndAxisPlusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp2ps = shapeBaseSpace2ndAxisPlusScale
+    shapeBaseSpace2ndAxisPlusScale1stAxis = (
+        shapeBaseSpace2ndAxisPlusScale.shapeBaseSpace2ndAxisPlusScale1stAxis
+    )
+    sbsp2ps1 = shapeBaseSpace2ndAxisPlusScale1stAxis
+    shapeBaseSpace2ndAxisPlusScale3rdAxis = (
+        shapeBaseSpace2ndAxisPlusScale.shapeBaseSpace2ndAxisPlusScale3rdAxis
+    )
+    sbsp2ps3 = shapeBaseSpace2ndAxisPlusScale3rdAxis
+
+    shapeBaseSpace2ndAxisMinusScale = ShapeBaseSpace2ndAxisMinusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp2ms = shapeBaseSpace2ndAxisMinusScale
+    shapeBaseSpace2ndAxisMinusScale1stAxis = (
+        shapeBaseSpace2ndAxisMinusScale.shapeBaseSpace2ndAxisMinusScale1stAxis
+    )
+    sbsp2ms1 = shapeBaseSpace2ndAxisMinusScale1stAxis
+    shapeBaseSpace2ndAxisMinusScale3rdAxis = (
+        shapeBaseSpace2ndAxisMinusScale.shapeBaseSpace2ndAxisMinusScale3rdAxis
+    )
+    sbsp2ms3 = shapeBaseSpace2ndAxisMinusScale3rdAxis
+
+    shapeBaseSpace3rdAxisPlusScale = ShapeBaseSpace3rdAxisPlusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp3ps = shapeBaseSpace3rdAxisPlusScale
+    shapeBaseSpace3rdAxisPlusScale1stAxis = (
+        shapeBaseSpace3rdAxisPlusScale.shapeBaseSpace3rdAxisPlusScale1stAxis
+    )
+    sbsp3ps1 = shapeBaseSpace3rdAxisPlusScale1stAxis
+    shapeBaseSpace3rdAxisPlusScale2ndAxis = (
+        shapeBaseSpace3rdAxisPlusScale.shapeBaseSpace3rdAxisPlusScale2ndAxis
+    )
+    sbsp3ps2 = shapeBaseSpace3rdAxisPlusScale2ndAxis
+
+    shapeBaseSpace3rdAxisMinusScale = ShapeBaseSpace3rdAxisMinusScaleField(
+        default_value=(1.0, 1.0)
+    )
+    sbsp3ms = shapeBaseSpace3rdAxisMinusScale
+    shapeBaseSpace3rdAxisMinusScale1stAxis = (
+        shapeBaseSpace3rdAxisMinusScale.shapeBaseSpace3rdAxisMinusScale1stAxis
+    )
+    sbsp3ms1 = shapeBaseSpace3rdAxisMinusScale1stAxis
+    shapeBaseSpace3rdAxisMinusScale2ndAxis = (
+        shapeBaseSpace3rdAxisMinusScale.shapeBaseSpace3rdAxisMinusScale2ndAxis
+    )
+    sbsp3ms2 = shapeBaseSpace3rdAxisMinusScale2ndAxis
 
     shapeFin = BoolField(default_value=False)
     sfn = shapeFin
@@ -301,3 +388,66 @@ class GeneratedBdShpLCube(Shape):
 
     shapeFinWidthScale = DoubleField(default_value=1.0)
     sfnws = shapeFinWidthScale
+
+    shapeGuideLine = BoolField(default_value=False)
+    sgl = shapeGuideLine
+
+    shapeRootSize = DoubleField(default_value=1.0)
+    srs = shapeRootSize
+
+    shapeTranslate = ShapeTranslateField(default_value=(0.0, 0.0, 0.0))
+    st = shapeTranslate
+    shapeTranslateX = shapeTranslate.shapeTranslateX
+    stx = shapeTranslateX
+    shapeTranslateY = shapeTranslate.shapeTranslateY
+    sty = shapeTranslateY
+    shapeTranslateZ = shapeTranslate.shapeTranslateZ
+    stz = shapeTranslateZ
+
+    shapeRotate = ShapeRotateField(default_value=(0.0, 0.0, 0.0))
+    sr = shapeRotate
+    shapeRotateX = shapeRotate.shapeRotateX
+    srx = shapeRotateX
+    shapeRotateY = shapeRotate.shapeRotateY
+    sry = shapeRotateY
+    shapeRotateZ = shapeRotate.shapeRotateZ
+    srz = shapeRotateZ
+
+    shapeScale = ShapeScaleField(default_value=(1.0, 1.0, 1.0))
+    ssc = shapeScale
+    shapeScaleX = shapeScale.shapeScaleX
+    sscx = shapeScaleX
+    shapeScaleY = shapeScale.shapeScaleY
+    sscy = shapeScaleY
+    shapeScaleZ = shapeScale.shapeScaleZ
+    sscz = shapeScaleZ
+
+    shapeAxisTranslate = ShapeAxisTranslateField(default_value=(0.0, 0.0, 0.0))
+    sat = shapeAxisTranslate
+    shapeAxisTranslateX = shapeAxisTranslate.shapeAxisTranslateX
+    satx = shapeAxisTranslateX
+    shapeAxisTranslateY = shapeAxisTranslate.shapeAxisTranslateY
+    saty = shapeAxisTranslateY
+    shapeAxisTranslateZ = shapeAxisTranslate.shapeAxisTranslateZ
+    satz = shapeAxisTranslateZ
+
+    shapeAxisRotate = ShapeAxisRotateField(default_value=(0.0, 0.0, 0.0))
+    sar = shapeAxisRotate
+    shapeAxisRotateX = shapeAxisRotate.shapeAxisRotateX
+    sarx = shapeAxisRotateX
+    shapeAxisRotateY = shapeAxisRotate.shapeAxisRotateY
+    sary = shapeAxisRotateY
+    shapeAxisRotateZ = shapeAxisRotate.shapeAxisRotateZ
+    sarz = shapeAxisRotateZ
+
+    shapeAxisScale = ShapeAxisScaleField(default_value=(1.0, 1.0, 1.0))
+    sasc = shapeAxisScale
+    shapeAxisScaleX = shapeAxisScale.shapeAxisScaleX
+    sascx = shapeAxisScaleX
+    shapeAxisScaleY = shapeAxisScale.shapeAxisScaleY
+    sascy = shapeAxisScaleY
+    shapeAxisScaleZ = shapeAxisScale.shapeAxisScaleZ
+    sascz = shapeAxisScaleZ
+
+    shapeSize = DoubleField(default_value=1.0)
+    ss = shapeSize

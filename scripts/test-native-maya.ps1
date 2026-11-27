@@ -46,6 +46,7 @@ else {
     (Join-Path $repoRoot "tests\maya\node\operator\node\dg\test_bd_plugin.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_shp_l_cube.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_shp_l_cube_fin.py") `
+    (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_shp_l_cube_adjustments.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_shape.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_static_contract.py") `
     (Join-Path $repoRoot "tests\maya\node\operator\node\dag\shape\test_bd_controller_arc_contract.py") `

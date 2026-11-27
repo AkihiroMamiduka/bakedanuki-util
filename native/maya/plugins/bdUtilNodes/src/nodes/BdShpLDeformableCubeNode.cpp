@@ -86,6 +86,7 @@ MStatus BdShpLDeformableCubeNode::initialize() {
 void BdShpLDeformableCubeNode::postConstructor() {
     MPxLocatorNode::postConstructor();
     bdUtilNodes::hideLocatorPositionAndScale(thisMObject());
+    shapeAttributes_.lockSeparators(thisMObject());
 }
 
 void BdShpLDeformableCubeNode::copyInternalData(MPxNode* source) {
@@ -249,10 +250,10 @@ BdShpLDeformableCubeNode::Geometry BdShpLDeformableCubeNode::baseDrawGeometry() 
 #endif
         MPoint positions[bdUtilNodes::fixedCube::vertexCount];
         MPoint finPositions[bdUtilNodes::fixedCube::finVertexCount];
-        bool guideLine, fin;
-        if (shapeAttributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin)) {
+        bool guideLine, fin, preciseBodyBounds;
+        if (shapeAttributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin, &preciseBodyBounds)) {
             baseGeometry_ = bdUtilNodes::fixedCube::geometryFromPositions(
-                positions, revision, guideLine, fin ? finPositions : nullptr);
+                positions, revision, guideLine, fin ? finPositions : nullptr, preciseBodyBounds);
         }
     }
     return baseGeometry_;

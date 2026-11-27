@@ -10,6 +10,8 @@ import pytest
 from maya import cmds
 from maya.api import OpenMaya as om
 
+from test_bd_shp_l_cube_adjustments import ADJUSTMENT_ATTRIBUTES
+
 pytestmark = pytest.mark.maya
 
 AXES = ("1st", "2nd", "3rd")
@@ -172,7 +174,7 @@ def test_identity_and_attributes():
     assert cmds.nodeType(shape) == "bdShpL_Cube"
     assert not (cmds.listAttr(shape, userDefined=True) or [])
     standard_locator = cmds.createNode("locator")
-    attributes = {name for name, *_ in ATTRIBUTE_SPECS}
+    attributes = {name for name, *_ in ATTRIBUTE_SPECS} | ADJUSTMENT_ATTRIBUTES
     if RESEARCH_SHAPE_MATRIX:
         attributes.add(ANIMATION_MATRIX_ATTR)
     else:
@@ -211,7 +213,6 @@ def test_identity_and_attributes():
     for name in (
         "shape",
         "shapeFill",
-        "shapeSize",
         "shapeGuideLineTemplate",
         "shapeFinTemplate",
     ):

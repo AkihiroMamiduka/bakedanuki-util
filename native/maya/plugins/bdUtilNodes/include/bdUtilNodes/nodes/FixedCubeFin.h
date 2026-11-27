@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bdUtilNodes/draw/FixedCubeGeometry.h"
+#include "bdUtilNodes/nodes/FixedCubeAdjustment.h"
 #ifdef BD_CUBE_PROFILE
 #include "CubeDiagnostics.h"
 #endif
@@ -47,6 +48,32 @@ inline void writeFinPositions(
     points[1] = face + first * start + rise;
     points[2] = face + first * end + (fin.tapered ? MVector::zero : rise);
     points[3] = face + first * rootEnd;
+}
+
+inline void writeWarpedFinPositions(
+    MPoint* points, const FinSettings& fin, const FaceWarp& warp, const double (&endpoints)[3][2]
+) {
+    if (!warp.enabled) {
+        writeFinPositions(points, fin, MVector(1, 0, 0), MVector(0, 1, 0), MVector(0, 0, 1), endpoints);
+        return;
+    }
+    const double center = (endpoints[0][0] + endpoints[0][1]) * 0.5;
+    const double halfWidth = (endpoints[0][1] - endpoints[0][0]) * (fin.widthScale * 0.5);
+    const double low = std::min(endpoints[0][0], endpoints[0][1]);
+    const double high = std::max(endpoints[0][0], endpoints[0][1]);
+    const auto face = [&](double x) {
+        return MPoint(x, endpoints[1][1], (endpoints[2][0] + endpoints[2][1]) * 0.5);
+    };
+    if (fin.height == 0.0) {
+        std::fill_n(points, finVertexCount, warp.point(face(center)));
+        return;
+    }
+    const double start = center - halfWidth, end = center + halfWidth;
+    const auto rise = MVector(0, endpoints[1][1] < endpoints[1][0] ? -fin.height : fin.height, 0);
+    points[0] = warp.point(face(fin.tapered ? std::clamp(start, low, high) : start));
+    points[1] = warp.point(face(start)) + (fin.tapered ? warp.secondFaceNormal(face(start)) * fin.height : rise);
+    points[2] = warp.point(face(end)) + (fin.tapered ? MVector::zero : rise);
+    points[3] = warp.point(face(fin.tapered ? std::clamp(end, low, high) : end));
 }
 
 struct FinAttributes {

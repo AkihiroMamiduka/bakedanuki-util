@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bdUtilNodes/draw/FixedCubeGeometry.h"
+#include "bdUtilNodes/nodes/FixedCubeAdjustment.h"
 #include "bdUtilNodes/nodes/FixedCubeFin.h"
 #include "bdUtilNodes/nodes/SignedShapeAxes.h"
 #ifdef BD_CUBE_PROFILE
@@ -23,6 +24,8 @@ struct ShapeAttributes {
     MObject secondAxis;
     MObject limits[3][2];
     MObject guideLine;
+    MObject separators[6];
+    AdjustmentAttributes adjustments;
 #ifndef BD_CUBE_RESEARCH_FIN
     MObject fin;
 #endif
@@ -61,28 +64,75 @@ struct ShapeAttributes {
         guideLine = numeric.create("shapeGuideLine", "sgl", MFnNumericData::kBoolean, false, &status);
         if (!status) return status;
 
-        // 両ノードで基準形状の設定順と Channel Box の表示順を揃える。
-        for (const auto& attribute : {
-            firstAxis, secondAxis, limits[0][1], limits[0][0], limits[1][1], limits[1][0],
-            limits[2][1], limits[2][0], guideLine,
-        }) {
-            status = addStaticAttribute(attribute);
-            if (!status) return status;
-        }
 #ifndef BD_CUBE_RESEARCH_FIN
         fin = numeric.create("shapeFin", "sfn", MFnNumericData::kBoolean, false, &status);
-        if (!status) return status;
-        status = addStaticAttribute(fin);
         if (!status) return status;
 #endif
 #if !defined(BD_CUBE_RESEARCH_FIN) || defined(BD_CUBE_RESEARCH_FIN_ATTRIBUTES)
         status = finAttributes.create();
         if (!status) return status;
+#endif
+        status = adjustments.create();
+        if (!status) return status;
+        MFnEnumAttribute enumAttribute;
+        const char* separatorNames[] = {"_", "__", "___", "____", "_____", "______"};
+        for (unsigned int i = 0; i < 6; ++i) {
+            separators[i] = enumAttribute.create(separatorNames[i], separatorNames[i], 0, &status);
+            if (!status) return status;
+            status = enumAttribute.addField("-----------------------------------", 0);
+            if (!status) return status;
+            status = enumAttribute.setStorable(false);
+            if (!status) return status;
+            status = enumAttribute.setConnectable(false);
+            if (!status) return status;
+            status = enumAttribute.setKeyable(false);
+            if (!status) return status;
+            status = enumAttribute.setChannelBox(true);
+            if (!status) return status;
+        }
+        // 区切りは表示だけに使い、形状の dirty 判定へ含めない。
+        status = MPxNode::addAttribute(separators[0]);
+        if (!status) return status;
+        for (const auto& attribute : {firstAxis, secondAxis}) {
+            status = addStaticAttribute(attribute);
+            if (!status) return status;
+        }
+        status = MPxNode::addAttribute(separators[1]);
+        if (!status) return status;
+        for (unsigned int axis = 0; axis < 3; ++axis) for (unsigned int side : {1U, 0U}) {
+            status = addStaticAttribute(limits[axis][side]);
+            if (!status) return status;
+        }
+        status = MPxNode::addAttribute(separators[2]);
+        if (!status) return status;
+        for (const auto& attribute : adjustments.faceParents) {
+            status = addStaticAttribute(attribute);
+            if (!status) return status;
+        }
+        status = MPxNode::addAttribute(separators[3]);
+        if (!status) return status;
+#ifndef BD_CUBE_RESEARCH_FIN
+        status = addStaticAttribute(fin);
+        if (!status) return status;
+#endif
+#if !defined(BD_CUBE_RESEARCH_FIN) || defined(BD_CUBE_RESEARCH_FIN_ATTRIBUTES)
         for (const auto& attribute : {finAttributes.type, finAttributes.height, finAttributes.widthScale}) {
             status = addStaticAttribute(attribute);
             if (!status) return status;
         }
 #endif
+        status = MPxNode::addAttribute(separators[4]);
+        if (!status) return status;
+        status = addStaticAttribute(guideLine);
+        if (!status) return status;
+        status = MPxNode::addAttribute(separators[5]);
+        if (!status) return status;
+        for (const auto& attribute : {adjustments.rootSize, adjustments.translate.parent,
+            adjustments.rotate.parent, adjustments.scale.parent, adjustments.axisTranslate.parent,
+            adjustments.axisRotate.parent, adjustments.axisScale.parent, adjustments.size}) {
+            status = addStaticAttribute(attribute);
+            if (!status) return status;
+        }
         return MS::kSuccess;
 #endif
     }
@@ -95,7 +145,7 @@ struct ShapeAttributes {
         const bool bodyAttribute = attribute == firstAxis || attribute == secondAxis ||
             attribute == limits[0][1] || attribute == limits[0][0] ||
             attribute == limits[1][1] || attribute == limits[1][0] ||
-            attribute == limits[2][1] || attribute == limits[2][0] || attribute == guideLine;
+            attribute == limits[2][1] || attribute == limits[2][0] || attribute == guideLine || adjustments.contains(attribute);
 #ifndef BD_CUBE_RESEARCH_FIN
         return bodyAttribute || attribute == fin || finAttributes.contains(attribute);
 #elif defined(BD_CUBE_RESEARCH_FIN_ATTRIBUTES)
@@ -106,9 +156,20 @@ struct ShapeAttributes {
 #endif
     }
 
+    MStatus lockSeparators(const MObject& object) const {
+        for (const auto& attribute : separators) {
+            if (attribute.isNull()) continue;
+            const auto status = MPlug(object, attribute).setLocked(true);
+            if (!status) return status;
+        }
+        return MS::kSuccess;
+    }
+
     bool readPositions(const MObject& object, MPoint (&positions)[vertexCount], bool& drawGuideLine,
-        MPoint (&finPositions)[finVertexCount], bool& drawFin) const {
+        MPoint (&finPositions)[finVertexCount], bool& drawFin, bool* preciseBodyBounds = nullptr) const {
         drawFin = false;
+        if (preciseBodyBounds) *preciseBodyBounds = false;
+        AdjustmentSettings adjustment;
 #ifdef BD_CUBE_RESEARCH_FIXED_BASE
         (void)object;
         drawGuideLine = false;
@@ -120,30 +181,35 @@ struct ShapeAttributes {
         short second;
         double endpoints[3][2];
         if (!readBaseSettings(object, first, second, endpoints, drawGuideLine, drawFin)) return false;
+        if (!adjustments.read(object, adjustment)) return false;
 #endif
         const auto axes = resolveSignedShapeAxes(first, second);
         const auto firstVector = axes.first.vector();
         const auto secondVector = axes.second.vector();
         const auto thirdVector = firstVector ^ secondVector;
+        const FaceWarp warp(adjustment, endpoints);
+        const AdjustmentTransform transform(adjustment, firstVector, secondVector, thirdVector);
+        if (preciseBodyBounds) *preciseBodyBounds = warp.enabled || transform.enabled;
         for (unsigned int i = 0; i < bodyVertexCount; ++i) {
             const auto& original = vertices[i];
-            positions[i] = MPoint::origin + firstVector * endpoints[0][original[0] > 0] +
-                secondVector * endpoints[1][original[1] > 0] +
-                thirdVector * endpoints[2][original[2] > 0];
+            const MPoint point(endpoints[0][original[0] > 0], endpoints[1][original[1] > 0], endpoints[2][original[2] > 0]);
+            positions[i] = transform.point(warp.point(point));
         }
 #ifdef BD_CUBE_RESEARCH_FIN
         FinSettings fin;
 #ifdef BD_CUBE_RESEARCH_FIN_ATTRIBUTES
         if (!finAttributes.read(object, fin)) return false;
 #endif
-        writeFinPositions(positions + bodyVertexCount, fin, firstVector, secondVector, thirdVector, endpoints);
+        writeWarpedFinPositions(positions + bodyVertexCount, fin, warp, endpoints);
+        for (unsigned int i = bodyVertexCount; i < vertexCount; ++i) positions[i] = transform.point(positions[i]);
 #elif !defined(BD_CUBE_RESEARCH_FIXED_BASE)
         if (drawFin) {
             FinSettings settings;
             if (!finAttributes.read(object, settings)) return false;
             drawFin = settings.height != 0.0;
             if (drawFin) {
-                writeFinPositions(finPositions, settings, firstVector, secondVector, thirdVector, endpoints);
+                writeWarpedFinPositions(finPositions, settings, warp, endpoints);
+                for (auto& point : finPositions) point = transform.point(point);
             }
         }
 #endif
@@ -183,20 +249,7 @@ private:
 #endif
 
     static MStatus addStaticAttribute(const MObject& attribute) {
-        MStatus status;
-        MFnAttribute fn(attribute, &status);
-        if (!status) return status;
-        status = fn.setKeyable(false);
-        if (!status) return status;
-        status = fn.setConnectable(false);
-        if (!status) return status;
-        status = fn.setChannelBox(true);
-        if (!status) return status;
-        status = fn.setInternal(true);
-        if (!status) return status;
-        status = fn.setAffectsAppearance(true);
-        if (!status) return status;
-        status = fn.setAffectsWorldSpace(true);
+        const auto status = configureStaticShapeAttribute(attribute);
         if (!status) return status;
         return MPxNode::addAttribute(attribute);
     }

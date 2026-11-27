@@ -96,6 +96,24 @@ def fixed_cube_public_node_contract() -> None:
     shape.sfnt.set(CubeShapeFinTypeEnumPlugOperator.TAPERED)
     shape.sfnh.set(0.75)
     shape.sfnws.set(-1.5)
+    assert_type(shape.shapeBaseSpace1stAxisPlusScale.get(), bdu.Double2)
+    assert_type(
+        shape.shapeBaseSpace1stAxisPlusScale.shapeBaseSpace1stAxisPlusScale2ndAxis,
+        DoublePlugOperator,
+    )
+    assert_type(shape.sbsp1ps2, DoublePlugOperator)
+    assert_type(shape.shapeRootSize, DoublePlugOperator)
+    assert_type(shape.shapeTranslate.get(), bdu.DoubleLinear3)
+    assert_type(shape.shapeRotate.get(), bdu.DoubleAngle3)
+    assert_type(shape.shapeScale.get(), bdu.Double3)
+    assert_type(shape.shapeAxisTranslate.get(), bdu.DoubleLinear3)
+    assert_type(shape.shapeAxisRotate.get(), bdu.DoubleAngle3)
+    assert_type(shape.shapeAxisScale.get(), bdu.Double3)
+    assert_type(
+        shape.shapeAxisTranslate.shapeAxisTranslateX, DoubleLinearPlugOperator
+    )
+    assert_type(shape.shapeRotateZ, DoubleAnglePlugOperator)
+    shape.shapeSize.set(0.8)
     assert_type(shape.shapeBaseSpace1stAxisPlus.get(), float)
     shape.shapeBaseSpace1stAxisPlus.set(1.0)
     shape.sbsp1m.set(0.25)
@@ -141,6 +159,21 @@ def deformable_cube_public_node_contract() -> None:
     shape.sfnt.set(DeformableCubeShapeFinTypeEnumPlugOperator.TAPERED)
     shape.sfnh.set(0.75)
     shape.sfnws.set(-1.5)
+    assert_type(shape.shapeBaseSpace3rdAxisMinusScale.get(), bdu.Double2)
+    assert_type(shape.sbsp3ms.sbsp3ms2, DoublePlugOperator)
+    assert_type(
+        shape.shapeBaseSpace3rdAxisMinusScale2ndAxis, DoublePlugOperator
+    )
+    assert_type(shape.shapeRootSize, DoublePlugOperator)
+    assert_type(shape.shapeTranslate.get(), bdu.DoubleLinear3)
+    assert_type(shape.shapeRotate.get(), bdu.DoubleAngle3)
+    assert_type(shape.shapeScale.get(), bdu.Double3)
+    assert_type(shape.shapeAxisTranslate.get(), bdu.DoubleLinear3)
+    assert_type(shape.shapeAxisRotate.get(), bdu.DoubleAngle3)
+    assert_type(shape.shapeAxisScale.get(), bdu.Double3)
+    assert_type(shape.shapeScale.shapeScaleX, DoublePlugOperator)
+    assert_type(shape.shapeAxisRotateY, DoubleAnglePlugOperator)
+    shape.shapeSize.set(0.8)
     shape.shape1stAxis.set(shape.s1a.PLUS_X)
     shape.shape2ndAxis.set(shape.s2a.PLUS_Y)
     assert_type(

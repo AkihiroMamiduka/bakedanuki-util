@@ -1232,13 +1232,14 @@ def _contains_angle_brackets_in_attribute_type(attr_info: AttrInfo) -> bool:
 def _filter_supported_attr_infos(
     node_type: str, attr_infos: list[AttrInfo]
 ) -> list[AttrInfo]:
-    """未対応の型と `bdControllerShape` の表示専用区切りを除く。"""
+    """未対応の型とシェイプの Channel Box 表示専用区切りを除く。"""
     return [
         info
         for info in attr_infos
         if not _contains_angle_brackets_in_attribute_type(info)
         and not (
-            node_type == "bdControllerShape"
+            node_type
+            in ("bdControllerShape", "bdShpL_Cube", "bdShpL_DeformableCube")
             and info.attribute_type == "enum"
             and re.fullmatch(r"_+", _attr_long_name(info))
         )

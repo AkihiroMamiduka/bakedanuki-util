@@ -81,7 +81,8 @@ Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み�
 ### 変形対応 Cube
 
 `bdShpL_DeformableCube` は、線の Cube を行列で変形する SubScene ノードです。
-固定 Cube と同じ軸・寸法属性で基本形状を指定し、`shapeDeformMatrix`（`sdm`）のアフィン変換を適用してから、親の DAG 階層の変換を反映します。
+固定 Cube と同じ面位置・面スケール・静的変換で形状を組み立て、`shapeDeformMatrix`（`sdm`）のアフィン変換を適用してから、
+親の DAG 階層の変換を反映します。
 既定の基本形状は各軸 `±0.5 cm`、入力行列は単位行列です。行列は直接設定でき、毎フレーム変化する上流ノードにも接続できます。
 両 Cube の `shapeGuideLine`（`sgl`、既定 `False`）を ON にすると、対向面の中央を結ぶ3本の通常線を追加します。ガイドは静的設定で、本体と同じ変形・表示に追従し、境界を広げません。
 `shapeFin`（`sfn`、既定 `False`）で Plus 面に Fin を追加できます。本体と同じ描画アイテムで表示し、変形後の境界にも Fin の端点を含めます。[Fin の属性と寸法](../../bakedanuki/bakedanuki-util/README.md#固定-cube)
@@ -117,9 +118,8 @@ cmds.connectAttr(f"{driver}.matrix", f"{shape}.shapeDeformMatrix")
 ```
 
 作業完了前の統一検証は `.\scripts\verify.cmd -IncludeNative` を使います。
-固定 Cube の6契約も通常の native test に含まれます。研究用の代替 DLL と
+固定・変形対応 Cube の形状調整契約も通常の native test に含まれます。研究用の代替 DLL と
 `.mod` 経由の本体ロードを併せて検証する場合は `-IncludeCubeResearch` を追加します。
-固定 Cube の build と配布先を含める場合は `-IncludeCubeResearch` も指定します。
 Viewport 2.0の描画・選択は別のMaya GUIでも確認します。
 手順は [Testing And Debugging](docs/testing-debugging.md#viewport-20描画テスト) を参照してください。
 

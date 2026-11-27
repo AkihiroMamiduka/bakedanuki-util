@@ -446,7 +446,7 @@ private:
     bool bindGeometry(MRenderItem& item) {
         std::unique_ptr<MVertexBuffer> replacement;
         const bool guide = geometry_.guideLine;
-        const bool fin = static_cast<bool>(geometry_.fin);
+        const bool fin = geometry_.fin() != nullptr;
         if (!resources_->ensureLines(guide, fin)) return false;
         const auto& shared = resources_->lines[guide][fin];
         auto* vertices = shared.vertices.get();

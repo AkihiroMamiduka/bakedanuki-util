@@ -48,6 +48,7 @@ void* BdShpLCubeNode::creator() {
 void BdShpLCubeNode::postConstructor() {
     MPxLocatorNode::postConstructor();
     bdUtilNodes::hideLocatorPositionAndScale(thisMObject());
+    shapeAttributes_.lockSeparators(thisMObject());
 }
 
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
@@ -179,14 +180,17 @@ bool BdShpLCubeNode::updateBaseGeometry(std::uint64_t revision) const {
 #endif
     MPoint positions[bdUtilNodes::fixedCube::vertexCount];
     MPoint finPositions[bdUtilNodes::fixedCube::finVertexCount];
-    bool guideLine, fin;
-    if (!shapeAttributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin)) return false;
+    bool guideLine, fin, preciseBodyBounds;
+    if (!shapeAttributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin, &preciseBodyBounds)) {
+        return false;
+    }
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     if (animation_) {
         for (unsigned int i = 0; i < bdUtilNodes::fixedCube::vertexCount; ++i) animation_->basePositions[i] = positions[i];
     }
 #endif
-    geometry_ = bdUtilNodes::fixedCube::geometryFromPositions(positions, revision, guideLine, fin ? finPositions : nullptr);
+    geometry_ = bdUtilNodes::fixedCube::geometryFromPositions(
+        positions, revision, guideLine, fin ? finPositions : nullptr, preciseBodyBounds);
     return true;
 }
 
@@ -222,13 +226,14 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometryWithAnimationMatrix(std::uint64
             positions[i] = animation_->basePositions[i] * animationMatrix;
         }
         MPoint finPositions[bdUtilNodes::fixedCube::finVertexCount];
-        if (geometry_.fin) {
+        const auto* fin = geometry_.fin();
+        if (fin) {
             for (unsigned int i = 0; i < bdUtilNodes::fixedCube::finVertexCount; ++i) {
-                finPositions[i] = geometry_.fin->positions[i] * animationMatrix;
+                finPositions[i] = fin->positions[i] * animationMatrix;
             }
         }
         animation_->transformed = bdUtilNodes::fixedCube::geometryFromPositions(
-            positions, revision, geometry_.guideLine, geometry_.fin ? finPositions : nullptr);
+            positions, revision, geometry_.guideLine, fin ? finPositions : nullptr);
         animation_->matrix = animationMatrix;
     }
     animation_->useTransformed = true;
