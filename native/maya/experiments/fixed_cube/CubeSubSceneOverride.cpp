@@ -54,7 +54,7 @@ struct SharedResources {
         std::unique_ptr<MVertexBuffer> vertices;
         std::unique_ptr<MIndexBuffer> indices;
     };
-    LineBuffers lines[2][2];
+    LineBuffers lines[2][2][2];
     std::vector<ColorShader> shaders;
 
     ~SharedResources() {
@@ -69,13 +69,13 @@ struct SharedResources {
         manager = renderer->getShaderManager();
         api = renderer->drawAPI();
         if (!manager) return false;
-        return ensureLines(false, false);
+        return ensureLines(false, false, false);
     }
 
-    bool ensureLines(bool guide, bool fin) {
-        auto& buffers = lines[guide][fin];
+    bool ensureLines(bool guide, bool fin, bool offset) {
+        auto& buffers = lines[guide][fin][offset];
         if (buffers.vertices) return true;
-        const auto geometry = cube::defaultDrawGeometry(guide, fin);
+        const auto geometry = cube::defaultDrawGeometry(guide, fin, offset);
         auto newVertices = vertexBuffer(geometry);
         if (!newVertices) return false;
         auto newIndices = std::make_unique<MIndexBuffer>(MGeometry::kUnsignedInt32);
@@ -225,11 +225,12 @@ public:
             std::unique_ptr<MVertexBuffer> replacement;
             const bool guide = geometry_.guideLine;
             const bool fin = geometry_.fin() != nullptr;
-            if (!resources_->ensureLines(guide, fin)) {
+            const bool offset = cube::hasDrawOffsetLine(geometry_);
+            if (!resources_->ensureLines(guide, fin, offset)) {
                 fail();
                 return;
             }
-            const auto& shared = resources_->lines[guide][fin];
+            const auto& shared = resources_->lines[guide][fin][offset];
             auto* vertices = shared.vertices.get();
             if (!cube::hasDefaultDrawVertices(geometry_)) {
                 replacement = vertexBuffer(geometry_);
@@ -246,7 +247,8 @@ public:
 #ifdef BD_CUBE_PROFILE
                 Scope bindScope(Method::subSceneBindGeometry);
 #endif
-                bound = setGeometryForRenderItem(*item, buffers, *shared.indices, &geometry_.bounds);
+                const auto bounds = cube::transformedBounds(geometry_, MMatrix::identity);
+                bound = setGeometryForRenderItem(*item, buffers, *shared.indices, &bounds);
             }
             if (!bound) {
                 fail();

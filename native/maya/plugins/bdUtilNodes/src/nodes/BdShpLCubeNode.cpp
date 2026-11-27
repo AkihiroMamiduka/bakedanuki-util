@@ -181,7 +181,9 @@ bool BdShpLCubeNode::updateBaseGeometry(std::uint64_t revision) const {
     MPoint positions[bdUtilNodes::fixedCube::vertexCount];
     MPoint finPositions[bdUtilNodes::fixedCube::finVertexCount];
     bool guideLine, fin, preciseBodyBounds;
-    if (!shapeAttributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin, &preciseBodyBounds)) {
+    std::optional<bdUtilNodes::fixedCube::OffsetLineGeometry> offsetLine;
+    if (!shapeAttributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin,
+        &preciseBodyBounds, &offsetLine)) {
         return false;
     }
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
@@ -190,7 +192,8 @@ bool BdShpLCubeNode::updateBaseGeometry(std::uint64_t revision) const {
     }
 #endif
     geometry_ = bdUtilNodes::fixedCube::geometryFromPositions(
-        positions, revision, guideLine, fin ? finPositions : nullptr, preciseBodyBounds);
+        positions, revision, guideLine, fin ? finPositions : nullptr, preciseBodyBounds,
+        offsetLine ? &*offsetLine : nullptr);
     return true;
 }
 
@@ -232,8 +235,14 @@ BdShpLCubeNode::Geometry BdShpLCubeNode::geometryWithAnimationMatrix(std::uint64
                 finPositions[i] = fin->positions[i] * animationMatrix;
             }
         }
+        std::optional<bdUtilNodes::fixedCube::OffsetLineGeometry> offsetLine;
+        if (const auto* offset = geometry_.offsetLine()) {
+            offsetLine = bdUtilNodes::fixedCube::OffsetLineGeometry{
+                offset->start * animationMatrix, offset->end * animationMatrix};
+        }
         animation_->transformed = bdUtilNodes::fixedCube::geometryFromPositions(
-            positions, revision, geometry_.guideLine, fin ? finPositions : nullptr);
+            positions, revision, geometry_.guideLine, fin ? finPositions : nullptr, false,
+            offsetLine ? &*offsetLine : nullptr);
         animation_->matrix = animationMatrix;
     }
     animation_->useTransformed = true;
@@ -302,7 +311,7 @@ MBoundingBox BdShpLCubeNode::boundingBox() const {
 #ifdef BD_CUBE_PROFILE
     cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::bounds);
 #endif
-    return geometry().bounds;
+    return bdUtilNodes::fixedCube::transformedBounds(geometry(), MMatrix::identity);
 }
 
 bool BdShpLCubeNode::excludeAsLocator() const {

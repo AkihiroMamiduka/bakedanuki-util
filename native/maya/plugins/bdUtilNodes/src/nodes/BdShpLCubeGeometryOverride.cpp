@@ -168,7 +168,7 @@ public:
             indexingDirty_.store(true, std::memory_order_relaxed);
         }
 
-        if (item->setBoundingBox(geometry_.bounds)) {
+        if (item->setBoundingBox(bdUtilNodes::fixedCube::transformedBounds(geometry_, MMatrix::identity))) {
             boundsRevision_.store(geometry_.revision, std::memory_order_release);
         }
 

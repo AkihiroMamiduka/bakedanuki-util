@@ -16,6 +16,8 @@ inline constexpr unsigned int bodyVertexCount = 8;
 inline constexpr unsigned int finVertexCount = 4;
 inline constexpr unsigned int finIndices[] = {0, 1, 1, 2, 2, 3};
 inline constexpr unsigned int finIndexCount = sizeof(finIndices) / sizeof(finIndices[0]);
+inline constexpr unsigned int offsetVertexCount = 2;
+inline constexpr unsigned int offsetIndexCount = 2;
 inline constexpr double defaultFinHeight = 0.5;
 inline constexpr double defaultFinWidthScale = 1.0;
 inline constexpr float defaultFinVertices[finVertexCount][3] = {
@@ -90,10 +92,16 @@ struct FinGeometry {
     MPoint positions[finVertexCount];
 };
 
+struct OffsetLineGeometry {
+    MPoint start;
+    MPoint end;
+};
+
 struct GeometryDetails {
     MBoundingBox bodyBounds;
     std::optional<std::array<MPoint, bodyVertexCount>> exactBody;
     std::optional<FinGeometry> fin;
+    std::optional<OffsetLineGeometry> offsetLine;
 };
 
 struct Geometry {
@@ -110,11 +118,23 @@ struct Geometry {
     const FinGeometry* fin() const {
         return details && details->fin ? &*details->fin : nullptr;
     }
+
+    const OffsetLineGeometry* offsetLine() const {
+        return details && details->offsetLine ? &*details->offsetLine : nullptr;
+    }
 };
+
+inline bool hasOffsetLine(const MPoint& center) {
+    return center.x != 0.0 || center.y != 0.0 || center.z != 0.0;
+}
+
+inline bool hasDrawOffsetLine(const Geometry& geometry) {
+    return geometry.offsetLine() != nullptr;
+}
 
 inline Geometry geometryFromPositions(
     const MPoint (&positions)[vertexCount], std::uint64_t revision, bool guideLine = false,
-    const MPoint* finPositions = nullptr, bool preciseBodyBounds = false
+    const MPoint* finPositions = nullptr, bool preciseBodyBounds = false, const OffsetLineGeometry* offsetLine = nullptr
 ) {
     Geometry result;
     for (unsigned int i = 0; i < vertexCount; ++i) {
@@ -130,10 +150,11 @@ inline Geometry geometryFromPositions(
     }
     result.revision = revision;
     result.guideLine = guideLine;
-    if (!finPositions && !preciseBodyBounds) return result;
+    if (!finPositions && !preciseBodyBounds && !offsetLine) return result;
 
     auto details = std::make_shared<GeometryDetails>();
     details->bodyBounds = result.bounds;
+    if (offsetLine) details->offsetLine = *offsetLine;
     if (preciseBodyBounds) {
         auto& exactBody = details->exactBody.emplace();
         for (unsigned int i = 0; i < bodyVertexCount; ++i) exactBody[i] = positions[i];
@@ -152,7 +173,7 @@ inline Geometry geometryFromPositions(
     return result;
 }
 
-inline Geometry defaultDrawGeometry(bool guideLine, bool fin) {
+inline Geometry defaultDrawGeometry(bool guideLine, bool fin, bool offsetLine = false) {
     MPoint positions[vertexCount];
     for (unsigned int i = 0; i < vertexCount; ++i) {
         positions[i] = MPoint(vertices[i][0], vertices[i][1], vertices[i][2]);
@@ -163,7 +184,9 @@ inline Geometry defaultDrawGeometry(bool guideLine, bool fin) {
             finPositions[i] = MPoint(defaultFinVertices[i][0], defaultFinVertices[i][1], defaultFinVertices[i][2]);
         }
     }
-    return geometryFromPositions(positions, 0, guideLine, fin ? finPositions : nullptr);
+    const OffsetLineGeometry offset{MPoint::origin, MPoint(1.0, 0.0, 0.0)};
+    return geometryFromPositions(positions, 0, guideLine, fin ? finPositions : nullptr,
+        false, offsetLine ? &offset : nullptr);
 }
 
 inline Geometry initialGeometry() {
@@ -171,32 +194,48 @@ inline Geometry initialGeometry() {
 }
 
 inline unsigned int drawVertexCount(const Geometry& geometry) {
-    return drawVertexCount(geometry.guideLine) + (geometry.fin() ? finVertexCount : 0);
+    return drawVertexCount(geometry.guideLine) + (geometry.fin() ? finVertexCount : 0) +
+        (hasDrawOffsetLine(geometry) ? offsetVertexCount : 0);
 }
 
 inline unsigned int drawIndexCount(const Geometry& geometry) {
-    return drawIndexCount(geometry.guideLine) + (geometry.fin() ? finIndexCount : 0);
+    return drawIndexCount(geometry.guideLine) + (geometry.fin() ? finIndexCount : 0) +
+        (hasDrawOffsetLine(geometry) ? offsetIndexCount : 0);
 }
 
 inline void writeDrawVertices(const Geometry& geometry, void* destination) {
     writeDrawVertices(geometry.vertices, geometry.guideLine, destination);
+    auto* values = static_cast<float*>(destination) + drawVertexCount(geometry.guideLine) * 3;
     if (const auto* fin = geometry.fin()) {
-        auto* values = static_cast<float*>(destination) + drawVertexCount(geometry.guideLine) * 3;
         std::memcpy(values, fin->vertices, sizeof(fin->vertices));
+        values += finVertexCount * 3;
+    }
+    if (hasDrawOffsetLine(geometry)) {
+        const auto& offset = *geometry.offsetLine();
+        for (unsigned int axis = 0; axis < 3; ++axis) {
+            values[axis] = static_cast<float>(offset.start[axis]);
+            values[3 + axis] = static_cast<float>(offset.end[axis]);
+        }
     }
 }
 
 inline void writeDrawIndices(const Geometry& geometry, void* destination) {
     writeDrawIndices(geometry.guideLine, destination);
+    auto* values = static_cast<unsigned int*>(destination) + drawIndexCount(geometry.guideLine);
+    auto start = drawVertexCount(geometry.guideLine);
     if (geometry.fin()) {
-        auto* values = static_cast<unsigned int*>(destination) + drawIndexCount(geometry.guideLine);
-        const auto start = drawVertexCount(geometry.guideLine);
         for (unsigned int i = 0; i < finIndexCount; ++i) values[i] = start + finIndices[i];
+        values += finIndexCount;
+        start += finVertexCount;
+    }
+    if (hasDrawOffsetLine(geometry)) {
+        for (unsigned int i = 0; i < offsetIndexCount; ++i) values[i] = start + i;
     }
 }
 
 inline bool sameDrawTopology(const Geometry& left, const Geometry& right) {
-    return left.guideLine == right.guideLine && static_cast<bool>(left.fin()) == static_cast<bool>(right.fin());
+    return left.guideLine == right.guideLine && static_cast<bool>(left.fin()) == static_cast<bool>(right.fin()) &&
+        hasDrawOffsetLine(left) == hasDrawOffsetLine(right);
 }
 
 inline bool sameDrawVertices(const Geometry& left, const Geometry& right) {
@@ -204,17 +243,30 @@ inline bool sameDrawVertices(const Geometry& left, const Geometry& right) {
     const auto* rightFin = right.fin();
     return std::memcmp(left.vertices, right.vertices, sizeof(left.vertices)) == 0 &&
         static_cast<bool>(leftFin) == static_cast<bool>(rightFin) &&
-        (!leftFin || std::memcmp(leftFin->vertices, rightFin->vertices, sizeof(leftFin->vertices)) == 0);
+        (!leftFin || std::memcmp(leftFin->vertices, rightFin->vertices, sizeof(leftFin->vertices)) == 0) &&
+        hasDrawOffsetLine(left) == hasDrawOffsetLine(right) &&
+        (!hasDrawOffsetLine(left) ||
+            (left.offsetLine()->start == right.offsetLine()->start &&
+             left.offsetLine()->end == right.offsetLine()->end));
 }
 
 inline bool hasDefaultDrawVertices(const Geometry& geometry) {
     const auto* fin = geometry.fin();
     return std::memcmp(geometry.vertices, vertices, sizeof(vertices)) == 0 &&
-        (!fin || std::memcmp(fin->vertices, defaultFinVertices, sizeof(defaultFinVertices)) == 0);
+        (!fin || std::memcmp(fin->vertices, defaultFinVertices, sizeof(defaultFinVertices)) == 0) &&
+        !hasDrawOffsetLine(geometry);
 }
 
 inline MBoundingBox transformedBounds(const Geometry& geometry, const MMatrix& matrix) {
-    if (matrix == MMatrix::identity) return geometry.bounds;
+    const auto expandOffset = [&](MBoundingBox result) {
+        if (const auto* offset = geometry.offsetLine()) {
+            // 静的に作った線の両端へ、本体と同じ変換を適用する。
+            result.expand(offset->start * matrix);
+            result.expand(offset->end * matrix);
+        }
+        return result;
+    };
+    if (matrix == MMatrix::identity) return expandOffset(geometry.bounds);
 #ifdef BD_CUBE_RESEARCH_FIN
     auto result = geometry.bodyBounds;
 #else
@@ -233,6 +285,6 @@ inline MBoundingBox transformedBounds(const Geometry& geometry, const MMatrix& m
     if (const auto* fin = geometry.fin()) {
         for (const auto& point : fin->positions) result.expand(point * matrix);
     }
-    return result;
+    return expandOffset(result);
 }
 }

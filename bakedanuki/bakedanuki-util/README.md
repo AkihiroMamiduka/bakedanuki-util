@@ -313,7 +313,7 @@ cmds.select(ctrl)
 距離は負値・ゼロ・面の反転を許容し、自動的には補正しません。
 両 Cube の形状調整属性は、Channel Box や NodeOperator で直接編集する静的な設定です。
 親属性・子属性ともに `keyable=False`、`connectable=False` です。
-Channel Box では、軸指定、面位置、面スケール、Fin、GuideLine、全体変換をこの順に表示します。
+Channel Box では、軸指定、面位置、面スケール、Fin、GuideLine、OffsetLine、全体変換をこの順に表示します。
 
 面スケールは、`shapeBaseSpace1stAxisPlusScale` など各面に1個ずつある `double2` です。
 子の並びは、1st面が 2nd・3rd、2nd面が 1st・3rd、3rd面が 1st・2nd です。
@@ -353,6 +353,10 @@ Fin は第3軸の中央に置き、付け根と幅が面位置・面スケール
 高さは組み立て時点の距離で、組み立てた Fin には本体と同じ全体変換を適用します。
 Fin とガイドは同時に表示できます。ガイドは本体の面中央まで伸び、シェイプの境界は Fin の先端まで含みます。
 
+`shapeOffsetLine`（`sol`、bool、既定 `False`）を ON にすると、親 transform のローカル原点と
+静的な形状変換を適用した基準中心を結ぶ線を表示します。基準中心は各軸の両端座標の中点です。
+静的な形状を組み立てた時点で始点と終点が一致すると線を省きます。線の両端を境界に含め、本体と同じ色・選択可否に従います。
+
 形状選択や Fill 切替はありません。通常の移動・回転・拡縮は親 transform で操作し、pivot・shear などを含む
 親 DAG 階層の最終行列を反映します。継承属性の `localPosition` / `localScale` は
 形状へ適用しません。チャンネルボックスでは `localPositionX/Y/Z` と `localScaleX/Y/Z` を非表示にします。
@@ -368,9 +372,10 @@ Selection Highlighting OFF でも選択色が残る既存制約があります�
 
 ### 変形対応 Cube
 
-`bdShpL_DeformableCube` は固定 Cube と同じ形状調整・ガイド・Fin の設定を持ち、`shapeDeformMatrix`（`sdm`）で線全体を変形できます。
+`bdShpL_DeformableCube` は固定 Cube と同じ形状調整・ガイド・Fin・OffsetLine の設定と、
+アフィン変換用の `shapeDeformMatrix`（`sdm`）を持ちます。
 既定値は単位行列です。直接設定するか、変形を制御する行列出力を接続します。
-静的な全体変換まで適用した形状に入力のアフィン変換を適用し、その結果を親の DAG 階層で変換します。
+静的に組み立てた本体・GuideLine・Fin・OffsetLine に入力行列を適用し、その結果を親の DAG 階層で変換します。
 SubScene で描画し、Cached Playback の各フレームでも変形を反映します。
 独立した DAG ノードのオブジェクト選択に対応しています。
 

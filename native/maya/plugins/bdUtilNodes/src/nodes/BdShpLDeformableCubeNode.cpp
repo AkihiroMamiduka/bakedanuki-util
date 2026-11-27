@@ -251,9 +251,12 @@ BdShpLDeformableCubeNode::Geometry BdShpLDeformableCubeNode::baseDrawGeometry() 
         MPoint positions[bdUtilNodes::fixedCube::vertexCount];
         MPoint finPositions[bdUtilNodes::fixedCube::finVertexCount];
         bool guideLine, fin, preciseBodyBounds;
-        if (shapeAttributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin, &preciseBodyBounds)) {
+        std::optional<bdUtilNodes::fixedCube::OffsetLineGeometry> offsetLine;
+        if (shapeAttributes_.readPositions(
+                thisMObject(), positions, guideLine, finPositions, fin, &preciseBodyBounds, &offsetLine)) {
             baseGeometry_ = bdUtilNodes::fixedCube::geometryFromPositions(
-                positions, revision, guideLine, fin ? finPositions : nullptr, preciseBodyBounds);
+                positions, revision, guideLine, fin ? finPositions : nullptr,
+                preciseBodyBounds, offsetLine ? &*offsetLine : nullptr);
         }
     }
     return baseGeometry_;

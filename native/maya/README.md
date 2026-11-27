@@ -86,6 +86,7 @@ Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み�
 既定の基本形状は各軸 `±0.5 cm`、入力行列は単位行列です。行列は直接設定でき、毎フレーム変化する上流ノードにも接続できます。
 両 Cube の `shapeGuideLine`（`sgl`、既定 `False`）を ON にすると、対向面の中央を結ぶ3本の通常線を追加します。ガイドは静的設定で、本体と同じ変形・表示に追従し、境界を広げません。
 `shapeFin`（`sfn`、既定 `False`）で Plus 面に Fin を追加できます。本体と同じ描画アイテムで表示し、変形後の境界にも Fin の端点を含めます。[Fin の属性と寸法](../../bakedanuki/bakedanuki-util/README.md#固定-cube)
+`shapeOffsetLine`（`sol`、既定 `False`）で親のローカル原点から静的な基準中心に線を引けます。線の両端に本体と同じ変形行列を適用します。[OffsetLine の仕様](experiments/fixed_cube/README.md#原点を示す-offsetline)
 Cached Playback では各フレームの入力行列を復元します。SubScene 描画では、接続済みの変形行列を入力の変更通知まで再利用します。評価時に取得できた行列は、時刻と世代が一致する描画でも再利用します。
 再生中に評価済み行列を使える場合は、`requiresUpdate()` でローカル行列と時刻・世代を保持し、`update()` で親のワールド行列と表示状態を確認して適用します。バウンディングボックスはその時点の入力行列から計算します。Node Editor の Custom Mode には `shapeDeformMatrix` が出ます。
 

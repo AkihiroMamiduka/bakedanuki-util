@@ -9,6 +9,7 @@
 #endif
 
 #include <initializer_list>
+#include <optional>
 
 #include <maya/MDistance.h>
 #include <maya/MFnAttribute.h>
@@ -24,7 +25,8 @@ struct ShapeAttributes {
     MObject secondAxis;
     MObject limits[3][2];
     MObject guideLine;
-    MObject separators[6];
+    MObject offsetLine;
+    MObject separators[7];
     AdjustmentAttributes adjustments;
 #ifndef BD_CUBE_RESEARCH_FIN
     MObject fin;
@@ -63,6 +65,8 @@ struct ShapeAttributes {
         MFnNumericAttribute numeric;
         guideLine = numeric.create("shapeGuideLine", "sgl", MFnNumericData::kBoolean, false, &status);
         if (!status) return status;
+        offsetLine = numeric.create("shapeOffsetLine", "sol", MFnNumericData::kBoolean, false, &status);
+        if (!status) return status;
 
 #ifndef BD_CUBE_RESEARCH_FIN
         fin = numeric.create("shapeFin", "sfn", MFnNumericData::kBoolean, false, &status);
@@ -75,8 +79,8 @@ struct ShapeAttributes {
         status = adjustments.create();
         if (!status) return status;
         MFnEnumAttribute enumAttribute;
-        const char* separatorNames[] = {"_", "__", "___", "____", "_____", "______"};
-        for (unsigned int i = 0; i < 6; ++i) {
+        const char* separatorNames[] = {"_", "__", "___", "____", "_____", "______", "_______"};
+        for (unsigned int i = 0; i < 7; ++i) {
             separators[i] = enumAttribute.create(separatorNames[i], separatorNames[i], 0, &status);
             if (!status) return status;
             status = enumAttribute.addField("-----------------------------------", 0);
@@ -127,6 +131,10 @@ struct ShapeAttributes {
         if (!status) return status;
         status = MPxNode::addAttribute(separators[5]);
         if (!status) return status;
+        status = addStaticAttribute(offsetLine);
+        if (!status) return status;
+        status = MPxNode::addAttribute(separators[6]);
+        if (!status) return status;
         for (const auto& attribute : {adjustments.rootSize, adjustments.translate.parent,
             adjustments.rotate.parent, adjustments.scale.parent, adjustments.axisTranslate.parent,
             adjustments.axisRotate.parent, adjustments.axisScale.parent, adjustments.size}) {
@@ -145,7 +153,8 @@ struct ShapeAttributes {
         const bool bodyAttribute = attribute == firstAxis || attribute == secondAxis ||
             attribute == limits[0][1] || attribute == limits[0][0] ||
             attribute == limits[1][1] || attribute == limits[1][0] ||
-            attribute == limits[2][1] || attribute == limits[2][0] || attribute == guideLine || adjustments.contains(attribute);
+            attribute == limits[2][1] || attribute == limits[2][0] || attribute == guideLine ||
+            attribute == offsetLine || adjustments.contains(attribute);
 #ifndef BD_CUBE_RESEARCH_FIN
         return bodyAttribute || attribute == fin || finAttributes.contains(attribute);
 #elif defined(BD_CUBE_RESEARCH_FIN_ATTRIBUTES)
@@ -166,9 +175,11 @@ struct ShapeAttributes {
     }
 
     bool readPositions(const MObject& object, MPoint (&positions)[vertexCount], bool& drawGuideLine,
-        MPoint (&finPositions)[finVertexCount], bool& drawFin, bool* preciseBodyBounds = nullptr) const {
+        MPoint (&finPositions)[finVertexCount], bool& drawFin, bool* preciseBodyBounds = nullptr,
+        std::optional<OffsetLineGeometry>* drawOffsetLine = nullptr) const {
         drawFin = false;
         if (preciseBodyBounds) *preciseBodyBounds = false;
+        if (drawOffsetLine) drawOffsetLine->reset();
         AdjustmentSettings adjustment;
 #ifdef BD_CUBE_RESEARCH_FIXED_BASE
         (void)object;
@@ -210,6 +221,18 @@ struct ShapeAttributes {
             if (drawFin) {
                 writeWarpedFinPositions(finPositions, settings, warp, endpoints);
                 for (auto& point : finPositions) point = transform.point(point);
+            }
+        }
+#endif
+#ifndef BD_CUBE_RESEARCH_FIXED_BASE
+        if (drawOffsetLine) {
+            MStatus status;
+            const bool enabled = MPlug(object, offsetLine).asBool(&status);
+            if (!status) return false;
+            if (enabled) {
+                // 面倍率は limits の中点を動かさず、Fin の寸法も終点へ含めない。
+                const auto center = transform.point(MPoint::origin + warp.center);
+                if (hasOffsetLine(center)) *drawOffsetLine = OffsetLineGeometry{MPoint::origin, center};
             }
         }
 #endif

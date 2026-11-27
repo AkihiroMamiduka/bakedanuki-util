@@ -37,6 +37,7 @@ ATTRIBUTE_SPECS = (
         for side, suffix in (("Minus", "m"), ("Plus", "p"))
     ),
     ("shapeGuideLine", "sgl", "bool", False),
+    ("shapeOffsetLine", "sol", "bool", False),
     ("shapeFin", "sfn", "bool", False),
     ("shapeFinType", "sfnt", "enum", 0),
     ("shapeFinHeight", "sfnh", "doubleLinear", 0.5),
@@ -382,6 +383,20 @@ def test_direct_animation_matrix_updates_local_bounds_and_undo():
     assert _bounds(shape) == pytest.approx(
         _expected_bounds(4, 3, ASYMMETRIC_LIMITS, matrix)
     )
+
+
+@requires_shape_matrix
+def test_animation_matrix_moves_both_offset_line_endpoints():
+    """研究用の行列を適用しても、線の有無は静的な中心で決まる。"""
+    _, shape = _create_cube()
+    transform = om.MTransformationMatrix()
+    transform.setTranslation(om.MVector(3, 1, 0), om.MSpace.kTransform)
+    cmds.setAttr(f"{shape}.stm", *list(transform.asMatrix()), type="matrix")
+    cmds.setAttr(f"{shape}.sol", True)
+    assert _bounds(shape) == pytest.approx((2.5, 0.5, -0.5, 3.5, 1.5, 0.5))
+
+    cmds.setAttr(f"{shape}.stx", 2)
+    assert _bounds(shape) == pytest.approx((3, 0.5, -0.5, 5.5, 1.5, 0.5))
 
 
 @requires_shape_matrix

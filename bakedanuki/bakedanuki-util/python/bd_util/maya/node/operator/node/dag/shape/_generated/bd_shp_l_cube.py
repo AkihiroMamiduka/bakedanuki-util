@@ -392,6 +392,9 @@ class GeneratedBdShpLCube(Shape):
     shapeGuideLine = BoolField(default_value=False)
     sgl = shapeGuideLine
 
+    shapeOffsetLine = BoolField(default_value=False)
+    sol = shapeOffsetLine
+
     shapeRootSize = DoubleField(default_value=1.0)
     srs = shapeRootSize
 

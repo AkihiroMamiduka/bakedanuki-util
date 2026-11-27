@@ -53,7 +53,7 @@ ADJUSTMENT_ATTRIBUTES = {
     *(child for _, _, _, child, _ in FACE_CHILDREN),
     *(name for name, *_ in SCALARS),
     *(name + suffix for name, *_ in TRIPLES for suffix in ("", "X", "Y", "Z")),
-    *("_" * index for index in range(1, 7)),
+    *("_" * index for index in range(1, 8)),
 }
 STATIC_SETTINGS = {
     "shapeSize": -1.25,
@@ -275,8 +275,8 @@ def test_adjustment_schema_contract(node_type):
 
 
 @pytest.mark.parametrize("node_type", NODE_TYPES)
-def test_six_channel_groups_and_locked_separators(node_type):
-    """6区画の厳密な順序と、値を持たない区切りの表示・保存制約を確認する。"""
+def test_seven_channel_groups_and_locked_separators(node_type):
+    """7区画の厳密な順序と、値を持たない区切りの表示・保存制約を確認する。"""
     _, shape = _create(node_type)
     ordered = ["_", "shape1stAxis", "shape2ndAxis", "__"]
     ordered += [
@@ -296,6 +296,8 @@ def test_six_channel_groups_and_locked_separators(node_type):
         "_____",
         "shapeGuideLine",
         "______",
+        "shapeOffsetLine",
+        "_______",
         "shapeRootSize",
     ]
     for name, *_ in TRIPLES:
@@ -306,8 +308,8 @@ def test_six_channel_groups_and_locked_separators(node_type):
         for name in cmds.listAttr(shape, channelBox=True)
         if name in set(ordered)
     ] == ordered
-    assert not cmds.attributeQuery("_______", node=shape, exists=True)
-    for index in range(1, 7):
+    assert not cmds.attributeQuery("________", node=shape, exists=True)
+    for index in range(1, 8):
         name = "_" * index
         plug = f"{shape}.{name}"
         assert cmds.attributeQuery(name, node=shape, shortName=True) == name
@@ -674,7 +676,7 @@ def test_hidden_adjustments_undo_duplicate_and_scene_reload(
     cmds.file(str(filename), open=True, force=True)
     assert _bounds(shape) == pytest.approx(expected, abs=1e-6)
     assert _bounds(copied) == pytest.approx((0,) * 6)
-    for index in range(1, 7):
+    for index in range(1, 8):
         assert cmds.getAttr(f"{shape}.{'_' * index}", lock=True)
     cmds.setAttr(shape + ".srs", 0)
     assert _bounds(shape) == pytest.approx((0,) * 6)

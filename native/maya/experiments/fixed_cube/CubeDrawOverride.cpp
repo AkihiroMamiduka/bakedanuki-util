@@ -39,13 +39,14 @@ public:
     bool isBounded(const MDagPath&, const MDagPath&) const override { return true; }
 
     MBoundingBox boundingBox(const MDagPath&, const MDagPath&) const override {
-        return node_ ? baseGeometry().bounds : cubeResearch::bounds();
+        return node_ ? cube::transformedBounds(baseGeometry(), MMatrix::identity) : cubeResearch::bounds();
     }
 
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     MMatrix transform(const MDagPath& objPath, const MDagPath&) const override {
         const auto world = objPath.inclusiveMatrix();
-        return node_ ? node_->shapeDrawMatrix() * world : world;
+        if (!node_) return world;
+        return node_->shapeDrawMatrix() * world;
     }
 #endif
 
@@ -78,7 +79,7 @@ public:
 
         if (data->points.length() == 0 || data->revision != node_->geometryRevision()) {
             const auto geometry = baseGeometry();
-            float vertices[cube::drawVertexCount(true) + cube::finVertexCount][3];
+            float vertices[cube::drawVertexCount(true) + cube::finVertexCount + cube::offsetVertexCount][3];
             cube::writeDrawVertices(geometry, vertices);
             data->points.setLength(cube::drawVertexCount(geometry));
             for (unsigned int i = 0; i < data->points.length(); ++i) {
@@ -86,7 +87,7 @@ public:
                 data->points[i] = MPoint(point[0], point[1], point[2]);
             }
             data->revision = geometry.revision;
-            unsigned int indices[cube::drawIndexCount(true) + cube::finIndexCount];
+            unsigned int indices[cube::drawIndexCount(true) + cube::finIndexCount + cube::offsetIndexCount];
             cube::writeDrawIndices(geometry, indices);
             data->indices = MUintArray(indices, cube::drawIndexCount(geometry));
         }

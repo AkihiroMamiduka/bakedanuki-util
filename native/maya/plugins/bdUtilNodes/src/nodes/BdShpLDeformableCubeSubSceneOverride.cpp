@@ -74,7 +74,7 @@ struct SharedResources {
         std::unique_ptr<MVertexBuffer> vertices;
         std::unique_ptr<MIndexBuffer> indices;
     };
-    LineBuffers lines[2][2];
+    LineBuffers lines[2][2][2];
     std::vector<ColorShader> shaders;
 
     ~SharedResources() {
@@ -93,15 +93,15 @@ struct SharedResources {
         manager = renderer->getShaderManager();
         api = renderer->drawAPI();
         if (!manager) return false;
-        return ensureLines(false, false);
+        return ensureLines(false, false, false);
     }
 
-    bool ensureLines(bool guideLine, bool fin) {
-        auto& buffers = lines[guideLine][fin];
-        if (buffers.vertices && buffers.indices) return true;
-        const auto geometry = cube::defaultDrawGeometry(guideLine, fin);
-        auto newVertices = vertexBuffer(geometry);
-        if (!newVertices) return false;
+    bool ensureLines(bool guideLine, bool fin, bool offsetLine) {
+        auto& buffers = lines[guideLine][fin][offsetLine];
+        if (buffers.indices) return true;
+        const auto geometry = cube::defaultDrawGeometry(guideLine, fin, offsetLine);
+        auto newVertices = offsetLine ? nullptr : vertexBuffer(geometry);
+        if (!offsetLine && !newVertices) return false;
         auto newIndices = std::make_unique<MIndexBuffer>(MGeometry::kUnsignedInt32);
         auto* edges = newIndices->acquire(cube::drawIndexCount(geometry), true);
         if (!edges) return false;
@@ -447,8 +447,9 @@ private:
         std::unique_ptr<MVertexBuffer> replacement;
         const bool guide = geometry_.guideLine;
         const bool fin = geometry_.fin() != nullptr;
-        if (!resources_->ensureLines(guide, fin)) return false;
-        const auto& shared = resources_->lines[guide][fin];
+        const bool offset = cube::hasDrawOffsetLine(geometry_);
+        if (!resources_->ensureLines(guide, fin, offset)) return false;
+        const auto& shared = resources_->lines[guide][fin][offset];
         auto* vertices = shared.vertices.get();
         if (!cube::hasDefaultDrawVertices(geometry_)) {
             replacement = vertexBuffer(geometry_);
@@ -461,7 +462,8 @@ private:
 #ifdef BD_CUBE_PROFILE
             Scope bindScope(Method::subSceneBindGeometry);
 #endif
-            if (!setGeometryForRenderItem(item, buffers, *shared.indices, &geometry_.bounds)) {
+            const auto bounds = cube::transformedBounds(geometry_, MMatrix::identity);
+            if (!setGeometryForRenderItem(item, buffers, *shared.indices, &bounds)) {
                 return false;
             }
         }
