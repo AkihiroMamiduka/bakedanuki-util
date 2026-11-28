@@ -277,23 +277,34 @@ multi.input[0].set((2.0, 3.0, 4.0))
 multi.input[3].set((5.0, 6.0, 7.0))
 ```
 
+### コントローラー用 Cube
+
+線描画の Cube 4種を、Windows版 Maya 2025 / 2026 / 2027 向けの `bdUtilNodes.mll` に収録しています。
+
+| ノード | 形状調整 | `shapeDeformMatrix` |
+| --- | --- | --- |
+| `bdCtrlShpL_Cube` | 軸、面位置・面スケール、静的変換、GuideLine、Fin、OffsetLine | — |
+| `bdCtrlShpL_SimpleCube` | 第1・第2軸と6面の位置 | — |
+| `bdCtrlShpL_DeformableCube` | 軸、面位置・面スケール、静的変換、GuideLine、Fin、OffsetLine | 対応 |
+| `bdCtrlShpL_DeformableSimpleCube` | 第1・第2軸と6面の位置 | 対応 |
+
+第1・第2軸と6面の位置を指定する8属性は4種で共通です。Simple 版で設定した属性値を、対応する標準版の同名属性へそのまま設定できます。
+
 ### 固定 Cube
 
-線のみの固定 Cube `bdShpL_Cube` は、Windows版 Maya 2025 / 2026 / 2027 向けの
-`bdUtilNodes.mll` に含まれます。通常の Maya Module 設定で読み込み、
-Script Editor の Python から次のように作成します。
+以下は `bdCtrlShpL_Cube` の作成例と設定です。
 
 ```python
 from maya import cmds
 
 cmds.loadPlugin("bdUtilNodes", quiet=True)
 ctrl = cmds.createNode("transform", name="cube_ctrl")
-cmds.createNode("bdShpL_Cube", parent=ctrl, name="cube_ctrlShape")
+cmds.createNode("bdCtrlShpL_Cube", parent=ctrl, name="cube_ctrlShape")
 cmds.select(ctrl)
 ```
 
 既定値では各軸のローカル座標 `±0.5 cm` に置いた8頂点・12辺を、標準の細線・不透明で描きます。
-形状の種類と線描画を固定し、次の8属性で軸と各面の位置を調整します。
+4種とも次の8属性で軸と各面の位置を調整します。
 
 | 属性 | 短縮名 | 型 | 既定値 |
 | --- | --- | --- | --- |
@@ -311,11 +322,11 @@ cmds.select(ctrl)
 第1軸が `±Y` なら第2軸を `+Z`、それ以外なら `+Y` として形状を計算します。
 各軸の Plus 側は設定値、Minus 側は設定値の符号を反転した位置です。
 距離は負値・ゼロ・面の反転を許容し、自動的には補正しません。
-両 Cube の形状調整属性は、Channel Box や NodeOperator で直接編集する静的な設定です。
+4種の形状調整属性は、Channel Box や NodeOperator で直接編集する静的な設定です。
 親属性・子属性ともに `keyable=False`、`connectable=False` です。
-Channel Box では、軸指定、面位置、面スケール、Fin、GuideLine、OffsetLine、全体変換をこの順に表示します。
+標準版は Channel Box に軸指定、面位置、面スケール、Fin、GuideLine、OffsetLine、全体変換をこの順に表示します。
 
-面スケールは、`shapeBaseSpace1stAxisPlusScale` など各面に1個ずつある `double2` です。
+標準版の面スケールは、`shapeBaseSpace1stAxisPlusScale` など各面に1個ずつある `double2` です。
 子の並びは、1st面が 2nd・3rd、2nd面が 1st・3rd、3rd面が 1st・2nd です。
 各成分の既定値は `1` で、0と負値も使えます。隣接面から同じ頂点の同じ成分に作用する倍率は乗算します。
 たとえば正の1st面の2nd倍率を2、正の3rd面の2nd倍率を3にすると、両面が接する頂点の2nd成分は本体中心から6倍の距離になります。
@@ -338,7 +349,7 @@ Channel Box では、軸指定、面位置、面スケール、Fin、GuideLine�
 境界の大きさは変わりません。NodeOperator では `shape.shapeGuideLine.set(True)` または `shape.sgl.set(True)` を使い、
 最後に `mod.do_it_dg()` で反映します。ガイドだけのテンプレート表示はありません。
 
-固定 Cube と変形対応 Cube は、次の静的属性で Fin を1枚追加できます。Channel Box で直接編集でき、Fin の線からも本体を選択できます。
+標準版の2種は、次の静的属性で Fin を1枚追加できます。Channel Box で直接編集でき、Fin の線からも本体を選択できます。
 
 | 属性 | 短縮名 | 型・既定値 | 効果 |
 | --- | --- | --- | --- |
@@ -372,7 +383,7 @@ Selection Highlighting OFF でも選択色が残る既存制約があります�
 
 ### 変形対応 Cube
 
-`bdShpL_DeformableCube` は固定 Cube と同じ形状調整・ガイド・Fin・OffsetLine の設定と、
+`bdCtrlShpL_DeformableCube` と `bdCtrlShpL_DeformableSimpleCube` は、対応する固定版と同じ形状調整と、
 アフィン変換用の `shapeDeformMatrix`（`sdm`）を持ちます。
 既定値は単位行列です。直接設定するか、変形を制御する行列出力を接続します。
 静的に組み立てた本体・GuideLine・Fin・OffsetLine に入力行列を適用し、その結果を親の DAG 階層で変換します。
@@ -380,7 +391,7 @@ SubScene で描画し、Cached Playback の各フレームでも変形を反映�
 独立した DAG ノードのオブジェクト選択に対応しています。
 
 ```python
-ctrl, shape = bd_nodes.create.with_transform.bdShpL_DeformableCube(name="cube_ctrl")
+ctrl, shape = bd_nodes.create.with_transform.bdCtrlShpL_DeformableCube(name="cube_ctrl")
 driver = bd_nodes.create.transform(name="shape_driver")
 mod.do_it_dag()
 shape.shapeDeformMatrix.connect_from(driver.matrix)
@@ -391,7 +402,7 @@ mod.do_it_dg()
 
 `bdShpL_FocusBoundingBox` は、選択したコントローラーを `F` キーでフレームする範囲を指定する shape です。
 コントローラーの transform 直下に最初の shape として配置し、標準の `visibility` は ON のまま使用します。
-本体には `bdShpL_Cube` や `nurbsCurve` などを配置できます。
+本体には `bdCtrlShpL_Cube` や `nurbsCurve` などを配置できます。
 
 ```python
 from maya import cmds
@@ -399,7 +410,7 @@ from maya import cmds
 cmds.loadPlugin("bdUtilNodes", quiet=True)
 ctrl = cmds.createNode("transform", name="cube_ctrl")
 focus = cmds.createNode("bdShpL_FocusBoundingBox", parent=ctrl, name="cube_focusShape")
-cmds.createNode("bdShpL_Cube", parent=ctrl, name="cube_ctrlShape")
+cmds.createNode("bdCtrlShpL_Cube", parent=ctrl, name="cube_ctrlShape")
 cmds.select(ctrl)
 ```
 
@@ -544,8 +555,8 @@ plug-ins: plug-ins/maya2025
 ```
 
 Node Editor の Custom Mode（`4` キー）では、`bdControllerShape` に `shapeTransformMatrix` を表示します。
-`bdShpL_DeformableCube` に `shapeDeformMatrix` を表示します。
-`bdShpL_Cube` と `bdShpL_FocusBoundingBox` はノード名だけを表示します。
+`bdCtrlShpL_DeformableCube` と `bdCtrlShpL_DeformableSimpleCube` に `shapeDeformMatrix` を表示します。
+`bdCtrlShpL_Cube`、`bdCtrlShpL_SimpleCube`、`bdShpL_FocusBoundingBox` はノード名だけを表示します。
 ユーザーの `prefs` に同名のテンプレートがある場合はそちらを優先し、
 テンプレート保存先と既定表示モードのpreferenceは変更しません。
 

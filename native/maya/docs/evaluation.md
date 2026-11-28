@@ -116,8 +116,8 @@ Maya が管理する出力の dirty と、ノードや Viewport 2.0 のオーバ
 充填済み Cached Playback で表示するフレームの切り替えも検証に含めます。
 [Cached Playback の検証手順](testing-debugging.md#cached-playback-and-context)
 
-`bdShpL_Cube` と `bdShpL_FocusBoundingBox` は、静的属性の直接編集時に形状・プレビューのキャッシュを失効させます。
-`bdShpL_DeformableCube` は、通常コンテキストの SubScene 描画で接続済みの変形行列を再利用し、
+`bdCtrlShpL_Cube`、`bdCtrlShpL_SimpleCube`、`bdShpL_FocusBoundingBox` は、静的属性の直接編集時に形状・プレビューのキャッシュを失効させます。
+`bdCtrlShpL_DeformableCube` と `bdCtrlShpL_DeformableSimpleCube` は、通常コンテキストの SubScene 描画で接続済みの変形行列を再利用し、
 dirty 通知や接続変更で読み直します。
 [配布版の実装と検証結果](../experiments/fixed_cube/README.md#変形行列の再利用を配布版へ導入)
 

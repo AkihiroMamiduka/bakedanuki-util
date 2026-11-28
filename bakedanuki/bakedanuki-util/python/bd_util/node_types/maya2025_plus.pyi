@@ -1102,6 +1102,22 @@ from ..maya.node._versioned_accessors import _BdControllerShape
 
 BdControllerShape: TypeAlias = _BdControllerShape
 
+from ..maya.node._versioned_accessors import _BdCtrlShpLCube
+
+BdCtrlShpLCube: TypeAlias = _BdCtrlShpLCube
+
+from ..maya.node._versioned_accessors import _BdCtrlShpLDeformableCube
+
+BdCtrlShpLDeformableCube: TypeAlias = _BdCtrlShpLDeformableCube
+
+from ..maya.node._versioned_accessors import _BdCtrlShpLDeformableSimpleCube
+
+BdCtrlShpLDeformableSimpleCube: TypeAlias = _BdCtrlShpLDeformableSimpleCube
+
+from ..maya.node._versioned_accessors import _BdCtrlShpLSimpleCube
+
+BdCtrlShpLSimpleCube: TypeAlias = _BdCtrlShpLSimpleCube
+
 from ..maya.node._versioned_accessors import _BdDbl3Abs
 
 BdDbl3Abs: TypeAlias = _BdDbl3Abs
@@ -1685,14 +1701,6 @@ BdRbfPositionFalloffWeight: TypeAlias = _BdRbfPositionFalloffWeight
 from ..maya.node._versioned_accessors import _BdRbfPositionWeight
 
 BdRbfPositionWeight: TypeAlias = _BdRbfPositionWeight
-
-from ..maya.node._versioned_accessors import _BdShpLCube
-
-BdShpLCube: TypeAlias = _BdShpLCube
-
-from ..maya.node._versioned_accessors import _BdShpLDeformableCube
-
-BdShpLDeformableCube: TypeAlias = _BdShpLDeformableCube
 
 from ..maya.node._versioned_accessors import _BdShpLFocusBoundingBox
 

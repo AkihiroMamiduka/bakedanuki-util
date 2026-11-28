@@ -514,6 +514,18 @@ from .operator.node.dg.bd_condition_dbl_l_extra_compose import (
 from .operator.node.dag.shape.bd_controller_shape import (
     BdControllerShape as _BdControllerShape,
 )
+from .operator.node.dag.shape.bd_ctrl_shp_l_cube import (
+    BdCtrlShpLCube as _BdCtrlShpLCube,
+)
+from .operator.node.dag.shape.bd_ctrl_shp_l_deformable_cube import (
+    BdCtrlShpLDeformableCube as _BdCtrlShpLDeformableCube,
+)
+from .operator.node.dag.shape.bd_ctrl_shp_l_deformable_simple_cube import (
+    BdCtrlShpLDeformableSimpleCube as _BdCtrlShpLDeformableSimpleCube,
+)
+from .operator.node.dag.shape.bd_ctrl_shp_l_simple_cube import (
+    BdCtrlShpLSimpleCube as _BdCtrlShpLSimpleCube,
+)
 from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs as _BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add as _BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import (
@@ -828,10 +840,6 @@ from .operator.node.dg.bd_rbf_position_falloff_weight import (
 )
 from .operator.node.dg.bd_rbf_position_weight import (
     BdRbfPositionWeight as _BdRbfPositionWeight,
-)
-from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube as _BdShpLCube
-from .operator.node.dag.shape.bd_shp_l_deformable_cube import (
-    BdShpLDeformableCube as _BdShpLDeformableCube,
 )
 from .operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
     BdShpLFocusBoundingBox as _BdShpLFocusBoundingBox,
@@ -3023,6 +3031,16 @@ class NodeTypes:
     @property
     def BdControllerShape(self) -> type[_BdControllerShape]: ...
     @property
+    def BdCtrlShpLCube(self) -> type[_BdCtrlShpLCube]: ...
+    @property
+    def BdCtrlShpLDeformableCube(self) -> type[_BdCtrlShpLDeformableCube]: ...
+    @property
+    def BdCtrlShpLDeformableSimpleCube(
+        self,
+    ) -> type[_BdCtrlShpLDeformableSimpleCube]: ...
+    @property
+    def BdCtrlShpLSimpleCube(self) -> type[_BdCtrlShpLSimpleCube]: ...
+    @property
     def BdDbl3Abs(self) -> type[_BdDbl3Abs]: ...
     @property
     def BdDbl3Add(self) -> type[_BdDbl3Add]: ...
@@ -3338,10 +3356,6 @@ class NodeTypes:
     ) -> type[_BdRbfPositionFalloffWeight]: ...
     @property
     def BdRbfPositionWeight(self) -> type[_BdRbfPositionWeight]: ...
-    @property
-    def BdShpLCube(self) -> type[_BdShpLCube]: ...
-    @property
-    def BdShpLDeformableCube(self) -> type[_BdShpLDeformableCube]: ...
     @property
     def BdShpLFocusBoundingBox(self) -> type[_BdShpLFocusBoundingBox]: ...
     @property

@@ -1239,7 +1239,11 @@ def _filter_supported_attr_infos(
         if not _contains_angle_brackets_in_attribute_type(info)
         and not (
             node_type
-            in ("bdControllerShape", "bdShpL_Cube", "bdShpL_DeformableCube")
+            in (
+                "bdControllerShape",
+                "bdCtrlShpL_Cube",
+                "bdCtrlShpL_DeformableCube",
+            )
             and info.attribute_type == "enum"
             and re.fullmatch(r"_+", _attr_long_name(info))
         )

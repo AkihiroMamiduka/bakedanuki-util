@@ -170,12 +170,11 @@ print(bd_util.__file__)
 
 `bakedanuki/bakedanuki-util/python/bd_util/__init__.py` が表示されれば、`bakedanuki-util` のパスが通っています。
 
-線のみの固定 Cube `bdShpL_Cube` は、同梱の `bdUtilNodes.mll` に含まれます。
+線のみのコントローラー用 Cube 4種は、同梱の `bdUtilNodes.mll` に含まれます。
 通常の Maya Module 設定で `cmds.loadPlugin("bdUtilNodes")` を実行して使用できます。
-軸と各面の位置を8個の静的な属性で調整でき、通常の動きは親 transform で操作します。
-`shapeGuideLine`（`sgl`、既定 `False`）で、対向面の中央を結ぶ3本のガイド線を表示できます。
-`shapeFin`（`sfn`、既定 `False`）を有効にすると、第2軸の Plus 面に通常線の Fin を1枚追加できます。
-[作成例と対応範囲](bakedanuki-util/README.md#固定-cube)を参照してください。
+`bdCtrlShpL_SimpleCube` は第1・第2軸と6面の位置を指定でき、`bdCtrlShpL_Cube` は面スケールや GuideLine、Fin も調整できます。
+それぞれの Deformable 版は `shapeDeformMatrix` に対応します。
+[4種の仕様と作成例](bakedanuki-util/README.md#コントローラー用-cube)を参照してください。
 
 ## Package Docs
 

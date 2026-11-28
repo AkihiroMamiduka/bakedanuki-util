@@ -163,6 +163,11 @@ class CubeBenchmark:
             not plugin or "bdCubeProfile" not in plugin["commands"]
         ):
             raise RuntimeError("NativeProfile には診断用ビルドが必要です")
+        self.fixed_cube_type = (
+            "bdCtrlShpL_Cube"
+            if "bdCtrlShpL_Cube" in c.allNodeTypes()
+            else "bdShpL_Cube"
+        )
         c.profiler(sampling=False)
         self.result["runtime"] = {
             "maya": c.about(version=True),
@@ -215,7 +220,7 @@ class CubeBenchmark:
                 {
                     "controller": "bdControllerShape",
                     "locator": "locator",
-                }.get(mode, "bdShpL_Cube"),
+                }.get(mode, self.fixed_cube_type),
                 parent=parent,
             )
             shape = c.ls(shape, long=True)[0]

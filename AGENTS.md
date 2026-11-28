@@ -177,7 +177,7 @@ DG / DAG / node_attrを再生成した場合は、再生成後に`format.cmd`を
 そのファイルを追加flagなしで実行できます。
 
 `bdControllerShape` 自体を変更する場合は、変更対象に対応する専用テストを明示して
-確認してください。`bdUtilNodes` に含む `bdShpL_Cube` の契約は通常の検証対象です。
+確認してください。`bdUtilNodes` に含むコントローラー用 Cube 4種の契約は通常の検証対象です。
 固定Cube研究の代替 DLL / Module ロードの契約テストは別の検証範囲で、
 `verify.cmd -IncludeCubeResearch`によって追加します。
 
@@ -436,7 +436,7 @@ docstring とコード内コメントは日本語で書き、docstring の節見
 - `README.md`
   - 初見向けです。短い利用例とパッケージの位置づけを重視します。
 - [Cube を基にしたコントローラーシェイプの開発](native/maya/experiments/fixed_cube/README.md#cube-extension-guide)
-  - `bdShpL_Cube` と `bdShpL_DeformableCube` の設計、拡張時の判断、速度比較の条件です。
+  - `bdCtrlShpL_Cube` 系4種の設計、拡張時の判断、速度比較の条件です。
 - `bakedanuki/bakedanuki-util/docs/maya/node_operator/README.md`
   - NodeOperator 周辺の現行仕様の入口です。
 - `bakedanuki/bakedanuki-util/docs/maya/node_operator/attributes.md`

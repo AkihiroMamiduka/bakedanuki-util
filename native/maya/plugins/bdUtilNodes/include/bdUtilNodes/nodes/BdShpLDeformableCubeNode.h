@@ -25,7 +25,7 @@ namespace bdUtilNodes::fixedCube {
 struct ShapeAttributes;
 }
 
-class BdShpLDeformableCubeNode final : public MPxLocatorNode {
+class BdShpLDeformableCubeNode : public MPxLocatorNode {
 public:
     using Geometry = bdUtilNodes::fixedCube::Geometry;
 
@@ -88,6 +88,11 @@ public:
     static const MString drawClassification;
     static const MString drawRegistrantId;
 
+protected:
+    BdShpLDeformableCubeNode(
+        const bdUtilNodes::fixedCube::ShapeAttributes& attributes, const MObject& matrixAttribute);
+    static MStatus initializeMatrixAttribute(MObject& matrixAttribute);
+
 private:
     class EvaluationMatrixCache {
     public:
@@ -143,4 +148,24 @@ private:
     mutable Geometry baseGeometry_;
     mutable MMatrix cachedMatrix_;
     mutable std::uint64_t cachedMatrixRevision_ = 0;
+    const bdUtilNodes::fixedCube::ShapeAttributes& attributes_;
+    const MObject& matrixAttribute_;
 };
+
+#ifndef BD_CUBE_RESEARCH_LEGACY_NAMES
+class BdCtrlShpLDeformableSimpleCubeNode final : public BdShpLDeformableCubeNode {
+public:
+    BdCtrlShpLDeformableSimpleCubeNode();
+    static void* creator();
+    static MStatus initialize();
+
+    static const MString typeName;
+    static const MTypeId typeId;
+    static const MString drawClassification;
+    static const MString drawRegistrantId;
+
+private:
+    static bdUtilNodes::fixedCube::ShapeAttributes shapeAttributes_;
+    static MObject shapeDeformMatrix;
+};
+#endif

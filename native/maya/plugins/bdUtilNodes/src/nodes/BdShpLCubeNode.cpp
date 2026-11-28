@@ -20,11 +20,16 @@ const MString BdShpLCubeNode::typeName("bdShpL_CubeWithFin");
 const MTypeId BdShpLCubeNode::typeId(0x00142724);
 const MString BdShpLCubeNode::drawClassification("drawdb/geometry/bdShpL_CubeWithFin");
 const MString BdShpLCubeNode::drawRegistrantId("bdShpLCubeWithFinGeometryOverride");
-#else
+#elif defined(BD_CUBE_RESEARCH_LEGACY_NAMES)
 const MString BdShpLCubeNode::typeName("bdShpL_Cube");
 const MTypeId BdShpLCubeNode::typeId(0x00142720);
 const MString BdShpLCubeNode::drawClassification("drawdb/geometry/bdShpL_Cube");
 const MString BdShpLCubeNode::drawRegistrantId("bdShpLCubeGeometryOverride");
+#else
+const MString BdShpLCubeNode::typeName("bdCtrlShpL_Cube");
+const MTypeId BdShpLCubeNode::typeId(0x00142720);
+const MString BdShpLCubeNode::drawClassification("drawdb/geometry/bdCtrlShpL_Cube");
+const MString BdShpLCubeNode::drawRegistrantId("bdCtrlShpLCubeGeometryOverride");
 #endif
 
 bdUtilNodes::fixedCube::ShapeAttributes BdShpLCubeNode::shapeAttributes_;
@@ -32,13 +37,17 @@ bdUtilNodes::fixedCube::ShapeAttributes BdShpLCubeNode::shapeAttributes_;
 MObject BdShpLCubeNode::shapeTransformMatrix;
 #endif
 
-BdShpLCubeNode::BdShpLCubeNode() {
+BdShpLCubeNode::BdShpLCubeNode() : BdShpLCubeNode(shapeAttributes_) {}
+
+BdShpLCubeNode::BdShpLCubeNode(const bdUtilNodes::fixedCube::ShapeAttributes& attributes)
+    : attributes_(attributes) {
 #ifdef BD_CUBE_RESEARCH_FIN
     geometry_ = bdUtilNodes::fixedCube::initialGeometry();
 #else
     std::memcpy(geometry_.vertices, bdUtilNodes::fixedCube::vertices, sizeof(geometry_.vertices));
     geometry_.bounds = bdUtilNodes::fixedCube::bounds();
 #endif
+    geometry_.revision = geometryRevision_.load(std::memory_order_relaxed);
 }
 
 void* BdShpLCubeNode::creator() {
@@ -48,19 +57,21 @@ void* BdShpLCubeNode::creator() {
 void BdShpLCubeNode::postConstructor() {
     MPxLocatorNode::postConstructor();
     bdUtilNodes::hideLocatorPositionAndScale(thisMObject());
-    shapeAttributes_.lockSeparators(thisMObject());
+    attributes_.lockSeparators(thisMObject());
 }
 
-#ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
 void BdShpLCubeNode::copyInternalData(MPxNode* source) {
     MPxLocatorNode::copyInternalData(source);
+    // 複製された入力は、初期状態の形状キャッシュへ読み直す。
+    geometryRevision_.fetch_add(1, std::memory_order_release);
+#ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     // 複製時は Maya が入力値をコピーするため、行列を参照する状態だけ引き継ぐ。
     const auto* cube = static_cast<const BdShpLCubeNode*>(source);
     if (cube && (cube->geometryRevision() & kAnimationUsed)) {
         geometryRevision_.fetch_or(kAnimationUsed, std::memory_order_release);
     }
-}
 #endif
+}
 
 MStatus BdShpLCubeNode::initialize() {
     MStatus status = shapeAttributes_.initialize();
@@ -98,7 +109,7 @@ bool BdShpLCubeNode::setInternalValue(const MPlug& plug, const MDataHandle& data
         return false;
     }
 #endif
-    if (shapeAttributes_.contains(attribute)) {
+    if (attributes_.contains(attribute)) {
         dirtyGeometry();
         // 値の保存は通常のdatablockへ委譲し、編集通知だけを保持する。
         return false;
@@ -109,7 +120,7 @@ bool BdShpLCubeNode::setInternalValue(const MPlug& plug, const MDataHandle& data
 MStatus BdShpLCubeNode::legalConnection(
     const MPlug& plug, const MPlug& otherPlug, bool asSrc, bool& isLegal
 ) const {
-    if (!asSrc && shapeAttributes_.contains(plug.attribute())) {
+    if (!asSrc && attributes_.contains(plug.attribute())) {
         isLegal = false;
         return MS::kSuccess;
     }
@@ -182,7 +193,7 @@ bool BdShpLCubeNode::updateBaseGeometry(std::uint64_t revision) const {
     MPoint finPositions[bdUtilNodes::fixedCube::finVertexCount];
     bool guideLine, fin, preciseBodyBounds;
     std::optional<bdUtilNodes::fixedCube::OffsetLineGeometry> offsetLine;
-    if (!shapeAttributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin,
+    if (!attributes_.readPositions(thisMObject(), positions, guideLine, finPositions, fin,
         &preciseBodyBounds, &offsetLine)) {
         return false;
     }
@@ -321,5 +332,23 @@ bool BdShpLCubeNode::excludeAsLocator() const {
 #ifdef BD_CUBE_NODE_PARALLEL
 MPxNode::SchedulingType BdShpLCubeNode::schedulingType() const {
     return MPxNode::kParallel;
+}
+#endif
+
+#ifndef BD_CUBE_RESEARCH_LEGACY_NAMES
+const MString BdCtrlShpLSimpleCubeNode::typeName("bdCtrlShpL_SimpleCube");
+const MTypeId BdCtrlShpLSimpleCubeNode::typeId(0x00142726);
+const MString BdCtrlShpLSimpleCubeNode::drawClassification("drawdb/geometry/bdCtrlShpL_SimpleCube");
+const MString BdCtrlShpLSimpleCubeNode::drawRegistrantId("bdCtrlShpLSimpleCubeGeometryOverride");
+bdUtilNodes::fixedCube::ShapeAttributes BdCtrlShpLSimpleCubeNode::shapeAttributes_;
+
+BdCtrlShpLSimpleCubeNode::BdCtrlShpLSimpleCubeNode() : BdShpLCubeNode(shapeAttributes_) {}
+
+void* BdCtrlShpLSimpleCubeNode::creator() {
+    return new BdCtrlShpLSimpleCubeNode;
+}
+
+MStatus BdCtrlShpLSimpleCubeNode::initialize() {
+    return shapeAttributes_.initializeSimple();
 }
 #endif

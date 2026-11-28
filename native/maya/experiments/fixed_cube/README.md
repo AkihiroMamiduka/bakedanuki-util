@@ -1,10 +1,9 @@
 # 固定 Cube の描画速度研究
 
-`bdShpL_Cube` は、既定のローカル座標が各軸 `±0.5 cm` の線のみ Cube です。
-既定では8頂点・12辺を使い、軸と各面の位置を8個の静的な属性で調整します。
-`shapeGuideLine` を ON にすると、対向する面の中央を結ぶ3本の線を追加します。
-`shapeFin` を ON にすると、第2軸の Plus 面に Fin を追加します。
-`shapeOffsetLine` を ON にすると、親のローカル原点から静的変換後の基準中心へ線を引きます。
+コントローラー用の Cube は、各軸の既定のローカル座標が `±0.5 cm` の線描画です。
+`bdCtrlShpL_SimpleCube` と `bdCtrlShpL_DeformableSimpleCube` は、第1・第2軸と6面の位置を指定して8頂点・12辺を作ります。
+`bdCtrlShpL_Cube` と `bdCtrlShpL_DeformableCube` は、軸、面位置・面スケール、静的変換、
+GuideLine、Fin、OffsetLine で形状を調整できます。
 親 DAG 階層の最終行列を反映し、pivot、rotateAxis、shear、jointOrient、
 offsetParentMatrix を Maya 標準の計算へ委譲します。
 頂点を TRS に分解した値で作り直す処理はありません。
@@ -17,11 +16,12 @@ offsetParentMatrix を Maya 標準の計算へ委譲します。
 
 | リグで実現したい動作 | 実装を参照する型 | 拡張時に引き継ぐ点 |
 | --- | --- | --- |
-| 作成時に本体と静的変換を調整し、アニメーションでは親階層に追従する | `bdShpL_Cube`（Geometry） | 面位置・面スケール・静的変換・ガイド・Fin を直接編集する。設定を変えた個体のローカル形状を更新し、親の操作ではその形状を再利用する。 |
-| 親階層への追従に加えて、シェイプ自体を行列で変形する | `bdShpL_DeformableCube`（SubScene） | 同じ静的属性で本体・ガイド・Fin を作る。`shapeDeformMatrix`（`sdm`）を直接設定または接続し、行列だけの変更では頂点を再利用する。静的変換後に適用する描画行列は `shapeDeformMatrix * 親のワールド行列`。 |
+| 軸と6面を指定して箱を作り、親階層に追従する | `bdCtrlShpL_SimpleCube`（Geometry） | 軸や面位置の編集時にローカル形状と境界を更新する。 |
+| 作成時に本体の軸や輪郭を調整し、親階層に追従する | `bdCtrlShpL_Cube`（Geometry） | 設定を変えた個体のローカル形状を更新し、親の操作ではその形状を再利用する。 |
+| シェイプ自体を行列で変形する | `bdCtrlShpL_DeformableCube`、`bdCtrlShpL_DeformableSimpleCube`（SubScene） | 固定版と同じ静的属性で形状を作る。行列だけの変更では頂点を再利用し、`shapeDeformMatrix * 親のワールド行列` で描画する。 |
 | 本体と独立した範囲にフォーカスする | `bdShpL_FocusBoundingBox`（Geometry） | 同じ transform の先頭に Box、その次に本体を置く。`showShape` で Box のプレビューを切り替える。 |
 
-両 Cube は頂点・辺・境界の定義と、軸・寸法からローカル形状を組み立てる処理を共有します。新しい輪郭を実装するときはこの2か所から辿れます。[基準頂点・辺・境界](../../plugins/bdUtilNodes/include/bdUtilNodes/draw/FixedCubeGeometry.h)・[静的属性と形状構築](../../plugins/bdUtilNodes/include/bdUtilNodes/nodes/FixedCubeShape.h)
+4種の Cube は頂点・辺・境界の定義を共有し、固定版は同じ Geometry 描画、Deformable 版は同じ SubScene 描画を使います。[基準頂点・辺・境界](../../plugins/bdUtilNodes/include/bdUtilNodes/draw/FixedCubeGeometry.h)・[静的属性と形状構築](../../plugins/bdUtilNodes/include/bdUtilNodes/nodes/FixedCubeShape.h)
 
 形状設定と変形行列は別々に失効させます。変形 Cube は通常の評価コンテキストで、時刻と変形入力の世代が合う評価済み行列を描画に利用します。再生中にその値を使えるときは、親行列と表示状態を適用時に確認します。DAG の付け替え、表示変更、描画アイテムの再作成などで前提が崩れた場合は通常の更新に戻ります。[dirty と独自キャッシュ](../../docs/evaluation.md#dirty-propagation)・[再生時の配布実装](#再生時の取得をまとめる処理を配布版に取り込み)
 
@@ -38,9 +38,33 @@ offsetParentMatrix を Maya 標準の計算へ委譲します。
 3. **標準計測では Channel Box を閉じる。** 属性表示による操作時間の変動を抑えた条件で、拡張前、追加機能 OFF、使用時を比較します。ビューポートのピクセル寸法を各版で固定します。ドラッグでは操作対象を選択し、再生でも比較する試行の選択状態を揃えます。Channel Box の応答自体を調べる場合に、開閉を比較します。[GuideLine／Fin 追加後の Channel Box 開閉比較](#channel-box-performance)
 4. **小さな差の再現性を確認する。** 同じ配布条件の Release DLL、カメラ、Move ツール、UI 表示で比較し、実行順を反転して各起動の中央値を見ます。原因を調べるときは、ドラッグの入力から描画後通知までと、その後のイベント処理の時間を確認し、通常計時と計装時の回数を照らし合わせます。Qt へ一定軌道を送った ms／入力と、手動操作中の HUD FPS は別の指標です。[部分階層での Geometry 呼び出し](#部分階層を動かしたときの-geometry-の処理回数)・[ドラッグと UI 更新](#10個が追従するドラッグと-maya-の-ui-更新)
 
+## Simple 版と標準版の速度比較
+
+Maya 2025 / OpenGL で、同じ `bdUtilNodes.mll` から Simple 版と標準版を作成して比較しました。
+計測は改名前に行っており、原記録の `Custom` は現在の標準版、`Simple` は現在の Simple 版に相当します。
+各シーンは1,000個で、Channel Box を閉じ、軸・面位置を既定値にしました。標準版の追加の形状調整も既定値です。
+各構成で Simple 版、標準版、標準版、Simple 版の順に起動し、計12起動・240試行を集計しました。
+比較用画像は各構成で一致し、選択、入力、ビューポート、実描画数、Cached Playback の充填条件も照合しました。
+
+値は各起動の試行中央値を型ごとに平均して求めた `標準版 − Simple 版` です。
+ドラッグは ms／入力、再生は ms／描画フレームで、2値は Cached Playback OFF／ON の順です。
+
+| 構成 | 親ドラッグ | 単体ドラッグ | 再生 OFF／ON | 停止直後の単体ドラッグ OFF／ON |
+| --- | ---: | ---: | ---: | ---: |
+| 固定版 | +0.238 | −0.038 | +0.160／−0.010 | — |
+| Deformable 版・変形行列未接続 | +0.062 | +0.099 | +0.082／+0.087 | — |
+| Deformable 版・全個体の変形行列を接続 | — | — | +0.312／+0.031 | −0.091／+0.121 |
+
+固定版の親ドラッグの2組の差は −0.095／+0.571 ms／入力でした。未接続 Deformable 版の単体ドラッグは両組で Simple 版が短く、差は +0.114／+0.085 ms／入力でした。
+主指標の平均が +0.10 ms を超え、起動順を変えた両組で差が正だったのは、全個体の変形行列を接続した Cached Playback OFF の再生です。
+この構成を標準版から逆順で4起動・80試行追加すると、再生差は −0.173／−0.141 ms／フレーム、停止直後の単体ドラッグは −0.074／−0.113 ms／入力でした。
+最初の比較で見えた再生差は追試で符号が変わりました。
+
+計16起動・320試行の集計と原記録は `build/fixed_cube/controller_cube_split_20261128/`（Git 管理外）に保存しています。
+
 ## 静的シェイプの設計方針
 
-`bdShpL_Cube` と `bdShpL_FocusBoundingBox` は、形状属性を直接編集してローカル形状とフォーカス範囲を定義します。
+固定版の Cube と `bdShpL_FocusBoundingBox` は、形状属性を直接編集してローカル形状とフォーカス範囲を定義します。
 これらの形状属性はキーと接続を禁止し、今後追加する形状設定にも同じ制約を適用します。
 リグの移動・回転・スケールや再生では、Maya が計算する親 transform の変換を使います。
 フォーカス範囲は Box で指定し、`showShape` でプレビュー表示を切り替えます。
@@ -51,20 +75,20 @@ offsetParentMatrix を Maya 標準の計算へ委譲します。
 配布版の Cube と Box から `shapeTransformMatrix` と行列入力専用の変形処理を削除しました。
 ローカル形状を静的な値で定義し、形状入力の接続による追加負荷を避けます。
 
-形状自体のアニメーションには、SubSceneMatrix の検証をもとに追加した `bdShpL_DeformableCube` を使用します。
+形状自体のアニメーションには、SubSceneMatrix の検証をもとに追加した Deformable 版を使用します。
 `bdUtilNodes` 内に固有の `MTypeId` を持つ別ノードとして登録しています。使い方は[変形対応 Cube](../../README.md#変形対応-cube)を参照してください。
 固定頂点を使う試作は、行列を毎フレーム変更する条件で Geometry の46.71 ms（OFF）／50.92 ms（ON）を16.85 ms（OFF）／17.51 ms（ON）に短縮しました。
 以前の診断で計った頂点変換と境界の再生成は1,000個合計で約0.12〜0.29 ms／描画フレームでした。
 回転用や拡縮用の属性へ分ける場合も、速度の検討は Viewport 2.0 の描画更新とバッファの再利用を優先します。
 
-`bdShpL_Cube` やフォーカス用シェイプに `shapeTransformMatrix` を追加した計測は、仕様変更前の研究記録です。固定 Cube に行列入力を持たせた試作を再検証するときは、研究 DLL のビルドに `-ShapeMatrix` を指定します。配布版の Cube 2型のうち、形状変形の行列入力を扱うのは `bdShpL_DeformableCube` で、属性名は `shapeDeformMatrix` です。
+`bdShpL_Cube` やフォーカス用シェイプに `shapeTransformMatrix` を追加した計測は、仕様変更前の研究記録です。固定 Cube に行列入力を持たせた試作を再検証するときは、研究 DLL のビルドに `-ShapeMatrix` を指定します。配布版の Deformable 2型の行列属性は `shapeDeformMatrix` です。
 
 静的版は Maya 2025 の GUI で、Cube に立体または平面の Box を組み合わせ、フォーカス、プレビュー切替、Cube の辺の選択を確認しました。
 共通親を移動・回転させて再生し、キャッシュ OFF・充填中・復元時に採取した描画を3姿勢の参照画像と照合しました。
 
 ## 静的な形状設定（2026-11-18）
 
-本体と研究用 Geometry / SubScene 版の軸・寸法設定は次の8属性です。
+配布版の4種と研究用 Geometry / SubScene 版の軸・寸法設定は次の8属性です。
 
 | 属性 | 短縮名 | 型 | 既定値 |
 | --- | --- | --- | --- |
@@ -92,7 +116,7 @@ NodeOperator では各属性の長い名前・短縮名と enum 定数を補完�
 
 ### 中央ガイド線（2026-11-26）
 
-両 Cube は `shapeGuideLine`（短縮名 `sgl`、bool、既定 `False`）を持ちます。
+標準版の2種は `shapeGuideLine`（短縮名 `sgl`、bool、既定 `False`）を持ちます。
 軸・寸法と同じ静的設定で、Channel Box から直接編集でき、キー設定と入力接続は禁止します。
 `True` にすると、本体の中心を通って対向する6面の中央を結ぶ3本の通常線を追加します。
 本体と同じ色・選択可否で描画し、`shapeGuideLineTemplate` は持ちません。
@@ -282,7 +306,7 @@ Channel Box を閉じ、GuideLine と Fin は OFF、追加属性はすべて既�
 
 ### 原点を示す OffsetLine
 
-両 Cube は、`shapeOffsetLine`（`sol`、bool、既定 `False`）で親のローカル原点と、静的変換後の面位置の中心を結びます。
+標準版の2種は、`shapeOffsetLine`（`sol`、bool、既定 `False`）で親のローカル原点と、静的変換後の面位置の中心を結びます。
 面スケールはこの基準中心を保ちます。Fin と GuideLine の頂点は、終点の計算に使いません。
 静的な形状を組み立てた時点で基準中心が原点と一致すると線を省きます。
 
@@ -366,7 +390,7 @@ OFF、ON、ON、OFF の順に各4起動し、計8起動・160試行を比較し�
 | `bdShpCubeGeometry.mll` | MPxLocatorNode + MPxGeometryOverride |
 | `bdShpCubeSubScene.mll` | MPxLocatorNode + MPxSubSceneOverride |
 
-どちらも同じ node type と `MTypeId=0x00142720` の代替実装です。
+どちらも研究用の型名 `bdShpL_Cube` と `MTypeId=0x00142720` を使う代替実装です。
 採用した Geometry 版は `bdUtilNodes` に統合しています。本体と研究用 Geometry は
 同じノード・描画ソースをコンパイルします。上記の研究用 DLL と本体は同じ ID を
 登録するため、同じ Maya process に同時ロードしません。
@@ -380,14 +404,14 @@ from maya import cmds
 
 cmds.loadPlugin("bdUtilNodes", quiet=True)
 ctrl = cmds.createNode("transform", name="cube_ctrl")
-cmds.createNode("bdShpL_Cube", parent=ctrl, name="cube_ctrlShape")
+cmds.createNode("bdCtrlShpL_Cube", parent=ctrl, name="cube_ctrlShape")
 cmds.select(ctrl)
 ```
 
 既に別配置の同プラグインをロードしている場合、`loadPlugin()` だけでは切り替わりません。
 既存シーンを保存して Maya を再起動し、
 `cmds.pluginInfo("bdUtilNodes", query=True, path=True)` で配布先を確認します。
-NodeOperator の生成済み API と型補完にも `bdShpL_Cube` を追加しています。
+配布版の4種は NodeOperator の API と型補完からも使用できます。
 
 通常の細線、不透明、標準 depth、オブジェクト選択、選択色、visibility、
 Template / Reference を初期対象とします。独立した transform / shape を使用し、

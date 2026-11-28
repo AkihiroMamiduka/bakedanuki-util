@@ -162,12 +162,14 @@
 | `bdRbf_MultiBendTwistFalloffWeight` | `0x0014271D` | Autodesk registered |
 | `bdDeleteWithOwner` | `0x0014271E` | Autodesk registered |
 | `bdControllerShape` | `0x0014271F` | Autodesk registered |
-| `bdShpL_Cube` | `0x00142720` | Autodesk registered。`bdUtilNodes` に採用。研究用の代替 DLL も同じ ID を使用 |
+| `bdCtrlShpL_Cube` | `0x00142720` | Autodesk registered。旧名 `bdShpL_Cube`。研究用の代替 DLL は旧名と同じ ID を使用 |
 | `bdShpL_FocusBoundingBox` | `0x00142721` | Autodesk registered |
 | `bdShpL_FocusBoundingSquare` | `0x00142722` | 廃止・再割り当て不可 |
-| `bdShpL_DeformableCube` | `0x00142723` | Autodesk registered |
+| `bdCtrlShpL_DeformableCube` | `0x00142723` | Autodesk registered。旧名 `bdShpL_DeformableCube` |
 | `bdShpL_CubeWithFin` | `0x00142724` | Fin の比較研究用 |
 | `bdShpL_DeformableCubeWithFin` | `0x00142725` | Fin の比較研究用 |
+| `bdCtrlShpL_SimpleCube` | `0x00142726` | Autodesk registered。軸と6面の位置を指定する Cube |
+| `bdCtrlShpL_DeformableSimpleCube` | `0x00142727` | Autodesk registered。軸・面位置と変形行列を指定する Cube |
 
 2026-08-14 に
 [Autodesk Maya Developer Network](https://adn.autodesk.io/maya) から、次の固有 ID block
@@ -178,11 +180,12 @@
 - block size: 256
 
 既存ノードは、開発用 ID の相対順序を保って `0x00142680` から `0x0014271F` までへ
-割り当て、固定 Cube とフォーカス用 Box に `0x00142720` と `0x00142721`、
-変形対応 Cube に `0x00142723` を使用しています。
+割り当て、標準の固定 Cube とフォーカス用 Box に `0x00142720` と `0x00142721`、
+標準の変形対応 Cube に `0x00142723` を使用しています。
 Fin 寸法固定版と静的属性版は、研究用 DLL の比較条件を揃えるため `0x00142724` と `0x00142725` を共有します。
+軸と6面の位置を指定する単純版2種には `0x00142726` と `0x00142727` を使用します。
 未使用 ID は `0x001426AA`、`0x001426AB`、および
-`0x00142726` から `0x0014277F` までです。
+`0x00142728` から `0x0014277F` までです。
 
 新しい node type は未使用 ID から割り当て、この表へ登録します。
 公開済みの `MTypeId` は、そのノードの廃止後も予約します。

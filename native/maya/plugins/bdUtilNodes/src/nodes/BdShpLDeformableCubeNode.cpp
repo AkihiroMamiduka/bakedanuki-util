@@ -37,23 +37,34 @@ const MString BdShpLDeformableCubeNode::typeName("bdShpL_DeformableCubeWithFin")
 const MTypeId BdShpLDeformableCubeNode::typeId(0x00142725);
 const MString BdShpLDeformableCubeNode::drawClassification("drawdb/subscene/bdShpL_DeformableCubeWithFin");
 const MString BdShpLDeformableCubeNode::drawRegistrantId("bdShpLDeformableCubeWithFinSubSceneOverride");
-#else
+#elif defined(BD_CUBE_RESEARCH_LEGACY_NAMES)
 const MString BdShpLDeformableCubeNode::typeName("bdShpL_DeformableCube");
 const MTypeId BdShpLDeformableCubeNode::typeId(0x00142723);
 const MString BdShpLDeformableCubeNode::drawClassification("drawdb/subscene/bdShpL_DeformableCube");
 const MString BdShpLDeformableCubeNode::drawRegistrantId("bdShpLDeformableCubeSubSceneOverride");
+#else
+const MString BdShpLDeformableCubeNode::typeName("bdCtrlShpL_DeformableCube");
+const MTypeId BdShpLDeformableCubeNode::typeId(0x00142723);
+const MString BdShpLDeformableCubeNode::drawClassification("drawdb/subscene/bdCtrlShpL_DeformableCube");
+const MString BdShpLDeformableCubeNode::drawRegistrantId("bdCtrlShpLDeformableCubeSubSceneOverride");
 #endif
 
 bdUtilNodes::fixedCube::ShapeAttributes BdShpLDeformableCubeNode::shapeAttributes_;
 MObject BdShpLDeformableCubeNode::shapeDeformMatrix;
 
-BdShpLDeformableCubeNode::BdShpLDeformableCubeNode() {
+BdShpLDeformableCubeNode::BdShpLDeformableCubeNode()
+    : BdShpLDeformableCubeNode(shapeAttributes_, shapeDeformMatrix) {}
+
+BdShpLDeformableCubeNode::BdShpLDeformableCubeNode(
+    const bdUtilNodes::fixedCube::ShapeAttributes& attributes, const MObject& matrixAttribute)
+    : attributes_(attributes), matrixAttribute_(matrixAttribute) {
 #ifdef BD_CUBE_RESEARCH_FIN
     baseGeometry_ = bdUtilNodes::fixedCube::initialGeometry();
 #else
     std::memcpy(baseGeometry_.vertices, bdUtilNodes::fixedCube::vertices, sizeof(baseGeometry_.vertices));
     baseGeometry_.bounds = bdUtilNodes::fixedCube::bounds();
 #endif
+    baseGeometry_.revision = geometryRevision_.load(std::memory_order_relaxed);
 }
 
 void* BdShpLDeformableCubeNode::creator() {
@@ -63,12 +74,16 @@ void* BdShpLDeformableCubeNode::creator() {
 MStatus BdShpLDeformableCubeNode::initialize() {
     MStatus status = shapeAttributes_.initialize();
     if (!status) return status;
+    return initializeMatrixAttribute(shapeDeformMatrix);
+}
 
+MStatus BdShpLDeformableCubeNode::initializeMatrixAttribute(MObject& matrixAttribute) {
+    MStatus status;
     MFnMatrixData matrixData;
     const auto identity = matrixData.create(MMatrix::identity, &status);
     if (!status) return status;
     MFnTypedAttribute attribute;
-    shapeDeformMatrix = attribute.create("shapeDeformMatrix", "sdm", MFnData::kMatrix, identity, &status);
+    matrixAttribute = attribute.create("shapeDeformMatrix", "sdm", MFnData::kMatrix, identity, &status);
     if (!status) return status;
     status = attribute.setKeyable(false);
     if (!status) return status;
@@ -80,13 +95,13 @@ MStatus BdShpLDeformableCubeNode::initialize() {
     if (!status) return status;
     status = attribute.setAffectsWorldSpace(true);
     if (!status) return status;
-    return addAttribute(shapeDeformMatrix);
+    return addAttribute(matrixAttribute);
 }
 
 void BdShpLDeformableCubeNode::postConstructor() {
     MPxLocatorNode::postConstructor();
     bdUtilNodes::hideLocatorPositionAndScale(thisMObject());
-    shapeAttributes_.lockSeparators(thisMObject());
+    attributes_.lockSeparators(thisMObject());
 }
 
 void BdShpLDeformableCubeNode::copyInternalData(MPxNode* source) {
@@ -113,7 +128,7 @@ bool BdShpLDeformableCubeNode::excludeAsLocator() const {
 }
 
 MStatus BdShpLDeformableCubeNode::setDependentsDirty(const MPlug& plug, MPlugArray& affected) {
-    if (plug.attribute() == shapeDeformMatrix) {
+    if (plug.attribute() == matrixAttribute_) {
         matrixRevision_.fetch_add(1, std::memory_order_release);
     }
     return MPxLocatorNode::setDependentsDirty(plug, affected);
@@ -126,7 +141,7 @@ MStatus BdShpLDeformableCubeNode::postEvaluation(
     std::uint64_t directRevision = 0;
     if (matrixConnected_.load(std::memory_order_acquire) && context.isNormal()) {
         MStatus status;
-        const bool dirty = evaluationNode.dirtyPlugExists(shapeDeformMatrix, &status);
+        const bool dirty = evaluationNode.dirtyPlugExists(matrixAttribute_, &status);
         if (dirty || !status || evalType == kLeaveDirty) {
             const auto previous = matrixRevision_.fetch_add(1, std::memory_order_release);
             if (dirty && status && evalType == kEvaluatedIndirectly && evaluationMatrixCache_.hasPending(previous)
@@ -155,8 +170,8 @@ MStatus BdShpLDeformableCubeNode::postEvaluation(
             const auto time = MAnimControl::currentTime();
             MStatus status;
             auto block = forceCache();
-            if (block.isClean(shapeDeformMatrix, &status) && status) {
-                auto data = block.inputValue(shapeDeformMatrix, &status);
+            if (block.isClean(matrixAttribute_, &status) && status) {
+                auto data = block.inputValue(matrixAttribute_, &status);
                 MMatrix deformMatrix;
                 const bool valid = status && readAffineMatrix(data.data(), deformMatrix);
                 if (shapeMatrixRevision() == directRevision && MAnimControl::currentTime() == time
@@ -171,7 +186,7 @@ MStatus BdShpLDeformableCubeNode::postEvaluation(
 
 bool BdShpLDeformableCubeNode::setInternalValue(const MPlug& plug, const MDataHandle& data) {
     const auto attribute = plug.attribute();
-    if (attribute == shapeDeformMatrix) {
+    if (attribute == matrixAttribute_) {
         const auto revision = matrixRevision_.fetch_add(1, std::memory_order_release) + 1;
         // 描画自身のプラグ取得で呼ばれた場合は、評価側の候補として保留しない。
         if (matrixConnected_.load(std::memory_order_acquire) && !evaluationMatrixCache_.readActive()
@@ -181,7 +196,7 @@ bool BdShpLDeformableCubeNode::setInternalValue(const MPlug& plug, const MDataHa
         MHWRender::MRenderer::setGeometryDrawDirty(thisMObject(), false);
         return false;
     }
-    if (shapeAttributes_.contains(attribute)) {
+    if (attributes_.contains(attribute)) {
         geometryRevision_.fetch_add(1, std::memory_order_release);
         MHWRender::MRenderer::setGeometryDrawDirty(thisMObject(), false);
         return false;
@@ -192,7 +207,7 @@ bool BdShpLDeformableCubeNode::setInternalValue(const MPlug& plug, const MDataHa
 MStatus BdShpLDeformableCubeNode::legalConnection(
     const MPlug& plug, const MPlug& otherPlug, bool asSrc, bool& isLegal
 ) const {
-    if (!asSrc && shapeAttributes_.contains(plug.attribute())) {
+    if (!asSrc && attributes_.contains(plug.attribute())) {
         isLegal = false;
         return MS::kSuccess;
     }
@@ -200,7 +215,7 @@ MStatus BdShpLDeformableCubeNode::legalConnection(
 }
 
 MStatus BdShpLDeformableCubeNode::connectionMade(const MPlug& plug, const MPlug& otherPlug, bool asSrc) {
-    if (!asSrc && plug.attribute() == shapeDeformMatrix) {
+    if (!asSrc && plug.attribute() == matrixAttribute_) {
         matrixConnected_.store(true, std::memory_order_release);
         dirtyMatrix();
     }
@@ -208,7 +223,7 @@ MStatus BdShpLDeformableCubeNode::connectionMade(const MPlug& plug, const MPlug&
 }
 
 MStatus BdShpLDeformableCubeNode::connectionBroken(const MPlug& plug, const MPlug& otherPlug, bool asSrc) {
-    if (!asSrc && plug.attribute() == shapeDeformMatrix) {
+    if (!asSrc && plug.attribute() == matrixAttribute_) {
         matrixConnected_.store(false, std::memory_order_release);
         dirtyMatrix();
     }
@@ -229,8 +244,8 @@ void BdShpLDeformableCubeNode::configCache(const MEvaluationNode& evalNode, MCac
     MPxLocatorNode::configCache(evalNode, schema);
     // 描画更新が参照する接続済みの入力を、キャッシュからフレームごとに復元する。
     if (matrixConnected_.load(std::memory_order_acquire)) {
-        const auto status = schema.add(shapeDeformMatrix);
-        if (!status) status.perror("Could not cache bdShpL_DeformableCube.shapeDeformMatrix");
+        const auto status = schema.add(matrixAttribute_);
+        if (!status) status.perror("Could not cache shapeDeformMatrix");
     }
 }
 
@@ -252,7 +267,7 @@ BdShpLDeformableCubeNode::Geometry BdShpLDeformableCubeNode::baseDrawGeometry() 
         MPoint finPositions[bdUtilNodes::fixedCube::finVertexCount];
         bool guideLine, fin, preciseBodyBounds;
         std::optional<bdUtilNodes::fixedCube::OffsetLineGeometry> offsetLine;
-        if (shapeAttributes_.readPositions(
+        if (attributes_.readPositions(
                 thisMObject(), positions, guideLine, finPositions, fin, &preciseBodyBounds, &offsetLine)) {
             baseGeometry_ = bdUtilNodes::fixedCube::geometryFromPositions(
                 positions, revision, guideLine, fin ? finPositions : nullptr,
@@ -272,7 +287,7 @@ bool BdShpLDeformableCubeNode::readShapeMatrix(MMatrix& deformMatrix) const {
     cubeResearch::profiling::Scope scope(cubeResearch::profiling::Method::matrixRead);
 #endif
     MStatus status;
-    const auto data = MPlug(thisMObject(), shapeDeformMatrix).asMObject(&status);
+    const auto data = MPlug(thisMObject(), matrixAttribute_).asMObject(&status);
     return status && readAffineMatrix(data, deformMatrix);
 }
 
@@ -413,3 +428,25 @@ BdShpLDeformableCubeNode::EvaluationMatrixCache::lookup(std::uint64_t revision, 
         || current.load(std::memory_order_acquire) != revision || time != published_.time) return {};
     return published_;
 }
+
+#ifndef BD_CUBE_RESEARCH_LEGACY_NAMES
+const MString BdCtrlShpLDeformableSimpleCubeNode::typeName("bdCtrlShpL_DeformableSimpleCube");
+const MTypeId BdCtrlShpLDeformableSimpleCubeNode::typeId(0x00142727);
+const MString BdCtrlShpLDeformableSimpleCubeNode::drawClassification("drawdb/subscene/bdCtrlShpL_DeformableSimpleCube");
+const MString BdCtrlShpLDeformableSimpleCubeNode::drawRegistrantId("bdCtrlShpLDeformableSimpleCubeSubSceneOverride");
+bdUtilNodes::fixedCube::ShapeAttributes BdCtrlShpLDeformableSimpleCubeNode::shapeAttributes_;
+MObject BdCtrlShpLDeformableSimpleCubeNode::shapeDeformMatrix;
+
+BdCtrlShpLDeformableSimpleCubeNode::BdCtrlShpLDeformableSimpleCubeNode()
+    : BdShpLDeformableCubeNode(shapeAttributes_, shapeDeformMatrix) {}
+
+void* BdCtrlShpLDeformableSimpleCubeNode::creator() {
+    return new BdCtrlShpLDeformableSimpleCubeNode;
+}
+
+MStatus BdCtrlShpLDeformableSimpleCubeNode::initialize() {
+    const auto status = shapeAttributes_.initializeSimple();
+    if (!status) return status;
+    return initializeMatrixAttribute(shapeDeformMatrix);
+}
+#endif

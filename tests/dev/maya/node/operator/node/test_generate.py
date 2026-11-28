@@ -156,7 +156,12 @@ def test_generate_node_class_code_removes_type_separator_from_class_name():
 
 
 @pytest.mark.parametrize(
-    "node_type", ("bdControllerShape", "bdShpL_Cube", "bdShpL_DeformableCube")
+    "node_type",
+    (
+        "bdControllerShape",
+        "bdCtrlShpL_Cube",
+        "bdCtrlShpL_DeformableCube",
+    ),
 )
 def test_shape_generator_skips_channel_box_separators(node_type):
     code = generate_node_class_code(

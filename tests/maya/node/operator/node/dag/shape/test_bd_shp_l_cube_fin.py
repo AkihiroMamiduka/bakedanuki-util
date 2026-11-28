@@ -1,4 +1,4 @@
-"""両 Cube の Fin の寸法・変形・静的属性・履歴を本番 DLL で検証する。"""
+"""両 CustomCube の Fin の寸法・変形・静的属性・履歴を本番 DLL で検証する。"""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ from maya.api import OpenMaya as om
 import bd_util as bdu
 
 pytestmark = pytest.mark.maya
-NODE_TYPES = ("bdShpL_Cube", "bdShpL_DeformableCube")
+NODE_TYPES = ("bdCtrlShpL_Cube", "bdCtrlShpL_DeformableCube")
 SPECS = (
     ("shapeFin", "sfn", "bool", False),
     ("shapeFinType", "sfnt", "enum", 0),
@@ -354,11 +354,11 @@ def test_fin_node_operator_modifiers(node_type):
     bd_nodes = bdu.Nodes(modifier_manager=mod)
     _, name = _create(node_type)
     if node_type == NODE_TYPES[0]:
-        shape = bd_nodes.existing.bdShpL_Cube(name)
-        assert isinstance(shape, bdu.node_types.BdShpLCube)
+        shape = bd_nodes.existing.bdCtrlShpL_Cube(name)
+        assert isinstance(shape, bdu.node_types.BdCtrlShpLCube)
     else:
-        shape = bd_nodes.existing.bdShpL_DeformableCube(name)
-        assert isinstance(shape, bdu.node_types.BdShpLDeformableCube)
+        shape = bd_nodes.existing.bdCtrlShpL_DeformableCube(name)
+        assert isinstance(shape, bdu.node_types.BdCtrlShpLDeformableCube)
     shape.sfn.set(True)
     shape.sfnt.set(shape.sfnt.TAPERED)
     shape.sfnh.set(0.75)

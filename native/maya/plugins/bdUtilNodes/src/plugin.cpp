@@ -213,8 +213,8 @@ struct DrawOverrideRegistration {
     }
 };
 
-const std::array<DrawOverrideRegistration, 4>& drawOverrides() {
-    static const std::array<DrawOverrideRegistration, 4> overrides = {{
+const std::array<DrawOverrideRegistration, 6>& drawOverrides() {
+    static const std::array<DrawOverrideRegistration, 6> overrides = {{
         {
             BdControllerShapeNode::drawClassification,
             BdControllerShapeNode::drawRegistrantId,
@@ -237,12 +237,39 @@ const std::array<DrawOverrideRegistration, 4>& drawOverrides() {
             nullptr,
             BdShpLDeformableCubeNode::createSubSceneOverride,
         },
+        {
+            BdCtrlShpLSimpleCubeNode::drawClassification,
+            BdCtrlShpLSimpleCubeNode::drawRegistrantId,
+            BdCtrlShpLSimpleCubeNode::createGeometryOverride,
+        },
+        {
+            BdCtrlShpLDeformableSimpleCubeNode::drawClassification,
+            BdCtrlShpLDeformableSimpleCubeNode::drawRegistrantId,
+            nullptr,
+            BdCtrlShpLDeformableSimpleCubeNode::createSubSceneOverride,
+        },
     }};
     return overrides;
 }
 
-const std::array<NodeRegistration, 161>& nodeRegistrations() {
-    static const std::array<NodeRegistration, 161> registrations = {{
+const std::array<NodeRegistration, 163>& nodeRegistrations() {
+    static const std::array<NodeRegistration, 163> registrations = {{
+        {
+            BdCtrlShpLSimpleCubeNode::typeName,
+            BdCtrlShpLSimpleCubeNode::typeId,
+            BdCtrlShpLSimpleCubeNode::creator,
+            BdCtrlShpLSimpleCubeNode::initialize,
+            MPxNode::kLocatorNode,
+            &BdCtrlShpLSimpleCubeNode::drawClassification,
+        },
+        {
+            BdCtrlShpLDeformableSimpleCubeNode::typeName,
+            BdCtrlShpLDeformableSimpleCubeNode::typeId,
+            BdCtrlShpLDeformableSimpleCubeNode::creator,
+            BdCtrlShpLDeformableSimpleCubeNode::initialize,
+            MPxNode::kLocatorNode,
+            &BdCtrlShpLDeformableSimpleCubeNode::drawClassification,
+        },
         {
             BdShpLCubeNode::typeName,
             BdShpLCubeNode::typeId,

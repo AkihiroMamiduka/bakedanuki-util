@@ -1,4 +1,4 @@
-"""Cube の形状調整・アニメーション・保存を本体と研究用 DLL で共通検証する。"""
+"""CustomCube の形状調整・保存と、研究用 DLL の同等機能を検証する。"""
 
 from __future__ import annotations
 
@@ -46,6 +46,11 @@ ATTRIBUTE_SPECS = (
 ASYMMETRIC_LIMITS = ((1.0, 3.0), (-2.0, 4.0), (5.0, 7.0))
 DEFAULT_LIMITS = ((-0.5, 0.5),) * 3
 ANIMATION_MATRIX_ATTR = "shapeTransformMatrix"
+RESEARCH_PLUGIN = bool(
+    os.environ.get("BD_FIXED_CUBE_PLUGIN_PATH")
+    and Path(os.environ["BD_FIXED_CUBE_PLUGIN_PATH"]).stem != "bdUtilNodes"
+)
+CUBE_TYPE = "bdShpL_Cube" if RESEARCH_PLUGIN else "bdCtrlShpL_Cube"
 RESEARCH_SHAPE_MATRIX = bool(
     os.environ.get("BD_FIXED_CUBE_PLUGIN_PATH")
     and os.environ.get("BD_FIXED_CUBE_EXPECT_SHAPE_MATRIX") == "1"
@@ -92,7 +97,7 @@ def cube_plugin():
         int(cmds.pluginInfo(plugin_name, query=True, apiVersion=True)) // 10000
         == int(cmds.about(apiVersion=True)) // 10000
     )
-    assert "bdShpL_Cube" in (
+    assert CUBE_TYPE in (
         cmds.pluginInfo(plugin_name, query=True, dependNode=True) or []
     )
     prefix = (
@@ -123,7 +128,7 @@ def scene(cube_plugin):
 def _create_cube(parent_type="transform", name="control"):
     """指定した親の直下へ固定 Cube を作成する。"""
     parent = cmds.createNode(parent_type, name=name)
-    shape = cmds.createNode("bdShpL_Cube", parent=parent, name=name + "Shape")
+    shape = cmds.createNode(CUBE_TYPE, parent=parent, name=name + "Shape")
     return parent, shape
 
 
@@ -172,7 +177,7 @@ def test_identity_and_attributes():
     _, shape = _create_cube()
     fn = om.MFnDependencyNode(_dag_path(shape).node())
     assert fn.typeId.id() == 0x00142720
-    assert cmds.nodeType(shape) == "bdShpL_Cube"
+    assert cmds.nodeType(shape) == CUBE_TYPE
     assert not (cmds.listAttr(shape, userDefined=True) or [])
     standard_locator = cmds.createNode("locator")
     attributes = {name for name, *_ in ATTRIBUTE_SPECS} | ADJUSTMENT_ATTRIBUTES
@@ -537,8 +542,8 @@ def test_shape_settings_can_drive_other_nodes():
 def test_draw_classification_matches_override(cube_plugin):
     """描画方式に対応する分類でノードを登録する。"""
     _, prefix = cube_plugin
-    assert cmds.getClassification("bdShpL_Cube") == [
-        f"drawdb/{prefix}/bdShpL_Cube"
+    assert cmds.getClassification(CUBE_TYPE) == [
+        f"drawdb/{prefix}/{CUBE_TYPE}"
     ]
 
 
@@ -609,7 +614,7 @@ def test_duplicate_delete_undo(uses_matrix):
     original = _bounds(shape)
     duplicate = cmds.duplicate(parent)[0]
     duplicate_shape = cmds.listRelatives(duplicate, shapes=True)[0]
-    assert cmds.nodeType(duplicate_shape) == "bdShpL_Cube"
+    assert cmds.nodeType(duplicate_shape) == CUBE_TYPE
     if uses_matrix:
         assert cmds.getAttr(f"{duplicate_shape}.stm") == cmds.getAttr(
             f"{shape}.stm"
@@ -689,7 +694,7 @@ def test_save_reload(tmp_path, extension, file_type, uses_matrix):
     cmds.file(save=True, type=file_type)
     cmds.file(new=True, force=True)
     cmds.file(str(scene_path), open=True, force=True)
-    assert cmds.nodeType(shape) == "bdShpL_Cube"
+    assert cmds.nodeType(shape) == CUBE_TYPE
     assert cmds.getAttr(parent + ".shearXY") == pytest.approx(0.4)
     assert _bounds(shape) == pytest.approx(expected)
     if matrix is not None:
@@ -698,6 +703,7 @@ def test_save_reload(tmp_path, extension, file_type, uses_matrix):
         assert cmds.getAttr(f"{shape}.{name}") == pytest.approx(value)
 
 
+@pytest.mark.skipif(RESEARCH_PLUGIN, reason="公開型 API は配布 DLL で検証する")
 def test_node_operator_edits_use_modifier_history(monkeypatch):
     """公開型と属性・短縮名から調整し、modifier の履歴で復元する。"""
     package_path = (
@@ -711,8 +717,8 @@ def test_node_operator_edits_use_modifier_history(monkeypatch):
     original = _bounds(name)
     mod = bdu.ModifierManager()
     bd_nodes = bdu.Nodes(modifier_manager=mod)
-    shape = bd_nodes.existing.bdShpL_Cube(name)
-    assert isinstance(shape, bdu.node_types.BdShpLCube)
+    shape = bd_nodes.existing.bdCtrlShpL_Cube(name)
+    assert isinstance(shape, bdu.node_types.BdCtrlShpLCube)
     assert not hasattr(type(shape), ANIMATION_MATRIX_ATTR)
     assert not hasattr(type(shape), "stm")
     shape.shape1stAxis.set(4)

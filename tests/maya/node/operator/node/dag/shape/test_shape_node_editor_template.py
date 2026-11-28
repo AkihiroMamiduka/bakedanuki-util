@@ -14,9 +14,16 @@ _PACKAGE_ROOT = _REPOSITORY_ROOT / "bakedanuki" / "bakedanuki-util"
 _TEMPLATE_DIRECTORY = _PACKAGE_ROOT / "templates" / "node_editor"
 _TRANSFORM_MATRIX = "shapeTransformMatrix"
 _DEFORM_MATRIX = "shapeDeformMatrix"
-_DEFORMABLE_CUBE_TYPE = "bdShpL_DeformableCube"
+_DEFORMABLE_CUBE_TYPES = (
+    "bdCtrlShpL_DeformableCube",
+    "bdCtrlShpL_DeformableSimpleCube",
+)
 _FOCUS_BOX_TYPE = "bdShpL_FocusBoundingBox"
-_STATIC_NODE_TYPES = ("bdShpL_Cube", _FOCUS_BOX_TYPE)
+_STATIC_NODE_TYPES = (
+    "bdCtrlShpL_Cube",
+    "bdCtrlShpL_SimpleCube",
+    _FOCUS_BOX_TYPE,
+)
 
 
 @pytest.fixture
@@ -41,7 +48,10 @@ def load_plugin(maya_cmds, new_scene):
             "stm",
             marks=pytest.mark.controller_shape,
         ),
-        (_DEFORMABLE_CUBE_TYPE, _DEFORM_MATRIX, "sdm"),
+        *(
+            (node_type, _DEFORM_MATRIX, "sdm")
+            for node_type in _DEFORMABLE_CUBE_TYPES
+        ),
         *((node_type, None, None) for node_type in _STATIC_NODE_TYPES),
     ],
 )
@@ -124,7 +134,7 @@ def test_every_module_version_resolves_the_distributed_templates():
         assert template_directory == _TEMPLATE_DIRECTORY.resolve()
         for node_type in (
             "bdControllerShape",
-            _DEFORMABLE_CUBE_TYPE,
+            *_DEFORMABLE_CUBE_TYPES,
             *_STATIC_NODE_TYPES,
         ):
             assert (

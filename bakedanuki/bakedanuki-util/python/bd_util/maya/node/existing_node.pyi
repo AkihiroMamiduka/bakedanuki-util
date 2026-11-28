@@ -408,6 +408,16 @@ from .operator.node.dg.bd_condition_dbl_l_extra_compose import (
     BdConditionDblLExtraCompose,
 )
 from .operator.node.dag.shape.bd_controller_shape import BdControllerShape
+from .operator.node.dag.shape.bd_ctrl_shp_l_cube import BdCtrlShpLCube
+from .operator.node.dag.shape.bd_ctrl_shp_l_deformable_cube import (
+    BdCtrlShpLDeformableCube,
+)
+from .operator.node.dag.shape.bd_ctrl_shp_l_deformable_simple_cube import (
+    BdCtrlShpLDeformableSimpleCube,
+)
+from .operator.node.dag.shape.bd_ctrl_shp_l_simple_cube import (
+    BdCtrlShpLSimpleCube,
+)
 from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import BdDbl3AddMulti
@@ -591,10 +601,6 @@ from .operator.node.dg.bd_rbf_position_falloff_weight import (
     BdRbfPositionFalloffWeight,
 )
 from .operator.node.dg.bd_rbf_position_weight import BdRbfPositionWeight
-from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube
-from .operator.node.dag.shape.bd_shp_l_deformable_cube import (
-    BdShpLDeformableCube,
-)
 from .operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
     BdShpLFocusBoundingBox,
 )
@@ -3600,6 +3606,30 @@ class ExistingNode:
         auto_add_attr: bool = False,
     ) -> BdControllerShape: ...
     @staticmethod
+    def bdCtrlShpL_Cube(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdCtrlShpLCube: ...
+    @staticmethod
+    def bdCtrlShpL_DeformableCube(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdCtrlShpLDeformableCube: ...
+    @staticmethod
+    def bdCtrlShpL_DeformableSimpleCube(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdCtrlShpLDeformableSimpleCube: ...
+    @staticmethod
+    def bdCtrlShpL_SimpleCube(
+        node: str | om.MObject,
+        modifier_manager: ModifierManager | None = None,
+        auto_add_attr: bool = False,
+    ) -> BdCtrlShpLSimpleCube: ...
+    @staticmethod
     def bdDbl3_Abs(
         node: str | om.MObject,
         modifier_manager: ModifierManager | None = None,
@@ -4469,18 +4499,6 @@ class ExistingNode:
         modifier_manager: ModifierManager | None = None,
         auto_add_attr: bool = False,
     ) -> BdRbfPositionWeight: ...
-    @staticmethod
-    def bdShpL_Cube(
-        node: str | om.MObject,
-        modifier_manager: ModifierManager | None = None,
-        auto_add_attr: bool = False,
-    ) -> BdShpLCube: ...
-    @staticmethod
-    def bdShpL_DeformableCube(
-        node: str | om.MObject,
-        modifier_manager: ModifierManager | None = None,
-        auto_add_attr: bool = False,
-    ) -> BdShpLDeformableCube: ...
     @staticmethod
     def bdShpL_FocusBoundingBox(
         node: str | om.MObject,

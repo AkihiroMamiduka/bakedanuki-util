@@ -23,7 +23,7 @@ namespace bdUtilNodes::fixedCube {
 struct ShapeAttributes;
 }
 
-class BdShpLCubeNode final : public MPxLocatorNode {
+class BdShpLCubeNode : public MPxLocatorNode {
 public:
     using Geometry = bdUtilNodes::fixedCube::Geometry;
 
@@ -34,9 +34,7 @@ public:
     static void cleanupDrawResources();
 
     void postConstructor() override;
-#ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     void copyInternalData(MPxNode* source) override;
-#endif
     bool isBounded() const override;
     MBoundingBox boundingBox() const override;
     void getCacheSetup(
@@ -76,6 +74,9 @@ public:
     static MObject shapeTransformMatrix;
 #endif
 
+protected:
+    explicit BdShpLCubeNode(const bdUtilNodes::fixedCube::ShapeAttributes& attributes);
+
 private:
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     static constexpr std::uint64_t kAnimationUsed = std::uint64_t{1} << 62;
@@ -103,4 +104,22 @@ private:
 #ifdef BD_CUBE_RESEARCH_SHAPE_MATRIX
     mutable std::unique_ptr<AnimationGeometry> animation_;
 #endif
+    const bdUtilNodes::fixedCube::ShapeAttributes& attributes_;
 };
+
+#ifndef BD_CUBE_RESEARCH_LEGACY_NAMES
+class BdCtrlShpLSimpleCubeNode final : public BdShpLCubeNode {
+public:
+    BdCtrlShpLSimpleCubeNode();
+    static void* creator();
+    static MStatus initialize();
+
+    static const MString typeName;
+    static const MTypeId typeId;
+    static const MString drawClassification;
+    static const MString drawRegistrantId;
+
+private:
+    static bdUtilNodes::fixedCube::ShapeAttributes shapeAttributes_;
+};
+#endif

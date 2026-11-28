@@ -133,17 +133,29 @@ def test_shape_with_transform_stub_uses_only_creatable_shapes():
         python_root
     )
 
-    assert len(definitions) == 84
+    assert len(definitions) == 86
     assert any(definition.node_type == "mesh" for definition in definitions)
     assert any(
-        definition.node_type == "bdShpL_Cube"
-        and definition.class_name == "BdShpLCube"
+        definition.node_type == "bdCtrlShpL_Cube"
+        and definition.class_name == "BdCtrlShpLCube"
         for definition in definitions
     )
     assert any(
-        definition.node_type == "bdShpL_DeformableCube"
-        and definition.class_name == "BdShpLDeformableCube"
+        definition.node_type == "bdCtrlShpL_DeformableCube"
+        and definition.class_name == "BdCtrlShpLDeformableCube"
         for definition in definitions
+    )
+    for node_type, class_name in (
+        ("bdCtrlShpL_SimpleCube", "BdCtrlShpLSimpleCube"),
+        ("bdCtrlShpL_DeformableSimpleCube", "BdCtrlShpLDeformableSimpleCube"),
+    ):
+        assert any(
+            definition.node_type == node_type
+            and definition.class_name == class_name
+            for definition in definitions
+        )
+    assert {"bdShpL_Cube", "bdShpL_DeformableCube"}.isdisjoint(
+        definition.node_type for definition in definitions
     )
     assert any(
         definition.node_type == "bdShpL_FocusBoundingBox"
@@ -285,6 +297,13 @@ def test_versioned_creator_surfaces_follow_node_availability():
 
     assert "absolute" in common_names
     assert "controllerShape" in common_names
+    assert {
+        "bdCtrlShpL_SimpleCube",
+        "bdCtrlShpL_DeformableSimpleCube",
+        "bdCtrlShpL_Cube",
+        "bdCtrlShpL_DeformableCube",
+    }.issubset(common_names)
+    assert {"bdShpL_Cube", "bdShpL_DeformableCube"}.isdisjoint(common_names)
     assert "__getattr__" not in common_names
     assert {"addDoubleLinear", "absoluteDL", "shotLabel"}.isdisjoint(
         common_names
@@ -328,8 +347,11 @@ def test_versioned_creator_surfaces_follow_node_availability():
 
     assert "Absolute" in common_names
     assert "BdControllerShape" in common_names
-    assert "BdShpLCube" in common_names
-    assert "BdShpLDeformableCube" in common_names
+    assert "BdCtrlShpLCube" in common_names
+    assert "BdCtrlShpLDeformableCube" in common_names
+    assert "BdCtrlShpLSimpleCube" in common_names
+    assert "BdCtrlShpLDeformableSimpleCube" in common_names
+    assert {"BdShpLCube", "BdShpLDeformableCube"}.isdisjoint(common_names)
     assert {"AddDoubleLinear", "AbsoluteDL", "ShotLabel"}.isdisjoint(
         common_names
     )

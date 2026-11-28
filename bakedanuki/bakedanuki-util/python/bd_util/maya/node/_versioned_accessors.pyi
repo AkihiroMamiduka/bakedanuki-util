@@ -642,6 +642,18 @@ from .operator.node.dg.bd_condition_dbl_l_extra_compose import (
 from .operator.node.dag.shape.bd_controller_shape import (
     BdControllerShape as _BdControllerShape,
 )
+from .operator.node.dag.shape.bd_ctrl_shp_l_cube import (
+    BdCtrlShpLCube as _BdCtrlShpLCube,
+)
+from .operator.node.dag.shape.bd_ctrl_shp_l_deformable_cube import (
+    BdCtrlShpLDeformableCube as _BdCtrlShpLDeformableCube,
+)
+from .operator.node.dag.shape.bd_ctrl_shp_l_deformable_simple_cube import (
+    BdCtrlShpLDeformableSimpleCube as _BdCtrlShpLDeformableSimpleCube,
+)
+from .operator.node.dag.shape.bd_ctrl_shp_l_simple_cube import (
+    BdCtrlShpLSimpleCube as _BdCtrlShpLSimpleCube,
+)
 from .operator.node.dg.bd_dbl3_abs import BdDbl3Abs as _BdDbl3Abs
 from .operator.node.dg.bd_dbl3_add import BdDbl3Add as _BdDbl3Add
 from .operator.node.dg.bd_dbl3_add_multi import (
@@ -956,10 +968,6 @@ from .operator.node.dg.bd_rbf_position_falloff_weight import (
 )
 from .operator.node.dg.bd_rbf_position_weight import (
     BdRbfPositionWeight as _BdRbfPositionWeight,
-)
-from .operator.node.dag.shape.bd_shp_l_cube import BdShpLCube as _BdShpLCube
-from .operator.node.dag.shape.bd_shp_l_deformable_cube import (
-    BdShpLDeformableCube as _BdShpLDeformableCube,
 )
 from .operator.node.dag.shape.bd_shp_l_focus_bounding_box import (
     BdShpLFocusBoundingBox as _BdShpLFocusBoundingBox,
@@ -3268,7 +3276,7 @@ class _ShapeWithTransformCreatorCommon:
         parent: DAG | None = None,
         namespace: str | None = None,
     ) -> tuple[Transform, _BdControllerShape]: ...
-    def bdShpL_Cube(
+    def bdCtrlShpL_Cube(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
@@ -3276,8 +3284,8 @@ class _ShapeWithTransformCreatorCommon:
         shape_name: str | None = None,
         parent: DAG | None = None,
         namespace: str | None = None,
-    ) -> tuple[Transform, _BdShpLCube]: ...
-    def bdShpL_DeformableCube(
+    ) -> tuple[Transform, _BdCtrlShpLCube]: ...
+    def bdCtrlShpL_DeformableCube(
         self,
         name: str | None = None,
         auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
@@ -3285,7 +3293,25 @@ class _ShapeWithTransformCreatorCommon:
         shape_name: str | None = None,
         parent: DAG | None = None,
         namespace: str | None = None,
-    ) -> tuple[Transform, _BdShpLDeformableCube]: ...
+    ) -> tuple[Transform, _BdCtrlShpLDeformableCube]: ...
+    def bdCtrlShpL_DeformableSimpleCube(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _BdCtrlShpLDeformableSimpleCube]: ...
+    def bdCtrlShpL_SimpleCube(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        shape_name: str | None = None,
+        parent: DAG | None = None,
+        namespace: str | None = None,
+    ) -> tuple[Transform, _BdCtrlShpLSimpleCube]: ...
     def bdShpL_FocusBoundingBox(
         self,
         name: str | None = None,
@@ -7100,6 +7126,38 @@ class _NodeCreatorCommon:
         parent: Transform,
         namespace: str | None = None,
     ) -> _BdControllerShape: ...
+    def bdCtrlShpL_Cube(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BdCtrlShpLCube: ...
+    def bdCtrlShpL_DeformableCube(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BdCtrlShpLDeformableCube: ...
+    def bdCtrlShpL_DeformableSimpleCube(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BdCtrlShpLDeformableSimpleCube: ...
+    def bdCtrlShpL_SimpleCube(
+        self,
+        name: str | None = None,
+        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
+        *,
+        parent: Transform,
+        namespace: str | None = None,
+    ) -> _BdCtrlShpLSimpleCube: ...
     def bdDbl3_Abs(
         self,
         name: str | None = None,
@@ -8115,22 +8173,6 @@ class _NodeCreatorCommon:
         *,
         namespace: str | None = None,
     ) -> _BdRbfPositionWeight: ...
-    def bdShpL_Cube(
-        self,
-        name: str | None = None,
-        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-        *,
-        parent: Transform,
-        namespace: str | None = None,
-    ) -> _BdShpLCube: ...
-    def bdShpL_DeformableCube(
-        self,
-        name: str | None = None,
-        auto_add_attr: bool = DEFAULT_VALUE_AUTO_ADD_ATTR,
-        *,
-        parent: Transform,
-        namespace: str | None = None,
-    ) -> _BdShpLDeformableCube: ...
     def bdShpL_FocusBoundingBox(
         self,
         name: str | None = None,
@@ -21378,6 +21420,26 @@ class _ExistingNodeAccessorCommon:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> _BdControllerShape: ...
+    def bdCtrlShpL_Cube(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdCtrlShpLCube: ...
+    def bdCtrlShpL_DeformableCube(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdCtrlShpLDeformableCube: ...
+    def bdCtrlShpL_DeformableSimpleCube(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdCtrlShpLDeformableSimpleCube: ...
+    def bdCtrlShpL_SimpleCube(
+        self,
+        node: str | om.MObject,
+        auto_add_attr: bool = False,
+    ) -> _BdCtrlShpLSimpleCube: ...
     def bdDbl3_Abs(
         self,
         node: str | om.MObject,
@@ -22103,16 +22165,6 @@ class _ExistingNodeAccessorCommon:
         node: str | om.MObject,
         auto_add_attr: bool = False,
     ) -> _BdRbfPositionWeight: ...
-    def bdShpL_Cube(
-        self,
-        node: str | om.MObject,
-        auto_add_attr: bool = False,
-    ) -> _BdShpLCube: ...
-    def bdShpL_DeformableCube(
-        self,
-        node: str | om.MObject,
-        auto_add_attr: bool = False,
-    ) -> _BdShpLDeformableCube: ...
     def bdShpL_FocusBoundingBox(
         self,
         node: str | om.MObject,

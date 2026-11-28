@@ -21,6 +21,7 @@
 namespace bdUtilNodes::fixedCube {
 
 struct ShapeAttributes {
+    bool simple = false;
     MObject firstAxis;
     MObject secondAxis;
     MObject limits[3][2];
@@ -34,6 +35,11 @@ struct ShapeAttributes {
 #if !defined(BD_CUBE_RESEARCH_FIN) || defined(BD_CUBE_RESEARCH_FIN_ATTRIBUTES)
     FinAttributes finAttributes;
 #endif
+
+    MStatus initializeSimple() {
+        simple = true;
+        return initialize();
+    }
 
     MStatus initialize() {
 #ifdef BD_CUBE_RESEARCH_FIXED_BASE
@@ -60,6 +66,12 @@ struct ShapeAttributes {
                     MDistance(0.5, MDistance::kCentimeters), &status);
                 if (!status) return status;
             }
+        }
+
+        if (simple) {
+            status = addAxisAttributes();
+            if (!status) return status;
+            return addLimitAttributes();
         }
 
         MFnNumericAttribute numeric;
@@ -97,16 +109,12 @@ struct ShapeAttributes {
         // 区切りは表示だけに使い、形状の dirty 判定へ含めない。
         status = MPxNode::addAttribute(separators[0]);
         if (!status) return status;
-        for (const auto& attribute : {firstAxis, secondAxis}) {
-            status = addStaticAttribute(attribute);
-            if (!status) return status;
-        }
+        status = addAxisAttributes();
+        if (!status) return status;
         status = MPxNode::addAttribute(separators[1]);
         if (!status) return status;
-        for (unsigned int axis = 0; axis < 3; ++axis) for (unsigned int side : {1U, 0U}) {
-            status = addStaticAttribute(limits[axis][side]);
-            if (!status) return status;
-        }
+        status = addLimitAttributes();
+        if (!status) return status;
         status = MPxNode::addAttribute(separators[2]);
         if (!status) return status;
         for (const auto& attribute : adjustments.faceParents) {
@@ -146,6 +154,13 @@ struct ShapeAttributes {
     }
 
     bool contains(const MObject& attribute) const {
+        if (simple) {
+            if (attribute == firstAxis || attribute == secondAxis) return true;
+            for (const auto& sides : limits) {
+                if (attribute == sides[0] || attribute == sides[1]) return true;
+            }
+            return false;
+        }
 #ifdef BD_CUBE_RESEARCH_FIXED_BASE
         (void)attribute;
         return false;
@@ -192,7 +207,7 @@ struct ShapeAttributes {
         short second;
         double endpoints[3][2];
         if (!readBaseSettings(object, first, second, endpoints, drawGuideLine, drawFin)) return false;
-        if (!adjustments.read(object, adjustment)) return false;
+        if (!simple && !adjustments.read(object, adjustment)) return false;
 #endif
         const auto axes = resolveSignedShapeAxes(first, second);
         const auto firstVector = axes.first.vector();
@@ -225,7 +240,7 @@ struct ShapeAttributes {
         }
 #endif
 #ifndef BD_CUBE_RESEARCH_FIXED_BASE
-        if (drawOffsetLine) {
+        if (drawOffsetLine && !simple) {
             MStatus status;
             const bool enabled = MPlug(object, offsetLine).asBool(&status);
             if (!status) return false;
@@ -240,6 +255,22 @@ struct ShapeAttributes {
     }
 
 private:
+    MStatus addAxisAttributes() const {
+        for (const auto& attribute : {firstAxis, secondAxis}) {
+            const auto status = addStaticAttribute(attribute);
+            if (!status) return status;
+        }
+        return MS::kSuccess;
+    }
+
+    MStatus addLimitAttributes() const {
+        for (unsigned int axis = 0; axis < 3; ++axis) for (unsigned int side : {1U, 0U}) {
+            const auto status = addStaticAttribute(limits[axis][side]);
+            if (!status) return status;
+        }
+        return MS::kSuccess;
+    }
+
 #ifndef BD_CUBE_RESEARCH_FIXED_BASE
     bool readBaseSettings(const MObject& object, short& first, short& second,
         double (&endpoints)[3][2], bool& drawGuideLine, bool& drawFin) const {
@@ -258,6 +289,11 @@ private:
                     .asMDistance(&status).asCentimeters() * (side == 0 ? -1 : 1);
                 if (!status) return false;
             }
+        }
+        if (simple) {
+            drawGuideLine = false;
+            drawFin = false;
+            return true;
         }
         drawGuideLine = MPlug(object, guideLine).asBool(&status);
         if (!status) return false;

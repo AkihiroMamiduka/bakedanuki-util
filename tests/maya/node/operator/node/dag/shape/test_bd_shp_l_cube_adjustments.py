@@ -1,4 +1,4 @@
-"""両 Cube の面内倍率・静的 TRS・区画表示と更新契約を検証する。"""
+"""両 CustomCube の面内倍率・静的 TRS・区画表示と更新契約を検証する。"""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from test_bd_shp_l_cube_fin import CASES as FIN_CASES
 from test_bd_shp_l_cube_fin import _bounds, _create, _fn, fin_scene
 
 pytestmark = pytest.mark.maya
-NODE_TYPES = ("bdShpL_Cube", "bdShpL_DeformableCube")
+NODE_TYPES = ("bdCtrlShpL_Cube", "bdCtrlShpL_DeformableCube")
 AXES = ("1st", "2nd", "3rd")
 VECTORS = ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1))
 DEFAULT_LIMITS = ((-0.5, 0.5),) * 3

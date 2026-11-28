@@ -14,7 +14,7 @@ pytestmark = pytest.mark.maya
 _REGISTERED_NODE_ID_START = 0x00142680
 _REGISTERED_NODE_ID_END = 0x0014277F
 _FOCUS_BOX_TYPE = "bdShpL_FocusBoundingBox"
-_DEFORMABLE_CUBE_TYPE = "bdShpL_DeformableCube"
+_DEFORMABLE_CUBE_TYPE = "bdCtrlShpL_DeformableCube"
 _CUBE_BOUNDS = (-0.5, -0.5, -0.5, 0.5, 0.5, 0.5)
 
 
@@ -71,11 +71,15 @@ def test_node_type_ids_are_unique_and_in_registered_block(maya_cmds, maya_om):
     plugin_name = _load_bd_util_nodes(maya_cmds)
     node_types = maya_cmds.pluginInfo(plugin_name, query=True, dependNode=True)
 
-    assert len(node_types) == 161
+    assert len(node_types) == 163
     assert {
         "bdShpL_FocusBoundingCrossLine3Axis",
         "bdShpL_FocusBoundingCrossLine",
         "bdShpL_FocusBoundingSquare",
+        "bdShpL_Cube",
+        "bdShpL_DeformableCube",
+        "bdCtrlShpL_CustomCube",
+        "bdCtrlShpL_DeformableCustomCube",
     }.isdisjoint(node_types)
 
     type_ids = [
@@ -95,20 +99,20 @@ def test_fixed_cube_public_creator_and_existing_support_undo_redo(
     _load_bd_util_nodes(maya_cmds)
     mod = bdu.ModifierManager()
     bd_nodes = bdu.Nodes(modifier_manager=mod)
-    transform, shape = bd_nodes.create.with_transform.bdShpL_Cube(
+    transform, shape = bd_nodes.create.with_transform.bdCtrlShpL_Cube(
         name="cube_ctrl", shape_name="cubeShape"
     )
 
-    assert isinstance(shape, bdu.node_types.BdShpLCube)
+    assert isinstance(shape, bdu.node_types.BdCtrlShpLCube)
     assert shape.modifier_manager is mod
     mod.do_it_dag()
 
     assert transform.full_path == "|cube_ctrl"
     assert shape.full_path == "|cube_ctrl|cubeShape"
-    assert maya_cmds.nodeType(shape.full_path) == "bdShpL_Cube"
-    assert bdu.node_types.resolve("bdShpL_Cube") is type(shape)
-    existing = bd_nodes.existing.bdShpL_Cube(shape.full_path)
-    assert isinstance(existing, bdu.node_types.BdShpLCube)
+    assert maya_cmds.nodeType(shape.full_path) == "bdCtrlShpL_Cube"
+    assert bdu.node_types.resolve("bdCtrlShpL_Cube") is type(shape)
+    existing = bd_nodes.existing.bdCtrlShpL_Cube(shape.full_path)
+    assert isinstance(existing, bdu.node_types.BdCtrlShpLCube)
     assert existing.m_obj == shape.m_obj
     assert existing.visibility.get() is True
 
@@ -126,10 +130,12 @@ def test_deformable_cube_public_type_and_matrix_input(
     _load_bd_util_nodes(maya_cmds)
     mod = bdu.ModifierManager()
     bd_nodes = bdu.Nodes(modifier_manager=mod)
-    transform, shape = bd_nodes.create.with_transform.bdShpL_DeformableCube(
-        name="control", shape_name="deformableCubeShape"
+    transform, shape = (
+        bd_nodes.create.with_transform.bdCtrlShpL_DeformableCube(
+            name="control", shape_name="deformableCubeShape"
+        )
     )
-    fixed = bd_nodes.create.bdShpL_Cube(
+    fixed = bd_nodes.create.bdCtrlShpL_Cube(
         parent=transform, name="fixedCubeShape"
     )
     mod.do_it_dag()
@@ -138,10 +144,10 @@ def test_deformable_cube_public_type_and_matrix_input(
     assert maya_cmds.getClassification(_DEFORMABLE_CUBE_TYPE) == [
         f"drawdb/subscene/{_DEFORMABLE_CUBE_TYPE}"
     ]
-    assert type(shape) is bdu.node_types.BdShpLDeformableCube
+    assert type(shape) is bdu.node_types.BdCtrlShpLDeformableCube
     assert bdu.node_types.resolve(_DEFORMABLE_CUBE_TYPE) is type(shape)
     assert (
-        bd_nodes.existing.bdShpL_DeformableCube(shape.full_path).m_obj
+        bd_nodes.existing.bdCtrlShpL_DeformableCube(shape.full_path).m_obj
         == shape.m_obj
     )
     assert set(maya_cmds.listAttr(shape.full_path)) - set(
@@ -194,7 +200,7 @@ def test_deformable_cube_public_type_and_matrix_input(
     )
     edit_mod = bdu.ModifierManager()
     edit_nodes = bdu.Nodes(modifier_manager=edit_mod)
-    edit_shape = edit_nodes.existing.bdShpL_DeformableCube(shape.full_path)
+    edit_shape = edit_nodes.existing.bdCtrlShpL_DeformableCube(shape.full_path)
     edit_shape.shapeDeformMatrix.set(matrix.asMatrix())
     edit_shape.sgl.set(True)
     assert shape.shapeGuideLine.get() is False
@@ -399,7 +405,7 @@ def test_focus_shape_public_type_and_static_attributes(
     transform, shape = bd_nodes.create.with_transform.bdShpL_FocusBoundingBox(
         name="control", shape_name="focusShape"
     )
-    bd_nodes.create.bdShpL_Cube(parent=transform, name="cubeShape")
+    bd_nodes.create.bdCtrlShpL_Cube(parent=transform, name="cubeShape")
     mod.do_it_dag()
 
     assert maya_om.MNodeClass(_FOCUS_BOX_TYPE).typeId.id() == 0x00142721
@@ -488,7 +494,7 @@ def test_focus_shape_frames_follow_keyed_parent_at_current_time(
     maya_cmds.setAttr(f"{focus}.shapeBaseSpaceXMinus", to_ui(-1.25))
     maya_cmds.setAttr(f"{focus}.shapeBaseSpaceXPlus", to_ui(2.25))
     original = _local_bounds(maya_om, focus)
-    maya_cmds.createNode("bdShpL_Cube", parent=ctrl)
+    maya_cmds.createNode("bdCtrlShpL_Cube", parent=ctrl)
     frames_and_offsets = ((1, 3.0), (10, 13.0))
     for frame, offset in frames_and_offsets:
         maya_cmds.setKeyframe(
@@ -515,7 +521,7 @@ def test_focus_shape_hidden_dimension_edits_update_framing_through_undo_redo(
     _load_bd_util_nodes(maya_cmds)
     ctrl = maya_cmds.createNode("transform")
     focus = maya_cmds.createNode(_FOCUS_BOX_TYPE, parent=ctrl)
-    maya_cmds.createNode("bdShpL_Cube", parent=ctrl)
+    maya_cmds.createNode("bdCtrlShpL_Cube", parent=ctrl)
     maya_cmds.select(ctrl)
     assert maya_cmds.getAttr(f"{focus}.showShape") is False
 
@@ -546,7 +552,7 @@ def test_focus_shape_bounds_stay_independent_of_preview_and_sibling(
     _load_bd_util_nodes(maya_cmds)
     ctrl = maya_cmds.createNode("transform")
     focus = maya_cmds.createNode(_FOCUS_BOX_TYPE, parent=ctrl)
-    body = maya_cmds.createNode("bdShpL_Cube", parent=ctrl)
+    body = maya_cmds.createNode("bdCtrlShpL_Cube", parent=ctrl)
 
     assert _local_bounds(maya_om, focus) == pytest.approx(_CUBE_BOUNDS)
     for attr, value in (
@@ -606,7 +612,7 @@ def test_fixed_shape_channel_box_and_focus_override_defaults(
     maya_cmds, new_scene
 ):
     _load_bd_util_nodes(maya_cmds)
-    cube = maya_cmds.createNode("bdShpL_Cube")
+    cube = maya_cmds.createNode("bdCtrlShpL_Cube")
     focus = maya_cmds.createNode(_FOCUS_BOX_TYPE)
     locator = maya_cmds.createNode("locator")
 
@@ -635,7 +641,7 @@ def test_focus_shape_frames_first_visible_sibling(
     _load_bd_util_nodes(maya_cmds)
     ctrl = maya_cmds.createNode("transform")
     focus = maya_cmds.createNode(_FOCUS_BOX_TYPE, parent=ctrl)
-    body = maya_cmds.createNode("bdShpL_Cube", parent=ctrl)
+    body = maya_cmds.createNode("bdCtrlShpL_Cube", parent=ctrl)
     to_ui = maya_om.MDistance.internalToUI
     maya_cmds.setAttr(f"{ctrl}.translateX", to_ui(3.0))
     maya_cmds.setAttr(f"{focus}.shapeBaseSpaceXMinus", to_ui(-9.5))

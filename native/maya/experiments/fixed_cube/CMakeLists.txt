@@ -75,7 +75,7 @@ foreach(kind IN LISTS CUBE_KINDS)
     target_include_directories(bdShpCube${kind} PRIVATE
         "${MAYA_LOCATION}/include" "${CUBE_NODE_ROOT}/include" "${CMAKE_CURRENT_SOURCE_DIR}")
     target_compile_features(bdShpCube${kind} PRIVATE cxx_std_17)
-    target_compile_definitions(bdShpCube${kind} PRIVATE NT_PLUGIN REQUIRE_IOSTREAM)
+    target_compile_definitions(bdShpCube${kind} PRIVATE NT_PLUGIN REQUIRE_IOSTREAM BD_CUBE_RESEARCH_LEGACY_NAMES)
     if(BD_CUBE_RESEARCH_SHAPE_MATRIX)
         target_compile_definitions(bdShpCube${kind} PRIVATE BD_CUBE_RESEARCH_SHAPE_MATRIX)
     endif()
@@ -123,7 +123,7 @@ if(BD_CUBE_RESEARCH_FIN_STUDY OR BD_CUBE_RESEARCH_DUMMY_BOOL_STUDY OR BD_CUBE_RE
         target_include_directories(${target} PRIVATE
             "${MAYA_LOCATION}/include" "${CUBE_NODE_ROOT}/include" "${CMAKE_CURRENT_SOURCE_DIR}")
         target_compile_features(${target} PRIVATE cxx_std_17)
-        target_compile_definitions(${target} PRIVATE NT_PLUGIN REQUIRE_IOSTREAM)
+        target_compile_definitions(${target} PRIVATE NT_PLUGIN REQUIRE_IOSTREAM BD_CUBE_RESEARCH_LEGACY_NAMES)
         target_compile_options(${target} PRIVATE /EHsc /utf-8 /permissive- /W4 /Zc:__cplusplus)
         set_target_properties(${target} PROPERTIES CXX_EXTENSIONS OFF)
     endfunction()

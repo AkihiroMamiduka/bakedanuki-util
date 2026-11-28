@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <using package="maya"/>
+    <template name="NEbdCtrlShpL_DeformableCube">
+        <attribute name="shapeDeformMatrix" type="maya.matrix">
+            <label>Shape Deform Matrix</label>
+        </attribute>
+    </template>
+    <view name="NEDefault" template="NEbdCtrlShpL_DeformableCube">
+        <property name="shapeDeformMatrix"/>
+    </view>
+</templates>

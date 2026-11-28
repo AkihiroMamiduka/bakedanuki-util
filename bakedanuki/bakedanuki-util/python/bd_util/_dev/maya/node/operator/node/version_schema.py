@@ -45,8 +45,10 @@ INVENTORY_COUNTS = {
 # 初回の Maya 2025 snapshot にない対応ノードも、後続版の差分判定の基準へ含める。
 BASELINE_ADDITIONAL_NODE_TYPES = (
     "aiOpenPBRSurface",
-    "bdShpL_Cube",
-    "bdShpL_DeformableCube",
+    "bdCtrlShpL_Cube",
+    "bdCtrlShpL_DeformableCube",
+    "bdCtrlShpL_DeformableSimpleCube",
+    "bdCtrlShpL_SimpleCube",
     "bdShpL_FocusBoundingBox",
     "bifrostGraphShape",
     "bifrostRiggingContainer",

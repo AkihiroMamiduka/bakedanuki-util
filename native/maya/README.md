@@ -71,7 +71,7 @@ Debug build は配布用バイナリを上書きせず、
 Visual Studio から `maya.exe` へアタッチし、この `.mll` を絶対パスでロードします。
 Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み替えてください。
 
-固定 Cube `bdShpL_Cube` は `bdUtilNodes` に含まれ、上記の通常 build で更新します。
+固定 Cube `bdCtrlShpL_Cube` と `bdCtrlShpL_SimpleCube` は `bdUtilNodes` に含まれ、上記の通常 build で更新します。
 既存 `.mod` を利用し、Maya から `cmds.loadPlugin("bdUtilNodes")` でロードできます。
 研究用 Geometry DLL は本体と同じノード・描画ソースをコンパイルする比較用です。
 研究用 DLL は配布先へ配置せず、本体と同じ Maya process に同時ロードしません。
@@ -80,11 +80,11 @@ Maya 2026 / 2027を対象にする場合は、対応するbuild scriptへ読み�
 
 ### 変形対応 Cube
 
-`bdShpL_DeformableCube` は、線の Cube を行列で変形する SubScene ノードです。
-固定 Cube と同じ面位置・面スケール・静的変換で形状を組み立て、`shapeDeformMatrix`（`sdm`）のアフィン変換を適用してから、
-親の DAG 階層の変換を反映します。
+`bdCtrlShpL_DeformableCube` と `bdCtrlShpL_DeformableSimpleCube` は、線の Cube を行列で変形する SubScene ノードです。
+各ノードは対応する固定版と同じ設定で形状を組み立て、`shapeDeformMatrix`（`sdm`）を適用してから親の DAG 階層の変換を反映します。
+第1・第2軸と6面の位置を決める属性は4種で共通です。[4種の属性](../../bakedanuki/bakedanuki-util/README.md#コントローラー用-cube)
 既定の基本形状は各軸 `±0.5 cm`、入力行列は単位行列です。行列は直接設定でき、毎フレーム変化する上流ノードにも接続できます。
-両 Cube の `shapeGuideLine`（`sgl`、既定 `False`）を ON にすると、対向面の中央を結ぶ3本の通常線を追加します。ガイドは静的設定で、本体と同じ変形・表示に追従し、境界を広げません。
+標準版の `shapeGuideLine`（`sgl`、既定 `False`）を ON にすると、対向面の中央を結ぶ3本の通常線を追加します。ガイドは静的設定で、本体と同じ変形・表示に追従し、境界を広げません。
 `shapeFin`（`sfn`、既定 `False`）で Plus 面に Fin を追加できます。本体と同じ描画アイテムで表示し、変形後の境界にも Fin の端点を含めます。[Fin の属性と寸法](../../bakedanuki/bakedanuki-util/README.md#固定-cube)
 `shapeOffsetLine`（`sol`、既定 `False`）で親のローカル原点から静的な基準中心に線を引けます。線の両端に本体と同じ変形行列を適用します。[OffsetLine の仕様](experiments/fixed_cube/README.md#原点を示す-offsetline)
 Cached Playback では各フレームの入力行列を復元します。SubScene 描画では、接続済みの変形行列を入力の変更通知まで再利用します。評価時に取得できた行列は、時刻と世代が一致する描画でも再利用します。
@@ -95,7 +95,7 @@ from maya import cmds
 
 cmds.loadPlugin("bdUtilNodes", quiet=True)
 control = cmds.createNode("transform", name="control")
-shape = cmds.createNode("bdShpL_DeformableCube", parent=control, name="controlShape")
+shape = cmds.createNode("bdCtrlShpL_DeformableCube", parent=control, name="controlShape")
 driver = cmds.createNode("transform", name="shapeDriver")
 cmds.connectAttr(f"{driver}.matrix", f"{shape}.shapeDeformMatrix")
 ```

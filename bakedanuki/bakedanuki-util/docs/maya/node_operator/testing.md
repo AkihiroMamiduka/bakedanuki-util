@@ -45,7 +45,7 @@ pytestを直接呼ぶ場合のopt-inは`--include-controller-shape`です。
 `bdControllerShape`を変更するときは、変更対象に応じて専用テストを選んで確認します。
 この文書の過去の実行件数は当時の収集範囲による記録であり、現在の既定範囲とは異なる場合があります。
 
-`bdUtilNodes` 内の固定 Cube `bdShpL_Cube` は通常の検証対象です。
+`bdUtilNodes` 内のコントローラー用 Cube 4種は通常の検証対象です。
 研究用の代替 DLL と Module ロードの契約を `-IncludeCubeResearch` で追加します。
 手順は[固定Cube研究](../../../../../native/maya/experiments/fixed_cube/README.md)を参照してください。
 

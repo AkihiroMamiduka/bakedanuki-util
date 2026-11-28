@@ -74,8 +74,13 @@ if __name__ == "__main__":
     plugin_name = cmds.loadPlugin(
         plugin.name if args.module_search else str(plugin), quiet=True
     )[0]
-    shape = cmds.createNode("bdShpL_Cube")
-    assert cmds.nodeType(shape) == "bdShpL_Cube"
+    node_type = (
+        "bdCtrlShpL_Cube"
+        if plugin.stem == "bdUtilNodes"
+        else "bdShpL_Cube"
+    )
+    shape = cmds.createNode(node_type)
+    assert cmds.nodeType(shape) == node_type
     cmds.file(new=True, force=True)
     cmds.unloadPlugin(plugin_name)
     assert not cmds.pluginInfo(plugin_name, query=True, loaded=True)

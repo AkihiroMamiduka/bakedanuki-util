@@ -1,4 +1,4 @@
-"""両 Cube の原点補助線と、静的変形・行列更新・履歴の契約を検証する。"""
+"""両 CustomCube の原点補助線と、静的変形・行列更新・履歴を検証する。"""
 
 from __future__ import annotations
 

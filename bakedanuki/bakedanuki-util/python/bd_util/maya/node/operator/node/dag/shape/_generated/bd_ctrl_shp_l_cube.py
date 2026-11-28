@@ -1,6 +1,6 @@
 # coding: utf-8
 from .._core import Shape
-from .....attr.define.node_attr.bd_shp_l_cube import (
+from .....attr.define.node_attr.bd_ctrl_shp_l_cube import (
     CompInstObjGroupsField,
     ComponentTagsField,
     LocalPositionField,
@@ -155,10 +155,10 @@ class ShapeFinTypeEnumField(
     PLUG_CLS = ShapeFinTypeEnumPlugOperator
 
 
-class GeneratedBdShpLCube(Shape):
+class GeneratedBdCtrlShpLCube(Shape):
     __slots__ = ()
 
-    NODE_TYPE = "bdShpL_Cube"
+    NODE_TYPE = "bdCtrlShpL_Cube"
 
     renderType = ShortField(default_value=0)
     rt = renderType
